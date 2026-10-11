@@ -29,7 +29,7 @@ and byte [byte ebx+079h], dh	; 8FFED
 jae short loc_90066	; 8FFF0
 db 065h,06Dh	; 8FFF2 insd
 and byte [cs:eax], ch	; 8FFF4
-arpl word [ecx], bp	; 8FFF7
+db 063h,029h	; 8FFF7 arpl (nasm 3 adds 66h)
 and byte [byte ebx+06Fh], al	; 8FFF9
 db 070h,079h	; 8FFFC raw (target 90077 unlabelled)
 db 072h,069h	; 8FFFE raw (target 90069 unlabelled)
@@ -64,7 +64,7 @@ dd unk_10003
 loc_90048:
 add byte [eax], al	; 90048
 loc_9004A:
-arpl word [byte edi+06Eh], bp	; 9004A
+db 063h,06Fh,06Eh	; 9004A arpl (nasm 3 adds 66h)
 db 00h
 loc_9004E:
 sti	; 9004E

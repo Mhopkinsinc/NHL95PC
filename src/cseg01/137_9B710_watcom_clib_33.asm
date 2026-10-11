@@ -91,7 +91,7 @@ push edi	; 9B7AF
 mov es, edx	; 9B7B0
 mov ah, al	; 9B7B2
 shr ecx, 1	; 9B7B4
-repne stosw	; 9B7B6
+db 0F2h,066h,0ABh	; 9B7B6 repne stosw (nasm 3 emits 66h F2h)
 adc ecx, ecx	; 9B7B9
 repne stosb	; 9B7BB
 pop edi	; 9B7BD
