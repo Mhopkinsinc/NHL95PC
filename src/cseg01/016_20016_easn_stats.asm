@@ -637,8 +637,12 @@ mov eax, 2	; 208DE
 add esp, 310h	; 208E3
 pop ebp	; 208E9
 jmp near GameSkaterStatsScreen_x	; 208EA
+; C: src/c/016_20016_easn_stats/EasnTeamStatsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/EasnTeamStatsScreen.inc"
+%else
 EasnTeamStatsScreen:
-db 068h,034h,03h,00h,00h
+push dword 334h	; 208EF
 EasnTeamStatsScreen_m:
 call __CHK	; 208F4
 push ebx	; 208F9
@@ -732,6 +736,7 @@ pop edx	; 20A42
 pop ecx	; 20A43
 pop ebx	; 20A44
 ret	; 20A45
+%endif ; C
 EasnSkaterStatsScreen:
 db 068h,034h,03h,00h,00h,0E8h
 EasnSkaterStatsScreen_m:
