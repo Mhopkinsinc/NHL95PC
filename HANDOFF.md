@@ -437,6 +437,7 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * TradeHitTest: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that.
 * EasnGoalieStatsScreen: 467 vs 474. The page matches through the first embpal2 load. After the menu, the gamemode==1 arm stays beside the test (`je` short) and the fileoncd test is `je` to the drive load. The original `je near` lands after the ret, the 6Ah test is `jne` to `xor edx` after the ret, and the 8Eh arm is only a `jmp` to that `jne`. A flipped compare, a duplicated MakePath, and gotos did not move it. Do not retry those.
 * CalStandingsScreen: same 279 bytes. dword_C65AC is tested in edx and copied to ecx for MakePath. The original tests it in ecx and that zero is the extension. Same split as GameStandingsScreen. Do not retry one MakePath per branch.
+* LoadJerseyColours: 348 vs 352. The palette pointer is in ebx (write it back into the dst parameter) and both copy loops match. The remap load is `mov dl,[ebx+eax]`; the original is `lea edx,[ebx+eax]` / `mov cl,[edx]`, and the else arm is `add dl,8` rather than `mov dl,cl` / `add dl,8`. A named team index, volatile p, and pragma aux byte loads did not produce that lea without a spill or a hoisted `mov dl,cl`. Do not retry those.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 

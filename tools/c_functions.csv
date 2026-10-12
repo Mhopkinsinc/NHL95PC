@@ -536,7 +536,7 @@ SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor
 BlitJerseyDigit,7A017,130,055_78346_team_select,src/c/055_78346_team_select/BlitJerseyDigit.c,nonmatching,order only: asm stores the colour byte before loading the 5th (stack) arg; C loads the arg first. Rest matches
 DrawGameLineJerseys,78366,410,055_78346_team_select,src/c/055_78346_team_select/DrawGameLineJerseys.c,nonmatching,"draft: structure matches (jump table, colours); side/c2 stack slots +24h/+28h swapped, nums[i] read via eax with xor edx first, hmroster index (side*444h + slot*39) folded differently; 401 vs 410 bytes"
 GameDressPlayer,79F41,214,055_78346_team_select,src/c/055_78346_team_select/GameDressPlayer.c,matched,
-LoadJerseyColours,78A87,352,055_78346_team_select,src/c/055_78346_team_select/LoadJerseyColours.c,nonmatching,
+LoadJerseyColours,78A87,352,055_78346_team_select,src/c/055_78346_team_select/LoadJerseyColours.c,nonmatching,"348 vs 352. Palette pointer is in ebx and both copy loops match. Remap load is mov dl,[ebx+eax]; original is lea edx,[ebx+eax] / mov cl,[edx]. Do not retry a named team, volatile p, or pragma aux loads."
 MakeJerseyShape,7A099,161,055_78346_team_select,src/c/055_78346_team_select/MakeJerseyShape.c,matched,
 MenuLineEdCancel,7928A,18,055_78346_team_select,src/c/055_78346_team_select/MenuLineEdCancel.c,matched,
 MenuReturnToLineEditor,79DD1,16,055_78346_team_select,src/c/055_78346_team_select/MenuReturnToLineEditor.c,matched,

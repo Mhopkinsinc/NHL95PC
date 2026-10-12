@@ -1,4 +1,10 @@
-/* Team select: jersey colours. */
+/* Team select: jersey colours.
+ DRAFT: 348 vs 352. Copying the destination aside and writing the palette pointer back into dst puts that
+ pointer in ebx, so both copy loops and the twelve fixed colours match. The remap load is still
+ mov dl,[ebx+eax] / cmp dl; the original is lea edx,[ebx+eax] / mov cl,[edx], and the else arm is
+ add dl,8 rather than mov dl,cl / add dl,8. Do not retry: a named team index, volatile p, or
+ pragma aux byte loads (they either spill or hoist mov dl,cl ahead of the compare and steal cl
+ from the second copy loop). */
 #include "nhl95.h"
 
 /* LoadJerseyColours: from HOMEPALS.BIN (1C0h bytes per team) take the palette part of the away (VisTeam) or home
@@ -8,35 +14,36 @@
 void LoadJerseyColours(int away, int unused, unsigned char *dst)
 {
     char path[16];
+    unsigned char *out;
     unsigned char *buf;
-    unsigned char *s;
     int i;
     signed char c;
     unsigned char *p;
     unsigned char d;
 
+    out = dst;
     MakePath(path, fileoncd[0xA1] == 1 ? (char *)cddriveptr : 0, (char *)str_HOMEPALS3, (char *)str_extBIN);
     buf = (unsigned char *)sub_8E8A0(path, 0);
-    s = buf + (away ? VisTeam : HomeTeam) * 0x1C0;
-    for (i = 0; i < 0xB4; i++) dst[0xCC + i] = s[i];
-    for (i = 0xB4; i < 0xC0; i++) dst[0x198 + i] = s[i];
-    dst[0x264] = 0x18;
-    dst[0x265] = 0;
-    dst[0x266] = 0;
-    dst[0x267] = 0x2A;
-    dst[0x268] = 0;
-    dst[0x269] = 0;
-    dst[0x26A] = 0x3B;
-    dst[0x26B] = 0x12;
-    dst[0x26C] = 0;
-    dst[0x26D] = 0x3B;
-    dst[0x26E] = 0x3B;
-    dst[0x26F] = 0x3B;
-    s += 0xC0;
+    dst = buf + (away ? VisTeam : HomeTeam) * 0x1C0;
+    for (i = 0; i < 0xB4; i++) out[0xCC + i] = dst[i];
+    for (i = 0xB4; i < 0xC0; i++) out[0x198 + i] = dst[i];
+    out[0x264] = 0x18;
+    out[0x265] = 0;
+    out[0x266] = 0;
+    out[0x267] = 0x2A;
+    out[0x268] = 0;
+    out[0x269] = 0;
+    out[0x26A] = 0x3B;
+    out[0x26B] = 0x12;
+    out[0x26C] = 0;
+    out[0x26D] = 0x3B;
+    out[0x26E] = 0x3B;
+    out[0x26F] = 0x3B;
+    dst += 0xC0;
     for (i = 0x80; i < 0xFF; i++) {
-        p = &s[i];
+        p = &dst[i];
         c = *p;
-        if (c >= (signed char)0x80 || c <= 0xBB) d = s[i] - 0x3C;
+        if (c >= (signed char)0x80 || c <= 0xBB) d = dst[i] - 0x3C;
         else d = c + 8;
         jerseyremap[i] = d;
     }

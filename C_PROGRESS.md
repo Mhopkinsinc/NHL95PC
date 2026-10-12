@@ -608,7 +608,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | GameRosterCmp | 76A93 | 98 | matched | [GameRosterCmp.c](src/c/054_737AA_line_editor_rosters/GameRosterCmp.c) |  |
 | LineEdHitTest | 77F6F | 134 | nonmatching | [LineEdHitTest.c](src/c/054_737AA_line_editor_rosters/LineEdHitTest.c) | registers: asm keeps the slot y in ebp (4 saved regs, 14h frame); C uses eax and saves 3 |
 | DrawGameLineJerseys | 78366 | 410 | nonmatching | [DrawGameLineJerseys.c](src/c/055_78346_team_select/DrawGameLineJerseys.c) | draft: structure matches (jump table, colours); side/c2 stack slots +24h/+28h swapped, nums[i] read via eax with xor edx first, hmroster index (side*444h + slot*39) folded differently; 401 vs 410 bytes |
-| LoadJerseyColours | 78A87 | 352 | nonmatching | [LoadJerseyColours.c](src/c/055_78346_team_select/LoadJerseyColours.c) |  |
+| LoadJerseyColours | 78A87 | 352 | nonmatching | [LoadJerseyColours.c](src/c/055_78346_team_select/LoadJerseyColours.c) | 348 vs 352. Palette pointer is in ebx and both copy loops match. Remap load is mov dl,[ebx+eax]; original is lea edx,[ebx+eax] / mov cl,[edx]. Do not retry a named team, volatile p, or pragma aux loads. |
 | StubRet4b | 78E29 | 13 | nonmatching | [StubRet4b.c](src/c/055_78346_team_select/StubRet4b.c) |  |
 | PruneGameLines | 79090 | 248 | nonmatching | [PruneGameLines.c](src/c/055_78346_team_select/PruneGameLines.c) | C folds the side * 444h * 4 step into the hmroster address ([edi+edx*4]); the EXE adds it first and reads the status into ch |
 | MenuLineEdCancel | 7928A | 18 | matched | [MenuLineEdCancel.c](src/c/055_78346_team_select/MenuLineEdCancel.c) |  |
