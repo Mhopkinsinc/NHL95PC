@@ -539,6 +539,7 @@ CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_di
 CtlSwapTeamFlag,7CC8A,91,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.c,matched,
 DrawCtlBoxes,7D671,64,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawCtlBoxes.c,matched,
 DrawExhSetDlg,7C1AC,225,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawExhSetDlg.c,matched,
+DrawLeagueSetDlgSel,7A57E,303,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.c,matched,
 DrawModeSetChecks,7B7BE,136,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawModeSetChecks.c,matched,
 DrawModeSetDlg,7B4EC,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawModeSetDlg.c,matched,
 ExhSetHitTest,7C28D,138,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ExhSetHitTest.c,matched,

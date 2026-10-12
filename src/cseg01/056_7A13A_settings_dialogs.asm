@@ -395,6 +395,10 @@ xor eax, eax	; 7A56F
 mov dword [settingsfile], eax	; 7A571
 add esp, byte 28h	; 7A576
 jmp near LeagueSettingsDlg_ret	; 7A579
+; C: src/c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.c
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.inc"
+%else
 DrawLeagueSetDlgSel:
 push dword 44h	; 7A57E
 call __CHK	; 7A583
@@ -491,6 +495,7 @@ pop edx	; 7A6A9
 pop ecx	; 7A6AA
 pop ebx	; 7A6AB
 ret	; 7A6AC
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/SetLeagueSetImage.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/SetLeagueSetImage.inc"
