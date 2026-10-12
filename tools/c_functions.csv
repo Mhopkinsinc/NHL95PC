@@ -120,6 +120,7 @@ DrawPhotoWithPal,21C04,218,016_20016_easn_stats,src/c/016_20016_easn_stats/DrawP
 FreeCalendarIfLowMem,212C6,56,016_20016_easn_stats,src/c/016_20016_easn_stats/FreeCalendarIfLowMem.c,matched,
 GameStandingsScreen,203FA,269,016_20016_easn_stats,src/c/016_20016_easn_stats/GameStandingsScreen.c,nonmatching,register allocation only: the saved dword_C65AC (MakePath extension 0) sits in edx instead of ecx; structure matches with one MakePath per branch
 GameTeamStatsScreen,20016,347,016_20016_easn_stats,src/c/016_20016_easn_stats/GameTeamStatsScreen.c,matched,
+GameGoalieStatsScreen,202E5,277,016_20016_easn_stats,src/c/016_20016_easn_stats/GameTeamStatsScreen.c,matched,
 LoadCalendarShapes,212FE,82,016_20016_easn_stats,src/c/016_20016_easn_stats/LoadCalendarShapes.c,matched,
 CmpAssists,25237,238,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpAssists.c,matched,
 CmpGoalieWins,2586A,342,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpGoalieWins.c,matched,

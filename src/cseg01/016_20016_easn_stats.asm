@@ -228,6 +228,10 @@ pop edx	; 202E1
 pop ecx	; 202E2
 pop ebx	; 202E3
 ret	; 202E4
+; C: src/c/016_20016_easn_stats/GameTeamStatsScreen.c (GameGoalieStatsScreen)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameTeamStatsScreen.GameGoalieStatsScreen.inc"
+%else
 GameGoalieStatsScreen:
 push dword 330h	; 202E5
 call __CHK	; 202EA
@@ -300,6 +304,7 @@ mov ebx, 40h	; 203E6
 mov edx, 4	; 203EB
 mov eax, unk_CF88F	; 203F0
 jmp near GameTeamStatsScreen_common	; 203F5
+%endif ; C
 GameStandingsScreen:
 push dword 28h	; 203FA
 call __CHK	; 203FF
