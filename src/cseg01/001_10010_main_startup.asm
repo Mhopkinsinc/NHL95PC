@@ -567,6 +567,10 @@ pop ecx	; 1070F
 pop ebx	; 10710
 ret	; 10711
 %endif ; C
+; C: src/c/001_10010_main_startup/SetupControllers.c
+%ifdef CBUILD
+%include "c/001_10010_main_startup/SetupControllers.inc"
+%else
 SetupControllers:
 push dword 1Ch	; 10712
 call __CHK	; 10717
@@ -685,6 +689,7 @@ pop edx	; 10866
 pop ecx	; 10867
 pop ebx	; 10868
 ret	; 10869
+%endif ; C
 ReadKeyboardPad:
 push ebx	; 1086A
 push ecx	; 1086B

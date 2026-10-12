@@ -7,7 +7,6 @@
 extern void sub_10000(); /* 10000 */
 extern void unk_10003(); /* 10003 */
 extern void main_x(); /* 106BF */
-extern void SetupControllers(); /* 10712 */
 extern void ReadKeyboardPad(); /* 1086A */
 extern void ReadJoyPad(); /* 109A1 */
 extern void ReadMousePad(); /* 109FC */
@@ -173,7 +172,6 @@ extern void loc_1BB86(); /* 1BB86 */
 extern void loc_1BBB3(); /* 1BBB3 */
 extern void loc_1BBB4(); /* 1BBB4 */
 extern void LoadGameTeams(); /* 1BBCC */
-extern void InitGameSummary(); /* 1BEFD */
 extern void OpenPlayerDBs_x(); /* 1C3F0 */
 extern void LoadTeamRoster(); /* 1C3F6 */
 extern void SetupGoalieMenu(); /* 1C852 */
@@ -223,7 +221,6 @@ extern void EasnSkaterStatsScreen_m(); /* 20A4C */
 extern void EasnGoalieStatsScreen(); /* 20BBD */
 extern void EasnGoalieStatsScreen_m(); /* 20BC2 */
 extern void EasnGoalieStatsScreen_common(); /* 20D0A */
-extern void EasnStandingsScreen(); /* 20D97 */
 extern void EasnStandingsMenu_jt(); /* 20EA7 */
 extern void EasnStandingsMenu(); /* 20EB7 */
 extern void EasnStandingsMenu_m(); /* 20EBC */
@@ -902,7 +899,6 @@ extern void LoadSettingsShapes(); /* 8034B */
 extern void DrawSettingsHeading_jt(); /* 804FF */
 extern void DrawSettingsHeading_n0(); /* 8056C */
 extern void DrawSettingsHeading_n1(); /* 80571 */
-extern void DrawPanel3D(); /* 80682 */
 extern void DrawPanel3D_ret(); /* 8082A */
 extern void LockerRoomScreen(); /* 80830 */
 extern void LockerStub(); /* 80A9D */

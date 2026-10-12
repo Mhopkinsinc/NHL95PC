@@ -279,6 +279,10 @@ pop edx	; 1BEF9
 pop ecx	; 1BEFA
 pop ebx	; 1BEFB
 ret	; 1BEFC
+; C: src/c/013_1BBCC_key_team_db/InitGameSummary.c
+%ifdef CBUILD
+%include "c/013_1BBCC_key_team_db/InitGameSummary.inc"
+%else
 InitGameSummary:
 push dword 1Ch	; 1BEFD
 call __CHK	; 1BF02
@@ -406,6 +410,7 @@ pop esi	; 1C0AB
 pop ecx	; 1C0AC
 pop ebx	; 1C0AD
 ret	; 1C0AE
+%endif ; C
 ; C: src/c/013_1BBCC_key_team_db/ReadPlayerRecs.c
 %ifdef CBUILD
 %include "c/013_1BBCC_key_team_db/ReadPlayerRecs.inc"

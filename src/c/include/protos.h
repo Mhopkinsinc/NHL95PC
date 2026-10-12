@@ -260,6 +260,7 @@ char *strcat(char *d, const char *s);  /* Watcom CRT strcat_ */
 void InitScrollBar(int *sb, int visible, int total);  /* 30BF3 */
 int FindSpeechSlot(char *name);  /* 83EEB */
 void MakeGSummaryPath(void);  /* 1C807 */
+void InitGameSummary(int a, int b);  /* 1BEFD */
 void RestoreGridCellBg(int unused1, int unused2);  /* 37E5B */
 void __cdecl sub_903F0(int buf, int x, int y);  /* graphics library: put a saved block */
 void RestoreDialogBg(void);  /* 30F12 */
@@ -319,6 +320,7 @@ int MessageBox(int x, int y, char *msg, int type, int a, int b, int c, int d, in
 char *strupr(char *s);  /* Watcom CRT strupr_ */
 void PrintCenteredText(int y, char *s);  /* 17573 */
 unsigned DiskFreeBytes(int drive);  /* 106C8 */
+void SetupControllers(void);  /* 10712 */
 unsigned _dos_getdiskfree(unsigned drive, void *d);  /* Watcom CRT _dos_getdiskfree_ */
 void __cdecl FatalError(char *msg, ...);  /* B2CD8: printf-style message, then exit */
 int FileOpenWrite(char *name, int *h);  /* 1453E */
@@ -419,6 +421,7 @@ void __cdecl sub_8EA18(int font);  /* text library: set font */
 void __cdecl sub_8E9E8(void *state);  /* text library: save the text state (40h bytes) */
 void __cdecl sub_8EA00(void *state);  /* text library: restore the text state */
 void DrawSettingsHeading(int x, int y, int n, int mode, int colour);  /* 8050F */
+void DrawPanel3D(int x1, int y1, int x2, int y2, int corners);  /* 80682 */
 void IntermissionDesk(void);
 void LoadScreenPalTick(void);  /* 47951 */
 void __cdecl sub_B4C61(void);  /* video library: wait for retrace */
@@ -877,6 +880,7 @@ void a2touchpuck(Player *p);  /* 4DE14 */
 void __cdecl sub_92CD0(char *s, int x, int y);  /* graphics library: print text */
 void DrawDbDialogButtons(void);  /* 72605 */
 int GameStandingsScreen(void);  /* 203FA */
+int EasnStandingsScreen(void);  /* 20D97 */
 void PruneGameLines(unsigned char side, unsigned char *lines);  /* 79090 */
 void DrawSettingsHeading(int x, int y, int n, int mode, int col);  /* 8050F */
 void DrawExhSetDlg(void);  /* 7C1AC */

@@ -3305,6 +3305,10 @@ pop esi	; 3D690
 pop ecx	; 3D691
 pop ebx	; 3D692
 ret	; 3D693
+; C: src/c/030_3A9AA_database_merge/FindLeagueFloppy.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/FindLeagueFloppy.inc"
+%else
 FindLeagueFloppy:
 push dword 0C0h	; 3D694
 call __CHK	; 3D699
@@ -3427,6 +3431,7 @@ pop edi	; 3D84B
 pop esi	; 3D84C
 pop ecx	; 3D84D
 ret	; 3D84E
+%endif ; C
 WaitLeagueFloppy:
 push dword 74h	; 3D84F
 call __CHK	; 3D854

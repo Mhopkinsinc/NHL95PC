@@ -10,6 +10,7 @@ IntermissionPC,10F6D,152,001_10010_main_startup,src/c/001_10010_main_startup/Int
 ResetInputSampling,1145F,59,001_10010_main_startup,src/c/001_10010_main_startup/ResetInputSampling.c,matched,
 RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunGameFrames.c,nonmatching,"extra ecx: n/i get ecx/ebx (asm ebx/edx), hot-key byte reuses eax in asm"
 SetScreenSize,10E9F,206,001_10010_main_startup,src/c/001_10010_main_startup/SetScreenSize.c,matched,
+SetupControllers,10712,344,001_10010_main_startup,src/c/001_10010_main_startup/SetupControllers.c,matched,
 WaitKeyRelease,11161,46,001_10010_main_startup,src/c/001_10010_main_startup/WaitKeyRelease.c,matched,
 ReplayIsEmpty,12034,41,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/ReplayIsEmpty.c,matched,
 assinsert,12011,35,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assinsert.c,matched,
@@ -100,6 +101,7 @@ OutputCurrentData,18D7F,196,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_des
 PlayRandomHighlight,18F8D,305,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PlayRandomHighlight.c,matched,
 PostGameDesk,1920F,334,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PostGameDesk.c,nonmatching,
 ClearPanelPenalties,1CBD8,101,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ClearPanelPenalties.c,nonmatching,"draft: zero kept in esi (asm ecx), saves esi instead of ecx"
+InitGameSummary,1BEFD,434,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/InitGameSummary.c,matched,
 MakeGSummaryPath,1C807,75,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/MakeGSummaryPath.c,matched,
 OpenPlayerDBs,1C26C,394,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/OpenPlayerDBs.c,matched,
 ReadPlayerRecs,1C0AF,445,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ReadPlayerRecs.c,matched,
@@ -123,6 +125,7 @@ CalSkaterStatsScreen,214B1,275,016_20016_easn_stats,src/c/016_20016_easn_stats/C
 CalGoalieStatsScreen,215C4,275,016_20016_easn_stats,src/c/016_20016_easn_stats/CalTeamStatsScreen.c,matched,
 DrawPhotoWithPal,21C04,218,016_20016_easn_stats,src/c/016_20016_easn_stats/DrawPhotoWithPal.c,nonmatching,"register allocation only: the second statspalvalid read lands in eax/ecx/edx, the EXE uses ebx"
 EasnGoalieStatsScreen,20BBD,474,016_20016_easn_stats,src/c/016_20016_easn_stats/EasnGoalieStatsScreen.c,nonmatching,"467 vs 474. Post-menu load: je short keeps the gamemode==1 arm beside the test; original je near lands after the ret and the 8Eh arm only jmps to that jne. Flipped compare, duplicated MakePath, and gotos did not. Do not retry those."
+EasnStandingsScreen,20D97,269,016_20016_easn_stats,src/c/016_20016_easn_stats/EasnStandingsScreen.c,nonmatching,"draft: 269 vs 269. dword_C65AC is tested in edx and copied to ecx for MakePath. The original tests it in ecx, and that zero is the extension. Do not retry: declaring the path before bank; a dir local ahead of bank (C65AC lands in ecx, then the name load moves past the drive test, 274 bytes, or a pre-shifted index drops both name loads, 263 bytes); assigning dir inside the MakePath argument."
 EasnTeamStatsScreen,208EF,343,016_20016_easn_stats,src/c/016_20016_easn_stats/EasnTeamStatsScreen.c,matched,
 FreeCalendarIfLowMem,212C6,56,016_20016_easn_stats,src/c/016_20016_easn_stats/FreeCalendarIfLowMem.c,matched,
 GameSkaterStatsScreen,20171,372,016_20016_easn_stats,src/c/016_20016_easn_stats/GameSkaterStatsScreen.c,matched,
@@ -219,6 +222,7 @@ TeamSelCancel,38B3A,21,029_380E9_league_setup,src/c/029_380E9_league_setup/TeamS
 TeamSelDone,38B25,21,029_380E9_league_setup,src/c/029_380E9_league_setup/TeamSelDone.c,matched,
 WriteSeasonRec ReadGoalieSeasonRec WriteGoalieSeasonRec WriteSchedGame WriteTeamRec ReadDbRec4Ch ReadLeagueTeamEntry WriteLeagueTeamEntry ReadDbRec28h ReadDbRec2Ch,3A24F,326,029_380E9_league_setup,src/c/029_380E9_league_setup/WriteSeasonRec.c,matched,
 CopyLeagueFiles,3C310,159,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/CopyLeagueFiles.c,matched,
+FindLeagueFloppy,3D694,443,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/FindLeagueFloppy.c,matched,
 ImportDbs,3CF5B,429,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportDbs.c,matched,
 LocateTeamDbCopy,3AF70,201,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/LocateTeamDbCopy.c,nonmatching,register allocation only: dir / id pointers swap between edi and ebp (partial declaration-order search found nothing)
 MergeUpdateDbs,3B8B0,282,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeUpdateDbs.c,matched,
@@ -588,6 +592,7 @@ NudgeRinkScroll,7FC12,31,058_7F724_highlights,src/c/058_7F724_highlights/NudgeRi
 SaveHilight,7FA10,514,058_7F724_highlights,src/c/058_7F724_highlights/SaveHilight.c,matched,
 TeamFromHiName,7FC5C,70,058_7F724_highlights,src/c/058_7F724_highlights/TeamFromHiName.c,matched,
 ViewHilights,80075,167,058_7F724_highlights,src/c/058_7F724_highlights/ViewHilights.c,matched,
+DrawPanel3D,80682,430,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawPanel3D.c,nonmatching,"draft: 430 vs 430. x1 stays in esi and y1 in edi. The original saves x1 in edi and y1 in esi. x2 stays in ebp and every edge and corner call matches once those two are swapped. Do not retry: copying y before x put y in ebp and x2 in esi; copying only y put x2 in edi; copying only x put x in ebp and x2 in edi; copying x then y put x in ebp, y in edi and x2 in esi."
 DrawSelBoxOn,8245A,158,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawSelBoxOn.c,matched,
 DrawSelBoxOff,824F8,129,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawSelBoxOn.c,matched,
 DrawSettingsHeading,8050F,181,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawSettingsHeading.c,matched,
