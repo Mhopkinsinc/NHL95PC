@@ -4,7 +4,7 @@ bits 32
 %include "hockey.inc"
 section s_50AFE progbits alloc exec nowrite align=1
 extern Endfaceoff, Findhittype, ResetBench, SetSPA, Setplass, StartFaceoffLineChange, Stop4Pen, __CHK
-extern a2touchpuck, assexit, assinsert, assreplace, sflags, gmode2, byte_CBEA8, byte_CCBBA
+extern a2touchpuck, assexit, assinsert, assreplace, sflags, gmode2, apl, byte_CCBBA
 extern byte_CCBBB, hmroster, hmtmflags, awtmflags, textline1, textline2, puckcross
 extern textline3, textline4, textline5, byte_E0393, byte_E0397, iflags, checkwindow, doshot
 extern joysampling, gameopts, yleader, sflags3, cont2team, bannertimer, dword_CC0EC, introskipped
@@ -15,7 +15,7 @@ extern puckvz, randomd0, resetplstuff, setpersonel, sfx, skateto, skatetopuck, D
 extern StopIfFree, SkateToSpot, lcfound, CenterMouse, ReturnGoalies, StopDigiSample, PaSpeechBusy, changeplayer
 extern restorepl, CompLine, setplayer, clockcont_0, SprSortVert, SprSort, SetExitGame, EvadePC
 extern FlushGSumQueue, SetupPenaltyShot, threat, SortCords, updateanim
-extern vtoa, regd4, camx, camy, passdir, word_C90A6, passplayer, xc1
+extern vtoa, regd4, camx, camy, passdir, passspeed, passplayer, xc1
 extern yc1, fox, foy, fodir1, fodir2, c1playernum, c2playernum, cont1team
 extern refsignal, RefStep, RefPen, word_C90D8, gsp, gameclock, clockticks, word_CBC44
 extern energywarn, lcblink, lcboxon, word_CBE8C, word_CBE8E
@@ -198,7 +198,7 @@ sar edx, 1Fh	; 50D25
 LD sub, eax, edx	; 50D28
 sar eax, 1	; 50D2A
 add eax, byte 1Eh	; 50D2C
-mov word [word_C90A6], ax	; 50D2F
+mov word [passspeed], ax	; 50D2F
 mov word [byte ebx+SPAnum], 4	; 50D35
 mov word [byte ebx+SPAcnt], 4	; 50D3B
 mov byte [byte ebx+046h], 0	; 50D41
@@ -1824,7 +1824,7 @@ mov eax, dword [regd4-2]	; 5224E
 sar eax, 10h	; 52253
 mov edx, dword [regd1-2]	; 52256
 sar edx, 10h	; 5225C
-movsx ax, byte [dword edx+eax+byte_CBEA8]	; 5225F
+movsx ax, byte [dword edx+eax+apl]	; 5225F
 mov word [regd4], ax	; 52268
 add eax, eax	; 5226E
 mov word [regd4], ax	; 52270
@@ -2230,7 +2230,7 @@ mov edx, dword [regd4-2]	; 52808
 sar edx, 10h	; 5280E
 mov eax, dword [regd1-2]	; 52811
 sar eax, 10h	; 52816
-movsx ax, byte [dword edx+eax+byte_CBEA8]	; 52819
+movsx ax, byte [dword edx+eax+apl]	; 52819
 mov word [regd4], ax	; 52822
 add eax, eax	; 52828
 mov word [regd4], ax	; 5282A

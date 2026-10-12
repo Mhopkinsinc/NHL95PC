@@ -63,7 +63,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 ## 3. Current state (updated 2026-10-12, head: see `git log -1`)
 
-**C matching is paused** (2026-10-12). The Genesis naming pass is finished. Do not resume C matching until you are asked to.
+**C matching is paused** (2026-10-12). The Genesis naming pass is still going: variable names and data lists whose bytes match a Genesis table. Do not resume C matching until that pass is finished and you are asked to.
 
 `make fullcheck` on this tree: CBUILD=1 and CBUILD=0 both MATCH. 552 of 1,082 compiled-C game functions match, 161 drafts. No function was mid-edit this session. Resume at the existing draft **LoadPlayoffModeTree** (`src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c`, address 2970A, compiled with `-od`). The body matches. `a` and the return temporary trade stack slots (the asm keeps `a` at ebp-30h and the return temporary at ebp-2Ch). Extra unused ints, arrays, and array orders were already tried; that is what matched LoadLeagueTree.
 
@@ -208,11 +208,15 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 ## 4. Next
 
-**Paused here.** The naming pass is finished. Do not match another C function until you are asked to.
+**Paused here.** The naming pass is not finished. Do not match another C function until you are asked to.
 
 When C matching resumes, start with the LoadPlayoffModeTree draft (stack slots of `a` and the return temporary), then the items already listed below.
 
-**Naming pass (finished, 2026-10-12).** Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. A 95PC routine keeps its name when the body already matches that Genesis routine. Renames made for a real body match: `assfaceoffpl` (was `assfaceoffp1`), `shotdiradj` (was `checkgoalp_CalcGoalShotDir`), `seed` (was `StanleyCupTimer`). Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table). The two New York teams keep the long names NYIslanders and NYRangers. `TeamList` is the city table, and its first string is Boston.
+**Naming pass (in progress, 2026-10-12).** Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Match a variable or a data list on the body: the same stores in a shared routine, or the same numbers even when a 68k `dc.b` list is a PC array. A 95PC routine keeps its name when the body already matches that Genesis routine.
+
+Renames so far: `assfaceoffpl`, `shotdiradj`, `seed`. Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table). The two New York teams keep the long names NYIslanders and NYRangers. `TeamList` is the city table, and its first string is Boston.
+
+Variables brought over from the same instructions in `dopass` and `doshot`: the word at C90A0 is `shotplayer` (the shooter), the word at C90A2 is `lastplayer` (the carrier), and the word at C90A6 is `passspeed` (passacc*2+$A0, then the shot scale). Those three had been shifted by one slot. `apl` is the faceoff slot list (`puckfaceoff2`'s `.apl`, 24 bytes; the last two zeros still carry the unused label `dword_CBEBE`, because folding that label into `apl+22` is not valid C). `shotsetz` is the z word of each `shotsets` entry. It stays its own label: `doshot` indexes it with `nosplit`, and a folded `shotsets+2` is not a legal `nosplit` operand.
 
 These labels stay, because the PC body is a different thing from the Genesis routine of a similar name: `PenaltyList` (PC penalty-name strings; Genesis `Penaltylist` is a message-offset table), `hmtmstruct` (paired with `awtmstruct`; 95G has one home pointer, `tmstruct`), `ReplayPrevFrame` and `ReplayStep` (PC record-pointer helpers; 68k `suba4` / `adda4` are different), `CheckAndReleasePlayer` (not `releasepl`), `off_C5441` (nosplit label on CGY), `main_`. The 95G season, trade, and create-player screens are a different UI from the PC database editor, so those PC routines keep their behaviour names. Shared `rts` tails and 68k-only features (goalie save, replay mode, the team-screen drawers) have no matching PC body.
 

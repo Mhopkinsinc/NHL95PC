@@ -3842,10 +3842,10 @@
 ;  C909A  camy                                     dseg02/035_C9078_data_engine_35.asm          11
 ;  C909C  wcradiusx                                dseg02/035_C9078_data_engine_35.asm          1
 ;  C909E  wcradiusy                                dseg02/035_C9078_data_engine_35.asm          1
-;  C90A0  lastplayer                               dseg02/035_C9078_data_engine_35.asm          6
-;  C90A2  passspeed                                dseg02/035_C9078_data_engine_35.asm          4
+;  C90A0  shotplayer                               dseg02/035_C9078_data_engine_35.asm          6
+;  C90A2  lastplayer                               dseg02/035_C9078_data_engine_35.asm          4
 ;  C90A4  passdir                                  dseg02/035_C9078_data_engine_35.asm          6
-;  C90A6  word_C90A6                               dseg02/035_C9078_data_engine_35.asm          5
+;  C90A6  passspeed                                dseg02/035_C9078_data_engine_35.asm          5
 ;  C90A8  passplayer                               dseg02/035_C9078_data_engine_35.asm          6
 ;  C90AA  threat                                   dseg02/035_C9078_data_engine_35.asm          7
 ;  C90AC  xc1                                      dseg02/035_C9078_data_engine_35.asm          10
@@ -3908,7 +3908,7 @@
 ;  CBD66  word_CBD66                               dseg02/035_C9078_data_engine_35.asm          1
 ;  CBE8C  word_CBE8C                               dseg02/035_C9078_data_engine_35.asm          2
 ;  CBE8E  word_CBE8E                               dseg02/035_C9078_data_engine_35.asm          2
-;  CBEA8  byte_CBEA8                               dseg02/035_C9078_data_engine_35.asm          2
+;  CBEA8  apl                                      dseg02/035_C9078_data_engine_35.asm          2
 ;  CBEBE  dword_CBEBE                              dseg02/035_C9078_data_engine_35.asm          2
 ;  CBEC0  ovltimer                                 dseg02/035_C9078_data_engine_35.asm          8
 ;  CBEC2  word_CBEC2                               dseg02/035_C9078_data_engine_35.asm          3
@@ -4013,7 +4013,7 @@
 ;  CCC32  word_CCC32                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC4E  dword_CCC4E                              dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC60  shotsets                                 dseg02/037_CC01D_data_engine_37.asm          1
-;  CCC62  word_CCC62                               dseg02/037_CC01D_data_engine_37.asm          1
+;  CCC62  shotsetz                                 dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC84  digihandle                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC88  crowdsmooth                              dseg02/037_CC01D_data_engine_37.asm          5
 ;  CCC8C  crowdvol8                                dseg02/037_CC01D_data_engine_37.asm          1

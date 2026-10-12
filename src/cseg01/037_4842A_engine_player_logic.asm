@@ -27,7 +27,7 @@ extern PaSpeechBusy, PaGoal, PaPlayerNumber, changeplayer, calcpuckcross, setpla
 extern EvadePC, SetBoxDoorObject, FormatPlayerName, PostGoalEvent, ChkScorerMilestone, QueueGoalieNote, ShotLaneOpen, EndPenaltyShot
 extern RemoveFromLines, LoadTeamPPV, CloseTextOverlay, MusicChanReset, sub_8F633, sub_8FFB0, imul32, threat
 extern unk_C1B3E, unk_DACA0, hmteamrec, unk_DC240, savepal, SortCords, updateanim
-extern vtoa, regd4, camx, camy, lastplayer, passdir, word_C90A6, xc1
+extern vtoa, regd4, camx, camy, shotplayer, passdir, passspeed, xc1
 extern yc1, fox, foy, fodir1, fodir2, c1playernum, c2playernum, VisTeam
 extern Pencntdwn, Penaltytimer, refsignal, RefStep, RefPen, gsp, gameclock, clockticks
 extern dirtab_y, word_CBC44, exitgame, gameover, energywarn, lcblink
@@ -3049,7 +3049,7 @@ sub eax, byte 37h	; 4A9DA
 mov word [byte ebx+temp4], ax	; 4A9DD
 .5:
 mov ax, word [byte ebx+SCnum]	; 4A9E1
-cmp ax, word [lastplayer]	; 4A9E5
+cmp ax, word [shotplayer]	; 4A9E5
 jne short .6	; 4A9EC
 xor edx, edx	; 4A9EE
 mov dword [dword_CCA58], edx	; 4A9F0
@@ -3065,7 +3065,7 @@ mov eax, 78h	; 4AA15
 call randomd0	; 4AA1A
 mov word [byte ebx+temp1], ax	; 4AA1F
 mov ax, word [byte ebx+SCnum]	; 4AA23
-cmp ax, word [lastplayer]	; 4AA27
+cmp ax, word [shotplayer]	; 4AA27
 jne short .11	; 4AA2E
 mov word [regd1], 769h	; 4AA30
 mov ecx, dword [dword_CCA58]	; 4AA39
@@ -9736,7 +9736,7 @@ jge short .8	; 4FC01
 add ecx, byte 3	; 4FC03
 .8:
 mov word [passdir], cx	; 4FC06
-mov word [word_C90A6], 14h	; 4FC0D
+mov word [passspeed], 14h	; 4FC0D
 mov ax, word [byte ebx+Xpos+2]	; 4FC16
 neg eax	; 4FC1A
 mov word [regd0], ax	; 4FC1C

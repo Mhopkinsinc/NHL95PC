@@ -11,15 +11,15 @@ extern bannertimer, onetimerflag, shotongoal, penshotplayer, penshotctl, penshot
 extern penshotlive, dword_CCC2C, dword_CCC4E, hmtmstruct, awtmstruct, puckcross_m2
 extern dword_E03AE, dword_E03B6, dword_E03B9, dword_E03BD, dword_E9A9E
 extern dword_E9AB6, puckvx, gmode, puckx, pucky, puckvy, puckz
-extern puckc, off_CD498, off_CD4A0, passspeed, puckflip, puckvz, randomd0, CanRemovePlayer
+extern puckc, off_CD498, off_CD4A0, lastplayer, puckflip, puckvz, randomd0, CanRemovePlayer
 extern setpersonel, sfx, shotsets, vecdist, CanBlockShot, PassCompleted, changeplayer, restorepl
 extern CompLine, GetHotStick, GetHotOrStick, Goal, GiveControl, SetBoxDoorObject, PostInjuryEvent, ShotLaneOpen
 extern QuickShotChk, CountShotOnGoal, EndPenaltyShot, RemoveFromLines, imul32, sub_93470, threat, SortCords
-extern vtoa, wcradiusx, regd4, camx, camy, lastplayer, passdir
-extern word_C90A6, passplayer, xc1, yc1, fox, c1playernum, c2playernum, cont1team
+extern vtoa, wcradiusx, regd4, camx, camy, shotplayer, passdir
+extern passspeed, passplayer, xc1, yc1, fox, c1playernum, c2playernum, cont1team
 extern gsp, gameclock, clockticks, dirtab_y, word_CBEC2, word_CBEC6, bannermsg, word_CC0DA
 extern crowdlevel, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, word_CCC30
-extern word_CCC32, word_CCC62, hmtmap, awtmap, word_DFF5A, word_E03A0, regd2
+extern word_CCC32, shotsetz, hmtmap, awtmap, word_DFF5A, word_E03A0, regd2
 extern regd3, word_E03B8, regd0, regd1, Ylist, OOlistpos, CwdExciteLvl, lasttouch
 extern lty, word_E9B28
 global Bcheck, CPgoalie, CheckBump, FallDown, Findhittype, SetShotMode, ShotMode, Sweepcheck
@@ -2415,7 +2415,7 @@ mov eax, dword [puckc]	; 54E18
 mov byte [eax], 0FFh	; 54E1D
 mov word [byte ecx+03Eh], 10h	; 54E20
 mov ax, word [byte ecx+SCnum]	; 54E26
-mov word [passspeed], ax	; 54E2A
+mov word [lastplayer], ax	; 54E2A
 test byte [byte ecx+pflags], 8	; 54E30
 jne short .2	; 54E34
 cmp byte [byte ecx+053h], 0	; 54E36
@@ -2442,7 +2442,7 @@ mov word [byte esp+08h], ax	; 54E6D
 mov eax, dword [byte esp+08h]	; 54E72
 shl eax, 2	; 54E76
 add eax, 0A0h	; 54E79
-mov word [word_C90A6], ax	; 54E7E
+mov word [passspeed], ax	; 54E7E
 cmp word [byte ecx+SCnum], byte 6	; 54E84
 jge short .5	; 54E89
 xor eax, eax	; 54E8B
@@ -2520,7 +2520,7 @@ mov eax, ebp	; 54F63
 call passtoa0	; 54F65
 jmp near .14	; 54F6A
 .13:
-mov edi, dword [word_C90A6-2]	; 54F6F
+mov edi, dword [passspeed-2]	; 54F6F
 sar edi, 10h	; 54F75
 mov esi, dword [passdir-2]	; 54F78
 sar esi, 10h	; 54F7E
@@ -3620,7 +3620,7 @@ and dl, 0EFh	; 55D48
 mov byte [gmode2], dl	; 55D4B
 test byte [gmode], 1	; 55D51
 jne near checkob_ret5	; 55D58
-mov eax, dword [lastplayer-2]	; 55D5E
+mov eax, dword [shotplayer-2]	; 55D5E
 sar eax, 10h	; 55D63
 shl eax, 7	; 55D66
 add eax, SortCords	; 55D69
@@ -5189,12 +5189,12 @@ cmp word [byte ebx+SCnum], byte 6	; 57197
 setl al	; 5719C
 mov edx, eax	; 5719F
 and edx, 0FFh	; 571A1
-cmp word [lastplayer], byte 6	; 571A7
+cmp word [shotplayer], byte 6	; 571A7
 setl al	; 571AF
 and eax, 0FFh	; 571B2
 xor eax, edx	; 571B7
 je near .12	; 571B9
-mov eax, dword [lastplayer-2]	; 571BF
+mov eax, dword [shotplayer-2]	; 571BF
 sar eax, 10h	; 571C4
 shl eax, 7	; 571C7
 cmp word [dword eax+SortCords+6], byte 0	; 571CA
@@ -5209,7 +5209,7 @@ sar eax, 10h	; 571E7
 .6:
 cmp eax, byte 58h	; 571EA
 jle near .12	; 571ED
-mov eax, dword [lastplayer-2]	; 571F3
+mov eax, dword [shotplayer-2]	; 571F3
 sar eax, 10h	; 571F8
 shl eax, 7	; 571FB
 cmp word [dword eax+SortCords+6], byte 0	; 571FE
@@ -5370,7 +5370,7 @@ add edx, SortCords	; 573BD
 mov byte [eax], 0FFh	; 573C3
 mov word [byte edx+03Eh], 14h	; 573C6
 mov ax, word [byte edx+06Ah]	; 573CC
-mov word [passspeed], ax	; 573D0
+mov word [lastplayer], ax	; 573D0
 and byte [sflags], 0F3h	; 573D6
 .28:
 mov eax, dword [puckvz]	; 573DD
@@ -5450,12 +5450,12 @@ cmp word [byte esi+SCnum], byte 6	; 574DC
 setl al	; 574E1
 mov ebx, eax	; 574E4
 and ebx, 0FFh	; 574E6
-cmp word [lastplayer], byte 6	; 574EC
+cmp word [shotplayer], byte 6	; 574EC
 setl al	; 574F4
 and eax, 0FFh	; 574F7
 xor eax, ebx	; 574FC
 je near .8	; 574FE
-mov edi, dword [lastplayer-2]	; 57504
+mov edi, dword [shotplayer-2]	; 57504
 sar edi, 10h	; 5750A
 shl edi, 7	; 5750D
 cmp word [dword edi+SortCords+6], byte 0	; 57510
@@ -5470,7 +5470,7 @@ sar eax, 10h	; 5752D
 .2:
 cmp eax, byte 58h	; 57530
 jle near .8	; 57533
-mov eax, dword [lastplayer-2]	; 57539
+mov eax, dword [shotplayer-2]	; 57539
 sar eax, 10h	; 5753E
 shl eax, 7	; 57541
 cmp word [dword eax+SortCords+6], byte 0	; 57544
@@ -5629,7 +5629,7 @@ cwde	; 5771B
 add eax, byte 14h	; 5771C
 mov word [byte esi+03Eh], ax	; 5771F
 mov ax, word [byte edi+SCnum]	; 57723
-mov word [passspeed], ax	; 57727
+mov word [lastplayer], ax	; 57727
 and byte [sflags], 0F3h	; 5772D
 jmp near .20	; 57734
 .13:
@@ -5735,7 +5735,7 @@ sub ax, word [byte ebx+Xpos+2]	; 578BB
 cwde	; 578BF
 call vtoa	; 578C0
 mov word [regd0], ax	; 578C5
-mov word [word_C90A6], 0Fh	; 578CB
+mov word [passspeed], 0Fh	; 578CB
 movsx edx, ax	; 578D4
 mov eax, ebx	; 578D7
 call Findhittype	; 578D9
@@ -5839,7 +5839,7 @@ ret	; 579BB
 .8:
 cmp si, byte 8	; 579BC
 jge short .x	; 579C0
-inc word [word_C90A6]	; 579C2
+inc word [passspeed]	; 579C2
 cmp byte [byte edx+05Bh], 0Ah	; 579C9
 jae short .9	; 579CD
 mov bx, word [byte edx+SPAnum]	; 579CF
@@ -6067,7 +6067,7 @@ sub esp, byte 14h	; 57C1B
 mov esi, eax	; 57C1E
 call shotdiradj	; 57C20
 mov ax, word [byte esi+SCnum]	; 57C25
-mov word [lastplayer], ax	; 57C29
+mov word [shotplayer], ax	; 57C29
 and byte [sflags], 0F7h	; 57C2F
 or byte [byte esi+pflags], 20h	; 57C36
 mov eax, dword [puckc]	; 57C3A
@@ -6091,12 +6091,12 @@ cmp di, 0E2Bh	; 57C7C
 jne short .3	; 57C81
 .2:
 mov word [byte esp+0Ch], 0AAh	; 57C83
-mov eax, dword [word_C90A6-2]	; 57C8A
+mov eax, dword [passspeed-2]	; 57C8A
 sar eax, 10h	; 57C8F
 mov edx, eax	; 57C92
 sar edx, 2	; 57C94
 sub eax, edx	; 57C97
-mov word [word_C90A6], ax	; 57C99
+mov word [passspeed], ax	; 57C99
 jmp short .4	; 57C9F
 .3:
 mov word [byte esp+0Ch], 0AAh	; 57CA1
@@ -6154,16 +6154,16 @@ call imul32	; 57D15
 add esp, byte 8	; 57D1A
 sar eax, 0Ch	; 57D1D
 movsx edx, ax	; 57D20
-mov eax, dword [word_C90A6-2]	; 57D23
+mov eax, dword [passspeed-2]	; 57D23
 sar eax, 10h	; 57D28
 add edx, byte 14h	; 57D2B
 imul eax, edx	; 57D2E
-mov word [word_C90A6], ax	; 57D31
-mov eax, dword [word_C90A6-2]	; 57D37
+mov word [passspeed], ax	; 57D31
+mov eax, dword [passspeed-2]	; 57D37
 sar eax, 10h	; 57D3C
 imul eax, dword 5249h	; 57D3F
 shr eax, 10h	; 57D45
-mov word [word_C90A6], ax	; 57D48
+mov word [passspeed], ax	; 57D48
 cmp dword [shotongoal], byte 0	; 57D4E
 je short .13	; 57D55
 call ShotLaneOpen	; 57D57
@@ -6182,7 +6182,7 @@ mov eax, dword [puckc]	; 57D81
 mov byte [eax], 0FFh	; 57D86
 mov word [byte esi+03Eh], 10h	; 57D89
 mov ax, word [byte esi+SCnum]	; 57D8F
-mov word [passspeed], ax	; 57D93
+mov word [lastplayer], ax	; 57D93
 mov edx, 0E8h	; 57D99
 test byte [byte esi+pflags], 80h	; 57D9E
 jne short .15	; 57DA2
@@ -6199,7 +6199,7 @@ mov eax, dword [pucky]	; 57DCA
 mov bx, word [eax]	; 57DCF
 sub edx, ebx	; 57DD2
 mov word [byte esp+010h], dx	; 57DD4
-mov di, word [nosplit edi*4+word_CCC62]	; 57DD9
+mov di, word [nosplit edi*4+shotsetz]	; 57DD9
 mov eax, dword [byte esp+0Eh]	; 57DE1
 sar eax, 10h	; 57DE5
 push eax	; 57DE8
@@ -6302,7 +6302,7 @@ movsx eax, dx	; 57EF8
 call randomd0	; 57EFB
 add edi, eax	; 57F00
 .27:
-mov edx, dword [word_C90A6-2]	; 57F02
+mov edx, dword [passspeed-2]	; 57F02
 sar edx, 10h	; 57F08
 mov eax, edx	; 57F0B
 shl eax, 4	; 57F0D
@@ -6319,7 +6319,7 @@ idiv ebp	; 57F29
 mov ebx, eax	; 57F2B
 mov eax, dword [puckvx]	; 57F2D
 mov word [eax], bx	; 57F32
-mov edx, dword [word_C90A6-2]	; 57F35
+mov edx, dword [passspeed-2]	; 57F35
 sar edx, 10h	; 57F3B
 mov eax, edx	; 57F3E
 shl eax, 4	; 57F40
@@ -6403,7 +6403,7 @@ mov word [eax], dx	; 58011
 .37:
 test di, di	; 58014
 je short .39	; 58017
-mov ebp, dword [word_C90A6-2]	; 58019
+mov ebp, dword [passspeed-2]	; 58019
 sar ebp, 10h	; 5801F
 mov eax, ebp	; 58022
 shl eax, 4	; 58024

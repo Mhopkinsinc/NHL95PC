@@ -5,7 +5,7 @@ section s_13320 progbits alloc exec nowrite align=1
 extern __CHK, __STOSB, str_Pal3, str_Palmem, str_Awardsi, str_Scrn, str_Titl, str_Iff, VisTeam
 extern str_Awards, str_Mtafan, str_Adafan, str_Awasong, str_Mtawards, str_Adawards, str_Summ, str_04d
 extern str_F000149, str_D50D99, str_D00D49, str_D50_D99, str_D00_D49, str_Trinknd, str_0000, str_HILIGHT
-extern str_Numshp, str_GfxIdList, str_PPV, str_VFN, assinsert, pad1dev, pad2dev, byte_CBEA8
+extern str_Numshp, str_GfxIdList, str_PPV, str_VFN, assinsert, pad1dev, pad2dev, apl
 extern musicon, byte_E024C, byte_E024D, byte_E024F, textline1, textline2, textline3, textline4
 extern textline5, byte_E9AC8, byte_E9AD3, fileoncd
 extern joysampling
@@ -15,14 +15,14 @@ extern penshotmode, penshotstart, shotontarget, penshotlive, crowdsmooth, musich
 extern kaufmfont, numshapes, dword_D8C4C, rinkendbank, frameaccum, rinkendart, dword_D8C78, numshpbank
 extern curperiod, photobanks, photoptrs, savedmousex, savedmousey, dword_E009C, photoptrsf
 extern dword_E9A9E, dword_E9AB6, hilightfont, jctime, PickAwardWinners_x, memcpy_, nullsub_2
-extern puckx, pucky, passspeed, randomd0, sprintf_, FadePalette, PickAwardWinners, ShowAwardScreens
+extern puckx, pucky, lastplayer, randomd0, sprintf_, FadePalette, PickAwardWinners, ShowAwardScreens
 extern DrawAwardsSummary, MakePath, FileOpenRead, FileClose, DrawHudPanel, SetTextColors, ClearPanelPenalties, WaitClickTimeout
 extern StartPreGame, joyq_flush, CrowdNoiseReset, StopDigiSample, PlayDigiSample, WaitDigiSample, StartGame, forceteams
 extern BuildDefaultLines, SetupTeamLines, ClearInputQueue, FadePalStep, sub_8CCA8, sub_8D2F0, sub_8E83C, sub_8E8A0
 extern sub_8E9C0, sub_8E9E8, sub_8EA00, sub_8EA18, sub_8F13B, sub_8F1FE, sub_8F98F, sub_8FB8E
 extern sub_8FC8A, sub_8FCDF, sub_8FFB0, sub_9061C, sub_90B80, MouseSetPos, sub_B30B4, sub_B30BB
 extern sub_B392C, sub_B4BA8, threat, savepal, SortCords, vtoa, regd4, scrpitch
-extern lastplayer, passdir, word_C90A6, passplayer, fox, foy, Pencntdwn, Penaltytimer
+extern shotplayer, passdir, passspeed, passplayer, fox, foy, Pencntdwn, Penaltytimer
 extern refsignal, RefStep, RefPen, word_C90D8, gsp, word_CBC44, exitgame, gameover
 extern energywarn, lcblink, lcblinktime, lcsel, word_CBC60
 extern lcline, lctimer, lcboxon, word_CBE8C, word_CBE8E
@@ -864,7 +864,7 @@ mov edx, dword [regd4-2]	; 13D2D
 sar edx, 10h	; 13D33
 mov eax, dword [regd1-2]	; 13D36
 sar eax, 10h	; 13D3B
-movsx ax, byte [dword edx+eax+byte_CBEA8]	; 13D3E
+movsx ax, byte [dword edx+eax+apl]	; 13D3E
 mov word [regd4], ax	; 13D47
 add eax, eax	; 13D4D
 mov word [regd4], ax	; 13D4F
@@ -1125,10 +1125,10 @@ mov word [word_CC0B0], dx	; 140B6
 xor eax, eax	; 140BD
 mov word [threat], ax	; 140BF
 mov word [passplayer], ax	; 140C5
-mov word [word_C90A6], ax	; 140CB
+mov word [passspeed], ax	; 140CB
 mov word [passdir], ax	; 140D1
-mov word [passspeed], ax	; 140D7
-mov word [lastplayer], ax	; 140DD
+mov word [lastplayer], ax	; 140D7
+mov word [shotplayer], ax	; 140DD
 mov word [word_CBC44], ax	; 140E3
 mov word [RefPen], ax	; 140E9
 mov word [refsignal], ax	; 140EF

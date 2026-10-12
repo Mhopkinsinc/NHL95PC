@@ -47,7 +47,7 @@ void asspenshooter(Player *p)
                 y = randomd0(2) + 2;
                 if (pspathside < 0) y += 3;
                 passdir = y;
-                word_C90A6 = 0x14;
+                passspeed = 0x14;
                 regd0.w = -HIWORD(p->Xpos);
                 regd1.w = (!(p->pflags & 0x80) ? -0xE8 : 0xE8) - (p->Ypos >> 16);
                 y = vtoa(regd0.w, regd1.w);

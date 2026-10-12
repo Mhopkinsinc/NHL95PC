@@ -2700,10 +2700,10 @@ extern short camx; /* C9098 */
 extern short camy; /* C909A */
 extern short wcradiusx; /* C909C */
 extern short wcradiusy; /* C909E */
-extern short lastplayer; /* C90A0 */
-extern short passspeed; /* C90A2 */
+extern short shotplayer; /* C90A0 */
+extern short lastplayer; /* C90A2 */
 extern short passdir; /* C90A4 */
-extern short word_C90A6; /* C90A6 */
+extern short passspeed; /* C90A6 */
 extern short passplayer; /* C90A8 */
 extern short threat; /* C90AA */
 extern short xc1; /* C90AC */
@@ -2777,7 +2777,7 @@ extern short word_CBD64[]; /* CBD64 */
 extern short word_CBD66[]; /* CBD66 */
 extern short word_CBE8C[]; /* CBE8C */
 extern short word_CBE8E[]; /* CBE8E */
-extern signed char byte_CBEA8[]; /* CBEA8 */
+extern signed char apl[]; /* CBEA8 */
 extern int dword_CBEBE[]; /* CBEBE */
 extern short ovltimer; /* CBEC0 */
 extern short word_CBEC2; /* CBEC2 */
@@ -2882,7 +2882,7 @@ extern short word_CCC30[]; /* CCC30 */
 extern short word_CCC32[]; /* CCC32 */
 extern int dword_CCC4E[]; /* CCC4E */
 extern short shotsets[]; /* CCC60 */
-extern short word_CCC62[]; /* CCC62 */
+extern short shotsetz[]; /* CCC62 */
 extern int digihandle; /* CCC84 */
 extern int crowdsmooth; /* CCC88 */
 extern int crowdvol8; /* CCC8C */

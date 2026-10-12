@@ -10,13 +10,13 @@ extern assnearest, asspassrec, asspenalty, asspuckc, assscore, assshoot, assstan
 extern asswingo, puckfaceoff, puckfaceoff2, pucknorm, pucknothing, puckshadow, rtss
 extern unk_DFF5E, unk_E0416, puckstruct
 global seed, asstab, sflags, gmode2, pendelaytab
-global byte_C9111, penmintab, byte_C9142, byte_C9146, priolist, byte_CBC37, byte_CBEA8, collflag
+global byte_C9111, penmintab, byte_C9142, byte_C9146, priolist, byte_CBC37, apl, collflag
 global dirtab, wcradiusy, yleader, sflags3, cont2team, HomeTeam, dword_C9120, shownumbers
 global dword_CBEBE, bannertimer, puckvx, gmode, replaystart, puckx, pucky, puckvy
-global puckz, puckc, camx_m2, off_CBD2E, passspeed, puckvz, threat, SPAtab
+global puckz, puckc, camx_m2, off_CBD2E, lastplayer, puckvz, threat, SPAtab
 global unk_CBC6E, unk_CBC7E, unk_CBC9E, unk_CBCAE, unk_CBCBE, unk_CBCCE, unk_CBCDE, unk_CBCEE
-global unk_CBCFE, unk_CBD0E, unk_CBD1E, ds2list, wcradiusx, camx, camy, lastplayer
-global passdir, word_C90A6, passplayer, xc1, yc1, fox, foy, fodir1
+global unk_CBCFE, unk_CBD0E, unk_CBD1E, ds2list, wcradiusx, camx, camy, shotplayer
+global passdir, passspeed, passplayer, xc1, yc1, fox, foy, fodir1
 global fodir2, c1playernum, c2playernum, cont1team, VisTeam, Pencntdwn, Penaltytimer, refsignal
 global RefStep, RefPen, word_C90D8, gsp, gameclock, clockticks, dirtab_y
 global debugstep, word_CBC44, exitgame, gameover, PerTimeTab, energywarn, lcblink
@@ -48,13 +48,13 @@ wcradiusx:
 db 00h,00h
 wcradiusy:
 db 00h,00h
-lastplayer:
+shotplayer:
 db 00h,00h
-passspeed:
+lastplayer:
 db 00h,00h
 passdir:
 db 00h,00h
-word_C90A6:
+passspeed:
 db 00h,00h
 passplayer:
 db 00h,00h
@@ -964,7 +964,7 @@ db 00h,00h
 word_CBE8E:
 db 024h,0FFh,0DDh,0FFh,0D3h,0FFh,023h,00h,0D3h,0FFh,0CCh,0FFh,0F6h,0FFh,00h,00h
 db 0F8h,0FFh,034h,00h,0F6h,0FFh,00h,00h,0C9h,0FFh
-byte_CBEA8:
+apl:
 db 00h,01h,02h,03h,04h,05h,06h,00h,00h,01h,05h,03h,04h,02h,00h,00h
 db 00h,03h,05h,01h,04h,00h
 dword_CBEBE:

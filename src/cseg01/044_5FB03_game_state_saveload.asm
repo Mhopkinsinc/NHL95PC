@@ -16,12 +16,12 @@ extern dword_D8C78, curperiod, photobanks, dword_DB088, dword_DC28C, savedmousex
 extern dword_DF6F2, dword_DF6F6, hmtmplstats, dword_DF6FE, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort
 extern awtmstruct, awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, dword_DF7FE, awtmroster, awtmptrF2
 extern awtmsort, dword_E009C, ovlscript, recbpr, dword_E9A9E, dword_E9AB6, dword_E9B2A, gmode
-extern ltx, replaystart, off_CC01D, passspeed, LoadGameGfx, FileReadAt, FileWriteAt, LoadGameTeams
+extern ltx, replaystart, off_CC01D, lastplayer, LoadGameGfx, FileReadAt, FileWriteAt, LoadGameTeams
 extern SaveModeState, LoadModeState, GetPeriodTime, SprSort, BuildEventLines, LoadTeamPalette, ReplayRecordReset, LoadRockMusic
 extern FatalError, MouseSetPos, threat, exhstate, unk_C5423, unk_C542E, awlinetab, unk_DAC40
 extern unk_DAC70, unk_DACA0, unk_DAE94, unk_DB218, hmteamrec, awteamrec, hmlinetab, unk_DC240
 extern unk_DC252, gamepal, SortCords, hudpenhome, hudpenaway, camx, camy
-extern lastplayer, passdir, word_C90A6, passplayer, xc1, yc1, fox, foy
+extern shotplayer, passdir, passspeed, passplayer, xc1, yc1, fox, foy
 extern fodir1, fodir2, c1playernum, c2playernum, cont1team, VisTeam, Pencntdwn, Penaltytimer
 extern refsignal, RefStep, RefPen, word_C90D8, gsp, gameclock, clockticks, word_CBC44
 extern exitgame, gameover, energywarn, lcblink, lcblinktime
@@ -133,16 +133,16 @@ add eax, byte 2	; 5FC41
 inc ebp	; 5FC44
 cmp ebp, byte 6	; 5FC45
 jl short SaveGameState.8	; 5FC48
-mov dx, word [lastplayer]	; 5FC4A
+mov dx, word [shotplayer]	; 5FC4A
 mov word [eax], dx	; 5FC51
 add eax, byte 2	; 5FC54
-mov dx, word [passspeed]	; 5FC57
+mov dx, word [lastplayer]	; 5FC57
 mov word [eax], dx	; 5FC5E
 add eax, byte 2	; 5FC61
 mov dx, word [passdir]	; 5FC64
 mov word [eax], dx	; 5FC6B
 add eax, byte 2	; 5FC6E
-mov dx, word [word_C90A6]	; 5FC71
+mov dx, word [passspeed]	; 5FC71
 mov word [eax], dx	; 5FC78
 add eax, byte 2	; 5FC7B
 mov dx, word [passplayer]	; 5FC7E
@@ -908,16 +908,16 @@ mov dword [dword esp+010Ch], ecx	; 607B2
 cmp ecx, byte 6	; 607B9
 jl short LoadGameState.9	; 607BC
 mov ax, word [ebx]	; 607BE
-mov word [lastplayer], ax	; 607C1
+mov word [shotplayer], ax	; 607C1
 add ebx, byte 2	; 607C7
 mov ax, word [ebx]	; 607CA
-mov word [passspeed], ax	; 607CD
+mov word [lastplayer], ax	; 607CD
 add ebx, byte 2	; 607D3
 mov ax, word [ebx]	; 607D6
 mov word [passdir], ax	; 607D9
 add ebx, byte 2	; 607DF
 mov ax, word [ebx]	; 607E2
-mov word [word_C90A6], ax	; 607E5
+mov word [passspeed], ax	; 607E5
 add ebx, byte 2	; 607EB
 mov ax, word [ebx]	; 607EE
 mov word [passplayer], ax	; 607F1

@@ -21,14 +21,14 @@ extern puckstruct, sortobj15
 extern dword_E009C, recbpr, dword_E03A8, dword_E03AE
 extern dword_E9A9E, dword_E9AB6, puckvx, gmode, ltx
 extern replaystart, puckx, pucky, puckvy, puckz, puckc, camx_m2, off_CBD2E
-extern passspeed, randomd0, sfx, vecdist, IntermissionPC, DrawSpriteNumber, DrawFrameSprite, DrawRinkEndArt
+extern lastplayer, randomd0, sfx, vecdist, IntermissionPC, DrawSpriteNumber, DrawFrameSprite, DrawRinkEndArt
 extern DrawPanelScore, DrawPanelLine, IsCupClinched, Readjoy1, Readjoy2, SetPenaltyStrength, ChkShotStat, ChkGoalies
 extern PlayCrowdSample, PaOneMinuteLeft, SetBoxDoorObject, DecayCrowdLevel, DrawRinkObjects, PenaltyManager, UpdatePowerPlayFlags, ClearPenaltyBuffer
 extern PenGoalStuff, EndPenaltyShot, DrawTextOverlay, DrawCallBanner, ReplayRecordReset, sub_93540, sub_B340B, sub_B4BC4
 extern threat, SPAtab, ds2list, unk_CCCC8, awlinetab, unk_DAC40, unk_DAC70, unk_DACA0
 extern unk_DAE94, unk_DB218, hmteamrec, awteamrec, hmlinetab, unk_DC240, unk_DC252, SortCords
 extern unk_E9D50, unk_E9EE0, updatereplay, vtoa, regd4, camx
-extern camy, lastplayer, xc1, yc1, fox, foy, fodir1, fodir2
+extern camy, shotplayer, xc1, yc1, fox, foy, fodir1, fodir2
 extern c1playernum, c2playernum, cont1team, Pencntdwn, RefStep, gsp, gameclock, clockticks
 extern word_CBC44, exitgame, gameover, PerTimeTab, energywarn, lcblink
 extern lcline, lcboxon, ovltimer, fadeinpending, word_CBEC6, bannermsg
@@ -1311,7 +1311,7 @@ sar eax, 10h	; 5ACAF
 xor eax, edx	; 5ACB2
 je short .13	; 5ACB4
 or byte [gmode2], 10h	; 5ACB6
-mov word [lastplayer], cx	; 5ACBD
+mov word [shotplayer], cx	; 5ACBD
 .13:
 call ChkShotStat	; 5ACC4
 mov eax, 9Ch	; 5ACC9
@@ -1695,7 +1695,7 @@ setge dl	; 5B1FD
 xor dh, dh	; 5B200
 inc edx	; 5B202
 mov word [regd1], dx	; 5B203
-cmp bx, word [passspeed]	; 5B20A
+cmp bx, word [lastplayer]	; 5B20A
 je short .3	; 5B211
 mov dx, word [cont1team]	; 5B213
 mov cx, word [regd1]	; 5B21A
@@ -5006,7 +5006,7 @@ xor eax, eax	; 5DAA5
 shl eax, 7	; 5DAA7
 mov ecx, SortCords	; 5DAAA
 add ecx, eax	; 5DAAF
-mov word [lastplayer], 0FFFFh	; 5DAB1
+mov word [shotplayer], 0FFFFh	; 5DAB1
 xor eax, eax	; 5DABA
 mov word [regd1], ax	; 5DABC
 mov word [regd2], 6	; 5DAC2

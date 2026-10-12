@@ -9,7 +9,7 @@ extern joyrec, gameopts, cont2team, introskipped, onetimerflag, penshotmode
 extern penshotlive, dword_CCC9C, puckcross_m2, dword_E9A9E, gmode, lcreqchoice, puckstruct
 extern RequestLineChange, puckx, pucky, puckvy, puckc, setpassmode, setpersonel, vecdist
 extern DrawPanelLine, BlockShotDive, passmode, changeplayer, restorepl, MouseSetPos, joyqueue, SortCords
-extern vtoa, lastplayer, passdir, passplayer, fodir1, fodir2, c1playernum
+extern vtoa, shotplayer, passdir, passplayer, fodir1, fodir2, c1playernum
 extern c2playernum, cont1team, lcblink, lcblinktime, lcsel, word_CBC60, lcline
 extern lctimer, lcboxon, linenext, word_DFF42, lcrequest, regd2, regd3, regd0
 extern regd1, joysampling_save, lj2, lj1
@@ -284,7 +284,7 @@ pop ebx	; 4FFEC
 ret	; 4FFED
 %endif ; C
 ; CanBlockShot: may this player dive to block a shot? Shooter = puck carrier, or
-; lastplayer if the puck is loose and heading at his goal; shooter must be in a shooting SPA, the
+; shotplayer if the puck is loose and heading at his goal; shooter must be in a shooting SPA, the
 ; player between him and the puck, facing him, and closer than the puck. Returns 0, or the dive
 ; direction+1 (0Ah = straight), direction also in [esi+4Ah]; holdplayer passes it to BlockShotDive.
 CanBlockShot:
@@ -371,7 +371,7 @@ mov eax, dword [puckvy]	; 500DB
 cmp word [eax], byte 0	; 500E0
 jl near .no	; 500E4
 .7:
-mov bx, word [lastplayer]	; 500EA
+mov bx, word [shotplayer]	; 500EA
 test bx, bx	; 500F1
 jl near .no	; 500F4
 cmp word [byte esi+SCnum], byte 6	; 500FA
@@ -383,7 +383,7 @@ setl al	; 5010A
 and eax, 0FFh	; 5010D
 xor eax, edx	; 50112
 je near .no	; 50114
-mov eax, dword [lastplayer-2]	; 5011A
+mov eax, dword [shotplayer-2]	; 5011A
 sar eax, 10h	; 5011F
 .shooter:
 shl eax, 7	; 50122

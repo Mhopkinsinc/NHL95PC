@@ -17,7 +17,7 @@ global off_CC01D, starordtab, shotsets, unk_CCCC8, word_CC054, word_CC0B0, lldis
 global crowdlevel, word_CC10C, word_CC9CC, word_CC9EA, word_CC9EC, word_CCA18, word_CCA1A, word_CCA1C
 global word_CCA1E, word_CCA38, word_CCA3A, word_CCA3C, word_CCA3E, word_CCA6E, word_CCA70, word_CCA9C
 global linenext, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, word_CCC30
-global word_CCC32, word_CCC62, word_CCCA8, word_CCEF8, Setplass_alist
+global word_CCC32, shotsetz, word_CCCA8, word_CCEF8, Setplass_alist
 off_CC01D:
 dd unk_CBF18
 dd unk_CBEFC
@@ -360,7 +360,7 @@ db 0B8h,0Bh,0C1h,05h,0D9h,05h,09h,06h,09h,06h,09h,06h,0F1h,05h,0F1h,05h
 db 0C1h,05h
 shotsets:
 db 00h,00h
-word_CCC62:
+shotsetz:
 db 0Ch,00h,010h,00h,0Ch,00h,010h,00h,06h,00h,010h,00h,00h,00h,00h,00h
 db 00h,00h,0F0h,0FFh,00h,00h,0F0h,0FFh,06h,00h,0F0h,0FFh,0Ch,00h,00h,00h
 db 06h,00h
