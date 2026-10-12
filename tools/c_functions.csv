@@ -117,6 +117,8 @@ InitMenuRemap,1FAA7,117,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/InitMe
 TextPrintf TextPrintf2,1FB1C,99,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/TextPrintf.c,matched,
 CalStandingsScreen,216D7,279,016_20016_easn_stats,src/c/016_20016_easn_stats/CalStandingsScreen.c,nonmatching,
 CalTeamStatsScreen,21350,353,016_20016_easn_stats,src/c/016_20016_easn_stats/CalTeamStatsScreen.c,matched,
+CalSkaterStatsScreen,214B1,275,016_20016_easn_stats,src/c/016_20016_easn_stats/CalTeamStatsScreen.c,matched,
+CalGoalieStatsScreen,215C4,275,016_20016_easn_stats,src/c/016_20016_easn_stats/CalTeamStatsScreen.c,matched,
 DrawPhotoWithPal,21C04,218,016_20016_easn_stats,src/c/016_20016_easn_stats/DrawPhotoWithPal.c,nonmatching,"register allocation only: the second statspalvalid read lands in eax/ecx/edx, the EXE uses ebx"
 EasnGoalieStatsScreen,20BBD,474,016_20016_easn_stats,src/c/016_20016_easn_stats/EasnGoalieStatsScreen.c,nonmatching,"467 vs 474. Post-menu load: je short keeps the gamemode==1 arm beside the test; original je near lands after the ret and the 8Eh arm only jmps to that jne. Flipped compare, duplicated MakePath, and gotos did not. Do not retry those."
 EasnTeamStatsScreen,208EF,343,016_20016_easn_stats,src/c/016_20016_easn_stats/EasnTeamStatsScreen.c,matched,

@@ -1472,6 +1472,10 @@ pop ecx	; 214AE
 pop ebx	; 214AF
 ret	; 214B0
 %endif ; C
+; C: src/c/016_20016_easn_stats/CalTeamStatsScreen.c (CalSkaterStatsScreen)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/CalTeamStatsScreen.CalSkaterStatsScreen.inc"
+%else
 CalSkaterStatsScreen:
 push dword 334h	; 214B1
 call __CHK	; 214B6
@@ -1543,6 +1547,11 @@ mov ebx, 40h	; 215B0
 mov edx, 4	; 215B5
 mov eax, unk_CF80F	; 215BA
 jmp near CalTeamStatsScreen_common	; 215BF
+%endif ; C
+; C: src/c/016_20016_easn_stats/CalTeamStatsScreen.c (CalGoalieStatsScreen)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/CalTeamStatsScreen.CalGoalieStatsScreen.inc"
+%else
 CalGoalieStatsScreen:
 push dword 334h	; 215C4
 call __CHK	; 215C9
@@ -1614,6 +1623,7 @@ mov ebx, 40h	; 216C3
 mov edx, 4	; 216C8
 mov eax, unk_CF88F	; 216CD
 jmp near CalTeamStatsScreen_common	; 216D2
+%endif ; C
 CalStandingsScreen:
 push dword 28h	; 216D7
 call __CHK	; 216DC
