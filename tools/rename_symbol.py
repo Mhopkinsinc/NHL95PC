@@ -74,7 +74,7 @@ def sub_code(text, rx, new):
 
 def make():
     # the link step checks the sha1 and fails (removing the EXE) on a mismatch, so success == MATCH
-    r = subprocess.run(['make', '-s'], cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(['make', '-s', '-j%s' % (os.cpu_count() or 1)], cwd=ROOT, capture_output=True, text=True)
     ok = r.returncode == 0 and os.path.exists(os.path.join(ROOT, 'build/HOCKEY.EXE')) and 'MISMATCH' not in r.stdout
     return ok, r.stdout[-1500:] + r.stderr[-1500:]
 
@@ -240,7 +240,10 @@ class Session:
             elif seg and seg['obj'] == 2:
                 cols, rows, _ = self.table('tools/global_map.csv')
                 gr = next((r for r in rows if r['genesis_symbol'] == old and int(r['pc_address'], 16) == addr), None)
-                if gr is None: gr = {'pc_address': '%X' % addr}; rows.append(gr)
+                if gr is None:
+                    same = [r for r in rows if int(r['pc_address'], 16) == addr]
+                    gr = same[0] if len(same) == 1 else {'pc_address': '%X' % addr}
+                    if gr not in rows: rows.append(gr)
                 gr['genesis_symbol'] = new
                 gr['evidence'] = evidence or gr.get('evidence') or 'named in src/ (%s)' % seg['module']
                 self.csvs[os.path.join(ROOT, 'tools/global_map.csv')][2] = True; rec = 'tools/global_map.csv'
