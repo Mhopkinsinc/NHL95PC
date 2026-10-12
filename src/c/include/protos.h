@@ -157,7 +157,7 @@ void POSetSeriesTeams(unsigned char *s, int a, int b);  /* 87520 */
 void GoalieToPuckVec(Player *p);  /* 4B467 */
 void TryBlockShot(Player *p);
 int CanBlockShot(Player *p);  /* 4FFEE */
-void BlockShotDive(Player *p, int how);  /* 53387 */
+void BlockShotDive(Player *p, int dir);  /* 53387 */
 void NullBlit(void);  /* 1D019 */
 void NullFunc_1D024(void);  /* 1D024 */
 void DemoSetupStub(void);  /* 3371C */
