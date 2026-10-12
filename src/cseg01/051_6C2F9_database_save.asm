@@ -22,6 +22,10 @@ global RunEditRosters_ret6, RunEditRosters_ret5
 global MenuSaveDbs, MenuSaveDbsAs, SaveDbsToDir, WriteLeagueDbsMem, FreeLeagueDbsMem, CarTeamRecPtr, TeamRecPtr
 global KeyDbPtr, SeasonDbPtr, SeasonDbPtr2, CareerDbPtr, CareerDbPtr2, AttDbPtr, RunEditRosters, DrawRosterTitle
 global DrawRosterList, DrawDatabaseName, DrawRosterPanel
+; C: src/c/051_6C2F9_database_save/MenuSaveDbs.c
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/MenuSaveDbs.inc"
+%else
 MenuSaveDbs:
 push dword 3Ch	; 6C2F9
 call __CHK	; 6C2FE
@@ -87,6 +91,7 @@ pop edi	; 6C3B7
 pop esi	; 6C3B8
 pop ecx	; 6C3B9
 ret	; 6C3BA
+%endif ; C
 MenuSaveDbsAs:
 push dword 78h	; 6C3BB
 call __CHK	; 6C3C0
