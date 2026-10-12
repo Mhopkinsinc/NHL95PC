@@ -472,7 +472,13 @@ Left unnamed or capped. Do not retry the listed C shapes.
   registers): releasepl(tm, pl) and holdplayer's edx pass-through were found this way. A pushed / restored edx
   means edx is not a parameter.
 * cdiff shows immediates that hold a function address (CalNextMonth storing &CalNextMonth) as mismatches; if that
-  is the only difference, mark the file and check with `make FAST=1`.
+  is the only difference, mark the file and check with `make FAST=1`. A `mov [abs], imm` with two absolute fixups
+  (statsredrawcb and the screen function) is the same false mismatch. The object fixups name both symbols.
+* `cdiff.py --func F` looks the label up in the C file's own asm. `CC_SEG` does not apply: `func_addr` calls
+  `c_paths` without F. TickPanelPenalties and DrawEnergyBar (segment 006) jump to DrawPanelLine_x in segment 005,
+  so they cannot be compared until that lookup follows the other asm file. EasnSkaterStatsScreen's listing is
+  misaligned: its `db` swallows the `E8` of `call __CHK`. EasnTeamStatsScreen and EasnGoalieStatsScreen only had
+  the opening `push` as `db`; those are real `push dword` instructions now, same bytes, with the symbol address.
 * `a = b = c = 0` stores c first, then b, then a.
 * `tools/gen_cheaders.py` reads `build/obj`: never run it while `make fullcheck` runs (fullcheck deletes build/obj and
   the headers come out nearly empty). If that happens: `git checkout` asmfuncs.h / globals.h, delete the asmfuncs.h
