@@ -470,6 +470,7 @@ InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_c
 InputRemove,6B47C,63,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputRemove.c,matched,
 LoadLeagueDbsMem,6C19B,350,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/LoadLeagueDbsMem.c,matched,
 MenuCentralRegistry,6BE95,168,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/MenuCentralRegistry.c,matched,
+MenuHitTest,6BA4D,158,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/MenuHitTest.c,nonmatching,"draft: same size. The item pointer is in edx and the origin pointer in eax (original item in eax, origin in edx). Adding the item on the left loaded x2 before x1. Do not retry that add order."
 PrintMenuText PrintMenuTextGrey PrintMenuTextAlt,6B88E,192,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/PrintMenuText.c,matched,
 CarTeamRecPtr,6CB6B,37,051_6C2F9_database_save,src/c/051_6C2F9_database_save/CarTeamRecPtr.c,matched,
 DrawDatabaseName,6D256,67,051_6C2F9_database_save,src/c/051_6C2F9_database_save/DrawDatabaseName.c,matched,
