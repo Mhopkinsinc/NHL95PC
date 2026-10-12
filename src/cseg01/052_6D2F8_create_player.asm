@@ -437,6 +437,10 @@ mov eax, 1	; 6D7E6
 pop ebx	; 6D7EB
 ret	; 6D7EC
 %endif ; C
+; C: src/c/052_6D2F8_create_player/ShellSortBytes.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/ShellSortBytes.inc"
+%else
 ShellSortBytes:
 push dword 28h	; 6D7ED
 call __CHK	; 6D7F2
@@ -510,6 +514,7 @@ pop ebp	; 6D896
 pop edi	; 6D897
 pop esi	; 6D898
 ret	; 6D899
+%endif ; C
 LoadRosterList_fa:
 mov edx, eax	; 6D89A
 shl edx, 2	; 6D89C
