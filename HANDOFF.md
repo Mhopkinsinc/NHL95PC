@@ -65,7 +65,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 **C matching resumed** (2026-10-12). LoadPlayoffModeTree matches (`-od`). Its unused 64 bytes, the path and the schedule record are one 104-byte buffer, so parameter `a` stays at ebp-30h and the return temporary at ebp-2Ch. Two or three separate arrays swap those slots. Name the auto globals a newly matched function uses, from that function's Genesis routine (95G, then 94G, then 93G). This function's globals were already named.
 
-`make fullcheck` on this tree: CBUILD=1 and CBUILD=0 both MATCH. 553 of 1,082 compiled-C game functions match, 161 drafts. LoadPlayoffModeTree is matched. BlitClipRect is the new draft (x in esi, y in edi).
+`make fullcheck` on this tree: CBUILD=1 and CBUILD=0 both MATCH. 554 of 1,082 compiled-C game functions match, 160 drafts. a2touchpuck matches (the icing tail was the missing `edi` save). The byte after `iflags` is `icingPlayer` (95G a2touchpuck stores the low byte of SCnum there). BlitClipRect stays a draft.
 
 * **Done:** segment map ([EXE_SEGMAP95PC.md](EXE_SEGMAP95PC.md)); byte-exact NASM build of the whole EXE from
   `src/`; naming pass over every game segment (93G/94G names or behaviour names, see SEGMENT_AGENT.md queue).
@@ -208,7 +208,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 ## 4. Next
 
-LoadPlayoffModeTree is matched. Next: the drafts and the unattempted functions already listed below. BlitClipRect (`src/c/054_737AA_line_editor_rosters/BlitClipRect.c`) is one register pair from matching: x is saved in esi and y in edi, and the original saves x in edi and y in esi. Five shapes were tried (plain sums, a shared `left`, `h += y`, and both copy orders). `x2 = x; x2 += w` is what produces `add eax, ebx`. Do not repeat those. As each function matches, name the auto globals it uses (`byte_` / `word_` / `dword_`) from the same stores in its Genesis routine, with `tools/rename_symbol.py`.
+LoadPlayoffModeTree and a2touchpuck are matched. Next: the drafts and the unattempted functions already listed below. BlitClipRect (`src/c/054_737AA_line_editor_rosters/BlitClipRect.c`) is one register pair from matching: x is saved in esi and y in edi, and the original saves x in edi and y in esi. Five shapes were tried. Do not repeat those. SetCoachMode's away compare is still `movsx ebx, ax` against the original `cwde`; scoping the home `di` did not change it. FadeOutPalCycle still decrements `bl` in place (`mov bh, bl; dec bh` is the original). As each function matches, name the auto globals it uses (`byte_` / `word_` / `dword_`) from the same stores in its Genesis routine, with `tools/rename_symbol.py`. `icingPlayer` is the byte after `iflags`.
 
 **Variable names (matched C only, 2026-10-12).** Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Match a variable or a data list on the body: the same stores in a shared routine, or the same numbers even when a 68k `dc.b` list is a PC array. A 95PC routine keeps its name when the body already matches that Genesis routine. Do not sweep auto labels the matched C never reads. A table whose numbers differ (the lane table behind `word_CCA6E`, the faceoff offsets at `word_CBE8C`) stays unnamed.
 

@@ -5021,7 +5021,7 @@ extern signed char PBnum[]; /* E9ABA */
 extern short lj2; /* E9ABC */
 extern short lj1; /* E9ABE */
 extern unsigned char iflags; /* E9AC0 */
-extern signed char byte_E9AC1; /* E9AC1 */
+extern signed char icingPlayer; /* E9AC1 */
 extern short lasttouch; /* E9AC2 */
 extern short lty; /* E9AC4 */
 extern short ltx; /* E9AC6 */

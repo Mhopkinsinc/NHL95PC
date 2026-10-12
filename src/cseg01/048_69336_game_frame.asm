@@ -4,7 +4,7 @@ bits 32
 %include "hockey.inc"
 section s_69336 progbits alloc exec nowrite align=1
 extern DoGameFrame, ResetBench, __CHK, assreplace, sflags, gmode2, musicon, bgscrollx, scrollx
-extern iflags, byte_E9AC1, joysampling, inputframes, escrequest, demomode, gameopts, hudclockmin
+extern iflags, icingPlayer, joysampling, inputframes, escrequest, demomode, gameopts, hudclockmin
 extern hudclocksec, hudclockhund, rinkscrollx, rinkscrolly, yleader, sflags3, cont2team, HomeTeam
 extern bannertimer, lastsfx, crowdsmooth, dword_CCC98, dword_CD9A0, spritedrawcount, dword_D8C72, viewscrolly
 extern dword_D8C78, dword_D8C7A, viewscrollx, curperiod, dword_DC28C, rinkwtiles, rinkhtiles, bgscrolly
@@ -236,7 +236,7 @@ xor ebx, ebx	; 69672
 mov word [sflags], ax	; 69674
 mov word [gmode2], 4	; 6967A
 xor ch, ch	; 69683
-mov byte [byte_E9AC1], ch	; 69685
+mov byte [icingPlayer], ch	; 69685
 xor al, al	; 6968B
 mov byte [iflags], al	; 6968D
 mov esi, 0FFFFFFFFh	; 69692

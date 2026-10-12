@@ -8,7 +8,7 @@
  the last-toucher words (+30h -> +32h -> +34h; unless tmflags bit 3 was set, which is just cleared) and a repeat
  of +34h clears its top byte (-1); the same toucher clears pflags bit 3 of the team. A skater with a position
  clears gmode2 bit 4. Not offside but a two-line pass: penalty 1Dh on p. With iflags bits 2 and 0 set and a
- skater of the other side than iflags bit 1: penalty 6 on player byte_E9AC1. */
+ skater of the other side than iflags bit 1: penalty 6 on player icingPlayer. */
 void a2touchpuck(Player *p)
 {
     short two;
@@ -35,6 +35,20 @@ void a2touchpuck(Player *p)
     }
     if (p->position) gmode2 &= 0xEF;
     if (!(short)a2offsides(p) && two) AddPenalty(p, 0x1D);
-    if ((iflags & 4) && (iflags & 1) && p->position && ((p->pflags & 0x80) != 0) ^ ((iflags & 2) != 0))
-        AddPenalty((Player *)((char *)&SortCords + (*(int *)((char *)&byte_E9AC1 - 3) >> 24) * 0x80), 6);
+    if ((iflags & 4) && (iflags & 1) && p->position && ((p->pflags & 0x80) != 0) ^ ((iflags & 2) != 0)) {
+        AddPenalty((Player *)((char *)&SortCords + (*(int *)((char *)&icingPlayer - 3) >> 24) * 0x80), 6);
+        return;
+    }
+    iflags = 0;
+    icingPlayer = p->SCnum;
+    regd0.w = *pucky;
+    if (p->pflags & 0x80) {
+        iflags = 2;
+        regd0.w = -regd0.w;
+    }
+    if (regd0.w >= 0) {
+        regd0.w = hmtmap[0] - awtmap;
+        if (p->pflags & 0x40) regd0.w = -regd0.w;
+        if (regd0.w >= 0) iflags |= 4;
+    }
 }

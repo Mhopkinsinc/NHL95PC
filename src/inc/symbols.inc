@@ -5887,7 +5887,7 @@
 ;  E9ABC  lj2                                      dseg02/087_E9A11_data_engine_87.asm          2
 ;  E9ABE  lj1                                      dseg02/087_E9A11_data_engine_87.asm          3
 ;  E9AC0  iflags                                   dseg02/087_E9A11_data_engine_87.asm          5
-;  E9AC1  byte_E9AC1                               dseg02/087_E9A11_data_engine_87.asm          2
+;  E9AC1  icingPlayer                              dseg02/087_E9A11_data_engine_87.asm          2
 ;  E9AC2  lasttouch                                dseg02/087_E9A11_data_engine_87.asm          4
 ;  E9AC4  lty                                      dseg02/087_E9A11_data_engine_87.asm          6
 ;  E9AC6  ltx                                      dseg02/087_E9A11_data_engine_87.asm          5

@@ -7,7 +7,7 @@ extern AddPenalty, AddPenalty2, DoGameFrame, Findhittype, GetHot, PBnum, SetSPA,
 extern Setplass, ShotMode, StopNA, __CHK, str_EASports, str_StarFmt, assinsert, assreplace
 extern sflags, gmode2, byte_CC9E4, byte_CC9E7, byte_CCA95, musicon, byte_DACB3
 extern byte_DAEA7, hmroster, hmrosterjersey, byte_DF87F, doorpflags, byte_DFFE2, textline1, textline2
-extern textline3, textline4, textline5, PenBuf, iflags, byte_E9AC1, byte_E9AC8
+extern textline3, textline4, textline5, PenBuf, iflags, icingPlayer, byte_E9AC8
 extern byte_E9AD3, byte_E9AD4, byte_E9AD5, byte_E9AD6, byte_E9AD7, check4bench, check4check, checkob
 extern chk4lc, chk4shot, dirtab, chk4pass, doplayeracc, doshot, joysampling, inputframes
 extern gameopts, sounddev, deferpending, dword_C585C, dword_C5860, yleader, sflags3, HomeTeam
@@ -7357,6 +7357,10 @@ pop esi	; 4DE10
 pop edx	; 4DE11
 pop ebx	; 4DE12
 ret	; 4DE13
+; C: src/c/037_4842A_engine_player_logic/a2touchpuck.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/a2touchpuck.inc"
+%else
 a2touchpuck:
 push dword 14h	; 4DE14
 call __CHK	; 4DE19
@@ -7439,7 +7443,7 @@ setne al	; 4DF04
 and eax, 0FFh	; 4DF07
 xor eax, edx	; 4DF0C
 je short .8	; 4DF0E
-mov eax, dword [byte_E9AC1-3]	; 4DF10
+mov eax, dword [icingPlayer-3]	; 4DF10
 sar eax, 18h	; 4DF15
 shl eax, 7	; 4DF18
 add eax, SortCords	; 4DF1B
@@ -7454,7 +7458,7 @@ ret	; 4DF2E
 xor ch, ch	; 4DF2F
 mov byte [iflags], ch	; 4DF31
 mov al, byte [byte ebx+06Ah]	; 4DF37
-mov byte [byte_E9AC1], al	; 4DF3A
+mov byte [icingPlayer], al	; 4DF3A
 mov eax, dword [pucky]	; 4DF3F
 mov ax, word [eax]	; 4DF44
 mov word [regd0], ax	; 4DF47
@@ -7483,6 +7487,7 @@ pop edx	; 4DFA0
 pop ecx	; 4DFA1
 pop ebx	; 4DFA2
 ret	; 4DFA3
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/puckflip.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/puckflip.inc"

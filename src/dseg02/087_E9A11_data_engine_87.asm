@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_E9A11 nobits alloc noexec write align=1
 global Ylist_m2, PBnum, byte_E9A15, PenBuf, PenBuf_pl
-global iflags, byte_E9AC1, byte_E9AC8, byte_E9AC9, byte_E9ACA, byte_E9ACB, byte_E9ACC, byte_E9ACD
+global iflags, icingPlayer, byte_E9AC8, byte_E9AC9, byte_E9ACA, byte_E9ACB, byte_E9ACC, byte_E9ACD
 global byte_E9ACE, byte_E9ACF, byte_E9AD0, byte_E9AD1, byte_E9AD2, byte_E9AD3, byte_E9AD4, byte_E9AD5
 global byte_E9AD6, byte_E9AD7, OOlist, byte_E9DB4, byte_E9E18, byte_E9E31, byte_E9E4A
 global byte_E9F7E, byte_E9F8F, byte_E9F9B, byte_E9F9C, byte_E9FAB, byte_E9FAC, byte_E9FAD, byte_E9FAE
@@ -77,7 +77,7 @@ lj1:
 resb 2
 iflags:
 resb 1
-byte_E9AC1:
+icingPlayer:
 resb 1
 lasttouch:
 resb 2
