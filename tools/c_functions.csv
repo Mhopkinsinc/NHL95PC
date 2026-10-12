@@ -243,6 +243,7 @@ FinishPlayoffs,44899,424,034_41B80_schedule,src/c/034_41B80_schedule/FinishPlayo
 GetPlayoffSeeds,42BBA,496,034_41B80_schedule,src/c/034_41B80_schedule/GetPlayoffSeeds.c,matched,
 LoadLeagueGameRef,41B80,249,034_41B80_schedule,src/c/034_41B80_schedule/LoadLeagueGameRef.c,matched,
 NormalizeDate,41C9B,41,034_41B80_schedule,src/c/034_41B80_schedule/NormalizeDate.c,matched,
+SeriesLength,42221,116,034_41B80_schedule,src/c/034_41B80_schedule/SeriesLength.c,nonmatching,"116 vs 116. Loop, jump table and case bodies match. The shared mov eax,esi / pop esi / pop edx / pop ecx / ret is after mov esi,5 (ja and the other returns jump forward to +57). The EXE falls out of mov esi,1 into that epilogue at +39 and later cases jump back. Do not retry: Watcom sinks this multi-predecessor return onto the first conditional fall-through (best-of-5); a return glued to case 0 folds to mov eax,1 or jumps to an epilogue at the end."
 SetSeriesTeams,42F42,171,034_41B80_schedule,src/c/034_41B80_schedule/SetSeriesTeams.c,matched,
 SimPlayoffRound1,43644,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
 SeedPlayoffRound2,43757,1769,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
@@ -321,6 +322,7 @@ assbenchwait,526ED,51,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_ass
 assleavebox,5147D,612,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assleavebox.c,matched,
 asspsclear,52DB0,512,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/asspsclear.c,matched,
 Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Bcheck.c,matched,
+BlockShotDive,53387,308,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/BlockShotDive.c,matched,
 CPgoalie,591C7,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CPgoalie.c,matched,
 CheckBump,54990,195,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CheckBump.c,matched,
 ChkDelayedOffside,541CA,192,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ChkDelayedOffside.c,nonmatching,"tail: je to the shared xor eax,eax vs jne / xor eax,edx (192=192). Inverting the if merged every return into one exit (208). Do not invert again"

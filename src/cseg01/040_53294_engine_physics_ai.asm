@@ -113,6 +113,10 @@ call SetSPA	; 5337D
 jmp near checkob_ret5	; 53382
 ; BlockShotDive: eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
 ; 1475h; else a sliding block with dirtab speed (word_CCC32).
+; C: src/c/040_53294_engine_physics_ai/BlockShotDive.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/BlockShotDive.inc"
+%else
 BlockShotDive:
 push dword 14h	; 53387
 call __CHK	; 5338C
@@ -234,6 +238,7 @@ pop esi	; 534B7
 pop ecx	; 534B8
 pop ebx	; 534B9
 ret	; 534BA
+%endif ; C
 TryBlockShot:
 push dword 10h	; 534BB
 call __CHK	; 534C0
