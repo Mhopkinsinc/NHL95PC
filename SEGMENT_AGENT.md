@@ -21,7 +21,7 @@ The segment boundaries come from `segmap95pc.json` (`tools/segdef.py`, `EXE_SEGM
   - `EXE_SEGMAP95PC.md` and `segmap95pc.json`: the segment notes and Genesis counterparts.
   - `tools/struct_fieldmap.csv`: player structure fields.
   - `tools/global_map.csv`: globals. The seeded rows are weak alignments (`aligned 2/3 accesses ...`), not proof. When the code shows a seeded name is wrong, rename it and say why in the evidence (engine_skating: `gameclock` C9080 was the pointer to the puck's Xvel, `wcradiusy` E03B4 was the d4 static).
-- Style source: the matching routine in https://github.com/abdulahmad/NHLPA93Genesis (`src/logic93_*.asm`, `hockey93_*.asm`, `penalty93_*.asm` ...). Use https://github.com/abdulahmad/NHL94Genesis for what 94 added. Do not use NHL95Genesis as a naming reference yet: its disassembly is incomplete (see Lineage).
+- Style source, in order: the matching routine in https://github.com/abdulahmad/NHL95Genesis, then https://github.com/abdulahmad/NHL94Genesis, then https://github.com/abdulahmad/NHLPA93Genesis. NHL95Genesis is fully named (see Lineage).
 - A local checkout of the three Genesis repos works the same as the GitHub pages; search it with `rg` (for example `rg -n '^skateto' src/logic93_*.asm`).
 - Docs: `docs/ASM_BUILD.md` covers the source tree, the encoding rules and the linker. `BUILD_NOTES.md` covers the compiler fingerprint and fixups. `docs/SKATING_AND_RINK.md` covers skating physics compared with 93G.
 
@@ -32,10 +32,10 @@ How the PC code relates to the Genesis games:
 - NHL 95 PC is NHL 94 PC plus NHL 94 and 95 Genesis additions: season mode, trades and create player (Genesis `season95`, `trade95`, `create95`).
 - The game engine's C code mostly follows 93G, routine for routine. Look there first.
   - Use 94G for one-timers, breakaways, the extra assignment slots (asstab slots 30 and up) and `doinput_ispc`.
-  - Do not take names from 95G (season, trades, create player) until its disassembly is complete; name that code from what it does (strings, callers, data it touches).
+  - 95G is fully named. Season, trades and create player take the 95G name when the body is the same routine. Name 95PC-only code from what it does (strings, callers, data it touches).
 - The front end (menus, desk screens, file dialogs, configuration) is PC-new. Genesis only matches by role (`stats94` screens, `optsetup94`, `menu94`). Name those routines from what they do.
 
-Name preference: a 93G name when the body is the same routine, else the 94G name, else a name from what it does. 95G names come in (after 94G) only once the 95G disassembly is complete; `tools/matcher.py` still lists 95G as the third source, so treat its 95G proposals as unconfirmed.
+Name preference: the current 95G name when the body is the same routine, else the current 94G name, else the current 93G name, else a name from what it does. Match on the body (calls, constants, structure fields, branch shape). If a 95PC label already uses that name for a different routine, rename that label too. Team abbreviation labels use the spelling in 95PC's own team data and on-screen text (OTT, TB, ANA, and the rest of that table). NYIslanders and NYRangers stay the long names for the two New York teams.
 
 ## Build
 
@@ -148,7 +148,7 @@ workflow and compiler notes: [docs/C_MATCHING.md](docs/C_MATCHING.md); progress:
   marker (`tools/cc.py mark`). The asm stays inside the marker unchanged; both `make` and `make CBUILD=0` must MATCH.
 - Compiler: Watcom C/C++32 10.0 LA `wcc386`, default flags, under DOSBox (`$WATCOM_ROOT`, default `~/watcom`, never
   in the repo). Compare with `python3 tools/cdiff.py src/c/<segment>/<Func>.c`.
-- Names and comments: the asm labels and `structs.inc` fields, 93G/94G names or behaviour (no 95G names). Every C
+- Names and comments: the asm labels and `structs.inc` fields; 95G, else 94G, else 93G, else behaviour. Every C
   function gets a comment (address, Genesis routine or "PC only", what it does, arguments, result); bring the asm
   comments over. Constants in `src/c/include/consts.h`, typed globals in `vars.h`, prototypes in `protos.h`.
 - One file per function, except groups that must compile together (tail call into the next function, shared

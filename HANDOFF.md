@@ -388,8 +388,8 @@ clearteams needs Team fields at 2Eh, DEh, E2h, F2h.
   changes go in their own commits. Never force-push.
 * Do not change bytes; do not run `tools/gen_src.py`; do not edit `src/segments.txt` or section lines. Adding a
   label (no byte change) is fine.
-* Names: asm labels, `structs.inc` fields, 93G/94G names or names from behaviour; no 95G names until the
-  mapping is complete. Renames need evidence (write it in the comment / `struct_fieldmap.csv`).
+* Names: asm labels, `structs.inc` fields; the current 95G name when the body matches, else 94G, else 93G,
+  else a name from behaviour. Renames need evidence (write it in the comment / `struct_fieldmap.csv`).
 * Keep comments: every C function gets a comment (address, Genesis routine or PC only, what it does, arguments,
   result) and carries the asm comments over.
 * At the end of a batch: `python3 tools/c_progress.py`, update sections 3 and 4 of this file, commit, push.
