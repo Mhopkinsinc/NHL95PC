@@ -307,7 +307,11 @@ class Session:
         for l in self.log: print(l)
         print('files changed: %d source, %d tables' % (len(newtexts), len(dirty)))
         if a.dry_run: print('dry run: nothing written'); return
-        backup = {f: self.orig[f] for f in newtexts}
+        backup = {}
+        for f in newtexts:
+            if f in self.orig: backup[f] = self.orig[f]
+            elif f in self.corig: backup[f] = self.corig[f]
+            else: backup[f] = open(f, newline='').read()
         backup.update({p: open(p, newline='').read() for p in dirty})
         for f, t in newtexts.items(): open(f, 'w').write(t)
         for p, (cols, rows, _) in dirty.items(): write_csv(p, cols, rows)
