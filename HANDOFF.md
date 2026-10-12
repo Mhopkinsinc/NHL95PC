@@ -436,6 +436,7 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * assshoot: 242 vs 248. The pfna clear is `and bl, 0FDh`; the original copies bl to ah first. The word at player+4Ch is counted in ax (original di), so edi is not saved. A separate byte local moved the and into al. Do not retry that.
 * TradeHitTest: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that.
 * EasnGoalieStatsScreen: 467 vs 474. The page matches through the first embpal2 load. After the menu, the gamemode==1 arm stays beside the test (`je` short) and the fileoncd test is `je` to the drive load. The original `je near` lands after the ret, the 6Ah test is `jne` to `xor edx` after the ret, and the 8Eh arm is only a `jmp` to that `jne`. A flipped compare, a duplicated MakePath, and gotos did not move it. Do not retry those.
+* CalStandingsScreen: same 279 bytes. dword_C65AC is tested in edx and copied to ecx for MakePath. The original tests it in ecx and that zero is the extension. Same split as GameStandingsScreen. Do not retry one MakePath per branch.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 

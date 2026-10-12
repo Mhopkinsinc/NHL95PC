@@ -1,5 +1,6 @@
 /* EASN stats: calendar standings. */
-/* DRAFT: same register blocker as GameStandingsScreen (dword_C65AC lands in edx, EXE ecx, and the bank arg follows it). */
+/* DRAFT: same register blocker as GameStandingsScreen (dword_C65AC lands in edx, EXE ecx, and the bank arg follows it).
+ statsteamorder is cast to int so the call matches ShowPlayoffTree(int, int). Do not retry one MakePath per branch. */
 #include "nhl95.h"
 
 /* CalStandingsScreen: the standings stats screen from the calendar: GameStandingsScreen (playoff tree with its
@@ -22,13 +23,13 @@ int CalStandingsScreen(void)
                          bank);
             dword_C65AC = sub_8E83C(path, 0);
         }
-        ShowPlayoffTree(statsteambuf, statsteamorder);
+        ShowPlayoffTree(statsteambuf, (int)statsteamorder);
         DrawMenuBar(unk_CF54F, 4, 0x40, 0x41, 0x42);
     } else {
         FreeDeskBuffers();
         sub_B4BA8();
         DrawMenuBar(unk_CF54F, 4, 0x40, 0x41, 0x42);
-        StandingsScreen(statsteambuf, statsteamorder);
+        StandingsScreen(statsteambuf, (int)statsteamorder);
     }
     LoadCalendarShapes();
     return 0;

@@ -200,7 +200,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | CalTeamStatsScreen | 21350 | 353 | matched | [CalTeamStatsScreen.c](src/c/016_20016_easn_stats/CalTeamStatsScreen.c) |  |
 | CalSkaterStatsScreen | 214B1 | 275 | matched | [CalTeamStatsScreen.c](src/c/016_20016_easn_stats/CalTeamStatsScreen.c) |  |
 | CalGoalieStatsScreen | 215C4 | 275 | matched | [CalTeamStatsScreen.c](src/c/016_20016_easn_stats/CalTeamStatsScreen.c) |  |
-| CalStandingsScreen | 216D7 | 279 | nonmatching | [CalStandingsScreen.c](src/c/016_20016_easn_stats/CalStandingsScreen.c) |  |
+| CalStandingsScreen | 216D7 | 279 | nonmatching | [CalStandingsScreen.c](src/c/016_20016_easn_stats/CalStandingsScreen.c) | same 279 bytes. dword_C65AC is tested in edx and copied to ecx for MakePath; the original tests it in ecx and that zero is the extension. Same split as GameStandingsScreen. Do not retry one MakePath per branch. |
 | DrawPhotoWithPal | 21C04 | 218 | nonmatching | [DrawPhotoWithPal.c](src/c/016_20016_easn_stats/DrawPhotoWithPal.c) | register allocation only: the second statspalvalid read lands in eax/ecx/edx, the EXE uses ebx |
 | CmpTeamStandings | 22DDE | 336 | nonmatching | [CmpTeamStandings.c](src/c/017_21CDE_player_stats/CmpTeamStandings.c) | draft: body matches; tail is add esp,0Ch / jmp CmpTeamPK_x (336) and C inlines pop ebp..ret (337). Needs CmpTeamScoring, CmpTeamDefense, CmpTeamPP and CmpTeamPK in the same file. |
 | PlayerFromMouseY | 24453 | 143 | matched | [PlayerFromMouseY.c](src/c/017_21CDE_player_stats/PlayerFromMouseY.c) |  |
