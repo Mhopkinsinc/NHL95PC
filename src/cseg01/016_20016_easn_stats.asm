@@ -28,6 +28,10 @@ global GameTeamStatsScreen, GameSkaterStatsScreen, GameGoalieStatsScreen, GameSt
 global GameStandingsMenu, EasnTeamStatsScreen_m, EasnSkaterStatsScreen_m, EasnGoalieStatsScreen_m, EasnStandingsScreen, EasnStandingsMenu_m, FreeCalendarIfLowMem, LoadCalendarShapes
 global CalTeamStatsScreen, CalSkaterStatsScreen, CalGoalieStatsScreen, CalStandingsScreen, CalStandingsMenu, DrawPhotoWithPal, EasnTeamStatsScreen, EasnSkaterStatsScreen
 global EasnGoalieStatsScreen, EasnStandingsMenu
+; C: src/c/016_20016_easn_stats/GameTeamStatsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameTeamStatsScreen.inc"
+%else
 GameTeamStatsScreen:
 push dword 330h	; 20016
 call __CHK	; 2001B
@@ -122,6 +126,7 @@ pop edx	; 2016D
 pop ecx	; 2016E
 pop ebx	; 2016F
 ret	; 20170
+%endif ; C
 GameSkaterStatsScreen:
 push dword 334h	; 20171
 call __CHK	; 20176
