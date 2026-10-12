@@ -13,8 +13,8 @@ extern lastsfx, photobankf, onetimerflag, shotongoal, penshotplayer, penshotpnum
 extern penshotfox, penshotfoy, penshotmode, penshotstart, penshottimer, shotontarget, penshotlive, psendcount
 extern sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir, crowdsmooth, frameaccum
 extern dword_D8C78, curperiod, photobanks, dword_DB088, dword_DC28C, savedmousex, savedmousey, hmtmstruct
-extern dword_DF6F2, dword_DF6F6, hmtmplstats, dword_DF6FE, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort
-extern awtmstruct, awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, dword_DF7FE, awtmroster, awtmptrF2
+extern dword_DF6F2, dword_DF6F6, hmtmplstats, hmtmglstats, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort
+extern awtmstruct, awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, awtmglstats, awtmroster, awtmptrF2
 extern awtmsort, dword_E009C, ovlscript, recbpr, dword_E9A9E, dword_E9AB6, dword_E9B2A, gmode
 extern ltx, replaystart, off_CC01D, lastplayer, LoadGameGfx, FileReadAt, FileWriteAt, LoadGameTeams
 extern SaveModeState, LoadModeState, GetPeriodTime, SprSort, BuildEventLines, LoadTeamPalette, ReplayRecordReset, LoadRockMusic
@@ -27,9 +27,9 @@ extern refsignal, RefStep, RefPen, word_C90D8, gsp, gameclock, clockticks, word_
 extern exitgame, gameover, energywarn, lcblink, lcblinktime
 extern lcsel, word_CBC60, lcline, lctimer, lcboxon
 extern word_CBD64, word_CBD66, ovltimer, word_CBEC2, fadeinpending, word_CBEC6, bannermsg, ovlseq
-extern ovlstep, word_CC0B0, lldispodd, word_CC0DA, crowdlevel, word_CC10C, word_CCEF8, word_DEE94
+extern ovlstep, word_CC0B0, lldispodd, ltack, crowdlevel, word_CC10C, word_CCEF8, word_DEE94
 extern word_DEE96, word_DEF84, word_DEF88, puckcross, word_E024E, lcrequest, lcreqchoice
-extern word_E0390, OOlistpos, word_E9A9C, word_E9AA2, word_E9AA4, word_E9AA6, CwdExciteLvl
+extern fofdata2, OOlistpos, word_E9A9C, word_E9AA2, word_E9AA4, word_E9AA6, CwdExciteLvl
 extern word_E9AAA, periodendtime, word_E9AAE, word_E9AB0, ovlsteptimer, ovlstepidx, PerTimeTotal, lj2
 extern lj1, lasttouch, lty, word_E9B2C
 global SaveGameState, SaveGameState_popx, LoadGameState
@@ -127,7 +127,7 @@ mov word [eax], dx	; 5FC2E
 xor ebp, ebp	; 5FC31
 add eax, byte 2	; 5FC33
 .8:
-mov dx, word [nosplit ebp*2+word_E0390]	; 5FC36
+mov dx, word [nosplit ebp*2+fofdata2]	; 5FC36
 mov word [eax], dx	; 5FC3E
 add eax, byte 2	; 5FC41
 inc ebp	; 5FC44
@@ -401,7 +401,7 @@ add eax, byte 2	; 6009D
 mov dx, word [dword_E9A9E]	; 600A0
 mov word [eax], dx	; 600A7
 add eax, byte 2	; 600AA
-mov dx, word [word_CC0DA]	; 600AD
+mov dx, word [ltack]	; 600AD
 mov word [eax], dx	; 600B4
 add eax, byte 2	; 600B7
 mov dx, word [lastsfx]	; 600BA
@@ -901,7 +901,7 @@ add ebx, byte 2	; 60797
 .9:
 mov eax, dword [dword esp+010Ch]	; 6079A
 mov dx, word [ebx]	; 607A1
-mov word [nosplit eax*2+word_E0390], dx	; 607A4
+mov word [nosplit eax*2+fofdata2], dx	; 607A4
 add ebx, byte 2	; 607AC
 lea ecx, [byte eax+01h]	; 607AF
 mov dword [dword esp+010Ch], ecx	; 607B2
@@ -1182,7 +1182,7 @@ mov ax, word [ebx]	; 60BE4
 mov word [dword_E9A9E], ax	; 60BE7
 add ebx, byte 2	; 60BED
 mov ax, word [ebx]	; 60BF0
-mov word [word_CC0DA], ax	; 60BF3
+mov word [ltack], ax	; 60BF3
 add ebx, byte 2	; 60BF9
 mov ax, word [ebx]	; 60BFC
 mov word [lastsfx], ax	; 60BFF
@@ -1676,7 +1676,7 @@ mov dword [dword_DF6F2], unk_DACA0	; 61327
 mov dword [dword_DF6F6], unk_DAC40	; 61331
 mov dword [hmtmlines], hmlinetab	; 6133B
 mov dword [hmtmplstats], dword_DB088	; 61345
-mov dword [dword_DF6FE], unk_DC240	; 6134F
+mov dword [hmtmglstats], unk_DC240	; 6134F
 mov dword [hmtmroster], hmroster	; 61359
 mov dword [hmtmptrF2], hmteamrec	; 61363
 mov dword [awtmsort], SortCords+300h	; 6136D
@@ -1684,7 +1684,7 @@ mov dword [dword_DF7F2], unk_DAE94	; 61377
 mov dword [dword_DF7F6], unk_DAC70	; 61381
 mov dword [awtmlines], awlinetab	; 6138B
 mov dword [awtmplstats], unk_DB218	; 61395
-mov dword [dword_DF7FE], unk_DC252	; 6139F
+mov dword [awtmglstats], unk_DC252	; 6139F
 mov dword [awtmroster], awroster	; 613A9
 mov dword [awtmptrF2], awteamrec	; 613B3
 mov ebx, SortCords	; 613BD

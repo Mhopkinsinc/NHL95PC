@@ -15,14 +15,14 @@ void clearteams(void)
     dword_DF642 = -1;
     awtmgoalie = 0;
     word_DF742 = -1;
-    byte_DF6CA = 0xFF;
-    byte_DF7CA = 0xFF;
+    hmtmpbox = 0xFF;
+    awtmpbox = 0xFF;
     hmtmsort = (int)SortCords;
     dword_DF6F2 = (int)unk_DACA0;
     dword_DF6F6 = (int)unk_DAC40;
     hmtmlines[0] = (int)hmlinetab;
     hmtmplstats = (int)dword_DB088;
-    dword_DF6FE = (int)unk_DC240;
+    hmtmglstats = (int)unk_DC240;
     hmtmroster = (int)hmroster;
     hmtmptrF2 = (int)hmteamrec;
     awtmsort = (int)(SortCords + 6);
@@ -30,7 +30,7 @@ void clearteams(void)
     dword_DF7F6 = (int)unk_DAC70;
     awtmlines = (int)awlinetab;
     awtmplstats = (int)unk_DB218;
-    dword_DF7FE = (int)unk_DC252;
+    awtmglstats = (int)unk_DC252;
     awtmroster = (int)awroster;
     awtmptrF2 = (int)awteamrec;
 }

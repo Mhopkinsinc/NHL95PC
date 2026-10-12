@@ -8,7 +8,7 @@ extern str_PPTag, str_SHTag, str_FmtParenD, str_Unassisted, str_Assists, str_Pen
 extern str_GameMisconduct, str_DMinutes, str_02d02dSInjury, str_GoneForTheGame, str_GoneFor1Period, str_ServedByD, assinsert, assreplace
 extern hmgoalcnt, awgoalcnt, sflags, gmode2, pendelaytab, byte_C9111
 extern penmintab, byte_C9142, byte_C9146, priolist, byte_CCE00, byte_CCE01, musicon, gsummarypath
-extern hmroster, hmrosterjersey, hmtmflags, byte_DF6E8, awtmflags, byte_DF7E8, byte_DF861, byte_E024C
+extern hmroster, hmrosterjersey, hmtmflags, byte_DF6E8, awtmflags, byte_DF7E8, scpflags2, byte_E024C
 extern byte_E024D, textline1, textline2, textline3, textline4, textline5, byte_E9A15, PenBuf
 extern PenBuf_pl, byte_E9AC8, byte_E9AC9, byte_E9ACA, byte_E9ACB, byte_E9ACC, byte_E9ACD, byte_E9ACE
 extern byte_E9ACF, byte_E9AD0, byte_E9AD1, byte_E9AD2, byte_E9AD3, joysampling, gamemode, gameopts
@@ -30,7 +30,7 @@ extern SortCords, unk_E9B4C, word_C5428, fox, foy, c1playernum, c2playernum
 extern cont1team, VisTeam, Pencntdwn, Penaltytimer, refsignal, RefStep, RefPen, word_C90D8
 extern gsp, gameclock, clockticks, word_CBC44, ovltimer, word_CBEC6, bannermsg, ovlseq
 extern word_CC0B0, crowdlevel, word_CCEF8, word_CD39C, word_DEE94, hmscore, word_DF644, hmtmap
-extern hmtmgoalie, awscore, awtmap, word_DFF42, regd2, regd3, regd1
+extern hmtmgoalie, awscore, awtmap, pucktemp1, regd2, regd3, regd1
 extern joysampling_save, CwdExciteLvl, periodendtime, word_E9AAE, PerTimeTotal, lty, word_E9B2C
 global AddPenalty, AddPenalty2, Stop4Pen
 global sfxslots_popx
@@ -2732,7 +2732,7 @@ mov byte [edx], 0FFh	; 63502
 mov edx, 1Ah	; 63505
 mov eax, puckstruct	; 6350A
 call assinsert	; 6350F
-mov word [word_DFF42], 1C20h	; 63514
+mov word [pucktemp1], 1C20h	; 63514
 mov byte [RefStep+1], 0FFh	; 6351D
 xor ebx, ebx	; 63524
 mov word [refsignal], bx	; 63526
@@ -3479,7 +3479,7 @@ jge short .11	; 63E61
 mov edx, dword [dword edx+PenBuf_pl-3]	; 63E63
 sar edx, 18h	; 63E69
 shl edx, 7	; 63E6C
-and byte [dword edx+byte_DF861], 0EFh	; 63E6F
+and byte [dword edx+scpflags2], 0EFh	; 63E6F
 .11:
 movsx edx, bx	; 63E76
 xor ch, ch	; 63E79

@@ -5,8 +5,8 @@ bits 32
 section s_59D9A progbits alloc exec nowrite align=1
 extern AddPenalty, AddPenalty2, PBnum, Sweepcheck, __CHK, assinsert, assreplace, asstab
 extern pad1dev, pad2dev, sflags, gmode2, byte_CBC37
-extern lldisp, byte_CC148, byte_CC149, byte_CC7A4, byte_CC7A5, byte_CCCA0, musicon, hmroster
-extern awroster, byte_DF6CA, byte_DF6E6, byte_DF6E7, byte_DF6E8, byte_DF6E9, byte_DF7CA, byte_DF7E6
+extern lldisp, HotList, HotList_y, byte_CC7A4, byte_CC7A5, byte_CCCA0, musicon, hmroster
+extern awroster, hmtmpbox, byte_DF6E6, byte_DF6E7, byte_DF6E8, byte_DF6E9, awtmpbox, byte_DF7E6
 extern byte_DF7E7, byte_DF7E8, byte_DF7E9, byte_E003A, byte_E0072, byte_E0073
 extern byte_E0074, PlList, byte_E038A, PenBuf, byte_E9AD3, OOlist, byte_E9DB4, byte_E9E4A
 extern checkcoll, checkwindow, collflag, doinput, joysampling, gameopts, rinkscrollx, rinkscrolly
@@ -15,8 +15,8 @@ extern shotongoal, penshotplayer, penshotteam, penshotfox, penshotfoy, penshotmo
 extern Setplass_alist, shotontarget, penshotlive, dword_CCC9C, dword_CCC9E, dword_CCCB8, dword_CCCC5, dword_CCD4F, mousex
 extern mousey, cliprect_y0, cliprect_y1, dword_D30BC, dword_D30C0, curperiod, dword_DB088, hmtmstruct
 extern dword_DF642, dword_DF652, dword_DF6EA, dword_DF6F2, dword_DF6F6, hmtmplstats
-extern dword_DF6FE, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort, awtmstruct, dword_DF752, dword_DF7EA
-extern awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, dword_DF7FE, awtmroster, awtmptrF2, awtmsort
+extern hmtmglstats, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort, awtmstruct, dword_DF752, dword_DF7EA
+extern awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, awtmglstats, awtmroster, awtmptrF2, awtmsort
 extern puckstruct, sortobj15
 extern dword_E009C, recbpr, dword_E03A8, dword_E03AE
 extern dword_E9A9E, dword_E9AB6, puckvx, gmode, ltx
@@ -32,7 +32,7 @@ extern camy, shotplayer, xc1, yc1, fox, foy, fodir1, fodir2
 extern c1playernum, c2playernum, cont1team, Pencntdwn, RefStep, gsp, gameclock, clockticks
 extern word_CBC44, exitgame, gameover, PerTimeTab, energywarn, lcblink
 extern lcline, lcboxon, ovltimer, fadeinpending, word_CBEC6, bannermsg
-extern ovlseq, word_CC0B0, lldispodd, word_CC0DA, crowdlevel, word_CCCA8, hmscore, hmtmline
+extern ovlseq, word_CC0B0, lldispodd, ltack, crowdlevel, word_CCCA8, hmscore, hmtmline
 extern hmtmlcnt, hmtmgoalie, word_DF656, word_DF70E, awscore, awtmline, awtmlcnt, word_DF742
 extern awtmgoalie, word_DF756, word_DF80E, puckcross
 extern word_E0036, lcrequest
@@ -707,9 +707,9 @@ jg short .x	; 5A476
 .4:
 add eax, eax	; 5A478
 cwde	; 5A47A
-movsx bx, byte [dword eax+byte_CC148]	; 5A47B
+movsx bx, byte [dword eax+HotList]	; 5A47B
 mov word [regd0], bx	; 5A483
-movsx ax, byte [dword eax+byte_CC149]	; 5A48A
+movsx ax, byte [dword eax+HotList_y]	; 5A48A
 mov word [regd1], ax	; 5A492
 test byte [byte edx+055h], 8	; 5A498
 je short .x	; 5A49C
@@ -2320,14 +2320,14 @@ mov word [dword_DF642], bx	; 5B8B4
 mov word [awtmgoalie], dx	; 5B8BB
 mov word [word_DF742], bx	; 5B8C2
 mov ah, 0FFh	; 5B8C9
-mov byte [byte_DF6CA], ah	; 5B8CB
-mov byte [byte_DF7CA], ah	; 5B8D1
+mov byte [hmtmpbox], ah	; 5B8CB
+mov byte [awtmpbox], ah	; 5B8D1
 mov dword [hmtmsort], SortCords	; 5B8D7
 mov dword [dword_DF6F2], unk_DACA0	; 5B8E1
 mov dword [dword_DF6F6], unk_DAC40	; 5B8EB
 mov dword [hmtmlines], hmlinetab	; 5B8F5
 mov dword [hmtmplstats], dword_DB088	; 5B8FF
-mov dword [dword_DF6FE], unk_DC240	; 5B909
+mov dword [hmtmglstats], unk_DC240	; 5B909
 mov dword [hmtmroster], hmroster	; 5B913
 mov dword [hmtmptrF2], hmteamrec	; 5B91D
 mov dword [awtmsort], SortCords+300h	; 5B927
@@ -2335,7 +2335,7 @@ mov dword [dword_DF7F2], unk_DAE94	; 5B931
 mov dword [dword_DF7F6], unk_DAC70	; 5B93B
 mov dword [awtmlines], awlinetab	; 5B945
 mov dword [awtmplstats], unk_DB218	; 5B94F
-mov dword [dword_DF7FE], unk_DC252	; 5B959
+mov dword [awtmglstats], unk_DC252	; 5B959
 mov dword [awtmroster], awroster	; 5B963
 mov dword [awtmptrF2], awteamrec	; 5B96D
 pop edx	; 5B977
@@ -3971,7 +3971,7 @@ xor ah, dh	; 5CDC4
 mov byte [collflag], ah	; 5CDC6
 mov word [threat], dx	; 5CDCC
 mov word [lldispodd], dx	; 5CDD3
-mov word [word_CC0DA], dx	; 5CDDA
+mov word [ltack], dx	; 5CDDA
 mov word [lastsfx], 0FFFFh	; 5CDE1
 xor dl, dl	; 5CDEA
 mov byte [gmode], dl	; 5CDEC

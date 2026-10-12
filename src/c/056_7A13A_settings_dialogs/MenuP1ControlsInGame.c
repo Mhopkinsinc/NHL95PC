@@ -61,7 +61,7 @@ int ControlsDlgInGame(int side)
     }
     ReassignCtlPlayer(side);
     ClearCtlBlink();
-    if (byte_DFF3A[puckstruct[6] >> 16] == 0x1B && team == 1 && old1 != team && old2 != team) word_DFF42 = 0;
+    if (puckasslist[puckstruct[6] >> 16] == 0x1B && team == 1 && old1 != team && old2 != team) pucktemp1 = 0;
     for (team = 1; team <= 2; team++) {
         if ((old1 == team || old2 == team) && cont1team != team && cont2team != team)
             CtlSwapScoreFix(team == 2);

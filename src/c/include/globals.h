@@ -2808,7 +2808,7 @@ extern short word_CC0B0[]; /* CC0B0 */
 extern int dword_CC0B4[]; /* CC0B4 */
 extern short lldispodd; /* CC0D8 */
 extern unsigned char lldisp; /* CC0D9 */
-extern short word_CC0DA; /* CC0DA */
+extern short ltack; /* CC0DA */
 extern short lastsfx; /* CC0DC */
 extern short crowdlevel; /* CC0DE */
 extern int photobankf; /* CC0E0 */
@@ -2836,8 +2836,8 @@ extern int sopathend; /* CC138 */
 extern int sopathpoint; /* CC13C */
 extern int pspathside; /* CC140 */
 extern int pspathdir; /* CC144 */
-extern signed char byte_CC148[]; /* CC148 */
-extern signed char byte_CC149[]; /* CC149 */
+extern signed char HotList[]; /* CC148 */
+extern signed char HotList_y[]; /* CC149 */
 extern signed char byte_CC7A4[]; /* CC7A4 */
 extern signed char byte_CC7A5[]; /* CC7A5 */
 extern int dword_CC9AD[]; /* CC9AD */
@@ -4875,11 +4875,11 @@ extern unsigned char byte_DF64D[]; /* DF64D */
 extern int dword_DF652; /* DF652 */
 extern short word_DF656; /* DF656 */
 extern unsigned char hmtmflags[]; /* DF658 */
-extern short word_DF65A[]; /* DF65A */
+extern short hmtmpde[]; /* DF65A */
 extern int hmtmpdst_m2[]; /* DF690 */
 extern short hmtmpdst[]; /* DF692 */
 extern int dword_DF6C2[]; /* DF6C2 */
-extern unsigned char byte_DF6CA; /* DF6CA */
+extern unsigned char hmtmpbox; /* DF6CA */
 extern unsigned char byte_DF6E6; /* DF6E6 */
 extern unsigned char byte_DF6E7; /* DF6E7 */
 extern unsigned char byte_DF6E8; /* DF6E8 */
@@ -4889,7 +4889,7 @@ extern int hmtmlines[]; /* DF6EE */
 extern int dword_DF6F2; /* DF6F2 */
 extern int dword_DF6F6; /* DF6F6 */
 extern int hmtmplstats; /* DF6FA */
-extern int dword_DF6FE; /* DF6FE */
+extern int hmtmglstats; /* DF6FE */
 extern int hmtmroster; /* DF702 */
 extern int hmtmptrF2; /* DF706 */
 extern int hmtmsort; /* DF70A */
@@ -4906,8 +4906,8 @@ extern short awtmgoalie; /* DF74C */
 extern int dword_DF752; /* DF752 */
 extern short word_DF756; /* DF756 */
 extern unsigned char awtmflags; /* DF758 */
-extern short word_DF75A[]; /* DF75A */
-extern unsigned char byte_DF7CA; /* DF7CA */
+extern short awtmpde[]; /* DF75A */
+extern unsigned char awtmpbox; /* DF7CA */
 extern unsigned char byte_DF7E6; /* DF7E6 */
 extern unsigned char byte_DF7E7; /* DF7E7 */
 extern unsigned char byte_DF7E8; /* DF7E8 */
@@ -4917,7 +4917,7 @@ extern int awtmlines; /* DF7EE */
 extern int dword_DF7F2; /* DF7F2 */
 extern int dword_DF7F6; /* DF7F6 */
 extern int awtmplstats; /* DF7FA */
-extern int dword_DF7FE; /* DF7FE */
+extern int awtmglstats; /* DF7FE */
 extern int awtmroster; /* DF802 */
 extern int awtmptrF2; /* DF806 */
 extern int awtmsort; /* DF80A */
@@ -4927,19 +4927,19 @@ extern short puckcross[]; /* DF814 */
 extern short word_DF816; /* DF816 */
 extern short word_DF81A; /* DF81A */
 extern int dword_DF848[]; /* DF848 */
-extern unsigned char byte_DF861[]; /* DF861 */
+extern unsigned char scpflags2[]; /* DF861 */
 extern unsigned char byte_DF87F[]; /* DF87F */
 extern unsigned char unk_DFD9C[]; /* DFD9C */
 extern int puckstruct[]; /* DFF1C */
-extern unsigned char byte_DFF3A[]; /* DFF3A */
-extern short word_DFF42; /* DFF42 */
-extern short word_DFF5A; /* DFF5A */
+extern unsigned char puckasslist[]; /* DFF3A */
+extern short pucktemp1; /* DFF42 */
+extern short pucknopuck; /* DFF5A */
 extern unsigned char unk_DFF5E[]; /* DFF5E */
 extern unsigned char puckpflags2; /* DFF61 */
 extern int sortobj15[]; /* DFF9C */
 extern unsigned char byte_DFFA6; /* DFFA6 */
-extern short word_DFFC2; /* DFFC2 */
-extern unsigned char byte_DFFE0; /* DFFE0 */
+extern short doortemp1; /* DFFC2 */
+extern unsigned char doorpflags; /* DFFE0 */
 extern unsigned char byte_DFFE2; /* DFFE2 */
 extern short word_E0022; /* E0022 */
 extern short word_E0028; /* E0028 */
@@ -4974,7 +4974,7 @@ extern short lcreqchoice[]; /* E0380 */
 extern signed char PlList[]; /* E0384 */
 extern signed char byte_E038A[]; /* E038A */
 extern int dword_E038E[]; /* E038E */
-extern short word_E0390[]; /* E0390 */
+extern short fofdata2[]; /* E0390 */
 extern short word_E0392; /* E0392 */
 extern unsigned char byte_E0393; /* E0393 */
 extern short word_E0394; /* E0394 */

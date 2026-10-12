@@ -91,7 +91,7 @@ After the segment's last change, also run `python3 tools/update_symbols.py --che
    - Switch tables (`jpt_`, or an `unk_` label over `dd loc_...` lines) get the function's name plus `_jt` (Watcom puts the table right before its function). Name the case labels `.cN`, N the table index (`avdgoal.c0`); the table refers to them as `func.cN`.
    - IDA sometimes labels a cross-jumped epilogue `sub_` (a `pop ...; ret` tail that several functions jump into). It is not a function: keep it global, name it for the first function and what it does (`EvadePlayers_popebp`, `EvadePC_x`), and rename it with `{no_record}`.
    - Data in code (`off_`, `asc_`, `dword_` in cseg01) is named for what it holds.
-4. Name the data and BSS labels the segment uses. They are defined in `src/dseg02`; `rename_symbol.py` finds them. Use the 93G RAM name of the same variable (`ram93.asm`, from a lined-up 93G operand), else name it from what it holds.
+4. Name the data and BSS labels the segment uses. They are defined in `src/dseg02`; `rename_symbol.py` finds them. Use the 95G RAM name of the same variable, else 94G, else 93G (`ram95.asm`, from a lined-up operand), else name it from what it holds.
    - You may split a `db` run or a `resb` to put a label inside it, as long as the bytes do not change. For example, `resb 152` becomes `name: resb 4` plus `resb 148`.
 5. Write structure fields as names: `[byte ecx+06Ah]` becomes `[byte ecx+SCnum]`. Keep the displacement size, and add a field to `structs.inc` (with its `size` tag) and `tools/struct_fieldmap.csv` when the evidence is there. Start with `tools/struct_operands.py MODULE` (dry run), then do the rest by hand:
    - The Watcom `-5r` short load reads a 16-bit field as a dword 2 bytes earlier: `mov edx, [byte ecx+0Ah]` / `sar edx, 10h` is `[byte ecx+Xvel-2]`. A byte field is read 3 bytes earlier with `sar 18h`: `mov edx, [byte ebx+44h]` / `sar edx, 18h` is `[byte ebx+pnum-3]`.
@@ -151,6 +151,10 @@ workflow and compiler notes: [docs/C_MATCHING.md](docs/C_MATCHING.md); progress:
 - Names and comments: the asm labels and `structs.inc` fields; 95G, else 94G, else 93G, else behaviour. Every C
   function gets a comment (address, Genesis routine or "PC only", what it does, arguments, result); bring the asm
   comments over. Constants in `src/c/include/consts.h`, typed globals in `vars.h`, prototypes in `protos.h`.
+- When the function matches, name the auto globals it uses (`byte_` / `word_` / `dword_`) from the same stores
+  in that Genesis routine, with `tools/rename_symbol.py`. A label that is a known object's field (`puckstruct+temp1`)
+  takes that field's name. A nosplit column keeps its own label. Do not fold a label that `globals.h` declares
+  into `BASE+k` (that is not valid C).
 - One file per function, except groups that must compile together (tail call into the next function, shared
   epilogues): one file, address order, named after the first function.
 - Libraries stay asm: the segments in "Libraries" below (Watcom CRT, DOS/4GW glue, EACSNDF, sound/video drivers,

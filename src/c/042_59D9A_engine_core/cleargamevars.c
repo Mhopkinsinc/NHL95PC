@@ -7,7 +7,7 @@
 void cleargamevars(void)
 {
     regd0.l = regd1.l = regd2.l = regd3.l = regd4.l = *(int *)&word_E03B8 = *(int *)&word_E03A0 = dword_E03A8 = 0;
-    word_CC0DA = lldispodd = threat = collflag = fodir2 = fodir1 = foy = fox = yleader = yc1 = xc1 = 0;
+    ltack = lldispodd = threat = collflag = fodir2 = fodir1 = foy = fox = yleader = yc1 = xc1 = 0;
     lastsfx = -1;
     *(short *)&sflags3 = *(short *)&gmode2 = *(short *)&sflags = gmode = 0;
     ClearPenaltyBuffer();

@@ -2245,3 +2245,19 @@ AllStarsEast,C063B,city string EAST ALL STARS
 passspeed,C90A6,dopass stores passacc*2+$A0 here and doshot scales it by $5249; 95 passspeed
 apl,CBEA8,"faceoff slot list, the bytes of puckfaceoff2 .apl"
 shotsetz,CCC62,z word of each shotsets entry (shotsets+2); kept as its own label because doshot indexes it with nosplit
+ltack,CC0DA,"word before lastsfx, the 95/94 ltack slot; newcheck toggles it to choose the check sound"
+pucktemp1,DFF42,"puckstruct+temp1; the penalty path stores 1C20h and assfaceoffpl compares it with 10h, as 95 puck temp1"
+pucknopuck,DFF5A,"puckstruct+nopuck; ScatterPass clears it, the same absolute-field pattern as puckpflags2"
+puckasslist,DFF3A,puckstruct+asslist; ControlsDlgInGame indexes it by the puck's assnum
+fofdata2,E0390,"assfaceoffpl writes the stick stance here and at +4 for the other side, the 95 fofdata2 frame/flags pairs"
+HotList,CC148,"GetHot reads the hot-spot x byte at frame*2, the 95 HotList"
+HotList_y,CC149,"GetHot y byte, the HotList column at +1; its own label so the indexed operand stays a symbol"
+hmtmpde,DF65A,hmtmstruct+tmpde; MenuModeSettings refills the 1Ch energy words to 1000h
+awtmpde,DF75A,awtmstruct+tmpde
+hmtmpbox,DF6CA,"hmtmstruct+tmpbox; clearteams stores FF, the empty penalty-box list"
+awtmpbox,DF7CA,awtmstruct+tmpbox
+hmtmglstats,DF6FE,"hmtmstruct+tmglstats; clearteams stores the goalie-stats pointer, next to hmtmplstats"
+awtmglstats,DF7FE,awtmstruct+tmglstats
+scpflags2,DF861,"SortCords+pflags2; MenuModeSettings clears bit 3 of each of the 12 players, stride 80h"
+doortemp1,DFFC2,sortobj15+temp1; assboxenter waits until the penalty-box door is ready
+doorpflags,DFFE0,sortobj15+pflags; assboxenter sets bit 5 as the door closes

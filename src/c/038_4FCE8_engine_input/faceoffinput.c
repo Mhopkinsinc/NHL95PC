@@ -3,7 +3,7 @@
 
 /* faceoffinput: faceoff input for p while its assignment is 17h (faceoff): store the stick direction (fodir1 /
  fodir2 by end); without a draw yet (pflags2 bit 1): the shoot button (regd1 bit 4) draws (SPA 7DDh, or D05h
- from word_DFF42 11h on), otherwise temp5 counts down to the idle animation 7F1h. */
+ from pucktemp1 11h on), otherwise temp5 counts down to the idle animation 7F1h. */
 void faceoffinput(Player *p)
 {
     signed char f;
@@ -18,7 +18,7 @@ void faceoffinput(Player *p)
         return;
     }
     p->pflags2 = f | 2;
-    if (word_DFF42 < 0x11) {
+    if (pucktemp1 < 0x11) {
         p->pflags |= 0x20;
         SetSPA(p, 0x7DD);
     } else {

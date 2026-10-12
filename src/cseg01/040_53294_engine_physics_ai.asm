@@ -17,9 +17,9 @@ extern CompLine, GetHotStick, GetHotOrStick, Goal, GiveControl, SetBoxDoorObject
 extern QuickShotChk, CountShotOnGoal, EndPenaltyShot, RemoveFromLines, imul32, sub_93470, threat, SortCords
 extern vtoa, wcradiusx, regd4, camx, camy, shotplayer, passdir
 extern passspeed, passplayer, xc1, yc1, fox, c1playernum, c2playernum, cont1team
-extern gsp, gameclock, clockticks, dirtab_y, word_CBEC2, word_CBEC6, bannermsg, word_CC0DA
+extern gsp, gameclock, clockticks, dirtab_y, word_CBEC2, word_CBEC6, bannermsg, ltack
 extern crowdlevel, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, word_CCC30
-extern word_CCC32, shotsetz, hmtmap, awtmap, word_DFF5A, word_E03A0, regd2
+extern word_CCC32, shotsetz, hmtmap, awtmap, pucknopuck, word_E03A0, regd2
 extern regd3, word_E03B8, regd0, regd1, Ylist, OOlistpos, CwdExciteLvl, lasttouch
 extern lty, word_E9B28
 global Bcheck, CPgoalie, CheckBump, FallDown, Findhittype, SetShotMode, ShotMode, Sweepcheck
@@ -2392,7 +2392,7 @@ call randomd0	; 54DDA
 mov edx, dword [puckvy]	; 54DDF
 mov word [edx], ax	; 54DE5
 xor esi, esi	; 54DE8
-mov word [word_DFF5A], si	; 54DEA
+mov word [pucknopuck], si	; 54DEA
 pop esi	; 54DF1
 pop ebx	; 54DF2
 ret	; 54DF3
@@ -2876,7 +2876,7 @@ mov byte [byte esi+027h], al	; 553C9
 mov eax, dword [byte esi+024h]	; 553CC
 sar eax, 18h	; 553CF
 sub eax, byte 6	; 553D2
-mov word [word_DFF5A], ax	; 553D5
+mov word [pucknopuck], ax	; 553D5
 mov edx, dword [byte esp+02h]	; 553DB
 sar edx, 10h	; 553DF
 mov ecx, dword [byte esp-02h]	; 553E2
@@ -6462,10 +6462,10 @@ jne short .2	; 580BD
 mov edx, 93h	; 580BF
 jmp short .4	; 580C4
 .2:
-cmp word [word_CC0DA], byte 0	; 580C6
+cmp word [ltack], byte 0	; 580C6
 sete dl	; 580CE
 xor dh, dh	; 580D1
-mov word [word_CC0DA], dx	; 580D3
+mov word [ltack], dx	; 580D3
 test dx, dx	; 580DA
 je short .3	; 580DD
 mov edx, 0B0h	; 580DF

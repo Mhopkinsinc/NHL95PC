@@ -64,12 +64,16 @@ types: `size b` is `signed char`, `size w` `short`, `size d` `int`; overrides in
 1. Pick a compiled-C function in a game segment (library segments stay asm; starts with `push dword N` / `call __CHK`; not hand-written asm like `randomd0`,
    `vtoa`). Check its block has no jumps into other functions (shared tails) and that the previous function does
    not fall into it (see "Tail calls" below); otherwise take the whole group into one file.
-2. Read the asm, its comment, its `name_map_94.csv` row and the 93G/94G routine. Write
+2. Read the asm, its comment, its `name_map_94.csv` row and the Genesis routine (95G, else 94G, else 93G). Write
    `src/c/<segment>/<Func>.c`:
    * `#include "nhl95.h"`, then a comment on **every** function: address, Genesis name and file (or "PC only"),
      what it does, arguments and result. Bring the asm comments over (block comment and the per-line ones).
    * Names: the asm labels for functions and globals, the `structs.inc` field names, Genesis names for constants
-     (`consts.h`). No 95G names. Locals by what they hold.
+     (`consts.h`). Source order is 95G, else 94G, else 93G, else behaviour. Locals by what they hold.
+   * Name the auto globals this function uses (`byte_` / `word_` / `dword_`) from the same stores in that
+     Genesis routine, with `tools/rename_symbol.py`, before the final `cdiff`. A label that is a known object's
+     field takes that field's name (`pucktemp1` is `puckstruct+temp1`). A nosplit column keeps its own label.
+     Do not fold a label that `globals.h` declares into `BASE+k`.
    * Add the prototype to `protos.h` (grouped by segment, address in the comment).
 3. `python3 tools/cdiff.py src/c/<segment>/<Func>.c` compiles it and prints compiled vs original side by side
    (`!` differs, `~` same instruction but a different relocation target or immediate); exit 0 and `MATCH` when

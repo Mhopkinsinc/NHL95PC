@@ -22,7 +22,7 @@ extern energywarn, lcblink, lcboxon, word_CBE8C, word_CBE8E
 extern ovltimer, fadeinpending, word_CBEC6, bannermsg, ovlseq, ovlstep, crowdlevel, hmscore
 extern hmtmline, hmtmlcnt, hmtmpdst, awscore, awtmline, awtmlcnt
 extern puckstruct, sortobj15
-extern word_E0390, word_E0392, word_E0394, word_E0396
+extern fofdata2, word_E0392, word_E0394, word_E0396
 extern word_E0398, word_E039A, regd2, regd0, regd1, joysampling_save, word_E9AAE, PerTimeTotal
 extern lty
 global asstakeposition, assleavebox, assbenchwait, assrefpenshot, asspsclear, PassRecOneTimer, asspassrec, check4bench
@@ -2091,7 +2091,7 @@ mov eax, 78h	; 5260B
 call randomd0	; 52610
 add eax, 0B4h	; 52615
 mov word [byte esi+temp1], ax	; 5261A
-mov word [word_E0390], 1	; 5261E
+mov word [fofdata2], 1	; 5261E
 mov ecx, 8000h	; 52627
 mov word [word_E0392], cx	; 5262C
 mov word [word_E0394], 4	; 52633

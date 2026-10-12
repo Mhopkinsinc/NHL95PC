@@ -2,23 +2,23 @@
 bits 32
 %include "hockey.inc"
 section s_DF7CA nobits alloc noexec write align=1
-global byte_DF7CA, byte_DF7E6, byte_DF7E7, byte_DF7E8, byte_DF7E9, byte_DF861
-global byte_DF87F, byte_DFF3A, puckpflags2, byte_DFFA6, byte_DFFE0, byte_DFFE2, byte_E003A, byte_E0072
+global awtmpbox, byte_DF7E6, byte_DF7E7, byte_DF7E8, byte_DF7E9, scpflags2
+global byte_DF87F, puckasslist, puckpflags2, byte_DFFA6, doorpflags, byte_DFFE2, byte_E003A, byte_E0072
 global byte_E0073, byte_E0074, byte_E024C, byte_E024D, byte_E024F, textline1, textline2, textline3
 global textline4, textline5, PlList, byte_E038A, byte_E0393, byte_E0397, byte_E03C1, dword_DF7EA
-global awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, dword_DF7FE, awtmroster, awtmptrF2, awtmsort
+global awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, awtmglstats, awtmroster, awtmptrF2, awtmsort
 global puckcross_m2, dword_DF848, puckstruct
 global sortobj15, dword_E009C, photoptrsf, dword_E0220, dword_E0230
 global dword_E0244, ovlscript, dword_E038E, recbpr, replayplay, dword_E03A8
 global dword_E03AE, dword_E03B6, dword_E03B9, dword_E03BD, SortCords
 global unk_DFD9C, unk_DFF5E, regd4, word_DF80E, puckcross
 global word_DF816, word_DF81A
-global word_DFF42, word_DFF5A
-global word_DFFC2, word_E0022, word_E0028, word_E002A, word_E002E
+global pucktemp1, pucknopuck
+global doortemp1, word_E0022, word_E0028, word_E002A, word_E002E
 global word_E0036, word_E0042, word_E0046, word_E0048, word_E004A, word_E024E, lcrequest
-global lcreqchoice, word_E0390, word_E0392, word_E0394, word_E0396, word_E0398
+global lcreqchoice, fofdata2, word_E0392, word_E0394, word_E0396, word_E0398
 global word_E039A, word_E03A0, regd2, regd3, word_E03B8, regd0, regd1
-byte_DF7CA:
+awtmpbox:
 resb 28
 byte_DF7E6:
 resb 1
@@ -38,7 +38,7 @@ dword_DF7F6:
 resb 4
 awtmplstats:
 resb 4
-dword_DF7FE:
+awtmglstats:
 resb 4
 awtmroster:
 resb 4
@@ -69,7 +69,7 @@ resb 2
 resb 16
 resb 6
 resb 1
-byte_DF861:
+scpflags2:
 resb 30
 byte_DF87F:
 resb 669
@@ -93,12 +93,12 @@ resb 2
 resb 2
 resb 8
 resb 4
-byte_DFF3A:
+puckasslist:
 resb 8
-word_DFF42:
+pucktemp1:
 resb 2
 resb 22
-word_DFF5A:
+pucknopuck:
 resb 4
 unk_DFF5E:
 resb 3
@@ -114,10 +114,10 @@ byte_DFFA6:
 resb 6
 resb 2
 resb 20
-word_DFFC2:
+doortemp1:
 resb 18
 resb 12
-byte_DFFE0:
+doorpflags:
 resb 2
 byte_DFFE2:
 resb 14
@@ -194,7 +194,7 @@ byte_E038A:
 resb 4
 dword_E038E:
 resb 2
-word_E0390:
+fofdata2:
 resb 2
 word_E0392:
 resb 1

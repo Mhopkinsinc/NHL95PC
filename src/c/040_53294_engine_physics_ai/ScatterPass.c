@@ -14,5 +14,5 @@ void ScatterPass(Player *p, Player *to)
     *(short *)puckvz = 0;
     *puckvx = randomd0((0x12 - p->passacc) * 20);
     *puckvy = randomd0((0x12 - p->passacc) * 20);
-    word_DFF5A = 0;
+    pucknopuck = 0;
 }

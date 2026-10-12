@@ -41,7 +41,7 @@ void calcpuckcross(void)
 }
 
 /* GetHot: sprite hot spot (stick blade) of player p. regd0/regd1 = the x/y bytes
- of the hot spot table (byte_CC148/byte_CC149, 2 bytes per frame) for the player's frame (word 12h, frames outside 0-283h/293h give 0, 0); x is negated when the
+ of the hot spot table (HotList/HotList_y, 2 bytes per frame) for the player's frame (word 12h, frames outside 0-283h/293h give 0, 0); x is negated when the
  sprite is X-flipped (attribute bit 3). Draft: also gives the distance that makes reenergizeteam's exit a near
  jump into calcpuckcross's tail, as in the EXE. */
 void GetHot(Player *p)
@@ -57,9 +57,9 @@ void GetHot(Player *p)
     if (f >= 0x2DA) f -= 0x46;
     else if (f > 0x293) return;
     f += f;
-    x = byte_CC148[f];
+    x = HotList[f];
     regd0.w = x;
-    regd1.w = byte_CC149[f];
+    regd1.w = HotList_y[f];
     if (p->attribute & 8)                       /* X flip */
         regd0.w = -regd0.w;
 }

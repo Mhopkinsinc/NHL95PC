@@ -4,9 +4,9 @@
 /* assfaceoffpl: faceoff participant. Not while flag 20h; out of the faceoff (gmode2 bit 0
  clear) nopuck 20 and leave (assexit). A new assignment (bit 1) resets temp1, takes the faceoff frame 167h (16Ch
  facing 0) with SPA 0 and the wait temp5 (side 0: 40, side 1: 20 + random 10). Store the stick stance for the
- pad (word_E0390, +4 for side 1): 2 in frames 169h 16Eh, 3 in 16Ah 16Fh (sound 9Eh + side on SPA count 7),
+ pad (fofdata2, +4 for side 1): 2 in frames 169h 16Eh, 3 in 16Ah 16Fh (sound 9Eh + side on SPA count 7),
  else 1; +3 when handed is 0. Then, unless pflags bit 3 or pflags2 bit 1 (set now): with temp5 >= 0 or the drop
- timer word_DFF42 > 10h and a 7-in-8 chance count temp5 down to SPA 7F1h (the swipe); else temp5 = -1 and SPA
+ timer pucktemp1 > 10h and a 7-in-8 chance count temp5 down to SPA 7F1h (the swipe); else temp5 = -1 and SPA
  7DDh (frozen, flag 20h) before 11h, D05h after. */
 void assfaceoffpl(Player *p)
 {
@@ -28,7 +28,7 @@ void assfaceoffpl(Player *p)
         if (p->pflags & 0x40) p->temp5 = randomd0(10) + 0x14;
         else p->temp5 = 0x28;
     }
-    pad = word_E0390;
+    pad = fofdata2;
     if (p->pflags & 0x40) pad += 2;
     if (p->frame == 0x169 || p->frame == 0x16E) regd0.w = 2;
     else if (p->frame == 0x16A || p->frame == 0x16F) {
@@ -40,13 +40,13 @@ void assfaceoffpl(Player *p)
     if (p->pflags & 8) return;
     if (p->pflags2 & 2) return;
     p->pflags2 |= 2;
-    if (p->temp5 >= 0 || ((unsigned short)word_DFF42 > 0x10 && randomd0(8))) {
+    if (p->temp5 >= 0 || ((unsigned short)pucktemp1 > 0x10 && randomd0(8))) {
         t = --p->temp5;
         if (t >= 0) return;
         spa = 0x7F1;
     } else {
         p->temp5 = -1;
-        if (word_DFF42 < 0x11) {
+        if (pucktemp1 < 0x11) {
             p->pflags |= 0x20;
             spa = 0x7DD;
         } else spa = 0xD05;

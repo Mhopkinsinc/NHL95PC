@@ -6,8 +6,8 @@ extern __CHK, str_BKGD, str_Setting5, str_Dbox2, str_Music, str_Sound, str_Digit
 extern str_Pointer15, str_BKGD2, str_Setting7, str_Setting4, str_Dbox3, str_Music2, str_Sound2, str_DigitizedSpeech2
 extern str_Pointer16, str_BKGD3, str_DigitizedSpeech3, str_Music3, str_Sound3, str_Setting6, str_Dbox4, str_Pointer17
 extern str_BKGD4, str_PlayerImg, str_Dbox5, str_OneS, str_TwoS, str_TheMouse, str_JoystickOne, str_JoystickTwo
-extern str_TheKeyboard, str_Pointer18, pad1dev, musicon, hmtmflags, awtmflags, byte_DF861
-extern byte_DFF3A, ctlavailmask, fileoncd
+extern str_TheKeyboard, str_Pointer18, pad1dev, musicon, hmtmflags, awtmflags, scpflags2
+extern puckasslist, ctlavailmask, fileoncd
 extern samesideflag, postate, gamemode, gameopts, ctl1team, ctl2team, ctl1dev
 extern ctl2dev, ctl1side, ctl2side, sounddev, songdata, sflags3, cont2team, HomeTeam
 extern leaguesetrects, modesetrects
@@ -24,7 +24,7 @@ extern sub_8F984, sub_8FB8E, sub_8FC8A, sub_8FCDF, sub_903F0, sub_90D20, sub_912
 extern sub_91400, sub_91964, sub_91FE0, sub_931FC, sub_96440, sub_B2DCA, sub_B30B4, sub_B4B88
 extern sub_B4BA8, sub_B4DD4, sub_B4FAC, exhstate, unk_D16A0, unk_D19CC, unk_D19DC, SortCords
 extern c1playernum, c2playernum, cont1team, VisTeam, gsp, gameclock, lcblink
-extern lcboxon, hmtmline, word_DF65A, word_DF75A, word_DFF42
+extern lcboxon, hmtmline, hmtmpde, awtmpde, pucktemp1
 global LeagueOptsToBits_jt, LeagueSettingsDlg_ret4, LeagueSettingsDlg_ret, LeagueSettingsDlg_ret0, MenuPlayoffSettings_edit
 global LeagueOptsToBits_n1, LeagueOptsToBits_n2, LeagueOptsToBits_n3, LeagueOptsToBits_n4, LeagueOptsToBits_n0
 global DrawCtlBox_common, ControlsDlg_done
@@ -1673,7 +1673,7 @@ jmp short .4	; 7B452
 .3:
 movsx edx, ax	; 7B454
 shl edx, 7	; 7B457
-and byte [dword edx+byte_DF861], 0F7h	; 7B45A
+and byte [dword edx+scpflags2], 0F7h	; 7B45A
 inc eax	; 7B461
 .4:
 cmp ax, 0Ch	; 7B462
@@ -1685,8 +1685,8 @@ mov edi, 1000h	; 7B478
 jmp short .6	; 7B47D
 .5:
 movsx edx, ax	; 7B47F
-mov word [nosplit edx*2+word_DF75A], di	; 7B482
-mov word [nosplit edx*2+word_DF65A], di	; 7B48A
+mov word [nosplit edx*2+awtmpde], di	; 7B482
+mov word [nosplit edx*2+hmtmpde], di	; 7B48A
 inc eax	; 7B492
 .6:
 cmp ax, 1Ch	; 7B493
@@ -3997,7 +3997,7 @@ mov eax, 6	; 7CEFF
 .2:
 mov edx, eax	; 7CF04
 shl edx, 7	; 7CF06
-and byte [dword edx+byte_DF861], 0F7h	; 7CF09
+and byte [dword edx+scpflags2], 0F7h	; 7CF09
 inc eax	; 7CF10
 cmp eax, byte 0Ch	; 7CF11
 jl short ClearCtlBlink.2	; 7CF14
@@ -4007,7 +4007,7 @@ xor eax, eax	; 7CF18
 .4:
 mov edx, eax	; 7CF1A
 shl edx, 7	; 7CF1C
-and byte [dword edx+byte_DF861], 0F7h	; 7CF1F
+and byte [dword edx+scpflags2], 0F7h	; 7CF1F
 inc eax	; 7CF26
 cmp eax, byte 6	; 7CF27
 jl short ClearCtlBlink.4	; 7CF2A
@@ -4129,7 +4129,7 @@ call ReassignCtlPlayer	; 7D07E
 call ClearCtlBlink	; 7D083
 mov eax, dword [puckstruct+1Ah]	; 7D088
 sar eax, 10h	; 7D08D
-cmp byte [dword eax+byte_DFF3A], 1Bh	; 7D090
+cmp byte [dword eax+puckasslist], 1Bh	; 7D090
 jne short .12	; 7D097
 cmp edx, byte 1	; 7D099
 jne short .12	; 7D09C
@@ -4138,7 +4138,7 @@ je short .12	; 7D0A0
 cmp ebx, edx	; 7D0A2
 je short .12	; 7D0A4
 xor edx, edx	; 7D0A6
-mov word [word_DFF42], dx	; 7D0A8
+mov word [pucktemp1], dx	; 7D0A8
 .12:
 mov edx, 1	; 7D0AF
 .13:

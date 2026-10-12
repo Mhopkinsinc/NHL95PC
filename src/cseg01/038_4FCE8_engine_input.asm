@@ -4,14 +4,14 @@ bits 32
 %include "hockey.inc"
 section s_4FCE8 progbits alloc exec nowrite align=1
 extern SetLCmode, SetSPA, SetShotMode, ShotMode, __CHK, burst, sflags, gmode2
-extern lchoicetab, byte_DFF3A, checkob, doplayeracc, joysampling, joyqhead, joyqcount, joyqtick
+extern lchoicetab, puckasslist, checkob, doplayeracc, joysampling, joyqhead, joyqcount, joyqtick
 extern joyrec, gameopts, cont2team, introskipped, onetimerflag, penshotmode
 extern penshotlive, dword_CCC9C, puckcross_m2, dword_E9A9E, gmode, lcreqchoice, puckstruct
 extern RequestLineChange, puckx, pucky, puckvy, puckc, setpassmode, setpersonel, vecdist
 extern DrawPanelLine, BlockShotDive, passmode, changeplayer, restorepl, MouseSetPos, joyqueue, SortCords
 extern vtoa, shotplayer, passdir, passplayer, fodir1, fodir2, c1playernum
 extern c2playernum, cont1team, lcblink, lcblinktime, lcsel, word_CBC60, lcline
-extern lctimer, lcboxon, linenext, word_DFF42, lcrequest, regd2, regd3, regd0
+extern lctimer, lcboxon, linenext, pucktemp1, lcrequest, regd2, regd3, regd0
 extern regd1, joysampling_save, lj2, lj1
 global Acheck, doinput
 global CanBlockShot_ret6, CanBlockShot_ret5
@@ -195,7 +195,7 @@ mov eax, ecx	; 4FF01
 call doplayeracc	; 4FF03
 jmp near CanBlockShot_ret5	; 4FF08
 ; faceoffinput: (afaceoffpl 17h, fodir1/fodir2, pf2aip). PC adds an automatic
-; pull when temp5 runs out (SPA 7F1h) and picks the pull anim by word_DFF42.
+; pull when temp5 runs out (SPA 7F1h) and picks the pull anim by pucktemp1.
 faceoffinput:
 push dword 10h	; 4FF0D
 call __CHK	; 4FF12
@@ -237,7 +237,7 @@ ret	; 4FF7B
 mov al, cl	; 4FF7C
 or al, 2	; 4FF7E
 mov byte [byte ebx+pflags2], al	; 4FF80
-cmp word [word_DFF42], byte 11h	; 4FF83
+cmp word [pucktemp1], byte 11h	; 4FF83
 jge short .3	; 4FF8B
 or byte [byte ebx+pflags], 20h	; 4FF8D
 mov edx, 7DDh	; 4FF91
@@ -844,7 +844,7 @@ ret	; 505B5
 .nlcm:
 mov eax, dword [puckstruct+1Ah]	; 505B6
 sar eax, 10h	; 505BB
-cmp byte [dword eax+byte_DFF3A], 1Ch	; 505BE
+cmp byte [dword eax+puckasslist], 1Ch	; 505BE
 jne short .joycon	; 505C5
 cmp dword [penshotmode], byte 0	; 505C7
 jne short .joycon	; 505CE

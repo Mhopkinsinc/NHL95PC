@@ -6,7 +6,7 @@ section s_4842A progbits alloc exec nowrite align=1
 extern AddPenalty, AddPenalty2, DoGameFrame, Findhittype, GetHot, PBnum, SetSPA, SetShotMode, word_C90D8, word_DB08A, word_DC244, word_DF644, word_E0394, word_E9AB0
 extern Setplass, ShotMode, StopNA, __CHK, str_EASports, str_StarFmt, assinsert, assreplace
 extern sflags, gmode2, byte_CC9E4, byte_CC9E7, byte_CCA95, musicon, byte_DACB3
-extern byte_DAEA7, hmroster, hmrosterjersey, byte_DF87F, byte_DFFE0, byte_DFFE2, textline1, textline2
+extern byte_DAEA7, hmroster, hmrosterjersey, byte_DF87F, doorpflags, byte_DFFE2, textline1, textline2
 extern textline3, textline4, textline5, PenBuf, iflags, byte_E9AC1, byte_E9AC8
 extern byte_E9AD3, byte_E9AD4, byte_E9AD5, byte_E9AD6, byte_E9AD7, check4bench, check4check, checkob
 extern chk4lc, chk4shot, dirtab, chk4pass, doplayeracc, doshot, joysampling, inputframes
@@ -34,10 +34,10 @@ extern dirtab_y, word_CBC44, exitgame, gameover, energywarn, lcblink
 extern lcblinktime, lcsel, lcline, lctimer, lcboxon, ovltimer, fadeinpending
 extern word_CBEC6, bannermsg, ovlseq, ovlstep, crowdlevel, word_CC9EA, word_CC9EC, word_CCA18
 extern word_CCA1A, word_CCA1C, word_CCA1E, word_CCA38, word_CCA3A, word_CCA3C, word_CCA3E, word_CCA6E
-extern word_CCA70, word_CCA9C, word_DC242, word_DC248, word_DC24E, hmscore, hmtmap, word_DF65A
+extern word_CCA70, word_CCA9C, word_DC242, word_DC248, word_DC24E, hmscore, hmtmap, hmtmpde
 extern awscore, awtmap, puckcross, word_DF816, word_DF81A
-extern word_DFF42, word_DFFC2, word_E0022, word_E0028
-extern word_E002A, word_E002E, word_E0042, word_E0046, word_E0048, lcrequest, word_E0390
+extern pucktemp1, doortemp1, word_E0022, word_E0028
+extern word_E002A, word_E002E, word_E0042, word_E0046, word_E0048, lcrequest, fofdata2
 extern word_E0392, word_E0396, regd2, regd3, regd0, regd1, joysampling_save, periodendtime
 extern word_E9AAE, PerTimeTotal, lj1, lasttouch, lty, startm, starpl
 global ClampYPosition, Endfaceoff, SetLCmode, StartFaceoffLineChange, a2offsides, a2touchpuck, ass_pc_slot20, assthreestars
@@ -1789,7 +1789,7 @@ mov al, byte [byte ebx+newpnum]	; 49980
 mov byte [byte ebx+newpos], al	; 49983
 shl esi, 8	; 49986
 mov eax, edi	; 49989
-mov word [dword esi+eax*2+word_DF65A], 300h	; 4998B
+mov word [dword esi+eax*2+hmtmpde], 300h	; 4998B
 and byte [byte ebp+pflags2], 0FBh	; 49995
 movsx edx, di	; 49999
 mov eax, ebx	; 4999C
@@ -1839,12 +1839,12 @@ mov word [byte ebx+temp5], 0	; 49A23
 mov cx, word [byte ebx+temp1]	; 49A29
 cmp cx, byte 64h	; 49A2D
 jne near .2	; 49A31
-cmp cx, word [word_DFFC2]	; 49A37
+cmp cx, word [doortemp1]	; 49A37
 jne near .x	; 49A3E
-mov word [word_DFFC2], 0C8h	; 49A44
+mov word [doortemp1], 0C8h	; 49A44
 xor al, al	; 49A4D
 mov byte [byte_DFFE2], al	; 49A4F
-or byte [byte_DFFE0], 20h	; 49A54
+or byte [doorpflags], 20h	; 49A54
 mov edx, 0EA9h	; 49A5B
 mov eax, sortobj15	; 49A60
 call SetSPA	; 49A65
@@ -6681,7 +6681,7 @@ jmp short .5	; 4D5AA
 .4:
 mov word [byte ebx+temp5], 28h	; 4D5AC
 .5:
-mov edx, word_E0390	; 4D5B2
+mov edx, fofdata2	; 4D5B2
 test byte [byte ebx+pflags], 40h	; 4D5B7
 je short .6	; 4D5BB
 add edx, byte 4	; 4D5BD
@@ -6730,7 +6730,7 @@ or ah, 2	; 4D64B
 mov byte [byte ebx+pflags2], ah	; 4D64E
 cmp word [byte ebx+temp5], byte 0	; 4D651
 jge short .14	; 4D656
-cmp word [word_DFF42], byte 10h	; 4D658
+cmp word [pucktemp1], byte 10h	; 4D658
 jbe short .15	; 4D660
 mov eax, 8	; 4D662
 call randomd0	; 4D667
@@ -6746,7 +6746,7 @@ mov eax, 7F1h	; 4D67F
 jmp short .17	; 4D684
 .15:
 mov word [byte ebx+temp5], 0FFFFh	; 4D686
-cmp word [word_DFF42], byte 11h	; 4D68C
+cmp word [pucktemp1], byte 11h	; 4D68C
 jge short .16	; 4D694
 or byte [byte ebx+pflags], 20h	; 4D696
 mov eax, 7DDh	; 4D69A
@@ -7111,7 +7111,7 @@ and byte [gmode2], 0FAh	; 4DA9B
 and byte [gmode], 0FEh	; 4DAA2
 and byte [byte ecx+pflags2], 0FEh	; 4DAA9
 or byte [sflags3], 10h	; 4DAAD
-mov eax, dword [word_E0390-2]	; 4DAB4
+mov eax, dword [fofdata2-2]	; 4DAB4
 sar eax, 10h	; 4DAB9
 movsx ax, byte [dword eax+byte_CCA95]	; 4DABC
 mov edx, 10h	; 4DAC4
