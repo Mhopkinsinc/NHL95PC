@@ -41,7 +41,7 @@ PanelAddPenalty,14C22,126,005_1431E_file_utils,src/c/005_1431E_file_utils/PanelA
 PanelRemovePenalty,14CA0,81,005_1431E_file_utils,src/c/005_1431E_file_utils/PanelRemovePenalty.c,matched,
 ReadKeyRec WriteKeyRec,1463D,46,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,
 ReadSeasonRec,1478B,21,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,
-CopyFile,1466B,288,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,nonmatching,
+CopyFile,1466B,288,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,nonmatching,"draft: same size; srcext is parked in eax (original parks srcdir with mov eax,ecx). A local for srcdir did not change the shuffle. Do not retry that."
 ReadSchedGame,147A0,41,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadSchedGame.c,matched,
 ReadTeamRec ReadGSummaryRec,147C9,92,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadTeamRec.c,matched,
 AnyInputPressed,1600C,102,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c,nonmatching,draft: asm keeps result in esi and saves 4 regs; ours uses edx
@@ -156,7 +156,7 @@ DrawScrollBar,30C3D,209,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/Draw
 DrawButtons,30AE2,52,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButtons.c,matched,
 DrawEditCursor,314B4,229,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft: y is movzx edi,[byte_D42C5] (229). C zero-extends into edx (230). Computing y before h, or reusing cw, did not select edi."
 DrawListItem,302B9,227,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"registers: y / w in ebp / edi (EXE edi / ebp); DrawListItems short-jumps into its exit, mark as one block"
-DrawListItems,3039C,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,
+DrawListItems,3039C,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"compiles to the original 95 bytes, but it branches into DrawListItem+DEh, so it cannot be marked until DrawListItem is."
 GrowToButton,30F5F,85,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButton.c,nonmatching,same blocks; original keeps w in edx and v in ecx (then edx / eax in the second half); this draft moves w to ecx. 10-min cap
 GrowToButtons,30FB4,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButtons.c,nonmatching,registers: asm sums in edx and builds each width in esi; C swaps them
 ListHitTest,3023E,123,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/ListHitTest.c,nonmatching,"scheduling: asm loads w (stack arg) before top+2 and keeps x1 at [esp], x2 at [esp+4]; C swaps the slots"
@@ -240,7 +240,7 @@ SimPlayoffRound2,43E40,267,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayof
 SeedPlayoffRound3,43F4B,1131,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
 SimPlayoffRound3,443B6,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
 SeedPlayoffFinal,444C9,733,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
-SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
+SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"draft: same size; team index is bl (original cl) and i+1 is lea ecx,[eax+1] (original inc eax). A while loop moved the compare above the index load. Do not retry the while."
 SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,
@@ -463,7 +463,7 @@ ClearInputQueue,6B3D7,57,050_6B093_joystick_calibration,src/c/050_6B093_joystick
 DrawMenuBar,6B5E4,160,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuBar.c,matched,
 DrawMenuDropdown DrawMenuBox,6B684,522,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuDropdown.c,matched,
 DrawMenuItemSel,6B94E,157,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,nonmatching,registers: x / y params in ebp / edi (EXE edi / ebp); Norm also needs the cross-jumps into Sel_ret / Sel_common
-DrawMenuItemNorm,6B9EB,98,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,nonmatching,
+DrawMenuItemNorm,6B9EB,98,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,nonmatching,"draft: x is in ebp and y in edi (original edi, ebp). The exit is inlined; original jumps to DrawMenuItemSel_ret."
 EventToPointer,6B4BB,297,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/EventToPointer.c,matched,
 GetInputEvent,6B391,70,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/GetInputEvent.c,matched,
 InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputInstall.c,nonmatching,registers: C loads inputinstalled into edx and reuses the 0 for the ptrstep/dword_CDA24 stores; asm compares memory and zeroes ebx
@@ -545,9 +545,9 @@ MenuExhibitionSettings,7BEBB,155,056_7A13A_settings_dialogs,src/c/056_7A13A_sett
 ExhOptsToBits,7BF56,355,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c,matched,
 DrawExhSetChecks,7C0B9,243,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c,matched,
 MenuModeSettings,7B3A7,325,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuModeSettings.c,matched,
+MenuP2ControlsInGame,7CB9F,20,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,
 MenuP1ControlsInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
 ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
-MenuP2ControlsInGame,7CB9F,20,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
 ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
 ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
 ModeOptsToBits,7B604,304,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeOptsToBits.c,matched,

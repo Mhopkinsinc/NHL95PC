@@ -3713,11 +3713,16 @@ cmp dword [dword eax+ctl1team], byte 0	; 7CB8B
 jge near ControlsDlgInGame_side	; 7CB92
 xor edx, edx	; 7CB98
 jmp near ControlsDlgInGame_setside	; 7CB9A
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP2ControlsInGame)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP2ControlsInGame.inc"
+%else
 MenuP2ControlsInGame:
 push dword 4	; 7CB9F
 call __CHK	; 7CBA4
 mov eax, 1	; 7CBA9
 jmp near ControlsDlgInGame	; 7CBAE
+%endif ; C
 CtlSwapScoreFix:
 push dword 10h	; 7CBB3
 call __CHK	; 7CBB8
