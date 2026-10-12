@@ -836,7 +836,7 @@ jmp near EasnGoalieStatsScreen_common	; 20BB1
 xor edx, edx	; 20BB6
 jmp near EasnGoalieStatsScreen_common	; 20BB8
 EasnGoalieStatsScreen:
-db 068h,034h,03h,00h,00h
+push dword 334h	; 20BBD
 EasnGoalieStatsScreen_m:
 call __CHK	; 20BC2
 push ebx	; 20BC7
