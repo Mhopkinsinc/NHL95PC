@@ -154,6 +154,7 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   LoadPlayoffModeTree's unused 64 bytes, the 32-byte path and the 8-byte schedule record are one `unsigned char buf[104]`
   (`buf + 64` is the path, `buf + 96` is the record). `return 0;` is the hidden temporary. An explicit `int ret = 0; return ret;`
   copies into a second slot and does not match.
+* **A zero return right after a compare falls through**: `if (diff <= 0) return 0;` with `diff` just copied (`mov eax, ecx`) is `jg` over `xor eax, ecx` / `pop` / `ret` (ChkPullGoalieLate). `if (diff > 0) { ... } return 0;` puts the body first and jumps to the zero return. A later `return 0` that is the same `xor eax, eax` epilogue is a jump to the first one; inverting the last compare so the zero return sits at the bottom pulls every earlier return there too (ChkDelayedOffside, 208 vs 192).
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.

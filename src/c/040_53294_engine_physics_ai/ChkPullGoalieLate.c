@@ -18,11 +18,9 @@ int ChkPullGoalieLate(int side)
     if (gameclock > 60) return 0;
     if (cont1team == side + 1 || cont1team == side + 1) return 0; /* the asm tests this twice (je, je) */
     diff = o->tmscore - t->tmscore;
-    if (diff > 0) {
-        if (diff > 2) return 0;
-        if ((t->tmsort->pflags & 0x80) == 0) y = -y;
-        if (y < 0) return 0;
-        return 1;
-    }
-    return 0;
+    if (diff <= 0) return 0;
+    if (diff > 2) return 0;
+    if ((t->tmsort->pflags & 0x80) == 0) y = -y;
+    if (y < 0) return 0;
+    return 1;
 }

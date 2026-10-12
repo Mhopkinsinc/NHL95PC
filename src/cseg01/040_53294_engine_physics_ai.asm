@@ -7900,6 +7900,10 @@ inc ecx	; 593E9
 cmp cx, byte 2	; 593EA
 jl short ReturnGoalies.1	; 593EE
 jmp near checkob_ret5a	; 593F0
+; C: src/c/040_53294_engine_physics_ai/ChkPullGoalieLate.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/ChkPullGoalieLate.inc"
+%else
 ChkPullGoalieLate:
 push dword 14h	; 593F5
 call __CHK	; 593FA
@@ -7967,3 +7971,4 @@ pop edx	; 5948F
 pop ecx	; 59490
 pop ebx	; 59491
 ret	; 59492
+%endif ; C
