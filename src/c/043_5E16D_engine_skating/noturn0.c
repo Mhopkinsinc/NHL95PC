@@ -1,12 +1,16 @@
 /* Engine: skating. */
 #include "nhl95.h"
 
+int widenbx(short d);
+#pragma aux widenbx = "movsx eax,bx" parm [bx] value [eax] modify exact [eax];
+
 /* noturn0: player p keeps skating (regd4 = 2, or 6 and chg flipped by 4 when skating backwards,
  pfrev). With a direction change chg: if moving and the velocity direction (vtoa, regd0) is less than 4 steps
  past facedir + regd4, stop (dostop); otherwise turn one step (down with attribute bit 3, else up) and glide
  (SPAglideback backwards; the referee his glide, signalling variant as in dostop). Without one: skate (backwards
  SPAskateback, the referee his skate, the puck carrier SPAskatewp, pflags2 bit 6 8D3h, else SPAskate) unless an
- animation is in progress (pf2aip), then accelerate in direction dir (flipped by 4 backwards; playeracc). */
+ animation is in progress (pf2aip), then accelerate in direction dir (flipped by 4 backwards; playeracc).
+ dir is in bx; playeracc's short argument is sign-extended from ax, so widenbx puts it in eax first. */
 void noturn0(Player *p, short chg, short dir)
 {
     short spa;
@@ -52,5 +56,5 @@ void noturn0(Player *p, short chg, short dir)
     } else spa = SPAskateback;
     if (!(p->pflags2 & pf2aip)) SetSPA(p, spa);     /* pf2aip */
     if (p->pflags & pfrev) dir ^= 4;
-    playeracc(p, dir);
+    playeracc(p, widenbx(dir));
 }

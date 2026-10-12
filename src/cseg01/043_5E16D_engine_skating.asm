@@ -2114,6 +2114,10 @@ ret	; 5F989
 ; noturn0: doplayeracc when the wanted direction needs no turn. eax = player, edx = direction
 ; minus facedir (0-7), ebx = facedir. Skating against the motion -> dostop; else skate animation (SPAskate/skatewp/skateback)
 ; and the inline noturn (reverse when pfrev), then playeracc.
+; C: src/c/043_5E16D_engine_skating/noturn0.c
+%ifdef CBUILD
+%include "c/043_5E16D_engine_skating/noturn0.inc"
+%else
 noturn0:
 push dword 8	; 5F98A
 call __CHK	; 5F98F
@@ -2242,3 +2246,4 @@ mov eax, ecx	; 5FAFA
 call playeracc	; 5FAFC
 pop ecx	; 5FB01
 ret	; 5FB02
+%endif ; C
