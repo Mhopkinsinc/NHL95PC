@@ -61,7 +61,11 @@ make fullcheck                             # from scratch, CBUILD=1 and CBUILD=0
 CBUILD=1 and CBUILD=0 objects live in separate dirs (build/obj, build/obj0), so switching modes no longer
 reassembles everything. Run `make fullcheck` once per commit batch; every pushed commit must have passed it.
 
-## 3. Current state (updated 2026-10-09, head: see `git log -1`)
+## 3. Current state (updated 2026-10-12, head: see `git log -1`)
+
+**C matching is paused** (2026-10-12) so the Genesis naming pass can run. Do not resume C matching until that pass is finished and you are asked to.
+
+`make fullcheck` on this tree: CBUILD=1 and CBUILD=0 both MATCH. 552 of 1,082 compiled-C game functions match, 161 drafts. No function was mid-edit this session. Resume at the existing draft **LoadPlayoffModeTree** (`src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c`, address 2970A, compiled with `-od`). The body matches. `a` and the return temporary trade stack slots (the asm keeps `a` at ebp-30h and the return temporary at ebp-2Ch). Extra unused ints, arrays, and array orders were already tried; that is what matched LoadLeagueTree.
 
 * **Done:** segment map ([EXE_SEGMAP95PC.md](EXE_SEGMAP95PC.md)); byte-exact NASM build of the whole EXE from
   `src/`; naming pass over every game segment (93G/94G names or behaviour names, see SEGMENT_AGENT.md queue).
@@ -203,6 +207,12 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
   replaced by real prototypes in protos.h (6 left after this session: the LeagueSettingsDlg family, CmpRosterSkaters).
 
 ## 4. Next
+
+**Paused here.** Do not match another C function until the Genesis naming pass is done.
+
+When C matching resumes, start with the LoadPlayoffModeTree draft (stack slots of `a` and the return temporary), then the items already listed below.
+
+**Naming pass (started 2026-10-12, after this note):** propagate the Oct 2026 Genesis name and comment cleanup into 95PC. Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table), and the two New York teams keep the long names NYIslanders and NYRangers. One module at a time: names, then locals, then comments and file headers. `make fullcheck` after each module.
 
 * Last session (+34): OpenSpeechBank.c now holds ReadSpeechSample/MoveSampleMem/CompactSpeechSlot (matched;
   OpenSpeechBank itself a draft: header-word stack slots); DrawDbList matched in LoadDbDialogShapes.c (DrawDbDialog
