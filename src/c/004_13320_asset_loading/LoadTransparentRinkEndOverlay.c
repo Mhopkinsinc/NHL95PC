@@ -1,8 +1,8 @@
 /* Asset loading: rink end overlay. */
 #include "nhl95.h"
 
-/* LoadTransparentRinkEndOverlay (13A2F) - load the transparent rink end bank (TRINKND.PPV, from the CD when fileoncd
-   says so) into rinkendbank and its art 0000 into rinkendart. */
+/* LoadTransparentRinkEndOverlay: load the transparent rink end bank (TRINKND.PPV, from the CD when fileoncd
+ says so) into rinkendbank and its art 0000 into rinkendart. */
 void LoadTransparentRinkEndOverlay(void)
 {
     char path[16];

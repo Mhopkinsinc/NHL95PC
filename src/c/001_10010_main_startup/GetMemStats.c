@@ -1,4 +1,4 @@
-/* Main / startup: memory statistics. */
+/* Main startup: memory statistics. */
 #include "nhl95.h"
 
 /* one block of the memory list: start at +0, size +10h, flags byte +19h (bit 7: free), next +20h */
@@ -12,8 +12,8 @@ typedef struct MemBlock {
     struct MemBlock *next;
 } MemBlock;
 
-/* GetMemStats (1002A) - PC only: walk memory list 1 (GetMemListHead). *used = sizes of the blocks in use, *gaps =
-   free bytes between blocks (*biggest the largest gap), *total = used + gaps. */
+/* GetMemStats: walk memory list 1 (GetMemListHead). *used = sizes of the blocks in use, *gaps =
+ free bytes between blocks (*biggest the largest gap), *total = used + gaps. */
 void GetMemStats(unsigned *total, unsigned *used, unsigned *gaps, unsigned *biggest)
 {
     MemBlock *prev;

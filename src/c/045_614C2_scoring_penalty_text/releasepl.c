@@ -1,9 +1,9 @@
-/* Scoring / penalty text: penalty release (93G releasepl). */
+/* Scoring penalty text: penalty release. */
 #include "nhl95.h"
 
-/* releasepl (6392A) - a penalty is over for team tm: the first free SortCords slot of the team (position < 0) comes
-   back with the position priolist[tmap (+1 with the goalie pulled)], tmap + 1; both teams' line flags are
-   set. The slot is filled with roster player pl (setplayer) and flagged pflags2 bit 2. */
+/* releasepl: a penalty is over for team tm: the first free SortCords slot of the team (position < 0) comes
+ back with the position priolist[tmap (+1 with the goalie pulled)], tmap + 1; both teams' line flags are
+ set. The slot is filled with roster player pl (setplayer) and flagged pflags2 bit 2. */
 void releasepl(Team *tm, short pl)
 {
     Player *p;

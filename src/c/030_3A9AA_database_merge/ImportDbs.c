@@ -1,10 +1,10 @@
 /* Database merge: import. */
 #include "nhl95.h"
 
-/* ImportDbs (3CF5B) - ask what to import (master league or a player/team file, importtypemsg) and for the floppy
-   (importdiskmsg, then SelectFloppyDrive); import it; on success reload the current league's GAME.SET into lgstate
-   and re-enable the league menu actions (export, next game, league manager), on failure clear the league name and
-   disable them. Dialog colours are set for the questions and restored afterwards. */
+/* ImportDbs: ask what to import (master league or a player/team file, importtypemsg) and for the floppy
+ (importdiskmsg, then SelectFloppyDrive); import it; on success reload the current league's GAME.SET into lgstate
+ and re-enable the league menu actions (export, next game, league manager), on failure clear the league name and
+ disable them. Dialog colours are set for the questions and restored afterwards. */
 void ImportDbs(void)
 {
     char path[32];

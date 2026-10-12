@@ -1,11 +1,11 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* IntermissionDesk (190BE) - between periods: unless the game was quit (exitgame -1, then just fade the palette cycle),
-   show the period summary; in a normal game of two real teams pick the other games after the first period
-   (saving otherperiod to dword_DC868) and, unless the summary was left with bit 2, update the other scores and
-   play a random highlight with its summary. Then the sports desk, clear the per-period goal/shot counters,
-   write the summary header and go back to 320x200. */
+/* IntermissionDesk: between periods: unless the game was quit (exitgame -1, then just fade the palette cycle),
+ show the period summary; in a normal game of two real teams pick the other games after the first period
+ (saving otherperiod to dword_DC868) and, unless the summary was left with bit 2, update the other scores and
+ play a random highlight with its summary. Then the sports desk, clear the per-period goal/shot counters,
+ write the summary header and go back to 320x200. */
 void IntermissionDesk(void)
 {
     int r;

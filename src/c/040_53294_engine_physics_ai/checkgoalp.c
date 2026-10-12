@@ -1,13 +1,13 @@
-/* Engine physics / AI: goal post collision (93G checkgoalp). */
+/* Engine physics AI: goal post collision. */
 #include "nhl95.h"
 
 #define W(v) (*(int *)((char *)&(v) - 2) >> 16)  /* a word, read as the top half of a dword */
 
-/* checkgoalp (53CE5) - 93G checkgoalp: for a skater (SCnum up to 11) or SCnum 16 at x, y against goal g: the offset
-   from the goal (dy = y - g y, dx = x - g x) must be on the near side of the net (net 12: dy + wcradiusy >= -34,
-   else dy - wcradiusy < 34) and |dx| - wcradiusx < 64; regd0 = -dy, regd1 = dx. Inside the post ellipse (dx^2 / 4
-   and dx^2 / 4 + 2 dy^2 up to 256) and not bumping it (CheckBump, skipped for 16): regd0 / regd1 become the unit
-   vector * 256 (vecdist + 1, clamped to -255..255) and the player bounces off it (wallcoll, dword_CCC2C = 1). */
+/* checkgoalp: for a skater (SCnum up to 11) or SCnum 16 at x, y against goal g: the offset
+ from the goal (dy = y - g y, dx = x - g x) must be on the near side of the net (net 12: dy + wcradiusy >= -34,
+ else dy - wcradiusy < 34) and |dx| - wcradiusx < 64; regd0 = -dy, regd1 = dx. Inside the post ellipse (dx^2 4
+ and dx^2 4 + 2 dy^2 up to 256) and not bumping it (CheckBump, skipped for 16): regd0 regd1 become the unit
+ vector * 256 (vecdist + 1, clamped to -255..255) and the player bounces off it (wallcoll, dword_CCC2C = 1). */
 void checkgoalp(Player *p, Player *g, short x, short y)
 {
     int d;

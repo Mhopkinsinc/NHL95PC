@@ -1,8 +1,8 @@
 /* Season playoffs: pre-simulation. */
 #include "nhl95.h"
 
-/* POPreSimRound1 (87F85) - pre-simulate the 8 first-round series (2Ah bytes each at +1998h): a series with team a or b
-   (the human teams) is decided for that team, the others are simulated over 7 games. */
+/* POPreSimRound1: pre-simulate the 8 first-round series (2Ah bytes each at +1998h): a series with team a or b
+ (the human teams) is decided for that team, the others are simulated over 7 games. */
 void POPreSimRound1(unsigned char *po, int a, int b)
 {
     unsigned char *s;

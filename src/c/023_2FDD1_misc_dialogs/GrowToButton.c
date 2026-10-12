@@ -1,8 +1,8 @@
 /* Misc dialogs: dialog sizing. */
 #include "nhl95.h"
 
-/* GrowToButton (30F5F) - grow the dialog size *w / *h so button b (ints: left, top, right, bottom; flags at +14h) fits
-   with an 8-pixel margin. Flag 1: right is a width (left + right), flag 4: bottom is a height. */
+/* GrowToButton: grow the dialog size *w *h so button b (ints: left, top, right, bottom; flags at +14h) fits
+ with an 8-pixel margin. Flag 1: right is a width (left + right), flag 4: bottom is a height. */
 void GrowToButton(int *b, int *w, int *h)
 {
     int v;

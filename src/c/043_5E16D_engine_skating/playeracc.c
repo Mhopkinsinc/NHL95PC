@@ -1,14 +1,14 @@
-/* Skating: player acceleration (93G logic93_5 playeracc). */
+/* Skating: player acceleration. */
 #include "nhl95.h"
 
-/* playeracc (5EDAD) - accelerate player p in direction dir (93G logic93_5 playeracc, d2 = direction of acc).
-   The dirtab x/y step times (legstr+30h)/64 (PC); no push into a wall (Wallsin / Wallcos); accel factor
-   32 - weight/8 + legstr (goalie: + legstr + 14h, 93G legstr + 8) into regd2; new velocity (regd0, regd1) =
-   step * factor / 32 + old. Max speed check: speed squared (regd3) against MaxSpeed[legspd * energy >> 12]
-   (referee: fixed index 0Fh, or 0Ch when the clock is stopped and he is 74h+ from centre; pflags2 bit 6 cuts it to
-   1/8); the velocity is kept only under it. Then the energy drain when fatigue (line changes) is on and the
-   clock runs (93G .sube, getpde / setpde inline): 1 in 128 calls the energy drops by 28h (93G $21);
-   at C00h+ the endurance is added back, at most 1000h. */
+/* playeracc: accelerate player p in direction dir (d2 = direction of acc).
+ The dirtab x/y step times (legstr+30h)/64 (PC); no push into a wall (Wallsin Wallcos); accel factor
+ 32 - weight/8 + legstr (goalie: + legstr + 14h) into regd2; new velocity (regd0, regd1) =
+ step * factor 32 + old. Max speed check: speed squared (regd3) against MaxSpeed[legspd * energy >> 12]
+ (referee: fixed index 0Fh, or 0Ch when the clock is stopped and he is 74h+ from centre; pflags2 bit 6 cuts it to
+ 1/8); the velocity is kept only under it. Then the energy drain when fatigue (line changes) is on and the
+ clock runs (getpde setpde inline): 1 in 128 calls the energy drops by 28h
+ at C00h+ the endurance is added back, at most 1000h. */
 void playeracc(Player *p, short dir)
 {
     short yacc, xacc;
@@ -31,7 +31,7 @@ void playeracc(Player *p, short dir)
         if (!(gmode & gmclock) || ABS(HIWORD(p->Ypos)) < 0x74) regd2.l = 0x0F;
         else regd2.l = 0x0C;
     } else {
-        regd2.l = (unsigned long)(p->tmptr->tmpde[p->pnum] * p->legspd) >> 12;   /* energy level (93G getpde) */
+        regd2.l = (unsigned long)(p->tmptr->tmpde[p->pnum] * p->legspd) >> 12;   /* energy level */
     }
     regd2.l = MaxSpeed[regd2.w];
     if (p->pflags2 & 0x40) regd2.l >>= 3;                       /* pflags2 bit 6 cuts max speed to 1/8 */
@@ -41,9 +41,9 @@ void playeracc(Player *p, short dir)
     }
     /* .sube */
     if (p->SCnum == SCref || !gameopts.linechanges || (gmode & gmclock) || p->position == 0) return;
-    regd0.w = randomd0(0x80);                                   /* 1 in 128 ticks (93G HVcount & $7F) */
+    regd0.w = randomd0(0x80);                                   /* 1 in 128 ticks */
     if (regd0.w != 0) return;
-    regd0.w = p->tmptr->tmpde[p->pnum] - 0x28;                  /* subi.w #$21 (PC 28h) */
+    regd0.w = p->tmptr->tmpde[p->pnum] - 0x28;                  /* subi.w # (PC 28h) */
     if (regd0.w < 0xC00) {
         p->tmptr->tmpde[p->pnum] = regd0.w < 0 ? 0 : regd0.w;
         return;

@@ -13,13 +13,13 @@
 unsigned _dos_open(const char *path, unsigned mode, int *fh);  /* Watcom CRT _dos_open_ */
 
 /* DRAFT (OpenSpeechBank): same size; left: two header words' stack slots (declaration orders tried, 400 of 5040),
-   the first ReadBE24 store goes [edx+edi] where the EXE moves the value to edx, and the type byte is in dx, EXE ax. */
-/* OpenSpeechBank (83897) - PC only: open the speech bank file path (unless it is the one already open, name at
-   +3B80h, open flag +3B78h, handle +3B7Ch) and read its big-endian header: three words (+3B8Dh, the sample count
-   +3B8Fh, +3B91h), then per sample its file offset (+12h), length (+1Ah) and name. For each sample it reads the
-   2-byte type at the offset: 'G' samples have their size at offset+6 (less 5 header bytes) and play time
-   size * C37B0 / C37C0; others use the length and size * C37B0 / C37B8 - 1Ah. Slots after the last sample are
-   cleared (ClearSpeechSlot, 400 slots). n goes to +3B70h; the byte (+3B6Ch) and loaded (+3B74h) counts are reset. */
+ the first ReadBE24 store goes [edx+edi] where the EXE moves the value to edx, and the type byte is in dx, EXE ax. */
+/* OpenSpeechBank: open the speech bank file path (unless it is the one already open, name at
+ +3B80h, open flag +3B78h, handle +3B7Ch) and read its big-endian header: three words (+3B8Dh, the sample count
+ +3B8Fh, +3B91h), then per sample its file offset (+12h), length (+1Ah) and name. For each sample it reads the
+ 2-byte type at the offset: 'G' samples have their size at offset+6 (less 5 header bytes) and play time
+ size * C37B0 C37C0; others use the length and size * C37B0 C37B8 - 1Ah. Slots after the last sample are
+ cleared (ClearSpeechSlot, 400 slots). n goes to +3B70h; the byte (+3B6Ch) and loaded (+3B74h) counts are reset. */
 void OpenSpeechBank(char *path, int n)
 {
     int i;
@@ -87,10 +87,10 @@ void OpenSpeechBank(char *path, int n)
         ClearSpeechSlot((unsigned char *)speechbank + i * 0x26);
 }
 
-/* ReadSpeechSample (83BF3) - PC only: read sample n of the open bank (file offset +12h, packed length +1Ah) to
-   the end of its room at addr (addr + size - length + 1388h), unpack it to addr (sub_98028), then undo the delta
-   coding: each byte is the running sum of the bytes 5 further on (a 5-byte header is dropped). Returns the
-   unpacked size less 5. */
+/* ReadSpeechSample: read sample n of the open bank (file offset +12h, packed length +1Ah) to
+ the end of its room at addr (addr + size - length + 1388h), unpack it to addr (sub_98028), then undo the delta
+ coding: each byte is the running sum of the bytes 5 further on (a 5-byte header is dropped). Returns the
+ unpacked size less 5. */
 int ReadSpeechSample(int n, int addr)
 {
     int pos;
@@ -121,8 +121,8 @@ int ReadSpeechSample(int n, int addr)
     return cnt - 5;
 }
 
-/* MoveSampleMem (840A9) - PC only: copy n bytes of speech memory from handle address src to dst, in pieces of at
-   most speechcopylen bytes through the low-memory buffer speechcopybuf (_os_handle_3 gives each linear address). */
+/* MoveSampleMem: copy n bytes of speech memory from handle address src to dst, in pieces of at
+ most speechcopylen bytes through the low-memory buffer speechcopybuf (_os_handle_3 gives each linear address). */
 void MoveSampleMem(int dst, int src, unsigned n)
 {
     unsigned part;
@@ -141,8 +141,8 @@ void MoveSampleMem(int dst, int src, unsigned n)
     }
 }
 
-/* CompactSpeechSlot (84125) - PC only: move the sample of slot n down to the end of slot dst - 1 (the memory start
-   for slot 0, +3B64h), swap the two slot records, give slot dst the new address and mark slot n not loaded. */
+/* CompactSpeechSlot: move the sample of slot n down to the end of slot dst - 1 (the memory start
+ for slot 0, +3B64h), swap the two slot records, give slot dst the new address and mark slot n not loaded. */
 void CompactSpeechSlot(int dst, int n)
 {
     SpeechSlot tmp;

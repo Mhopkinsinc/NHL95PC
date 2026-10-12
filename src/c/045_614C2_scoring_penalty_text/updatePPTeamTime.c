@@ -1,6 +1,6 @@
-/* updatePPTeamTime (63B57) - 94G updatePPTeamTime: one more second of power-play time for the team on the power
-   play. gmode2 bit 5 = a power play is running, bit 6 = the visitors have it; the counter is the team's tmpptime
-   word (94G $352 of the team structure). */
+/* updatePPTeamTime: one more second of power-play time for the team on the power
+ play. gmode2 bit 5 = a power play is running, bit 6 = the visitors have it; the counter is the team's tmpptime
+ word. */
 #include "nhl95.h"
 
 void updatePPTeamTime(void)

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuAssists (18508) - stats menu item: category 2 (assists). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run LeadersScreen(2) and fade out with the second; otherwise call the
-   skaterstatscb handler. Returns the screen's result. */
+/* StatsMenuAssists: stats menu item: category 2 (assists). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run LeadersScreen(2) and fade out with the second; otherwise call the
+ skaterstatscb handler. Returns the screen's result. */
 int StatsMenuAssists(void)
 {
     statscategory = 2;

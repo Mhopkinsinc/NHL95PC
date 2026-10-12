@@ -1,8 +1,8 @@
 /* Create player: selection lists. */
 #include "nhl95.h"
 
-/* CountSelected (6DA88) - number of nonzero (selected) flags in list: facount entries for the free agent list
-   (falistsel), else 1Ch (a roster). */
+/* CountSelected: number of nonzero (selected) flags in list: facount entries for the free agent list
+ (falistsel), else 1Ch (a roster). */
 int CountSelected(char *list)
 {
     int k;

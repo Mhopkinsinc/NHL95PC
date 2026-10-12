@@ -1,9 +1,9 @@
-/* Season / playoffs: save the current mode state. */
+/* Season playoffs: save the current mode state. */
 #include "nhl95.h"
 
-/* WriteCurModeState (8B92F) - PC only: write the state block of the current game mode (0 exhibition, 1 playoffs,
-   2 league) with WriteModeState (its other register arguments
-   pass through untouched); another mode writes nothing. */
+/* WriteCurModeState: write the state block of the current game mode (0 exhibition, 1 playoffs,
+ 2 league) with WriteModeState (its other register arguments
+ pass through untouched); another mode writes nothing. */
 void WriteCurModeState(void)
 {
     switch ((unsigned)gamemode) {

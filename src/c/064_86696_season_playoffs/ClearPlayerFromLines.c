@@ -1,9 +1,9 @@
-/* Season / playoffs: line editing. */
+/* Season playoffs: line editing. */
 #include "nhl95.h"
 
-/* ClearPlayerFromLines (8B96D) - replace player p by 64h (empty) in a team's line-up block: once per forward line (4 lines
-   of 3), once per defence pair (3 pairs of 2), once in each of the special-team groups at 12h (5), 17h (5), 1Ch (4)
-   and 20h (4), and in each of the single slots 24h-27h. */
+/* ClearPlayerFromLines: replace player p by 64h (empty) in a team's line-up block: once per forward line (4 lines
+ of 3), once per defence pair (3 pairs of 2), once in each of the special-team groups at 12h (5), 17h (5), 1Ch (4)
+ and 20h (4), and in each of the single slots 24h-27h. */
 void ClearPlayerFromLines(unsigned char p, unsigned char *lines)
 {
     int i;

@@ -1,14 +1,14 @@
-/* Engine player logic: leave the ice (93G assleaveice). */
+/* Engine player logic: leave the ice. */
 #include "nhl95.h"
 
-/* assleaveice (4AB87) - 93G assleaveice: skate off to the bench gate. Not while flag 20h; once off (temp1 100)
-   clear pflags2 bit 4, frame -1 and go to assignment 29h. A new assignment (bit 1): pflags2 bit 2; a controlled
-   player (pflags bit 3) gives up control (changeplayer, controller 0 for pad 1 else 2); temp2 = 8, the gate spot
-   x -A8h, y -1Ch / 24h by side, temp1 0, pflags2 bit 5 and no wall angle. Every 8 frames (temp1): near the gate
-   (|y| <= 14h, x gap <= 20h) take SPA 289h (1 for the goalie), pflags bit 2, turn a step towards facing 4 and drift
-   (Xvel -800h); within 10h facing 4: through the gate (facing 2, SPA 7BFh / goalie D2Dh, flag 20h, temp1 100) and,
-   with fewer than 4 skaters (gsp) outside gmode bit 6, off the lines (RemoveFromLines). Else, not parked, skate to
-   the gate. */
+/* assleaveice: skate off to the bench gate. Not while flag 20h; once off (temp1 100)
+ clear pflags2 bit 4, frame -1 and go to assignment 29h. A new assignment (bit 1): pflags2 bit 2; a controlled
+ player (pflags bit 3) gives up control (changeplayer, controller 0 for pad 1 else 2); temp2 = 8, the gate spot
+ x -A8h, y -1Ch 24h by side, temp1 0, pflags2 bit 5 and no wall angle. Every 8 frames (temp1): near the gate
+ (|y| <= 14h, x gap <= 20h) take SPA 289h (1 for the goalie), pflags bit 2, turn a step towards facing 4 and drift
+ (Xvel -800h); within 10h facing 4: through the gate (facing 2, SPA 7BFh goalie D2Dh, flag 20h, temp1 100) and,
+ with fewer than 4 skaters (gsp) outside gmode bit 6, off the lines (RemoveFromLines). Else, not parked, skate to
+ the gate. */
 void assleaveice(Player *p)
 {
     short d;

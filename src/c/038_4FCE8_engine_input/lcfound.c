@@ -1,9 +1,9 @@
-/* Engine input: line change found (93G lcfound). */
+/* Engine input: line change found. */
 #include "nhl95.h"
 
-/* lcfound (50975) - 93G lcfound: the line change choice regd2 was picked for p's team. getlchoice turns it into a
-   line in regd0 (negative: none). Marks the change (pflags2 bit 3 off, pflags bit 3, tmflags bit 1 off); a new
-   line becomes tmline (regular lines also step tmlcnt mod 3), is drawn on the panel and set up (setpersonel). */
+/* lcfound: the line change choice regd2 was picked for p's team. getlchoice turns it into a
+ line in regd0 (negative: none). Marks the change (pflags2 bit 3 off, pflags bit 3, tmflags bit 1 off); a new
+ line becomes tmline (regular lines also step tmlcnt mod 3), is drawn on the panel and set up (setpersonel). */
 void lcfound(Player *p)
 {
     Team *tm;

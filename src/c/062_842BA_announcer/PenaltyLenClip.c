@@ -1,8 +1,8 @@
 /* Announcer: penalty length clip names. */
 #include "nhl95.h"
 
-/* PenaltyLenClip (842BA) - name of the announcer clip for a penalty of length len: 5 minutes, 2 minutes (default), or for
-   -1 the misconduct clip (str_GamemiscS format with str_Cor). */
+/* PenaltyLenClip: name of the announcer clip for a penalty of length len: 5 minutes, 2 minutes (default), or for
+ -1 the misconduct clip (str_GamemiscS format with str_Cor). */
 void PenaltyLenClip(int len, char *out)
 {
     char *s;

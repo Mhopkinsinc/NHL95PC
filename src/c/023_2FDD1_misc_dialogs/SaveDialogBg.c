@@ -1,8 +1,8 @@
 /* Misc dialogs: dialog background. */
 #include "nhl95.h"
 
-/* SaveDialogBg (30E66) - save the screen under a w x h dialog at x / y (x rounded down to 4) into a new DBOX buffer
-   (dlgsavebuf: the pointer sprite header, then (w + 7) x (h + 4) pixels); dlgsavex / dlgsavey remember where. */
+/* SaveDialogBg: save the screen under a w x h dialog at x y (x rounded down to 4) into a new DBOX buffer
+ (dlgsavebuf: the pointer sprite header, then (w + 7) x (h + 4) pixels); dlgsavex dlgsavey remember where. */
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
 void SaveDialogBg(int x, int y, int w, int h)

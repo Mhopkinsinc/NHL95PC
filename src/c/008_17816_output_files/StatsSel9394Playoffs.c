@@ -1,9 +1,9 @@
-/* Output files: stats source menu (one source block: the league / playoff-mode selections end in StatsSel9394Playoffs' common tail). */
+/* Output files: stats source menu (one source block: the league playoff-mode selections end in StatsSel9394Playoffs' common tail). */
 #include "nhl95.h"
 
-/* StatsSel9394Playoffs (17AF3) - stats menu: switch the source to the 93-94 playoffs (from league or season stats):
-   check that item (1) and clear the others (2), copy the exhibition league name to statsleague; in the league
-   screens (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
+/* StatsSel9394Playoffs: stats menu: switch the source to the 93-94 playoffs (from league or season stats):
+ check that item (1) and clear the others (2), copy the exhibition league name to statsleague; in the league
+ screens (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
 void StatsSel9394Playoffs(void)
 {
     if (!statsfromleague && statsplayoffs == 1) return;
@@ -26,9 +26,9 @@ void StatsSel9394Playoffs(void)
 }
 
 
-/* StatsSelLeague (17BE7) - stats menu: switch the source to the league season (unless already there): check that
-   item (1) and clear the others (2), copy the league name to statsleague (from lgstate); in the league screens
-   (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
+/* StatsSelLeague: stats menu: switch the source to the league season (unless already there): check that
+ item (1) and clear the others (2), copy the league name to statsleague (from lgstate); in the league screens
+ (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
 void StatsSelLeague(void)
 {
     if (statsfromleague == 1 && !statsplayoffs) return;
@@ -50,8 +50,8 @@ void StatsSelLeague(void)
     FadePalStep(0, unk_DC340, 0x10);
 }
 
-/* StatsSelLeaguePlayoffs (17CE0) - stats menu: switch the source to the league playoffs (unless already showing
-   this league's playoffs): as StatsSel9394Playoffs with the league name from lgstate. */
+/* StatsSelLeaguePlayoffs: stats menu: switch the source to the league playoffs (unless already showing
+ this league's playoffs): as StatsSel9394Playoffs with the league name from lgstate. */
 void StatsSelLeaguePlayoffs(void)
 {
     if (statsfromleague == 1 && statsfromleague == statsplayoffs && !strcmp((char *)statsleague, (char *)lgstate + 4)) return;
@@ -73,8 +73,8 @@ void StatsSelLeaguePlayoffs(void)
     FadePalStep(0, unk_DC340, 0x10);
 }
 
-/* StatsSelPlayoffMode (17D6E) - stats menu: switch the source to the playoff mode's playoffs (postate), as
-   StatsSelLeaguePlayoffs. */
+/* StatsSelPlayoffMode: stats menu: switch the source to the playoff mode's playoffs (postate), as
+ StatsSelLeaguePlayoffs. */
 void StatsSelPlayoffMode(void)
 {
     if (statsfromleague == 1 && statsfromleague == statsplayoffs && !strcmp((char *)statsleague, (char *)postate + 4)) return;

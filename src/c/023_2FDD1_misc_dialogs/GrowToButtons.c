@@ -1,9 +1,9 @@
 /* Misc dialogs: dialog size from its buttons. */
 #include "nhl95.h"
 
-/* GrowToButtons (30FB4) - PC only: grow the dialog width *w / height *h to hold n buttons of b (x1, y1, x2, y2,
-   flags byte +14h: bit 0 / bit 2 make x2 / y2 relative). The widths add up (+8 each); each height + 8 is a
-   maximum. The original never steps b, so it measures the first button n times. */
+/* GrowToButtons: grow the dialog width *w height *h to hold n buttons of b (x1, y1, x2, y2,
+ flags byte +14h: bit 0 bit 2 make x2 y2 relative). The widths add up (+8 each); each height + 8 is a
+ maximum. The original never steps b, so it measures the first button n times. */
 void GrowToButtons(int *b, int n, int *w, int *h)
 {
     int sum;

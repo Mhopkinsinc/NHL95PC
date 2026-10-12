@@ -1,9 +1,9 @@
-/* Engine physics / AI: goalie save rating. */
+/* Engine physics AI: goalie save rating. */
 #include "nhl95.h"
 
-/* SkillForAnim (54134) - the rating byte that decides p's current save / move animation (SPA): the left / right pairs
-   passacc / aggress (SPA C9h, E1h, 11D5h; B1h the other way round) and spodds / endurance (119h; 101h and
-   121Dh the other way round) are picked by handedness; any other animation uses shotspd. */
+/* SkillForAnim: the rating byte that decides p's current save move animation (SPA): the left right pairs
+ passacc aggress (SPA C9h, E1h, 11D5h; B1h the other way round) and spodds endurance (119h; 101h and
+ 121Dh the other way round) are picked by handedness; any other animation uses shotspd. */
 int SkillForAnim(Player *p)
 {
     switch (p->SPA) {

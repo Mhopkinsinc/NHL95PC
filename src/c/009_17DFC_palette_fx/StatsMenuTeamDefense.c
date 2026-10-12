@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuTeamDefense (17FBC) - stats menu item: category 1 (team defense). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run TeamStatsScreen(1) and fade out with the second; otherwise call the
-   teamstatscb handler. Returns the screen's result. */
+/* StatsMenuTeamDefense: stats menu item: category 1 (team defense). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run TeamStatsScreen(1) and fade out with the second; otherwise call the
+ teamstatscb handler. Returns the screen's result. */
 int StatsMenuTeamDefense(void)
 {
     statscategory = 1;

@@ -1,10 +1,10 @@
 /* Team select: game line check. */
 #include "nhl95.h"
 
-/* PruneGameLines (79090) - PC only: fit the line table lines of team side to its roster status (side's roster, 27h
-   bytes per player, 444h per team). During a game (curperiod >= 0): a slot (of 28h) whose player is neither
-   dressed (3) nor 4 becomes empty (100). Before it: every status 2 player of the 28 becomes 3, then the players in
-   the goalie / extra slots 28h-2Fh with status 3 go back to 2. */
+/* PruneGameLines: fit the line table lines of team side to its roster status (side's roster, 27h
+ bytes per player, 444h per team). During a game (curperiod >= 0): a slot (of 28h) whose player is neither
+ dressed (3) nor 4 becomes empty (100). Before it: every status 2 player of the 28 becomes 3, then the players in
+ the goalie extra slots 28h-2Fh with status 3 go back to 2. */
 void PruneGameLines(unsigned char side, unsigned char *lines)
 {
     int i;

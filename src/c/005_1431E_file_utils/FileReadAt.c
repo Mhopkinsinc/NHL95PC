@@ -1,8 +1,8 @@
 /* File utilities: positioned file reads and writes. */
 #include "nhl95.h"
 
-/* FileReadAt (145A2) - PC only: seek file fh to pos (pos < 0: no seek; a failed seek gives -1), then read len
-   bytes into buf (_dos_read). Returns the error, or 1 when fewer than len bytes came in. */
+/* FileReadAt: seek file fh to pos (pos < 0: no seek; a failed seek gives -1), then read len
+ bytes into buf (_dos_read). Returns the error, or 1 when fewer than len bytes came in. */
 int FileReadAt(int fh, void *buf, long pos, unsigned len)
 {
     unsigned got;
@@ -15,8 +15,8 @@ int FileReadAt(int fh, void *buf, long pos, unsigned len)
     return err;
 }
 
-/* FileWriteAt (145F9) - PC only: the same for writing len bytes of buf (_dos_write). Its end is FileReadAt's
-   (shared tail), so both are in this file. */
+/* FileWriteAt: the same for writing len bytes of buf (_dos_write). Its end is FileReadAt's
+ (shared tail), so both are in this file. */
 int FileWriteAt(int fh, void *buf, long pos, unsigned len)
 {
     unsigned got;

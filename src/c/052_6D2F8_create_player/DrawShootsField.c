@@ -1,9 +1,9 @@
-/* Create player: the shoots / ratings fields. */
+/* Create player: the shoots ratings fields. */
 #include "nhl95.h"
 
-/* DrawShootsField (6FA7D) - PC only: print "Shoots" and L / R (byte_D0F94 of the player being created) at y 12Ah,
-   then the 14 rating names (off_D0880[1..14]) with their values (rating byte + 5) * 5 below it, in two
-   columns (the second, from rating 8, 136h to the right and 68h up). */
+/* DrawShootsField: print "Shoots" and L R (byte_D0F94 of the player being created) at y 12Ah,
+ then the 14 rating names (off_D0880[1..14]) with their values (rating byte + 5) * 5 below it, in two
+ columns (the second, from rating 8, 136h to the right and 68h up). */
 void DrawShootsField(void)
 {
     int col;
@@ -30,9 +30,9 @@ void DrawShootsField(void)
     } while (i < 15);
 }
 
-/* DrawGloveField (6FB35) - PC only: the goalie version: "Glove Hand" and L / R (byte_D0FE0), then the 10 goalie
-   rating names (off_D09DB[1..10]) with their values, the second column from rating 6 (4Eh up). Its end is
-   DrawShootsField's (shared tail), so both are in this file. */
+/* DrawGloveField: the goalie version: "Glove Hand" and L R (byte_D0FE0), then the 10 goalie
+ rating names (off_D09DB[1..10]) with their values, the second column from rating 6 (4Eh up). Its end is
+ DrawShootsField's (shared tail), so both are in this file. */
 void DrawGloveField(void)
 {
     int col;

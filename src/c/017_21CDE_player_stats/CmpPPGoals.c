@@ -1,9 +1,9 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpPPGoals (25325) - qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
-   playoff stats at +12h): most power-play goals (word +8) first, then fewer games (+0), more points (+6), more goals (+2), more
-   of word +10h. */
+/* CmpPPGoals: qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
+ playoff stats at +12h): most power-play goals (word +8) first, then fewer games (+0), more points (+6), more goals (+2), more
+ of word +10h. */
 int CmpPPGoals(int *a, int *b)
 {
     unsigned short *p;

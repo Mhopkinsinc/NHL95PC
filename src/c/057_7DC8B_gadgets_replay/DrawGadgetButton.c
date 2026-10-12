@@ -1,8 +1,8 @@
-/* Gadgets / replay: gadget button frame. */
+/* Gadgets replay: gadget button frame. */
 #include "nhl95.h"
 
-/* DrawGadgetButton (7E067) - PC only: draw the frame of replay gadget n (gadgetrects: 7 dwords per gadget, x0, y0,
-   x1, y1; y made relative to the panel at A8h): top and left edges in colour 10h, right and bottom in 15h. */
+/* DrawGadgetButton: draw the frame of replay gadget n (gadgetrects: 7 dwords per gadget, x0, y0,
+ x1, y1; y made relative to the panel at A8h): top and left edges in colour 10h, right and bottom in 15h. */
 void DrawGadgetButton(int n)
 {
     int x0;

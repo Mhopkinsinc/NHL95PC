@@ -1,8 +1,8 @@
 /* League schedule: names. */
 #include "nhl95.h"
 
-/* FitPlayerName (29C75) - dst = "first last" fitted to maxw pixels: "F. last" when too wide, then cut from the end;
-   just last when there is no first name. */
+/* FitPlayerName: dst = "first last" fitted to maxw pixels: "F. last" when too wide, then cut from the end
+ just last when there is no first name. */
 void FitPlayerName(char *dst, char *first, char *last, int maxw)
 {
     if (first) {

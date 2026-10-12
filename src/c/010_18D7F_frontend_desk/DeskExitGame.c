@@ -1,9 +1,9 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* DeskExitGame (1A6A7) - "Exiting the game / Do you wish to exit?" at the mouse position (music faded down meanwhile); on
-   yes fade out, clear the screen, wait for the music slot to stop and free the song, show the credits and leave
-   through bailout_vec. Returns 0 (no). */
+/* DeskExitGame: "Exiting the game Do you wish to exit?" at the mouse position (music faded down meanwhile); on
+ yes fade out, clear the screen, wait for the music slot to stop and free the song, show the credits and leave
+ through bailout_vec. Returns 0 (no). */
 int DeskExitGame(void)
 {
     int x;

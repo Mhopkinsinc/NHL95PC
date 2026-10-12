@@ -1,5 +1,5 @@
-/* ReplayFirstFrame (67581) - PC only: the oldest frame of the replay buffer. Once the buffer has wrapped (sflags
-   bit 4, 94G sfwrap) that is the record pointer recbpr, else the buffer start replaystart. */
+/* ReplayFirstFrame: the oldest frame of the replay buffer. Once the buffer has wrapped (sflags
+ bit 4) that is the record pointer recbpr, else the buffer start replaystart. */
 #include "nhl95.h"
 
 unsigned char *ReplayFirstFrame(void)

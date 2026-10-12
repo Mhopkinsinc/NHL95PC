@@ -1,11 +1,11 @@
-/* Scoring / penalty text: penalties. */
+/* Scoring penalty text: penalties. */
 #include "nhl95.h"
 
-/* AddPenalty2 (62D80) - call penalty pen on player p (not in a replay, sflags bit 7, or with word_CBC44): outside a
-   penalty shot raise the banner (word_CD39C[pen], timer 50h unless none / 6); major penalties (pen >= 7) raise
-   the crowd (+400 up to 800; flag 40h side: CwdExciteLvl +20 and sound 7Dh, else A0h). Then the penalty goes into
-   the first free PenBuf slot (pen, SCnum); a penalty with time (penmintab) marks the player (pflags2 bit 4) or,
-   when he already has one, frees the slot again. */
+/* AddPenalty2: call penalty pen on player p (not in a replay, sflags bit 7, or with word_CBC44): outside a
+ penalty shot raise the banner (word_CD39C[pen], timer 50h unless none 6); major penalties (pen >= 7) raise
+ the crowd (+400 up to 800; flag 40h side: CwdExciteLvl +20 and sound 7Dh, else A0h). Then the penalty goes into
+ the first free PenBuf slot (pen, SCnum); a penalty with time (penmintab) marks the player (pflags2 bit 4) or,
+ when he already has one, frees the slot again. */
 void AddPenalty2(Player *p, short pen)
 {
     short i;

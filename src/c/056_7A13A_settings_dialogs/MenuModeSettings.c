@@ -3,11 +3,11 @@
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
-/* MenuModeSettings (7B3A7) - menu "game settings": save the screen under the 214 x 257 dialog at 10 / 13h into a
-   BKGD bitmap (pointer sprite header), draw it and run it (view only in game mode 2, else edit). With line changes off,
-   clear the line change blink / box state, every player's bit 3 (byte_DF861, 80h per player) and both teams' bit 1, and
-   reset the 1Ch energy words of both teams to 1000h. Then music (bit 6) and sound effects (bit 7) on or off, restore
-   the screen and free the bitmap and the settings file. Returns 0. */
+/* MenuModeSettings: menu "game settings": save the screen under the 214 x 257 dialog at 10 13h into a
+ BKGD bitmap (pointer sprite header), draw it and run it (view only in game mode 2, else edit). With line changes off,
+ clear the line change blink box state, every player's bit 3 (byte_DF861, 80h per player) and both teams' bit 1, and
+ reset the 1Ch energy words of both teams to 1000h. Then music (bit 6) and sound effects (bit 7) on or off, restore
+ the screen and free the bitmap and the settings file. Returns 0. */
 int MenuModeSettings(void)
 {
     int bm;

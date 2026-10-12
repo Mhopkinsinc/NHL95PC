@@ -1,8 +1,8 @@
 /* Asset loading: player photos. */
 #include "nhl95.h"
 
-/* LoadPhotoBankF (138D2) - PC only: load the extra photo bank F000149.PPV once (from the CD when the file is on
-   it) and index its 105 photos ("%04d") into photoptrsf. */
+/* LoadPhotoBankF: load the extra photo bank F000149.PPV once (from the CD when the file is on
+ it) and index its 105 photos ("%04d") into photoptrsf. */
 void LoadPhotoBankF(void)
 {
     char name[16];
@@ -18,10 +18,10 @@ void LoadPhotoBankF(void)
     }
 }
 
-/* LoadPlayerPhotos (1395F) - PC only: load the 23 player photo banks that are not loaded yet: bank b is named
-   from b / 2 ("<n>00_<n>49" / "<n>50_<n>99" for the first 20 banks, without the underscore after that, .PPV;
-   from the CD when fileoncd[b] says so), then indexed (IndexPhotoBank); then the extra bank (LoadPhotoBankF).
-   Its exit is LoadPhotoBankF's (shared tail), so both are in this file. */
+/* LoadPlayerPhotos: load the 23 player photo banks that are not loaded yet: bank b is named
+ from b 2 ("<n>00_<n>49" "<n>50_<n>99" for the first 20 banks, without the underscore after that,.PPV
+ from the CD when fileoncd[b] says so), then indexed (IndexPhotoBank); then the extra bank (LoadPhotoBankF).
+ Its exit is LoadPhotoBankF's (shared tail), so both are in this file. */
 void LoadPlayerPhotos(void)
 {
     char name[16];

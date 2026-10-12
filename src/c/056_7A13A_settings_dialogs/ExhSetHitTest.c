@@ -1,9 +1,9 @@
 /* Settings dialogs: exhibition settings hit test. */
 #include "nhl95.h"
 
-/* ExhSetHitTest (7C28D) - which of the 23 exhibition settings rects contains the mouse point (x - 6, y - 13h): *hit = its
-   number, returns 1. Disabled items return 0: 10 and 11, 12-15 without a sound card (sounddev 10h), 16 and 17
-   with the music off. */
+/* ExhSetHitTest: which of the 23 exhibition settings rects contains the mouse point (x - 6, y - 13h): *hit = its
+ number, returns 1. Disabled items return 0: 10 and 11, 12-15 without a sound card (sounddev 10h), 16 and 17
+ with the music off. */
 int ExhSetHitTest(int x, int y, int *hit)
 {
     int i;

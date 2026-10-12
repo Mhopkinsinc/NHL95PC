@@ -1,10 +1,10 @@
 /* Engine player logic: penalty box. */
 #include "nhl95.h"
 
-/* assepen (4B02D) - penalised player p goes to the box: a new assignment (pflags bit 1; flags 4 set, 2 and 10h cleared,
-   pflags2 bit 2) seats him at x 9Eh, y -21h - 11 * slot (home, PBnum[0] - 1 capped at 2) or 21h + 11 * slot
-   (pflags bit 6, PBnum[1]), facing 2, SPA 7BFh, flag 20h. Without a new assignment he leaves: facing 4, no
-   pending change, flags cleared, Xvel -1000h, assexit. Nothing while flag 20h. */
+/* assepen: penalised player p goes to the box: a new assignment (pflags bit 1; flags 4 set, 2 and 10h cleared,
+ pflags2 bit 2) seats him at x 9Eh, y -21h - 11 * slot (home, PBnum[0] - 1 capped at 2) or 21h + 11 * slot
+ (pflags bit 6, PBnum[1]), facing 2, SPA 7BFh, flag 20h. Without a new assignment he leaves: facing 4, no
+ pending change, flags cleared, Xvel -1000h, assexit. Nothing while flag 20h. */
 void assepen(Player *p)
 {
     signed char f;

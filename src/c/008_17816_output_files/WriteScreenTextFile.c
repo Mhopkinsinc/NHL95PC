@@ -1,9 +1,9 @@
 /* Output files: screen text. */
 #include "nhl95.h"
 
-/* WriteScreenTextFile (17816) - save the text screen (textgrid, 24h lines of 64h characters) as <base>.OUT: when the file
-   is new and the disk is short of 4 KB say how much is needed; if it exists ask before overwriting; then write the
-   lines and report success, or report that it could not be opened. */
+/* WriteScreenTextFile: save the text screen (textgrid, 24h lines of 64h characters) as <base>.OUT: when the file
+ is new and the disk is short of 4 KB say how much is needed; if it exists ask before overwriting; then write the
+ lines and report success, or report that it could not be opened. */
 void WriteScreenTextFile(char *base)
 {
     char line[0x66];

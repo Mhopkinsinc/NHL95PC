@@ -1,8 +1,8 @@
 /* Calendar: game setup. */
 #include "nhl95.h"
 
-/* SetGameSides (347B7) - set the controlled teams for game g of the schedule (6-byte records, home +2, away +3): team
-   and its opponent, the opponent only when it is a human team (lgteam_17 == 1), else -1. */
+/* SetGameSides: set the controlled teams for game g of the schedule (6-byte records, home +2, away +3): team
+ and its opponent, the opponent only when it is a human team (lgteam_17 == 1), else -1. */
 void SetGameSides(int team, unsigned char *games, int g)
 {
     unsigned char *rec;

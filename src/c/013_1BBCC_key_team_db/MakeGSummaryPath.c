@@ -1,8 +1,8 @@
-/* Key / team database: game summary path. */
+/* Key team database: game summary path. */
 #include "nhl95.h"
 
-/* MakeGSummaryPath (1C807) - gsummarypath = league directory + "\\" (when a league is loaded) + the game summary file
-   name. */
+/* MakeGSummaryPath: gsummarypath = league directory + "\\" (when a league is loaded) + the game summary file
+ name. */
 void MakeGSummaryPath(void)
 {
     (&gsummarypath)[0] = 0;

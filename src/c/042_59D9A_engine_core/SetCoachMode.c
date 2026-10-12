@@ -1,10 +1,10 @@
 /* Engine core: coach AI. */
 #include "nhl95.h"
 
-/* SetCoachMode (5A581) - third-period coach AI mode of the home (away 0) or away team from the score difference d
-   (home - away). Home: trailing by 2+ -> mode 5; leading by 4+ -> D9Ah / mode 4 with 3/2; else CCCh / mode 0
-   (flag bit 0 cleared each time). Away: home leading by 2+ -> mode 8; home trailing by 4+ -> D9Ah with 3/2,
-   else CCCh, mode 1 (flag bit 0 set each time). Returns d (left in ax by the original). */
+/* SetCoachMode: third-period coach AI mode of the home (away 0) or away team from the score difference d
+ (home - away). Home: trailing by 2+ -> mode 5; leading by 4+ -> D9Ah mode 4 with 3/2; else CCCh mode 0
+ (flag bit 0 cleared each time). Away: home leading by 2+ -> mode 8; home trailing by 4+ -> D9Ah with 3/2,
+ else CCCh, mode 1 (flag bit 0 set each time). Returns d (left in ax by the original). */
 short SetCoachMode(int away)
 {
     short d;

@@ -1,13 +1,13 @@
 /* Engine player logic: the player taking the faceoff. */
 #include "nhl95.h"
 
-/* assfaceoffpl (4D528) - faceoff participant. Not while flag 20h; out of the faceoff (gmode2 bit 0
-   clear) nopuck 20 and leave (assexit). A new assignment (bit 1) resets temp1, takes the faceoff frame 167h (16Ch
-   facing 0) with SPA 0 and the wait temp5 (side 0: 40, side 1: 20 + random 10). Store the stick stance for the
-   pad (word_E0390, +4 for side 1): 2 in frames 169h / 16Eh, 3 in 16Ah / 16Fh (sound 9Eh + side on SPA count 7),
-   else 1; +3 when handed is 0. Then, unless pflags bit 3 or pflags2 bit 1 (set now): with temp5 >= 0 or the drop
-   timer word_DFF42 > 10h and a 7-in-8 chance count temp5 down to SPA 7F1h (the swipe); else temp5 = -1 and SPA
-   7DDh (frozen, flag 20h) before 11h, D05h after. */
+/* assfaceoffpl: faceoff participant. Not while flag 20h; out of the faceoff (gmode2 bit 0
+ clear) nopuck 20 and leave (assexit). A new assignment (bit 1) resets temp1, takes the faceoff frame 167h (16Ch
+ facing 0) with SPA 0 and the wait temp5 (side 0: 40, side 1: 20 + random 10). Store the stick stance for the
+ pad (word_E0390, +4 for side 1): 2 in frames 169h 16Eh, 3 in 16Ah 16Fh (sound 9Eh + side on SPA count 7),
+ else 1; +3 when handed is 0. Then, unless pflags bit 3 or pflags2 bit 1 (set now): with temp5 >= 0 or the drop
+ timer word_DFF42 > 10h and a 7-in-8 chance count temp5 down to SPA 7F1h (the swipe); else temp5 = -1 and SPA
+ 7DDh (frozen, flag 20h) before 11h, D05h after. */
 void assfaceoffpl(Player *p)
 {
     short *pad;

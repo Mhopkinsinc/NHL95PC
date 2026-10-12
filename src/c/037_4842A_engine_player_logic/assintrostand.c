@@ -1,9 +1,9 @@
-/* Engine player logic: intro (93G assintrostand). */
+/* Engine player logic: intro. */
 #include "nhl95.h"
 
-/* assintrostand (4842A) - assignment while the players stand for the intro: unless locked (pflags bit 5) or parked
-   (temp5 -100), count temp5 down; meanwhile shuffle x around temp3 now and then and play one of 5 random idle
-   animations (dword_CC9CE high words); when it runs out insert assignment 27h. */
+/* assintrostand: assignment while the players stand for the intro: unless locked (pflags bit 5) or parked
+ (temp5 -100), count temp5 down; meanwhile shuffle x around temp3 now and then and play one of 5 random idle
+ animations (dword_CC9CE high words); when it runs out insert assignment 27h. */
 void assintrostand(Player *p)
 {
     if (p->pflags & 0x20) return;

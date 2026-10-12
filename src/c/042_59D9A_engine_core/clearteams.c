@@ -1,9 +1,9 @@
 /* Engine core: reset the team structures. */
 #include "nhl95.h"
 
-/* clearteams (5B881) - PC-new: zero both team structs (200h bytes from hmtmstruct), set the goalie words to 0,
-   the words at +2Eh to -1 and the bytes at +B6h to -1, and store each team's data pointers (tmsort into
-   SortCords, line tables, player stats, roster, team record, ...). */
+/* clearteams: zero both team structs (200h bytes from hmtmstruct), set the goalie words to 0,
+ the words at +2Eh to -1 and the bytes at +B6h to -1, and store each team's data pointers (tmsort into
+ SortCords, line tables, player stats, roster, team record,...). */
 void clearteams(void)
 {
     unsigned char *p;

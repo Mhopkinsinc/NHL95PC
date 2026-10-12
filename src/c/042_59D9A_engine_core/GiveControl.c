@@ -1,10 +1,10 @@
-/* Engine core: give the human the player who got the puck (PC only). */
+/* Engine core: give the human the player who got the puck. */
 #include "nhl95.h"
 
-/* GiveControl (5B1CE) - PC only: give a human pad control of player pl (sort object number; 0-5 home, 6+
-   away) when he gets the puck. Nothing when a pad already has him. regd1 = his team (1 home, 2 away). The
-   pad on that team (cont1team / cont2team) switches to him through restorepl. When pad 2's player equals
-   passspeed (the word at C90A2; meaning not known) pad 2 is checked first, else pad 1. */
+/* GiveControl: give a human pad control of player pl (sort object number; 0-5 home, 6+
+ away) when he gets the puck. Nothing when a pad already has him. regd1 = his team (1 home, 2 away). The
+ pad on that team (cont1team cont2team) switches to him through restorepl. When pad 2's player equals
+ passspeed (the word at C90A2; meaning not known) pad 2 is checked first, else pad 1. */
 void GiveControl(short pl)
 {
     short c2;

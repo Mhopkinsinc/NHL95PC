@@ -1,10 +1,8 @@
-/* Engine player logic: player goes into the penalty box (93G logic93_2 / 94G assign94 assdopen). */
+/* Engine player logic: player goes into the penalty box. */
 #include "nhl95.h"
 
-/* assdopen (4AFFB) - asstab 0Dh: player p goes into the penalty box (93G logic93_2 / 94G assign94 assdopen).
-   Nothing while his animation is locked (pfalock, 94G btst #5). Bumps the box count of his team (PBnum[0] home,
-   PBnum[1] visitors by pfteam; 94G adds 10h or 1 to one byte), then position = -1 in its high byte (94G
-   st position(a3), the 68k high byte) and frame = -1 (94G clr.w frame). */
+/* assdopen: asstab 0Dh: player p goes into the penalty box.
+ Nothing while his animation is locked (pfalock). Bumps the box count of his team (PBnum[0] home), then position = -1 in its high byte (the 68k high byte) and frame = -1. */
 void assdopen(Player *p)
 {
     if (!(p->pflags & pfalock)) {

@@ -1,8 +1,8 @@
 /* Scoreboard graphics: wait for input. */
 #include "nhl95.h"
 
-/* AnyInputPressed (1600C) - 1 when a key is pressed, a joystick button (30h on either pad, when pads are available:
-   ctlavailmask bits 1 / 2) or a mouse button (ctlavailmask bit 0); else 0. */
+/* AnyInputPressed: 1 when a key is pressed, a joystick button (30h on either pad, when pads are available:
+ ctlavailmask bits 1 2) or a mouse button (ctlavailmask bit 0); else 0. */
 int AnyInputPressed(void)
 {
     int r;

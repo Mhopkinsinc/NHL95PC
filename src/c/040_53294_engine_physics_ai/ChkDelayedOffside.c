@@ -1,11 +1,11 @@
-/* Engine physics / AI: delayed offside (PC only). */
+/* Engine physics AI: delayed offside. */
 #include "nhl95.h"
 
-/* ChkDelayedOffside (541CA) - PC only (called from checkpuckcoll before puckstick / puckgoalie): with the
-   offsides option on, no penalty shot and gmode bit 4 clear, the puck inside the goal lines (|y| <= E8h)
-   heading for a crossing near the middle (|puckcross x| <= 2Ch at the end p faces, pflags bit 7) while the
-   other team is flagged offside (tmflags bit 4): when p and the last player to touch the puck (lasttouch) are
-   on different teams, AddPenalty2 8 (offside) on SortCords[lasttouch] and return 1; else 0. */
+/* ChkDelayedOffside: with the
+ offsides option on, no penalty shot and gmode bit 4 clear, the puck inside the goal lines (|y| <= E8h)
+ heading for a crossing near the middle (|puckcross x| <= 2Ch at the end p faces, pflags bit 7) while the
+ other team is flagged offside (tmflags bit 4): when p and the last player to touch the puck (lasttouch) are
+ on different teams, AddPenalty2 8 (offside) on SortCords[lasttouch] and return 1; else 0. */
 int ChkDelayedOffside(Player *p)
 {
     int y;

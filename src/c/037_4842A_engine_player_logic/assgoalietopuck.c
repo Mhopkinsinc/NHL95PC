@@ -1,12 +1,12 @@
 /* Engine player logic: goalie to the puck. */
 #include "nhl95.h"
 
-/* assgoalietopuck (4B5C2) - goalie leaves the net for the puck (93G assignment role): count down the word at +4Ah;
-   set flags 2 and 4 of byte +48h, clearing 4 when inside the crease box (x -40..40, |y| C5h..E3h) and 2 when within
-   x -48..48 behind y C5h. Leave (assexit) with pflags bit 3 or in a stoppage; nothing while heading to the bench
-   (check4bench). A new assignment (bit 1) resets temp1. Every aidef / 4 frames (countdown in byte +27h) re-check:
-   leave when the puck is held, when it moves away from p's goal faster than 800h, or when the other team's
-   +3Eh dword is under 96h. Else skate to the puck. */
+/* assgoalietopuck: goalie leaves the net for the puck: count down the word at +4Ah
+ set flags 2 and 4 of byte +48h, clearing 4 when inside the crease box (x -40..40, |y| C5h..E3h) and 2 when within
+ x -48..48 behind y C5h. Leave (assexit) with pflags bit 3 or in a stoppage; nothing while heading to the bench
+ (check4bench). A new assignment (bit 1) resets temp1. Every aidef 4 frames (countdown in byte +27h) re-check:
+ leave when the puck is held, when it moves away from p's goal faster than 800h, or when the other team's
+ +3Eh dword is under 96h. Else skate to the puck. */
 void assgoalietopuck(Player *p)
 {
     int x;

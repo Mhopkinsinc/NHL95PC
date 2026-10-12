@@ -1,9 +1,9 @@
 /* Rink tiles: wait for a click or a timeout. */
 #include "nhl95.h"
 
-/* WaitClickTimeout (33E6A) - PC only: wait up to ticks timer ticks (sub_B395C) for mouse clicks, reading input
-   events through ptrupdatefn. A click (result bit 1) counts; a second click, a press of bit 2 (count 3) or 20
-   ticks after the first click end the wait. Returns the click count (0 on timeout). */
+/* WaitClickTimeout: wait up to ticks timer ticks (sub_B395C) for mouse clicks, reading input
+ events through ptrupdatefn. A click (result bit 1) counts; a second click, a press of bit 2 (count 3) or 20
+ ticks after the first click end the wait. Returns the click count (0 on timeout). */
 int WaitClickTimeout(int ticks)
 {
     int t1;

@@ -1,8 +1,8 @@
 /* Menu system: colour remap. */
 #include "nhl95.h"
 
-/* InitMenuRemap (1FAA7) - set up the menu colour remap table: mode 0 maps colours 0-14h to 0, 15h-3Fh down by 15h and
-   keeps the rest; otherwise menuremap and menuremap2 are identity for 0-7Fh. Installs menuremap. */
+/* InitMenuRemap: set up the menu colour remap table: mode 0 maps colours 0-14h to 0, 15h-3Fh down by 15h and
+ keeps the rest; otherwise menuremap and menuremap2 are identity for 0-7Fh. Installs menuremap. */
 void InitMenuRemap(int mode)
 {
     int i;

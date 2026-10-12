@@ -1,6 +1,6 @@
 /* Database dialogs: shapes and the open-database menu (one source block: MenuOpenDatabase ends in LoadDbDialogShapes' exit). */
 /* LoadDbDialogShapes - as LoadFileDlgShapes for the database dialog: bank DBBUT, the four tabs being
-   none, current, team and original (Dbno/Dbcu/Dbtm/Dbor) in the fdlg_tab* slots. */
+ none, current, team and original (Dbno/Dbcu/Dbtm/Dbor) in the fdlg_tab* slots. */
 #include "nhl95.h"
 
 void LoadDbDialogShapes(void)
@@ -30,11 +30,11 @@ typedef struct { char res[0x15]; unsigned char attrib; char pad[8]; char name[14
 typedef struct { char c[8]; } Name8;
 typedef struct { char c[9]; } Name9;
 
-/* DRAFT (ScanDbFiles): Watcom sinks the ++dblistcur[0] below the savefname stores, and the name byte goes through dl / dh instead of dh / bh; rest matches. */
-/* ScanDbFiles (7248C) - build the database dialog lists: clear the temp / current / original lists (count, selection,
-   top, last), then add CURRENT when DB exists, ORIGINAL when ORG exists, and every directory matching the DBX pattern
-   (names up to the dot, at most 16, in savefname) sorted by name; the temp list's last visible line is
-   min(count - 1, 5). */
+/* DRAFT (ScanDbFiles): Watcom sinks the ++dblistcur[0] below the savefname stores, and the name byte goes through dl dh instead of dh bh; rest matches. */
+/* ScanDbFiles: build the database dialog lists: clear the temp current original lists (count, selection,
+ top, last), then add CURRENT when DB exists, ORIGINAL when ORG exists, and every directory matching the DBX pattern
+ (names up to the dot, at most 16, in savefname) sorted by name; the temp list's last visible line is
+ min(count - 1, 5). */
 void ScanDbFiles(void)
 {
     DbFindT ft;
@@ -85,12 +85,12 @@ typedef struct { int x1, y1, x2, y2; } DbRect;
 #define DBRECT ((DbRect *)dbdlgrects)
 
 /* DRAFT (DrawDbDialog): only the scroll-bar end differs: the EXE adds 12h to rect 8's y1 before the quotient, this adds it to the quotient. */
-/* DrawDbDialog (727EE) - PC only: draw the database dialog: art PDBX of bank DBDIALOG at 10,19 (from the CD when
-   the files are there), then work out the button mask fdlgmask and the shown tab fdlgtab from the lists that have
-   entries (temporary: tab 2, original: tab 1, current: tab 0, the last one wins). With a tab: its title (rect 9),
-   the list area cleared to F8h (rect 10) and the visible names from list[2] to list[3] in rects 10 onwards; more than
-   6 entries enable the scroll buttons and draw the scroll bar (rect 8, thumb 354h / count high), up to 6 enable one
-   row button each (fdlgmask byte 1, bits 2 up). Lists are ints: count, selection, top, last visible, names. */
+/* DrawDbDialog: draw the database dialog: art PDBX of bank DBDIALOG at 10,19 (from the CD when
+ the files are there), then work out the button mask fdlgmask and the shown tab fdlgtab from the lists that have
+ entries (temporary: tab 2, original: tab 1, current: tab 0, the last one wins). With a tab: its title (rect 9),
+ the list area cleared to F8h (rect 10) and the visible names from list[2] to list[3] in rects 10 onwards; more than
+ 6 entries enable the scroll buttons and draw the scroll bar (rect 8, thumb 354h count high), up to 6 enable one
+ row button each (fdlgmask byte 1, bits 2 up). Lists are ints: count, selection, top, last visible, names. */
 void DrawDbDialog(void)
 {
     char path[32];
@@ -153,12 +153,12 @@ void DrawDbDialog(void)
     }
 }
 
-/* DrawDbList (72AC6) - PC only: redraw the database dialog's list: clear the six rows (rects 10-15, F9h), print the
-   names (the first count when up to 6, else the six from the top entry list[2]), the selected name as the title
-   (rect 9, cleared to F8h) and again highlighted in its row when it is visible (F8h), clear the scroll bar
-   (rect 8). More than 6 entries: enable the scroll buttons and draw the thumb from list[2] to list[3] + 1 of 8Eh
-   pixels; otherwise mask them off and enable one row button per entry (fdlgmask byte 1, bits 2 up). Then the tab
-   art of tab 0-2. A NULL list only clears the rows and returns 0. */
+/* DrawDbList: redraw the database dialog's list: clear the six rows (rects 10-15, F9h), print the
+ names (the first count when up to 6, else the six from the top entry list[2]), the selected name as the title
+ (rect 9, cleared to F8h) and again highlighted in its row when it is visible (F8h), clear the scroll bar
+ (rect 8). More than 6 entries: enable the scroll buttons and draw the thumb from list[2] to list[3] + 1 of 8Eh
+ pixels; otherwise mask them off and enable one row button per entry (fdlgmask byte 1, bits 2 up). Then the tab
+ art of tab 0-2. A NULL list only clears the rows and returns 0. */
 int DrawDbList(int *list)
 {
     int xright;
@@ -225,10 +225,10 @@ int DrawDbList(int *list)
     }
 }
 
-/* DeleteSelectedDb (735C3) - delete the selected database of list (ints: count, selection, top, last visible,
-   then the names): ask first (deldbmsg with the name, at 140h / F0h); when its DBX directory exists remove it and
-   drop the name from the list, fixing the scroll range and selection; when the list is now empty switch the dialog
-   tab to the current / original databases or none, and redraw the buttons. Returns 0. */
+/* DeleteSelectedDb: delete the selected database of list (ints: count, selection, top, last visible,
+ then the names): ask first (deldbmsg with the name, at 140h F0h); when its DBX directory exists remove it and
+ drop the name from the list, fixing the scroll range and selection; when the list is now empty switch the dialog
+ tab to the current original databases or none, and redraw the buttons. Returns 0. */
 int DeleteSelectedDb(int *list)
 {
     DbFindT ft;
@@ -271,9 +271,9 @@ int DeleteSelectedDb(int *list)
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
-/* MenuOpenDatabase (73703) - menu "open database": scan the database files, save the screen under the 243 x 198
-   dialog at 10 / 13h into a BUF bitmap (pointer sprite header), load the dialog shapes, draw the dialog and its
-   buttons and run it; unless a database was opened restore the screen; free the shapes and the bitmap. */
+/* MenuOpenDatabase: menu "open database": scan the database files, save the screen under the 243 x 198
+ dialog at 10 13h into a BUF bitmap (pointer sprite header), load the dialog shapes, draw the dialog and its
+ buttons and run it; unless a database was opened restore the screen; free the shapes and the bitmap. */
 void MenuOpenDatabase(void)
 {
     int bm;

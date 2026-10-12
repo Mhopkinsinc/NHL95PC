@@ -1,10 +1,10 @@
-/* Create player: player search. */
+/* Create player: search. */
 #include "nhl95.h"
 
-/* SelectMatchingPlayers (71690) - toggle the selection of every player on side's roster (or in the free-agent list when
-   rosterisfa) whose lower-case name is first + last, or whose last name is first when last is empty. The roster
-   selection is cleared first (free agents: falistsel, and with dword_D0C20 the first match is remembered in
-   dword_EBCA4). */
+/* SelectMatchingPlayers: toggle the selection of every player on side's roster (or in the free-agent list when
+ rosterisfa) whose lower-case name is first + last, or whose last name is first when last is empty. The roster
+ selection is cleared first (free agents: falistsel, and with dword_D0C20 the first match is remembered in
+ dword_EBCA4). */
 void SelectMatchingPlayers(char *first, char *last, int side)
 {
     char f[16];

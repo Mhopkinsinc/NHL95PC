@@ -1,8 +1,8 @@
 /* Database merge: floppy prompt. */
 #include "nhl95.h"
 
-/* WaitLeagueFloppy (3D84F) - ask for the floppy with league file (message box at the mouse); unless cancelled (button
-   4) look for it again (FindLeagueFloppy). Returns that result, or -1 when cancelled. */
+/* WaitLeagueFloppy: ask for the floppy with league file (message box at the mouse); unless cancelled (button
+ 4) look for it again (FindLeagueFloppy). Returns that result, or -1 when cancelled. */
 int WaitLeagueFloppy(char *file, char *name, char *dir)
 {
     char buf[0x40];

@@ -17,11 +17,11 @@ typedef struct DiskFree {
     unsigned short bytes_per_sector;
 } DiskFree;
 
-/* SaveHilight (7FA10) - PC only: append the current replay as a highlight to the league's file for team (curleague
-   \ team name .HI, created when missing). Needs 9652h bytes free on the current drive (else sets dword_ED6F8 and
-   returns 1). The 9652h-byte record hilightrec: the two teams' ids (byte_DC268 / byte_DC267, HomeTeam, VisTeam),
-   the 28 jerseys of each roster, period, clock (min / sec / hundredths), sflags, the replay length (recbpr -
-   replaystart) and the replay. File errors are fatal. Returns 0. */
+/* SaveHilight: append the current replay as a highlight to the league's file for team (curleague
+ \ team name.HI, created when missing). Needs 9652h bytes free on the current drive (else sets dword_ED6F8 and
+ returns 1). The 9652h-byte record hilightrec: the two teams' ids (byte_DC268 byte_DC267, HomeTeam, VisTeam),
+ the 28 jerseys of each roster, period, clock (min sec hundredths), sflags, the replay length (recbpr -
+ replaystart) and the replay. File errors are fatal. Returns 0. */
 int SaveHilight(int team)
 {
     FindT ft;

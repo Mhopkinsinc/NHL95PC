@@ -1,9 +1,9 @@
-/* Engine physics / AI: two-line pass. */
+/* Engine physics AI: two-line pass. */
 #include "nhl95.h"
 
-/* MarkTwoLinePlayers (55C6F) - two-line pass option: when the puck pk crosses the red line (y sign change against its
-   previous y, word +7Ah), flag (pflags2 bit 7) the attacking team's skaters already past it and clear the flag
-   on the other team. Team order by gmode bit 1. */
+/* MarkTwoLinePlayers: two-line pass option: when the puck pk crosses the red line (y sign change against its
+ previous y, word +7Ah), flag (pflags2 bit 7) the attacking team's skaters already past it and clear the flag
+ on the other team. Team order by gmode bit 1. */
 void MarkTwoLinePlayers(Player *pk)
 {
     Player *a;

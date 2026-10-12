@@ -1,8 +1,8 @@
 /* Create player: handedness. */
 #include "nhl95.h"
 
-/* AskLeftRight (6FBE8) - ask "L or R" with prompt (default from *left); L / l sets *left 1, R / r sets 0; cancel keeps
-   it. */
+/* AskLeftRight: ask "L or R" with prompt (default from *left); L l sets *left 1, R r sets 0; cancel keeps
+ it. */
 void AskLeftRight(unsigned char *left, char *prompt)
 {
     short v;

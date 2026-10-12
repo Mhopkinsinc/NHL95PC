@@ -1,9 +1,9 @@
 /* Announcer: a player number. */
 #include "nhl95.h"
 
-/* SayPlayerNumber (85213) - when speech is up and idle: announce "<team> <phrase>, number <n>": priority 1Ah
-   (+3B70h of speechbank), the team clip "<team>.frm", phrase clip dword_D27A2[phrase] (13 characters) and
-   "<n>.num"; request them (with "one left"), make room, queue them and start the queue. Returns 1, else 0. */
+/* SayPlayerNumber: when speech is up and idle: announce "<team> <phrase>, number <n>": priority 1Ah
+ (+3B70h of speechbank), the team clip "<team>.frm", phrase clip dword_D27A2[phrase] (13 characters) and
+ "<n>.num"; request them (with "one left"), make room, queue them and start the queue. Returns 1, else 0. */
 int SayPlayerNumber(char *team, int phrase, int number)
 {
     char teamclip[16];

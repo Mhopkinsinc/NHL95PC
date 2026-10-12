@@ -1,7 +1,7 @@
 /* EASN stats: calendar shapes. */
 #include "nhl95.h"
 
-/* LoadCalendarShapes (212FE) - load the CALENDAR shape bank once (calendarshapes; from the CD when fileoncd says so). */
+/* LoadCalendarShapes: load the CALENDAR shape bank once (calendarshapes; from the CD when fileoncd says so). */
 void LoadCalendarShapes(void)
 {
     char path[32];

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuStandings (17DFC) - stats menu item: category 5 (standings). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run TeamStatsScreen(5) and fade out with the second; otherwise call the
-   teamstatscb handler. Returns the screen's result. */
+/* StatsMenuStandings: stats menu item: category 5 (standings). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run TeamStatsScreen(5) and fade out with the second; otherwise call the
+ teamstatscb handler. Returns the screen's result. */
 int StatsMenuStandings(void)
 {
     statscategory = 5;

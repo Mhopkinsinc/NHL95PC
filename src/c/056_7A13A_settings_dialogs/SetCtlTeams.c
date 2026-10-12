@@ -1,10 +1,10 @@
 /* Settings dialogs: controller teams. */
 #include "nhl95.h"
 
-/* SetCtlTeams (7DB67) - set the game's teams (HomeTeam, VisTeam) and the controllers' teams and sides: controller 1 on
-   t1 (on the computer device 10h: -1 home / -2 away); t2 < 0 puts controller 2 on the computer (device 10h) on
-   the other side, else on t2 with the first free device of 2, 4, 8 (ctlavailmask) or 1 (keyboard). Then
-   SetSideControls. */
+/* SetCtlTeams: set the game's teams (HomeTeam, VisTeam) and the controllers' teams and sides: controller 1 on
+ t1 (on the computer device 10h: -1 home -2 away); t2 < 0 puts controller 2 on the computer (device 10h) on
+ the other side, else on t2 with the first free device of 2, 4, 8 (ctlavailmask) or 1 (keyboard). Then
+ SetSideControls. */
 void SetCtlTeams(int t1, int t2, int home, int away)
 {
     HomeTeam = home;

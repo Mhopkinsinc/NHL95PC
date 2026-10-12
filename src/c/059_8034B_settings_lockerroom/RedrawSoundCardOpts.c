@@ -1,8 +1,8 @@
-/* Settings / locker room: sound card dialog. */
+/* Settings locker room: sound card dialog. */
 #include "nhl95.h"
 
-/* RedrawSoundCardOpts (82805) - draw the eight sound card boxes on or off by setbits and print the names of the cards not
-   present (byte_C541B bits clear) in grey: PC Speaker, Sound Blaster, AdLib, MT-32, UltraSound. */
+/* RedrawSoundCardOpts: draw the eight sound card boxes on or off by setbits and print the names of the cards not
+ present (byte_C541B bits clear) in grey: PC Speaker, Sound Blaster, AdLib, MT-32, UltraSound. */
 void RedrawSoundCardOpts(void)
 {
     int i;

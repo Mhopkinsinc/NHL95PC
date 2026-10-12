@@ -1,9 +1,9 @@
-/* Engine physics / AI: shooting. */
+/* Engine physics AI: shooting. */
 #include "nhl95.h"
 
-/* SetShotMode (5786E) - p winds up a shot: pass direction 8 (shot), sflags bit 3; regd0 = direction from p to the
-   attacked goal (x 0, y +/-F0h by pflags bit 7), word_C90A6 = 15, then the slap (SPA 491h, when Findhittype finds
-   a hit type) or wrist shot animation (3F9h). */
+/* SetShotMode: p winds up a shot: pass direction 8 (shot), sflags bit 3; regd0 = direction from p to the
+ attacked goal (x 0, y +/-F0h by pflags bit 7), word_C90A6 = 15, then the slap (SPA 491h, when Findhittype finds
+ a hit type) or wrist shot animation (3F9h). */
 void SetShotMode(Player *p)
 {
     passdir = 8;

@@ -1,9 +1,9 @@
-/* Scoring / penalty text: shots on goal. */
+/* Scoring penalty text: shots on goal. */
 #include "nhl95.h"
 
-/* CountShotOnGoal (64338) - after a shot: ShotLaneOpen decides shotontarget; a shot on target raises the crowd (+100)
-   and, outside penalty shots, counts a shot for the carrier's team (word at +1Ch: visitors when puckc > 5).
-   Returns 1 when counted. */
+/* CountShotOnGoal: after a shot: ShotLaneOpen decides shotontarget; a shot on target raises the crowd (+100)
+ and, outside penalty shots, counts a shot for the carrier's team (word at +1Ch: visitors when puckc > 5).
+ Returns 1 when counted. */
 int CountShotOnGoal(void)
 {
     ShotLaneOpen();

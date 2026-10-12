@@ -1,7 +1,7 @@
 /* File utilities: delete a directory. */
 #include "nhl95.h"
 
-/* DeleteDir (14442) - delete every file in dir (dir\*.*), then the directory. */
+/* DeleteDir: delete every file in dir (dir\*.*), then the directory. */
 typedef struct FindT {
     char reserved[21];
     char attrib;

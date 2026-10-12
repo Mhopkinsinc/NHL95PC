@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuSavePct (18C20) - stats menu item: category 10 (save percentage). In the league screens (dword_DC738) load
-   the SFPAL1 / SFPAL2 palettes, fade in with the first, run LeadersScreen(10) and fade out with the second;
-   otherwise call the goaliestatscb handler. Returns the screen's result. */
+/* StatsMenuSavePct: stats menu item: category 10 (save percentage). In the league screens (dword_DC738) load
+ the SFPAL1 SFPAL2 palettes, fade in with the first, run LeadersScreen(10) and fade out with the second
+ otherwise call the goaliestatscb handler. Returns the screen's result. */
 int StatsMenuSavePct(void)
 {
     statscategory = 10;

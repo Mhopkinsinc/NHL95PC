@@ -1,9 +1,9 @@
-/* Engine assignment / faceoff: penalty box exit. */
+/* Engine assignment faceoff: penalty box exit. */
 #include "nhl95.h"
 
-/* TakePlayerFromBox (51115) - PC-new: sort object p takes the first roster player of its team (pflags bit 6:
-   away; 444h bytes of 39-byte records per team) whose status is 7 (penalty over): he leaves the box (facedir 4,
-   SPA 7BFh, pflags bit 5, temp1 5Ah, temp5 = his number), roster status 3 (bench), tmpdst -2. */
+/* TakePlayerFromBox: sort object p takes the first roster player of its team (pflags bit 6:
+ away; 444h bytes of 39-byte records per team) whose status is 7 (penalty over): he leaves the box (facedir 4,
+ SPA 7BFh, pflags bit 5, temp1 5Ah, temp5 = his number), roster status 3 (bench), tmpdst -2. */
 void TakePlayerFromBox(Player *p)
 {
     short i;

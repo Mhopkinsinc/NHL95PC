@@ -1,8 +1,8 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpPlusMinus (2554B) - qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
-   playoff stats at +12h): best plus/minus (signed word +10h) first, then fewer games (+0), more points (+6), more goals (+2). */
+/* CmpPlusMinus: qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
+ playoff stats at +12h): best plus/minus (signed word +10h) first, then fewer games (+0), more points (+6), more goals (+2). */
 int CmpPlusMinus(int *a, int *b)
 {
     unsigned short *p;

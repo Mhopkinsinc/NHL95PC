@@ -1,4 +1,4 @@
-/* DrawGameLineJerseys - game line editor: draw the 28h line slot jerseys (MakeJerseyShape with nums[i] in the team's colours, byte_D11BC / byte_D12DE through jerseyremap) at lineslotx/y, then for the 1Ch dressed players (gmroster, 16h bytes each) print "<num> <name>" in the colour of their roster status (side's roster, 27h bytes per player, 444h per team): 1 C2h, 2 FCh before the game / C2h, 3-4 C3h, 5-6 and 8 C2h, 7 unchanged; stops at the first empty status. */
+/* DrawGameLineJerseys - game line editor: draw the 28h line slot jerseys (MakeJerseyShape with nums[i] in the team's colours, byte_D11BC byte_D12DE through jerseyremap) at lineslotx/y, then for the 1Ch dressed players (gmroster, 16h bytes each) print "<num> <name>" in the colour of their roster status (side's roster, 27h bytes per player, 444h per team): 1 C2h, 2 FCh before the game C2h, 3-4 C3h, 5-6 and 8 C2h, 7 unchanged; stops at the first empty status. */
 #include "nhl95.h"
 
 void DrawGameLineJerseys(unsigned char *nums, int art, unsigned char side)

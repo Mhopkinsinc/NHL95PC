@@ -1,9 +1,9 @@
 /* Output files: stats source menu. */
 #include "nhl95.h"
 
-/* StatsSel9394Season (17A00) - stats menu: switch the source to the 93-94 season (from league or playoff stats): check
-   that item (1) and clear the others (2), copy the exhibition league name to statsleague; in the league screens
-   (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
+/* StatsSel9394Season: stats menu: switch the source to the 93-94 season (from league or playoff stats): check
+ that item (1) and clear the others (2), copy the exhibition league name to statsleague; in the league screens
+ (dword_DC738) fade in the stats palette and redraw the current category (statsredrawcb), then fade out. */
 void StatsSel9394Season(void)
 {
     if (!statsfromleague && !statsplayoffs) return;

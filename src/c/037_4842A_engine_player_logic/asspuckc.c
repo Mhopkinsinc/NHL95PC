@@ -1,13 +1,13 @@
-/* Engine player logic: puck carrier (93G asspuckc). */
+/* Engine player logic: puck carrier. */
 #include "nhl95.h"
 
-/* asspuckc (4C6F3) - 93G asspuckc: the puck carrier. Leave (assexit) without the puck or with pflags bit 3; not
-   while flag 20h; in a stoppage StopIfFree. A new assignment (bit 1) clears +4Ch, temp1, temp2 = 8, picks a
-   random lane temp3 (0-3) and clears threat. Every aioff frames (countdown in byte +27h, reload byte +59h):
-   check the opposition (checkob); on a shot on goal within y 70h hand over to assignment 2Eh; else try a line
-   change, a shot and a pass (chk4lc / chk4shot / chk4pass), stopping at the first that acts. Then skate to the
-   lane point (word_CCA6E / word_CCA70 pair temp3 + 6, or position - 1 with gmode2 bit 7; mirrored by end), picking
-   a new random lane when within 12 of it, with asspuckc_chkdir as the evade routine. */
+/* asspuckc: the puck carrier. Leave (assexit) without the puck or with pflags bit 3; not
+ while flag 20h; in a stoppage StopIfFree. A new assignment (bit 1) clears +4Ch, temp1, temp2 = 8, picks a
+ random lane temp3 (0-3) and clears threat. Every aioff frames (countdown in byte +27h, reload byte +59h):
+ check the opposition (checkob); on a shot on goal within y 70h hand over to assignment 2Eh; else try a line
+ change, a shot and a pass (chk4lc chk4shot chk4pass), stopping at the first that acts. Then skate to the
+ lane point (word_CCA6E word_CCA70 pair temp3 + 6, or position - 1 with gmode2 bit 7; mirrored by end), picking
+ a new random lane when within 12 of it, with asspuckc_chkdir as the evade routine. */
 void asspuckc(Player *p)
 {
     int d;

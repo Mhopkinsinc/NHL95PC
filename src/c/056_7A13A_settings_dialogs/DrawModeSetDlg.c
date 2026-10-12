@@ -1,10 +1,10 @@
-/* Settings dialogs: playoff / league mode settings dialog. */
+/* Settings dialogs: playoff league mode settings dialog. */
 #include "nhl95.h"
 
-/* DrawModeSetDlg (7B4EC) - draw the mode settings dialog: load the SETTING bank of the league (gamemode 2) or of the
-   playoffs (from the CD when fileoncd says so), draw its DBOX art at 10 / 13h and free it; in F8h on FFh label
-   "Music" / "Sound" with the sound device 10h and "Digitized speech" with music off, reset the clip and draw the
-   heading for gamemode (DrawSettingsHeading, colour FAh). */
+/* DrawModeSetDlg: draw the mode settings dialog: load the SETTING bank of the league (gamemode 2) or of the
+ playoffs (from the CD when fileoncd says so), draw its DBOX art at 10 13h and free it; in F8h on FFh label
+ "Music" "Sound" with the sound device 10h and "Digitized speech" with music off, reset the clip and draw the
+ heading for gamemode (DrawSettingsHeading, colour FAh). */
 void DrawModeSetDlg(void)
 {
     char path[32];

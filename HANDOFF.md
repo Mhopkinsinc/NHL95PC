@@ -63,7 +63,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 ## 3. Current state (updated 2026-10-12, head: see `git log -1`)
 
-**C matching is paused** (2026-10-12) so the Genesis naming pass can run. Do not resume C matching until that pass is finished and you are asked to.
+**C matching is paused** (2026-10-12). The Genesis naming pass is finished. Do not resume C matching until you are asked to.
 
 `make fullcheck` on this tree: CBUILD=1 and CBUILD=0 both MATCH. 552 of 1,082 compiled-C game functions match, 161 drafts. No function was mid-edit this session. Resume at the existing draft **LoadPlayoffModeTree** (`src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c`, address 2970A, compiled with `-od`). The body matches. `a` and the return temporary trade stack slots (the asm keeps `a` at ebp-30h and the return temporary at ebp-2Ch). Extra unused ints, arrays, and array orders were already tried; that is what matched LoadLeagueTree.
 
@@ -208,13 +208,19 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 ## 4. Next
 
-**Paused here.** Do not match another C function until the Genesis naming pass is done.
+**Paused here.** The naming pass is finished. Do not match another C function until you are asked to.
 
 When C matching resumes, start with the LoadPlayoffModeTree draft (stack slots of `a` and the return temporary), then the items already listed below.
 
-**Naming pass (in progress, 2026-10-12):** source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table), and the two New York teams keep the long names NYIslanders and NYRangers. One module at a time: names, then locals, then comments and file headers.
+**Naming pass (finished, 2026-10-12).** Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. A 95PC routine keeps its name when the body already matches that Genesis routine. Renames made for a real body match: `assfaceoffpl` (was `assfaceoffp1`), `shotdiradj` (was `checkgoalp_CalcGoalShotDir`), `seed` (was `StanleyCupTimer`). Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table). The two New York teams keep the long names NYIslanders and NYRangers. `TeamList` is the city table, and its first string is Boston.
 
-Done so far: `assfaceoffp1` is `assfaceoffpl`, `checkgoalp_CalcGoalShotDir` is `shotdiradj`, `StanleyCupTimer` is `seed`. The teamabbrevs strings are the on-screen spellings (OTT, TB, ANA, not the Genesis OTW/ANH), and the city strings use the 95G city labels, with NYIslanders and NYRangers kept long. `TeamList` is still the city table, whose first string is Boston. Left on purpose: `PenaltyList` is the PC penalty-name string table, not the Genesis message-offset table `Penaltylist`; `hmtmstruct` stays beside `awtmstruct` (both structs are live; 95G has one home pointer, `tmstruct`); `ReplayPrevFrame` / `ReplayStep` are PC record-pointer helpers, not the 68k `suba4` / `adda4` bodies. File headers are short plain-English introductions on every asm file: the engine, the season and front end, the data segments, and the Watcom and EA libraries. Next: comment cleanup (origin tags, `;IDA:` notes, and "PC only" on ordinary routines), then locals, and any 95PC routine whose body matches a 95G routine under a different name.
+These labels stay, because the PC body is a different thing from the Genesis routine of a similar name: `PenaltyList` (PC penalty-name strings; Genesis `Penaltylist` is a message-offset table), `hmtmstruct` (paired with `awtmstruct`; 95G has one home pointer, `tmstruct`), `ReplayPrevFrame` and `ReplayStep` (PC record-pointer helpers; 68k `suba4` / `adda4` are different), `CheckAndReleasePlayer` (not `releasepl`), `off_C5441` (nosplit label on CGY), `main_`. The 95G season, trade, and create-player screens are a different UI from the PC database editor, so those PC routines keep their behaviour names. Shared `rts` tails and 68k-only features (goalie save, replay mode, the team-screen drawers) have no matching PC body.
+
+Numbered locals (`.0`, `.1`, and the rest) stay numbered. Branches whose meaning is already clear use `.loop`, `.next`, `.done`, `.d0`, and the same kind of name. Genesis locals do not line up with the PC branch order, and the remaining numbered labels are short jumps.
+
+Every asm file starts with a short plain-English header (engine, season, front end, data, Watcom and EA libraries). Comments no longer carry origin tags (`93G`, `94G`, `95G`), `;IDA:` notes, "PC only", "PC-new", Genesis ROM addresses, or "aligned N/M accesses" counts. Instruction lines still end with the required `; <address>` suffix.
+
+A few comments still say `PC:` where that describes behaviour (the referee's own animations, a check that exists on PC). `puckvy high byte (d1)` keeps the register after the 68k citation was removed. Some multi-line C comments were collapsed onto one line. "New in 95" was left off the file headers; the season, trade, and create-player introductions already say what those screens do.
 
 * Last session (+34): OpenSpeechBank.c now holds ReadSpeechSample/MoveSampleMem/CompactSpeechSlot (matched;
   OpenSpeechBank itself a draft: header-word stack slots); DrawDbList matched in LoadDbDialogShapes.c (DrawDbDialog

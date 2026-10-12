@@ -1,7 +1,7 @@
 /* Player logic. */
 #include "nhl95.h"
 
-/* rtss (4F990) - player logic: empty routine (93G rtss: return from subroutine stub). */
+/* rtss: player logic: empty routine. */
 void rtss(void)
 {
 }

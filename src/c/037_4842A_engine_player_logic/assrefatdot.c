@@ -1,9 +1,9 @@
 /* Engine player logic: referee. */
 #include "nhl95.h"
 
-/* assrefatdot (4DFF7) - referee p at the faceoff dot (not while flag 20h, word_CBEC6 or the clock at 0): a new
-   assignment (pflags bit 1) turns him toward the dot (facedir 2/6 by fox side) with SPA C57h; unless gmode2 bit 0,
-   stand him 15 off the dot (fox, foy) at rest. */
+/* assrefatdot: referee p at the faceoff dot (not while flag 20h, word_CBEC6 or the clock at 0): a new
+ assignment (pflags bit 1) turns him toward the dot (facedir 2/6 by fox side) with SPA C57h; unless gmode2 bit 0,
+ stand him 15 off the dot (fox, foy) at rest. */
 void assrefatdot(Player *p)
 {
     if (p->pflags & 0x20) return;

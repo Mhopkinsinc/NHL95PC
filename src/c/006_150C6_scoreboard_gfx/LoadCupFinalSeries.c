@@ -1,9 +1,9 @@
 /* Scoreboard graphics: Stanley Cup final. */
 #include "nhl95.h"
 
-/* LoadCupFinalSeries (15B76) - for a final between the two conferences (teamdivflags bits 0-1 and 2-3 both set) load the
-   7 final-series games (6-byte records from game 4A6h of the schedule database) into a new STANLEY buffer
-   cupseries; otherwise cupseries 0. */
+/* LoadCupFinalSeries: for a final between the two conferences (teamdivflags bits 0-1 and 2-3 both set) load the
+ 7 final-series games (6-byte records from game 4A6h of the schedule database) into a new STANLEY buffer
+ cupseries; otherwise cupseries 0. */
 typedef struct Game6 { char c[6]; } Game6;
 
 void LoadCupFinalSeries(void)

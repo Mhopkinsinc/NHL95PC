@@ -1,8 +1,8 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpSavePct (259C0) - qsort comparator of two goalie stats records (indexes into statsgoaliebuf, 36h bytes each, the
-   playoff stats at +16h): by word +14h, then +0Ch, +0, +2 (all larger first), then smaller +4, then word +10h. */
+/* CmpSavePct: qsort comparator of two goalie stats records (indexes into statsgoaliebuf, 36h bytes each, the
+ playoff stats at +16h): by word +14h, then +0Ch, +0, +2 (all larger first), then smaller +4, then word +10h. */
 int CmpSavePct(int *a, int *b)
 {
     unsigned short *p;

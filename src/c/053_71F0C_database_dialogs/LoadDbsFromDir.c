@@ -1,8 +1,8 @@
 /* Database dialogs: load. */
 #include "nhl95.h"
 
-/* LoadDbsFromDir (7345B) - free the league databases and load them from directory dir with extension ext (season, career,
-   career teams, key, teams, attributes), remembering each buffer's file size; the databases are clean (dbdirty 0). */
+/* LoadDbsFromDir: free the league databases and load them from directory dir with extension ext (season, career,
+ career teams, key, teams, attributes), remembering each buffer's file size; the databases are clean (dbdirty 0). */
 void LoadDbsFromDir(char *dir, char *ext)
 {
     char path[32];

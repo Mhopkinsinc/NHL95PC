@@ -1,8 +1,8 @@
-/* Title / intro: outlined text. */
+/* Title intro: outlined text. */
 #include "nhl95.h"
 
-/* PrintOutlinedText (17636) - PC only: print s at x, y with an outline: four copies in textshadow at the
-   textoutlinedx / textoutlinedy offsets, then the text in textcolor, and record it in the text grid. */
+/* PrintOutlinedText: print s at x, y with an outline: four copies in textshadow at the
+ textoutlinedx textoutlinedy offsets, then the text in textcolor, and record it in the text grid. */
 void PrintOutlinedText(int x, int y, char *s)
 {
     int i;

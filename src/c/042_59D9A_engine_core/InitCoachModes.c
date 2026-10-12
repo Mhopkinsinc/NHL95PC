@@ -1,10 +1,10 @@
 /* Engine core: coach AI. */
 #include "nhl95.h"
 
-/* InitCoachModes (5A669) - start-of-period coach AI state for both teams (Team bytes D2h-D5h, dword D6h): defaults 3/2;
-   overtime (curperiod > 3) D9Ah / 2, away flags 1 / 8; the third period through SetCoachMode; earlier periods
-   CCCh / 0, away flags 81h / 1. Clears the line counters; with line changes on, a computer-run home team starts
-   with tmlcnt 2 and a computer-run away team with line 3, tmlcnt 2. */
+/* InitCoachModes: start-of-period coach AI state for both teams (Team bytes D2h-D5h, dword D6h): defaults 3/2
+ overtime (curperiod > 3) D9Ah 2, away flags 1 8; the third period through SetCoachMode; earlier periods
+ CCCh 0, away flags 81h 1. Clears the line counters; with line changes on, a computer-run home team starts
+ with tmlcnt 2 and a computer-run away team with line 3, tmlcnt 2. */
 void InitCoachModes(void)
 {
     byte_DF6E8 = byte_DF7E8 = 0;

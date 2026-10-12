@@ -384,7 +384,7 @@ dword_CCC9E:
 db 00h,00h
 byte_CCCA0:
 db 00h
-Setplass_alist:	; 94G Setplass .alist: initial assignment by position (0Eh assgoalie, 2 assdefd, 3 asswingd, 5 asscenterd)
+Setplass_alist:	; alist: initial assignment by position (0Eh assgoalie, 2 assdefd, 3 asswingd, 5 asscenterd)
 db 0Eh,02h,02h,03h,05h,03h,05h
 word_CCCA8:
 db 0F9h,0FFh,0FCh,0FFh,0FAh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh

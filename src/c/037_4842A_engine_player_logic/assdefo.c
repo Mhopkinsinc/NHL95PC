@@ -1,12 +1,12 @@
-/* Engine player logic: defence in the offensive zone (93G assdefo). */
+/* Engine player logic: defence in the offensive zone. */
 #include "nhl95.h"
 
-/* assdefo (49CDD) - 93G assdefo: a defenceman with his team on the attack. Not while flag 20h or heading to the
-   bench (check4bench); in a stoppage StopIfFree. Ignored with pflags bit 3. A new assignment (bit 1) resets temp1
-   and temp2 = 8. Every aidef frames (countdown in byte +27h) re-check: back to defence (assignment 2) when the team
-   is in tmflags bit 4, when the puck is back past y 53h (p's direction) or held by the other team. Else hold the
-   blue line: y 58h (mirrored by end), x 100 to the right for position 2 else to the left, moved to the puck's x
-   when on the same side, else halfway; skate there with EvadePC. */
+/* assdefo: a defenceman with his team on the attack. Not while flag 20h or heading to the
+ bench (check4bench); in a stoppage StopIfFree. Ignored with pflags bit 3. A new assignment (bit 1) resets temp1
+ and temp2 = 8. Every aidef frames (countdown in byte +27h) re-check: back to defence (assignment 2) when the team
+ is in tmflags bit 4, when the puck is back past y 53h (p's direction) or held by the other team. Else hold the
+ blue line: y 58h (mirrored by end), x 100 to the right for position 2 else to the left, moved to the puck's x
+ when on the same side, else halfway; skate there with EvadePC. */
 void assdefo(Player *p)
 {
     short r;

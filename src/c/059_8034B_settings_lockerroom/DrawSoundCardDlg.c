@@ -1,8 +1,8 @@
-/* Settings / locker room: sound card dialog. */
+/* Settings locker room: sound card dialog. */
 #include "nhl95.h"
 
-/* DrawSoundCardDlg (8261C) - draw the sound card dialog box: load the SOUND bank (from the CD when fileoncd says so),
-   draw its DBX art at 10 / 13h and free the bank (jctime). */
+/* DrawSoundCardDlg: draw the sound card dialog box: load the SOUND bank (from the CD when fileoncd says so),
+ draw its DBX art at 10 13h and free the bank (jctime). */
 void DrawSoundCardDlg(void)
 {
     char path[32];

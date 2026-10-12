@@ -1,9 +1,9 @@
-/* Scoring / penalty text: rink objects. */
+/* Scoring penalty text: rink objects. */
 #include "nhl95.h"
 
-/* SetRinkObject (614C2) - set rink object slot i (12-byte records at word_DEE94) to object v: marks v in the bit set
-   word_E9B2C, copies its 3 words from word_CCEF8 (+5, +7, +9), the two bytes indexed by the +9 word from
-   byte_CCE00 / byte_CCE01 (+0Bh, +4), type 0Ch, active 1. */
+/* SetRinkObject: set rink object slot i (12-byte records at word_DEE94) to object v: marks v in the bit set
+ word_E9B2C, copies its 3 words from word_CCEF8 (+5, +7, +9), the two bytes indexed by the +9 word from
+ byte_CCE00 byte_CCE01 (+0Bh, +4), type 0Ch, active 1. */
 void SetRinkObject(int i, int v)
 {
     unsigned char *o;

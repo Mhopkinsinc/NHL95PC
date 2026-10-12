@@ -1,8 +1,8 @@
 /* Speech: queue state. */
 #include "nhl95.h"
 
-/* SpeechIdle (83711) - 1 when the speech system is up and its queue (speechq) has nothing playing (+60h) or waiting
-   (+5Ch); else 0. */
+/* SpeechIdle: 1 when the speech system is up and its queue (speechq) has nothing playing (+60h) or waiting
+ (+5Ch); else 0. */
 int SpeechIdle(void)
 {
     int *q;

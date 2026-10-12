@@ -4,10 +4,10 @@
 typedef struct { char res[0x1A]; unsigned size; char rest[0x2C - 0x1E]; } FindT;
 typedef struct { unsigned short total, avail, sectors, bytes; } DiskFree;
 
-/* CheckGameDiskSpace (148A5) - is there room on the current drive for the league's game summary (GSUMMARY.DB, 8 KB
-   in clusters, less what the existing file already holds when clusters are under 8 KB)? Fatal error when the free
-   space can't be read. Returns 0 when it fits, else says how many KB are needed (message box at 140h / F0h) and
-   returns 1. */
+/* CheckGameDiskSpace: is there room on the current drive for the league's game summary (GSUMMARY.DB, 8 KB
+ in clusters, less what the existing file already holds when clusters are under 8 KB)? Fatal error when the free
+ space can't be read. Returns 0 when it fits, else says how many KB are needed (message box at 140h F0h) and
+ returns 1. */
 int CheckGameDiskSpace(void)
 {
     FindT ft;

@@ -1,11 +1,11 @@
-/* Engine physics / AI: shot wind-up. */
+/* Engine physics AI: shot wind-up. */
 #include "nhl95.h"
 
-/* ShotMode (578FA) - shot wind-up of p (frame counter SPAnum): from frame 14 shoot (doshot). Without regd0 bit 3 the
-   aim direction (regd0 & 7) becomes passdir. Before frame 10 a release (regd1 bit 4 or 6) ends the wind-up: clear
-   sflags bit 3, flag 20h, and switch the slap SPAs 3F9h/491h/DD3h/E2Bh to their follow-through 1265h/12DDh/
-   1355h/138Dh. Otherwise before frame 8 count word_C90A6 and jump to the mirrored frame (14 - SPAnum) for a weak
-   shooter (shotspd < 10) past frame 4 or when regd2 bit 5 is set. */
+/* ShotMode: shot wind-up of p (frame counter SPAnum): from frame 14 shoot (doshot). Without regd0 bit 3 the
+ aim direction (regd0 & 7) becomes passdir. Before frame 10 a release (regd1 bit 4 or 6) ends the wind-up: clear
+ sflags bit 3, flag 20h, and switch the slap SPAs 3F9h/491h/DD3h/E2Bh to their follow-through 1265h/12DDh/
+ 1355h/138Dh. Otherwise before frame 8 count word_C90A6 and jump to the mirrored frame (14 - SPAnum) for a weak
+ shooter (shotspd < 10) past frame 4 or when regd2 bit 5 is set. */
 void ShotMode(Player *p)
 {
     if (p->SPAnum >= 0xE) {

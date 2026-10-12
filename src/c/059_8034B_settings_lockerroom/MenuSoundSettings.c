@@ -1,12 +1,12 @@
-/* Settings / locker room: sound card dialog. */
+/* Settings locker room: sound card dialog. */
 #include "nhl95.h"
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
-/* MenuSoundSettings (82579) - menu "sound settings": without music playing (music off or no song) reserve the
-   320 KB TEMP buffer (dword_D2435); save the screen under the 128 x 190 dialog at 10 / 13h into a BUFFER bitmap
-   (pointer sprite header), draw the sound card dialog and its options, run it, then restore the screen and free
-   the bitmap. Returns 0. */
+/* MenuSoundSettings: menu "sound settings": without music playing (music off or no song) reserve the
+ 320 KB TEMP buffer (dword_D2435); save the screen under the 128 x 190 dialog at 10 13h into a BUFFER bitmap
+ (pointer sprite header), draw the sound card dialog and its options, run it, then restore the screen and free
+ the bitmap. Returns 0. */
 int MenuSoundSettings(void)
 {
     int bm;

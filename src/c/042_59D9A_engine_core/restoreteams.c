@@ -1,9 +1,9 @@
-/* Engine core: put both teams' rosters on the bench (93G hockey93_01 restoreteams). */
+/* Engine core: put both teams' rosters on the bench. */
 #include "nhl95.h"
 
-/* restoreteams (5B97A) - put both teams' rosters on the bench (93G hockey93_01 restoreteams). For each team:
-   tmap = 6 (players allowed on the ice), and every roster player's tmpdst from his roster status byte through
-   word_CCCA8 (status 3 bench -> -2; 93G sets -2 for all). */
+/* restoreteams: put both teams' rosters on the bench. For each team:
+ tmap = 6 (players allowed on the ice), and every roster player's tmpdst from his roster status byte through
+ word_CCCA8. */
 void restoreteams(void)
 {
     Team *t;

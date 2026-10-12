@@ -1,9 +1,9 @@
-/* Engine physics / AI: goalie pulls. */
+/* Engine physics AI: goalie pulls. */
 #include "nhl95.h"
 
-/* ChkGoalies (59265) - per team while play is on (not gmode bit 0) with a goalie in net and the puck with that team:
-   during a stoppage (gmode bit 3) a requested goalie change takes effect (tmgoalie high byte FFh, the goalie
-   menu items checked / unchecked, setpersonel); otherwise a computer team may pull its goalie (CPgoalie). */
+/* ChkGoalies: per team while play is on (not gmode bit 0) with a goalie in net and the puck with that team:
+ during a stoppage (gmode bit 3) a requested goalie change takes effect (tmgoalie high byte FFh, the goalie
+ menu items checked unchecked, setpersonel); otherwise a computer team may pull its goalie (CPgoalie). */
 void ChkGoalies(void)
 {
     Team *t;

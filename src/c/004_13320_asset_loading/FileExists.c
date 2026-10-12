@@ -1,7 +1,7 @@
 /* Asset loading: file test. */
 #include "nhl95.h"
 
-/* FileExists (142E7) - 1 when file name can be opened for reading, else 0 (the handle is closed again). */
+/* FileExists: 1 when file name can be opened for reading, else 0 (the handle is closed again). */
 int FileExists(char *name)
 {
     int h;

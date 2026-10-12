@@ -1,9 +1,9 @@
 /* Announcer: game intros. */
 #include "nhl95.h"
 
-/* SayPlayoffTonight (84C38) - when speech is up and idle: "Tonight <rnk> EA Sports <game number> of <round clip> between
-   <away> and <home>" (team clips <name>Rnk / Awa / Hom, the round clip from PlayoffRoundClipU); starts the queue
-   and returns 1, else 0. */
+/* SayPlayoffTonight: when speech is up and idle: "Tonight <rnk> EA Sports <game number> of <round clip> between
+ <away> and <home>" (team clips <name>Rnk Awa Hom, the round clip from PlayoffRoundClipU); starts the queue
+ and returns 1, else 0. */
 int SayPlayoffTonight(char *rnk, char *away, char *home, int game, unsigned conf, unsigned round)
 {
     char r[16];

@@ -1,7 +1,7 @@
 /* Create player: temporary databases. */
 #include "nhl95.h"
 
-/* DeleteTempDatabases (7125C) - delete the six league database work copies (leaguedbnames with the .TMP extension). */
+/* DeleteTempDatabases: delete the six league database work copies (leaguedbnames with the.TMP extension). */
 void DeleteTempDatabases(void)
 {
     MakePath((char *)unk_EA968, 0, (char *)leaguedbnames[5], (char *)str_TMP);

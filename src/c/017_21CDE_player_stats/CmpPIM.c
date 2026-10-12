@@ -1,9 +1,9 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpPIM (25642) - qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
-   playoff stats at +12h): most penalty minutes (word +0Ch) first, then fewer games (+0), more points (+6), more goals (+2), more
-   of word +10h. */
+/* CmpPIM: qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
+ playoff stats at +12h): most penalty minutes (word +0Ch) first, then fewer games (+0), more points (+6), more goals (+2), more
+ of word +10h. */
 int CmpPIM(int *a, int *b)
 {
     unsigned short *p;

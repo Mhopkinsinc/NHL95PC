@@ -1,8 +1,8 @@
 /* Highlights: view. */
 #include "nhl95.h"
 
-/* ViewHilights (80075) - pick a saved highlight of the current league, read its 9652h-byte record from the file into
-   hilightrec and play it. Returns 0 on success, else the error. */
+/* ViewHilights: pick a saved highlight of the current league, read its 9652h-byte record from the file into
+ hilightrec and play it. Returns 0 on success, else the error. */
 int ViewHilights(void)
 {
     char path[0x20];

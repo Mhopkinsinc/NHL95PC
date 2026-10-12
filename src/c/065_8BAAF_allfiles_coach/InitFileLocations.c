@@ -1,10 +1,10 @@
-/* All files / coach: file locations. */
+/* All files coach: file locations. */
 #include "nhl95.h"
 
-/* InitFileLocations (8BAAF) - read NHL.CFG: its second line starts with the CD drive letter (cddrivestr); open
-   <drive>ALLFILES.TXT (or ALLFILES.TXT here) and mark every file listed there (up to 225h) as on the CD
-   (fileoncd = 1); then every name left in NHL.CFG is installed on the hard disk (fileoncd = 0). Fatal error when
-   either file is missing. */
+/* InitFileLocations: read NHL.CFG: its second line starts with the CD drive letter (cddrivestr); open
+ <drive>ALLFILES.TXT (or ALLFILES.TXT here) and mark every file listed there (up to 225h) as on the CD
+ (fileoncd = 1); then every name left in NHL.CFG is installed on the hard disk (fileoncd = 0). Fatal error when
+ either file is missing. */
 void InitFileLocations(void)
 {
     char names[0x225][16];

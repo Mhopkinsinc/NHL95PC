@@ -1,8 +1,8 @@
 /* League databases: load. */
 #include "nhl95.h"
 
-/* LoadLeagueDbsMem (6C19B) - free the league databases and load them again from the files with extension ext (season,
-   career, career teams, key, teams, attributes), remembering each buffer's file size (sub_92DE0). */
+/* LoadLeagueDbsMem: free the league databases and load them again from the files with extension ext (season,
+ career, career teams, key, teams, attributes), remembering each buffer's file size (sub_92DE0). */
 void LoadLeagueDbsMem(char *ext)
 {
     char path[32];

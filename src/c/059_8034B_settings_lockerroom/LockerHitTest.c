@@ -1,8 +1,8 @@
-/* Settings / locker room: hit test. */
+/* Settings locker room: hit test. */
 #include "nhl95.h"
 
-/* LockerHitTest (81520) - which of the 8 locker room rects (left, top, right, bottom) contains (x + 4, y): *hit = its
-   number, returns 1; 0 when none. */
+/* LockerHitTest: which of the 8 locker room rects (left, top, right, bottom) contains (x + 4, y): *hit = its
+ number, returns 1; 0 when none. */
 int LockerHitTest(int x, int y, int *hit)
 {
     int i;

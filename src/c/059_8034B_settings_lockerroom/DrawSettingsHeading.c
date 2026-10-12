@@ -1,9 +1,9 @@
-/* Settings / locker room: settings dialog heading. */
+/* Settings locker room: settings dialog heading. */
 #include "nhl95.h"
 
-/* DrawSettingsHeading (8050F) - PC only: print the game mode name (mode 0 Exhibition, 1 Playoff, 2 League) as the
-   heading of settings dialog n in the s1font font and colour on FFh, 16h below y and centred from x (dialogs 3 / 5
-   at x+59h, 4 / 6 at x+51h); the text state is saved and restored around it. */
+/* DrawSettingsHeading: print the game mode name (mode 0 Exhibition, 1 Playoff, 2 League) as the
+ heading of settings dialog n in the s1font font and colour on FFh, 16h below y and centred from x (dialogs 3 5
+ at x+59h, 4 6 at x+51h); the text state is saved and restored around it. */
 void DrawSettingsHeading(int x, int y, int n, int mode, int colour)
 {
     char state[0x40];

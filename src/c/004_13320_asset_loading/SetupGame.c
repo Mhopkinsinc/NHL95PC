@@ -1,10 +1,10 @@
 /* Asset loading: game setup. */
 #include "nhl95.h"
 
-/* SetupGame (13E8F) - set up a game: default lines for both teams, clock state (gsp -1), crowd and game variables, the
-   HUD panel, then the pre-game show (StartPreGame; < 0: return -1). After it gsp 0 and the game variables are
-   reset again (keeping introskipped); a skipped intro restores the palette (savepal) and leaves the players to
-   PlacePlayersAtStart only with line changes off. Returns 0. */
+/* SetupGame: set up a game: default lines for both teams, clock state (gsp -1), crowd and game variables, the
+ HUD panel, then the pre-game show (StartPreGame; < 0: return -1). After it gsp 0 and the game variables are
+ reset again (keeping introskipped); a skipped intro restores the palette (savepal) and leaves the players to
+ PlacePlayersAtStart only with line changes off. Returns 0. */
 int SetupGame(void)
 {
     int s;

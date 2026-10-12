@@ -1,9 +1,9 @@
-/* Engine core: add a roster player to the player list (PC only). */
+/* Engine core: add a roster player to the player list. */
 #include "nhl95.h"
 
-/* TryAddPlayerToList (5BB9E) - PC only: put roster player pl of team t into slot `slot` of PlList (6 entries,
-   the player list SetPlList builds for the line/stat screens). Not when he is in the penalty box (tmpdst > 0)
-   or marked -3 or below in tmpdst, and not when another slot already holds him. Returns 1 when added, else 0. */
+/* TryAddPlayerToList: put roster player pl of team t into slot `slot` of PlList (6 entries,
+ the player list SetPlList builds for the line/stat screens). Not when he is in the penalty box (tmpdst > 0)
+ or marked -3 or below in tmpdst, and not when another slot already holds him. Returns 1 when added, else 0. */
 int TryAddPlayerToList(Team *t, short pl, short slot)
 {
     short i;

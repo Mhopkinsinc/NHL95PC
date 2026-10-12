@@ -1,9 +1,9 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpShootPct (25755) - qsort comparator for shooting percentage: highest sort key (statssortkeys, the precomputed
-   percentage) first, then on the skater stats records (2Fh bytes, playoffs at +12h) more games (+0), more
-   points (+6), more goals (+2), more of word +10h. */
+/* CmpShootPct: qsort comparator for shooting percentage: highest sort key (statssortkeys, the precomputed
+ percentage) first, then on the skater stats records (2Fh bytes, playoffs at +12h) more games (+0), more
+ points (+6), more goals (+2), more of word +10h. */
 int CmpShootPct(int *a, int *b)
 {
     unsigned short *p;

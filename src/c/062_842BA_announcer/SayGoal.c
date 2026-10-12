@@ -1,9 +1,9 @@
 /* Announcer: a goal. */
 #include "nhl95.h"
 
-/* SayGoal (8531F) - when speech is up and idle: announce "<team> goal, number <scorer>" and with nast assists
-   "assisted by number <a1>" (nast > 0) "and number <a2>" (nast > 1): priority 1Ah, request the clips (with "one
-   left"), make room, queue them and start the queue. Returns 1, else 0. */
+/* SayGoal: when speech is up and idle: announce "<team> goal, number <scorer>" and with nast assists
+ "assisted by number <a1>" (nast > 0) "and number <a2>" (nast > 1): priority 1Ah, request the clips (with "one
+ left"), make room, queue them and start the queue. Returns 1, else 0. */
 int SayGoal(char *team, int nast, int scorer, int a1, int a2)
 {
     char teamclip[16];

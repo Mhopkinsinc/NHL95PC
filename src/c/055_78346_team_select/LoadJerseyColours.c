@@ -1,10 +1,10 @@
 /* Team select: jersey colours. */
 #include "nhl95.h"
 
-/* LoadJerseyColours (78A87) - from HOMEPALS.BIN (1C0h bytes per team) take the palette part of the away (VisTeam) or home
-   team: its first B4h bytes to dst+CCh, the rest (B4h-BFh) to dst+24Ch, plus the four fixed colours at dst+264h;
-   build jerseyremap 80h-FEh from the team's remap table (entries shifted down by 3Ch, those the signed compare
-   picks up by 8), with FBh-FEh mapping to themselves, and install it. The second argument is unused. */
+/* LoadJerseyColours: from HOMEPALS.BIN (1C0h bytes per team) take the palette part of the away (VisTeam) or home
+ team: its first B4h bytes to dst+CCh, the rest (B4h-BFh) to dst+24Ch, plus the four fixed colours at dst+264h
+ build jerseyremap 80h-FEh from the team's remap table (entries shifted down by 3Ch, those the signed compare
+ picks up by 8), with FBh-FEh mapping to themselves, and install it. The second argument is unused. */
 void LoadJerseyColours(int away, int unused, unsigned char *dst)
 {
     char path[16];

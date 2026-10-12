@@ -1,9 +1,9 @@
 /* Announcer: preload. */
 #include "nhl95.h"
 
-/* PreloadAnnouncerClips (8579E) - when speech is up and idle: open the XBRUCE2.VIV speech bank (1Ah slots) and preload the
-   clips used in a game (one minute left, pause, both team names <name>Tea, goal/assist/and/penalty numbers,
-   2 minutes, at) plus the penalty types by requesting and queueing them; returns 1, else 0. */
+/* PreloadAnnouncerClips: when speech is up and idle: open the XBRUCE2.VIV speech bank (1Ah slots) and preload the
+ clips used in a game (one minute left, pause, both team names <name>Tea, goal/assist/and/penalty numbers,
+ 2 minutes, at) plus the penalty types by requesting and queueing them; returns 1, else 0. */
 int PreloadAnnouncerClips(char *home, char *vis)
 {
     char h[16];

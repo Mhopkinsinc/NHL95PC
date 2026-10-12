@@ -1,8 +1,8 @@
 /* Engine sound interface: digital samples. */
 #include "nhl95.h"
 
-/* FreeDigiSample (59945) - free the digital sample (digihandle) unless it has already finished, and mark no sample. The
-   argument is not used. */
+/* FreeDigiSample: free the digital sample (digihandle) unless it has already finished, and mark no sample. The
+ argument is not used. */
 void FreeDigiSample(int unused)
 {
     int h;

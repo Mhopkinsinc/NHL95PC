@@ -1,9 +1,9 @@
-/* Main / startup: game loop. */
+/* Main startup: game loop. */
 #include "nhl95.h"
 
-/* RunGameFrames (1149A) - run up to n game frames: every 3 frames take the next queued input event (none: stop; a hot key
-   that HandleHotKey takes flushes the queue and stops); the clock runs while not stopped (dword_D8C78 + 100
-   outside penalty shots); stop early on a deferred call, exit or game over. */
+/* RunGameFrames: run up to n game frames: every 3 frames take the next queued input event (none: stop; a hot key
+ that HandleHotKey takes flushes the queue and stops); the clock runs while not stopped (dword_D8C78 + 100
+ outside penalty shots); stop early on a deferred call, exit or game over. */
 void RunGameFrames(int n)
 {
     int i;

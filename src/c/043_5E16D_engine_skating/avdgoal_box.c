@@ -1,10 +1,10 @@
 /* Engine skating: goal avoidance box test. */
 #include "nhl95.h"
 
-/* avdgoal_box (5F04E) - PC-new helper of avdgoal: does the line from player p to the target (regd0 x / regd1 y,
-   low words) cross this goal's box (x from x1 to x2, y within +-y)? *ps / *pt get the side bits of the player
-   and the target (4 below x1, 1 from x2 on, 2 / 8 past y / -y). Returns 1 when it crosses, else 0 (both on one
-   side). */
+/* avdgoal_box: helper of avdgoal: does the line from player p to the target (regd0 x regd1 y,
+ low words) cross this goal's box (x from x1 to x2, y within +-y)? *ps *pt get the side bits of the player
+ and the target (4 below x1, 1 from x2 on, 2 8 past y -y). Returns 1 when it crosses, else 0 (both on one
+ side). */
 int avdgoal_box(Player *p, int x1, int x2, int y, int *ps, int *pt)
 {
     int px;

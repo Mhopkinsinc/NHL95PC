@@ -1846,7 +1846,7 @@ ret	; 1A816
 %ifdef CBUILD
 %include "c/010_18D7F_frontend_desk/DeskGoToReplay.inc"
 %else
-DeskGoToReplay:	;IDA: code_1A817
+DeskGoToReplay:
 push dword 1Ch	; 1A817
 call __CHK	; 1A81C
 push ebx	; 1A821
@@ -1884,7 +1884,7 @@ mov ebx, 1	; 1A894
 mov dword [dword_C66D4], ebx	; 1A899
 mov dword [dword_C66D0], ebx	; 1A89F
 jmp near DeskItem_ret2	; 1A8A5
-DeskHomeLines:	;IDA: code_1A8AA
+DeskHomeLines:
 push dword 1Ch	; 1A8AA
 call __CHK	; 1A8AF
 push ebx	; 1A8B4
@@ -1915,7 +1915,7 @@ mov edx, savepal	; 1A90E
 mov eax, 1	; 1A913
 call FadePalStep	; 1A918
 jmp near DeskItem_ret2	; 1A91D
-DeskVisitorLines:	;IDA: code_1A922
+DeskVisitorLines:
 push dword 1Ch	; 1A922
 call __CHK	; 1A927
 push ebx	; 1A92C
@@ -1935,7 +1935,7 @@ mov ebx, unk_CF2EF	; 1A95C
 mov edx, awlinetab	; 1A961
 mov eax, 1	; 1A966
 jmp short DeskLines_common	; 1A96B
-DeskGameStats:	;IDA: code_1A96D
+DeskGameStats:
 push dword 1Ch	; 1A96D
 call __CHK	; 1A972
 push ebx	; 1A977
@@ -1952,7 +1952,7 @@ mov eax, 1	; 1A998
 call FadePalStep	; 1A99D
 call GameStatsScreen	; 1A9A2
 jmp near DeskItem_ret2	; 1A9A7
-DeskPenaltySummary:	;IDA: code_1A9AC
+DeskPenaltySummary:
 push dword 20h	; 1A9AC
 call __CHK	; 1A9B1
 push ebx	; 1A9B6

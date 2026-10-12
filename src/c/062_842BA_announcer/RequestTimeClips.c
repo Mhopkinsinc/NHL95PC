@@ -1,9 +1,9 @@
 /* Announcer: preload the clips of a game time. */
 #include "nhl95.h"
 
-/* RequestTimeClips (84DDD) - PC only: as QueueTimeClips, but request (preload) the speech samples for "at <min> minutes <sec> seconds": AT, a pause,
-   then the minutes ("<min>.NUM"; "1 minute" alone, or "<min> minutes" when the seconds are 0) and the seconds
-   ("<sec:02>.NUM" after minutes; "1 second" or "<sec> seconds" alone). */
+/* RequestTimeClips: as QueueTimeClips, but request (preload) the speech samples for "at <min> minutes <sec> seconds": AT, a pause,
+ then the minutes ("<min>.NUM"; "1 minute" alone, or "<min> minutes" when the seconds are 0) and the seconds
+ ("<sec:02>.NUM" after minutes; "1 second" or "<sec> seconds" alone). */
 void RequestTimeClips(int min, int sec)
 {
     char mins[16];

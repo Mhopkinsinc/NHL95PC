@@ -1,9 +1,9 @@
-/* Engine assignments / faceoff: one-timer. */
+/* Engine assignments faceoff: one-timer. */
 #include "nhl95.h"
 
-/* OneTimerChk (50E5C) - may receiver p one-time the pass: in the attacking zone (|y| 4Fh-DDh, on the side p attacks),
-   the other team's goalie in net; across from the goalie (different x) beyond 12 always, else a 1 in 3 chance
-   (1 in 2 beyond 6). Returns 1 for a one-timer. */
+/* OneTimerChk: may receiver p one-time the pass: in the attacking zone (|y| 4Fh-DDh, on the side p attacks),
+ the other team's goalie in net; across from the goalie (different x) beyond 12 always, else a 1 in 3 chance
+ (1 in 2 beyond 6). Returns 1 for a one-timer. */
 int OneTimerChk(Player *p)
 {
     Player *g;

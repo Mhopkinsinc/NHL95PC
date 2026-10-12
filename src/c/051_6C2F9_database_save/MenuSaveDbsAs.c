@@ -1,4 +1,4 @@
-/* Database save: save the databases under a new name. */
+/* Database save: the databases under a new name. */
 #include "nhl95.h"
 
 typedef struct FindT {
@@ -12,12 +12,12 @@ typedef struct FindT {
 
 int mkdir(const char *path);  /* Watcom CRT mkdir_ */
 
-/* DRAFT (MenuSaveDbsAs): 1 byte short; x / y / err get ebp / stack / edi where the EXE has edi / ebp / stack, and the
-   dir / name buffers swap slots (declaration orders tried). */
-/* MenuSaveDbsAs (6C3BB) - PC only: menu "save databases as": ask for a new database name (up to 8 characters); unless
-   cancelled, make the directory NAME.DBX - when it exists already, ask (dbexistsmsg at x, y) whether to replace it
-   (DeleteDir) - and save the databases there (SaveDbsToDir, extension DB) as the current database curdbname, then
-   redraw the roster screen. */
+/* DRAFT (MenuSaveDbsAs): 1 byte short; x y err get ebp stack edi where the EXE has edi ebp stack, and the
+ dir name buffers swap slots (declaration orders tried). */
+/* MenuSaveDbsAs: menu "save databases as": ask for a new database name (up to 8 characters); unless
+ cancelled, make the directory NAME.DBX - when it exists already, ask (dbexistsmsg at x, y) whether to replace it
+ (DeleteDir) - and save the databases there (SaveDbsToDir, extension DB) as the current database curdbname, then
+ redraw the roster screen. */
 void MenuSaveDbsAs(int unused, int x, int y)
 {
     FindT ft;

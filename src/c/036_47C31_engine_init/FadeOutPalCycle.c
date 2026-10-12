@@ -1,9 +1,9 @@
 /* Engine init: loading screen. */
 #include "nhl95.h"
 
-/* FadeOutPalCycle (47C31) - end the loading screen palette cycle: step all 3 loadpals palettes down to black (one level
-   per 2 ticks, the cycle locked while changing them), then remove the LoadScreenPalTick timer and clear
-   loadscreenon. */
+/* FadeOutPalCycle: end the loading screen palette cycle: step all 3 loadpals palettes down to black (one level
+ per 2 ticks, the cycle locked while changing them), then remove the LoadScreenPalTick timer and clear
+ loadscreenon. */
 void FadeOutPalCycle(void)
 {
     int done;

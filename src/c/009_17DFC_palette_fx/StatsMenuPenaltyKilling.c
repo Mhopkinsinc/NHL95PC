@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuPenaltyKilling (1809F) - stats menu item: category 2 (penalty killing). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run TeamStatsScreen(2) and fade out with the second; otherwise call the
-   teamstatscb handler. Returns the screen's result. */
+/* StatsMenuPenaltyKilling: stats menu item: category 2 (penalty killing). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run TeamStatsScreen(2) and fade out with the second; otherwise call the
+ teamstatscb handler. Returns the screen's result. */
 int StatsMenuPenaltyKilling(void)
 {
     statscategory = 2;

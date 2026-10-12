@@ -1,8 +1,8 @@
-/* Key / team database: scoreboard penalty panel. */
+/* Key team database: scoreboard penalty panel. */
 #include "nhl95.h"
 
-/* ClearPanelPenalties (1CBD8) - empty both penalty panel lists (8 entries of 4 shorts: player -1, the rest 0) and reload
-   the scoreboard graphics. */
+/* ClearPanelPenalties: empty both penalty panel lists (8 entries of 4 shorts: player -1, the rest 0) and reload
+ the scoreboard graphics. */
 void ClearPanelPenalties(void)
 {
     int i;

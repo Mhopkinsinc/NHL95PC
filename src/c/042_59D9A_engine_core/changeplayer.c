@@ -1,13 +1,13 @@
 /* Engine core: functions that share changeplayer's epilogue (changeplayer_ret5), in address order:
-   changeplayer (59E69), setplayer (5B2C5, jumps to changeplayer_ret5 at 5B821) and DrawRinkOverlays
-   (5D7xx, jumps at 5D7F2). Unmarked functions here are drafts; see tools/c_functions.csv. */
+ changeplayer, setplayer (5B2C5, jumps to changeplayer_ret5 at 5B821) and DrawRinkOverlays
+ (5D7xx, jumps at 5D7F2). Unmarked functions here are drafts; see tools/c_functions.csv. */
 #include "nhl95.h"
 
-/* changeplayer (59E69) - 93G logic93_1 changeplayer: human control moves to the teammate of p nearest the
-   puck's next position (puck + velocity/256). Controller cont (0 = 1, else 2) scans its team's six
-   players: on the ice (position > 0), not pflags2 bit 2, not animation locked (pfalock), and not the other
-   controller's player; the nearest by squared distance wins (default p->SCnum). If that is the
-   controller's own player already, Sweepcheck(p); else restorepl hands the joystick over. */
+/* changeplayer: human control moves to the teammate of p nearest the
+ puck's next position (puck + velocity/256). Controller cont (0 = 1, else 2) scans its team's six
+ players: on the ice (position > 0), not pflags2 bit 2, not animation locked (pfalock), and not the other
+ controller's player; the nearest by squared distance wins (default p->SCnum). If that is the
+ controller's own player already, Sweepcheck(p); else restorepl hands the joystick over. */
 void changeplayer(Player *p, short cont)
 {
     short pick;

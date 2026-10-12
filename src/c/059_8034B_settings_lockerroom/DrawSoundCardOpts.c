@@ -1,9 +1,9 @@
-/* Settings / locker room: sound card dialog. */
+/* Settings locker room: sound card dialog. */
 #include "nhl95.h"
 
-/* DrawSoundCardOpts (82690) - start the sound card dialog checks from sounddev, then redraw it (as RedrawSoundCardOpts):
-   the eight boxes on or off by setbits, and the names of the cards not present (byte_C541B bits clear) printed
-   in grey over boxes 0-3 and 5. */
+/* DrawSoundCardOpts: start the sound card dialog checks from sounddev, then redraw it (as RedrawSoundCardOpts):
+ the eight boxes on or off by setbits, and the names of the cards not present (byte_C541B bits clear) printed
+ in grey over boxes 0-3 and 5. */
 void DrawSoundCardOpts(void)
 {
     int i;

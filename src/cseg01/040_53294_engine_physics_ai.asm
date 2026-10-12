@@ -111,8 +111,8 @@ or byte [byte eax+pflags], 20h	; 53374
 mov edx, 621h	; 53378
 call SetSPA	; 5337D
 jmp near checkob_ret5	; 53382
-; BlockShotDive: PC-new. eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
-;   1475h; else a sliding block with dirtab speed (word_CCC32).
+; BlockShotDive: eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
+; 1475h; else a sliding block with dirtab speed (word_CCC32).
 BlockShotDive:
 push dword 14h	; 53387
 call __CHK	; 5338C
@@ -546,8 +546,8 @@ pop ecx	; 53829
 pop ebx	; 5382A
 ret	; 5382B
 %endif ; C
-; checkcheck: 93G hockey93_03 checkcheck. Two players in contact: hold (holdcheck), B-check (Bcheck), hits into
-;   the boards (FacingBoards), penalties (checkagr, AddPenalty), FallDown.
+; checkcheck: Two players in contact: hold (holdcheck), B-check (Bcheck), hits into
+; the boards (FacingBoards), penalties (checkagr, AddPenalty), FallDown.
 checkcheck:
 push dword 1Ch	; 5382C
 call __CHK	; 53831
@@ -1365,8 +1365,8 @@ and eax, 0FFh	; 541C3
 pop edx	; 541C8
 ret	; 541C9
 %endif ; C
-; ChkDelayedOffside: PC-new. Offsides option: the flagged team touches the puck in the zone -> AddPenalty2 8 on
-;   SortCords[lasttouch], returns 1. Called from checkpuckcoll before puckstick / puckgoalie.
+; ChkDelayedOffside: Offsides option: the flagged team touches the puck in the zone -> AddPenalty2 8 on
+; SortCords[lasttouch], returns 1. Called from checkpuckcoll before puckstick puckgoalie.
 ChkDelayedOffside:
 push dword 8	; 541CA
 call __CHK	; 541CF
@@ -2119,9 +2119,9 @@ jl short GetLowestPen.6	; 54AEE
 mov eax, ebx	; 54AF0
 add eax, ecx	; 54AF2
 jmp near checkob_ret5	; 54AF4
-; chk4lc: 93G logic93_3 chk4lc (see if computer should call line change). Puck in own half below the blue line,
-;   1 in 4, not pflags2 bit 3; PC adds clock / penalty checks (GetLowestPen). Then CompLine, setpersonel and
-;   chk4lc_shoot: CompShoot dumps the puck. Returns 1 when it did.
+; chk4lc: (see if computer should call line change). Puck in own half below the blue line,
+; 1 in 4, not pflags2 bit 3; PC adds clock penalty checks (GetLowestPen). Then CompLine, setpersonel and
+; chk4lc_shoot: CompShoot dumps the puck. Returns 1 when it did.
 chk4lc:
 push dword 18h	; 54AF9
 call __CHK	; 54AFE
@@ -2928,8 +2928,8 @@ mov eax, dword [puckvy]	; 55483
 mov word [eax], si	; 55488
 add esp, byte 1Ch	; 5548B
 jmp near checkob_ret5	; 5548E
-; chk4pass: 93G logic93_3 chk4pass (computer looks for a good pass): threat / spodds roll, target by vtoa
-;   (PassLaneChk), dopass, assexit.
+; chk4pass: (computer looks for a good pass): threat spodds roll, target by vtoa
+; (PassLaneChk), dopass, assexit.
 chk4pass:
 push dword 18h	; 55493
 call __CHK	; 55498
@@ -3200,8 +3200,8 @@ mov edx, 1	; 557F8
 .29:
 mov eax, edx	; 557FD
 jmp near checkob_ret5	; 557FF
-; chk4shot: 93G logic93_3 chk4shot (computer looks for a shot). regd4 = 20h - spodds; shot lane test; jumps to
-;   chk4lc_shoot (CompShoot) to shoot.
+; chk4shot: (computer looks for a shot). regd4 = 20h - spodds; shot lane test; jumps to
+; chk4lc_shoot (CompShoot) to shoot.
 chk4shot:
 push dword 18h	; 55804
 call __CHK	; 55809
@@ -3363,7 +3363,7 @@ jl short chk4shot.14	; 55A25
 test byte [gmode2], 80h	; 55A27
 jne short chk4shot.14	; 55A2E
 jmp near chk4lc_shoot	; 55A30
-; CompShoot: 93G logic93_3 CompShoot. temp2 = swing time (E8h - pucky by pfgoal) / 8, max 14h; assreplace ashoot (12h).
+; CompShoot: temp2 = swing time (E8h - pucky by pfgoal) 8, max 14h; assreplace ashoot (12h).
 ; C: src/c/040_53294_engine_physics_ai/CompShoot.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/CompShoot.inc"
@@ -3398,8 +3398,8 @@ call assreplace	; 55A98
 pop edx	; 55A9D
 ret	; 55A9E
 %endif ; C
-; ChkOffsides: 93G logic93_5 ChkOffsides / ClearOffsidesIfAllPlayers. Offsides option (gameopts bit 1): a team's
-;   offsides flag (tmflags bit 4) is cleared once none of its skaters is past the blue line (4Eh).
+; ChkOffsides: ClearOffsidesIfAllPlayers. Offsides option (gameopts bit 1): a team's
+; offsides flag (tmflags bit 4) is cleared once none of its skaters is past the blue line (4Eh).
 ChkOffsides:
 push dword 18h	; 55A9F
 call __CHK	; 55AA4
@@ -3602,8 +3602,8 @@ pop edx	; 55D25
 pop ebx	; 55D26
 ret	; 55D27
 %endif ; C
-; ChkShotStat: 93G penalty93_2 ChkShotStat. If the shot flag (gmode2 bit 4) was set: clear it, crowdlevel +100,
-;   shot counts for the shooter and the goalie.
+; ChkShotStat: If the shot flag (gmode2 bit 4) was set: clear it, crowdlevel +100,
+; shot counts for the shooter and the goalie.
 ChkShotStat:
 push dword 18h	; 55D28
 call __CHK	; 55D2D
@@ -3691,8 +3691,8 @@ sub eax, edx	; 55E60
 mov edx, dword [dword ebx+0EAh]	; 55E62
 inc word [byte edx+eax*2+02h]	; 55E68
 jmp near checkob_ret5	; 55E6D
-; setInjuryType: 93G hockey93_03 setInjuryType. Player unavailable (pflags2 bit 2), crowd up, sfx A1h, camera locked
-;   on him (xc1/yc1, sfslock).
+; setInjuryType: Player unavailable (pflags2 bit 2), crowd up, sfx A1h, camera locked
+; on him (xc1/yc1, sfslock).
 setInjuryType:
 push dword 24h	; 55E72
 call __CHK	; 55E77
@@ -4043,8 +4043,8 @@ sar eax, 10h	; 562D0
 .25:
 add esp, byte 0Ch	; 562D3
 jmp near PassLaneChk_ret5	; 562D6
-; FallDown: 93G hockey93_03 FallDown. A player falls after a hit: fall animation, newcheck, injury (setInjuryType),
-;   penalty roll (checkagr / AddPenalty2).
+; FallDown: A player falls after a hit: fall animation, newcheck, injury (setInjuryType),
+; penalty roll (checkagr AddPenalty2).
 FallDown:
 push dword 14h	; 562DB
 call __CHK	; 562E0
@@ -4931,8 +4931,8 @@ pop ecx	; 56E4F
 pop ebx	; 56E50
 ret	; 56E51
 %endif ; C
-; puckIChk: 93G logic93_5 puckIChk (icing). iflags bit 2 ifok, bit 0 ifcgl, bit 1 ifdir; loose puck past the goal
-;   line: |puckx| > 2Ch sets ifcgl (icing), else clears ifok.
+; puckIChk: (icing). iflags bit 2 ifok, bit 0 ifcgl, bit 1 ifdir; loose puck past the goal
+; line: |puckx| > 2Ch sets ifcgl (icing), else clears ifok.
 puckIChk:
 push dword 8	; 56E52
 call __CHK	; 56E57
@@ -6478,8 +6478,8 @@ call sfx	; 580EE
 pop edx	; 580F3
 ret	; 580F4
 %endif ; C
-; checkcoll: 93G hockey93_03 checkcoll. eax = object: wall collision (checkwallcoll) at the hot spot and the stick end,
-;   then player collisions (checkplcoll). Called from updateplayers.
+; checkcoll: eax = object: wall collision (checkwallcoll) at the hot spot and the stick end,
+; then player collisions (checkplcoll). Called from updateplayers.
 checkcoll:
 push dword 14h	; 580F5
 call __CHK	; 580FA
@@ -7418,8 +7418,8 @@ pop edi	; 58DC3
 pop esi	; 58DC4
 pop ecx	; 58DC5
 ret	; 58DC6
-; checkcx: 93G hockey93_03 checkcx. Possible collision with one OOlist neighbour: x range and distance, impact,
-;   newcheck sound, checkint (interference), checkcheck (contact events).
+; checkcx: Possible collision with one OOlist neighbour: x range and distance, impact,
+; newcheck sound, checkint (interference), checkcheck (contact events).
 checkcx:
 push dword 20h	; 58DC7
 call __CHK	; 58DCC
@@ -7770,7 +7770,7 @@ call setpersonel	; 5925E
 pop ecx	; 59263
 ret	; 59264
 %endif ; C
-; ChkGoalies: 93G logic93_4 ChkGoalies (computer pulls goalie on delayed penalty), once a second from periodicevents.
+; ChkGoalies: (computer pulls goalie on delayed penalty), once a second from periodicevents.
 ChkGoalies:
 push dword 14h	; 59265
 call __CHK	; 5926A
@@ -7846,7 +7846,7 @@ pop edx	; 5934E
 pop ecx	; 5934F
 pop ebx	; 59350
 ret	; 59351
-; ReturnGoalies: 93G logic93_4 ReturnGoalies (computer returns a pulled goalie), from puckfaceoff.
+; ReturnGoalies: (computer returns a pulled goalie), from puckfaceoff.
 ReturnGoalies:
 push dword 1Ch	; 59352
 call __CHK	; 59357

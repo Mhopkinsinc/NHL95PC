@@ -1,10 +1,10 @@
 /* Create player: roster menus. */
 #include "nhl95.h"
 
-/* SetRosterTeamMenus (7183D) - update side's roster menus when it switches to team: the old team (rosterteam[side]; FFh
-   free agents) gets its menu item handler back (division menu item +14h = SelectRosterTeam, or ShowFreeAgents);
-   the new team's item is disabled (handler 0) and "edit lines" is enabled for it (EditTeamLines). Team 64h (free
-   agents) disables edit lines and the free agents items. Division index teamdivflags >> 1 (4 counts as 3). */
+/* SetRosterTeamMenus: update side's roster menus when it switches to team: the old team (rosterteam[side]; FFh
+ free agents) gets its menu item handler back (division menu item +14h = SelectRosterTeam, or ShowFreeAgents)
+ the new team's item is disabled (handler 0) and "edit lines" is enabled for it (EditTeamLines). Team 64h (free
+ agents) disables edit lines and the free agents items. Division index teamdivflags >> 1 (4 counts as 3). */
 typedef struct MenuItem20 { int f[5]; int handler; int g[2]; } MenuItem20;  /* 20h-byte menu item, handler at +14h */
 
 void SetRosterTeamMenus(int side, int team)

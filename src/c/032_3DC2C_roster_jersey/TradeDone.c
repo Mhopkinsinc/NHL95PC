@@ -1,10 +1,10 @@
-/* Roster / jersey: trade dialog done button. */
+/* Roster jersey: trade dialog done button. */
 #include "nhl95.h"
 
-/* TradeDone (3EDAA) - trade dialog "done" callback (a-h unused; sel: the selected slots of both sides, byte 0/1
-   and 2/3): a side with one of its pair picked and not the other is an unequal trade: save palette entries FBh-FEh
-   (DONEPAL buffer), set them to the message colours, show "unequal trade" at the mouse, restore the palette and
-   the mouse position. Otherwise traderesult = 1. */
+/* TradeDone: trade dialog "done" callback (a-h unused; sel: the selected slots of both sides, byte 0/1
+ and 2/3): a side with one of its pair picked and not the other is an unequal trade: save palette entries FBh-FEh
+ (DONEPAL buffer), set them to the message colours, show "unequal trade" at the mouse, restore the palette and
+ the mouse position. Otherwise traderesult = 1. */
 void TradeDone(int a, int b, int c, int d, int e, int f, int g, int h, unsigned char *sel)
 {
     unsigned char rgb[4];

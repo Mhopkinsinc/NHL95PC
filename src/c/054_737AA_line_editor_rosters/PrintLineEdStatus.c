@@ -1,8 +1,8 @@
-/* Line editor / rosters: status line. */
+/* Line editor rosters: status line. */
 #include "nhl95.h"
 
-/* PrintLineEdStatus (76771) - clear the status line box at x / y (11 lines high, width of s clipped to x 26Bh) and print
-   s there. */
+/* PrintLineEdStatus: clear the status line box at x y (11 lines high, width of s clipped to x 26Bh) and print
+ s there. */
 void PrintLineEdStatus(int x, int y, char *s)
 {
     int w;

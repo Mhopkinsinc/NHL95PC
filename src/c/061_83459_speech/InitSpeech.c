@@ -1,8 +1,8 @@
 /* Speech: speech system setup. */
 #include "nhl95.h"
 
-/* InitSpeech (8357A) - once: set up the speech system (sentence queue, sample request block, speech bank of size
-   bytes, copy buffer) and hook SpeechTimerTick on the timer. */
+/* InitSpeech: once: set up the speech system (sentence queue, sample request block, speech bank of size
+ bytes, copy buffer) and hook SpeechTimerTick on the timer. */
 void InitSpeech(unsigned char id, int size, int copybuf, int copylen)
 {
     if (SpeechIsInit()) return;

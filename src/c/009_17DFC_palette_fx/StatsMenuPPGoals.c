@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuPPGoals (185EB) - stats menu item: category 3 (power-play goals). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run LeadersScreen(3) and fade out with the second; otherwise call the
-   skaterstatscb handler. Returns the screen's result. */
+/* StatsMenuPPGoals: stats menu item: category 3 (power-play goals). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run LeadersScreen(3) and fade out with the second; otherwise call the
+ skaterstatscb handler. Returns the screen's result. */
 int StatsMenuPPGoals(void)
 {
     statscategory = 3;

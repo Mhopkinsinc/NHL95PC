@@ -1,9 +1,9 @@
-/* Import / export: team grid. */
+/* Import export: team grid. */
 #include "nhl95.h"
 
-/* DrawTeamGrid (37FBA) - print title centred at y 28h, load the crest bank (CALLOGO2) and draw the team grid: 4 rows of up
-   to 7 crests (grid, 63h ends a row; x = col * 85 + 40h for rows 0-1, + 16h below; y = row * 92 + 58h), with
-   DrawTeamGridName for teams whose record (1Eh bytes) is flagged at +17h; free the bank. */
+/* DrawTeamGrid: print title centred at y 28h, load the crest bank (CALLOGO2) and draw the team grid: 4 rows of up
+ to 7 crests (grid, 63h ends a row; x = col * 85 + 40h for rows 0-1, + 16h below; y = row * 92 + 58h), with
+ DrawTeamGridName for teams whose record (1Eh bytes) is flagged at +17h; free the bank. */
 void DrawTeamGrid(unsigned char *teams, char *title, unsigned char *grid, int arg4)
 {
     int r;

@@ -1,13 +1,13 @@
-/* Engine player logic: penalty box entry (93G assboxenter). */
+/* Engine player logic: penalty box entry. */
 #include "nhl95.h"
 
-/* assboxenter (499D8) - 93G assboxenter: the penalized player skates into the box. Pencntdwn 300; not while flag
-   20h. A new assignment (bit 1): temp2 = 8, the box spot temp3 / temp4 = -91h / 6, temp1 = temp5 = 0. Seated
-   (temp1 100): once the door (sortobj15) is waiting for him (word_DFFC2 == 100) close it (SPA EA9h, DFFC2 = C8h),
-   clear attribute bit 3, frame 165h, facing 2, byte +46h 0, flag 20h with SPA E83h, his energy (tmpde) full, leave
-   the assignment and set the box door for his side. Else every 8 frames (temp1): at the spot (y within 4, x gap
-   <= 4) snap onto it, stop, SPA 289h, pflags bit 2 and turn a step towards facing 6 (seated at 6); off the spot
-   and not seated skate there (SkateToSpot). */
+/* assboxenter: the penalized player skates into the box. Pencntdwn 300; not while flag
+ 20h. A new assignment (bit 1): temp2 = 8, the box spot temp3 temp4 = -91h 6, temp1 = temp5 = 0. Seated
+ (temp1 100): once the door (sortobj15) is waiting for him (word_DFFC2 == 100) close it (SPA EA9h, DFFC2 = C8h),
+ clear attribute bit 3, frame 165h, facing 2, byte +46h 0, flag 20h with SPA E83h, his energy (tmpde) full, leave
+ the assignment and set the box door for his side. Else every 8 frames (temp1): at the spot (y within 4, x gap
+ <= 4) snap onto it, stop, SPA 289h, pflags bit 2 and turn a step towards facing 6 (seated at 6); off the spot
+ and not seated skate there (SkateToSpot). */
 void assboxenter(Player *p)
 {
     Pencntdwn = 0x12C;

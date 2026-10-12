@@ -1,9 +1,9 @@
-/* Main desk: save / restore the game mode state. */
+/* Main desk: save restore the game mode state. */
 #include "nhl95.h"
 
-/* SaveModeState (3271B) - save the current mode into the state record st: league name (+4), league database
-   name formats (+11h, +31h), home / visiting team (+51h / +55h), game options (+59h) and the two controllers'
-   team, device and side (+5Dh..+71h). */
+/* SaveModeState: save the current mode into the state record st: league name (+4), league database
+ name formats (+11h, +31h), home visiting team (+51h +55h), game options (+59h) and the two controllers'
+ team, device and side (+5Dh..+71h). */
 void SaveModeState(unsigned char *st)
 {
     strcpy((char *)st + 4, (char *)&curleague);

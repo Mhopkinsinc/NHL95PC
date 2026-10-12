@@ -1,9 +1,9 @@
 /* Team select: jersey numbers. */
 #include "nhl95.h"
 
-/* BlitJerseyDigit (7A017) - PC only: draw digit d of the jersey number font (jerseydigits: 3 dwords of pixel bits,
-   84 pixels) into buffer dst in colour c1 (c2 unused), one byte per set bit; for the right digit the pixels after the first 36 go
-   48 bytes further on (the digit's lower rows). */
+/* BlitJerseyDigit: draw digit d of the jersey number font (jerseydigits: 3 dwords of pixel bits,
+ 84 pixels) into buffer dst in colour c1 (c2 unused), one byte per set bit; for the right digit the pixels after the first 36 go
+ 48 bytes further on (the digit's lower rows). */
 void BlitJerseyDigit(unsigned char *dst, unsigned d, int c1, int c2, int right)
 {
     int bits;

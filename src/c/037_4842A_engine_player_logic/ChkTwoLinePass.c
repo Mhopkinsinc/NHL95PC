@@ -1,9 +1,9 @@
 /* Engine player logic: two-line pass. */
 #include "nhl95.h"
 
-/* ChkTwoLinePass (4DD51) - two-line pass by receiver p (option on, play live): p was not flagged by MarkTwoLinePlayers
-   past the red line, or the puck is on p's attacking side; the pass came from a teammate (lasttouch) from behind
-   the blue line (lty 4Eh, by end) to p across the red line. Returns 1 for a two-line pass. */
+/* ChkTwoLinePass: two-line pass by receiver p (option on, play live): p was not flagged by MarkTwoLinePlayers
+ past the red line, or the puck is on p's attacking side; the pass came from a teammate (lasttouch) from behind
+ the blue line (lty 4Eh, by end) to p across the red line. Returns 1 for a two-line pass. */
 int ChkTwoLinePass(Player *p)
 {
     short sc;

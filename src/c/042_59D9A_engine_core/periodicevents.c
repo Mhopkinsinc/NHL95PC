@@ -1,10 +1,10 @@
 /* Engine core: periodic events. */
 #include "nhl95.h"
 
-/* periodicevents (5C302) - per frame: penalties and crowd decay; at 0:00 of the clock (play on) the horn (sfx 90h),
-   LockScroll and clockcont_0. Every 24th frame (lldisp countdown, toggling lldispodd) the goalie / crowd / bench
-   checks and the power-play flags (play on); with line changes on, energywarn[side] blinks (odd ticks) while a
-   skater of that side is due for a change (newpnum >= 0) and no penalty shot runs. */
+/* periodicevents: per frame: penalties and crowd decay; at 0:00 of the clock (play on) the horn (sfx 90h),
+ LockScroll and clockcont_0. Every 24th frame (lldisp countdown, toggling lldispodd) the goalie crowd bench
+ checks and the power-play flags (play on); with line changes on, energywarn[side] blinks (odd ticks) while a
+ skater of that side is due for a change (newpnum >= 0) and no penalty shot runs. */
 void periodicevents(void)
 {
     Team *t;

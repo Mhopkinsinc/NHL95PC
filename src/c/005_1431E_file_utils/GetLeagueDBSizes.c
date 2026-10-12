@@ -1,8 +1,8 @@
 /* File utilities: database sizes. */
 #include "nhl95.h"
 
-/* GetLeagueDBSizes (149BF) - kb[i] = size in KB (rounded up) of each of the 7 league database files (leaguedbnames) on
-   drive. Returns 0. */
+/* GetLeagueDBSizes: kb[i] = size in KB (rounded up) of each of the 7 league database files (leaguedbnames) on
+ drive. Returns 0. */
 typedef struct FindT {
     char reserved[21];
     char attrib;

@@ -6,10 +6,10 @@ typedef struct LRect {
 } LRect;
 #define LR ((LRect *)leaguesetrects)
 
-/* LeagueSetHitTest (7A9C8) - PC only: the league settings item (27 rects of 4 dwords, leaguesetrects) under point
-   x - 6, y - 13h, stored in *item. Greyed-out items do not count: 0Ah-0Bh never, 0Ch-0Fh not with sound device
-   10h, 10h-11h only with music on, 15h / 16h / 17h not in the playoffs (gamemode 1) from game 1 / 3 / 5 on.
-   Returns 1 for a hit, else 0. */
+/* LeagueSetHitTest: the league settings item (27 rects of 4 dwords, leaguesetrects) under point
+ x - 6, y - 13h, stored in *item. Greyed-out items do not count: 0Ah-0Bh never, 0Ch-0Fh not with sound device
+ 10h, 10h-11h only with music on, 15h 16h 17h not in the playoffs (gamemode 1) from game 1 3 5 on.
+ Returns 1 for a hit, else 0. */
 int LeagueSetHitTest(int x, int y, int *item)
 {
     int i;

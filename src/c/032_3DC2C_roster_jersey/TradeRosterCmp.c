@@ -1,8 +1,8 @@
-/* Roster / jersey: trade list sort. */
+/* Roster jersey: trade list sort. */
 #include "nhl95.h"
 
-/* TradeRosterCmp (3FEF0) - qsort compare for trade roster rows: same position letter (byte 0) sorts by name (+6), empty
-   rows last, then positions in the order L, C, R, D, others. */
+/* TradeRosterCmp: qsort compare for trade roster rows: same position letter (byte 0) sorts by name (+6), empty
+ rows last, then positions in the order L, C, R, D, others. */
 int TradeRosterCmp(unsigned char *a, unsigned char *b)
 {
     if (*a == *b) {

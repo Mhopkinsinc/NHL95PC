@@ -1,8 +1,8 @@
 /* Speech: sample requests. */
 #include "nhl95.h"
 
-/* RequestSample (83FAF) - add clip name to the sample request list (13-byte names, count at +108h) unless it is there;
-   a known slot that is not loaded adds its size to the requested bytes (+104h). Counts requests at +10Ch. */
+/* RequestSample: add clip name to the sample request list (13-byte names, count at +108h) unless it is there
+ a known slot that is not loaded adds its size to the requested bytes (+104h). Counts requests at +10Ch. */
 void RequestSample(char *name)
 {
     int slot;

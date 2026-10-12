@@ -1,10 +1,10 @@
-/* Import / export: team grid cell background. */
+/* Import export: team grid cell background. */
 #include "nhl95.h"
 
-/* SaveGridCellBg (37D6A) - PC only: allocate the 78 x 65 "back" bitmap gridcellbuf (4688h bytes, header cleared,
-   width / height at +4 / +6) and, for the cell of the 4 x 7 team grid tab holding team (x 60 / 18 + 85 per column,
-   y 84 + 92 per row, kept in gridcellx / gridcelly), draw the saved bitmap bm at x - 4, y (sub_903F0) and grab the cell into it
-   (sub_91400). */
+/* SaveGridCellBg: allocate the 78 x 65 "back" bitmap gridcellbuf (4688h bytes, header cleared,
+ width height at +4 +6) and, for the cell of the 4 x 7 team grid tab holding team (x 60 18 + 85 per column,
+ y 84 + 92 per row, kept in gridcellx gridcelly), draw the saved bitmap bm at x - 4, y (sub_903F0) and grab the cell into it
+ (sub_91400). */
 void SaveGridCellBg(int team, unsigned char *tab, int bm, int x, int y)
 {
     int r;

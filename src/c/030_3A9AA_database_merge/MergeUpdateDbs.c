@@ -1,9 +1,9 @@
-/* Database merge: merge and update the team databases. */
+/* Database merge: and update the team databases. */
 #include "nhl95.h"
 
-/* MergeUpdateDbs (3B8B0) - PC only: MergeLeagueFiles; then, for an unsaved league whose master team is not flagged
-   2 and with no player id file, UpdateTeamDbs. When the merge returned nonzero the update runs on a cleared screen
-   with box colours F8h-FAh set to greys 17h / 2Ah / 3Fh, put back to black afterwards. Returns the merge result. */
+/* MergeUpdateDbs: MergeLeagueFiles; then, for an unsaved league whose master team is not flagged
+ 2 and with no player id file, UpdateTeamDbs. When the merge returned nonzero the update runs on a cleared screen
+ with box colours F8h-FAh set to greys 17h 2Ah 3Fh, put back to black afterwards. Returns the merge result. */
 int MergeUpdateDbs(void)
 {
     unsigned char rgb[3];

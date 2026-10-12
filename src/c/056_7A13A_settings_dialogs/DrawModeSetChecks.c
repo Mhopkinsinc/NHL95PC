@@ -1,8 +1,8 @@
 /* Settings dialogs: check boxes. */
 #include "nhl95.h"
 
-/* DrawModeSetChecks (7B7BE) - draw the 9 mode settings check boxes (on / off sprite by setbits bit i) at their rects
-   (2 rects per item; item 5 is skipped). */
+/* DrawModeSetChecks: draw the 9 mode settings check boxes (on off sprite by setbits bit i) at their rects
+ (2 rects per item; item 5 is skipped). */
 void DrawModeSetChecks(void)
 {
     Rect4 *r;

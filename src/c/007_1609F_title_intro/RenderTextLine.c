@@ -1,8 +1,8 @@
-/* Title / intro: text lines. */
+/* Title intro: text lines. */
 #include "nhl95.h"
 
-/* RenderTextLine (174D8) - draw s with its shadow into an off-screen bitmap (width rounded up to 64 pixels, one line high,
-   cleared to colour FFh) and copy it to the screen at x / y. */
+/* RenderTextLine: draw s with its shadow into an off-screen bitmap (width rounded up to 64 pixels, one line high,
+ cleared to colour FFh) and copy it to the screen at x y. */
 void RenderTextLine(int x, int y, char *s)
 {
     char save[0x60];

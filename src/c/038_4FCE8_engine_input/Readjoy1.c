@@ -1,9 +1,9 @@
-/* Engine input: joystick buttons (93G Readjoy1 / Readjoy2). */
+/* Engine input: joystick buttons. */
 #include "nhl95.h"
 
-/* Readjoy1 (50A05) - 93G middle93_1 Readjoy1, reading byte 0 of joyrec instead of the pad (8 without joyrec):
-   regd0 = the byte, regd1 = its buttons (70h), regd2 = buttons that changed since the last read (lj1),
-   regd3 = buttons held, regd1 = newly pressed. Returns regd0. */
+/* Readjoy1: reading byte 0 of joyrec instead of the pad (8 without joyrec):
+ regd0 = the byte, regd1 = its buttons (70h), regd2 = buttons that changed since the last read (lj1),
+ regd3 = buttons held, regd1 = newly pressed. Returns regd0. */
 short Readjoy1(void)
 {
     unsigned short held;

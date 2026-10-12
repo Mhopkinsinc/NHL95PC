@@ -12,12 +12,12 @@ extern scrpitch, saved_ss, scrolly, scrollx, bgscrollx, bgscrolly8
 global SelectScreenBM_set
 global randomd0, PlayMVI, stub_8C1B7, SelectScreenBM, SelectRinkBM
 global stub_8C1F7, stub_8C202, stub_8C20D, stub_8C218, stub_8C223, vgacopy_bg, SaveSS, vtoa
-; PlayMVI(eax=path, edx=x, ebx=y) -> eax key.  PC only (CD movie player).
-;  Opens the file through the cdstream reader, then per chunk:
-;   'MVIh' header: sets up the decoder (cmv_player) and the frame delay
-;   'MVIf' frame : decodes and waits for the frame time (sub_B395C ticks)
-;   'MVIe' end   : stops.  A key press (AnyInputPressed) aborts.
-;  Afterwards waits for the music fade and restarts the song if music is on.
+; PlayMVI(eax=path, edx=x, ebx=y) -> eax key. (CD movie player).
+; Opens the file through the cdstream reader, then per chunk:
+; 'MVIh' header: sets up the decoder (cmv_player) and the frame delay
+; 'MVIf' frame: decodes and waits for the frame time (sub_B395C ticks)
+; 'MVIe' end: stops. A key press (AnyInputPressed) aborts.
+; Afterwards waits for the music fade and restarts the song if music is on.
 PlayMVI:
 push dword 58h	; 8BEDB
 call __CHK	; 8BEE0
@@ -252,7 +252,7 @@ pop edi	; 8C1B3
 pop esi	; 8C1B4
 pop ecx	; 8C1B5
 ret	; 8C1B6
-; stub_8C1B7..stub_8C223: empty functions (__CHK; ret).  Only stub_8C218
+; stub_8C1B7..stub_8C223: empty functions (__CHK; ret). Only stub_8C218
 ; has a caller (line_editor_rosters, 6 stack args): removed routines.
 ; C: src/c/066_8BEDB_asm_helpers/stub_8C1B7.c
 %ifdef CBUILD
@@ -263,7 +263,7 @@ push dword 4	; 8C1B7
 call __CHK	; 8C1BC
 ret	; 8C1C1
 %endif ; C
-; SelectScreenBM / SelectRinkBM: SetDrawBitmap(*screenbm / *rinkbm),
+; SelectScreenBM SelectRinkBM: SetDrawBitmap(*screenbm *rinkbm),
 ; i.e. make that 48-byte bitmap descriptor the current draw target.
 ; C: src/c/066_8BEDB_asm_helpers/SelectScreenBM.c
 %ifdef CBUILD
@@ -376,10 +376,10 @@ pop ebx	; 8C28B
 pop ebp	; 8C28C
 ret	; 8C28D
 db 00h,00h
-; vgacopy_bg .. vgacopy_pages (8C290-8C8E7): 16-bit-frame planar VGA
+; vgacopy_bg.. vgacopy_pages (8C290-8C8E7): 16-bit-frame planar VGA
 ; routines (args at [ebp+6..], o16 registers, ports 3C4h/3CEh/3D4h/3DAh/3C0h,
-; write mode 1 latched copies).  None has a caller or a fixup: dead code
-; from an earlier real-mode build.  The labels other than vgacopy_bg were
+; write mode 1 latched copies). None has a caller or a fixup: dead code
+; from an earlier real-mode build. The labels other than vgacopy_bg were
 ; added here (no reference in the EXE).
 vgacopy_bg:
 push bp	; 8C290
@@ -1054,8 +1054,8 @@ pop ds	; 8C8E2
 pop bp	; 8C8E3
 ret	; 8C8E5
 db 00h,00h
-; vtoa = 93G vtoa: (x,y) vector -> direction 0-7 via vtoa_dt.
-; .dir/.0-.3 follow the 93G code: x sign -> bit0, y sign -> bit1,
+; vtoa:: (x,y) vector -> direction 0-7 via vtoa_dt.
+; .dir/.0-.3 follow the x sign -> bit0, y sign -> bit1,
 ; |x| vs |y| (and 2x) comparisons -> bits 2/3, then the table lookup.
 vtoa:
 push ebp	; 8C8E8

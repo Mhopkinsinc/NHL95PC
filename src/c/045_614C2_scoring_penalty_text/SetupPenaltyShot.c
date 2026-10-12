@@ -1,11 +1,11 @@
-/* Scoring / penalties: penalty shot. */
+/* Scoring penalties: penalty shot. */
 #include "nhl95.h"
 
-/* SetupPenaltyShot (63F72) - start a penalty shot: stop the puck at centre (position, velocity, height 0) and give it its
-   assignment 18h; the shooter (penshotplayer) loses pflags2 bits 2/5 and pflags bit 2 and gets assignment 2Eh
-   eight times; a human controller of the other side (penshotteam) gives up his player (restorepl); the shooter's
-   team words +30h/+32h/+34h become -1; the shooter gets the puck, the crowd gets louder by 64h, and the penalty
-   shot is live with a 3E8h timer; clear the penalty buffer. */
+/* SetupPenaltyShot: start a penalty shot: stop the puck at centre (position, velocity, height 0) and give it its
+ assignment 18h; the shooter (penshotplayer) loses pflags2 bits 2/5 and pflags bit 2 and gets assignment 2Eh
+ eight times; a human controller of the other side (penshotteam) gives up his player (restorepl); the shooter's
+ team words +30h/+32h/+34h become -1; the shooter gets the puck, the crowd gets louder by 64h, and the penalty
+ shot is live with a 3E8h timer; clear the penalty buffer. */
 void SetupPenaltyShot(void)
 {
     Player *p;

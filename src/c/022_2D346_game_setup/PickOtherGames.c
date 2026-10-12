@@ -1,9 +1,9 @@
 /* Game setup: other games around the league. */
 #include "nhl95.h"
 
-/* PickOtherGames (2F2B1) - pick the six "other games" shown during intermissions: two random teams each (of 26), never
-   home or vis, no team twice, and a first team whose teamstartlag is not above home's; periods and scores
-   start at 0. */
+/* PickOtherGames: pick the six "other games" shown during intermissions: two random teams each (of 26), never
+ home or vis, no team twice, and a first team whose teamstartlag is not above home's; periods and scores
+ start at 0. */
 void PickOtherGames(int home, int vis)
 {
     unsigned char h;

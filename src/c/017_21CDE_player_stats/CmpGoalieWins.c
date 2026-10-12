@@ -1,8 +1,8 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpGoalieWins (2586A) - qsort comparator of two goalie stats records (as CmpSavePct): most wins (word +2) first, then
-   (season only) word +6, then fewer +4, fewer +0, more +0Ch, fewer +10h, more +14h. */
+/* CmpGoalieWins: qsort comparator of two goalie stats records (as CmpSavePct): most wins (word +2) first, then
+ (season only) word +6, then fewer +4, fewer +0, more +0Ch, fewer +10h, more +14h. */
 int CmpGoalieWins(int *a, int *b)
 {
     unsigned short *p;

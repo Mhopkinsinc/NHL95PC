@@ -1,9 +1,9 @@
-/* Engine physics / AI: puck shadow (93G puckshadow). */
+/* Engine physics AI: puck shadow. */
 #include "nhl95.h"
 
-/* puckshadow (56ECF) - place the puck shadow object p: on the puck (one pixel off along the view axis, sflags bit 7)
-   when it shows the shadow frame 189h; for the goal-light object (frame set, SPA 7FDh) put it over the goal
-   at the puck's end (y 122h, z 0Eh; mirrored with attribute 8000h at the other end). */
+/* puckshadow: place the puck shadow object p: on the puck (one pixel off along the view axis, sflags bit 7)
+ when it shows the shadow frame 189h; for the goal-light object (frame set, SPA 7FDh) put it over the goal
+ at the puck's end (y 122h, z 0Eh; mirrored with attribute 8000h at the other end). */
 void puckshadow(Player *p)
 {
     if (p->frame == 0x189) {

@@ -1,8 +1,8 @@
 /* Front-end labels: saved game menu labels. */
 #include "nhl95.h"
 
-/* BuildSavedGameLabels (1D518) - name the saved playoffs / league menu items after their file names (postate+4,
-   lgstate+4, up to the dot): titles get the name, menu items name + " Playoffs" / " Season" suffixes. */
+/* BuildSavedGameLabels: name the saved playoffs league menu items after their file names (postate+4,
+ lgstate+4, up to the dot): titles get the name, menu items name + " Playoffs" " Season" suffixes. */
 void BuildSavedGameLabels(void)
 {
     int n;

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuShootPct (18977) - stats menu item: category 7 (shooting percentage). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run LeadersScreen(7) and fade out with the second; otherwise call the
-   skaterstatscb handler. Returns the screen's result. */
+/* StatsMenuShootPct: stats menu item: category 7 (shooting percentage). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run LeadersScreen(7) and fade out with the second; otherwise call the
+ skaterstatscb handler. Returns the screen's result. */
 int StatsMenuShootPct(void)
 {
     statscategory = 7;

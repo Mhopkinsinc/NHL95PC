@@ -5,10 +5,10 @@
 #define STEERDIR(p) (((signed char *)(p))[0x28])  /* steering direction: low byte of temp2 */
 #define MOVEDIR(p) (((signed char *)(p))[0x25])   /* direction handed to MoveInDir */
 
-/* SteerToTarget (492F9) - PC only: every 12 frames (countdown in byte +29h) aim p at the point regd0.w / regd1.w
-   (made relative to p's position plus the high byte of its velocity): direction 9 (there) when within 12 both ways,
-   else vtoa; kept in byte +28h. When there (direction > 7) and standing still, turn one step towards the point
-   temp3 / temp4 (facedir). Then move in the direction of byte +25h (MoveInDir). */
+/* SteerToTarget: every 12 frames (countdown in byte +29h) aim p at the point regd0.w regd1.w
+ (made relative to p's position plus the high byte of its velocity): direction 9 (there) when within 12 both ways,
+ else vtoa; kept in byte +28h. When there (direction > 7) and standing still, turn one step towards the point
+ temp3 temp4 (facedir). Then move in the direction of byte +25h (MoveInDir). */
 void SteerToTarget(Player *p)
 {
     int v;

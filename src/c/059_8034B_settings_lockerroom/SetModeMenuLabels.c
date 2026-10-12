@@ -1,9 +1,9 @@
-/* Settings / locker room: settings menu labels. */
+/* Settings locker room: settings menu labels. */
 #include "nhl95.h"
 
-/* SetModeMenuLabels (805C4) - PC only: name the settings menu for game mode mode: "Exhibition Settings" / "Playoff
-   Settings" / "Show League Settings" (modesetlabel, "Settings" after the mode word) and the return item
-   (off_CECFF / off_CED3F: "Sports Central", "Playoff Tree", "Return"). */
+/* SetModeMenuLabels: name the settings menu for game mode mode: "Exhibition Settings" "Playoff
+ Settings" "Show League Settings" (modesetlabel, "Settings" after the mode word) and the return item
+ (off_CECFF off_CED3F: "Sports Central", "Playoff Tree", "Return"). */
 void SetModeMenuLabels(unsigned mode)
 {
     switch (mode) {

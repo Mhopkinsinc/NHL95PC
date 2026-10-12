@@ -1,4 +1,4 @@
-/* Line editor / rosters: palette fades (one source block: FadePalStepSlow ends in FadePalStep's exit). */
+/* Line editor rosters: palette fades (one source block: FadePalStepSlow ends in FadePalStep's exit). */
 /* DRAFT: the EXE spills steps to its stack slot at entry and reloads it for the clamp (C still has it in ebx there); the rest and the shared exit look right. */
 #include "nhl95.h"
 
@@ -9,10 +9,10 @@ void __STOSB(void *p, int v, int n);
 /* a signed byte of a table, read as the top byte of a dword */
 #define SBYTE(t, i) (*(int *)((t) + (i) - 3) >> 24)
 
-/* FadePalStep (76429) - fade towards palette pal: dir 1 fades in (from black; at most 2 steps when already faded
-   in, palfadedin set), dir 0 out (palfadedin cleared). Under 2 steps: out sets pal at once, in sets a black palette
-   and clears the screen. Else the scale runs from fadestart[dir] to fadeend[dir] by fadestep[dir] (the table's
-   steps - 1 / steps + 1 entries are set here), each step setting pal x scale / steps. */
+/* FadePalStep: fade towards palette pal: dir 1 fades in (from black; at most 2 steps when already faded
+ in, palfadedin set), dir 0 out (palfadedin cleared). Under 2 steps: out sets pal at once, in sets a black palette
+ and clears the screen. Else the scale runs from fadestart[dir] to fadeend[dir] by fadestep[dir] (the table's
+ steps - 1 steps + 1 entries are set here), each step setting pal x scale steps. */
 void FadePalStep(int dir, unsigned char *pal, int steps)
 {
     int c;
@@ -40,8 +40,8 @@ void FadePalStep(int dir, unsigned char *pal, int steps)
     }
 }
 
-/* FadePalStepSlow (7651B) - the same on the second tables (fadestart2 / fadeend2 / fadestep2, fadepal2), waiting
-   45 ms per step. */
+/* FadePalStepSlow: the same on the second tables (fadestart2 fadeend2 fadestep2, fadepal2), waiting
+ 45 ms per step. */
 void FadePalStepSlow(int dir, unsigned char *pal, int steps)
 {
     int c;

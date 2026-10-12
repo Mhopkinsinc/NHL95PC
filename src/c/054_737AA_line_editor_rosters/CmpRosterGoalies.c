@@ -1,8 +1,8 @@
-/* Line editor / rosters: goalie sorting. */
+/* Line editor rosters: goalie sorting. */
 #include "nhl95.h"
 
-/* CmpRosterGoalies (75A37) - CmpGAA for the roster screen: goalie records in rostergstat (2Ch bytes each, playoffs at
-   +16h); no minutes (word +0Ch) last, then lower +10h, more minutes, more +0, fewer +0Eh, more +2, fewer +4, more +14h. */
+/* CmpRosterGoalies: CmpGAA for the roster screen: goalie records in rostergstat (2Ch bytes each, playoffs at
+ +16h); no minutes (word +0Ch) last, then lower +10h, more minutes, more +0, fewer +0Eh, more +2, fewer +4, more +14h. */
 int CmpRosterGoalies(int *a, int *b)
 {
     unsigned short *p;
@@ -22,8 +22,8 @@ int CmpRosterGoalies(int *a, int *b)
     return q[10] - p[10];
 }
 
-/* MenuRegSeasonStats (75BAA) - PC only: menu handler: roster stats screen (ShowRosterStats with shapes / strings
-   C0h-C3h) for the regular season (statsplayoffs = 0). Returns 0. */
+/* MenuRegSeasonStats: menu handler: roster stats screen (ShowRosterStats with shapes strings
+ C0h-C3h) for the regular season (statsplayoffs = 0). Returns 0. */
 int MenuRegSeasonStats(void)
 {
     statsplayoffs = 0;
@@ -31,8 +31,8 @@ int MenuRegSeasonStats(void)
     return 0;
 }
 
-/* MenuPlayoffStats (75BDE) - PC only: as MenuRegSeasonStats for the playoffs (statsplayoffs = 1; shares its
-   tail). Returns 0. */
+/* MenuPlayoffStats: as MenuRegSeasonStats for the playoffs (statsplayoffs = 1; shares its
+ tail). Returns 0. */
 int MenuPlayoffStats(void)
 {
     statsplayoffs = 1;

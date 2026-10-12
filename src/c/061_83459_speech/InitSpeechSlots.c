@@ -1,8 +1,8 @@
 /* Speech: speech bank setup. */
 #include "nhl95.h"
 
-/* InitSpeechSlots (83459) - clear the 400 speech bank slots and set up the bank's sample buffer: size - 1388h usable
-   bytes (+3B68h), a "Speechbuf" block of size bytes (+3B60h, library handle +3B64h), counters +3B6Ch..+3B78h 0. */
+/* InitSpeechSlots: clear the 400 speech bank slots and set up the bank's sample buffer: size - 1388h usable
+ bytes (+3B68h), a "Speechbuf" block of size bytes (+3B60h, library handle +3B64h), counters +3B6Ch..+3B78h 0. */
 void InitSpeechSlots(int size)
 {
     int i;

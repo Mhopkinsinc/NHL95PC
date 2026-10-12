@@ -1,10 +1,10 @@
 /* Front end: sports desk menu items (one block: the replay, lines and stats items end in DeskScoringSummary's
-   tail DeskItem_ret2, and Watcom only produces those forward jumps with the whole group in one file). */
+ tail DeskItem_ret2, and Watcom only produces those forward jumps with the whole group in one file). */
 #include "nhl95.h"
 
-/* DeskGoToReplay (1A817) - sports desk instant replay: load the home team's rink (entry 12 for team 26 and up)
-   and the player photos, save the palette and fade out, back to the 320x200 screen, InstantReplay(0), restore the
-   s1 font, then flag a redraw (dword_C66D0 / dword_C66D4). Returns 2. */
+/* DeskGoToReplay: sports desk instant replay: load the home team's rink (entry 12 for team 26 and up)
+ and the player photos, save the palette and fade out, back to the 320x200 screen, InstantReplay(0), restore the
+ s1 font, then flag a redraw (dword_C66D0 dword_C66D4). Returns 2. */
 int DeskGoToReplay(void)
 {
     LoadRink(HomeTeam >= 26 ? 12 : HomeTeam);
@@ -18,8 +18,8 @@ int DeskGoToReplay(void)
     return 2;
 }
 
-/* DeskHomeLines (1A8AA) - sports desk home lines: save the palette, fade out, GameLineEditor for the home team
-   (hmlinetab), then save and fade again. Returns 2. */
+/* DeskHomeLines: sports desk home lines: save the palette, fade out, GameLineEditor for the home team
+ (hmlinetab), then save and fade again. Returns 2. */
 int DeskHomeLines(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -30,7 +30,7 @@ int DeskHomeLines(void)
     return 2;
 }
 
-/* DeskVisitorLines (1A922) - as DeskHomeLines for the visitors (awlinetab). Returns 2. */
+/* DeskVisitorLines: as DeskHomeLines for the visitors (awlinetab). Returns 2. */
 int DeskVisitorLines(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -41,7 +41,7 @@ int DeskVisitorLines(void)
     return 2;
 }
 
-/* DeskGameStats (1A96D) - sports desk game stats: save the palette, fade out, GameStatsScreen. Returns 2. */
+/* DeskGameStats: sports desk game stats: save the palette, fade out, GameStatsScreen. Returns 2. */
 int DeskGameStats(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -50,9 +50,9 @@ int DeskGameStats(void)
     return 2;
 }
 
-/* DeskPenaltySummary (1A9AC) - sports desk penalty summary: save the palette, fade the music down and the screen
-   out, wait for the music slot to stop and free the song, then show the loading screen and the game summary
-   screen in mode 2 (penalties) for the current period. Returns 2. */
+/* DeskPenaltySummary: sports desk penalty summary: save the palette, fade the music down and the screen
+ out, wait for the music slot to stop and free the song, then show the loading screen and the game summary
+ screen in mode 2 (penalties) for the current period. Returns 2. */
 int DeskPenaltySummary(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -68,9 +68,9 @@ int DeskPenaltySummary(void)
     return 2;
 }
 
-/* DeskScoringSummary (1AA6D) - sports desk scoring summary: save the palette, fade out, show the loading screen
-   and the game summary screen in mode 1 (scoring) for the current period. Returns 2. Its tail (DeskSummary_common,
-   DeskItem_ret2) is where the other desk items end. */
+/* DeskScoringSummary: sports desk scoring summary: save the palette, fade out, show the loading screen
+ and the game summary screen in mode 1 (scoring) for the current period. Returns 2. Its tail (DeskSummary_common,
+ DeskItem_ret2) is where the other desk items end. */
 int DeskScoringSummary(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -80,7 +80,7 @@ int DeskScoringSummary(void)
     return 2;
 }
 
-/* DeskTeamScratches (1AAC4) - sports desk team scratches: the same with the game summary screen in mode 4. Returns 2. */
+/* DeskTeamScratches: sports desk team scratches: the same with the game summary screen in mode 4. Returns 2. */
 int DeskTeamScratches(void)
 {
     sub_8FFB0(0, 0x100, savepal);
@@ -90,8 +90,8 @@ int DeskTeamScratches(void)
     return 2;
 }
 
-/* DeskHomeGoalie1 (1AB0B) - sports desk goalie menu: home team starts goalie 1 and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskHomeGoalie1: sports desk goalie menu: home team starts goalie 1 and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskHomeGoalie1(void)
 {
     SetTeamGoalie(0, 0);
@@ -101,8 +101,8 @@ int DeskHomeGoalie1(void)
     return 0;
 }
 
-/* DeskHomeGoalie2 (1AB39) - sports desk goalie menu: home team starts goalie 2 and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskHomeGoalie2: sports desk goalie menu: home team starts goalie 2 and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskHomeGoalie2(void)
 {
     SetTeamGoalie(0, 1);
@@ -112,8 +112,8 @@ int DeskHomeGoalie2(void)
     return 0;
 }
 
-/* DeskHomeGoalieNone (1AB62) - sports desk goalie menu: home team pulls its goalie and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskHomeGoalieNone: sports desk goalie menu: home team pulls its goalie and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskHomeGoalieNone(void)
 {
     SetTeamGoalie(0, -1);
@@ -123,8 +123,8 @@ int DeskHomeGoalieNone(void)
     return 0;
 }
 
-/* DeskAwayGoalie1 (1AB95) - sports desk goalie menu: away team starts goalie 1 and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskAwayGoalie1: sports desk goalie menu: away team starts goalie 1 and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskAwayGoalie1(void)
 {
     SetTeamGoalie(1, 0);
@@ -134,8 +134,8 @@ int DeskAwayGoalie1(void)
     return 0;
 }
 
-/* DeskAwayGoalie2 (1ABC8) - sports desk goalie menu: away team starts goalie 2 and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskAwayGoalie2: sports desk goalie menu: away team starts goalie 2 and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskAwayGoalie2(void)
 {
     SetTeamGoalie(1, 1);
@@ -145,8 +145,8 @@ int DeskAwayGoalie2(void)
     return 0;
 }
 
-/* DeskAwayGoalieNone (1ABF1) - sports desk goalie menu: away team pulls its goalie and check that item (1),
-   clearing the other two (2). Returns 0. */
+/* DeskAwayGoalieNone: sports desk goalie menu: away team pulls its goalie and check that item (1),
+ clearing the other two (2). Returns 0. */
 int DeskAwayGoalieNone(void)
 {
     SetTeamGoalie(1, -1);

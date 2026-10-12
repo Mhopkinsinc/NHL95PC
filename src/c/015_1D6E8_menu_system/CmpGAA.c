@@ -1,9 +1,9 @@
 /* Menu system: goalie sorting. */
 #include "nhl95.h"
 
-/* CmpGAA (1FC8F) - qsort comparator of two goalie stats records (as CmpSavePct): goalies with no minutes (word +0Ch) last,
-   then lower goals-against average (+10h) first, then more minutes, more games (+0), fewer +0Eh, more wins (+2),
-   fewer +4, more +14h. */
+/* CmpGAA: qsort comparator of two goalie stats records (as CmpSavePct): goalies with no minutes (word +0Ch) last,
+ then lower goals-against average (+10h) first, then more minutes, more games (+0), fewer +0Eh, more wins (+2),
+ fewer +4, more +14h. */
 int CmpGAA(int *a, int *b)
 {
     unsigned short *p;

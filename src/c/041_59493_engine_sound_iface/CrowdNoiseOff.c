@@ -1,8 +1,8 @@
 /* Engine sound interface: crowd. */
 #include "nhl95.h"
 
-/* CrowdNoiseOff (59748) - with sound effects on and an FM / digital card (sounddev & 2Ah): silence and stop the two crowd
-   voices (8 and 7) that are playing (crowdvol8 / crowdvol7 > 0). */
+/* CrowdNoiseOff: with sound effects on and an FM digital card (sounddev & 2Ah): silence and stop the two crowd
+ voices (8 and 7) that are playing (crowdvol8 crowdvol7 > 0). */
 void CrowdNoiseOff(void)
 {
     if (!gameopts.sfx) return;

@@ -1,8 +1,8 @@
 /* Rink tiles: scrolling. */
 #include "nhl95.h"
 
-/* SetRinkScroll (33DD3) - scroll the rink view to x / y: a changed axis sets its tile scroll (bgscroll = pos / 8) and
-   pixel scroll (pos % 8); when either changed, store -x / -y in rinkscrollx / y and redraw (sub_6A033 3). */
+/* SetRinkScroll: scroll the rink view to x y: a changed axis sets its tile scroll (bgscroll = pos 8) and
+ pixel scroll (pos % 8); when either changed, store -x -y in rinkscrollx y and redraw (sub_6A033 3). */
 void SetRinkScroll(int x, int y)
 {
     int ch;

@@ -1,8 +1,8 @@
-/* Key / team database: goalie menu. */
+/* Key team database: goalie menu. */
 #include "nhl95.h"
 
-/* ResetGoalieMenu (1CB7F) - reset the home / away goalie menu items: both goalie entries back to the template text, the
-   "none" items to state 2. */
+/* ResetGoalieMenu: reset the home away goalie menu items: both goalie entries back to the template text, the
+ "none" items to state 2. */
 void ResetGoalieMenu(void)
 {
     strcpy((char *)mi_HomeGoalie1, (char *)str_GoalieItemTmpl);

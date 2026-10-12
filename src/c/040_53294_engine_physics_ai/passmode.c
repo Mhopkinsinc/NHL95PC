@@ -1,9 +1,9 @@
-/* Engine physics / AI: pass button (93G passmode). */
+/* Engine physics AI: pass button. */
 #include "nhl95.h"
 
-/* passmode (5514E) - pass button handling for player p: unless regd2 bit 4 (pass now), take the first press only (regd0
-   bit 3 marks it, passdir = regd0 & 7); a joystick player whose pad device (pad1dev, by controller) is 1 waits.
-   Otherwise dopass. */
+/* passmode: pass button handling for player p: unless regd2 bit 4 (pass now), take the first press only (regd0
+ bit 3 marks it, passdir = regd0 & 7); a joystick player whose pad device (pad1dev, by controller) is 1 waits.
+ Otherwise dopass. */
 void passmode(Player *p)
 {
     if (!(regd2.w & 0x10)) {

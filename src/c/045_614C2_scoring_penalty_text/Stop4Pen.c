@@ -1,12 +1,12 @@
-/* Scoring / penalties: stop play for a penalty (93G Stop4Pen). */
+/* Scoring penalties: stop play for a penalty. */
 #include "nhl95.h"
 
-/* Stop4Pen (63543) - 93G Stop4Pen: stop play for penalty entry n of PenBuf (penalty, player). Unless already
-   stopped (gmode bit 0): pick the faceoff spot fox / foy - centre for 7, the last touch (ltx / lty) for 3 / 1Dh,
-   else the puck; for 8 (offside-like) the nearer end dot (y +-4Eh) when inside the blue lines, for 6 the
-   offender's end (y -258h / 258h); the penalty shot spot when penshotstart. Clamp x to +-60h and pull deep spots
-   to the end dots (+-60h, y +-B8h); then for every queued penalty move the dot out of the offender's zone (y -3Dh /
-   3Dh, x +-100). Then Pencntdwn 0, gmode bit 2, the whistle (sfx A4h) and the ref (SetPA 5). */
+/* Stop4Pen: stop play for penalty entry n of PenBuf (penalty, player). Unless already
+ stopped (gmode bit 0): pick the faceoff spot fox foy - centre for 7, the last touch (ltx lty) for 3 1Dh,
+ else the puck; for 8 (offside-like) the nearer end dot (y +-4Eh) when inside the blue lines, for 6 the
+ offender's end (y -258h 258h); the penalty shot spot when penshotstart. Clamp x to +-60h and pull deep spots
+ to the end dots (+-60h, y +-B8h); then for every queued penalty move the dot out of the offender's zone (y -3Dh /
+ 3Dh, x +-100). Then Pencntdwn 0, gmode bit 2, the whistle (sfx A4h) and the ref (SetPA 5). */
 void Stop4Pen(short n)
 {
     signed char pen;

@@ -1,11 +1,11 @@
 /* Engine player logic: centre on defence. */
 #include "nhl95.h"
 
-/* asscenterd (4A53A) - centre in the defensive zone (93G assignment role): not while flag 20h or heading to the bench
-   (check4bench); in a stoppage StopIfFree. Ignored with pflags bit 3. A new assignment (bit 1) resets temp1 and
-   temp2 = 8. Every aioff frames (countdown in byte +27h, the high byte of temp1) re-check: when the puck is with
-   p's own team switch to assignment 6. Else skate to half the puck's x and halfway between the puck's y and
-   the blue line side (y -71h; mirrored by end), straight (no evade). */
+/* asscenterd: centre in the defensive zone: not while flag 20h or heading to the bench
+ (check4bench); in a stoppage StopIfFree. Ignored with pflags bit 3. A new assignment (bit 1) resets temp1 and
+ temp2 = 8. Every aioff frames (countdown in byte +27h, the high byte of temp1) re-check: when the puck is with
+ p's own team switch to assignment 6. Else skate to half the puck's x and halfway between the puck's y and
+ the blue line side (y -71h; mirrored by end), straight (no evade). */
 void asscenterd(Player *p)
 {
     short r;

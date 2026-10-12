@@ -1,9 +1,9 @@
-/* Engine core: reset the players' state (93G resetplstuff). */
+/* Engine core: reset the players' state. */
 #include "nhl95.h"
 
-/* resetplstuff (5E01A) - 93G resetplstuff: for both teams clear tmflags bit 4, and for the 6 SortCords entries
-   of the team: pflags2 0; a player on the ice (position >= 0) gets SPA 289h, nopuck and impact 0 and pflags
-   bits 0, 2-5 cleared. */
+/* resetplstuff: for both teams clear tmflags bit 4, and for the 6 SortCords entries
+ of the team: pflags2 0; a player on the ice (position >= 0) gets SPA 289h, nopuck and impact 0 and pflags
+ bits 0, 2-5 cleared. */
 void resetplstuff(void)
 {
     short side;

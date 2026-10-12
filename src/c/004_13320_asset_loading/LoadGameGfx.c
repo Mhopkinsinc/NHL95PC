@@ -1,11 +1,11 @@
 /* Asset loading: in-game graphics (one source block: ReloadGameGfx ends in LoadGameGfx_common). */
 #include "nhl95.h"
 
-/* LoadGameGfx (13A91) - load the in-game graphics: screen pitch 52h; the HILIGHT.VFN font (hilightfont) and the
-   NUMSHP.PPV number shapes (numshpbank; both from the CD when fileoncd says so), the ten digit shapes "0000".."0009"
-   (numshapes), the graphics id list (sub_90B80 into dword_D8C4C), clear the panel penalties, load the transparent
-   rink end overlay, colour 4 on FFh, the player photos; then a fade-in is pending (fadeinpending,
-   dword_C66D4 / dword_C66D0 = 1). */
+/* LoadGameGfx: load the in-game graphics: screen pitch 52h; the HILIGHT.VFN font (hilightfont) and the
+ NUMSHP.PPV number shapes (numshpbank; both from the CD when fileoncd says so), the ten digit shapes "0000".."0009"
+ (numshapes), the graphics id list (sub_90B80 into dword_D8C4C), clear the panel penalties, load the transparent
+ rink end overlay, colour 4 on FFh, the player photos; then a fade-in is pending (fadeinpending,
+ dword_C66D4 dword_C66D0 = 1). */
 void LoadGameGfx(void)
 {
     char path[16];
@@ -32,7 +32,7 @@ void LoadGameGfx(void)
     dword_C66D0 = dword_C66D4 = 1;
 }
 
-/* ReloadGameGfx (13BB4) - LoadGameGfx without the sub_B4BA8 call first (reload after the graphics were freed). */
+/* ReloadGameGfx: LoadGameGfx without the sub_B4BA8 call first (reload after the graphics were freed). */
 void ReloadGameGfx(void)
 {
     char path[16];

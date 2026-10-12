@@ -1,10 +1,10 @@
 /* Engine core: calcpuckcross and the functions that end in its pop/ret tail (multi-block file, see cc.py). */
 #include "nhl95.h"
 
-/* calcpuckcross (5A341) - find puck crossing lines: when (if at all) the puck will cross each goal line
-   (94G checks94 findpc). For the goal lines y = +E8h and -E8h: puckcross[0] = x where the puck crosses (bounced
-   off the side boards at +-A0h), puckcross[1] = frames until it crosses (dy * 1000h / puckvy); [1] = -1 when it
-   will not cross (no y velocity, moving away, or out of range). */
+/* calcpuckcross: find puck crossing lines: when (if at all) the puck will cross each goal line
+. For the goal lines y = +E8h and -E8h: puckcross[0] = x where the puck crosses (bounced
+ off the side boards at +-A0h), puckcross[1] = frames until it crosses (dy * 1000h puckvy); [1] = -1 when it
+ will not cross (no y velocity, moving away, or out of range). */
 void calcpuckcross(void)
 {
     short *pc;
@@ -40,11 +40,10 @@ void calcpuckcross(void)
     }
 }
 
-/* GetHot (5A425) - sprite hot spot (stick blade) of player p (94G checks94 GetHot). regd0/regd1 = the x/y bytes
-   of the hot spot table (byte_CC148/byte_CC149, 2 bytes per frame) for the player's frame (word 12h, 94G frame;
-   PC remaps frames 378h+ by -F4h and 2DAh+ by -46h, frames outside 0-283h/293h give 0,0); x is negated when the
-   sprite is X-flipped (attribute bit 3). Draft: also gives the distance that makes reenergizeteam's exit a near
-   jump into calcpuckcross's tail, as in the EXE. */
+/* GetHot: sprite hot spot (stick blade) of player p. regd0/regd1 = the x/y bytes
+ of the hot spot table (byte_CC148/byte_CC149, 2 bytes per frame) for the player's frame (word 12h, frames outside 0-283h/293h give 0, 0); x is negated when the
+ sprite is X-flipped (attribute bit 3). Draft: also gives the distance that makes reenergizeteam's exit a near
+ jump into calcpuckcross's tail, as in the EXE. */
 void GetHot(Player *p)
 {
     short f;
@@ -65,9 +64,9 @@ void GetHot(Player *p)
         regd0.w = -regd0.w;
 }
 
-/* reenergizeteam (5B826) - refill the energy of team t's whole roster (93G/94G reenergizeteam, penalty94):
-   tmpde = 1000h for every player; a player marked -3 in tmpdst goes to the bench (tmpdst -2, roster status
-   byte 3). The 94G skip of players at -4 is not in the PC code. */
+/* reenergizeteam: refill the energy of team t's whole roster:
+ tmpde = 1000h for every player; a player marked -3 in tmpdst goes to the bench (tmpdst -2, roster status
+ byte 3). */
 void reenergizeteam(Team *t)
 {
     short i;
@@ -83,12 +82,11 @@ void reenergizeteam(Team *t)
     }
 }
 
-/* defaultsprites2 (5BA89) - the 17 default sort objects (94G setup94 defaultsprites2: "objects which are tied
-   to screen scrolling and have velocity"): ClearSortCords, then for each object i from ds2list (9 words each:
-   x, y, z, frame, attribute word, radiusx, radiusy, asslist[0] byte, pflags byte; the PC has no crsize column):
-   SCnum = i, pnum = newpos = newpnum = -1, the integer words of Xpos/Ypos/Zpos, frame, ATTRWORD, radii, first
-   assignment, pflags; tmptr / optmptr from pfteam; temp5 = 0; OOlist[i] = i, OOlistpos[i] = i. Then the
-   referee (SCref): facedir 2, position -1, weight 7, legstr / legspd 0Fh; RefStep = -1; SprSort. */
+/* defaultsprites2: the 17 default sort objects: ClearSortCords, then for each object i from ds2list (9 words each:
+ x, y, z, frame, attribute word, radiusx, radiusy, asslist[0] byte, pflags byte; the PC has no crsize column):
+ SCnum = i, pnum = newpos = newpnum = -1, the integer words of Xpos/Ypos/Zpos, frame, ATTRWORD, radii, first
+ assignment, pflags; tmptr optmptr from pfteam; temp5 = 0; OOlist[i] = i, OOlistpos[i] = i. Then the
+ referee (SCref): facedir 2, position -1, weight 7, legstr legspd 0Fh; RefStep = -1; SprSort. */
 void defaultsprites2(void)
 {
     Player *p;
@@ -135,12 +133,12 @@ void defaultsprites2(void)
     SprSort();
 }
 
-/* setpersonel (5BEF4) - set the personnel of team t (93G setpersonel, 94G collide94 SetPersonel): clear newpos /
-   newpnum of the team's 6 sort objects, build PlList (SetPlList: pnum per wanted player, -1 none, the new
-   positions at PlList+6 = byte_E038A). Pass 1: a wanted player already on the ice keeps his sort object (newpos
-   from the list, newpnum = pnum). Pass 2: each remaining wanted player takes the last free sort object (newpnum
-   < 0), stopping at the first one with a position; a sort object without a position (off the ice) first gets
-   assignment assbenchwait and position 5. Used entries of PlList are set to -1. */
+/* setpersonel: set the personnel of team t: clear newpos /
+ newpnum of the team's 6 sort objects, build PlList (SetPlList: pnum per wanted player, -1 none, the new
+ positions at PlList+6 = byte_E038A). Pass 1: a wanted player already on the ice keeps his sort object (newpos
+ from the list, newpnum = pnum). Pass 2: each remaining wanted player takes the last free sort object (newpnum
+ < 0), stopping at the first one with a position; a sort object without a position (off the ice) first gets
+ assignment assbenchwait and position 5. Used entries of PlList are set to -1. */
 void setpersonel(Team *t)
 {
     Player *p;
@@ -196,13 +194,13 @@ void setpersonel(Team *t)
     } while (--i != (short)-1);
 }
 
-/* StartPer (5C010) - start a period (93G hockey93_01 / 94G hockey94 StartPer). PC order: no line change
-   request, InitCoachModes, setupice, ResetClock; the controlled player of pad 1 (cont1team 1 home: 2, 2 away:
-   8) and pad 2 (the one before pad 1's on the same team); no banner / overlay, no penalty shot, faceoff at
-   centre ice (fox = foy = 0, puck assignment puckfaceoff); crowd quiet unless in the regular season (gsp 0);
-   gmode2 bit 2, sflags bits 4 (sfwrap) and 6 cleared, replay recording restarts; two DoGameFrame before the
-   loop; CwdExciteLvl 10h; sflags3 bit 7 before the playoffs (gsp < 2); puck uncontrolled, camera at 0, fade
-   in, rink scroll positions + 3E8h. */
+/* StartPer: start a period. PC order: no line change
+ request, InitCoachModes, setupice, ResetClock; the controlled player of pad 1 (cont1team 1 home: 2, 2 away:
+ 8) and pad 2 (the one before pad 1's on the same team); no banner overlay, no penalty shot, faceoff at
+ centre ice (fox = foy = 0, puck assignment puckfaceoff); crowd quiet unless in the regular season (gsp 0)
+ gmode2 bit 2, sflags bits 4 (sfwrap) and 6 cleared, replay recording restarts; two DoGameFrame before the
+ loop; CwdExciteLvl 10h; sflags3 bit 7 before the playoffs (gsp < 2); puck uncontrolled, camera at 0, fade
+ in, rink scroll positions + 3E8h. */
 void StartPer(void)
 {
     short t1;
@@ -252,10 +250,10 @@ void StartPer(void)
     rinkscrolly += 1000;
 }
 
-/* ResetBench (5DF86) - 93G hockey93_05 ResetBench. Per team (home, then visitors): PBnum[team] = the players
-   still in the box (tmpdst > 0; a time with bit 1000h set counts only while its low 11 bits are nonzero);
-   every other player not on the ice or in a pending state (tmpdst > -3) goes back to the bench
-   (tmpdst -2, roster status byte 3). */
+/* ResetBench: Per team (home, then visitors): PBnum[team] = the players
+ still in the box (tmpdst > 0; a time with bit 1000h set counts only while its low 11 bits are nonzero)
+ every other player not on the ice or in a pending state (tmpdst > -3) goes back to the bench
+ (tmpdst -2, roster status byte 3). */
 void ResetBench(void)
 {
     short i;

@@ -1,8 +1,8 @@
 /* Engine display: roster sorting. */
 #include "nhl95.h"
 
-/* SortNonDefPlayers (6455F) - out[25] = side's roster sorted by keys, without the defensemen (roster position byte 'D'),
-   -1 for the left-out entries. */
+/* SortNonDefPlayers: out[25] = side's roster sorted by keys, without the defensemen (roster position byte 'D'),
+ -1 for the left-out entries. */
 void SortNonDefPlayers(short side, signed char *out, short *keys)
 {
     int i;

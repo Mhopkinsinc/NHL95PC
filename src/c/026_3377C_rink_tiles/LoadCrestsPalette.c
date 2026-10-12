@@ -1,9 +1,9 @@
 /* Rink tiles: crest palette. */
 #include "nhl95.h"
 
-/* LoadCrestsPalette (33F02) - PC only: read the current palette (sub_8FFB0) and fade it out, then build the crest
-   palette: entries A0h-FFh from CRESTS3.BIN (bytes 1E0h-2FFh), entries 0-7Fh and FBh-FEh from the "pal16" art of
-   the bank at unk_DC890; fade in to it. */
+/* LoadCrestsPalette: read the current palette (sub_8FFB0) and fade it out, then build the crest
+ palette: entries A0h-FFh from CRESTS3.BIN (bytes 1E0h-2FFh), entries 0-7Fh and FBh-FEh from the "pal16" art of
+ the bank at unk_DC890; fade in to it. */
 void LoadCrestsPalette(void)
 {
     unsigned char pal[0x300];

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuTeamScoring (17EDF) - stats menu item: category 0 (team scoring). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run TeamStatsScreen(0) and fade out with the second; otherwise call the
-   teamstatscb handler. Returns the screen's result. */
+/* StatsMenuTeamScoring: stats menu item: category 0 (team scoring). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run TeamStatsScreen(0) and fade out with the second; otherwise call the
+ teamstatscb handler. Returns the screen's result. */
 int StatsMenuTeamScoring(void)
 {
     statscategory = 0;

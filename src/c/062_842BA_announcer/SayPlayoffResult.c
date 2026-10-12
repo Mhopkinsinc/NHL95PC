@@ -1,9 +1,9 @@
 /* Announcer: playoff result. */
 #include "nhl95.h"
 
-/* SayPlayoffResult (8490D) - when speech is up and idle: "[In overtime] <team> have won [game <game> of] <round clip>"
-   (team clip <team>Awa, round clip from PlayoffRoundClipD; the game number part only when final is 0); starts
-   the queue and returns 1, else 0. */
+/* SayPlayoffResult: when speech is up and idle: "[In overtime] <team> have won [game <game> of] <round clip>"
+ (team clip <team>Awa, round clip from PlayoffRoundClipD; the game number part only when final is 0); starts
+ the queue and returns 1, else 0. */
 int SayPlayoffResult(char *team, int game, unsigned conf, unsigned round, int ot, int final)
 {
     char t[16];

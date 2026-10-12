@@ -1,8 +1,8 @@
 /* Create player: temporary databases. */
 #include "nhl95.h"
 
-/* LoadTempDatabases (710D8) - free the league databases and load the .TMP copies instead (season, career, career teams,
-   key, teams, attributes), remembering each buffer's file size (sub_92DE0). */
+/* LoadTempDatabases: free the league databases and load the.TMP copies instead (season, career, career teams,
+ key, teams, attributes), remembering each buffer's file size (sub_92DE0). */
 void LoadTempDatabases(void)
 {
     FreeLeagueDbsMem();

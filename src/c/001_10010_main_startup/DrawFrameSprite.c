@@ -1,8 +1,8 @@
-/* Main / startup: draw a photo sprite. */
+/* Main startup: draw a photo sprite. */
 #include "nhl95.h"
 
-/* DrawFrameSprite (110E0) - PC only: draw photo n (0-46Dh, when loaded in photoptrs) at screen x + C0h,
-   140h - y with attributes a / b (DrawSprite, flag 1). */
+/* DrawFrameSprite: draw photo n (0-46Dh, when loaded in photoptrs) at screen x + C0h,
+ 140h - y with attributes a b (DrawSprite, flag 1). */
 void DrawFrameSprite(short n, short x, short y, short a, short b)
 {
     if (n < 0 || n >= 0x46E) return;

@@ -1,11 +1,11 @@
-/* Engine player logic: enter from the bench (93G asseben). */
+/* Engine player logic: enter from the bench. */
 #include "nhl95.h"
 
-/* asseben (4AAC2) - 93G asseben: assignment 'enter from the bench' for player p. Nothing while locked in an
-   animation (pflags bit 5). On a new assignment (pflags bit 1, pfna) the player stops, is placed at the bench
-   door (x -A0h, y = (SCnum - 6, +2 when >= 0) * 0Eh, regd0 holds the slot), faces 2, pflags bits 4-5 cleared
-   and bit 5 set, SPA D15h for the goalie (position 0) else 7A1h. Otherwise: facedir 4, pflags bit 2 and pflags2
-   bits 2/5 cleared, SPA 0, Xvel 1000h, assexit. */
+/* asseben: assignment 'enter from the bench' for player p. Nothing while locked in an
+ animation (pflags bit 5). On a new assignment (pflags bit 1, pfna) the player stops, is placed at the bench
+ door (x -A0h, y = (SCnum - 6, +2 when >= 0) * 0Eh, regd0 holds the slot), faces 2, pflags bits 4-5 cleared
+ and bit 5 set, SPA D15h for the goalie (position 0) else 7A1h. Otherwise: facedir 4, pflags bit 2 and pflags2
+ bits 2/5 cleared, SPA 0, Xvel 1000h, assexit. */
 void asseben(Player *p)
 {
     if (p->pflags & 0x20) return;

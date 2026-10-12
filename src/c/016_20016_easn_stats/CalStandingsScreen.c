@@ -2,9 +2,9 @@
 /* DRAFT: same register blocker as GameStandingsScreen (dword_C65AC lands in edx, EXE ecx, and the bank arg follows it). */
 #include "nhl95.h"
 
-/* CalStandingsScreen (216D7) - the standings stats screen from the calendar: GameStandingsScreen (playoff tree with its
-   font and background loaded once, else the standings), with the calendar shapes freed first when memory is low and
-   reloaded after. Returns 0. */
+/* CalStandingsScreen: the standings stats screen from the calendar: GameStandingsScreen (playoff tree with its
+ font and background loaded once, else the standings), with the calendar shapes freed first when memory is low and
+ reloaded after. Returns 0. */
 int CalStandingsScreen(void)
 {
     char *bank;

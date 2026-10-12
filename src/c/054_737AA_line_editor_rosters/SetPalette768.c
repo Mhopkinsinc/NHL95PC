@@ -1,8 +1,8 @@
-/* Line editor / rosters: palette. */
+/* Line editor rosters: palette. */
 #include "nhl95.h"
 
-/* SetPalette768 (76614) - load a full 256-colour palette (768 bytes of RGB) in two halves of 128 entries, each after a
-   retrace. */
+/* SetPalette768: load a full 256-colour palette (768 bytes of RGB) in two halves of 128 entries, each after a
+ retrace. */
 void SetPalette768(unsigned char *pal)
 {
     int i;

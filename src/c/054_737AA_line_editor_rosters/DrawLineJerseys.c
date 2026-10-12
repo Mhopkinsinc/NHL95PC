@@ -1,11 +1,11 @@
-/* Line editor / rosters: line slot jerseys. */
+/* Line editor rosters: line slot jerseys. */
 #include "nhl95.h"
 
-/* DrawLineJerseys (75046) - line editor: draw the 28h line slot jerseys at lineslotx / y (art; numbers nums[i] up to
-   99 by MakeJerseyShape in the colours of team side's rosterteam (byte_D11BC through jerseyremap, byte_D12DE); an
-   empty slot gets a plain jersey: remap entries 0-8Fh and C0h-EFh to the second colour), then for the 1Ch roster
-   players (rosterlist, 27 bytes each, 2DCh per side) print "<num> <name>" in the colour of their status (2 FCh,
-   3 C3h, others keep the last colour); stops at the first empty status. */
+/* DrawLineJerseys: line editor: draw the 28h line slot jerseys at lineslotx y (art; numbers nums[i] up to
+ 99 by MakeJerseyShape in the colours of team side's rosterteam (byte_D11BC through jerseyremap, byte_D12DE); an
+ empty slot gets a plain jersey: remap entries 0-8Fh and C0h-EFh to the second colour), then for the 1Ch roster
+ players (rosterlist, 27 bytes each, 2DCh per side) print "<num> <name>" in the colour of their status (2 FCh,
+ 3 C3h, others keep the last colour); stops at the first empty status. */
 void DrawLineJerseys(unsigned char *nums, int art, unsigned char side)
 {
     char buf[32];

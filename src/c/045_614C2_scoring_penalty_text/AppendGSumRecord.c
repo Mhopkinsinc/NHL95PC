@@ -1,9 +1,9 @@
-/* Scoring / penalties: game summary file. */
+/* Scoring penalties: game summary file. */
 #include "nhl95.h"
 
-/* AppendGSumRecord (61A8A) - PC only: count one more record (word_C5428), open the game summary file ("B3"),
-   rewrite the 11-byte header at the start ("B4" seek, "B5" write), then at 11 bytes before the end ("B6") write
-   the 11-byte record rec over the old tail ("B7") and the tail block unk_C542E after it ("B8"), and close it. */
+/* AppendGSumRecord: count one more record (word_C5428), open the game summary file ("B3"),
+ rewrite the 11-byte header at the start ("B4" seek, "B5" write), then at 11 bytes before the end ("B6") write
+ the 11-byte record rec over the old tail ("B7") and the tail block unk_C542E after it ("B8"), and close it. */
 void AppendGSumRecord(void *rec)
 {
     int fh;

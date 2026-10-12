@@ -1,7 +1,7 @@
 /* Season playoffs: pre-simulation. */
 #include "nhl95.h"
 
-/* POPreSimConfFinals (8803B) - as POPreSimRound1 for the 2 conference-final series (+1B90h). */
+/* POPreSimConfFinals: as POPreSimRound1 for the 2 conference-final series (+1B90h). */
 void POPreSimConfFinals(unsigned char *po, int a, int b)
 {
     unsigned char *s;

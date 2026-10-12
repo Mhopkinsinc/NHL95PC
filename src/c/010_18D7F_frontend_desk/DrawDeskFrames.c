@@ -1,8 +1,8 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* DrawDeskFrames (18E43) - draw the three nested rectangle frames (colours 22h, 21h, 20h) around the desk picture
-   window, four lines each. */
+/* DrawDeskFrames: draw the three nested rectangle frames (colours 22h, 21h, 20h) around the desk picture
+ window, four lines each. */
 void DrawDeskFrames(void)
 {
     sub_B4FAC(0x0E, 0x21, 0xAF, 0x21, 0x22);

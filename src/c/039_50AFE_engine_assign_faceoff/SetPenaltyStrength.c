@@ -1,8 +1,8 @@
-/* Engine assign / faceoff: penalties. */
+/* Engine assign faceoff: penalties. */
 #include "nhl95.h"
 
-/* SetPenaltyStrength (510A9) - for each team: every roster player with box time (tmpdst > 0) takes one skater slot
-   away (down to 4); the freed SortCords slots get position -1 and temp5 -100. tmap = skaters left (6..4). */
+/* SetPenaltyStrength: for each team: every roster player with box time (tmpdst > 0) takes one skater slot
+ away (down to 4); the freed SortCords slots get position -1 and temp5 -100. tmap = skaters left (6..4). */
 void SetPenaltyStrength(void)
 {
     Team *tm;

@@ -1,9 +1,9 @@
 /* Engine player logic: Stanley Cup celebration. */
 #include "nhl95.h"
 
-/* assstanley (4A832) - Stanley Cup celebration skate for p (not while flag 20h): a new assignment (pflags bit 1) heads
-   for (-50h, 0) with SPA ECBh and Pencntdwn 100h; when the SPA ends, full energy (tmpde 300h) and SPA 833h. Near
-   the target direction (vtoa <= 7) turn one step every 12 frames toward it and skate. */
+/* assstanley: Stanley Cup celebration skate for p (not while flag 20h): a new assignment (pflags bit 1) heads
+ for (-50h, 0) with SPA ECBh and Pencntdwn 100h; when the SPA ends, full energy (tmpde 300h) and SPA 833h. Near
+ the target direction (vtoa <= 7) turn one step every 12 frames toward it and skate. */
 void assstanley(Player *p)
 {
     if (p->pflags & 0x20) return;

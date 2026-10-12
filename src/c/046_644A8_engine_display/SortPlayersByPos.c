@@ -1,7 +1,7 @@
 /* Engine display: roster sorting. */
 #include "nhl95.h"
 
-/* SortPlayersByPos (644A8) - out[25] = side's roster players at position letter pos, sorted by keys; -1 for the others. */
+/* SortPlayersByPos: out[25] = side's roster players at position letter pos, sorted by keys; -1 for the others. */
 void SortPlayersByPos(short side, signed char *out, short *keys, char pos)
 {
     int i;

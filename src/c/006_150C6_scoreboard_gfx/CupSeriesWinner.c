@@ -1,8 +1,8 @@
 /* Scoreboard graphics: playoff series. */
 #include "nhl95.h"
 
-/* CupSeriesWinner (15CE1) - winner of the best-of-games series s (home +2, away +3, then 6-byte game records with the
-   home team +2 and scores +4 / +5): the first to games / 2 + 1 wins; -1 when a needed game is unplayed (FFh). */
+/* CupSeriesWinner: winner of the best-of-games series s (home +2, away +3, then 6-byte game records with the
+ home team +2 and scores +4 +5): the first to games 2 + 1 wins; -1 when a needed game is unplayed (FFh). */
 int CupSeriesWinner(unsigned char *s, unsigned games)
 {
     unsigned need;

@@ -3,9 +3,9 @@
 
 #define BANKD(off) (*(int *)((char *)speechbank + (off)))
 
-/* ShutdownSpeech (8363C) - PC only: when the speech system is up, remove the SpeechTimerTick timer handler,
-   close the open bank file (flag +3B78h, handle +3B7Ch of speechbank), free the speech queue, the sample memory
-   (+3B60h, sub_8D2F0), the bank and the request block, and clear speechinit. */
+/* ShutdownSpeech: when the speech system is up, remove the SpeechTimerTick timer handler,
+ close the open bank file (flag +3B78h, handle +3B7Ch of speechbank), free the speech queue, the sample memory
+ (+3B60h, sub_8D2F0), the bank and the request block, and clear speechinit. */
 void ShutdownSpeech(void)
 {
     if (speechinit != 0) {
@@ -20,8 +20,8 @@ void ShutdownSpeech(void)
 }
 
 
-/* ReadBE24 (837FB) - PC only: read three bytes from file fh, most significant first (the VIV bank headers are
-   big-endian), and return them as a number. */
+/* ReadBE24: read three bytes from file fh, most significant first (the VIV bank headers are
+ big-endian), and return them as a number. */
 int ReadBE24(int fh)
 {
     unsigned got;
@@ -39,9 +39,9 @@ int ReadBE24(int fh)
 #define SLOTFREQ (*(double *)&qword_C37C8)
 #define SLOTRATE (*(double *)&qword_C37D0)
 
-/* LoadSpeechSlot (83CAE) - PC only: load sample n into the speech memory right after slot n - 1 (slot 0 at the
-   memory start +3B64h): its address (+0Eh), size (ReadSpeechSample, +16h), its play time size * C37C8 / C37D0 less
-   the bank's +3B70h (+1Eh), loaded (+22h); count the bytes (+3B6Ch) and loaded slots (+3B74h). */
+/* LoadSpeechSlot: load sample n into the speech memory right after slot n - 1 (slot 0 at the
+ memory start +3B64h): its address (+0Eh), size (ReadSpeechSample, +16h), its play time size * C37C8 C37D0 less
+ the bank's +3B70h (+1Eh), loaded (+22h); count the bytes (+3B6Ch) and loaded slots (+3B74h). */
 void LoadSpeechSlot(int n)
 {
     int addr;
@@ -66,8 +66,8 @@ void LoadSpeechSlot(int n)
     BANKD(0x3B74)++;
 }
 
-/* PlaceSpeechSlot (83D78) - PC only: read sample n (file offset +12h, length +1Ah) from the open bank file into the
-   speech memory after slot n - 1 and mark it loaded; count the bytes read (+3B6Ch) and loaded slots (+3B74h). */
+/* PlaceSpeechSlot: read sample n (file offset +12h, length +1Ah) from the open bank file into the
+ speech memory after slot n - 1 and mark it loaded; count the bytes read (+3B6Ch) and loaded slots (+3B74h). */
 void PlaceSpeechSlot(int n)
 {
     unsigned got;

@@ -1,11 +1,11 @@
 /* Schedule: playoff series setup. */
 #include "nhl95.h"
 
-/* SetSeriesTeams (42F42) - PC only: fill the team bytes of playoff series s (+2 home, +3 away, then 6-byte game
-   records with the home team at +2 and the away team at +3 of each record, from +6) for a best-of-games series
-   between a (home ice) and b. Seven games: 2-2-1-1-1 home pattern (games 1, 2, 5, 7 at a); when the two
-   teams' teamdivflags together give 3 (one from each conference) games 3-4 are at a too (2-3-2). Five games:
-   2-2-1; three games: 1-1-1; otherwise just s[2] / s[3]. */
+/* SetSeriesTeams: fill the team bytes of playoff series s (+2 home, +3 away, then 6-byte game
+ records with the home team at +2 and the away team at +3 of each record, from +6) for a best-of-games series
+ between a (home ice) and b. Seven games: 2-2-1-1-1 home pattern (games 1, 2, 5, 7 at a); when the two
+ teams' teamdivflags together give 3 (one from each conference) games 3-4 are at a too (2-3-2). Five games:
+ 2-2-1; three games: 1-1-1; otherwise just s[2] s[3]. */
 void SetSeriesTeams(unsigned char *s, int a, int b, int games)
 {
     if ((teamdivflags[a] | teamdivflags[b]) == 3 && games == 7) {

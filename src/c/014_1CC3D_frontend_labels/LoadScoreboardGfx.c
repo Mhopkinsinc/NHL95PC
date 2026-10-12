@@ -1,10 +1,10 @@
 /* Front end labels: scoreboard graphics. */
 #include "nhl95.h"
 
-/* LoadScoreboardGfx (1CC3D) - PC only: load the scoreboard shape bank SCRBRD1.PPV (from the CD when it is
-   there) into scrbrdshapes and look up its shapes by name lists (sub_90B80): the score, clock and penalty
-   digits, the away / home line indicators, the away / home panels ("visp" / "homp", sub_B30B4) and the line
-   sprites. */
+/* LoadScoreboardGfx: load the scoreboard shape bank SCRBRD1.PPV (from the CD when it is
+ there) into scrbrdshapes and look up its shapes by name lists (sub_90B80): the score, clock and penalty
+ digits, the away home line indicators, the away home panels ("visp" "homp", sub_B30B4) and the line
+ sprites. */
 void LoadScoreboardGfx(void)
 {
     char path[16];

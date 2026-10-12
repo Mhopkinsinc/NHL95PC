@@ -1,10 +1,10 @@
 /* Announcer: penalties. */
 #include "nhl95.h"
 
-/* SayPenalty (84F7B) - when speech is up and idle: announce a penalty: "<team> [penalty / penalties on] number <num>,
-   <length clip>, <pen>" (team clip <team>Tea, number clip <num>Num, length from PenaltyLenClip, penalty clip
-   <pen>Pen; idx 1 gives the team clip and penalty / penalties (idx < cnt) wording, else "and number"), with the
-   time clips (RequestTimeClips / QueueTimeClips a, b) when withtime; starts the queue and returns 1, else 0. */
+/* SayPenalty: when speech is up and idle: announce a penalty: "<team> [penalty penalties on] number <num>,
+ <length clip>, <pen>" (team clip <team>Tea, number clip <num>Num, length from PenaltyLenClip, penalty clip
+ <pen>Pen; idx 1 gives the team clip and penalty penalties (idx < cnt) wording, else "and number"), with the
+ time clips (RequestTimeClips QueueTimeClips a, b) when withtime; starts the queue and returns 1, else 0. */
 int SayPenalty(char *team, int num, int len, char *pen, int a, int b, int idx, int cnt, int withtime)
 {
     char n[16];

@@ -1,9 +1,9 @@
 /* Settings dialogs: options to check bits. */
 #include "nhl95.h"
 
-/* ModeOptsToBits (7B604) - copy the game option bits into the mode-settings dialog check bits (setbits): bits 0-5 as they
-   are, music and sound effects only without the 10h sound device, speech only with a 22h device; draw the checks
-   and, on a 10h device, print Music/Sound over them (greyed); without music print Digitized Speech greyed. */
+/* ModeOptsToBits: copy the game option bits into the mode-settings dialog check bits (setbits): bits 0-5 as they
+ are, music and sound effects only without the 10h sound device, speech only with a 22h device; draw the checks
+ and, on a 10h device, print Music/Sound over them (greyed); without music print Digitized Speech greyed. */
 void ModeOptsToBits(void)
 {
     setbits[0] = gameopts.optbit0 | gameopts.offsides << 1 | gameopts.linechanges << 2

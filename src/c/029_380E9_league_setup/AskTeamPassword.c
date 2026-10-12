@@ -1,10 +1,10 @@
 /* League setup: password prompts. */
 #include "nhl95.h"
 
-/* AskTeamPassword (3A395) - PC only: up to 3 times ask "Enter password for <team name>" (team t of the 30-byte team
-   entries ents: name, password at +0Bh; 10 characters) and compare it with the team's password (decrypted for the
-   check with EncryptPassword and encrypted again); a wrong one shows the message unk_C7965 at the mouse. Returns
-   0 when right, -1 when wrong three times or cancelled (Esc). */
+/* AskTeamPassword: up to 3 times ask "Enter password for <team name>" (team t of the 30-byte team
+ entries ents: name, password at +0Bh; 10 characters) and compare it with the team's password (decrypted for the
+ check with EncryptPassword and encrypted again); a wrong one shows the message unk_C7965 at the mouse. Returns
+ 0 when right, -1 when wrong three times or cancelled (Esc). */
 int AskTeamPassword(int t, char *ents)
 {
     int tries;
@@ -38,10 +38,10 @@ int AskTeamPassword(int t, char *ents)
 }
 
 
-/* AskMasterPassword (3A49E) - PC only: up to 3 times ask "<team name> enter master password" (team t of names, 30
-   bytes each; 10 characters) and compare it with the league master password (masterpw, decrypted for the check
-   with EncryptPassword(key, t) and encrypted again); a wrong one shows the message unk_C7965 at the mouse. Returns
-   0 when right, -1 when wrong three times or cancelled (Esc). */
+/* AskMasterPassword: up to 3 times ask "<team name> enter master password" (team t of names, 30
+ bytes each; 10 characters) and compare it with the league master password (masterpw, decrypted for the check
+ with EncryptPassword(key, t) and encrypted again); a wrong one shows the message unk_C7965 at the mouse. Returns
+ 0 when right, -1 when wrong three times or cancelled (Esc). */
 int AskMasterPassword(int t, char *names, char *key)
 {
     int res;
@@ -70,9 +70,9 @@ int AskMasterPassword(int t, char *names, char *key)
     return res;
 }
 
-/* EncryptPassword (3A597) - PC only: en/decrypt (symmetric) the 10-byte password pw of team t: each byte is
-   xored with passkey from position t mod its length forwards and with passkey from its end backwards, both
-   wrapping. */
+/* EncryptPassword: en/decrypt (symmetric) the 10-byte password pw of team t: each byte is
+ xored with passkey from position t mod its length forwards and with passkey from its end backwards, both
+ wrapping. */
 void EncryptPassword(char *pw, int t)
 {
     int len;

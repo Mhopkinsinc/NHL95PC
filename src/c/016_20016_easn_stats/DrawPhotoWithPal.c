@@ -1,10 +1,10 @@
 /* EASN stats: player photo with its palette. */
 #include "nhl95.h"
 
-/* DrawPhotoWithPal (21C04) - PC only: take the current palette (the saved stats palette statspal when statspalvalid,
-   else read it from the card with start statspalvalid = 0), put the photo's 180 colour bytes at entry 44h and its
-   165 bytes at C4h (src), set photoremap, write the palette back the same way and draw photo art at x, y
-   (sub_91FE0). */
+/* DrawPhotoWithPal: take the current palette (the saved stats palette statspal when statspalvalid,
+ else read it from the card with start statspalvalid = 0), put the photo's 180 colour bytes at entry 44h and its
+ 165 bytes at C4h (src), set photoremap, write the palette back the same way and draw photo art at x, y
+ (sub_91FE0). */
 void DrawPhotoWithPal(unsigned char *src, int art, int x, int y)
 {
     unsigned char pal[0x300];

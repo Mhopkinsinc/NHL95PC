@@ -1,10 +1,10 @@
 /* Settings dialogs: goalie restore. */
 #include "nhl95.h"
 
-/* CtlSwapScoreFix (7CBB3) - put side's pulled goalie back (tmgoalie negative with a goalie choice in bits 4-7): keep the
-   choice (low nibble); not while side trails by 1-2 in the third period with more than 60 seconds left, nor
-   while the other team has the puck in a stoppage. Then the goalie is back (high byte 0), the menu shows him
-   checked (off_CD498) and "pulled" unchecked (off_CD4A0), setpersonel. */
+/* CtlSwapScoreFix: put side's pulled goalie back (tmgoalie negative with a goalie choice in bits 4-7): keep the
+ choice (low nibble); not while side trails by 1-2 in the third period with more than 60 seconds left, nor
+ while the other team has the puck in a stoppage. Then the goalie is back (high byte 0), the menu shows him
+ checked (off_CD498) and "pulled" unchecked (off_CD4A0), setpersonel. */
 void CtlSwapScoreFix(int side)
 {
     Team *t;

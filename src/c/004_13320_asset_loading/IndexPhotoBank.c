@@ -1,8 +1,8 @@
 /* Asset loading: player photos. */
 #include "nhl95.h"
 
-/* IndexPhotoBank (13867) - PC only: look up the 50 photos of photo bank b (entries named "%04d", numbered from
-   b * 50) in the bank (sub_B30BB) and store their pointers in photoptrs, up to the 1134 photos. */
+/* IndexPhotoBank: look up the 50 photos of photo bank b (entries named "%04d", numbered from
+ b * 50) in the bank (sub_B30BB) and store their pointers in photoptrs, up to the 1134 photos. */
 void IndexPhotoBank(int b)
 {
     char name[12];

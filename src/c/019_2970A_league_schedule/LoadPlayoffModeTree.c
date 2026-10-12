@@ -2,12 +2,12 @@
 /* League schedule: playoff tree of the last playoffs (segment compiled without optimisation). */
 #include "nhl95.h"
 
-/* LoadPlayoffModeTree (2970A) - PC only: playoff tree of playoff mode: team names from the stats league's team file
-   (ReadTeamNames; else from LSSCHED.DB, opened here), the 15 series pairs from schedule games 444h + 7n, then the
-   final's seven games from 4A6h on: count each team's wins (game score bytes +4 / +5), the first to 4 is pochampion.
-   Closes the file and runs PlayoffTreeScreen when nothing failed. Returns 0.
-   Draft: all code matches; only a (ebp-30h in the asm) and the return temporary (-2Ch) trade slots. Tried
-   extra unused ints / arrays and array orders (LoadLeagueTree matched that way). */
+/* LoadPlayoffModeTree: playoff tree of playoff mode: team names from the stats league's team file
+ (ReadTeamNames; else from LSSCHED.DB, opened here), the 15 series pairs from schedule games 444h + 7n, then the
+ final's seven games from 4A6h on: count each team's wins (game score bytes +4 +5), the first to 4 is pochampion.
+ Closes the file and runs PlayoffTreeScreen when nothing failed. Returns 0.
+ Draft: all code matches; only a (ebp-30h in the asm) and the return temporary (-2Ch) trade slots. Tried
+ extra unused ints arrays and array orders (LoadLeagueTree matched that way). */
 int LoadPlayoffModeTree(int a, int b)
 {
     short t1;

@@ -1,9 +1,9 @@
 /* Create player: roster edit. */
 #include "nhl95.h"
 
-/* RemovePlayerFromTeam (71043) - take the player with key record key off team's roster: the first of the 28 roster
-   slots (+4Ch) whose key record has the same name (+24h..+2Fh) becomes -1 (facount + 1), and the line slots
-   (+BCh, 48 bytes) that held it become 100 (empty). */
+/* RemovePlayerFromTeam: take the player with key record key off team's roster: the first of the 28 roster
+ slots (+4Ch) whose key record has the same name (+24h..+2Fh) becomes -1 (facount + 1), and the line slots
+ (+BCh, 48 bytes) that held it become 100 (empty). */
 void RemovePlayerFromTeam(unsigned char team, int key)
 {
     unsigned char *rec;

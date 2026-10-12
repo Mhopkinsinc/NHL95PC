@@ -1,9 +1,9 @@
-/* Engine assign / faceoff: penalty shot. */
+/* Engine assign faceoff: penalty shot. */
 #include "nhl95.h"
 
-/* PenShotStart (511B4) - penalty shot setup for team side's 6 objects: at the start (penshotstart) an object on
-   assignment 2Dh gets 29h (temp5 0); otherwise an on-ice object without a pending change (newpos / newpnum -1,
-   temp5 != -100) not already on assignment 27h gets it inserted. */
+/* PenShotStart: penalty shot setup for team side's 6 objects: at the start (penshotstart) an object on
+ assignment 2Dh gets 29h (temp5 0); otherwise an on-ice object without a pending change (newpos newpnum -1,
+ temp5 != -100) not already on assignment 27h gets it inserted. */
 void PenShotStart(short side)
 {
     Player *p;

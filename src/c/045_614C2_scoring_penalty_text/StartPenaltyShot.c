@@ -1,9 +1,9 @@
-/* Scoring / penalty text: penalty shot. */
+/* Scoring penalty text: penalty shot. */
 #include "nhl95.h"
 
-/* StartPenaltyShot (64398) - set up a penalty shot for penshotplayer (team by its object number, word +20h counted), one
-   skater a side (tmap 1), remember its roster number and the faceoff spot (penshotfox / penshotfoy) and centre
-   the faceoff. */
+/* StartPenaltyShot: set up a penalty shot for penshotplayer (team by its object number, word +20h counted), one
+ skater a side (tmap 1), remember its roster number and the faceoff spot (penshotfox penshotfoy) and centre
+ the faceoff. */
 void StartPenaltyShot(void)
 {
     Team *tm;

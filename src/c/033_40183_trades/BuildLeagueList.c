@@ -10,10 +10,10 @@ typedef struct FindT {
     char name[13];
 } FindT;
 
-/* BuildLeagueList (411C8) - PC only: list the league directories (*.LP, _dos_findfirst / _dos_findnext with the
-   directory attribute 10h): count them, allocate the pointer list *list (LLST, 4 bytes each) and the name buffer
-   *names (LLSN, 9 bytes each), then go over them again keeping the ones GetLeagueId accepts by flags (bit 0: valid
-   leagues, bit 1: the others), each name up to its dot. Returns the number kept (lists cleared when none). */
+/* BuildLeagueList: list the league directories (*.LP, _dos_findfirst _dos_findnext with the
+ directory attribute 10h): count them, allocate the pointer list *list (LLST, 4 bytes each) and the name buffer
+ *names (LLSN, 9 bytes each), then go over them again keeping the ones GetLeagueId accepts by flags (bit 0: valid
+ leagues, bit 1: the others), each name up to its dot. Returns the number kept (lists cleared when none). */
 int BuildLeagueList(char ***list, char **names, int flags)
 {
     FindT ft;

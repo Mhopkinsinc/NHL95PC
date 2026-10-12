@@ -1,11 +1,11 @@
-/* Engine physics / AI: player collision scan (93G checkplcoll). */
+/* Engine physics AI: player collision scan. */
 #include "nhl95.h"
 
 #define OOB(i) (*(int *)(OOlist + (i) - 2) >> 24)  /* OOlist byte i + 1, read as the top byte of a dword */
 
-/* checkplcoll (58CE2) - 93G checkplcoll: unless p is out of play (pflags2 bit 5), for a skater (SCnum up to 11)
-   or SCnum 16: walk the y-sorted object list (OOlist) up from p's place (OOlistpos) and then down, while the next
-   object is within 16 in y of y, checking each against p at x (checkcx). */
+/* checkplcoll: unless p is out of play (pflags2 bit 5), for a skater (SCnum up to 11)
+ or SCnum 16: walk the y-sorted object list (OOlist) up from p's place (OOlistpos) and then down, while the next
+ object is within 16 in y of y, checking each against p at x (checkcx). */
 void checkplcoll(Player *p, short x, int y)
 {
     short i;

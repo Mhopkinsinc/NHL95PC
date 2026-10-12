@@ -1,9 +1,9 @@
-/* Season / playoffs: desk line menus. */
+/* Season playoffs: desk line menus. */
 #include "nhl95.h"
 
-/* SetSideControls (8B85B) - enable the desk's home / visitor lines menu items (handler + item data) for the sides a
-   human controls: both controllers on one side (ctl1side 0 home), else by ctl1team/ctl2team (-1 none home,
-   -2 none visitor). */
+/* SetSideControls: enable the desk's home visitor lines menu items (handler + item data) for the sides a
+ human controls: both controllers on one side (ctl1side 0 home), else by ctl1team/ctl2team (-1 none home,
+ -2 none visitor). */
 void SetSideControls(void)
 {
     if (ctl1side[0] == ctl2side) {

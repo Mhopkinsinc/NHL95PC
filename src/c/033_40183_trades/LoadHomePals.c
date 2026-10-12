@@ -1,10 +1,10 @@
 /* Trades: team palettes. */
 #include "nhl95.h"
 
-/* LoadHomePals (40792) - load HOMEPALS.BIN (1C0h bytes per team: C0h palette bytes, then the 100h-byte remap table) and set
-   palette entries 80h-FFh: home's palette part, vis's palette part, with the four fixed colours FBh-FEh
-   (18h,0,0 / 2Ah,0,0 / 3Bh,12h,0 / 3Bh,3Bh,3Bh); home's remap table goes to byte_DC9D8, vis's to
-   byte_DC8D8 (entries 90h and up shifted by 40h). */
+/* LoadHomePals: load HOMEPALS.BIN (1C0h bytes per team: C0h palette bytes, then the 100h-byte remap table) and set
+ palette entries 80h-FFh: home's palette part, vis's palette part, with the four fixed colours FBh-FEh
+ (18h,0,0 2Ah,0,0 3Bh,12h,0 3Bh,3Bh,3Bh); home's remap table goes to byte_DC9D8, vis's to
+ byte_DC8D8 (entries 90h and up shifted by 40h). */
 void LoadHomePals(int home, int vis)
 {
     unsigned char pal[0x180];

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuGAA (18A5A) - stats menu item: category 8 (goals-against average). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run LeadersScreen(8) and fade out with the second; otherwise call the
-   goaliestatscb handler. Returns the screen's result. */
+/* StatsMenuGAA: stats menu item: category 8 (goals-against average). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run LeadersScreen(8) and fade out with the second; otherwise call the
+ goaliestatscb handler. Returns the screen's result. */
 int StatsMenuGAA(void)
 {
     statscategory = 8;

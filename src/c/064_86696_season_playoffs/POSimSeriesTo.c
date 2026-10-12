@@ -1,10 +1,10 @@
-/* Season / playoffs: simulate a playoff series. */
+/* Season playoffs: simulate a playoff series. */
 #include "nhl95.h"
 
-/* POSimSeriesTo (88625) - PC only: for series n of the league playoff tree (42-byte series from +1998h of lg) that
-   is still undecided (SeriesWinner with the series length option, gameopts bits 12-14): open the league's
-   databases (leaguedbnames[4] read / write, error "E31"; leaguedbnames[3] read, "E32") and simulate its
-   unplayed games (6-byte game records, byte +4 FFh) up to game upto, stopping once the series is decided. */
+/* POSimSeriesTo: for series n of the league playoff tree (42-byte series from +1998h of lg) that
+ is still undecided (SeriesWinner with the series length option, gameopts bits 12-14): open the league's
+ databases (leaguedbnames[4] read write, error "E31"; leaguedbnames[3] read, "E32") and simulate its
+ unplayed games (6-byte game records, byte +4 FFh) up to game upto, stopping once the series is decided. */
 void POSimSeriesTo(unsigned char *lg, int n, int upto)
 {
     unsigned char *g;

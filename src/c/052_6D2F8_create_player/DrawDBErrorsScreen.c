@@ -1,9 +1,9 @@
 /* Create player: database errors. */
 #include "nhl95.h"
 
-/* DrawDBErrorsScreen (6EC95) - draw the database errors screen (background 41h, menu bar, title area, OK buttons) and clear
-   *sel; on the first call (*first) print the "errors found" header at text line *line (13-pixel lines from
-   1Fh) and advance it by 2. */
+/* DrawDBErrorsScreen: draw the database errors screen (background 41h, menu bar, title area, OK buttons) and clear
+ *sel; on the first call (*first) print the "errors found" header at text line *line (13-pixel lines from
+ 1Fh) and advance it by 2. */
 void DrawDBErrorsScreen(int *sel, int *line, int *first)
 {
     SetDrawBitmap(fullscrbmp);

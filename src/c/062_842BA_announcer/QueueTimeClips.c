@@ -1,9 +1,9 @@
 /* Announcer: say a game time. */
 #include "nhl95.h"
 
-/* QueueTimeClips (84EAC) - PC only: queue the speech clips for "at <min> minutes <sec> seconds": AT, a pause,
-   then the minutes ("<min>.NUM"; "1 minute" alone, or "<min> minutes" when the seconds are 0) and the seconds
-   ("<sec:02>.NUM" after minutes; "1 second" or "<sec> seconds" alone). */
+/* QueueTimeClips: queue the speech clips for "at <min> minutes <sec> seconds": AT, a pause,
+ then the minutes ("<min>.NUM"; "1 minute" alone, or "<min> minutes" when the seconds are 0) and the seconds
+ ("<sec:02>.NUM" after minutes; "1 second" or "<sec> seconds" alone). */
 void QueueTimeClips(int min, int sec)
 {
     char mins[16];

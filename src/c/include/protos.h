@@ -1,12 +1,12 @@
 /* protos.h - prototypes of the functions written in C (every matched function goes here) and of asm functions
-   whose register signature is known. Watcom register convention (-5r): arguments in eax, edx, ebx, ecx, then the
-   stack; result in eax. Keep the asm label as the name. */
+ whose register signature is known. Watcom register convention (-5r): arguments in eax, edx, ebx, ecx, then the
+ stack; result in eax. Keep the asm label as the name. */
 #ifndef PROTOS_H
 #define PROTOS_H
 struct Player; struct Team;
 
 /* 001_10010_main_startup */
-void assreplace(struct Player *p, int ass);                /* 11FF4: replace p's current assignment (94G checks94 assreplace) */
+void assreplace(struct Player *p, int ass);                /* 11FF4: replace p's current assignment */
 
 /* 037_4842A_engine_player_logic */
 void StopIfFree(struct Player *p);                        /* 4A80E */
@@ -90,7 +90,7 @@ void ReplayRecordReset(void);                             /* 67564 */
 /* asm functions with a known signature */
 short vtoa(int dx, int dy);                               /* hand-written: direction 0-7 of the vector (dx, dy) */
 int SpeechBusy(void);                                     /* announcer sample still playing? */
-short randomd0(short range);                              /* random 0..range-1 (93G randomd0) */
+short randomd0(short range);                              /* random 0..range-1 */
 int OpenAnnouncerBank(void);                              /* 0 = failed */
 short sub_8F80E(int handle);                              /* sound library: sample finished? */
 int ReplayIsEmpty(void);                                   /* 12034 */
@@ -99,15 +99,15 @@ int FileClose(int *h);                                    /* 1457C */
 short GameTimeStamp(void);                                /* 62CD7 */
 void _nfree(void *p);                                     /* Watcom CRT _nfree_ */
 int _dos_close(int h);                                    /* Watcom CRT _dos_close_ */
-int DateKey(int month, int day);  /* 41C79 */             
-unsigned Swap16(unsigned x);  /* 837D9 */                 
+int DateKey(int month, int day);  /* 41C79 */
+unsigned Swap16(unsigned x);  /* 837D9 */
 int RandMod(int n);
-int rand(void);  /* Watcom CRT rand_ */                   
+int rand(void);  /* Watcom CRT rand_ */
 void SimAddPair(int *count, int *pairs, int a, int b);  /* 452A6 */
-int StrLenToDot(char *s);  /* 1D5D5 */                    
-unsigned char *TeamRecPtr(int team);  /* 6CB90 */         
-unsigned char *CarTeamRecPtr(int team);  /* 6CB6B */      
-unsigned char *KeyDbPtr(int ofs);  /* 6CBB7 */            
+int StrLenToDot(char *s);  /* 1D5D5 */
+unsigned char *TeamRecPtr(int team);  /* 6CB90 */
+unsigned char *CarTeamRecPtr(int team);  /* 6CB6B */
+unsigned char *KeyDbPtr(int ofs);  /* 6CBB7 */
 unsigned char *SeasonDbPtr(int ofs);
 unsigned char *SeasonDbPtr2(int ofs);
 unsigned char *CareerDbPtr(int ofs);
@@ -122,13 +122,13 @@ int LoadLeagueTree(int a, int b);  /* 29B07 */
 int TreeSeriesWinner(unsigned char *series, int round, int same);  /* 2991C */
 void PlayoffTreeScreen(void);  /* 27F9C */
 void OpenStatsSchedule(void **out);  /* 29A97 */
-double RatingToFloat(unsigned char r);  /* 6F6AD */       
-int GetMemListHead(int which);  /* 10010 */               
-int SpeechIsInit(void);  /* 836CA */                      
+double RatingToFloat(unsigned char r);  /* 6F6AD */
+int GetMemListHead(int which);  /* 10010 */
+int SpeechIsInit(void);  /* 836CA */
 void MusicChanCmd3(void);
-void sub_8FCAC(int handle, int cmd);  /* sound library */ 
-void CalReturn(void);  /* 3476B */                        
-int DeskToSportsDesk(void);  /* 1A5B1 */                  
+void sub_8FCAC(int handle, int cmd);  /* sound library */
+void CalReturn(void);  /* 3476B */
+int DeskToSportsDesk(void);  /* 1A5B1 */
 int FileCreate(char *name, int *h);
 int _dos_creat(char *name, int attr, int *h);  /* Watcom CRT _dos_creat_ */
 void CenterMouse(void);
@@ -137,196 +137,196 @@ void WriteKeyRec(int fh, void *rec, long pos);  /* 14654 */
 int FileWriteAt(int fh, void *buf, long pos, unsigned len);  /* 145F9 */
 int FileReadAt(int fh, void *buf, long pos, unsigned len);  /* 145A2: seek to pos (pos < 0: no seek), read len bytes */
 int ReadSchedGame(int fh, void *game, int n);  /* 147A0 */
-void TextGridOff(void);  /* 1777E */                      
-void SetTextColors(int color, int shadow);  /* 174C2 */   
+void TextGridOff(void);  /* 1777E */
+void SetTextColors(int color, int shadow);  /* 174C2 */
 void SaveModeState(unsigned char *st);
 char *strcpy(char *d, const char *s);  /* Watcom CRT strcpy_ */
-int DeskSetExit1(void);  /* 179B6 */                      
+int DeskSetExit1(void);  /* 179B6 */
 void SndLoadFile(int unused, char *name);
 void *__cdecl sub_8E8B8(char *name, int bank);  /* sound library loader, stack args */
-void NudgeRinkScroll(void);  /* 7FC12 */                  
-void ClampYPosition(Player *p);  /* 4B6F4 */              
+void NudgeRinkScroll(void);  /* 7FC12 */
+void ClampYPosition(Player *p);  /* 4B6F4 */
 void CrowdFadeOut(void);
 void __cdecl sub_B3989(int n);  /* timer library, stack args */
-void __cdecl sub_B3999(void);  /* timer library */        
+void __cdecl sub_B3999(void);  /* timer library */
 void PaPreloadClips(int a, int b);
 void TextGridPut(int x, int y, char *s);
 void *memcpy(void *d, const void *s, unsigned n);  /* Watcom CRT memcpy_ */
-unsigned strlen(const char *s);  /* Watcom CRT strlen_ */ 
+unsigned strlen(const char *s);  /* Watcom CRT strlen_ */
 void POSetSeriesTeams(unsigned char *s, int a, int b);  /* 87520 */
-void GoalieToPuckVec(Player *p);  /* 4B467 */             
+void GoalieToPuckVec(Player *p);  /* 4B467 */
 void TryBlockShot(Player *p);
-int CanBlockShot(Player *p);  /* 4FFEE */                 
-void BlockShotDive(Player *p, int how);  /* 53387 */      
-void NullBlit(void);  /* 1D019 */                         
-void NullFunc_1D024(void);  /* 1D024 */                   
-void DemoSetupStub(void);  /* 3371C */                    
-void rtss(void);  /* 4F990 */                             
-void CreatePlayerNop(void);  /* 6FA72 */                  
-void SettingsStub(void);  /* 7B39C */                     
-void stub_8C1B7(void);  /* 8C1B7 */                       
-void stub_8C1F7(void);  /* 8C1F7 */                       
-void stub_8C202(void);  /* 8C202 */                       
-void stub_8C20D(void);  /* 8C20D */                       
-void stub_8C218(void);  /* 8C218 */                       
-int DlgReturnZero(void);  /* 2FED2 */                     
-int GadgetStub0(void);  /* 7E032 */                       
-int LeagueCheckStub(void);  /* 41337 */                   
-int POReturnZero(void);  /* 89B5C */                      
-int DeskBackToGame(void);  /* 1A5A1 */                    
-int MenuExit(void);  /* 3270B */                          
-int MenuReturnToLineEditor(void);  /* 79DD1 */            
-int MenuPlayNextGame(void);  /* 86627 */                  
-int MenuReturnToSportsCentral(void);  /* 86637 */         
-void TeamSelCancel(void);  /* 38B3A */                    
-void TeamSelDone(void);  /* 38B25 */                      
-void TradeCancel(void);  /* 3EF27 */                      
-void EditRostersReturn(void);  /* 6D5BB */                
-void SetLeagueSetImage(int img);  /* 7A6AD */             
-int CritErrHandler(void);  /* 3149D */                    
-void assreplace(Player *p, int a);  /* 11FF4 */           
-void assinsert(Player *p, short a);  /* 12011 */          
+int CanBlockShot(Player *p);  /* 4FFEE */
+void BlockShotDive(Player *p, int how);  /* 53387 */
+void NullBlit(void);  /* 1D019 */
+void NullFunc_1D024(void);  /* 1D024 */
+void DemoSetupStub(void);  /* 3371C */
+void rtss(void);  /* 4F990 */
+void CreatePlayerNop(void);  /* 6FA72 */
+void SettingsStub(void);  /* 7B39C */
+void stub_8C1B7(void);  /* 8C1B7 */
+void stub_8C1F7(void);  /* 8C1F7 */
+void stub_8C202(void);  /* 8C202 */
+void stub_8C20D(void);  /* 8C20D */
+void stub_8C218(void);  /* 8C218 */
+int DlgReturnZero(void);  /* 2FED2 */
+int GadgetStub0(void);  /* 7E032 */
+int LeagueCheckStub(void);  /* 41337 */
+int POReturnZero(void);  /* 89B5C */
+int DeskBackToGame(void);  /* 1A5A1 */
+int MenuExit(void);  /* 3270B */
+int MenuReturnToLineEditor(void);  /* 79DD1 */
+int MenuPlayNextGame(void);  /* 86627 */
+int MenuReturnToSportsCentral(void);  /* 86637 */
+void TeamSelCancel(void);  /* 38B3A */
+void TeamSelDone(void);  /* 38B25 */
+void TradeCancel(void);  /* 3EF27 */
+void EditRostersReturn(void);  /* 6D5BB */
+void SetLeagueSetImage(int img);  /* 7A6AD */
+int CritErrHandler(void);  /* 3149D */
+void assreplace(Player *p, int a);  /* 11FF4 */
+void assinsert(Player *p, short a);  /* 12011 */
 void ReadLeagueTeamEntry(int fh, void *entry, int n);  /* 3A31E */
-int StrPrefixDiffers(char *a, char *b);  /* 1D6BE */      
+int StrPrefixDiffers(char *a, char *b);  /* 1D6BE */
 void DrawRinkEndArt(void);
 void DrawSprite(int spr, int x, int y, int a, int b, int c);  /* 1CD73 */
 void SetBoxDoorObject(int open);
-void SetRinkObject(int obj, int frame);  /* 614C2 */      
-int SpeechSlotLoaded(int i);  /* 83F35 */                 
-int SpeechSlotSize(int i);  /* 83BC7 */                   
-int ReadBE32(signed char *p);  /* 16072 */                
+void SetRinkObject(int obj, int frame);  /* 614C2 */
+int SpeechSlotLoaded(int i);  /* 83F35 */
+int SpeechSlotSize(int i);  /* 83BC7 */
+int ReadBE32(signed char *p);  /* 16072 */
 void PaPenaltyShot(char *team, int num, int min, int sec);
-int SayPenaltyShot(char *team, int num, int min, int sec);  /* 8511E */                  
-int SpeechIdle(void);  /* 83711 */                        
+int SayPenaltyShot(char *team, int num, int min, int sec);  /* 8511E */
+int SpeechIdle(void);  /* 83711 */
 void WaitKeyRelease(int key);
 int __cdecl sub_B2CBE(int key);  /* keyboard library: key down? */
-void __cdecl sub_B3A24(void);  /* keyboard library */     
+void __cdecl sub_B3A24(void);  /* keyboard library */
 unsigned char RandLfsrByte(unsigned char *s);  /* 7665E */
-void puckunflip(Player *p);  /* 4D907 */                  
-void CopyRoster1Rec(void);  /* 6DE4C */                   
-void GetLineEnergies(short team, int *out);  /* 14BEF */  
+void puckunflip(Player *p);  /* 4D907 */
+void CopyRoster1Rec(void);  /* 6DE4C */
+void GetLineEnergies(short team, int *out);  /* 14BEF */
 short TeamLineEnergy(short team, short line);  /* 5A2EE */
-void DrawButtons(Button *b, int n);  /* 30AE2 */          
-void DrawButton(Button *b);  /* 30B16 */                  
-void PaHighlightIntro(int home, int vis);  /* 59CA9 */    
-void SetListItemColors(int sel, int item);  /* 30209 */   
+void DrawButtons(Button *b, int n);  /* 30AE2 */
+void DrawButton(Button *b);  /* 30B16 */
+void PaHighlightIntro(int home, int vis);  /* 59CA9 */
+void SetListItemColors(int sel, int item);  /* 30209 */
 void __cdecl sub_8E9C0(int fg, int bg);  /* graphics library: set text colours */
-void PlayDigiSample(void *s);  /* 599B9 */                
-void StopDigiSample(void);  /* 59981 */                   
+void PlayDigiSample(void *s);  /* 599B9 */
+void StopDigiSample(void);  /* 59981 */
 int sub_8F270(void *s, int a);  /* sound library: start sample */
-void ClearSpeechSlot(unsigned char *s);  /* 833C5 */      
-void WriteTeamRec(int fh, void *rec, int n);  /* 3A2B8 */ 
-int FileExists(char *name);  /* 142E7 */                  
+void ClearSpeechSlot(unsigned char *s);  /* 833C5 */
+void WriteTeamRec(int fh, void *rec, int n);  /* 3A2B8 */
+int FileExists(char *name);  /* 142E7 */
 int FileOpenRead(char *name, int *h);  /* 14525: 0 = ok */
-void FreeCalendarIfLowMem(void);  /* 212C6 */             
+void FreeCalendarIfLowMem(void);  /* 212C6 */
 int __cdecl sub_8DAB8(void);  /* memory library: free memory */
-void __cdecl jctime(int p);  /* library: free a block */  
-void StopDigiSample(void);  /* 59981 */                   
-void sub_8F67D(int h);  /* sound library: stop sample */  
-void FreeDigiSample(int unused);  /* 59945 */             
-void sub_8F7AE(int h);  /* sound library: free sample */  
-int ClearInputQueue(void);  /* 6B3D7 */                   
-int ResetInputSampling(void);  /* 1145F */                
-void NormalizeDressFlags(void);  /* 65B48 */              
+void __cdecl jctime(int p);  /* library: free a block */
+void StopDigiSample(void);  /* 59981 */
+void sub_8F67D(int h);  /* sound library: stop sample */
+void FreeDigiSample(int unused);  /* 59945 */
+void sub_8F7AE(int h);  /* sound library: free sample */
+int ClearInputQueue(void);  /* 6B3D7 */
+int ResetInputSampling(void);  /* 1145F */
+void NormalizeDressFlags(void);  /* 65B48 */
 void CheckAndReleasePlayer(Team *t, short i);  /* 639F9 */
-void sfx(int n);  /* 59884 */                             
-void ReadCString(char *s, int fh);  /* 8385F */           
+void sfx(int n);  /* 59884 */
+void ReadCString(char *s, int fh);  /* 8385F */
 unsigned _dos_read(int fh, void __far *buf, unsigned n, unsigned *got);  /* Watcom CRT _dos_read_ */
-void FlushGSumQueue(void);  /* 61B85 */                   
-void AppendGSumRecord(unsigned char *rec);  /* 61A8A */   
-int CountSelected(char *list);  /* 6DA88 */               
-int StrEqNoCase(char *a, char *b);  /* 83E32 */           
-void InputRemove(void);  /* 6B47C */                      
+void FlushGSumQueue(void);  /* 61B85 */
+void AppendGSumRecord(unsigned char *rec);  /* 61A8A */
+int CountSelected(char *list);  /* 6DA88 */
+int StrEqNoCase(char *a, char *b);  /* 83E32 */
+void InputRemove(void);  /* 6B47C */
 void __cdecl sub_8E4F8(void (*f)(void));  /* timer library: remove a tick handler */
-void InputPollTick(void);  /* input tick handler */       
-int FindFreeSpeechSlot(int i);  /* 83E6D */               
-int FindLoadedSpeechSlot(int i);  /* 83EAC */             
-void SpeechStopQueue(void);  /* 8374D */                  
-void DrawCtlBoxes(void);  /* 7D671 */                     
-void DrawCtlBoxOn(int *r);  /* 7C852 */                   
-void DrawCtlBoxOff(int *r);  /* 7C901 */                  
-void TextGridOpen(void);  /* 17711 */                     
-void *_nmalloc(unsigned n);  /* Watcom CRT _nmalloc_ */   
+void InputPollTick(void);  /* input tick handler */
+int FindFreeSpeechSlot(int i);  /* 83E6D */
+int FindLoadedSpeechSlot(int i);  /* 83EAC */
+void SpeechStopQueue(void);  /* 8374D */
+void DrawCtlBoxes(void);  /* 7D671 */
+void DrawCtlBoxOn(int *r);  /* 7C852 */
+void DrawCtlBoxOff(int *r);  /* 7C901 */
+void TextGridOpen(void);  /* 17711 */
+void *_nmalloc(unsigned n);  /* Watcom CRT _nmalloc_ */
 void *memset(void *d, int c, unsigned n);  /* Watcom CRT memset_ */
-unsigned char *GetInputEvent(void);  /* 6B391 */          
-int TeamFromHiName(char *s);  /* 7FC5C */                 
+unsigned char *GetInputEvent(void);  /* 6B391 */
+int TeamFromHiName(char *s);  /* 7FC5C */
 unsigned strcspn(const char *s, const char *set);  /* Watcom CRT strcspn_ */
 int stricmp(const char *a, const char *b);  /* Watcom CRT stricmp_ */
-void SetPA(short pa);  /* 62EA2 */                        
+void SetPA(short pa);  /* 62EA2 */
 void MakePath(char *out, char *dir, char *name, char *ext);  /* 1431E */
 char *strcat(char *d, const char *s);  /* Watcom CRT strcat_ */
 void InitScrollBar(int *sb, int visible, int total);  /* 30BF3 */
-int FindSpeechSlot(char *name);  /* 83EEB */              
-void MakeGSummaryPath(void);  /* 1C807 */                 
-void RestoreGridCellBg(int unused1, int unused2);  /* 37E5B */                
+int FindSpeechSlot(char *name);  /* 83EEB */
+void MakeGSummaryPath(void);  /* 1C807 */
+void RestoreGridCellBg(int unused1, int unused2);  /* 37E5B */
 void __cdecl sub_903F0(int buf, int x, int y);  /* graphics library: put a saved block */
-void RestoreDialogBg(void);  /* 30F12 */                  
-void PenaltyLenClip(int len, char *out);  /* 842BA */     
+void RestoreDialogBg(void);  /* 30F12 */
+void PenaltyLenClip(int len, char *out);  /* 842BA */
 int sprintf(char *d, const char *fmt, ...);  /* Watcom CRT sprintf_ */
-void GetHotOrStick(Player *p);  /* 5A534 */               
-void GetHotStick(Player *p);  /* 5A4AD */                 
-int MenuLeagueHilights(void);  /* 3366F */                
-void LoadModeState(void *st);  /* 327A1 */                
-int ViewHilights(void);  /* 80075 */                      
-int LockerHitTest(int x, int y, int *hit);  /* 81520 */   
-int AddStar(short n, short team, short pl);  /* 48789 */  
+void GetHotOrStick(Player *p);  /* 5A534 */
+void GetHotStick(Player *p);  /* 5A4AD */
+int MenuLeagueHilights(void);  /* 3366F */
+void LoadModeState(void *st);  /* 327A1 */
+int ViewHilights(void);  /* 80075 */
+int LockerHitTest(int x, int y, int *hit);  /* 81520 */
+int AddStar(short n, short team, short pl);  /* 48789 */
 void PanelRemovePenalty(short away, short pl);  /* 14CA0 */
-int DbDialogHitTest(int x, int y, int *hit);  /* 72A5C */ 
-int CtlDlgHitTest(int x, int y, int *hit);  /* 7D61F */   
+int DbDialogHitTest(int x, int y, int *hit);  /* 72A5C */
+int CtlDlgHitTest(int x, int y, int *hit);  /* 7D61F */
 int SoundCardHitTest(int x, int y, int *hit);  /* 827B3 */
-int GadgetHitTest(int x, int y, int *hit);  /* 7E8E5 */   
-void PrintShadowText(int x, int y, char *s);  /* 175E2 */ 
+int GadgetHitTest(int x, int y, int *hit);  /* 7E8E5 */
+void PrintShadowText(int x, int y, char *s);  /* 175E2 */
 void __cdecl sub_91964(char *s, int x, int y);  /* graphics library: print a string */
-void GrowToButton(int *b, int *w, int *h);  /* 30F5F */   
-void chkatop(void);  /* 639A4 */                          
-void ResetGoalieMenu(void);  /* 1CB7F */                  
-void ResetSampleReq(void);  /* 83520 */                   
-void CtlSwapTeamFlag(int team);  /* 7CC8A */              
+void GrowToButton(int *b, int *w, int *h);  /* 30F5F */
+void chkatop(void);  /* 639A4 */
+void ResetGoalieMenu(void);  /* 1CB7F */
+void ResetSampleReq(void);  /* 83520 */
+void CtlSwapTeamFlag(int team);  /* 7CC8A */
 void MenuP1ControlsInGame(void);  /* 7CAF7 */
 int ControlsDlgInGame(int side);  /* 7CB03 */
 void MenuP2ControlsInGame(void);  /* 7CB9F */
 void ReassignCtlPlayer(int side);  /* 7CCE5 */
 void ClearCtlBlink(void);  /* 7CEA1 */
-int SayOneMinuteLeft(void);  /* 854AC */                  
-void ResetSpeechQueue(void);  /* 833FA */                 
-void RequestSample(char *name);  /* 83FAF */              
-void EnsureSampleRoom(void);  /* 8426F */                 
-void QueueSpeechClip(char *name);  /* 84418 */            
-int SayScorePeriod(int per);  /* 84657 */                 
-void joyq_pop(void);  /* 4FCE8 */                         
-void DrawRosterPanel(int side);  /* 6D299 */              
+int SayOneMinuteLeft(void);  /* 854AC */
+void ResetSpeechQueue(void);  /* 833FA */
+void RequestSample(char *name);  /* 83FAF */
+void EnsureSampleRoom(void);  /* 8426F */
+void QueueSpeechClip(char *name);  /* 84418 */
+int SayScorePeriod(int per);  /* 84657 */
+void joyq_pop(void);  /* 4FCE8 */
+void DrawRosterPanel(int side);  /* 6D299 */
 void DrawRosterTitle(int x, int y, int side);  /* 6CEFB */
-void DrawRosterList(int x, int y, int side);  /* 6CF6F */ 
-void DrawDatabaseName(void);  /* 6D256 */                 
-int CountShotOnGoal(void);  /* 64338 */                   
-void ShotLaneOpen(void);  /* 64102 */                     
-void ClearPanelPenalties(void);  /* 1CBD8 */              
-void LoadScoreboardGfx(void);  /* 1CC3D */                
-int AnyInputPressed(void);  /* 1600C */                   
-int PollKey(void);  /* keyboard library */                
+void DrawRosterList(int x, int y, int side);  /* 6CF6F */
+void DrawDatabaseName(void);  /* 6D256 */
+int CountShotOnGoal(void);  /* 64338 */
+void ShotLaneOpen(void);  /* 64102 */
+void ClearPanelPenalties(void);  /* 1CBD8 */
+void LoadScoreboardGfx(void);  /* 1CC3D */
+int AnyInputPressed(void);  /* 1600C */
+int PollKey(void);  /* keyboard library */
 int sub_B3464(void);  /* joystick library: read both pads */
-void CompShoot(Player *p);  /* 55A35 */                   
-void passmode(Player *p);  /* 5514E */                    
-void dopass(Player *p);  /* 54DF4 */                      
+void CompShoot(Player *p);  /* 55A35 */
+void passmode(Player *p);  /* 5514E */
+void dopass(Player *p);  /* 54DF4 */
 void MeasureTextLine(char *s, int *maxw, int *total, int add);  /* 309E4 */
 int __cdecl fputchar(char *s);  /* text library at 90AC4 (label kept): text width in pixels, stack arg */
 void NormalizeDate(unsigned char *month, unsigned char *day);  /* 41C9B */
-void SwapInt(int a, int b, int *arr);  /* 42F19 */        
-void MsgCopyingDatabases(int arg);  /* 414E0 */           
+void SwapInt(int a, int b, int *arr);  /* 42F19 */
+void MsgCopyingDatabases(int arg);  /* 414E0 */
 int MessageBox(int x, int y, char *msg, int type, int a, int b, int c, int d, int e);  /* 31013 */
-char *strupr(char *s);  /* Watcom CRT strupr_ */          
-void PrintCenteredText(int y, char *s);  /* 17573 */      
-unsigned DiskFreeBytes(int drive);  /* 106C8 */           
+char *strupr(char *s);  /* Watcom CRT strupr_ */
+void PrintCenteredText(int y, char *s);  /* 17573 */
+unsigned DiskFreeBytes(int drive);  /* 106C8 */
 unsigned _dos_getdiskfree(unsigned drive, void *d);  /* Watcom CRT _dos_getdiskfree_ */
 void __cdecl FatalError(char *msg, ...);  /* B2CD8: printf-style message, then exit */
 int FileOpenWrite(char *name, int *h);  /* 1453E */
 int SaveHilight(int team);  /* 7FA10 */
-void SetPalette768(unsigned char *pal);  /* 76614 */      
+void SetPalette768(unsigned char *pal);  /* 76614 */
 void __cdecl sub_B4C84(void);  /* video library: wait for retrace */
 void __cdecl sub_B4B88(int first, int count, unsigned char *rgb);  /* video library: set palette entries */
 void ShowDBError(int *sel, int *state, int msg, int arg);  /* 6ED39 */
-void __cdecl sub_B4BA8(void);  /* video library */        
-void __cdecl sub_9121C(int buf);  /* graphics library */  
+void __cdecl sub_B4BA8(void);  /* video library */
+void __cdecl sub_9121C(int buf);  /* graphics library */
 void ErrorScreenWait(int msg, int arg, char *title, int type);  /* 6EAB5 */
 void FmtFromLeague(char *dst, char *name, char *file);  /* 41171 */
 unsigned _fstrcspn(const char __far *s, const char __far *set);  /* Watcom CRT _fstrcspn_ */
@@ -339,91 +339,91 @@ int TradeRosterCmp(unsigned char *a, unsigned char *b);  /* 3FEF0 */
 int strcmp(const char *a, const char *b);  /* Watcom CRT strcmp_ */
 int ComparePlayerEntry(unsigned char *a, unsigned char *b);  /* 6D78B */
 int GameRosterCmp(unsigned char *a, unsigned char *b);  /* 76A93 */
-void holdplayer(Player *p);  /* 503CD */         
+void holdplayer(Player *p);  /* 503CD */
 int OppInReach(Player *p);
-void SetPenaltyStrength(void);  /* 510A9 */               
-void MakeSampleRoom(void);  /* 84205 */                   
-void LoadTransparentRinkEndOverlay(void);  /* 13A2F */    
+void SetPenaltyStrength(void);  /* 510A9 */
+void MakeSampleRoom(void);  /* 84205 */
+void LoadTransparentRinkEndOverlay(void);  /* 13A2F */
 int __cdecl sub_8E8A0(char *path, int flags);  /* graphics library: load bank */
 int __cdecl sub_B30B4(int bank, char *name);  /* graphics library: find art */
 void PrintLineEdStatus(int x, int y, char *s);  /* 76771 */
 void __cdecl sub_90D20(int x, int y, int w, int h, int col);  /* graphics library: fill rect */
 int GetLeagueDBSizes(char *drive, int *kb, char *ext);  /* 149BF */
 unsigned unknown_libname_1(const char *path, unsigned attr, void *ft);  /* Watcom CRT _dos_findfirst */
-void DeskReloadGame(void);  /* 1A534 */                   
+void DeskReloadGame(void);  /* 1A534 */
 void LoadRink(int team);
 void LoadPlayerPhotos(void);
 void __cdecl sub_8FFB0(int first, int count, unsigned char *pal);  /* graphics library: set palette */
 void FadePalStep(int dir, unsigned char *pal, int steps);
-void CalNextMonth(void);  /* 34691 */                     
+void CalNextMonth(void);  /* 34691 */
 void CalPrevMonth(void);
-void CalPrevMonth(void);  /* 346FE */                     
-void getlchoice(Player *p);  /* 50908 */                  
+void CalPrevMonth(void);  /* 346FE */
+void getlchoice(Player *p);  /* 50908 */
 void PrintClampedText(int x, int y, char *s);  /* 2F580 */
-void EndPenaltyShot(void);  /* 64439 */                   
+void EndPenaltyShot(void);  /* 64439 */
 void AddPenalty2(struct Player *p, short pen);
-void newcheck(short kind);  /* 58084 */                   
-int FreeUnrequestedSamples(void);  /* 84036 */            
+void newcheck(short kind);  /* 58084 */
+int FreeUnrequestedSamples(void);  /* 84036 */
 int IsSampleRequested(char *name);
-int a2offsides(Player *p);  /* 4DCDD */                   
+int a2offsides(Player *p);  /* 4DCDD */
 void AddPenalty(Player *p, short pen);
-void DrawSoundCardDlg(void);  /* 8261C */                 
+void DrawSoundCardDlg(void);  /* 8261C */
 int __cdecl sub_8E83C(char *path, int flags);  /* graphics library: load bank */
 void __cdecl sub_91284(int art, int x, int y);  /* graphics library: draw art */
-void InitMenuRemap(int mode);  /* 1FAA7 */                
+void InitMenuRemap(int mode);  /* 1FAA7 */
 void __cdecl sub_B4DD4(unsigned char *remap);  /* graphics library: set colour remap */
-int AskDatabaseChoice(void);  /* 2FDD1 */                 
+int AskDatabaseChoice(void);  /* 2FDD1 */
 void __cdecl sub_B2DCA(int *btn, int *y, int *x);  /* mouse library: read state */
 void AskLeftRight(unsigned char *left, char *prompt);  /* 6FBE8 */
 char InputDialog(int *lines, int n, char *buf, int len, int a, int b, int c, int d, int e);
-void releasepl(Team *tm, short pl);  /* 6392A */          
+void releasepl(Team *tm, short pl);  /* 6392A */
 void setplayer(Player *p, int pl);
-void puckIChk(void);  /* 56E52 */                         
-int DiskSpaceShort(int drive, int *kb);  /* 14825 */      
-void DrawTradeRow(int side);  /* 3E7B3 */                 
-int __cdecl sub_93170(int x, int y, char *fmt, ...);  /* graphics library: printf at x / y */
-void puckshadow(Player *p);  /* 56ECF */                  
-void SetShotMode(Player *p);  /* 5786E */                 
+void puckIChk(void);  /* 56E52 */
+int DiskSpaceShort(int drive, int *kb);  /* 14825 */
+void DrawTradeRow(int side);  /* 3E7B3 */
+int __cdecl sub_93170(int x, int y, char *fmt, ...);  /* graphics library: printf at x y */
+void puckshadow(Player *p);  /* 56ECF */
+void SetShotMode(Player *p);  /* 5786E */
 void FitPlayerName(char *dst, char *first, char *last, int maxw);  /* 29C75 */
 int WaitLeagueFloppy(char *file, char *name, char *dir);  /* 3D84F */
 int FindLeagueFloppy(char *file, char *name, char *dir);
 int PlayerFromMouseY(int x, int y, int *idx);  /* 24453 */
 void RemovePlayerFromTeam(unsigned char team, int key);  /* 71043 */
-int TickPanelClock(int hund);  /* 15374 */                
-int SkillForAnim(Player *p);  /* 54134 */                 
-void ScatterPass(Player *p, Player *to);  /* 54D63 */     
+int TickPanelClock(int hund);  /* 15374 */
+int SkillForAnim(Player *p);  /* 54134 */
+void ScatterPass(Player *p, Player *to);  /* 54D63 */
 void PlayoffRoundClipD(char *buf, unsigned conf, unsigned round);  /* 84306 */
 void PlayoffRoundClipU(char *buf, unsigned conf, unsigned round);  /* 8438F */
 void SetGameSides(int team, unsigned char *games, int g);  /* 347B7 */
 void SetCtlTeams(int t1, int t2, int home, int away);
 char *strncpy(char *d, const char *s, unsigned n);  /* Watcom CRT strncpy_ */
-int ExhSetHitTest(int x, int y, int *hit);  /* 7C28D */   
-int ModeSetHitTest(int x, int y, int *hit);  /* 7B734 */  
-int MenuMergeLeagueFiles(void);  /* 33469 */              
+int ExhSetHitTest(int x, int y, int *hit);  /* 7C28D */
+int ModeSetHitTest(int x, int y, int *hit);  /* 7B734 */
+int MenuMergeLeagueFiles(void);  /* 33469 */
 int MergeLeagueFiles(void);
 int __cdecl sub_8CCA8(char *name, int size, int flags);  /* file library: load file */
 int CupSeriesWinner(unsigned char *s, unsigned games);  /* 15CE1 */
-void DrawModeSetChecks(void);  /* 7B7BE */                
-void SetRinkScroll(int x, int y);  /* 33DD3 */            
-void sub_6A033(int what);  /* engine display: redraw */   
-void IntermissionPC(void);  /* 10F6D */                   
+void DrawModeSetChecks(void);  /* 7B7BE */
+void SetRinkScroll(int x, int y);  /* 33DD3 */
+void sub_6A033(int what);  /* engine display: redraw */
+void IntermissionPC(void);  /* 10F6D */
 void FadePalette(int dir, unsigned char *pal, int steps);
 void SetScreenSize(int w, int h);
 void MusicChanReset(void);
-void sub_8F633(void);  /* sound library: stop */          
+void sub_8F633(void);  /* sound library: stop */
 void sub_1BAF3(int ticks);
 void __cdecl sub_8EA18(int font);  /* text library: set font */
 void __cdecl sub_8E9E8(void *state);  /* text library: save the text state (40h bytes) */
 void __cdecl sub_8EA00(void *state);  /* text library: restore the text state */
 void DrawSettingsHeading(int x, int y, int n, int mode, int colour);  /* 8050F */
 void IntermissionDesk(void);
-void LoadScreenPalTick(void);  /* 47951 */                
+void LoadScreenPalTick(void);  /* 47951 */
 void __cdecl sub_B4C61(void);  /* video library: wait for retrace */
-void MoveInDir(Player *p, short dir);  /* 49260 */        
-void CrowdNoiseOff(void);  /* 59748 */                    
+void MoveInDir(Player *p, short dir);  /* 49260 */
+void CrowdNoiseOff(void);  /* 59748 */
 void sub_8FDB2(int card, int voice, int vol);  /* sound library: set voice volume */
 void sub_8FE4F(int card, int voice, int what);  /* sound library: voice control */
-void RenderTextLine(int x, int y, char *s);  /* 174D8 */  
+void RenderTextLine(int x, int y, char *s);  /* 174D8 */
 int __cdecl sub_B4F8C(int w, int h, int flags);  /* graphics library: create bitmap */
 void __cdecl sub_B3A88(void *save);  /* graphics library: save draw state */
 void __cdecl SetDrawBitmap(int bmp);
@@ -431,131 +431,131 @@ void __cdecl sub_B392C(int col);  /* graphics library: clear */
 void __cdecl sub_B3AA1(void *save);  /* graphics library: restore draw state */
 void __cdecl sub_91370(int art, int x, int y);  /* graphics library: draw art */
 void __cdecl sub_9132C(int bmp);  /* graphics library: free bitmap */
-int FacingBoards(Player *p);  /* 5378D */                 
-int QueueGoalieNote(void);  /* 62C37 */                   
+int FacingBoards(Player *p);  /* 5378D */
+int QueueGoalieNote(void);  /* 62C37 */
 void QueueDeferredCall(void *fn, int a, int b, int c, int d, int e, int f, int g);
-void faceoffinput(Player *p);  /* 4FF0D */                
-void StartPenaltyShot(void);  /* 64398 */                 
+void faceoffinput(Player *p);  /* 4FF0D */
+void StartPenaltyShot(void);  /* 64398 */
 void MakeJerseyShape(unsigned char *buf, unsigned num, unsigned char c1, unsigned char c2);  /* 7A099 */
 void BlitJerseyDigit(unsigned char *dst, unsigned d, int c1, int c2, int right);
 void DrawDBErrorsScreen(int *sel, int *line, int *first);  /* 6EC95 */
 void DrawMenuBar(void *bar, int n, int col1, int col2, int col3);
-void FadeOutPalCycle(void);  /* 47C31 */                  
-int lcselect(Player *p, int n);  /* 50434 */              
+void FadeOutPalCycle(void);  /* 47C31 */
+int lcselect(Player *p, int n);  /* 50434 */
 void DrawPanelLine(int side, int line);
 void SetDialogColors(int a, int b, int c, int d, int e);
 int SelectHilight(char *name, int *idx, unsigned char *league, int a, int b);
 void PlayHilight(void);
-void PenShotStart(short side);  /* 511B4 */               
+void PenShotStart(short side);  /* 511B4 */
 void SaveDialogBg(int x, int y, int w, int h);  /* 30E66 */
 void __cdecl sub_91400(int buf, int x, int y);  /* graphics library: grab screen rect */
-int SetupDemoGame(void);  /* 13FA7 */                     
+int SetupDemoGame(void);  /* 13FA7 */
 void BuildDefaultLines(void);
 void SetupTeamLines(int side);
 void ResetGameVars(void);
 int StartPreGame(int mode);
-void assintrostand(Player *p);  /* 4842A */               
-void SetRinkObject(int i, int v);  /* 614C2 */            
-void RunGameFrames(int n);  /* 1149A */                   
+void assintrostand(Player *p);  /* 4842A */
+void SetRinkObject(int i, int v);  /* 614C2 */
+void RunGameFrames(int n);  /* 1149A */
 int HandleHotKey(int key);
 void ClockTick(void);
 void DoGameFrame(void);
-void MarkTwoLinePlayers(Player *pk);  /* 55C6F */         
-int QuickShotChk(Player *p);  /* 6427F */                 
+void MarkTwoLinePlayers(Player *pk);  /* 55C6F */
+int QuickShotChk(Player *p);  /* 6427F */
 void SortNonDefPlayers(short side, signed char *out, short *keys);  /* 6455F */
 void __cdecl sub_93540(int n, int *keys, int *idx);  /* sort library */
 void SortPlayersByPos(short side, signed char *out, short *keys, char pos);  /* 644A8 */
-void LoadCupFinalSeries(void);  /* 15B76 */               
+void LoadCupFinalSeries(void);  /* 15B76 */
 int LoadScheduleDB(int *db);  /* 891B2 */
-void InitSpeechSlots(int size);  /* 83459 */              
+void InitSpeechSlots(int size);  /* 83459 */
 int __cdecl sub_8CC70(char *name, int size, int flags);  /* memory library: allocate */
-int __cdecl sub_8DBD4(int buf);  /* memory library */     
+int __cdecl sub_8DBD4(int buf);  /* memory library */
 void InitSpeech(unsigned char id, int size, int copybuf, int copylen);  /* 8357A */
 int __cdecl sub_8E4C0(void (*fn)(void));  /* timer library: add tick handler */
-void BuildSavedGameLabels(void);  /* 1D518 */             
-void sfx(int id);  /* 59884 */                            
-void sub_8F61D(int id);  /* sound library: play effect */ 
-void assrefatdot(Player *p);  /* 4DFF7 */                 
-int ChkTwoLinePass(Player *p);  /* 4DD51 */               
-void SetTeamGoalie(short side, short g);  /* 672F9 */     
-void DeleteTempDatabases(void);  /* 7125C */              
-int j_unlink(char *path);  /* CRT unlink thunk */         
-void SetSideControls(void);  /* 8B85B */                  
-int StatsMenuPoints(void);  /* 18348 */                   
+void BuildSavedGameLabels(void);  /* 1D518 */
+void sfx(int id);  /* 59884 */
+void sub_8F61D(int id);  /* sound library: play effect */
+void assrefatdot(Player *p);  /* 4DFF7 */
+int ChkTwoLinePass(Player *p);  /* 4DD51 */
+void SetTeamGoalie(short side, short g);  /* 672F9 */
+void DeleteTempDatabases(void);  /* 7125C */
+int j_unlink(char *path);  /* CRT unlink thunk */
+void SetSideControls(void);  /* 8B85B */
+int StatsMenuPoints(void);  /* 18348 */
 ;int LeadersScreen(int cat);
 int TeamStatsScreen(int cat);
-int StatsMenuGoals(void);  /* 18425 */                    
-int StatsMenuAssists(void);  /* 18508 */                  
-int StatsMenuPPGoals(void);  /* 185EB */                  
-int StatsMenuSHGoals(void);  /* 186CE */                  
-int StatsMenuPlusMinus(void);  /* 187B1 */                
-int StatsMenuPIM(void);  /* 18894 */                      
-int StatsMenuShootPct(void);  /* 18977 */                 
-int StatsMenuGAA(void);  /* 18A5A */                      
-int StatsMenuGoalieWins(void);  /* 18B3D */               
-int StatsMenuTeamScoring(void);  /* 17EDF */              
-int StatsMenuTeamDefense(void);  /* 17FBC */              
-int StatsMenuPenaltyKilling(void);  /* 1809F */           
-int StatsMenuPowerPlay(void);  /* 18182 */                
-int StatsMenuTeamPenalties(void);  /* 18265 */            
-int StatsMenuStandings(void);  /* 17DFC */                
-void assstanley(Player *p);  /* 4A832 */                  
-void PeriodOver(void);  /* 5DEA6 */                       
+int StatsMenuGoals(void);  /* 18425 */
+int StatsMenuAssists(void);  /* 18508 */
+int StatsMenuPPGoals(void);  /* 185EB */
+int StatsMenuSHGoals(void);  /* 186CE */
+int StatsMenuPlusMinus(void);  /* 187B1 */
+int StatsMenuPIM(void);  /* 18894 */
+int StatsMenuShootPct(void);  /* 18977 */
+int StatsMenuGAA(void);  /* 18A5A */
+int StatsMenuGoalieWins(void);  /* 18B3D */
+int StatsMenuTeamScoring(void);  /* 17EDF */
+int StatsMenuTeamDefense(void);  /* 17FBC */
+int StatsMenuPenaltyKilling(void);  /* 1809F */
+int StatsMenuPowerPlay(void);  /* 18182 */
+int StatsMenuTeamPenalties(void);  /* 18265 */
+int StatsMenuStandings(void);  /* 17DFC */
+void assstanley(Player *p);  /* 4A832 */
+void PeriodOver(void);  /* 5DEA6 */
 void IntermissionStart(void);
 int DeleteFiles(char *dir, char *name, char *ext);  /* 14368 */
 unsigned unknown_libname_2(void *ft);  /* Watcom CRT _dos_findnext */
-void DeleteDir(char *dir);  /* 14442 */                   
-int rmdir(const char *path);  /* Watcom CRT rmdir_ */     
+void DeleteDir(char *dir);  /* 14442 */
+int rmdir(const char *path);  /* Watcom CRT rmdir_ */
 void AdjustFacingDirection(Player *p, int want);  /* 4B4E9 */
-int OneTimerChk(Player *p);  /* 50E5C */                  
-int StatsMenuSavePct(void);  /* 18C20 */                  
-void StatsSel9394Season(void);  /* 17A00 */               
-int CmpGoals(int *a, int *b);  /* 25144 */                
-int CmpAssists(int *a, int *b);  /* 25237 */              
-int CmpPlusMinus(int *a, int *b);  /* 2554B */            
-int CmpPoints(int *a, int *b);  /* 1FB7F */               
-int CmpPIM(int *a, int *b);  /* 25642 */                  
-int CmpPPGoals(int *a, int *b);  /* 25325 */              
-int CmpSHGoals(int *a, int *b);  /* 25438 */              
-int CmpShootPct(int *a, int *b);  /* 25755 */             
-void InitCoachModes(void);  /* 5A669 */                   
+int OneTimerChk(Player *p);  /* 50E5C */
+int StatsMenuSavePct(void);  /* 18C20 */
+void StatsSel9394Season(void);  /* 17A00 */
+int CmpGoals(int *a, int *b);  /* 25144 */
+int CmpAssists(int *a, int *b);  /* 25237 */
+int CmpPlusMinus(int *a, int *b);  /* 2554B */
+int CmpPoints(int *a, int *b);  /* 1FB7F */
+int CmpPIM(int *a, int *b);  /* 25642 */
+int CmpPPGoals(int *a, int *b);  /* 25325 */
+int CmpSHGoals(int *a, int *b);  /* 25438 */
+int CmpShootPct(int *a, int *b);  /* 25755 */
+void InitCoachModes(void);  /* 5A669 */
 short SetCoachMode(int side);
-void ChkGoalies(void);  /* 59265 */                       
+void ChkGoalies(void);  /* 59265 */
 void CPgoalie(Team *t, Team *o, int y);
 int ChkPullGoalieLate(int side);  /* 593F5 */
-int SetupGame(void);  /* 13E8F */                         
+int SetupGame(void);  /* 13E8F */
 void DrawHudPanel(int home, int vis, int a, int b);
 void PlacePlayersAtStart(void);
 void MergeSeasonRecDelta(short *old, short *cur, short *dst, int a, int b);  /* 3A71C */
 void MergeTeamRecDelta(unsigned char *old, unsigned char *cur, unsigned char *dst, int a, int b);  /* 3A5FC */
-int LoadLeagueGameRef(int fh);  /* 41B80 */               
-short checkagr(Player *p);  /* 5369F */                   
-void assepen(Player *p);  /* 4B02D */                     
-void StartShotPath(Player *p, int dist);  /* 4F9EF */     
-void Bcheck(Player *a, Player *b);  /* 56A54 */           
+int LoadLeagueGameRef(int fh);  /* 41B80 */
+short checkagr(Player *p);  /* 5369F */
+void assepen(Player *p);  /* 4B02D */
+void StartShotPath(Player *p, int dist);  /* 4F9EF */
+void Bcheck(Player *a, Player *b);  /* 56A54 */
 void FallDown(Player *p, Player *by);
-void periodicevents(void);  /* 5C302 */                   
+void periodicevents(void);  /* 5C302 */
 void PenaltyManager(void);
 void DecayCrowdLevel(void);
 void clockcont_0(void);
 void UpdatePowerPlayFlags(void);
-void ShotMode(Player *p);  /* 578FA */                    
-void asscenterd(Player *p);  /* 4A53A */                  
-void assbenchside(Player *p);  /* 49BC2 */                
-int CopyGameSettings(char *src, char *dst);  /* 32C9E */  
-int FileOpenRW(char *name, int *h);  /* 14552: 0 = ok */  
-int MenuNextLeagueGame(int *fh);  /* 33559 */             
+void ShotMode(Player *p);  /* 578FA */
+void asscenterd(Player *p);  /* 4A53A */
+void assbenchside(Player *p);  /* 49BC2 */
+int CopyGameSettings(char *src, char *dst);  /* 32C9E */
+int FileOpenRW(char *name, int *h);  /* 14552: 0 = ok */
+int MenuNextLeagueGame(int *fh);  /* 33559 */
 void SetupStatsSourceMenu(int src);
 void SetScreenTitle(int title);
 void PlayLeagueGame(int *fh);
-void SetRosterTeamMenus(int side, int team);  /* 7183D */ 
-void CtlSwapScoreFix(int side);  /* 7CBB3 */              
-void ModeOptsToBits(void);  /* 7B604 */                   
-void ExhOptsToBits(void);  /* 7BF56 */                    
-void LeagueOptsToBits(void);  /* 7A88E */                 
-int CmpSavePct(int *a, int *b);  /* 259C0 */              
-int CmpGoalieWins(int *a, int *b);  /* 2586A */           
-void PostGameDesk(void);  /* 1920F */                     
+void SetRosterTeamMenus(int side, int team);  /* 7183D */
+void CtlSwapScoreFix(int side);  /* 7CBB3 */
+void ModeOptsToBits(void);  /* 7B604 */
+void ExhOptsToBits(void);  /* 7BF56 */
+void LeagueOptsToBits(void);  /* 7A88E */
+int CmpSavePct(int *a, int *b);  /* 259C0 */
+int CmpGoalieWins(int *a, int *b);  /* 2586A */
+void PostGameDesk(void);  /* 1920F */
 
 int GameSummaryScreen(int mode, int period, int arg3, int arg4);
 void PickOtherGames(int home, int vis);
@@ -572,17 +572,17 @@ int CoachCutScene(void);
 int WaitClickTimeout(int secs);
 void DrawExhSetChecks(void);
 void DrawLeagueSetChecks(void);
-void DrawDeskFrames(void);  /* 18E43 */                   
+void DrawDeskFrames(void);  /* 18E43 */
 void __cdecl sub_B4FAC(int x1, int y1, int x2, int y2, int colour);
 int StartHL2(int home, int vis, int *homescore, int *visscore, int period);
 int SayTonightIntro(char *rnk, char *away, char *home);  /* 84B0D */
 char *itoa(int v, char *buf, int radix);
 int SayHighlightIntro(char *rnk, char *away, char *home);  /* 847CE */
 int SayPlayoffResult(char *team, int game, unsigned conf, unsigned round, int ot, int final);  /* 8490D */
-void DrawSoundCardOpts(void);  /* 82690 */                
+void DrawSoundCardOpts(void);  /* 82690 */
 void DrawSelBoxOn(Rect4 *r);
 void DrawSelBoxOff(Rect4 *r);
-void RedrawSoundCardOpts(void);  /* 82805 */              
+void RedrawSoundCardOpts(void);  /* 82805 */
 void ClearPlayerFromLines(unsigned char p, unsigned char *lines);  /* 8B96D */
 void AskExportToFloppy(unsigned char *teams, unsigned char *orig, int mode, int n);  /* 38386 */
 void SplitPlayerName(char *name, char *first, char *last);  /* 6F159 */
@@ -590,42 +590,42 @@ int EventToPointer(unsigned char *ev, int *x, int *y);  /* 6B4BB */
 void DrawTeamGrid(unsigned char *teams, char *title, unsigned char *grid, int arg4);  /* 37FBA */
 void DrawTeamGridName(int team, unsigned char *teams, int arg4, unsigned char *grid);
 void MergeGoalieRecDelta(unsigned short *old, unsigned short *cur, unsigned short *dst, int a, int b);  /* 3A826 */
-int CmpGAA(int *a, int *b);  /* 1FC8F */                  
-int CmpRosterGoalies(int *a, int *b);  /* 75A37 */        
-void LoadTempDatabases(void);  /* 710D8 */                
+int CmpGAA(int *a, int *b);  /* 1FC8F */
+int CmpRosterGoalies(int *a, int *b);  /* 75A37 */
+void LoadTempDatabases(void);  /* 710D8 */
 void FreeLeagueDbsMem(void);
 int __cdecl sub_92DE0(char *path);
 int PreloadAnnouncerClips(char *home, char *vis);  /* 8579E */
 void OpenSpeechBank(char *path, int n);  /* 83897 */
 void QueuePenaltyType(void);
-int DeskExitGame(void);  /* 1A6A7 */                      
+int DeskExitGame(void);  /* 1A6A7 */
 void sub_8FCDF(int handle, int a, int b);
 int sub_8FC8A(int slot, int a);
 void __cdecl sub_8D2F0(int p);
 void sub_B4B58(void);
 void ShowCredits(void);
 void noturn0(struct Player *p, short chg, short dir);  /* 5F98A */
-void LoadLeagueDbsMem(char *ext);  /* 6C19B */            
-void InitFileLocations(void);  /* 8BAAF */                
+void LoadLeagueDbsMem(char *ext);  /* 6C19B */
+void InitFileLocations(void);  /* 8BAAF */
 void *fopen(const char *name, const char *mode);
 char *fgets(char *s, int n, void *fp);
 int fscanf(void *fp, const char *fmt, ...);
 int fclose(void *fp);
-void LoadHomePals(int home, int vis);  /* 40792 */        
+void LoadHomePals(int home, int vis);  /* 40792 */
 void LoadJerseyColours(int away, int unused, unsigned char *dst);  /* 78A87 */
-void LoadDbsFromDir(char *dir, char *ext);  /* 7345B */   
+void LoadDbsFromDir(char *dir, char *ext);  /* 7345B */
 void LoadTradeTeamPals(int t1, int t2, unsigned char *pal);  /* 3E835 */
 int SayPlayoffTonight(char *rnk, char *away, char *home, int game, unsigned conf, unsigned round);  /* 84C38 */
 void LoadTeamPalette(int home, int vis, unsigned char *pal);  /* 673C5 */
-void WriteScreenTextFile(char *base);  /* 17816 */        
+void WriteScreenTextFile(char *base);  /* 17816 */
 int fputs(const char *s, void *fp);
-void ImportDbs(void);  /* 3CF5B */                        
+void ImportDbs(void);  /* 3CF5B */
 int SelectFloppyDrive(int a, int b);
 int ImportMasterLeague(void);
 int ImportPlayerTeam(void);
-int SelectSavedFile(void);  /* 2D099 */                   
+int SelectSavedFile(void);  /* 2D099 */
 int ReadGameSettings(void *st, char *name, int flag);
-void SetupPenaltyShot(void);  /* 63F72 */                 
+void SetupPenaltyShot(void);  /* 63F72 */
 int SayPenalty(char *team, int num, int len, char *pen, int a, int b, int idx, int cnt, int withtime);  /* 84F7B */
 void RequestTimeClips(int a, int b);
 void QueueTimeClips(int a, int b);

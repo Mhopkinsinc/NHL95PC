@@ -1,6 +1,6 @@
 /* LoadSettingsShapes - unless loaded, load the settings dialog bank SETTINGS (from the CD when listed there) into
-   settingsfile and look up its shapes: check on / off, accept, cancel, and the option buttons Na01-05, Pg01-07 and
-   Pl05-20. */
+ settingsfile and look up its shapes: check on off, accept, cancel, and the option buttons Na01-05, Pg01-07 and
+ Pl05-20. */
 #include "nhl95.h"
 
 void LoadSettingsShapes(void)

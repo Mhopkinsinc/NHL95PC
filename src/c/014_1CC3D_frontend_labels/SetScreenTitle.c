@@ -1,10 +1,10 @@
 /* Front-end labels: the screen title in the menu bars. */
 #include "nhl95.h"
 
-/* SetScreenTitle (1D610) - PC only: put the title of screen n (0 Sports Central, 1 Playoff Tree, 2 League
-   Calendar, 3 Broadcast Booth, 4 Intermission Desk, 5 Rink Side) and its pixel width into the title items of
-   the menu bars (off_CF51F ...: text, dword_CF517 / CF5D7: width); the other bars get the width clamped to at
-   least 7Dh. Another n leaves the registers as they were (no default in the original). */
+/* SetScreenTitle: put the title of screen n (0 Sports Central, 1 Playoff Tree, 2 League
+ Calendar, 3 Broadcast Booth, 4 Intermission Desk, 5 Rink Side) and its pixel width into the title items of
+ the menu bars (off_CF51F...: text, dword_CF517 CF5D7: width); the other bars get the width clamped to at
+ least 7Dh. Another n leaves the registers as they were (no default in the original). */
 void SetScreenTitle(int n)
 {
     int width;

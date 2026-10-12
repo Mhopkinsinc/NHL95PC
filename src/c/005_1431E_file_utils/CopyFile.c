@@ -1,9 +1,9 @@
 /* File utilities: copy a file. */
 #include "nhl95.h"
 
-/* CopyFile (1466B) - PC only: copy file name from directory srcdir (extension srcext) to directory dstdir
-   (extension dstext) in 1 KB blocks (_dos_read / _dos_write; a short write is error 1). Both files are closed.
-   Returns the error (0 ok). */
+/* CopyFile: copy file name from directory srcdir (extension srcext) to directory dstdir
+ (extension dstext) in 1 KB blocks (_dos_read _dos_write; a short write is error 1). Both files are closed.
+ Returns the error (0 ok). */
 int CopyFile(char *name, char *srcext, char *dstext, char *srcdir, char *dstdir)
 {
     int out;

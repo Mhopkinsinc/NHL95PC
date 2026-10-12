@@ -1,8 +1,8 @@
 /* Sound config: empty the speech queue. */
 #include "nhl95.h"
 
-/* ResetSpeechQueue (833FA) - PC only: empty the speech queue: no clip playing (+60h), the 20 slots set to -1,
-   the counters at +54h, +58h, +50h and the pending clip (+5Ch) 0. */
+/* ResetSpeechQueue: empty the speech queue: no clip playing (+60h), the 20 slots set to -1,
+ the counters at +54h, +58h, +50h and the pending clip (+5Ch) 0. */
 void ResetSpeechQueue(void)
 {
     *(int *)(speechq + 0x60) = 0;

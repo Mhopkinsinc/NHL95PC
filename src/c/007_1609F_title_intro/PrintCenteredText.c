@@ -1,8 +1,8 @@
-/* Title / intro: text. */
+/* Title intro: text. */
 #include "nhl95.h"
 
-/* PrintCenteredText (17573) - print s centred on the 640-pixel screen at y: shadow (textshadow) one pixel down-right,
-   then the text (textcolor), and record it in the text grid. */
+/* PrintCenteredText: print s centred on the 640-pixel screen at y: shadow (textshadow) one pixel down-right,
+ then the text (textcolor), and record it in the text grid. */
 void PrintCenteredText(int y, char *s)
 {
     int x;

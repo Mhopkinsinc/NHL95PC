@@ -1,10 +1,10 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* PostGameDesk (1920F) - after the game: restore the palette, go to 640x480, show the final summary; in a normal game of
-   two real teams not left with bit 2, update the other scores, play a random highlight and the coach cut scene
-   (waiting up to 10 for a click), then the summary again unless it was skipped. Then the sports desk, game
-   result 1, back to 320x200. */
+/* PostGameDesk: after the game: restore the palette, go to 640x480, show the final summary; in a normal game of
+ two real teams not left with bit 2, update the other scores, play a random highlight and the coach cut scene
+ (waiting up to 10 for a click), then the summary again unless it was skipped. Then the sports desk, game
+ result 1, back to 320x200. */
 void PostGameDesk(void)
 {
     int r;

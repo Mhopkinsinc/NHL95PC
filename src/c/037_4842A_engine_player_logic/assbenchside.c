@@ -1,10 +1,10 @@
 /* Engine player logic: bench scene. */
 #include "nhl95.h"
 
-/* assbenchside (49BC2) - the bench-side close-up player: on a new assignment (pflags bit 1, after puckshadow, no speech
-   running; overlay timer 100h -> 600) once the camera is at the bench (camx <= -20h, |camy| <= 20) place him at
-   (-BEh, 3) at rest, frame 362h, SPA E97h. Then (temp1 < 100) when the SPA ends set temp1 100, during SPA frames
-   4+ (count <= 11) step him to x -AFh; at temp1 200 standing (frame 365h, no SPA) a 1 in 40 chance of SPA EB5h. */
+/* assbenchside: the bench-side close-up player: on a new assignment (pflags bit 1, after puckshadow, no speech
+ running; overlay timer 100h -> 600) once the camera is at the bench (camx <= -20h, |camy| <= 20) place him at
+ (-BEh, 3) at rest, frame 362h, SPA E97h. Then (temp1 < 100) when the SPA ends set temp1 100, during SPA frames
+ 4+ (count <= 11) step him to x -AFh; at temp1 200 standing (frame 365h, no SPA) a 1 in 40 chance of SPA EB5h. */
 void assbenchside(Player *p)
 {
     short t;

@@ -1,9 +1,8 @@
-/* Engine core: hand the joystick from one player to another (93G logic93_1 restorepl). */
+/* Engine core: hand the joystick from one player to another. */
 #include "nhl95.h"
 
-/* restorepl (59FE1) - restore old joy controlled player oldpl, give newpl the joystick (93G logic93_1
-   restorepl). If oldpl (a skater, 0-11) is in line change mode (pf2lcm) he keeps control: returns oldpl.
-   Else oldpl loses pfjoy and gets pfna (new assignment), newpl (0-11) gets pfjoy; returns newpl. */
+/* restorepl: restore old joy controlled player oldpl, give newpl the joystick. If oldpl (a skater, 0-11) is in line change mode (pf2lcm) he keeps control: returns oldpl.
+ Else oldpl loses pfjoy and gets pfna (new assignment), newpl (0-11) gets pfjoy; returns newpl. */
 short restorepl(short newpl, short oldpl)
 {
     Player *o;

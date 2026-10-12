@@ -1,7 +1,7 @@
 /* Settings dialogs: mode settings hit test. */
 #include "nhl95.h"
 
-/* ModeSetHitTest (7B734) - as ExhSetHitTest for the 20 mode settings rects (modesetrects). */
+/* ModeSetHitTest: as ExhSetHitTest for the 20 mode settings rects (modesetrects). */
 int ModeSetHitTest(int x, int y, int *hit)
 {
     int i;

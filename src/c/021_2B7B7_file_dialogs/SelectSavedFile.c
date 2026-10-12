@@ -1,10 +1,10 @@
 /* File dialogs: open a saved file. */
 #include "nhl95.h"
 
-/* SelectSavedFile (2D099) - open the file selected in the file dialog's current tab (fdlgtab): 0 an exhibition (.NHL:
-   settings into exhstate, the "LA at MTL" title from its two teams; returns 1), 1 a playoff (.PO: settings into
-   postate, playoff menu actions on, series game number from the schedule's dword +42h mod 7; returns
-   ReadGameSettings' result), 2 a league (.LP: settings into lgstate, league menu actions on). */
+/* SelectSavedFile: open the file selected in the file dialog's current tab (fdlgtab): 0 an exhibition (.NHL:
+ settings into exhstate, the "LA at MTL" title from its two teams; returns 1), 1 a playoff (.PO: settings into
+ postate, playoff menu actions on, series game number from the schedule's dword +42h mod 7; returns
+ ReadGameSettings' result), 2 a league (.LP: settings into lgstate, league menu actions on). */
 int SelectSavedFile(void)
 {
     char path[32];

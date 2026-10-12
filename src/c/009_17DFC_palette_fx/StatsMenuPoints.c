@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuPoints (18348) - stats menu item: category 0 (points). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run LeadersScreen(0) and fade out with the second; otherwise call the
-   skaterstatscb handler. Returns the screen's result. */
+/* StatsMenuPoints: stats menu item: category 0 (points). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run LeadersScreen(0) and fade out with the second; otherwise call the
+ skaterstatscb handler. Returns the screen's result. */
 int StatsMenuPoints(void)
 {
     statscategory = 0;

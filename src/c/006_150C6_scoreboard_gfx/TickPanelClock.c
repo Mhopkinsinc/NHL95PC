@@ -1,8 +1,8 @@
 /* Scoreboard graphics: clock. */
 #include "nhl95.h"
 
-/* TickPanelClock (15374) - run the scoreboard clock down by hund hundredths (previous value kept in dword_C5710..18);
-   at 0:00.00 it stops there and returns 0, else 1. */
+/* TickPanelClock: run the scoreboard clock down by hund hundredths (previous value kept in dword_C5710..18)
+ at 0:00.00 it stops there and returns 0, else 1. */
 int TickPanelClock(int hund)
 {
     dword_C5710 = hudclockmin;

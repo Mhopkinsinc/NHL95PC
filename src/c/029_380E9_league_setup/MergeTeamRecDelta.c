@@ -1,8 +1,8 @@
 /* League setup: database merge. */
 #include "nhl95.h"
 
-/* MergeTeamRecDelta (3A5FC) - add the changes of a team record (cur - old: bytes 28h-2Bh, words 2Ch-38h, bytes 3Ah-3Dh,
-   words 3Eh-4Ah) to dst; for the same team (a == b) also copy the 30h bytes at +BCh. */
+/* MergeTeamRecDelta: add the changes of a team record (cur - old: bytes 28h-2Bh, words 2Ch-38h, bytes 3Ah-3Dh,
+ words 3Eh-4Ah) to dst; for the same team (a == b) also copy the 30h bytes at +BCh. */
 typedef struct Block30 { int d[0xC]; } Block30;
 
 void MergeTeamRecDelta(unsigned char *old, unsigned char *cur, unsigned char *dst, int a, int b)

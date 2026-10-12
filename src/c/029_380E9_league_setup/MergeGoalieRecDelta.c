@@ -1,9 +1,9 @@
 /* League setup: database merge. */
 #include "nhl95.h"
 
-/* MergeGoalieRecDelta (3A826) - add the changes of a goalie's record (cur - old, all stat words but the two computed ones)
-   to dst, recompute word 8 = word 7 * 100 / word 0 and word 19 = word 18 * 100 / word 11 (0 when dividing by 0);
-   for the same goalie (a == b) also copy the 4 bytes at +2Ch. */
+/* MergeGoalieRecDelta: add the changes of a goalie's record (cur - old, all stat words but the two computed ones)
+ to dst, recompute word 8 = word 7 * 100 word 0 and word 19 = word 18 * 100 word 11 (0 when dividing by 0)
+ for the same goalie (a == b) also copy the 4 bytes at +2Ch. */
 void MergeGoalieRecDelta(unsigned short *old, unsigned short *cur, unsigned short *dst, int a, int b)
 {
     dst[0] += cur[0] - old[0];

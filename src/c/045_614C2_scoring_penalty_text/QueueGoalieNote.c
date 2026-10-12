@@ -1,9 +1,9 @@
-/* Scoring / penalty text: goalie notes. */
+/* Scoring penalty text: goalie notes. */
 #include "nhl95.h"
 
-/* QueueGoalieNote (62C37) - once per goalie (bit tmgoalie, +3 for the visitors, in dword_CC0AC; all 6 done = 3Fh): when
-   object word_C90D8 is set, queue the deferred note for its side and roster number (deferpending). Returns 1
-   when queued. */
+/* QueueGoalieNote: once per goalie (bit tmgoalie, +3 for the visitors, in dword_CC0AC; all 6 done = 3Fh): when
+ object word_C90D8 is set, queue the deferred note for its side and roster number (deferpending). Returns 1
+ when queued. */
 int QueueGoalieNote(void)
 {
     Player *p;

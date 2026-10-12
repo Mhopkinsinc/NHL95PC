@@ -1,9 +1,9 @@
-/* Engine physics / AI: passing. */
+/* Engine physics AI: passing. */
 #include "nhl95.h"
 
-/* ScatterPass (54D63) - p passes to player to: p gets no puck collision for 28h frames and (in play) a pass on the team
-   stats; passplayer = to, assignment 13h (receive) for to; the puck gets a random velocity scaled by p's pass
-   accuracy ((12h - passacc) * 20). */
+/* ScatterPass: p passes to player to: p gets no puck collision for 28h frames and (in play) a pass on the team
+ stats; passplayer = to, assignment 13h (receive) for to; the puck gets a random velocity scaled by p's pass
+ accuracy ((12h - passacc) * 20). */
 void ScatterPass(Player *p, Player *to)
 {
     p->nopuck = 0x28;

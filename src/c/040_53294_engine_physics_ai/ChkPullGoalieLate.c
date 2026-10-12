@@ -1,9 +1,9 @@
-/* Engine physics / AI: should the computer pull its goalie for a faceoff (PC only). */
+/* Engine physics AI: should the computer pull its goalie for a faceoff. */
 #include "nhl95.h"
 
-/* ChkPullGoalieLate (593F5) - PC only: 1 when team side (0 home, 1 away) is not the one on controller 1, the
-   game is in the third period (gsp 2) with at most 60 s left, the team trails by 1-2 goals and the faceoff y
-   (foy, sign flipped by the first SortCords entry's pflags bit 7) is on its attacking side; else 0. */
+/* ChkPullGoalieLate: 1 when team side (0 home, 1 away) is not the one on controller 1, the
+ game is in the third period (gsp 2) with at most 60 s left, the team trails by 1-2 goals and the faceoff y
+ (foy, sign flipped by the first SortCords entry's pflags bit 7) is on its attacking side; else 0. */
 int ChkPullGoalieLate(int side)
 {
     Team *t;

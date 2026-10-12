@@ -1,10 +1,10 @@
-/* Engine physics / AI: a computer team pulls its goalie late (PC only). */
+/* Engine physics AI: a computer team pulls its goalie late. */
 #include "nhl95.h"
 
-/* CPgoalie (591C7) - PC only (called from ChkGoalies): computer team t pulls its goalie when no penalty shot
-   runs, gsp is 2 (third period), t trails o by 1-2 goals (up to gsp), at most 60 s are left and the puck y is
-   on the attacking side (sign flipped by the first SortCords entry's pflags bit 7). The goalie byte gets -1, the
-   goalie's menu item is unchecked (2) and "pulled" checked (1) in off_CD498, then setpersonel. */
+/* CPgoalie: computer team t pulls its goalie when no penalty shot
+ runs, gsp is 2 (third period), t trails o by 1-2 goals (up to gsp), at most 60 s are left and the puck y is
+ on the attacking side (sign flipped by the first SortCords entry's pflags bit 7). The goalie byte gets -1, the
+ goalie's menu item is unchecked (2) and "pulled" checked (1) in off_CD498, then setpersonel. */
 void CPgoalie(Team *t, Team *o, int y)
 {
     short per;

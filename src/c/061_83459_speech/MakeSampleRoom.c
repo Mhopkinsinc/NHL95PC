@@ -1,8 +1,8 @@
 /* Speech: sample memory. */
 #include "nhl95.h"
 
-/* MakeSampleRoom (84205) - while the requested samples (samplereq +104h) do not fit next to the loaded ones
-   (speechbank +3B6Ch) in the bank size (+3B68h), free unrequested samples (at most 400 tries). */
+/* MakeSampleRoom: while the requested samples (samplereq +104h) do not fit next to the loaded ones
+ (speechbank +3B6Ch) in the bank size (+3B68h), free unrequested samples (at most 400 tries). */
 void MakeSampleRoom(void)
 {
     int k;

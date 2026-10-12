@@ -1,8 +1,8 @@
 /* Speech: sample requests. */
 #include "nhl95.h"
 
-/* ResetSampleReq (83520) - clear the 20 sample request names (13 bytes each) and the three request counters at +104h,
-   +108h, +10Ch. */
+/* ResetSampleReq: clear the 20 sample request names (13 bytes each) and the three request counters at +104h,
+ +108h, +10Ch. */
 void ResetSampleReq(void)
 {
     int i;

@@ -1,7 +1,7 @@
 /* Announcer: game intros. */
 #include "nhl95.h"
 
-/* SayHighlightIntro (847CE) - like SayTonightIntro: "Take you now to <rnk> highlight of game between <away> and <home>". */
+/* SayHighlightIntro: like SayTonightIntro: "Take you now to <rnk> highlight of game between <away> and <home>". */
 int SayHighlightIntro(char *rnk, char *away, char *home)
 {
     char r[16];

@@ -1,8 +1,8 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* DeskReturnConfirm (1A5D4) - "Returning to Sports Central / the playoff / out of the league ... Do you wish to
-   return?" (by gamemode) at the mouse position; on yes set dword_C66D0 / C66D4 and return 5, else 0. */
+/* DeskReturnConfirm: "Returning to Sports Central the playoff out of the league... Do you wish to
+ return?" (by gamemode) at the mouse position; on yes set dword_C66D0 C66D4 and return 5, else 0. */
 int DeskReturnConfirm(void)
 {
     int x;

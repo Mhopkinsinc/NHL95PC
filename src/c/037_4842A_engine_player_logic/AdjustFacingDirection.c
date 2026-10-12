@@ -1,9 +1,9 @@
 /* Engine player logic: turning. */
 #include "nhl95.h"
 
-/* AdjustFacingDirection (4B4E9) - turn p one step (of 8) toward direction want, at most every other frame (word +4Ch
-   counts the delay down). The shorter way round, except that a turn between the 1-3 and 5-7 halves goes through
-   the side facing the attacked end (pflags bit 7). want is reused for the step (-1/+1), as in the asm. */
+/* AdjustFacingDirection: turn p one step (of 8) toward direction want, at most every other frame (word +4Ch
+ counts the delay down). The shorter way round, except that a turn between the 1-3 and 5-7 halves goes through
+ the side facing the attacked end (pflags bit 7). want is reused for the step (-1/+1), as in the asm. */
 #define TURNDELAY(p) (((short *)(p))[0x4C / 2])
 
 void AdjustFacingDirection(Player *p, int want)

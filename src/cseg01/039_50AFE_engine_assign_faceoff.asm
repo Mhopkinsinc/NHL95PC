@@ -374,8 +374,8 @@ pop edx	; 50F3B
 pop ecx	; 50F3C
 pop ebx	; 50F3D
 ret	; 50F3E
-; asspassrec: 93G logic93_4 asspassrec (asstab 13h, catching a pass). skatetopuck toward the pass; PC adds the
-;   one-timer (PassRecOneTimer, OneTimerChk, 94G assonetimer role) and the pass statistics (PassCompleted).
+; asspassrec: (asstab 13h, catching a pass). skatetopuck toward the pass; PC adds the
+; one-timer (PassRecOneTimer, OneTimerChk) and the pass statistics (PassCompleted).
 asspassrec:
 push dword 18h	; 50F3F
 call __CHK	; 50F44
@@ -491,8 +491,8 @@ cmp byte [eax], 0	; 51092
 jl near CanBlockShot_ret5	; 51095
 mov word [passplayer], 0FFFFh	; 5109B
 jmp near CanBlockShot_ret5	; 510A4
-; SetPenaltyStrength: PC-new. Each penalized roster player (tmpdst > 0) removes one skater slot (from slot 5
-;   down): position -1, temp5 -100; tmap = skaters left.
+; SetPenaltyStrength: Each penalized roster player (tmpdst > 0) removes one skater slot (from slot 5
+; down): position -1, temp5 -100; tmap = skaters left.
 ; C: src/c/039_50AFE_engine_assign_faceoff/SetPenaltyStrength.c
 %ifdef CBUILD
 %include "c/039_50AFE_engine_assign_faceoff/SetPenaltyStrength.inc"
@@ -543,8 +543,8 @@ pop edx	; 51112
 pop ebx	; 51113
 ret	; 51114
 %endif ; C
-; TakePlayerFromBox: PC-new. Sort object eax takes the first roster player whose status is 7 (penalty over):
-;   leaves the box (SPA 7BFh, temp1 5Ah), roster status 3, tmpdst -2.
+; TakePlayerFromBox: Sort object eax takes the first roster player whose status is 7 (penalty over):
+; leaves the box (SPA 7BFh, temp1 5Ah), roster status 3, tmpdst -2.
 ; C: src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c
 %ifdef CBUILD
 %include "c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.inc"
@@ -703,8 +703,8 @@ call forcepldata	; 512A0
 pop edx	; 512A5
 ret	; 512A6
 %endif ; C
-; PenShotAssign: PC-new penalty shot set-up: shooter (penshotplayer) -> assignment 27h, other skaters -> 2Dh
-;   (asspsclear: wait by the side boards).
+; PenShotAssign: penalty shot set-up: shooter (penshotplayer) -> assignment 27h, other skaters -> 2Dh
+; (asspsclear: wait by the side boards).
 PenShotAssign:
 push dword 14h	; 512A7
 call __CHK	; 512AC
@@ -1076,9 +1076,9 @@ pop ecx	; 516DE
 pop ebx	; 516DF
 ret	; 516E0
 %endif ; C
-; puckfaceoff: 93G logic93_4 puckfaceoff (asstab 1Bh, puck assignment at a stoppage, 'this is where the action
-;   starts'): end of period (clockcont_0), penalties (Stop4Pen), computer line choice (CompLine, setpersonel),
-;   ReturnGoalies, restorepl, then the faceoff set-up. PC adds the penalty shot (PenShotStart) and ForceStartLineup.
+; puckfaceoff: (asstab 1Bh, puck assignment at a stoppage, 'this is where the action
+; starts'): end of period (clockcont_0), penalties (Stop4Pen), computer line choice (CompLine, setpersonel),
+; ReturnGoalies, restorepl, then the faceoff set-up. PC adds the penalty shot (PenShotStart) and ForceStartLineup.
 puckfaceoff:
 push dword 28h	; 516E1
 call __CHK	; 516E6

@@ -1,8 +1,8 @@
-/* Options / settings: pair list helper. */
+/* Options settings: pair list helper. */
 #include "nhl95.h"
 
-/* SimAddPair (452A6) - append the pair (a, b) to a list of at most 4 pairs (two ints each); *count is the
-   number of pairs in use. */
+/* SimAddPair: append the pair (a, b) to a list of at most 4 pairs (two ints each); *count is the
+ number of pairs in use. */
 void SimAddPair(int *count, int *pairs, int a, int b)
 {
     int n;

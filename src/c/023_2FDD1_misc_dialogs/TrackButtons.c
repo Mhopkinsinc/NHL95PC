@@ -1,10 +1,10 @@
-/* Misc dialogs: button hover / click tracking. */
+/* Misc dialogs: button hover click tracking. */
 #include "nhl95.h"
 
-/* TrackButtons (30A39) - PC only: for the n buttons of list (7 dwords each: x, y, w, h, pressed, ...) and the
-   mouse at x, y with button bits: a button under the mouse is drawn pressed (-1) while bit 0 is down; on a
-   release (bit 1) it is the result and is drawn released; buttons the mouse left are released and redrawn.
-   Returns the released button or -1. */
+/* TrackButtons: for the n buttons of list (7 dwords each: x, y, w, h, pressed,...) and the
+ mouse at x, y with button bits: a button under the mouse is drawn pressed (-1) while bit 0 is down; on a
+ release (bit 1) it is the result and is drawn released; buttons the mouse left are released and redrawn.
+ Returns the released button or -1. */
 int TrackButtons(int *list, int n, int x, int y, int buttons)
 {
     int hit;

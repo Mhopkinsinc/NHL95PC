@@ -1,8 +1,8 @@
 /* Joystick calibration: input queue. */
 #include "nhl95.h"
 
-/* ClearInputQueue (6B3D7) - empty the input event queue (count / head 0, tail 1Fh) and clear the held button and Enter
-   flags; returns 0. */
+/* ClearInputQueue: empty the input event queue (count head 0, tail 1Fh) and clear the held button and Enter
+ flags; returns 0. */
 int ClearInputQueue(void)
 {
     inputqcount = 0;

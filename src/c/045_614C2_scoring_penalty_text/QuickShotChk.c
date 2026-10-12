@@ -1,9 +1,9 @@
-/* Scoring / penalty text: shot check. */
+/* Scoring penalty text: shot check. */
 #include "nhl95.h"
 
-/* QuickShotChk (6427F) - quick shot check for puck carrier p (option bit 0, play on, shot on goal): p must skate toward
-   the goal and face it (facedir 3-5 / not 2-6 by end); then ShotLaneOpen sets shotongoal, and it counts from
-   within |y| <= E4h with the goalie in net. Returns 1 when it does. */
+/* QuickShotChk: quick shot check for puck carrier p (option bit 0, play on, shot on goal): p must skate toward
+ the goal and face it (facedir 3-5 not 2-6 by end); then ShotLaneOpen sets shotongoal, and it counts from
+ within |y| <= E4h with the goalie in net. Returns 1 when it does. */
 int QuickShotChk(Player *p)
 {
     short f;

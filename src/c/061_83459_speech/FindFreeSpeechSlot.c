@@ -1,7 +1,7 @@
 /* Speech: speech bank slots. */
 #include "nhl95.h"
 
-/* FindFreeSpeechSlot (83E6D) - first speech bank slot from i on (of 400) with no sample loaded; -1 when none. */
+/* FindFreeSpeechSlot: first speech bank slot from i on (of 400) with no sample loaded; -1 when none. */
 int FindFreeSpeechSlot(int i)
 {
     SpeechSlot *b;

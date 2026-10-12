@@ -1,10 +1,10 @@
-/* Engine physics / AI: a fast player bumps the puck carrier (PC only). */
+/* Engine physics AI: a fast player bumps the puck carrier. */
 #include "nhl95.h"
 
-/* CheckBump (54990) - PC only: player p runs into the puck carrier c. One time in 20h (randomd0), with the
-   puck within 28h in y of c and p faster than 1B58h in x or y: c takes a quarter of p's velocity, p stops,
-   sflags bit 6 (sfslock) is set and, while the clock runs, p gets penalty 1Eh (AddPenalty2). Returns 1 then,
-   else 0. */
+/* CheckBump: player p runs into the puck carrier c. One time in 20h (randomd0), with the
+ puck within 28h in y of c and p faster than 1B58h in x or y: c takes a quarter of p's velocity, p stops,
+ sflags bit 6 (sfslock) is set and, while the clock runs, p gets penalty 1Eh (AddPenalty2). Returns 1 then,
+ else 0. */
 int CheckBump(Player *p, Player *c)
 {
     short dy;

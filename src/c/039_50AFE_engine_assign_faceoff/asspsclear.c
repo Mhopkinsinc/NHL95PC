@@ -1,13 +1,13 @@
-/* Engine assign / faceoff: clear the ice for a penalty shot. */
+/* Engine assign faceoff: clear the ice for a penalty shot. */
 #include "nhl95.h"
 
-/* asspsclear (52DB0) - PC only: a player clearing the ice for a penalty shot skates to the bench gate. Not while flag
-   20h; once there (temp1 100) frame -1 at x -A8h; nothing outside penshotmode. A new assignment (bit 1): temp2 = 8,
-   the spot x -A8h, y -32h / 41h by side plus (2 - random 0-3) x 15, temp1 = temp5 = 0, no line change pending
-   (newpos / newpnum -1). Every 8 frames (temp1): near the spot (|y| <= 28h, x gap <= 20h) take SPA 289h (1 for
-   the goalie), pflags bit 2, turn a step towards facing 4 and drift (Xvel -800h); within 10h facing 4: through the
-   gate (facing 2, SPA 7BFh / goalie D2Dh, flag 20h, pflags2 bit 2, temp5 -100, temp1 100). Off the spot and not
-   parked skate there (EvadePC unless the goalie or a stoppage). */
+/* asspsclear: a player clearing the ice for a penalty shot skates to the bench gate. Not while flag
+ 20h; once there (temp1 100) frame -1 at x -A8h; nothing outside penshotmode. A new assignment (bit 1): temp2 = 8,
+ the spot x -A8h, y -32h 41h by side plus (2 - random 0-3) x 15, temp1 = temp5 = 0, no line change pending
+ (newpos newpnum -1). Every 8 frames (temp1): near the spot (|y| <= 28h, x gap <= 20h) take SPA 289h (1 for
+ the goalie), pflags bit 2, turn a step towards facing 4 and drift (Xvel -800h); within 10h facing 4: through the
+ gate (facing 2, SPA 7BFh goalie D2Dh, flag 20h, pflags2 bit 2, temp5 -100, temp1 100). Off the spot and not
+ parked skate there (EvadePC unless the goalie or a stoppage). */
 void asspsclear(Player *p)
 {
     short d;

@@ -1,9 +1,9 @@
 /* Palette effects: stats menu items. */
 #include "nhl95.h"
 
-/* StatsMenuTeamPenalties (18265) - stats menu item: category 4 (team penalties). In the league screens (dword_DC738) load the SFPAL1 / SFPAL2
-   palettes, fade in with the first, run TeamStatsScreen(4) and fade out with the second; otherwise call the
-   teamstatscb handler. Returns the screen's result. */
+/* StatsMenuTeamPenalties: stats menu item: category 4 (team penalties). In the league screens (dword_DC738) load the SFPAL1 SFPAL2
+ palettes, fade in with the first, run TeamStatsScreen(4) and fade out with the second; otherwise call the
+ teamstatscb handler. Returns the screen's result. */
 int StatsMenuTeamPenalties(void)
 {
     statscategory = 4;

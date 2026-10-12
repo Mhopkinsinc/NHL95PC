@@ -1,8 +1,8 @@
 /* Calendar: month arrows. */
 #include "nhl95.h"
 
-/* CalPrevMonth (346FE) - previous-month arrow: both arrows on, calmonth - 1 (wrapping -1 -> 11, skipping 8); the first
-   season month (9) turns the previous arrow off. Clears the selected day. */
+/* CalPrevMonth: previous-month arrow: both arrows on, calmonth - 1 (wrapping -1 -> 11, skipping 8); the first
+ season month (9) turns the previous arrow off. Clears the selected day. */
 void CalPrevMonth(void)
 {
     calnextslot = (int)CalNextMonth;

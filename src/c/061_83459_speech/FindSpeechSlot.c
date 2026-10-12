@@ -1,7 +1,7 @@
 /* Speech: speech bank slots. */
 #include "nhl95.h"
 
-/* FindSpeechSlot (83EEB) - number of the speech bank slot (of 400) named name (case-insensitive), or -1. */
+/* FindSpeechSlot: number of the speech bank slot (of 400) named name (case-insensitive), or -1. */
 int FindSpeechSlot(char *name)
 {
     int i;

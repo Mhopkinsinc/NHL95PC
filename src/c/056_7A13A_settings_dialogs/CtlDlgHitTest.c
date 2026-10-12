@@ -1,8 +1,8 @@
 /* Settings dialogs: controls dialog hit test. */
 #include "nhl95.h"
 
-/* CtlDlgHitTest (7D61F) - which of the 9 control dialog rects contains the mouse point (x - 6, y - 13h): *hit = its
-   number, returns 1; 0 when none. */
+/* CtlDlgHitTest: which of the 9 control dialog rects contains the mouse point (x - 6, y - 13h): *hit = its
+ number, returns 1; 0 when none. */
 int CtlDlgHitTest(int x, int y, int *hit)
 {
     int i;

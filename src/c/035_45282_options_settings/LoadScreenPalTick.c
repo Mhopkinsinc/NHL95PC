@@ -1,9 +1,9 @@
-/* Options / settings: loading screen palette cycle. */
+/* Options settings: loading screen palette cycle. */
 #include "nhl95.h"
 
-/* LoadScreenPalTick (47951) - timer tick for the loading screen: every 4th call (palcycledelay) step palcyclephase
-   through the 3 palettes of loadpals (300h bytes each) and load it after a retrace; palcyclelock guards
-   re-entry. */
+/* LoadScreenPalTick: timer tick for the loading screen: every 4th call (palcycledelay) step palcyclephase
+ through the 3 palettes of loadpals (300h bytes each) and load it after a retrace; palcyclelock guards
+ re-entry. */
 void LoadScreenPalTick(void)
 {
     if (palcyclelock == 1) return;

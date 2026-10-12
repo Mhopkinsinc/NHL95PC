@@ -1,9 +1,9 @@
-/* Engine player logic: three stars eligibility (PC only). */
+/* Engine player logic: three stars eligibility. */
 #include "nhl95.h"
 
-/* StarEligible (487D9) - PC only (PickThreeStars): roster player pl of team side may be a star unless he is on
-   the bench (tmpdst < -1: -2 bench) or on the ice in that team's SortCords entries with position 6. Returns 1
-   when eligible, else 0. */
+/* StarEligible: roster player pl of team side may be a star unless he is on
+ the bench (tmpdst < -1: -2 bench) or on the ice in that team's SortCords entries with position 6. Returns 1
+ when eligible, else 0. */
 int StarEligible(int side, int pl)
 {
     Player *p;

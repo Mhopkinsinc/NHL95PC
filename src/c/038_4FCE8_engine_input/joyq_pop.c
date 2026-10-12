@@ -1,8 +1,8 @@
 /* Engine input: joystick event queue. */
 #include "nhl95.h"
 
-/* joyq_pop (4FCE8) - drop the oldest joystick queue event (50 entries, joyqhead wraps), with joystick sampling switched
-   off while the queue is changed. */
+/* joyq_pop: drop the oldest joystick queue event (50 entries, joyqhead wraps), with joystick sampling switched
+ off while the queue is changed. */
 void joyq_pop(void)
 {
     int n;

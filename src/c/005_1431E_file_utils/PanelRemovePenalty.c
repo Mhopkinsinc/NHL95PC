@@ -1,8 +1,8 @@
 /* File utilities: scoreboard penalty panel. */
 #include "nhl95.h"
 
-/* PanelRemovePenalty (14CA0) - clear player pl's entry (4 shorts: player, then 3 cleared fields) from the home or away
-   penalty panel list (8 entries). */
+/* PanelRemovePenalty: clear player pl's entry (4 shorts: player, then 3 cleared fields) from the home or away
+ penalty panel list (8 entries). */
 void PanelRemovePenalty(short away, short pl)
 {
     short *e;

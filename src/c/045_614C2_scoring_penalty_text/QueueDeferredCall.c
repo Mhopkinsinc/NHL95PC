@@ -1,8 +1,8 @@
-/* Scoring / penalties: deferred calls. */
+/* Scoring penalties: deferred calls. */
 #include "nhl95.h"
 
-/* QueueDeferredCall (619C8) - PC only: queue a call of fn with arguments a-g (run later by RunDeferredCalls): the
-   32-byte entry defercount of the table, function at +1Ch, the arguments from +0 (dword_E9BA4 ...). */
+/* QueueDeferredCall: queue a call of fn with arguments a-g (run later by RunDeferredCalls): the
+ 32-byte entry defercount of the table, function at +1Ch, the arguments from +0 (dword_E9BA4...). */
 void QueueDeferredCall(void (*fn)(int, int, int, int, int, int, int), int a, int b, int c, int d, int e, int f, int g)
 {
     int i;

@@ -128,8 +128,8 @@ pop edx	; 59E65
 pop ecx	; 59E66
 pop ebx	; 59E67
 ret	; 59E68
-; changeplayer: 93G logic93_1 changeplayer. Human control moves to the best teammate (Sweepcheck); restorepl gives
-;   the old player his assignment back. Callers: input, physics, player logic, assignments.
+; changeplayer: Human control moves to the best teammate (Sweepcheck); restorepl gives
+; the old player his assignment back. Callers: input, physics, player logic, assignments.
 changeplayer:
 push dword 28h	; 59E69
 call __CHK	; 59E6E
@@ -254,7 +254,7 @@ pop esi	; 59FDD
 pop ecx	; 59FDE
 pop ebx	; 59FDF
 ret	; 59FE0
-; restorepl: 93G logic93_1. eax = new controlled player, edx = old one.
+; restorepl: eax = new controlled player, edx = old one.
 ; C: src/c/042_59D9A_engine_core/restorepl.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/restorepl.inc"
@@ -343,9 +343,9 @@ pop ecx	; 5A0A0
 pop ebx	; 5A0A1
 ret	; 5A0A2
 %endif ; C
-; CompLine: 93G logic93_4 CompLine (find good line for comp to switch to). eax = other team, edx = team.
-;   tmap difference picks the power-play / penalty-kill lines, getlinee compares line energies, tmline/tmlcnt take
-;   the result (DrawPanelLine is called on a change). Callers: chk4lc (54AF9) and puckfaceoff.
+; CompLine: (find good line for comp to switch to). eax = other team, edx = team.
+; tmap difference picks the power-play penalty-kill lines, getlinee compares line energies, tmline/tmlcnt take
+; the result (DrawPanelLine is called on a change). Callers: chk4lc and puckfaceoff.
 CompLine:
 push dword 1Ch	; 5A0A3
 call __CHK	; 5A0A8
@@ -934,8 +934,8 @@ pop ecx	; 5A779
 pop ebx	; 5A77A
 ret	; 5A77B
 %endif ; C
-; UpdateCoachModes: PC-new coach AI, once a second from ClockTick. Picks each team's mode (team D2h..D6h) from the
-;   score difference, time left and penalties (details not traced).
+; UpdateCoachModes: coach AI, once a second from ClockTick. Picks each team's mode (team D2h..D6h) from the
+; score difference, time left and penalties (details not traced).
 UpdateCoachModes:
 push dword 10h	; 5A77C
 call __CHK	; 5A781
@@ -1143,8 +1143,8 @@ pop edx	; 5AAAA
 pop ecx	; 5AAAB
 pop ebx	; 5AAAC
 ret	; 5AAAD
-; PenTeamScored: PC-new. During a delayed penalty (gmode bit 3, 93G gmpendel): 1 if the scoring team has a skater
-;   with pflags2 bit 4 (caused a penalty), else 0. Goal then disallows the goal.
+; PenTeamScored: During a delayed penalty (gmode bit 3): 1 if the scoring team has a skater
+; with pflags2 bit 4 (caused a penalty), else 0. Goal then disallows the goal.
 ; C: src/c/042_59D9A_engine_core/PenTeamScored.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/PenTeamScored.inc"
@@ -1194,10 +1194,10 @@ xor eax, eax	; 5AB32
 pop edx	; 5AB34
 ret	; 5AB35
 %endif ; C
-; Goal: 93G hockey93_04 Goal (puck in goal). eax = the goal struct the puck went into.
-;   esi = scoring team, ebp = the other (puck Ypos sign xor gmdir, as 93G a2/a1). Puck stopped in the net, assreplace
-;   puck 1Ah. Offside (tmflags bit 4) -> AddPenalty 8 + AddPenalty2 1Bh; PenTeamScored (delayed penalty) -> no goal;
-;   else tmscore+1 and the scoring bookkeeping (93G: ScoreSum entry, goal/assist counts, PenGoalStuff).
+; Goal: (puck in goal). eax = the goal struct the puck went into.
+; esi = scoring team, ebp = the other (puck Ypos sign xor gmdir). Puck stopped in the net, assreplace
+; puck 1Ah. Offside (tmflags bit 4) -> AddPenalty 8 + AddPenalty2 1Bh; PenTeamScored (delayed penalty) -> no goal
+; else tmscore+1 and the scoring bookkeeping (goal/assist counts, PenGoalStuff).
 Goal:
 push dword 24h	; 5AB36
 call __CHK	; 5AB3B
@@ -1762,8 +1762,8 @@ call assreplace	; 5B2BE
 pop edx	; 5B2C3
 ret	; 5B2C4
 %endif ; C
-; setplayer: 93G hockey93_05 setplayer (bring player onto the ice and set his stats). eax = sort object, edx = roster
-;   number. pnum = edx, tmpdst entry -1 (ice), roster status byte 4, then the attribute bytes from the roster record.
+; setplayer: (bring player onto the ice and set his stats). eax = sort object, edx = roster
+; number. pnum = edx, tmpdst entry -1 (ice), roster status byte 4, then the attribute bytes from the roster record.
 setplayer:
 push dword 34h	; 5B2C5
 call __CHK	; 5B2CA
@@ -2292,7 +2292,7 @@ cmp dx, byte 1Ch	; 5B876
 jl short reenergizeteam.1	; 5B87A
 jmp near calcpuckcross_ret5	; 5B87C
 %endif ; C
-; clearteams: PC-new. Zero both team structs (200h bytes) and store their data pointers (tmsort, tmlines, tmroster, ...).
+; clearteams: Zero both team structs (200h bytes) and store their data pointers (tmsort, tmlines, tmroster,...).
 ; C: src/c/042_59D9A_engine_core/clearteams.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/clearteams.inc"
@@ -2342,7 +2342,7 @@ pop edx	; 5B977
 pop ebx	; 5B978
 ret	; 5B979
 %endif ; C
-; restoreteams: 93G hockey93_01 restoreteams. Both teams: tmap = 6, every tmpdst entry = -2 (bench).
+; restoreteams: Both teams: tmap = 6, every tmpdst entry = -2 (bench).
 ; C: src/c/042_59D9A_engine_core/restoreteams.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/restoreteams.inc"
@@ -2404,8 +2404,8 @@ mov ax, word [PerTimeTab]	; 5BA00
 .x:
 ret	; 5BA06
 %endif ; C
-; ResetClock: 93G hockey93_01 ResetClock. gameclock = PerTimeTotal = GetPeriodTime, clockticks = 0,
-;   periodendtime = gameclock - random(length/2), clock stopped (gmode bit 0).
+; ResetClock: gameclock = PerTimeTotal = GetPeriodTime, clockticks = 0,
+; periodendtime = gameclock - random(length/2), clock stopped (gmode bit 0).
 ResetClock:
 push dword 8	; 5BA07
 call __CHK	; 5BA0C
@@ -2937,8 +2937,8 @@ jne short setpersonel.7	; 5C006
 add esp, byte 4	; 5C008
 jmp near calcpuckcross_ret5	; 5C00B
 %endif ; C
-; StartPer: 93G hockey93_01 StartPer. setupice, ResetClock, no controlled players, center faceoff, InitCoachModes,
-;   then DoGameFrame.
+; StartPer: setupice, ResetClock, no controlled players, center faceoff, InitCoachModes,
+; then DoGameFrame.
 StartPer:
 push dword 18h	; 5C010
 call __CHK	; 5C015
@@ -3152,8 +3152,8 @@ pop edi	; 5C2FE
 pop edx	; 5C2FF
 pop ecx	; 5C300
 ret	; 5C301
-; periodicevents: 93G hockey93_01 periodicevents. Clock at 0 -> horn (sfx 90h), LockScroll, clockcont_0. Once a
-;   second (lldisp, 18h frames): updatecrowdf, RestBench, the stats/energy checks.
+; periodicevents: Clock at 0 -> horn (sfx 90h), LockScroll, clockcont_0. Once a
+; second (lldisp, 18h frames): updatecrowdf, RestBench, the stats/energy checks.
 periodicevents:
 push dword 0Ch	; 5C302
 call __CHK	; 5C307
@@ -4846,8 +4846,8 @@ pop edx	; 5D84F
 pop ebx	; 5D850
 ret	; 5D851
 %endif ; C
-; clockcont_0: 93G hockey93_01 clockcont_0 (end of period). Puck assinsert 18h; periods 1-2 -> PeriodOver path;
-;   later periods compare hmscore/awscore for overtime / shootout / game over. Also called from puckfaceoff.
+; clockcont_0: (end of period). Puck assinsert 18h; periods 1-2 -> PeriodOver path
+; later periods compare hmscore/awscore for overtime shootout game over. Also called from puckfaceoff.
 clockcont_0:
 push dword 18h	; 5D852
 call __CHK	; 5D857
@@ -5095,8 +5095,8 @@ mov eax, ecx	; 5DC04
 .31:
 call AddPenalty2	; 5DC06
 jmp near calcpuckcross_ret5	; 5DC0B
-; ClockTick: PC-new, run from the main loop. Counts clockticks (18h per second) and gameclock down; horn sfx 97h at
-;   60 s (unless music plays), UpdateCoachModes each second. Debug playback (penshotlive) ends via EndPenaltyShot.
+; ClockTick: run from the main loop. Counts clockticks (18h per second) and gameclock down; horn sfx 97h at
+; 60 s (unless music plays), UpdateCoachModes each second. Debug playback (penshotlive) ends via EndPenaltyShot.
 ClockTick:
 push dword 14h	; 5DC10
 call __CHK	; 5DC15
@@ -5206,8 +5206,8 @@ SprSortVert:
 push dword 4	; 5DD6B
 call __CHK	; 5DD70
 and byte [sflags], 7Fh	; 5DD75
-; SprSort: 93G hockey93_06 SprSort. Copies each sort object's y (x when sfhor) to Ylist (SprSort_loop), then bubble
-;   sorts OOlist by Ylist and records each object's position in OOlistpos.
+; SprSort: Copies each sort object's y (x when sfhor) to Ylist (SprSort_loop), then bubble
+; sorts OOlist by Ylist and records each object's position in OOlistpos.
 SprSort:
 push dword 20h	; 5DD7C
 call __CHK	; 5DD81
@@ -5313,7 +5313,7 @@ pop edx	; 5DE6D
 pop ebx	; 5DE6E
 ret	; 5DE6F
 %endif ; C
-; IntermissionStart: 93G hockey93_06 IntermissionStart. gsp 4 -> GameOver; else Intermission, StartPer, SetPenaltyStrength.
+; IntermissionStart: gsp 4 -> GameOver; else Intermission, StartPer, SetPenaltyStrength.
 ; C: src/c/042_59D9A_engine_core/IntermissionStart.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/IntermissionStart.inc"
@@ -5331,8 +5331,8 @@ call IntermissionPC	; 5DE97
 call StartPer	; 5DE9C
 jmp near SetPenaltyStrength	; 5DEA1
 %endif ; C
-; PeriodOver: 93G hockey93_06 PeriodOver. Line change box reset, gsp+1, gmdir flips; after the 3rd period:
-;   overtime (gameopts+1 bit 1 = playoffs) or game over (gsp 4) unless tied; then IntermissionStart.
+; PeriodOver: Line change box reset, gsp+1, gmdir flips; after the 3rd period:
+; overtime (gameopts+1 bit 1 = playoffs) or game over (gsp 4) unless tied; then IntermissionStart.
 ; C: src/c/042_59D9A_engine_core/PeriodOver.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/PeriodOver.inc"
@@ -5393,8 +5393,8 @@ pop ecx	; 5DF83
 pop ebx	; 5DF84
 ret	; 5DF85
 %endif ; C
-; ResetBench: 93G hockey93_05 ResetBench. Per team: PBnum = players with penalty time left (tmpdst > 0), all others
-;   not dressed back to the bench (tmpdst -2, roster status 3).
+; ResetBench: Per team: PBnum = players with penalty time left (tmpdst > 0), all others
+; not dressed back to the bench (tmpdst -2, roster status 3).
 ; C: src/c/042_59D9A_engine_core/calcpuckcross.c (ResetBench)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/calcpuckcross.ResetBench.inc"
@@ -5503,7 +5503,7 @@ pop ecx	; 5E083
 pop ebx	; 5E084
 ret	; 5E085
 %endif ; C
-; StartGame: 93G hockey93_01 StartGame role. cleargamevars, clearteams, gsp = 0, restoreteams, IntermissionStart.
+; StartGame: role. cleargamevars, clearteams, gsp = 0, restoreteams, IntermissionStart.
 ; C: src/c/042_59D9A_engine_core/StartGame.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/StartGame.inc"
@@ -5535,8 +5535,8 @@ call forcepldata	; 5E0C9
 mov eax, awtmstruct	; 5E0CE
 call setpersonel	; 5E0D3
 mov eax, awtmstruct	; 5E0D8
-; forcepldata: 93G hockey93_05 forcepldata (no skating on/off, faceoffs only). eax = team: newpos -> position,
-;   Setplass, center gets anearest (11h), tmpdst -1, setplayer with newpnum.
+; forcepldata: (no skating on/off, faceoffs only). eax = team: newpos -> position,
+; Setplass, center gets anearest (11h), tmpdst -1, setplayer with newpnum.
 ; C: src/c/042_59D9A_engine_core/forcepldata.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/forcepldata.inc"

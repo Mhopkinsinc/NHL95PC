@@ -1,9 +1,9 @@
-/* Engine input: hold-check animation (94G input94 Acheck). */
+/* Engine input: hold-check animation. */
 #include "nhl95.h"
 
-/* Acheck (4FFAE) - start the hold-check animation of player p against player q (94G input94 Acheck): lock the
-   animation (pfalock); the normal hold check, or the stick-in-the-air hold check when p has an impact and q is
-   not behind p relative to the goal p shoots at (pfgoal; dy = p's Ypos - q's Ypos, negated when shooting up). */
+/* Acheck: start the hold-check animation of player p against player q: lock the
+ animation (pfalock); the normal hold check, or the stick-in-the-air hold check when p has an impact and q is
+ not behind p relative to the goal p shoots at (pfgoal; dy = p's Ypos - q's Ypos, negated when shooting up). */
 void Acheck(Player *p, Player *q)
 {
     short dy;

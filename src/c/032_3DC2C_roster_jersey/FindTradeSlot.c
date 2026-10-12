@@ -1,8 +1,8 @@
-/* Roster / jersey: trade list lookup. */
+/* Roster jersey: trade list lookup. */
 #include "nhl95.h"
 
-/* FindTradeSlot (3EF3C) - PC only: index of the trade list slot of team side (28 slots of 22 bytes, 268h per
-   team) whose first byte is pl, or -1. */
+/* FindTradeSlot: index of the trade list slot of team side (28 slots of 22 bytes, 268h per
+ team) whose first byte is pl, or -1. */
 int FindTradeSlot(int side, unsigned char pl)
 {
     int found;

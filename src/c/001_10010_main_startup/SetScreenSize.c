@@ -1,9 +1,9 @@
-/* Main / startup: screen size switch. */
+/* Main startup: screen size switch. */
 #include "nhl95.h"
 
-/* SetScreenSize (10E9F) - PC only: switch the screen to w x h when it is another size: black palette (unk_C4E30),
-   clear at the old size, set the video mode size (sub_8E080), black palette again, clip window and view to the
-   new size, then store screenw / screenh. */
+/* SetScreenSize: switch the screen to w x h when it is another size: black palette (unk_C4E30),
+ clear at the old size, set the video mode size (sub_8E080), black palette again, clip window and view to the
+ new size, then store screenw screenh. */
 void SetScreenSize(int w, int h)
 {
     if (w == screenw && h == screenh) return;

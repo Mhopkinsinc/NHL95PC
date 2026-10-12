@@ -1,7 +1,7 @@
 /* Line editor: pseudo-random bytes. */
 #include "nhl95.h"
 
-/* RandLfsrByte (7665E) - step the 8-bit Galois LFSR *s (taps B8h; a zero state is reseeded with 2Bh) and return it. */
+/* RandLfsrByte: step the 8-bit Galois LFSR *s (taps B8h; a zero state is reseeded with 2Bh) and return it. */
 unsigned char RandLfsrByte(unsigned char *s)
 {
     unsigned char bit;

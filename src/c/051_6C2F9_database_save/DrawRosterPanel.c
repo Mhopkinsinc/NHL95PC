@@ -1,8 +1,8 @@
 /* Database save: roster panels. */
 #include "nhl95.h"
 
-/* DrawRosterPanel (6D299) - draw the left (side 0) or right (side 1) roster panel: title and list, then the database
-   name. */
+/* DrawRosterPanel: draw the left (side 0) or right (side 1) roster panel: title and list, then the database
+ name. */
 void DrawRosterPanel(int side)
 {
     if (!side) {

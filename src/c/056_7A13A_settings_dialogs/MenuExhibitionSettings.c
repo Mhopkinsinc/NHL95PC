@@ -3,10 +3,10 @@
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
-/* MenuExhibitionSettings (7BEBB) - menu "exhibition settings": load the settings shapes; save the screen under the
-   214 x 297 dialog at 10 / 13h into a BKGD bitmap (pointer sprite header), draw the dialog (DrawExhSetDlg), load the
-   options into the check bits (ExhOptsToBits) and run it (ExhSetEditLoop); then restore the screen, free the bitmap
-   and the settings file. Returns 0. */
+/* MenuExhibitionSettings: menu "exhibition settings": load the settings shapes; save the screen under the
+ 214 x 297 dialog at 10 13h into a BKGD bitmap (pointer sprite header), draw the dialog (DrawExhSetDlg), load the
+ options into the check bits (ExhOptsToBits) and run it (ExhSetEditLoop); then restore the screen, free the bitmap
+ and the settings file. Returns 0. */
 int MenuExhibitionSettings(void)
 {
     int bm;
@@ -29,8 +29,8 @@ int MenuExhibitionSettings(void)
 }
 
 
-/* ExhOptsToBits (7BF56) - like ModeOptsToBits for the exhibition settings dialog, plus the period length option as one of
-   three check bits in the second byte (pertime 0 -> 8, 1 -> 4, 2 -> 2); greyed labels drawn after the checks. */
+/* ExhOptsToBits: like ModeOptsToBits for the exhibition settings dialog, plus the period length option as one of
+ three check bits in the second byte (pertime 0 -> 8, 1 -> 4, 2 -> 2); greyed labels drawn after the checks. */
 void ExhOptsToBits(void)
 {
     setbits[0] = gameopts.optbit0 | gameopts.offsides << 1 | gameopts.linechanges << 2
@@ -52,8 +52,8 @@ void ExhOptsToBits(void)
     }
 }
 
-/* DrawExhSetChecks (7C0B9) - DrawModeSetChecks for the exhibition dialog (exhsetrects, item 5 skipped), then the period
-   length box: the 20 / 10 / 5 minute sprite for setbits 200h / 400h / 800h at the next rect. */
+/* DrawExhSetChecks: DrawModeSetChecks for the exhibition dialog (exhsetrects, item 5 skipped), then the period
+ length box: the 20 10 5 minute sprite for setbits 200h 400h 800h at the next rect. */
 void DrawExhSetChecks(void)
 {
     Rect4 *r;

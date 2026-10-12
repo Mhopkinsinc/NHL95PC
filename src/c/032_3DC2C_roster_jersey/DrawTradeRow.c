@@ -1,8 +1,8 @@
-/* Roster / jersey: trade screen. */
+/* Roster jersey: trade screen. */
 #include "nhl95.h"
 
-/* DrawTradeRow (3E7B3) - print the cursor row of trade list side (16h-byte rows, 268h per side): position letter, jersey
-   number and name at x side * 1C0h + 5, y row * line height + 1Dh. */
+/* DrawTradeRow: print the cursor row of trade list side (16h-byte rows, 268h per side): position letter, jersey
+ number and name at x side * 1C0h + 5, y row * line height + 1Dh. */
 void DrawTradeRow(int side)
 {
     int ofs;

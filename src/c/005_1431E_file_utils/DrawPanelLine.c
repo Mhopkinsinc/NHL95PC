@@ -3,10 +3,10 @@
 
 #define PUTSPRITE ((void (__cdecl *)(int spr, int x, int y))sub_B4CD8)
 
-/* DrawPanelLine (14AFE) - draw the line indicator of team side (away when set) for line on the screen bitmap:
-   crossing between the forward lines (< 4), the extra lines (< 6) and the rest resets that side's line timer
-   (dword_C5860 away, dword_C585C home); store the line (hudawayline / hudhomeline) and draw its sprite
-   (linesprites) at FBh / 2Ah, 14h. */
+/* DrawPanelLine: draw the line indicator of team side (away when set) for line on the screen bitmap:
+ crossing between the forward lines (< 4), the extra lines (< 6) and the rest resets that side's line timer
+ (dword_C5860 away, dword_C585C home); store the line (hudawayline hudhomeline) and draw its sprite
+ (linesprites) at FBh 2Ah, 14h. */
 void DrawPanelLine(int side, int line)
 {
     SelectScreenBM();

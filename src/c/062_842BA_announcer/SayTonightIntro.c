@@ -1,8 +1,8 @@
 /* Announcer: game intros. */
 #include "nhl95.h"
 
-/* SayTonightIntro (84B0D) - when speech is up and idle: "Tonight <rnk> EA Sports game between <away> and <home>", the
-   team clip names built as <name>Rnk / <name>Awa / <name>Hom (str_SS5); starts the queue and returns 1, else 0. */
+/* SayTonightIntro: when speech is up and idle: "Tonight <rnk> EA Sports game between <away> and <home>", the
+ team clip names built as <name>Rnk <name>Awa <name>Hom (str_SS5); starts the queue and returns 1, else 0. */
 int SayTonightIntro(char *rnk, char *away, char *home)
 {
     char r[16];

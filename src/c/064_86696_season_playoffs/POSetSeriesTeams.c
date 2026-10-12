@@ -1,9 +1,9 @@
-/* Season / playoffs: series setup. */
+/* Season playoffs: series setup. */
 #include "nhl95.h"
 
-/* POSetSeriesTeams (87520) - fill playoff series record s for teams a and b: the 7 game slots (6 bytes each from
-   +2) get the home / visiting team bytes. When both teams' division flags together are 3 (one of each kind),
-   games 3, 4 and 5 swap home ice the other way. Both scores of every game (+4 / +5) start at FFh (not played). */
+/* POSetSeriesTeams: fill playoff series record s for teams a and b: the 7 game slots (6 bytes each from
+ +2) get the home visiting team bytes. When both teams' division flags together are 3 (one of each kind),
+ games 3, 4 and 5 swap home ice the other way. Both scores of every game (+4 +5) start at FFh (not played). */
 void POSetSeriesTeams(unsigned char *s, int a, int b)
 {
     int f;

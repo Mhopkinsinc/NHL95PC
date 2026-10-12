@@ -1,8 +1,8 @@
 /* Settings dialogs: control boxes. */
 #include "nhl95.h"
 
-/* DrawCtlBoxes (7D671) - draw the 9 control setting boxes (rects of 4 ints at ctldlgrects) on or off from the bits of
-   setbits. */
+/* DrawCtlBoxes: draw the 9 control setting boxes (rects of 4 ints at ctldlgrects) on or off from the bits of
+ setbits. */
 void DrawCtlBoxes(void)
 {
     int i;

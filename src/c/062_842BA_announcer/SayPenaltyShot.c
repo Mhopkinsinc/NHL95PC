@@ -1,9 +1,9 @@
 /* Announcer: penalty shot. */
 #include "nhl95.h"
 
-/* SayPenaltyShot (8511E) - when speech is up and idle: announce "<team> penalty shot <number>, at <min>:<sec>":
-   priority 1Ah (+3B70h of speechbank), request the clips (with "one left" and the time clips), make room, queue
-   them and start the queue. Returns 1, else 0. */
+/* SayPenaltyShot: when speech is up and idle: announce "<team> penalty shot <number>, at <min>:<sec>":
+ priority 1Ah (+3B70h of speechbank), request the clips (with "one left" and the time clips), make room, queue
+ them and start the queue. Returns 1, else 0. */
 int SayPenaltyShot(char *team, int num, int min, int sec)
 {
     char teamclip[16];

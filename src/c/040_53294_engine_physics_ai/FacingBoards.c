@@ -1,9 +1,9 @@
-/* Engine physics / AI: checking. */
+/* Engine physics AI: checking. */
 #include "nhl95.h"
 
-/* FacingBoards (5378D) - 1 when p is near the boards and facing them (so a check pins him): left side (x < -78h) facing 6,
-   or 7 / 5 in the top / bottom corners (|y| > E8h); right side (x > 78h) facing 2, or 1 / 3 in the corners;
-   otherwise the end boards (|y| > F2h) facing 0 / 4. */
+/* FacingBoards: 1 when p is near the boards and facing them (so a check pins him): left side (x < -78h) facing 6,
+ or 7 5 in the top bottom corners (|y| > E8h); right side (x > 78h) facing 2, or 1 3 in the corners
+ otherwise the end boards (|y| > F2h) facing 0 4. */
 int FacingBoards(Player *p)
 {
     short x;

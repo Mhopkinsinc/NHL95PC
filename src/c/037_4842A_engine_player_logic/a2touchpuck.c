@@ -1,14 +1,14 @@
-/* Engine player logic: a player touches the puck (93G a2touchpuck). */
+/* Engine player logic: a player touches the puck. */
 #include "nhl95.h"
 
-#define TW(t, o) (*(short *)((char *)(t) + (o)))  /* team word at offset o: +30h last toucher, +32h / +34h before */
+#define TW(t, o) (*(short *)((char *)(t) + (o)))  /* team word at offset o: +30h last toucher, +32h +34h before */
 
-/* a2touchpuck (4DE14) - 93G a2touchpuck: player p touched the puck. Unless a two-line pass (ChkTwoLinePass) or a
-   stoppage: remember the touch place and player (ltx / lty / lasttouch). In p's team: a new toucher (pnum) shifts
-   the last-toucher words (+30h -> +32h -> +34h; unless tmflags bit 3 was set, which is just cleared) and a repeat
-   of +34h clears its top byte (-1); the same toucher clears pflags bit 3 of the team. A skater with a position
-   clears gmode2 bit 4. Not offside but a two-line pass: penalty 1Dh on p. With iflags bits 2 and 0 set and a
-   skater of the other side than iflags bit 1: penalty 6 on player byte_E9AC1. */
+/* a2touchpuck: player p touched the puck. Unless a two-line pass (ChkTwoLinePass) or a
+ stoppage: remember the touch place and player (ltx lty lasttouch). In p's team: a new toucher (pnum) shifts
+ the last-toucher words (+30h -> +32h -> +34h; unless tmflags bit 3 was set, which is just cleared) and a repeat
+ of +34h clears its top byte (-1); the same toucher clears pflags bit 3 of the team. A skater with a position
+ clears gmode2 bit 4. Not offside but a two-line pass: penalty 1Dh on p. With iflags bits 2 and 0 set and a
+ skater of the other side than iflags bit 1: penalty 6 on player byte_E9AC1. */
 void a2touchpuck(Player *p)
 {
     short two;

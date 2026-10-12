@@ -1,9 +1,9 @@
-/* Engine input: faceoff (93G faceoffinput). */
+/* Engine input: faceoff. */
 #include "nhl95.h"
 
-/* faceoffinput (4FF0D) - faceoff input for p while its assignment is 17h (faceoff): store the stick direction (fodir1 /
-   fodir2 by end); without a draw yet (pflags2 bit 1): the shoot button (regd1 bit 4) draws (SPA 7DDh, or D05h
-   from word_DFF42 11h on), otherwise temp5 counts down to the idle animation 7F1h. */
+/* faceoffinput: faceoff input for p while its assignment is 17h (faceoff): store the stick direction (fodir1 /
+ fodir2 by end); without a draw yet (pflags2 bit 1): the shoot button (regd1 bit 4) draws (SPA 7DDh, or D05h
+ from word_DFF42 11h on), otherwise temp5 counts down to the idle animation 7F1h. */
 void faceoffinput(Player *p)
 {
     signed char f;

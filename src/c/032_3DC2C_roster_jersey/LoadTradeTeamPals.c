@@ -1,9 +1,9 @@
-/* Roster / jersey: trade palettes. */
+/* Roster jersey: trade palettes. */
 #include "nhl95.h"
 
-/* LoadTradeTeamPals (3E835) - for the trade screen load HOMEPALS.BIN (1C0h bytes per team) twice: team t1's palette part to
-   pal+180h and its remap table to byte_DC9D8, team t2's palette part to pal+240h and its remap table to byte_DC8D8
-   (entries 90h and up shifted by 40h); then the four fixed colours at pal+171h and remap 7Bh-7Eh to themselves. */
+/* LoadTradeTeamPals: for the trade screen load HOMEPALS.BIN (1C0h bytes per team) twice: team t1's palette part to
+ pal+180h and its remap table to byte_DC9D8, team t2's palette part to pal+240h and its remap table to byte_DC8D8
+ (entries 90h and up shifted by 40h); then the four fixed colours at pal+171h and remap 7Bh-7Eh to themselves. */
 void LoadTradeTeamPals(int t1, int t2, unsigned char *pal)
 {
     char path[16];

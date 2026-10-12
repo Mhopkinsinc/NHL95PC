@@ -1,11 +1,11 @@
-/* Engine physics / AI: body checks. */
+/* Engine physics AI: body checks. */
 #include "nhl95.h"
 
-/* Bcheck (56A54) - body check by a on b (a not flag 20h, not the puck (SCnum 10h), a skater, not pflags2 bit 0): with
-   option bit 0 off a b holding the puck (pflags bit 3) stands it 12 times in randomd0(checking + 16 - legstr);
-   a hit from b's front (vtoa(a - b) within one step of b's facing + 1) knocks b down (FallDown). If a was taking a
-   quick shot it is a penalty shot for a (penshotplayer, penshotctl by controller), else checkagr may call a
-   penalty on b (10h). Sets collflag. */
+/* Bcheck: body check by a on b (a not flag 20h, not the puck (SCnum 10h), a skater, not pflags2 bit 0): with
+ option bit 0 off a b holding the puck (pflags bit 3) stands it 12 times in randomd0(checking + 16 - legstr)
+ a hit from b's front (vtoa(a - b) within one step of b's facing + 1) knocks b down (FallDown). If a was taking a
+ quick shot it is a penalty shot for a (penshotplayer, penshotctl by controller), else checkagr may call a
+ penalty on b (10h). Sets collflag. */
 void Bcheck(Player *a, Player *b)
 {
     int f;

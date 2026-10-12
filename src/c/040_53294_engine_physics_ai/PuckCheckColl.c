@@ -1,12 +1,12 @@
-/* Engine physics / AI: puck collision scan. */
+/* Engine physics AI: puck collision scan. */
 #include "nhl95.h"
 
 #define OOB(i) (*(int *)(OOlist + (i) - 2) >> 24)      /* OOlist byte i + 1, as the top byte of a dword */
 #define YL(n) (*(int *)((char *)Ylist + (n) * 2 - 2) >> 16)  /* Ylist[n], as the top word of a dword */
 
-/* PuckCheckColl (548AC) - PC only: puck p stops (x / y velocity 0) more than 400 from the centre line in y; while
-   it is low (z up to 16) walk the y-sorted object list (OOlist) up and down from its place (OOlistpos) and check
-   each object within 40 in y against it (checkpuckcoll). */
+/* PuckCheckColl: puck p stops (x y velocity 0) more than 400 from the centre line in y; while
+ it is low (z up to 16) walk the y-sorted object list (OOlist) up and down from its place (OOlistpos) and check
+ each object within 40 in y against it (checkpuckcoll). */
 void PuckCheckColl(Player *p)
 {
     short i;

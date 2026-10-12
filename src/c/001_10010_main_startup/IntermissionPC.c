@@ -1,9 +1,9 @@
-/* Main / startup: intermission. */
+/* Main startup: intermission. */
 #include "nhl95.h"
 
-/* IntermissionPC (10F6D) - between periods: unless the game is being left (exitgame -1) fade the rink out, set 640x480,
-   stop the crowd, music (or the sound library) and digital speech and wait (sub_1BAF3 222E0h); then the
-   intermission desk with the small font, and on to the next period. */
+/* IntermissionPC: between periods: unless the game is being left (exitgame -1) fade the rink out, set 640x480,
+ stop the crowd, music (or the sound library) and digital speech and wait (sub_1BAF3 222E0h); then the
+ intermission desk with the small font, and on to the next period. */
 void IntermissionPC(void)
 {
     if (exitgame != -1) {

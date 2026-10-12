@@ -1,29 +1,29 @@
 /* Settings dialogs: the in-game controls dialog and its control reassignment (one source block: the dialog's end
-   follows ClearCtlBlink, and ReassignCtlPlayer / ClearCtlBlink end in its exit). */
+ follows ClearCtlBlink, and ReassignCtlPlayer ClearCtlBlink end in its exit). */
 #include "nhl95.h"
 
 /* DRAFT (whole file): every function's body matches on its own (ClearCtlBlink and MenuP2ControlsInGame byte for byte,
-   ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots / the px register), but the EXE has
-   ControlsDlgInGame split: its code from the ctl1team test on (ControlsDlgInGame_side .. ControlsDlg_ret0) sits after
-   ClearCtlBlink, where this compiles it in one piece. Neither cc.py nor cdiff can splice a split function yet. */
+ ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots the px register), but the EXE has
+ ControlsDlgInGame split: its code from the ctl1team test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after
+ ClearCtlBlink, where this compiles it in one piece. Neither cc.py nor cdiff can splice a split function yet. */
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 #define TEAM(t) ((&hmtmstruct)[t])
 
 
-/* MenuP1ControlsInGame (7CAF7) - PC only: the in-game controls dialog for controller 1. */
+/* MenuP1ControlsInGame: the in-game controls dialog for controller 1. */
 void MenuP1ControlsInGame(void)
 {
     ControlsDlgInGame(0);
 }
 
-/* ControlsDlgInGame (7CB03) - PC only: the controls dialog during a game for controller side: load the BKGD4
-   background, save the screen under it (at 98h, 0ECh in its header), run the dialog (DrawControlsDlg /
-   DrawControlsOpts / ControlsDlgLoop) and restore the screen. Then apply the choice: the controller's team
-   (cont1team / cont2team: 0 none, 1 home, 2 away from ctl1team / ctl1side), samesideflag when both controllers
-   are on one side, the pad device bit (pad1dev) from ctl1dev, the controlled player (ReassignCtlPlayer) and the
-   line change blink (ClearCtlBlink); a team that gets or loses its controllers swaps its score / flags
-   (CtlSwapScoreFix / CtlSwapTeamFlag). */
+/* ControlsDlgInGame: the controls dialog during a game for controller side: load the BKGD4
+ background, save the screen under it (at 98h, 0ECh in its header), run the dialog (DrawControlsDlg /
+ DrawControlsOpts ControlsDlgLoop) and restore the screen. Then apply the choice: the controller's team
+ (cont1team cont2team: 0 none, 1 home, 2 away from ctl1team ctl1side), samesideflag when both controllers
+ are on one side, the pad device bit (pad1dev) from ctl1dev, the controlled player (ReassignCtlPlayer) and the
+ line change blink (ClearCtlBlink); a team that gets or loses its controllers swaps its score flags
+ (CtlSwapScoreFix CtlSwapTeamFlag). */
 int ControlsDlgInGame(int side)
 {
     int bkgd;
@@ -72,17 +72,17 @@ int ControlsDlgInGame(int side)
     return result;
 }
 
-/* MenuP2ControlsInGame (7CB9F) - PC only: the in-game controls dialog for controller 2. */
+/* MenuP2ControlsInGame: the in-game controls dialog for controller 2. */
 void MenuP2ControlsInGame(void)
 {
     ControlsDlgInGame(1);
 }
 
-/* ReassignCtlPlayer (7CCE5) - PC only (as 94G's controller assignment): after the controls changed, give controller
-   side the player of its team nearest the puck's next position (puck + velocity / 256): skaters on the ice
-   (position >= 0, not pflags2 bit 2 or pflags bit 20h), the puck carrier counting as nearest, not the player the
-   other controller has. A controller without a team gives its player up (-1); one whose player is already on its
-   team keeps it. restorepl swaps the old and the new player. */
+/* ReassignCtlPlayer:: after the controls changed, give controller
+ side the player of its team nearest the puck's next position (puck + velocity 256): skaters on the ice
+ (position >= 0, not pflags2 bit 2 or pflags bit 20h), the puck carrier counting as nearest, not the player the
+ other controller has. A controller without a team gives its player up (-1); one whose player is already on its
+ team keeps it. restorepl swaps the old and the new player. */
 void ReassignCtlPlayer(int side)
 {
     short *team;
@@ -140,10 +140,10 @@ void ReassignCtlPlayer(int side)
     }
 }
 
-/* ClearCtlBlink (7CEA1) - PC only: for each team without a controller: stop its line change blink (lcblink /
-   lcboxon), clear pf2lcm on its six players and bit 1 of tmflags, and move it off a line that does not fit the
-   strength: short-handed (tmap below the other team's) to line 6 unless already 6 up, power play to line 4 unless
-   on 4 / 5, even strength from line 3 up back to line 0. */
+/* ClearCtlBlink: for each team without a controller: stop its line change blink (lcblink /
+ lcboxon), clear pf2lcm on its six players and bit 1 of tmflags, and move it off a line that does not fit the
+ strength: short-handed (tmap below the other team's) to line 6 unless already 6 up, power play to line 4 unless
+ on 4 5, even strength from line 3 up back to line 0. */
 void ClearCtlBlink(void)
 {
     int t;

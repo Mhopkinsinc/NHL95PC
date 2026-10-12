@@ -1,16 +1,16 @@
-/* Skating (043_5E16D_engine_skating): EvadePlayers ... StopNA in address order, as one source file because
-   later functions end in an earlier one's pop/ret tail (multi-block file, see tools/cc.py). Functions of the
-   segment that are still asm are missing; the ones here that do not match yet (EvadePlayers, skateto) are
-   compiled for the layout but not spliced. */
+/* Skating (043_5E16D_engine_skating): EvadePlayers... StopNA in address order, as one source file because
+ later functions end in an earlier one's pop/ret tail (multi-block file, see tools/cc.py). Functions of the
+ segment that are still asm are missing; the ones here that do not match yet (EvadePlayers, skateto) are
+ compiled for the layout but not spliced. */
 #include "nhl95.h"
 
-/* EvadePlayers (5E4C4) - PC-new skateto collision routine (the 93G a0 routine slot; 93G has only EvadePC).
-   p = player (eax). Nothing when pflags2 bit 5 is set. Behind the net (|Ypos| > F2h, |Xpos| < 32h): regd0.w = a
-   direction round the net from the Xpos / Yvel signs. Else for every other SortCords entry (0-14, not the goalies
-   12/13, the puck only while nothing is closer than 50h): if the predicted x and y gaps (position + high byte of
-   the velocity) are both within 28h and the closest so far, regd0.w = a sidestep direction from vtoa of the gap,
-   turned away from the boards near the ends. Results in the 68k-register statics regd0.w (direction), regd1.w / regd2.w
-   (|dy|, |dx|); no return value. */
+/* EvadePlayers: skateto collision routine.
+ p = player (eax). Nothing when pflags2 bit 5 is set. Behind the net (|Ypos| > F2h, |Xpos| < 32h): regd0.w = a
+ direction round the net from the Xpos Yvel signs. Else for every other SortCords entry (0-14, not the goalies
+ 12/13, the puck only while nothing is closer than 50h): if the predicted x and y gaps (position + high byte of
+ the velocity) are both within 28h and the closest so far, regd0.w = a sidestep direction from vtoa of the gap,
+ turned away from the boards near the ends. Results in the 68k-register statics regd0.w (direction), regd1.w regd2.w
+ (|dy|, |dx|); no return value. */
 void EvadePlayers(Player *p)
 {
     Player *o;
@@ -70,12 +70,12 @@ void EvadePlayers(Player *p)
     }
 }
 
-/* skateto (5E93B) - player p skates to the point regd0/regd1 (93G logic93_5 skateto, a0 = extra routine for
-   collision avoidance, d0/d1 = x/y cord to skate to). evade = that routine (NULL = none).
-   Only every 12/60 sec. (temp2 high byte countdown): avdgoal, aim with the velocity lead (position + high byte of
-   the velocity), vtoa of the gap (9 = close enough: within 0Ch, and still moving on any axis that is farther),
-   the evade routine, keep the direction in the temp2 low byte. No direction and stopped: turn one step toward the
-   puck (or xc1/yc1 when the puck is in a fight). Then doplayeracc with the kept direction every tick. */
+/* skateto: player p skates to the point regd0/regd1 (a0 = extra routine for
+ collision avoidance, d0/d1 = x/y cord to skate to). evade = that routine (NULL = none).
+ Only every 12/60 sec. (temp2 high byte countdown): avdgoal, aim with the velocity lead (position + high byte of
+ the velocity), vtoa of the gap (9 = close enough: within 0Ch, and still moving on any axis that is farther),
+ the evade routine, keep the direction in the temp2 low byte. No direction and stopped: turn one step toward the
+ puck (or xc1/yc1 when the puck is in a fight). Then doplayeracc with the kept direction every tick. */
 void skateto(Player *p, void (*evade)(Player *))
 {
     int dx, dy, px, py;
@@ -118,15 +118,15 @@ void skateto(Player *p, void (*evade)(Player *))
     doplayeracc(p, TEMP2_DIR(p));
 }
 
-/* StopNA (5F82A) - 93G logic93_5 StopNA (stopna): slow player p by one step on each axis, with no animation
-   change. The step is 200 + legstr (the goalie: 200 + 3 * legstr; 93G $96 = 150); a velocity that would cross
-   zero is clamped to 0.
-   Its tail is EvadePlayers' pop/ret (jmp EvadePlayers_popedi): wcc386 merges identical function tails inside
-   one source file, so StopNA lives in this file, after the functions between them. */
+/* StopNA: (stopna): slow player p by one step on each axis, with no animation
+ change. The step is 200 + legstr; a velocity that would cross
+ zero is clamped to 0.
+ Its tail is EvadePlayers' pop/ret (jmp EvadePlayers_popedi): wcc386 merges identical function tails inside
+ one source file, so StopNA lives in this file, after the functions between them. */
 void StopNA(Player *p)
 {
     int str = p->legstr;
-    int step = str + 200;               /* step 200+legstr (93G 150) */
+    int step = str + 200;               /* step 200+legstr */
 
     if (p->position == 0) {             /* goalie: +2*legstr */
         str += str;

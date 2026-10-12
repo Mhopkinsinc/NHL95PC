@@ -1,10 +1,10 @@
 /* Engine display: line table goalie choice. */
 #include "nhl95.h"
 
-/* PickGoalie (652D6) - PC only: choose the goalie (line table slot 25h; 24h is the starter) of team side (home
-   hmlinetab, away awlinetab). For slot 24h the starter is taken over first. The first of roster players 25-27
-   that is neither: with a roster status that byte_CD418 marks as available (1) he is taken; with status 2 (when
-   force) he becomes 3 (bench) and is removed from the line slots 28h-2Fh (100). Else the starter. */
+/* PickGoalie: choose the goalie (line table slot 25h; 24h is the starter) of team side (home
+ hmlinetab, away awlinetab). For slot 24h the starter is taken over first. The first of roster players 25-27
+ that is neither: with a roster status that byte_CD418 marks as available (1) he is taken; with status 2 (when
+ force) he becomes 3 (bench) and is removed from the line slots 28h-2Fh (100). Else the starter. */
 void PickGoalie(short side, short slot, short force)
 {
     signed char *tab;

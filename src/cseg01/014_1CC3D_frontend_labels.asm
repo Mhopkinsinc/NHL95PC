@@ -377,7 +377,7 @@ ret	; 1D02E
 %ifdef CBUILD
 %include "c/014_1CC3D_frontend_labels/AddDirtyRect.inc"
 %else
-AddDirtyRect:	;IDA: code_1D02F
+AddDirtyRect:
 push dword 0Ch	; 1D02F
 call __CHK	; 1D034
 push esi	; 1D039

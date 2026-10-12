@@ -1,11 +1,11 @@
-/* Scoring / penalties: power-play state. */
+/* Scoring penalties: power-play state. */
 #include "nhl95.h"
 
-/* UpdatePowerPlayFlags (63C73) - PC only: compare the teams' tmap (players short). Equal: clear gmode2 bit 5
-   (power play running). Otherwise bit 6 tells which team is on the power play (set when the home team is
-   short); when it changes the bits 5-6 are rewritten. A power play that was not running yet (bit 5 clear)
-   starts: bit 5 set, the team's tmpp (power plays) + 1, and while the clock runs a crowd sample (1 home,
-   4 away) when speech or music is off. */
+/* UpdatePowerPlayFlags: compare the teams' tmap (players short). Equal: clear gmode2 bit 5
+ (power play running). Otherwise bit 6 tells which team is on the power play (set when the home team is
+ short); when it changes the bits 5-6 are rewritten. A power play that was not running yet (bit 5 clear)
+ starts: bit 5 set, the team's tmpp (power plays) + 1, and while the clock runs a crowd sample (1 home,
+ 4 away) when speech or music is off. */
 void UpdatePowerPlayFlags(void)
 {
     Team *t;

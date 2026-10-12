@@ -1,8 +1,8 @@
 /* File dialogs: print a string. */
 #include "nhl95.h"
 
-/* PrintTextCopy (2C135) - PC only: copy s into a local buffer (64 bytes) and print the copy at x, y
-   (sub_91964). */
+/* PrintTextCopy: copy s into a local buffer (64 bytes) and print the copy at x, y
+ (sub_91964). */
 void PrintTextCopy(char *s, int x, int y)
 {
     char buf[64];

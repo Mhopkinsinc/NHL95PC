@@ -1,13 +1,13 @@
 /* Misc dialogs: text edit cursor. */
-/* DRAFT: all but the final call matches; the EXE has x / y / w in eax / edi / esi for the sub_91044 pushes (C picks other registers). */
+/* DRAFT: all but the final call matches; the EXE has x y w in eax edi esi for the sub_91044 pushes (C picks other registers). */
 #include "nhl95.h"
 
 #define TEXTWIDTHN ((int (__cdecl *)(char *s, int n))sub_90A40)
 #define FILLRECT ((void (__cdecl *)(int x, int y, int w, int h, int col))sub_91044)
 
-/* DrawEditCursor (314B4) - draw the cursor of the text edit field (when editcuron): clamp editpos to the text, then a
-   bar the width of the character under it (a space at the end; the width of "." in fixed-pitch mode, mode bit 2)
-   and editcurw high in fontcolor, under the text at editx + the width up to editpos. */
+/* DrawEditCursor: draw the cursor of the text edit field (when editcuron): clamp editpos to the text, then a
+ bar the width of the character under it (a space at the end; the width of "." in fixed-pitch mode, mode bit 2)
+ and editcurw high in fontcolor, under the text at editx + the width up to editpos. */
 void DrawEditCursor(int mode)
 {
     int cw;

@@ -1,8 +1,8 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpAssists (25237) - qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
-   playoff stats at +12h): most assists (word +4) first, then more games (+0), more points (+6), more of word +10h. */
+/* CmpAssists: qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
+ playoff stats at +12h): most assists (word +4) first, then more games (+0), more points (+6), more of word +10h. */
 int CmpAssists(int *a, int *b)
 {
     unsigned short *p;

@@ -1,9 +1,9 @@
 /* Main desk: settings files. */
 #include "nhl95.h"
 
-/* CopyGameSettings (32C9E) - copy the game settings record (75h bytes) from file src to dst: a new dst gets the whole
-   record; an existing one keeps its own record except the dword at +59h and the 0Dh bytes at +4, which come from
-   src. Returns 0, or -1 on any file error. */
+/* CopyGameSettings: copy the game settings record (75h bytes) from file src to dst: a new dst gets the whole
+ record; an existing one keeps its own record except the dword at +59h and the 0Dh bytes at +4, which come from
+ src. Returns 0, or -1 on any file error. */
 typedef struct GameSettings { unsigned char b[0x75]; } GameSettings;
 
 int CopyGameSettings(char *src, char *dst)

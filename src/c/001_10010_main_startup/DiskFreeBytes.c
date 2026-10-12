@@ -1,8 +1,8 @@
-/* Main / startup: disk space. */
+/* Main startup: disk space. */
 #include "nhl95.h"
 
-/* DiskFreeBytes (106C8) - free bytes on drive (0 = default): available clusters * sectors per cluster * bytes per
-   sector; a DOS error is fatal. */
+/* DiskFreeBytes: free bytes on drive (0 = default): available clusters * sectors per cluster * bytes per
+ sector; a DOS error is fatal. */
 typedef struct DiskFree {
     unsigned short total_clusters;
     unsigned short avail_clusters;

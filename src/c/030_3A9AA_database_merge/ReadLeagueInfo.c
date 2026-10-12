@@ -1,10 +1,10 @@
 /* Database merge: league info file. */
 #include "nhl95.h"
 
-/* ReadLeagueInfo (3D8DD) - PC only: read the league header PINFO.DB of directory dir (see WriteLeagueInfo): words
-   a at 0, b at 2, *saved at 4, the 13-byte name at 6, word d at 13h, the 11-byte password pw at 15h and the
-   30Ch-byte team table teams at 20h, stopping at the first error; then *saved = GAME.SAV exists there. Without
-   PINFO.DB: "can't read league <current league name>" message box at the mouse and error 1. Returns the error. */
+/* ReadLeagueInfo: read the league header PINFO.DB of directory dir (see WriteLeagueInfo): words
+ a at 0, b at 2, *saved at 4, the 13-byte name at 6, word d at 13h, the 11-byte password pw at 15h and the
+ 30Ch-byte team table teams at 20h, stopping at the first error; then *saved = GAME.SAV exists there. Without
+ PINFO.DB: "can't read league <current league name>" message box at the mouse and error 1. Returns the error. */
 int ReadLeagueInfo(char *dir, void *teams, char *pw, short *b, void *a, void *d, int *saved, char *name)
 {
     int btn;

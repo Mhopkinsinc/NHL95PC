@@ -1,9 +1,9 @@
 /* Engine player logic: joystick move. */
 #include "nhl95.h"
 
-/* MoveInDir (49260) - move p by joystick direction dir: goalies use goalieacc; no direction (8+): stop (dir 9 while
-   moving) or the stand animation 289h unless one is running; otherwise turn one step toward dir (facedir
-   +/- 1) and skate (SPA 2E9h, playeracc). */
+/* MoveInDir: move p by joystick direction dir: goalies use goalieacc; no direction (8+): stop (dir 9 while
+ moving) or the stand animation 289h unless one is running; otherwise turn one step toward dir (facedir
+ +/- 1) and skate (SPA 2E9h, playeracc). */
 void MoveInDir(Player *p, short dir)
 {
     if (p->position == 0) {

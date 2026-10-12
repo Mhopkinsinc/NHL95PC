@@ -18,8 +18,8 @@ global CanBlockShot_ret6, CanBlockShot_ret5
 global Readjoy_tail, joyq_pop, joyq_flush, joyq_peek, lineinput
 global faceoffinput, CanBlockShot, OppInReach, holdplayer, lcselect, getlchoice, lcfound, Readjoy1
 global Readjoy2, CenterMouse
-; Input queue (PC only).  The timer ISR (main_startup SampleInputTick) samples both pads every 5 ticks
-; into joyqueue (50 records of 3 bytes) while joysampling is set.  The main loop takes the
+; Input queue. The timer ISR (main_startup SampleInputTick) samples both pads every 5 ticks
+; into joyqueue (50 records of 3 bytes) while joysampling is set. The main loop takes the
 ; frame's record with joyq_peek (-> joyrec, read by Readjoy1/Readjoy2) and drops it with joyq_pop.
 joyq_pop:
 push dword 14h	; 4FCE8
@@ -89,9 +89,9 @@ add eax, joyqueue	; 4FD87
 pop edx	; 4FD8C
 ret	; 4FD8D
 %endif ; C
-; lineinput: 93G lineinput role.  The PC line change box is one-button: the highlighted choice
-; (lcsel / lcline) cycles every 60 frames (lctimer) and blinks every 12 (lcblink); a press takes it
-; through lcfound.  Otherwise the player skates (doplayeracc) as in 93G.
+; lineinput: role. The PC line change box is one-button: the highlighted choice
+; (lcsel lcline) cycles every 60 frames (lctimer) and blinks every 12 (lcblink); a press takes it
+; through lcfound. Otherwise the player skates (doplayeracc).
 lineinput:
 push dword 18h	; 4FD8E
 call __CHK	; 4FD93
@@ -194,7 +194,7 @@ sar edx, 10h	; 4FEFE
 mov eax, ecx	; 4FF01
 call doplayeracc	; 4FF03
 jmp near CanBlockShot_ret5	; 4FF08
-; faceoffinput = 93G faceoffinput (afaceoffpl 17h, fodir1/fodir2, pf2aip).  PC adds an automatic
+; faceoffinput: (afaceoffpl 17h, fodir1/fodir2, pf2aip). PC adds an automatic
 ; pull when temp5 runs out (SPA 7F1h) and picks the pull anim by word_DFF42.
 faceoffinput:
 push dword 10h	; 4FF0D
@@ -283,9 +283,9 @@ call SetSPA	; 4FFE7
 pop ebx	; 4FFEC
 ret	; 4FFED
 %endif ; C
-; CanBlockShot (PC only): may this player dive to block a shot?  Shooter = puck carrier, or
+; CanBlockShot: may this player dive to block a shot? Shooter = puck carrier, or
 ; lastplayer if the puck is loose and heading at his goal; shooter must be in a shooting SPA, the
-; player between him and the puck, facing him, and closer than the puck.  Returns 0, or the dive
+; player between him and the puck, facing him, and closer than the puck. Returns 0, or the dive
 ; direction+1 (0Ah = straight), direction also in [esi+4Ah]; holdplayer passes it to BlockShotDive.
 CanBlockShot:
 push dword 34h	; 4FFEE
@@ -638,8 +638,8 @@ cmp ebp, byte 6	; 503C1
 jl short OppInReach.loop	; 503C4
 xor eax, eax	; 503C6
 jmp near CanBlockShot_ret6	; 503C8
-; holdplayer = 93G holdplayer (A button, not the puck carrier) with two PC checks first:
-;   OppInReach -> hold anim 873h;  CanBlockShot -> dive (BlockShotDive);  else Acheck on SortCords[impactp].
+; holdplayer: (A button, not the puck carrier) with two PC checks first:
+; OppInReach -> hold anim 873h; CanBlockShot -> dive (BlockShotDive); else Acheck on SortCords[impactp].
 ; C: src/c/038_4FCE8_engine_input/holdplayer.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/holdplayer.inc"
@@ -686,8 +686,8 @@ pop edx	; 50431
 pop ebx	; 50432
 ret	; 50433
 %endif ; C
-; lcselect (PC only): line change by number (lcrequest/lcreqchoice from the PC keys).  Same tail
-; as lcfound, but the line comes from the choice directly (+4 / +6 for PP / PK) instead of lchoicetab.
+; lcselect: line change by number (lcrequest/lcreqchoice from the PC keys). Same tail
+; as lcfound, but the line comes from the choice directly (+4 +6 for PP PK) instead of lchoicetab.
 ; C: src/c/038_4FCE8_engine_input/lcselect.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/lcselect.inc"
@@ -765,12 +765,12 @@ pop ecx	; 504D7
 pop ebx	; 504D8
 ret	; 504D9
 %endif ; C
-; doinput = 93G doinput from .0 on (the PC reads the pads in Readjoy1/2 and calls this per
+; doinput: from.0 on (the PC reads the pads in Readjoy1/2 and calls this per
 ; controlled player; regd0 dpad, regd1 new presses, regd2 changes, regd3 held; bit 4 B, 5 C, 6 A):
-;   PC line change request -> lcselect; faceoff -> faceoffinput; pf2lcm -> lineinput; pfjoycon;
-;   pfalock: B -> changeplayer, else the PC one-timer switch of control to passplayer;
-;   puck carrier (.pc1): passmode / ShotMode / B setpassmode / A SetLCmode / C SetShotMode / skate;
-;   other (.notpc): A holdplayer, B changeplayer, C burst, else skate.
+; PC line change request -> lcselect; faceoff -> faceoffinput; pf2lcm -> lineinput; pfjoycon
+; pfalock: B -> changeplayer, else the PC one-timer switch of control to passplayer
+; puck carrier (.pc1): passmode ShotMode B setpassmode A SetLCmode C SetShotMode skate
+; other (.notpc): A holdplayer, B changeplayer, C burst, else skate.
 doinput:
 push dword 14h	; 504DA
 call __CHK	; 504DF
@@ -1194,7 +1194,7 @@ pop ecx	; 50A02
 pop ebx	; 50A03
 ret	; 50A04
 %endif ; C
-; Readjoy1 / Readjoy2 = 93G middle93_1 Readjoy1/2, reading byte 0 / 1 of joyrec instead of the pad.
+; Readjoy1 Readjoy2 = Readjoy1/2, reading byte 0 1 of joyrec instead of the pad.
 Readjoy1:
 push dword 10h	; 50A05
 call __CHK	; 50A0A

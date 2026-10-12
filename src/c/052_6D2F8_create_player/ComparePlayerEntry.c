@@ -1,8 +1,8 @@
-/* Create player: player list sort. */
+/* Create player: list sort. */
 #include "nhl95.h"
 
-/* ComparePlayerEntry (6D78B) - qsort compare for player list rows: same position letter (byte 0) sorts by name (+0Bh),
-   empty rows last, then positions in the order L, C, R, D, others. */
+/* ComparePlayerEntry: qsort compare for player list rows: same position letter (byte 0) sorts by name (+0Bh),
+ empty rows last, then positions in the order L, C, R, D, others. */
 int ComparePlayerEntry(unsigned char *a, unsigned char *b)
 {
     if (*a == *b) {

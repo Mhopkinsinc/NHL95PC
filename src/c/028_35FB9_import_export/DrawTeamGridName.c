@@ -1,10 +1,10 @@
-/* Import / export: team grid cell. */
+/* Import export: team grid cell. */
 #include "nhl95.h"
 
-/* DrawTeamGridName (37C53) - PC only: in the dialog text colours, for the cell of the 4 x 7 team grid tab holding
-   team: draw bitmap bm clipped to the cell (sub_B4BC4 clip 77 wide, the font height + 1 high, from x 57 / 15 + 85
-   per column, y 151 + 92 per row; sub_91370), restore the full-screen clip and print the team's name (names, 30
-   bytes per team) centred under it in shadow text. */
+/* DrawTeamGridName: in the dialog text colours, for the cell of the 4 x 7 team grid tab holding
+ team: draw bitmap bm clipped to the cell (sub_B4BC4 clip 77 wide, the font height + 1 high, from x 57 15 + 85
+ per column, y 151 + 92 per row; sub_91370), restore the full-screen clip and print the team's name (names, 30
+ bytes per team) centred under it in shadow text. */
 void DrawTeamGridName(int team, char *names, int bm, unsigned char *tab)
 {
     int c;

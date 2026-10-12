@@ -1,9 +1,9 @@
 /* Engine display: game palette. */
 #include "nhl95.h"
 
-/* LoadTeamPalette (673C5) - build the in-game palette: home's palette part from HOMEPALS.BIN to pal+180h (its remap table to
-   byte_DC9D8), vis's from AWAYPALS.BIN to pal+240h (remap to byte_DC8D8, entries 90h and up shifted by 40h), and
-   the rink palette (RINKPAL Pal30 shape) for entries 0-7Fh and the bytes from 2F1h on. */
+/* LoadTeamPalette: build the in-game palette: home's palette part from HOMEPALS.BIN to pal+180h (its remap table to
+ byte_DC9D8), vis's from AWAYPALS.BIN to pal+240h (remap to byte_DC8D8, entries 90h and up shifted by 40h), and
+ the rink palette (RINKPAL Pal30 shape) for entries 0-7Fh and the bytes from 2F1h on. */
 void LoadTeamPalette(int home, int vis, unsigned char *pal)
 {
     char path[16];

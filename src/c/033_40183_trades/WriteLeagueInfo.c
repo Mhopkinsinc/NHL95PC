@@ -1,9 +1,9 @@
 /* Trades: league info file. */
 #include "nhl95.h"
 
-/* WriteLeagueInfo (413CD) - PC only: create PINFO.DB in directory dir and write the league header: words a at
-   0, b at 2, c at 4, the 13-byte name at 6, word d at 13h, the 11-byte password pw at 15h and the 30Ch-byte team
-   table teams at 20h, stopping at the first error. Returns the error (0 ok). */
+/* WriteLeagueInfo: create PINFO.DB in directory dir and write the league header: words a at
+ 0, b at 2, c at 4, the 13-byte name at 6, word d at 13h, the 11-byte password pw at 15h and the 30Ch-byte team
+ table teams at 20h, stopping at the first error. Returns the error (0 ok). */
 int WriteLeagueInfo(char *dir, void *teams, char *pw, int b, short a, short d, short c, char *name)
 {
     char path[32];

@@ -1,10 +1,10 @@
 /* Database dialogs: dialog buttons. */
 #include "nhl95.h"
 
-/* DrawDbDialogButtons (72605) - PC only: draw the database dialog's button labels in colour F8h on FFh. Without a tab
-   (fdlgtab < 0): Open, Delete, Done (FAh), Current / Original / Temporary and the no-arrow art. Otherwise the
-   Temporary / Original / Current choices not masked off (fdlgmask bits 7 / 6 / 5; Current via sub_92CD0), the tab
-   art of tab 0-2 (exhibition / playoffs / league playoffs) and Delete (in FAh on tab 2). */
+/* DrawDbDialogButtons: draw the database dialog's button labels in colour F8h on FFh. Without a tab
+ (fdlgtab < 0): Open, Delete, Done (FAh), Current Original Temporary and the no-arrow art. Otherwise the
+ Temporary Original Current choices not masked off (fdlgmask bits 7 6 5; Current via sub_92CD0), the tab
+ art of tab 0-2 (exhibition playoffs league playoffs) and Delete (in FAh on tab 2). */
 void DrawDbDialogButtons(void)
 {
     sub_8E9C0(0xF8, 0xFF);

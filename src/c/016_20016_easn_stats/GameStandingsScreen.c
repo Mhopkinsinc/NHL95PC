@@ -1,10 +1,10 @@
 /* EASN stats: in-game standings screen. */
 #include "nhl95.h"
 
-/* GameStandingsScreen (203FA) - stats menu "standings" in a game: in the playoffs load the EASN font (EASN.VFN,
-   dword_C65A8) and the background bank for the stats source (statsbgnames, from the CD when fileoncd 8Ch / 8Dh
-   says so; dword_C65AC) once, show the playoff tree and redraw the menu bar; otherwise free the desk buffers, reset
-   the clip, redraw the menu bar and show the standings. Returns 0. */
+/* GameStandingsScreen: stats menu "standings" in a game: in the playoffs load the EASN font (EASN.VFN,
+ dword_C65A8) and the background bank for the stats source (statsbgnames, from the CD when fileoncd 8Ch 8Dh
+ says so; dword_C65AC) once, show the playoff tree and redraw the menu bar; otherwise free the desk buffers, reset
+ the clip, redraw the menu bar and show the standings. Returns 0. */
 int GameStandingsScreen(void)
 {
     char *bank;

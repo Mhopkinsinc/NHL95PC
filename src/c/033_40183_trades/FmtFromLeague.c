@@ -1,7 +1,7 @@
 /* Trades: labels. */
 #include "nhl95.h"
 
-/* FmtFromLeague (41171) - dst = name + " from league " + file without its extension. */
+/* FmtFromLeague: dst = name + " from league " + file without its extension. */
 void FmtFromLeague(char *dst, char *name, char *file)
 {
     char buf[16];

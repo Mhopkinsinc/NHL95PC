@@ -1,9 +1,9 @@
 /* Settings dialogs: exhibition settings dialog. */
 #include "nhl95.h"
 
-/* DrawExhSetDlg (7C1AC) - draw the exhibition settings dialog: load the SETTING bank (from the CD when fileoncd says
-   so), draw its DBOX art at 10 / 13h and free it; label "Music" / "Sound" with the sound device 10h and "Digitized
-   speech" with music off (the greyed items), then the heading for gamemode (DrawSettingsHeading, colour FAh). */
+/* DrawExhSetDlg: draw the exhibition settings dialog: load the SETTING bank (from the CD when fileoncd says
+ so), draw its DBOX art at 10 13h and free it; label "Music" "Sound" with the sound device 10h and "Digitized
+ speech" with music off (the greyed items), then the heading for gamemode (DrawSettingsHeading, colour FAh). */
 void DrawExhSetDlg(void)
 {
     char path[32];

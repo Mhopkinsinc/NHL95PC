@@ -1,8 +1,8 @@
 /* Settings dialogs: options to check bits. */
 #include "nhl95.h"
 
-/* LeagueOptsToBits (7A88E) - like ExhOptsToBits for the league settings dialog, plus the league option in bits 12-14 as
-   one check bit (1 -> 10h, 3 -> 20h, 5 -> 40h, 7 -> 80h in the second byte), then draw the checks. */
+/* LeagueOptsToBits: like ExhOptsToBits for the league settings dialog, plus the league option in bits 12-14 as
+ one check bit (1 -> 10h, 3 -> 20h, 5 -> 40h, 7 -> 80h in the second byte), then draw the checks. */
 void LeagueOptsToBits(void)
 {
     setbits[0] = gameopts.optbit0 | gameopts.offsides << 1 | gameopts.linechanges << 2

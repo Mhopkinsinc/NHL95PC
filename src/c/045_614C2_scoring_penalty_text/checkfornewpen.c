@@ -1,13 +1,13 @@
-/* Scoring / penalties: new penalty check (93G checkfornewpen). */
+/* Scoring penalties: new penalty check. */
 #include "nhl95.h"
 
-/* checkfornewpen (637B5) - 93G checkfornewpen: unless sflags bit 7 or word_CBC44, go over the penalty buffer
-   (PenBuf: penalty, player pairs up to a 0). Outside gmode bit 2: a penalty with a minimum (penmintab) is delayed
-   while the puck is loose or held by the other team (player < 6 is the home side) - gmode bit 3, ref arm up
-   (SetPA 1Ch) - else the ref signals (refsignal 28h, banner timer 50h with a banner up); then stop play for it
-   (Stop4Pen). A penalty not yet counted (player bit 7) gets marked, the countdown Pencntdwn raised to its delay
-   (pendelaytab x 32; 140h with word_CBEC6; a penalty shot (5) when penshotstart takes byte_C9111 / byte_C9146)
-   and word_CC0B0 raised to its box time (byte_C9142 x 32). */
+/* checkfornewpen: unless sflags bit 7 or word_CBC44, go over the penalty buffer
+ (PenBuf: penalty, player pairs up to a 0). Outside gmode bit 2: a penalty with a minimum (penmintab) is delayed
+ while the puck is loose or held by the other team (player < 6 is the home side) - gmode bit 3, ref arm up
+ (SetPA 1Ch) - else the ref signals (refsignal 28h, banner timer 50h with a banner up); then stop play for it
+ (Stop4Pen). A penalty not yet counted (player bit 7) gets marked, the countdown Pencntdwn raised to its delay
+ (pendelaytab x 32; 140h with word_CBEC6; a penalty shot (5) when penshotstart takes byte_C9111 byte_C9146)
+ and word_CC0B0 raised to its box time (byte_C9142 x 32). */
 void checkfornewpen(void)
 {
     short i;

@@ -2,10 +2,10 @@
 /* League schedule: playoff tree of a league (segment compiled without optimisation). */
 #include "nhl95.h"
 
-/* LoadLeagueTree (29B07) - PC only: fill the playoff tree from the stats league's schedule file: team names
-   (26 city names, then a blank entry), the 15 series (two teams each, FFh -> 26 = empty) from the series table at
-   +1998h of the file, the champion from TreeSeriesWinner on the final at +1BE4h (FFFFFFFF -> 26; same league as the
-   open one decides how), then free the file and run PlayoffTreeScreen. Returns 0. */
+/* LoadLeagueTree: fill the playoff tree from the stats league's schedule file: team names
+ (26 city names, then a blank entry), the 15 series (two teams each, FFh -> 26 = empty) from the series table at
+ +1998h of the file, the champion from TreeSeriesWinner on the final at +1BE4h (FFFFFFFF -> 26; same league as the
+ open one decides how), then free the file and run PlayoffTreeScreen. Returns 0. */
 int LoadLeagueTree(int a, int b)
 {
     int i;

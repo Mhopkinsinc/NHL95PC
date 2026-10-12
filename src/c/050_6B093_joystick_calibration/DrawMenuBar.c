@@ -8,9 +8,9 @@ typedef struct BarItem {
     int pad[3];
 } BarItem;
 
-/* DrawMenuBar (6B5E4) - draw the menu bar of n titles: text colour col1 on FFh (shadow 0); each title's box
-   (DrawMenuBox from x1 / 0 to x2 / y2 in col1 / col2 / col3) with its text 3 in and 2 down (PrintMenuText), then
-   the empty bar from after the last title to x 27Fh. */
+/* DrawMenuBar: draw the menu bar of n titles: text colour col1 on FFh (shadow 0); each title's box
+ (DrawMenuBox from x1 0 to x2 y2 in col1 col2 col3) with its text 3 in and 2 down (PrintMenuText), then
+ the empty bar from after the last title to x 27Fh. */
 void DrawMenuBar(void *bar, int n, int col1, int col2, int col3)
 {
     int i;

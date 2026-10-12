@@ -1,10 +1,10 @@
 /* Team select: game line editor dress callback. */
 #include "nhl95.h"
 
-/* GameDressPlayer (79F41) - game line editor callback: dress the selected player *sel (of the 1Ch dressed list,
-   gmroster 16h bytes each): his roster status (side's roster, 27h bytes per player, 444h per team) becomes 3, redraw
-   the line jerseys (DrawGameLineJerseys) and reprint his "<num> <name>" line in colour C0h on C1h. The other
-   arguments are unused. Returns 0. */
+/* GameDressPlayer: game line editor callback: dress the selected player *sel (of the 1Ch dressed list,
+ gmroster 16h bytes each): his roster status (side's roster, 27h bytes per player, 444h per team) becomes 3, redraw
+ the line jerseys (DrawGameLineJerseys) and reprint his "<num> <name>" line in colour C0h on C1h. The other
+ arguments are unused. Returns 0. */
 int GameDressPlayer(unsigned char *nums, int a, unsigned char side, int *sel, int art, int b, int c, int d, int e,
                     int f)
 {

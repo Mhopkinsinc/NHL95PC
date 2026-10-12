@@ -1,9 +1,9 @@
-/* Import / export: team grid cell highlight. */
+/* Import export: team grid cell highlight. */
 #include "nhl95.h"
 
-/* HighlightGridCell (37EA6) - PC only: for the cell of the 4 x 7 team grid tab holding team (x 62 / 20 + 85 per
-   column, y 86 + 92 per row): on, draw two nested frames in colour 80h (sub_92F50: the 74 x 61 box and one a pixel
-   bigger round it); off, erase them (sub_93000 with 0). */
+/* HighlightGridCell: for the cell of the 4 x 7 team grid tab holding team (x 62 20 + 85 per
+ column, y 86 + 92 per row): on, draw two nested frames in colour 80h (sub_92F50: the 74 x 61 box and one a pixel
+ bigger round it); off, erase them (sub_93000 with 0). */
 void HighlightGridCell(int team, unsigned char *tab, int on)
 {
     int r;

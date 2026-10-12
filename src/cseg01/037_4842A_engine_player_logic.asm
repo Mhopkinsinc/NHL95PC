@@ -352,7 +352,7 @@ pop ecx	; 48786
 pop ebx	; 48787
 ret	; 48788
 ; AddStar: PC three stars. eax = list index (0-2), edx = team, ebx = player. Stores (team, player) in startm/starpl
-;   unless the pair is already in the first eax entries. Returns 1 if added, 0 if a duplicate.
+; unless the pair is already in the first eax entries. Returns 1 if added, 0 if a duplicate.
 ; C: src/c/037_4842A_engine_player_logic/AddStar.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/AddStar.inc"
@@ -690,7 +690,7 @@ pop ecx	; 48AC5
 pop ebx	; 48AC6
 ret	; 48AC7
 ; PickThreeStars: PC three stars. Empties startm/starpl, records the winner (gwgteam, gwgplayer = its team field 2Eh)
-;   when the scores differ, then fills the 3 stars from the qsorted players (StarCompare) with AddStar.
+; when the scores differ, then fills the 3 stars from the qsorted players (StarCompare) with AddStar.
 PickThreeStars:
 push dword 0F4h	; 48AC8
 call __CHK	; 48ACD
@@ -1029,7 +1029,7 @@ jge short PickThreeStars.20	; 48F06
 inc ecx	; 48F08
 jmp short PickThreeStars.19	; 48F09
 ; StartThreeStars: PC end-of-game set-up for the three-stars ceremony (assthreestars, asstab 15h): PickThreeStars,
-;   clears the clock / line-change / signal state, stops the clock, empties the penalty boxes and places the players.
+; clears the clock line-change signal state, stops the clock, empties the penalty boxes and places the players.
 StartThreeStars:
 push dword 24h	; 48F0B
 call __CHK	; 48F10
@@ -1501,7 +1501,7 @@ pop edx	; 495B4
 pop ecx	; 495B5
 pop ebx	; 495B6
 ret	; 495B7
-; assthreestars: asstab 15h (PC-new). Announces star temp1: "%s Star" with 1st/2nd/3rd, the player's name, "EA Sports".
+; assthreestars: asstab 15h. Announces star temp1: "%s Star" with 1st/2nd/3rd, the player's name, "EA Sports".
 assthreestars:
 push dword 2Ch	; 495B8
 call __CHK	; 495BD
@@ -3517,7 +3517,7 @@ mov word [regd0], ax	; 4AFE6
 mov ax, word [byte ebx+temp4]	; 4AFEC
 mov word [regd1], ax	; 4AFF0
 jmp near asswingd_skate0	; 4AFF6
-; assdopen: asstab 0Dh (93G logic93_2 assdopen, player goes to the penalty box). Bumps PBnum (home) or PBnum+1 (away).
+; assdopen: asstab 0Dh (player goes to the penalty box). Bumps PBnum (home) or PBnum+1 (away).
 ; C: src/c/037_4842A_engine_player_logic/assdopen.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/assdopen.inc"
@@ -5434,8 +5434,8 @@ inc ebx	; 4C6E7
 cmp bx, byte 6	; 4C6E8
 jl short CountPuckThreat.3	; 4C6EC
 jmp near ass_popx	; 4C6EE
-; asspuckc: asstab 10h (93G logic93_3 asspuckc, player has the puck): checkob, chk4lc, chk4shot, chk4pass, then
-;   skateto with asspuckc_chkdir as the collision routine.
+; asspuckc: asstab 10h (player has the puck): checkob, chk4lc, chk4shot, chk4pass, then
+; skateto with asspuckc_chkdir as the collision routine.
 ; C: src/c/037_4842A_engine_player_logic/asspuckc.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/asspuckc.inc"

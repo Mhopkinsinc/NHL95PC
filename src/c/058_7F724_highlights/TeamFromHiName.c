@@ -1,8 +1,8 @@
 /* Highlights: team from a highlight file name. */
 #include "nhl95.h"
 
-/* TeamFromHiName (7FC5C) - cut s at the first separator (unk_C3470) and return the team whose abbreviation matches
-   (ignoring case; the last match of the 26), or -1. */
+/* TeamFromHiName: cut s at the first separator (unk_C3470) and return the team whose abbreviation matches
+ (ignoring case; the last match of the 26), or -1. */
 int TeamFromHiName(char *s)
 {
     int r;

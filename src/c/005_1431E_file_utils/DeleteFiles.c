@@ -1,8 +1,8 @@
 /* File utilities: delete files. */
 #include "nhl95.h"
 
-/* DeleteFiles (14368) - delete every file dir\name.ext matches (_dos_findfirst / _dos_findnext). Returns the find result
-   that ended the search (non-zero). */
+/* DeleteFiles: delete every file dir\name.ext matches (_dos_findfirst _dos_findnext). Returns the find result
+ that ended the search (non-zero). */
 typedef struct FindT {
     char reserved[21];
     char attrib;

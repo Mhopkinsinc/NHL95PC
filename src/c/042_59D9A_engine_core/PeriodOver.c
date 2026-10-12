@@ -1,10 +1,10 @@
 /* Engine core: end of period. */
 #include "nhl95.h"
 
-/* PeriodOver (5DEA6) - end of a period: clear the line change displays (energywarn, lcblink, lcline -1, lcboxon) and,
-   unless quitting (exitgame -1), switch ends (gmode bit 1) and advance gsp. From gsp 3 on: past 3 it goes back
-   to 3 (4 with full-length overtime, gameopts bit 9); at exactly 3 full-length overtime keeps the ends; a score
-   that is not tied sets gsp 4. */
+/* PeriodOver: end of a period: clear the line change displays (energywarn, lcblink, lcline -1, lcboxon) and,
+ unless quitting (exitgame -1), switch ends (gmode bit 1) and advance gsp. From gsp 3 on: past 3 it goes back
+ to 3 (4 with full-length overtime, gameopts bit 9); at exactly 3 full-length overtime keeps the ends; a score
+ that is not tied sets gsp 4. */
 void PeriodOver(void)
 {
     energywarn[0] = energywarn[1] = 0;

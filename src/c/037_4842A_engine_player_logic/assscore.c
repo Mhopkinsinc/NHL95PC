@@ -1,14 +1,14 @@
-/* Engine player logic: goal celebration (93G assscore). */
+/* Engine player logic: goal celebration. */
 #include "nhl95.h"
 
 #define PUCK ((Player *)puckstruct)
 
-/* assscore (4A90F) - 93G assscore: celebrate a goal. The scorer drops the puck (puckc -1; a puck in assignment 18h
-   goes to 1Ah). Not while flag 20h or heading to the bench (check4bench). A new assignment (bit 1): a random wait
-   temp1 (0-119), temp2 = 8 and the spot temp3 / temp4: -50h / 0 in gmode bit 7, else x +-100 by the camera side and
-   the camera y (55 lower on the left); the scorer (lastplayer) restarts the dance count dword_CCA58. When temp1
-   runs out: flag 20h, a new wait and SPA 731h - the scorer SPA 769h, up to 3 in a row (or at random) with no wait,
-   then count reset and a wait of at least 30. Else, unless pflags bit 3, skate to the spot. */
+/* assscore: celebrate a goal. The scorer drops the puck (puckc -1; a puck in assignment 18h
+ goes to 1Ah). Not while flag 20h or heading to the bench (check4bench). A new assignment (bit 1): a random wait
+ temp1 (0-119), temp2 = 8 and the spot temp3 temp4: -50h 0 in gmode bit 7, else x +-100 by the camera side and
+ the camera y (55 lower on the left); the scorer (lastplayer) restarts the dance count dword_CCA58. When temp1
+ runs out: flag 20h, a new wait and SPA 731h - the scorer SPA 769h, up to 3 in a row (or at random) with no wait,
+ then count reset and a wait of at least 30. Else, unless pflags bit 3, skate to the spot. */
 void assscore(Player *p)
 {
     Player *o;

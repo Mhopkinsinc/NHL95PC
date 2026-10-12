@@ -1,8 +1,8 @@
 /* Misc dialogs: list box hit test. */
 #include "nhl95.h"
 
-/* ListHitTest (3023E) - PC only: the row of a list box at x, y (inside 2 pixels of the box left, top, width w)
-   that point mx, my falls in: n rows of the font height (byte_D42C3) + 2. Returns the row or -1. */
+/* ListHitTest: the row of a list box at x, y (inside 2 pixels of the box left, top, width w)
+ that point mx, my falls in: n rows of the font height (byte_D42C3) + 2. Returns the row or -1. */
 int ListHitTest(int mx, int my, int left, int top, int w, int n)
 {
     int x1;

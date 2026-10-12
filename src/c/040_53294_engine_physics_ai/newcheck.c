@@ -1,8 +1,8 @@
-/* Engine physics / AI: check sounds (93G newcheck). */
+/* Engine physics AI: check sounds. */
 #include "nhl95.h"
 
-/* newcheck (58084) - body check sound: kind 2 adds sfx B1h; a hard hit (kind != 0) when word_E9B28 > 20h has a 1 in 2
-   chance of sfx 93h, otherwise alternate sfx B0h / B2h (word_CC0DA toggles). */
+/* newcheck: body check sound: kind 2 adds sfx B1h; a hard hit (kind != 0) when word_E9B28 > 20h has a 1 in 2
+ chance of sfx 93h, otherwise alternate sfx B0h B2h (word_CC0DA toggles). */
 void newcheck(short kind)
 {
     if (kind == 2) sfx(0xB1);

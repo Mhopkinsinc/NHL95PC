@@ -1,9 +1,9 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* OutputCurrentData (18D7F) - sports desk "output current data": ask for an output file name (8 characters,
-   TextInputDialog in the desk colours 41h / 40h / 42h, text 40h on 0) and, unless cancelled (Esc) or empty,
-   write the screen's text to it (WriteScreenTextFile). The dialog colours are restored. Returns 0. */
+/* OutputCurrentData: sports desk "output current data": ask for an output file name (8 characters,
+ TextInputDialog in the desk colours 41h 40h 42h, text 40h on 0) and, unless cancelled (Esc) or empty,
+ write the screen's text to it (WriteScreenTextFile). The dialog colours are restored. Returns 0. */
 int OutputCurrentData(void)
 {
     char name[12];

@@ -1,13 +1,13 @@
 /* Engine player logic: crowd reaction at a stoppage. */
 #include "nhl95.h"
 
-/* CrowdOnStoppage (4E71A) - PC only: the crowd's reaction at a whistle, unless replaying (gmode bit 4), an overlay is
-   up (ovltimer), and only for the stoppages RefPen 1Dh, 1Eh, 3, 4, 8 and 6: late in a period (clock
-   below half of PerTimeTotal, at least 60 s left) with sflags3 bit 7 set a one-time sample 2; the period ending
-   (gsp 2) sample 5; with speech on and music on a strength difference sometimes cheers or boos (4 / 1); otherwise
-   one of 8: 0 the team power-play / penalty-kill overlay (LoadTeamPPV 0, sfx on, a sound card, crowd not too loud;
-   returns 1 when shown), 1 the other overlay (LoadTeamPPV 2) with sample 9, 2-4 samples 6-8, 5 sample 0Bh. Returns
-   1 when an overlay was shown, else 0. */
+/* CrowdOnStoppage: the crowd's reaction at a whistle, unless replaying (gmode bit 4), an overlay is
+ up (ovltimer), and only for the stoppages RefPen 1Dh, 1Eh, 3, 4, 8 and 6: late in a period (clock
+ below half of PerTimeTotal, at least 60 s left) with sflags3 bit 7 set a one-time sample 2; the period ending
+ (gsp 2) sample 5; with speech on and music on a strength difference sometimes cheers or boos (4 1); otherwise
+ one of 8: 0 the team power-play penalty-kill overlay (LoadTeamPPV 0, sfx on, a sound card, crowd not too loud
+ returns 1 when shown), 1 the other overlay (LoadTeamPPV 2) with sample 9, 2-4 samples 6-8, 5 sample 0Bh. Returns
+ 1 when an overlay was shown, else 0. */
 int CrowdOnStoppage(void)
 {
     int diff;

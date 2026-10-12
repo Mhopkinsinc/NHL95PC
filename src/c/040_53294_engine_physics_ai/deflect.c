@@ -1,8 +1,8 @@
-/* Engine physics / AI: the puck deflects (93G deflect). */
+/* Engine physics AI: the puck deflects. */
 #include "nhl95.h"
 
-/* deflect (57A3E) - 93G deflect: the puck p is deflected: no carrier (puckc byte -1), random x / y velocity
-   -1000h..FFFh, random z velocity 0..FFFh (also left in regd0), then puckflip. */
+/* deflect: the puck p is deflected: no carrier (puckc byte -1), random x y velocity
+ -1000h..FFFh, random z velocity 0..FFFh (also left in regd0), then puckflip. */
 void deflect(Player *p)
 {
     *(unsigned char *)puckc = 0xFF;

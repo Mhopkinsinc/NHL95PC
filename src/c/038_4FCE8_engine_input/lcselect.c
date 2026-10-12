@@ -1,10 +1,10 @@
 /* Engine input: line change by number (PC). */
 #include "nhl95.h"
 
-/* lcselect (50434) - PC line change request n for p's team (line changes on): with unequal strength only choices 0-1
-   (+4 short-handed, +6 power play), else 0-3. Marks the change (pflags bit 3, tmflags bit 1 off); a new line
-   becomes tmline (regular lines also step tmlcnt mod 3), is drawn on the panel and set up (setpersonel).
-   Returns 1 when taken. */
+/* lcselect: PC line change request n for p's team (line changes on): with unequal strength only choices 0-1
+ (+4 short-handed, +6 power play), else 0-3. Marks the change (pflags bit 3, tmflags bit 1 off); a new line
+ becomes tmline (regular lines also step tmlcnt mod 3), is drawn on the panel and set up (setpersonel).
+ Returns 1 when taken. */
 int lcselect(Player *p, int n)
 {
     Team *tm;

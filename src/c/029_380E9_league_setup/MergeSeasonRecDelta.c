@@ -1,8 +1,8 @@
 /* League setup: database merge. */
 #include "nhl95.h"
 
-/* MergeSeasonRecDelta (3A71C) - add the changes of a player's season record (cur - old, the 18 stat words) to dst; for the
-   same player (a == b) also copy the 4 bytes at +24h. */
+/* MergeSeasonRecDelta: add the changes of a player's season record (cur - old, the 18 stat words) to dst; for the
+ same player (a == b) also copy the 4 bytes at +24h. */
 void MergeSeasonRecDelta(short *old, short *cur, short *dst, int a, int b)
 {
     dst[0] += cur[0] - old[0];

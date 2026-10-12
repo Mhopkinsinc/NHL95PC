@@ -1,8 +1,8 @@
 /* Announcer: playoff round clips. */
 #include "nhl95.h"
 
-/* PlayoffRoundClipD (84306) - buf = the speech clip name for playoff round round of conference conf (1 East, 2 West:
-   quarter-final, semi-final, final) or the Stanley Cup final (conf 3); d (down) variant. Unknown pairs leave buf. */
+/* PlayoffRoundClipD: buf = the speech clip name for playoff round round of conference conf (1 East, 2 West:
+ quarter-final, semi-final, final) or the Stanley Cup final (conf 3); d (down) variant. Unknown pairs leave buf. */
 void PlayoffRoundClipD(char *buf, unsigned conf, unsigned round)
 {
     switch (conf) {

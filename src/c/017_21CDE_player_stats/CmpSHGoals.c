@@ -1,9 +1,9 @@
 /* Player stats: leader sorting. */
 #include "nhl95.h"
 
-/* CmpSHGoals (25438) - qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
-   playoff stats at +12h): most short-handed goals (word +0Ah) first, then fewer games (+0), more points (+6), more goals (+2), more
-   of word +10h. */
+/* CmpSHGoals: qsort comparator of two skater stats records (indexes into statsskaterbuf, 2Fh bytes each, the
+ playoff stats at +12h): most short-handed goals (word +0Ah) first, then fewer games (+0), more points (+6), more goals (+2), more
+ of word +10h. */
 int CmpSHGoals(int *a, int *b)
 {
     unsigned short *p;

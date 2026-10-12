@@ -1,11 +1,11 @@
 /* Front end: sports desk. */
 #include "nhl95.h"
 
-/* PlayRandomHighlight (18F8D) - mark the other games that finished (period >= 5) since the last look as played; if all
-   six are, return 0. Otherwise pick a random unplayed game, play a highlight of it (StartHL2 with its two teams,
-   scores and period; a finished game is shown in the third period with one goal less each) and keep the scores
-   it ends with for a game still in progress (period 4 becomes final, 5). Remember the periods in dword_DC868 and
-   return StartHL2's result. */
+/* PlayRandomHighlight: mark the other games that finished (period >= 5) since the last look as played; if all
+ six are, return 0. Otherwise pick a random unplayed game, play a highlight of it (StartHL2 with its two teams,
+ scores and period; a finished game is shown in the third period with one goal less each) and keep the scores
+ it ends with for a game still in progress (period 4 becomes final, 5). Remember the periods in dword_DC868 and
+ return StartHL2's result. */
 int PlayRandomHighlight(void)
 {
     int b;

@@ -12,10 +12,10 @@ global StopNA, doplayeracc, dostop, goalieacc
 global EvadePlayers_popedi
 global noturn0, playeracc, skateto, skatetopuck, EvadePlayers, EvadePlayers_popebp, EvadePC
 global EvadePC_x, avdgoal_box, avdgoal, avdgoal_jt
-; doplayeracc: player gets acc. in a direction (93G logic93_5 doplayeracc, ;player a3 gets acc. in d0 dir).
-;   eax = player struct, edx = direction (low nibble: 0-7 skate, 8 none, 9 stop). No result.
-;   Goalie -> goalieacc. Picks the glide animation, turns facedir by doplayeracc_ftab at a rate of $300-speed (min $180),
-;   sets/clears pfrev (skating backwards in own zone), then playeracc. PC: struct 10h (the referee) has its own animations.
+; doplayeracc: player gets acc. in a direction (player a3 gets acc. in d0 dir).
+; eax = player struct, edx = direction (low nibble: 0-7 skate, 8 none, 9 stop). No result.
+; Goalie -> goalieacc. Picks the glide animation, turns facedir by doplayeracc_ftab at a rate of $300-speed (min $180),
+; sets/clears pfrev (skating backwards in own zone), then playeracc. PC: struct 10h (the referee) has its own animations.
 doplayeracc:
 push dword 20h	; 5E16D
 call __CHK	; 5E172
@@ -34,7 +34,7 @@ jmp near .x	; 5E191
 .1:
 test byte [byte eax+pflags], 10h	; 5E196
 je short .2	; 5E19A
-mov esi, 529h	; 5E19C	; SPAglideback (93G $A80)
+mov esi, 529h	; 5E19C	; SPAglideback
 jmp short .d0	; 5E1A1
 .2:
 cmp word [byte ecx+SCnum], byte 10h	; 5E1A3
@@ -55,7 +55,7 @@ jmp short .d0	; 5E1D2
 mov esi, 0A5Bh	; 5E1D4	; referee glide
 jmp short .d0	; 5E1D9
 .5:
-mov esi, 289h	; 5E1DB	; SPAglide (93G $52C)
+mov esi, 289h	; 5E1DB	; SPAglide
 .d0:
 xor bh, bh	; 5E1E0
 and bl, 0Fh	; 5E1E2
@@ -92,7 +92,7 @@ sub eax, edi	; 5E24A
 mov word [byte esp+04h], ax	; 5E24C
 mov ax, word [byte ecx+Ypos+2]	; 5E251
 mov edx, dword [puckvy]	; 5E255
-movsx dx, byte [byte edx+01h]	; 5E25B	; puckvy high byte (93G move.b (puckvy).w,d1)
+movsx dx, byte [byte edx+01h]	; 5E25B	; puckvy high byte (d1)
 mov dword [esp], edx	; 5E260
 mov edx, dword [pucky]	; 5E263
 mov dx, word [edx]	; 5E269
@@ -240,7 +240,7 @@ jmp short .13	; 5E438
 mov esi, 0ABBh	; 5E43A
 jmp short .13	; 5E43F
 .9:
-mov esi, 331h	; 5E441	; SPAturnl (93G $6B4-$32)
+mov esi, 331h	; 5E441	; SPAturnl
 jmp short .13	; 5E446
 .s2:
 cmp word [byte ecx+SCnum], byte 10h	; 5E448
@@ -261,7 +261,7 @@ jmp short .13	; 5E477
 mov esi, 0AD3h	; 5E479
 jmp short .13	; 5E47E
 .12:
-mov esi, 349h	; 5E480	; SPAturnr (93G $6B4)
+mov esi, 349h	; 5E480	; SPAturnr
 .13:
 or byte [byte ecx+pflags2], 2	; 5E485	; bset pf2aip
 .s3:
@@ -290,10 +290,10 @@ pop esi	; 5E4C0
 pop ecx	; 5E4C1
 pop ebx	; 5E4C2
 ret	; 5E4C3
-; EvadePlayers: PC-new skateto collision routine (the 93G a0 routine slot; 93G has only EvadePC).
-;   eax = player struct. Behind the net (|Ypos|>F2h, |Xpos|<32h): regd0 = a direction round the net from the Xpos/Yvel signs.
-;   Else for every other SortCords entry (0-14, not the goalies 12/13): if the predicted x and y gaps (pos + Xvel/Yvel high
-;   byte) are both within 28h and the closest so far, regd0 = a sidestep direction from vtoa of the gap. No result.
+; EvadePlayers: skateto collision routine.
+; eax = player struct. Behind the net (|Ypos|>F2h, |Xpos|<32h): regd0 = a direction round the net from the Xpos/Yvel signs.
+; Else for every other SortCords entry (0-14, not the goalies 12/13): if the predicted x and y gaps (pos + Xvel/Yvel high
+; byte) are both within 28h and the closest so far, regd0 = a sidestep direction from vtoa of the gap. No result.
 EvadePlayers:
 push dword 30h	; 5E4C4
 call __CHK	; 5E4C9
@@ -550,8 +550,8 @@ pop edx	; 5E7FA
 pop ecx	; 5E7FB
 pop ebx	; 5E7FC
 ret	; 5E7FD
-; EvadePC: player should avoid the puck carrier (93G logic93_3 EvadePC, ;player a3 should avoid the puck carrier if he's on my team).
-;   eax = player struct; skateto's a0 routine (passed in edx). Result in regd0 (a direction), as 93G returns d0.
+; EvadePC: player should avoid the puck carrier (player a3 should avoid the puck carrier if he's on my team).
+; eax = player struct; skateto's a0 routine (passed in edx). Result in regd0 (a direction).
 EvadePC:
 push dword 1Ch	; 5E7FE
 call __CHK	; 5E803
@@ -616,7 +616,7 @@ movsx edx, dx	; 5E8C5
 cwde	; 5E8C8
 call vtoa	; 5E8C9
 mov word [regd0], ax	; 5E8CE
-test byte [gameopts], 2	; 5E8D4	; gameopts bit 1: offsides on (93G btst #gmoffs,gmode)
+test byte [gameopts], 2	; 5E8D4	; gameopts bit 1: offsides on (gmode)
 je short EvadePC_x	; 5E8DB
 test byte [byte ebx+pflags], 80h	; 5E8DD
 jne short .5	; 5E8E1
@@ -628,7 +628,7 @@ jmp short .y	; 5E8EB
 mov eax, dword [byte ebx+Ypos]	; 5E8ED
 sar eax, 10h	; 5E8F0
 .y:
-sub eax, byte 4Eh	; 5E8F3	; 93G subi #$58
+sub eax, byte 4Eh	; 5E8F3	; subi #$58
 mov word [regd1], ax	; 5E8F6
 cmp ax, 0Ah	; 5E8FC	; cmp.w #10,d1
 jg short EvadePC_x	; 5E900
@@ -647,10 +647,10 @@ mov word [regd0], 6	; 5E92A
 EvadePC_x:
 add esp, byte 4	; 5E933
 jmp near EvadePlayers_popedi	; 5E936
-; skateto: player skates to the point regd0/regd1 (93G logic93_5 skateto, ;a0 = extra routine for collision avoidance,
-;   d0/d1 = x/y cord to skate to). eax = player, edx = routine to call (0 = none), regd0/regd1 = target.
-;   Every 12 ticks (temp2+1 countdown): avdgoal, aim with the velocity lead, vtoa (9 = close enough), the routine,
-;   keep the direction in temp2; stopped with no direction -> face the puck (or xc1/yc1 in a fight). Then doplayeracc.
+; skateto: player skates to the point regd0/regd1 (;a0 = extra routine for collision avoidance,
+; d0/d1 = x/y cord to skate to). eax = player, edx = routine to call (0 = none), regd0/regd1 = target.
+; Every 12 ticks (temp2+1 countdown): avdgoal, aim with the velocity lead, vtoa (9 = close enough), the routine,
+; keep the direction in temp2; stopped with no direction -> face the puck (or xc1/yc1 in a fight). Then doplayeracc.
 skateto:
 push dword 18h	; 5E93B
 call __CHK	; 5E940
@@ -805,9 +805,9 @@ pop esi	; 5EB13
 pop ecx	; 5EB14
 pop ebx	; 5EB15
 ret	; 5EB16
-; skatetopuck: player skates to the puck (93G logic93_5 skatetopuck, ;player a3 should skate to puck). eax = player.
-;   skatetopuckinit inline (puck pos + half its velocity high byte), every 10 ticks (goalie 5): avdgoal, aim (PC: straight
-;   at the puck when it is slow and within 18h, else GetHot + velocity lead), then the 93G sweep check (vecdist 900..1444 -> Sweepcheck).
+; skatetopuck: player skates to the puck (player a3 should skate to puck). eax = player.
+; skatetopuckinit inline (puck pos + half its velocity high byte), every 10 ticks (goalie 5): avdgoal, aim (PC: straight
+; at the puck when it is slow and within 18h, else GetHot + velocity lead), then the sweep check (vecdist 900..1444 -> Sweepcheck).
 skatetopuck:
 push dword 24h	; 5EB17
 call __CHK	; 5EB1C
@@ -1013,9 +1013,9 @@ sar edx, 18h	; 5ED9E
 mov eax, esi	; 5EDA1
 call doplayeracc	; 5EDA3
 jmp near EvadePC_x	; 5EDA8
-; playeracc: accelerate player in direction edx (93G logic93_5 playeracc, ;d2 = direction of acc). eax = player.
-;   dirtab x/y times (legstr+30h)/64 (PC), wall push test, accel factor 32-weight/8+legstr (+legstr+20 goalie), max speed
-;   check against MaxSpeed (referee: fixed 0Fh/0Ch), then the energy drain when fatigue is on (93G .sube, getpde/setpde inline).
+; playeracc: accelerate player in direction edx (;d2 = direction of acc). eax = player.
+; dirtab x/y times (legstr+30h)/64 (PC), wall push test, accel factor 32-weight/8+legstr (+legstr+20 goalie), max speed
+; check against MaxSpeed (referee: fixed 0Fh/0Ch), then the energy drain when fatigue is on (getpde/setpde inline).
 ; C: src/c/043_5E16D_engine_skating/playeracc.c
 %ifdef CBUILD
 %include "c/043_5E16D_engine_skating/playeracc.inc"
@@ -1081,7 +1081,7 @@ xor eax, eax	; 5EE47
 mov al, byte [byte ebx+legstr]	; 5EE49
 add eax, edx	; 5EE4C
 mov word [regd2], ax	; 5EE4E
-cmp word [byte ebx+position], byte 0	; 5EE54	; goalie adds legstr again plus 14h (93G legstr plus 8)
+cmp word [byte ebx+position], byte 0	; 5EE54	; goalie adds legstr again plus 14h
 jne short .ng	; 5EE59
 xor ah, ah	; 5EE5B
 mov al, byte [byte ebx+legstr]	; 5EE5D
@@ -1133,7 +1133,7 @@ jmp short .6	; 5EEFD
 mov dword [regd2], 0Ch	; 5EEFF
 jmp short .6	; 5EF09
 .5:
-mov edx, dword [byte ebx+pnum-3]	; 5EF0B	; pnum: energy level (93G getpde)
+mov edx, dword [byte ebx+pnum-3]	; 5EF0B	; pnum: energy level
 sar edx, 18h	; 5EF0E
 mov eax, dword [byte ebx+06Ch]	; 5EF11
 mov edx, dword [byte eax+edx*2+tmpde-2]	; 5EF14
@@ -1171,7 +1171,7 @@ jne near .x	; 5EF90
 cmp word [byte ebx+position], byte 0	; 5EF96
 je near .x	; 5EF9B
 mov eax, 80h	; 5EFA1
-call randomd0	; 5EFA6	; randomd0(80h): 1 in 128 ticks (93G HVcount & $7F)
+call randomd0	; 5EFA6	; randomd0(80h): 1 in 128 ticks
 mov word [regd0], ax	; 5EFAB
 test ax, ax	; 5EFB1
 jne near .x	; 5EFB4
@@ -1231,9 +1231,9 @@ pop ecx	; 5F04B
 pop ebx	; 5F04C
 ret	; 5F04D
 %endif ; C
-; avdgoal_box: PC-new helper of avdgoal. eax = player, edx/ebx = goal x limits, ecx = goal y, [esp+4]/[esp+8] = int* for
-;   the side bits of the player and the target (1/4 x, 2/8 y). Returns eax 1 when the line player->target (regd0/regd1)
-;   crosses this goal's box, else 0. ret 8.
+; avdgoal_box: helper of avdgoal. eax = player, edx/ebx = goal x limits, ecx = goal y, [esp+4]/[esp+8] = int* for
+; the side bits of the player and the target (1/4 x, 2/8 y). Returns eax 1 when the line player->target (regd0/regd1)
+; crosses this goal's box, else 0. ret 8.
 avdgoal_box:
 push dword 1Ch	; 5F04E
 call __CHK	; 5F053
@@ -1329,9 +1329,9 @@ dd avdgoal.c9
 dd avdgoal.x
 dd avdgoal.x
 dd avdgoal.c12
-; avdgoal: don't try to skate thru goal (93G logic93_5 avdgoal, ;if d0/d1 cords intersect thru goal then provide new d0/d1 cords).
-;   eax = player, regd0/regd1 = target, changed in place. PC rewrite: goal line 0E8h, half-width 2Ch (goalie: tighter box),
-;   avdgoal_box for each goal, then a 13-case switch on the side bits picks the corner to skate to.
+; avdgoal: don't try to skate thru goal (;if d0/d1 cords intersect thru goal then provide new d0/d1 cords).
+; eax = player, regd0/regd1 = target, changed in place. PC rewrite: goal line 0E8h, half-width 2Ch (goalie: tighter box),
+; avdgoal_box for each goal, then a 13-case switch on the side bits picks the corner to skate to.
 avdgoal:
 push dword 5Ch	; 5F151
 call __CHK	; 5F156
@@ -1870,8 +1870,8 @@ je near avdgoal.33	; 5F738
 .x:
 mov esp, ebp	; 5F73E
 jmp near EvadePlayers_popebp	; 5F740
-; dostop: player stops (93G logic93_5 dostop). eax = player. |Xvel| or |Yvel| > 1000h: stop animation (SPAstop, sets pf2aip)
-;   or SPAglide when skating backwards; then StopNA.
+; dostop: player stops. eax = player. |Xvel| or |Yvel| > 1000h: stop animation (SPAstop, sets pf2aip)
+; or SPAglide when skating backwards; then StopNA.
 ; C: src/c/043_5E16D_engine_skating/dostop.c
 %ifdef CBUILD
 %include "c/043_5E16D_engine_skating/dostop.inc"
@@ -1928,7 +1928,7 @@ jmp short .0	; 5F7C9
 mov eax, 0AEBh	; 5F7CB	; referee stop
 jmp short .0	; 5F7D0
 .7:
-mov eax, 361h	; 5F7D2	; SPAstop (93G $6E6)
+mov eax, 361h	; 5F7D2	; SPAstop
 jmp short .0	; 5F7D7
 .8:
 cmp word [byte ebx+SCnum], byte 10h	; 5F7D9
@@ -1949,7 +1949,7 @@ jmp short .0	; 5F808
 mov eax, 0A5Bh	; 5F80A
 jmp short .0	; 5F80F
 .11:
-mov eax, 289h	; 5F811	; SPAglide (93G $52C)
+mov eax, 289h	; 5F811	; SPAglide
 .0:
 movsx edx, ax	; 5F816
 mov eax, ebx	; 5F819
@@ -1961,8 +1961,8 @@ pop edx	; 5F827
 pop ebx	; 5F828
 ret	; 5F829
 %endif ; C
-; StopNA: slow player by a step on each axis, no animation change (93G logic93_5 StopNA). eax = player.
-;   PC step 200+legstr (goalie 200+3*legstr); 93G $96 (150).
+; StopNA: slow player by a step on each axis, no animation change. eax = player.
+; PC step 200+legstr (goalie 200+3*legstr); (150).
 ; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (StopNA)
 %ifdef CBUILD
 %include "c/043_5E16D_engine_skating/EvadePlayers.StopNA.inc"
@@ -1977,7 +1977,7 @@ push esi	; 5F837
 push edi	; 5F838
 xor ebx, ebx	; 5F839
 mov bl, byte [byte eax+legstr]	; 5F83B
-lea edx, [dword ebx+0C8h]	; 5F83E	; step 200+legstr (93G 150)
+lea edx, [dword ebx+0C8h]	; 5F83E	; step 200+legstr
 cmp word [byte eax+position], byte 0	; 5F844
 jne short .1	; 5F849
 add ebx, ebx	; 5F84B	; goalie: +2*legstr
@@ -2020,9 +2020,9 @@ jge near EvadePlayers_popedi	; 5F8A1
 mov word [byte eax+Yvel], 0	; 5F8A7
 jmp near EvadePlayers_popedi	; 5F8AD
 %endif ; C
-; goalieacc: goalie gets acc. in direction edx (93G logic93_5 goalieacc). eax = goalie.
-;   Turns facedir one step toward the direction, SPAgskate, playeracc. PC: when the clock runs, he has no puck and his
-;   assignment is 0Fh, he turns toward the direction byte at +52h instead.
+; goalieacc: goalie gets acc. in direction edx. eax = goalie.
+; Turns facedir one step toward the direction, SPAgskate, playeracc. PC: when the clock runs, he has no puck and his
+; assignment is 0Fh, he turns toward the direction byte at +52h instead.
 ; C: src/c/043_5E16D_engine_skating/goalieacc.c
 %ifdef CBUILD
 %include "c/043_5E16D_engine_skating/goalieacc.inc"
@@ -2053,7 +2053,7 @@ ret	; 5F8EA
 .cgl:
 test byte [byte ebx+pflags2], 2	; 5F8EB
 jne near .x	; 5F8EF
-mov edx, 1	; 5F8F5	; SPAgready (93G 2)
+mov edx, 1	; 5F8F5	; SPAgready
 mov eax, ebx	; 5F8FA
 call SetSPA	; 5F8FC
 pop ecx	; 5F901
@@ -2099,7 +2099,7 @@ add eax, edx	; 5F965
 and eax, byte 7	; 5F967
 mov word [byte ebx+facedir], ax	; 5F96A
 .spa:
-mov edx, 1F1h	; 5F96E	; SPAgskate (93G $3F8)
+mov edx, 1F1h	; 5F96E	; SPAgskate
 mov eax, ebx	; 5F973
 call SetSPA	; 5F975
 mov edx, dword [byte ebx+facedir-2]	; 5F97A
@@ -2111,9 +2111,9 @@ pop ecx	; 5F987
 pop ebx	; 5F988
 ret	; 5F989
 %endif ; C
-; noturn0: doplayeracc when the wanted direction needs no turn (93G logic93_5 noturn0). eax = player, edx = direction
-;   minus facedir (0-7), ebx = facedir. Skating against the motion -> dostop; else skate animation (SPAskate/skatewp/skateback)
-;   and the inline 93G noturn (reverse when pfrev), then playeracc.
+; noturn0: doplayeracc when the wanted direction needs no turn. eax = player, edx = direction
+; minus facedir (0-7), ebx = facedir. Skating against the motion -> dostop; else skate animation (SPAskate/skatewp/skateback)
+; and the inline noturn (reverse when pfrev), then playeracc.
 noturn0:
 push dword 8	; 5F98A
 call __CHK	; 5F98F
@@ -2160,7 +2160,7 @@ and al, 7	; 5FA10
 mov word [byte ecx+facedir], ax	; 5FA12
 test byte [byte ecx+pflags], 10h	; 5FA16
 je short .2	; 5FA1A
-mov eax, 529h	; 5FA1C	; SPAglideback (93G $A80)
+mov eax, 529h	; 5FA1C	; SPAglideback
 jmp short .6	; 5FA21
 .2:
 cmp word [byte ecx+SCnum], byte 10h	; 5FA23
@@ -2181,7 +2181,7 @@ jmp short .6	; 5FA52
 mov eax, 0A5Bh	; 5FA54
 jmp short .6	; 5FA59
 .5:
-mov eax, 289h	; 5FA5B	; SPAglide (93G $52C)
+mov eax, 289h	; 5FA5B	; SPAglide
 .6:
 movsx edx, ax	; 5FA60
 mov eax, ecx	; 5FA63
@@ -2213,18 +2213,18 @@ mov edx, dword [puckc]	; 5FAAB
 movsx ax, byte [edx]	; 5FAB1
 cmp ax, word [byte ecx+SCnum]	; 5FAB5
 jne short .10	; 5FAB9
-mov eax, 2A1h	; 5FABB	; SPAskatewp (93G $55E)
+mov eax, 2A1h	; 5FABB	; SPAskatewp
 jmp short .ns	; 5FAC0
 .10:
 test byte [byte ecx+pflags2], 40h	; 5FAC2
 je short .11	; 5FAC6
-mov eax, 8D3h	; 5FAC8	; 93G $13A0 (pflags2 bit 6)
+mov eax, 8D3h	; 5FAC8	; (pflags2 bit 6)
 jmp short .ns	; 5FACD
 .11:
-mov eax, 2E9h	; 5FACF	; SPAskate (93G $5F0)
+mov eax, 2E9h	; 5FACF	; SPAskate
 jmp short .ns	; 5FAD4
 .12:
-mov eax, 541h	; 5FAD6	; SPAskateback (93G $AB2)
+mov eax, 541h	; 5FAD6	; SPAskateback
 .ns:
 test byte [byte ecx+pflags2], 2	; 5FADB	; pf2aip
 jne short .noturn	; 5FADF
