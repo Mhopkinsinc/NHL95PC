@@ -220,6 +220,10 @@ pop ebp	; 38382
 pop edi	; 38383
 pop esi	; 38384
 ret	; 38385
+; C: src/c/029_380E9_league_setup/AskExportToFloppy.c
+%ifdef CBUILD
+%include "c/029_380E9_league_setup/AskExportToFloppy.inc"
+%else
 AskExportToFloppy:
 push dword 34h	; 38386
 call __CHK	; 3838B
@@ -331,6 +335,7 @@ pop ebp	; 384B4
 pop edi	; 384B5
 pop esi	; 384B6
 ret	; 384B7
+%endif ; C
 BuildStandingsGrid:
 push dword 7A8h	; 384B8
 call __CHK	; 384BD

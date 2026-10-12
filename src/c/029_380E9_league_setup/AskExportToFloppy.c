@@ -1,7 +1,9 @@
 /* League setup: export. */
 #include "nhl95.h"
 
-/* AskExportToFloppy: mark which of the 26 teams' records (1Eh bytes each) to export: a team flagged (+17h) and
+/* AskExportToFloppy: mark which of the 26 teams' records (1Eh bytes each) to export. The mode bit 1
+ test doubles i*15 (`i * 15 + i * 15`) so the record offset stays in edx and both team buffers are
+ [edx+reg+17h]. A team flagged (+17h) and
  already marked 2 (+18h) when mode bit 0 is set, or flagged here but not in orig when mode bit 1 is set, is asked
  about (exportmsg names the record, yes/no at the mouse position) when n > 1: yes or no asking marks it 1, no
  marks it 2 (+18h and +16h). Unflagged teams that are not asked about are marked 1. */
@@ -16,7 +18,7 @@ void AskExportToFloppy(unsigned char *teams, unsigned char *orig, int mode, int 
     sub_B2DCA(&i, &y, &x);
     for (i = 0; i < 0x1A; i++) {
         if (((mode & 1) && teams[i * 30 + 0x17] == 1 && teams[i * 30 + 0x18] == 2)
-            || ((mode & 2) && ((unsigned char (*)[30])teams)[i][0x17] == 1 && ((unsigned char (*)[30])orig)[i][0x17] == 0)) {
+            || ((mode & 2) && teams[i * 15 + i * 15 + 0x17] == 1 && orig[i * 15 + i * 15 + 0x17] == 0)) {
             t = teams + i * 30;
             if (n > 1) {
                 *(unsigned char **)(exportmsg + 4) = t;
