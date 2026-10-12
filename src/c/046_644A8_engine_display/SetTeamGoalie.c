@@ -9,12 +9,8 @@ void SetTeamGoalie(short side, short g)
     short old;
     signed char c;
 
-    int n;
-
-    n = side;
     old = (&hmtmstruct)[side].tmgoalie;
-    n++;
-    if (cont1team != n && cont2team != n) return;
+    if (cont1team != side + 1 && cont2team != side + 1) return;
     if (g < 0) {
         (&hmtmstruct)[side].tmgoalie |= 0xFFF0;
     } else {

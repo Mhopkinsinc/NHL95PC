@@ -181,7 +181,7 @@ MenuNextLeagueGame,33559,278,025_32DA9_temp_files,src/c/025_32DA9_temp_files/Men
 MenuLeagueHilights,3366F,79,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuImportDbs,336BE,40,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuExportDbs,336E6,54,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
-MenuLeagueSettings,332F6,167,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,nonmatching,
+MenuLeagueSettings,332F6,167,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,nonmatching,draft: body matches; exit is jmp MainDeskLoop_x2. A cast tail return is call plus inlined pops. Do not retry the cast.
 LoadCrestsPalette,33F02,251,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/LoadCrestsPalette.c,matched,
 SetRinkScroll,33DD3,151,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/SetRinkScroll.c,matched,
 WaitClickTimeout,33E6A,152,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/WaitClickTimeout.c,nonmatching,"registers/stack: asm keeps start and the ptrupdatefn result on the stack (10h locals), t1 in ebp; C keeps them in registers"
@@ -300,7 +300,7 @@ lcfound,50975,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/lcfound.c,
 lcselect,50434,166,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/lcselect.c,matched,
 AllInPlace,51440,61,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/AllInPlace.c,matched,
 ForceStartLineup,5125F,72,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/ForceStartLineup.c,matched,
-OneTimerChk,50E5C,227,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/OneTimerChk.c,nonmatching,
+OneTimerChk,50E5C,227,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/OneTimerChk.c,nonmatching,draft: y-sign stays in eax and the flag is setne dl. Swapping the xor tested the flag first. Do not retry that.
 PassCompleted,50AFE,87,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PassCompleted.c,matched,
 PenShotAssign,512A7,409,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PenShotAssign.c,nonmatching,"register allocation: the loop index lands in esi (EXE ecx, no esi saved); logic complete"
 PenShotStart,511B4,171,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PenShotStart.c,matched,
@@ -313,7 +313,7 @@ Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/B
 CPgoalie,591C7,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CPgoalie.c,matched,
 CheckBump,54990,195,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CheckBump.c,matched,
 ChkDelayedOffside,541CA,192,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ChkDelayedOffside.c,nonmatching,"tail: je to the shared xor eax,eax vs jne / xor eax,edx (192=192). Inverting the if merged every return into one exit (208). Do not invert again"
-ChkGoalies,59265,237,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ChkGoalies.c,nonmatching,
+ChkGoalies,59265,237,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ChkGoalies.c,nonmatching,draft: other-team pointer stays in edx (original esi). Declaring it first did not swap. Do not retry declaration order.
 ChkPullGoalieLate,593F5,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ChkPullGoalieLate.c,matched,
 CompShoot,55A35,106,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CompShoot.c,matched,
 FacingBoards,5378D,159,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/FacingBoards.c,matched,
@@ -361,7 +361,7 @@ PlayDigiSample,599B9,53,041_59493_engine_sound_iface,src/c/041_59493_engine_soun
 SndLoadFile SndLoadFile2,59493,58,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/SndLoadFile.c,matched,
 StopDigiSample,59981,56,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/StopDigiSample.c,nonmatching,"original copies digihandle to edx (push edx) and passes it with mov eax,edx; this draft loads eax directly. Maybe sub_8F80E's real prototype differs. 10-min cap"
 WaitDigiSample,599EE,35,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/WaitDigiSample.c,matched,
-sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sfx.c,nonmatching,
+sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sfx.c,matched,
 AvgCline,5A03B,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/AvgCline.c,matched,
 ClearSortCords,5BA4E,59,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClearSortCords.c,matched,
 ClockTick,5DC10,347,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClockTick.c,nonmatching,register allocation: C needs esi as well (asm gets by with ebx/ecx/edx/edi); the gameclock check order also differs
@@ -398,7 +398,7 @@ cleargamevars,5CD4F,195,042_59D9A_engine_core,src/c/042_59D9A_engine_core/clearg
 clearteams,5B881,249,042_59D9A_engine_core,src/c/042_59D9A_engine_core/clearteams.c,matched,
 forcepldata,5E0DD,144,042_59D9A_engine_core,src/c/042_59D9A_engine_core/forcepldata.c,matched,
 forceteams forcepldata,5E0B0,189,042_59D9A_engine_core,src/c/042_59D9A_engine_core/forceteams.c,matched,
-periodicevents,5C302,269,042_59D9A_engine_core,src/c/042_59D9A_engine_core/periodicevents.c,nonmatching,
+periodicevents,5C302,269,042_59D9A_engine_core,src/c/042_59D9A_engine_core/periodicevents.c,nonmatching,"draft: (signed char)--lldisp matches test dl,dl. The add is add al,18h (2) vs add bl,18h (3). A second byte local copied before the test. Do not retry those."
 resetplstuff,5E01A,108,042_59D9A_engine_core,src/c/042_59D9A_engine_core/resetplstuff.c,matched,
 restorepl,59FE1,90,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restorepl.c,matched,
 restoreteams,5B97A,87,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restoreteams.c,matched,
@@ -453,7 +453,7 @@ RefillLineSlots,6552E,158,046_644A8_engine_display,src/c/046_644A8_engine_displa
 ReplayFirstFrame,67581,31,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayFirstFrame.c,matched,
 ReplayPrevFrame,675A0,54,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayPrevFrame.c,matched,
 ReplayRecordReset,67564,29,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayRecordReset.c,matched,
-SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/SetTeamGoalie.c,nonmatching,
+SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/SetTeamGoalie.c,nonmatching,draft: side+1 is same size; widened side stays in ecx (original ebx) and the address copy is ebx (original ecx). int s=side; s++ saved g in ebx (206). A team pointer was 167. Do not retry those.
 ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,nonmatching,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only"
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,
@@ -527,7 +527,7 @@ MenuReturnToLineEditor,79DD1,16,055_78346_team_select,src/c/055_78346_team_selec
 PruneGameLines,79090,248,055_78346_team_select,src/c/055_78346_team_select/PruneGameLines.c,nonmatching,C folds the side * 444h * 4 step into the hmroster address ([edi+edx*4]); the EXE adds it first and reads the status into ch
 StubRet4b,78E29,13,055_78346_team_select,src/c/055_78346_team_select/StubRet4b.c,nonmatching,
 CtlDlgHitTest,7D61F,82,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlDlgHitTest.c,matched,
-CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapScoreFix.c,nonmatching,
+CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapScoreFix.c,nonmatching,"draft: same size; puck byte is mov ch,[ebx] with gmode in cl. Adjacent chars stayed bl. A short high byte and c=f paired bh/bl and moved gmode. Do not retry those."
 CtlSwapTeamFlag,7CC8A,91,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.c,matched,
 DrawCtlBoxes,7D671,64,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawCtlBoxes.c,matched,
 DrawExhSetDlg,7C1AC,225,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawExhSetDlg.c,matched,

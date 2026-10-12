@@ -11,9 +11,7 @@ void sfx(int id)
         if (id != 0x9C) return;
         if (gmode & 0x10 && !dword_CCC98) return;
     }
-    switch (sounddev) {
-    case 8:
-    case 4:
+    if (sounddev == 8 || sounddev == 4) {
         if (id == 0xA0 || id == 0xA1) return;
     }
     if (id == 0x7D) {

@@ -362,6 +362,10 @@ mov dword [crowdvol7], edx	; 5987C
 pop edx	; 59882
 ret	; 59883
 %endif ; C
+; C: src/c/041_59493_engine_sound_iface/sfx.c
+%ifdef CBUILD
+%include "c/041_59493_engine_sound_iface/sfx.inc"
+%else
 sfx:
 push dword 0Ch	; 59884
 call __CHK	; 59889
@@ -425,6 +429,7 @@ call sub_8F61D	; 5993D
 pop edx	; 59942
 pop ecx	; 59943
 ret	; 59944
+%endif ; C
 FreeDigiSample:
 push dword 0Ch	; 59945
 call __CHK	; 5994A

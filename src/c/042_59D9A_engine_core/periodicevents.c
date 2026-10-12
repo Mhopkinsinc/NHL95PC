@@ -11,7 +11,7 @@ void periodicevents(void)
     Player *p;
     short i;
     short k;
-    signed char d;
+    unsigned char b;
 
     PenaltyManager();
     DecayCrowdLevel();
@@ -21,9 +21,10 @@ void periodicevents(void)
         clockcont_0();
     }
     if (word_CBC44) return;
-    if ((d = --lldisp) >= 0) return;
-    d += 0x18;
-    lldisp = d;
+    if ((signed char)--lldisp >= 0) return;
+    b = lldisp;
+    b += 0x18;
+    lldisp = b;
     *(unsigned char *)&lldispodd ^= 1;
     ChkGoalies();
     updatecrowdf();
