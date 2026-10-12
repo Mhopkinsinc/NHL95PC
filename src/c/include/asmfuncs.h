@@ -174,7 +174,6 @@ extern void loc_1BBB3(); /* 1BBB3 */
 extern void loc_1BBB4(); /* 1BBB4 */
 extern void LoadGameTeams(); /* 1BBCC */
 extern void InitGameSummary(); /* 1BEFD */
-extern void OpenPlayerDBs(); /* 1C26C */
 extern void OpenPlayerDBs_x(); /* 1C3F0 */
 extern void LoadTeamRoster(); /* 1C3F6 */
 extern void SetupGoalieMenu(); /* 1C852 */
@@ -203,7 +202,6 @@ extern void RunMenu(); /* 1D6E8 */
 extern void RunMenu_ret4(); /* 1DEFD */
 extern void RunTeamPickMenu(); /* 1DF03 */
 extern void RunPlayerPickMenu(); /* 1ED96 */
-extern void LoadShapeByTag(); /* 1FDFE */
 extern void LoadShapeByTag_x(); /* 1FF80 */
 extern void MakeStatsTitle(); /* 1FF86 */
 extern void GameTeamStatsScreen(); /* 20016 */

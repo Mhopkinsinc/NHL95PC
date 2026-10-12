@@ -152,6 +152,7 @@ void __cdecl sub_B3999(void);  /* timer library */
 void PaPreloadClips(int a, int b);
 void TextGridPut(int x, int y, char *s);
 void *memcpy(void *d, const void *s, unsigned n);  /* Watcom CRT memcpy_ */
+int memcmp(const void *a, const void *b, unsigned n);  /* Watcom CRT memcmp_ */
 unsigned strlen(const char *s);  /* Watcom CRT strlen_ */
 void POSetSeriesTeams(unsigned char *s, int a, int b);  /* 87520 */
 void GoalieToPuckVec(Player *p);  /* 4B467 */
@@ -372,6 +373,7 @@ void DrawSoundCardDlg(void);  /* 8261C */
 int __cdecl sub_8E83C(char *path, int flags);  /* graphics library: load bank */
 void __cdecl sub_91284(int art, int x, int y);  /* graphics library: draw art */
 void InitMenuRemap(int mode);  /* 1FAA7 */
+int LoadShapeByTag(char *path, char *tag);  /* 1FDFE */
 void __cdecl sub_B4DD4(unsigned char *remap);  /* graphics library: set colour remap */
 int AskDatabaseChoice(void);  /* 2FDD1 */
 void __cdecl sub_B2DCA(int *btn, int *y, int *x);  /* mouse library: read state */
@@ -631,6 +633,7 @@ int SayPenalty(char *team, int num, int len, char *pen, int a, int b, int idx, i
 void RequestTimeClips(int a, int b);
 void QueueTimeClips(int a, int b);
 int ReadPlayerRecs(int f1, int f2, int f3, int f4, long off, unsigned char *hdr, void *b2, unsigned n2, void *b3, unsigned n3, void *b4, unsigned n4);  /* 1C0AF */
+void OpenPlayerDBs(int mode, int *key, int *att, int *season, int *career, char *fmt, int *out);  /* 1C26C */
 long lseek(int fh, long pos, int how);
 void SelectMatchingPlayers(char *first, char *last, int side);  /* 71690 */
 char *strlwr(char *s);
@@ -683,6 +686,7 @@ void resetplstuff(void);  /* 5E01A */
 int CanRemovePlayer(Player *p);  /* 65B83 */
 void lcfound(Player *p);  /* 50975 */
 int POSeriesScore(unsigned char *s, int *hw, int *aw, int *home, int *away);  /* 877E9 */
+void POPickConfTeams(int *slots, int confflag, int first, int count);  /* 870B6 */
 int GetLeagueId(char *dir, void *out);  /* 41344 */
 void PanelAddPenalty(short away, short pl, short t);  /* 14C22 */
 int LineEdHitTest(int x, int y, int *item);  /* 77F6F */

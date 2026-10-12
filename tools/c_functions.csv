@@ -101,6 +101,7 @@ PlayRandomHighlight,18F8D,305,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_d
 PostGameDesk,1920F,334,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PostGameDesk.c,nonmatching,
 ClearPanelPenalties,1CBD8,101,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ClearPanelPenalties.c,nonmatching,"draft: zero kept in esi (asm ecx), saves esi instead of ecx"
 MakeGSummaryPath,1C807,75,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/MakeGSummaryPath.c,matched,
+OpenPlayerDBs,1C26C,394,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/OpenPlayerDBs.c,matched,
 ReadPlayerRecs,1C0AF,445,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ReadPlayerRecs.c,matched,
 ResetGoalieMenu,1CB7F,89,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ResetGoalieMenu.c,matched,
 AddDirtyRect,1D02F,193,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/AddDirtyRect.c,matched,
@@ -114,6 +115,7 @@ StrPrefixDiffers,1D6BE,42,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_lab
 CmpGAA,1FC8F,367,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/CmpGAA.c,matched,
 CmpPoints,1FB7F,272,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/CmpPoints.c,matched,
 InitMenuRemap,1FAA7,117,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/InitMenuRemap.c,nonmatching,draft: asm calls __STOSB for the 15h-byte clear (inline memset helper); default-flag memset calls memset_
+LoadShapeByTag,1FDFE,392,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/LoadShapeByTag.c,nonmatching,"392 vs 392. The index, the directory byte count, and the shape pointer stay in edi; the file position stays in esi. The original uses esi for the index and the shape pointer, and edi for the file position. The width*height size is imul ebp, eax / add ebp, 11h. The original is imul eax, edx / lea ebp, [eax+11h]. Declaring pos before bytes, declaring i first, naming the product, and adding 11h through a char pointer did not change either. A memcpy/memcmp pragma that clobbers edi spilled dir (407 bytes). Do not retry those."
 TextPrintf TextPrintf2,1FB1C,99,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/TextPrintf.c,matched,
 CalStandingsScreen,216D7,279,016_20016_easn_stats,src/c/016_20016_easn_stats/CalStandingsScreen.c,nonmatching,same 279 bytes. dword_C65AC is tested in edx and copied to ecx for MakePath; the original tests it in ecx and that zero is the extension. Same split as GameStandingsScreen. Do not retry one MakePath per branch.
 CalTeamStatsScreen,21350,353,016_20016_easn_stats,src/c/016_20016_easn_stats/CalTeamStatsScreen.c,matched,
@@ -652,6 +654,7 @@ ViewPlayoffHilights,86647,79,063_85924_demo_savegame,src/c/063_85924_demo_savega
 ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_playoffs/ClearPlayerFromLines.c,matched,
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
 SaveScheduleDB,89223,69,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
+POPickConfTeams,870B6,361,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPickConfTeams.c,nonmatching,"361 vs 361. count stays in esi and the bitmask in edi (mov esi, ecx / xor edi, edi). The original is mov edi, ecx / xor esi, esi. The division compare then loads pick[1] into edx and pick[0] into eax. The pick swap uses ebx. The final loop hoists slots into ecx and uses edx as the write index. Declaring i before used, a cnt local before or after used, and used=0 before cnt=count did not swap esi and edi. Do not retry those."
 POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimConfFinals.c,matched,
 POPreSimRound1,87F85,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound1.c,matched,
 POPreSimRound2,87FE0,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound2.c,matched,

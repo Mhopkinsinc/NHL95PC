@@ -560,6 +560,10 @@ pop edi	; 1C267
 pop esi	; 1C268
 ret 20h	; 1C269
 %endif ; C
+; C: src/c/013_1BBCC_key_team_db/OpenPlayerDBs.c
+%ifdef CBUILD
+%include "c/013_1BBCC_key_team_db/OpenPlayerDBs.inc"
+%else
 OpenPlayerDBs:
 push dword 6Ch	; 1C26C
 call __CHK	; 1C271
@@ -690,6 +694,7 @@ pop ebp	; 1C3F0
 pop edi	; 1C3F1
 pop esi	; 1C3F2
 ret 0Ch	; 1C3F3
+%endif ; C
 LoadTeamRoster:
 push dword 130h	; 1C3F6
 call __CHK	; 1C3FB
