@@ -16,7 +16,8 @@ What it does
   2. Checks NEW: a NASM identifier, not an instruction or register (nasm is asked), not defined anywhere in src/
      (labels, locals, equates in src/inc). A name that differs from an existing one only in case is a warning.
   3. Replaces OLD as a whole token in every src/**/*.asm and src/inc/*.inc file (code, global/extern lists and
-     comments; never inside an ';IDA:' note). OLD.local references follow the rename (NEW.local).
+     comments; never inside an ';IDA:' note), and in src/c/**/*.c and src/c/include/*.h so a matched C
+     function keeps the asm label. OLD.local references follow the rename (NEW.local).
      NEW starting with '.' makes OLD a NASM local label of the global label above it: references in that scope
      become .NEW, all others parent.NEW; it leaves the global list unless another file uses it.
   4. When OLD is the IDA name of the address (name_map_94.csv ida_name, not an auto name) the definition line gets
@@ -118,6 +119,12 @@ class Session:
         self.orig = {f: open(f).read() for f in files}
         self.texts = dict(self.orig)
         self.names = defined_names(self.texts)
+        cfiles = []
+        for dirpath, _, fnames in os.walk(os.path.join(SRC, 'c')):
+            for fn in fnames:
+                if fn.endswith(('.c', '.h')): cfiles.append(os.path.join(dirpath, fn))
+        self.corig = {f: open(f).read() for f in cfiles}
+        self.ctexts = dict(self.corig)
         self.segs = read_layout()
         self.addr = {}
         if os.path.isdir(os.path.join(ROOT, 'build/obj')):
@@ -188,6 +195,7 @@ class Session:
         # names of locals under a renamed global follow it
         for n in [n for n in names if n.startswith(old + '.')]: names[full + n[len(old):]] = names.pop(n)
         names[full] = names.pop(old)
+        self.rewrite_c(old, new if not local else full)
         if addr is not None: self.addr[full] = self.addr.pop(old)
         for n in [n for n in self.addr if n.startswith(old + '.')]: self.addr[full + n[len(old):]] = self.addr.pop(n)
         # ;IDA: note on the definition when OLD is the listing's name for this address
@@ -275,6 +283,7 @@ class Session:
             nt = '\n'.join(out)
             if nt != t: texts[f] = nt; changed.append(f)
         names.pop(old); self.addr.pop(old, None)
+        self.rewrite_c(old, base + off)
         rec = ''
         if not self.a.no_record:
             cols, rows, _ = self.table('tools/global_map.csv')
@@ -282,9 +291,18 @@ class Session:
             if len(rows) != n0: self.csvs[os.path.join(ROOT, 'tools/global_map.csv')][2] = True; rec = ' (its tools/global_map.csv row removed)'
         self.log.append('%s -> %s%s (alias folded, label line removed): %d file(s)%s' % (old, base, off, len(changed), rec))
 
+    def rewrite_c(self, old, new):
+        """the same token in C sources and headers (function names, prototypes, comments)"""
+        rx = tok(old)
+        for f, t in self.ctexts.items():
+            if old not in t or not rx.search(t): continue
+            nt = sub_code(t, rx, new)
+            if nt != t: self.ctexts[f] = nt
+
     def commit(self):
         a = self.a
         newtexts = {f: t for f, t in self.texts.items() if t != self.orig[f]}
+        newtexts.update({f: t for f, t in self.ctexts.items() if t != self.corig[f]})
         dirty = {p: v for p, v in self.csvs.items() if v[2]}
         for l in self.log: print(l)
         print('files changed: %d source, %d tables' % (len(newtexts), len(dirty)))
