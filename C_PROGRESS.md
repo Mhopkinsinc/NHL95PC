@@ -233,13 +233,13 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | DrawButtons | 30AE2 | 52 | matched | [DrawButtons.c](src/c/023_2FDD1_misc_dialogs/DrawButtons.c) |  |
 | DrawButton | 30B16 | 221 | matched | [DrawButton.c](src/c/023_2FDD1_misc_dialogs/DrawButton.c) |  |
 | InitScrollBar | 30BF3 | 74 | matched | [DrawButton.c](src/c/023_2FDD1_misc_dialogs/DrawButton.c) |  |
-| DrawScrollBar | 30C3D | 209 | nonmatching | [DrawButton.c](src/c/023_2FDD1_misc_dialogs/DrawButton.c) |  |
+| DrawScrollBar | 30C3D | 209 | nonmatching | [DrawButton.c](src/c/023_2FDD1_misc_dialogs/DrawButton.c) | draft: x in ebp y in edi (207); EXE x in edi y in ebp (209). Declaring x before y did not swap them. |
 | SaveDialogBg | 30E66 | 172 | matched | [SaveDialogBg.c](src/c/023_2FDD1_misc_dialogs/SaveDialogBg.c) |  |
 | RestoreDialogBg | 30F12 | 77 | matched | [RestoreDialogBg.c](src/c/023_2FDD1_misc_dialogs/RestoreDialogBg.c) |  |
 | GrowToButton | 30F5F | 85 | nonmatching | [GrowToButton.c](src/c/023_2FDD1_misc_dialogs/GrowToButton.c) | same blocks; original keeps w in edx and v in ecx (then edx / eax in the second half); this draft moves w to ecx. 10-min cap |
 | GrowToButtons | 30FB4 | 95 | nonmatching | [GrowToButtons.c](src/c/023_2FDD1_misc_dialogs/GrowToButtons.c) | registers: asm sums in edx and builds each width in esi; C swaps them |
 | CritErrHandler | 3149D | 23 | matched | [CritErrHandler.c](src/c/023_2FDD1_misc_dialogs/CritErrHandler.c) |  |
-| DrawEditCursor | 314B4 | 229 | nonmatching | [DrawEditCursor.c](src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c) |  |
+| DrawEditCursor | 314B4 | 229 | nonmatching | [DrawEditCursor.c](src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c) | draft: y is movzx edi,[byte_D42C5] (229). C zero-extends into edx (230). Computing y before h, or reusing cw, did not select edi. |
 | MenuExit | 3270B | 16 | matched | [MenuExit.c](src/c/024_31AB5_main_desk/MenuExit.c) |  |
 | SaveModeState | 3271B | 134 | matched | [SaveModeState.c](src/c/024_31AB5_main_desk/SaveModeState.c) |  |
 | CopyGameSettings | 32C9E | 267 | matched | [CopyGameSettings.c](src/c/024_31AB5_main_desk/CopyGameSettings.c) |  |
@@ -337,7 +337,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | asseben | 4AAC2 | 197 | matched | [asseben.c](src/c/037_4842A_engine_player_logic/asseben.c) | 1 register: slot+2 goes through ebx in the asm (mov ebx,edx / add ebx,2), C adds in edx; rest matches |
 | assleaveice | 4AB87 | 548 | matched | [assleaveice.c](src/c/037_4842A_engine_player_logic/assleaveice.c) |  |
 | assdopen | 4AFFB | 50 | matched | [assdopen.c](src/c/037_4842A_engine_player_logic/assdopen.c) |  |
-| assepen | 4B02D | 255 | nonmatching | [assepen.c](src/c/037_4842A_engine_player_logic/assepen.c) |  |
+| assepen | 4B02D | 255 | nonmatching | [assepen.c](src/c/037_4842A_engine_player_logic/assepen.c) | draft: pflags update is mov cl,dl / or cl,4 / mov ch,cl / and ch,0EDh (255). C ors dl in place (239). A signed char g = f|4 then g&0xED still ors dl in place. Do not retry that. |
 | GoalieToPuckVec | 4B467 | 130 | matched | [GoalieToPuckVec.c](src/c/037_4842A_engine_player_logic/GoalieToPuckVec.c) |  |
 | AdjustFacingDirection | 4B4E9 | 217 | matched | [AdjustFacingDirection.c](src/c/037_4842A_engine_player_logic/AdjustFacingDirection.c) |  |
 | assgoalietopuck | 4B5C2 | 306 | nonmatching | [assgoalietopuck.c](src/c/037_4842A_engine_player_logic/assgoalietopuck.c) | register allocation: x / |y| land in ecx / ebx (EXE ebx / ecx plus an eax copy of |y|) and the EXE also saves edi; declaration-order search found no match |

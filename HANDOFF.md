@@ -414,6 +414,9 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * CmpShootPct: the season record is `mov edx, [statsskaterbuf]; add eax, edx` (277). C copies the index first (`mov edx, eax; mov eax, [buf]; add eax, edx`, 278). Operand order and an if/else did not flip that add.
 * CmpTeamStandings: the body matches. The tail is `add esp, 0Ch; jmp CmpTeamPK_x` (336) and C inlines `pop ebp` .. `ret` (337). It needs CmpTeamScoring, CmpTeamDefense, CmpTeamPP and CmpTeamPK in the same file.
 * CmpRosterSkaters: season `*a * 0x28` is `add ebx, eax; shl ebx, 3; mov eax, [rosterpstat]; add eax, ebx` (262). C keeps the product in eax and folds `add eax, [rosterpstat]` (260). A named `n += (n << 2)`, declaration order, and a comma expression did not put `*a` in ebx.
+* DrawScrollBar: x is in ebp and y in edi (207). The original has x in edi and y in ebp (209). Declaring x before y did not swap them.
+* DrawEditCursor: y is `movzx edi, [byte_D42C5]` (229). C zero-extends the byte into edx (230). Computing y before h, and reusing the width local, did not select edi.
+* assepen: the penalty flags are `mov cl, dl; or cl, 4; mov ch, cl; and ch, 0xED` (255). C does `or dl, 4` in place (239). A separate `signed char` for the or-then-and still updated dl in place.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 
