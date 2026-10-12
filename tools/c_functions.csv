@@ -118,6 +118,7 @@ TextPrintf TextPrintf2,1FB1C,99,015_1D6E8_menu_system,src/c/015_1D6E8_menu_syste
 CalStandingsScreen,216D7,279,016_20016_easn_stats,src/c/016_20016_easn_stats/CalStandingsScreen.c,nonmatching,
 DrawPhotoWithPal,21C04,218,016_20016_easn_stats,src/c/016_20016_easn_stats/DrawPhotoWithPal.c,nonmatching,"register allocation only: the second statspalvalid read lands in eax/ecx/edx, the EXE uses ebx"
 FreeCalendarIfLowMem,212C6,56,016_20016_easn_stats,src/c/016_20016_easn_stats/FreeCalendarIfLowMem.c,matched,
+GameSkaterStatsScreen,20171,372,016_20016_easn_stats,src/c/016_20016_easn_stats/GameSkaterStatsScreen.c,matched,
 GameStandingsScreen,203FA,269,016_20016_easn_stats,src/c/016_20016_easn_stats/GameStandingsScreen.c,nonmatching,register allocation only: the saved dword_C65AC (MakePath extension 0) sits in edx instead of ecx; structure matches with one MakePath per branch
 GameTeamStatsScreen,20016,347,016_20016_easn_stats,src/c/016_20016_easn_stats/GameTeamStatsScreen.c,matched,
 GameGoalieStatsScreen,202E5,277,016_20016_easn_stats,src/c/016_20016_easn_stats/GameTeamStatsScreen.c,matched,

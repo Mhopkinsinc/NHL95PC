@@ -127,6 +127,10 @@ pop ecx	; 2016E
 pop ebx	; 2016F
 ret	; 20170
 %endif ; C
+; C: src/c/016_20016_easn_stats/GameSkaterStatsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameSkaterStatsScreen.inc"
+%else
 GameSkaterStatsScreen:
 push dword 334h	; 20171
 call __CHK	; 20176
@@ -228,6 +232,7 @@ pop edx	; 202E1
 pop ecx	; 202E2
 pop ebx	; 202E3
 ret	; 202E4
+%endif ; C
 ; C: src/c/016_20016_easn_stats/GameTeamStatsScreen.c (GameGoalieStatsScreen)
 %ifdef CBUILD
 %include "c/016_20016_easn_stats/GameTeamStatsScreen.GameGoalieStatsScreen.inc"
