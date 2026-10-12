@@ -440,6 +440,7 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * LoadJerseyColours: 348 vs 352. The palette pointer is in ebx (write it back into the dst parameter) and both copy loops match. The remap load is `mov dl,[ebx+eax]`; the original is `lea edx,[ebx+eax]` / `mov cl,[edx]`, and the else arm is `add dl,8` rather than `mov dl,cl` / `add dl,8`. A named team index, volatile p, and pragma aux byte loads did not produce that lea without a spill or a hoisted `mov dl,cl`. Do not retry those.
 * BuildTeamRosterList: 338 vs 344. Team stays in eax through the index loop; the original is `mov esi, eax` and `mov eax, esi` just before TeamRecPtr. The dressed byte is `mov al, [ebx+eax+0E4h]`; the original adds the index into edx and loads ah. A named team was eliminated. An aux returning esi reloaded eax at once. Naming the fill byte lengthened the copies. Do not retry those.
 * SplitPlayerName: same 323 bytes. stop, first and last sit at esp+0/+4/+8 once they are one struct. The name pointer is in edi (original ecx), so the copy count stays in ebx (original edx). An aux that forced ecx reloaded eax immediately. Do not retry that.
+* SetRosterTeamMenus: 293 vs 292. d*7 is hoisted into ebx, so ebx is pushed. Writing the index as `(d << 3) - d + i` inside the loop put the team byte in bl and dropped to 288. Do not retry that flat index.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 
