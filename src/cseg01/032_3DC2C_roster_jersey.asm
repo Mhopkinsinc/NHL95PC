@@ -847,6 +847,10 @@ pop edi	; 3E7AF
 pop esi	; 3E7B0
 pop ecx	; 3E7B1
 ret	; 3E7B2
+; C: src/c/032_3DC2C_roster_jersey/DrawTradeRow.c
+%ifdef CBUILD
+%include "c/032_3DC2C_roster_jersey/DrawTradeRow.inc"
+%else
 DrawTradeRow:
 push dword 2Ch	; 3E7B3
 call __CHK	; 3E7B8
@@ -894,6 +898,7 @@ pop edx	; 3E831
 pop ecx	; 3E832
 pop ebx	; 3E833
 ret	; 3E834
+%endif ; C
 ; C: src/c/032_3DC2C_roster_jersey/LoadTradeTeamPals.c
 %ifdef CBUILD
 %include "c/032_3DC2C_roster_jersey/LoadTradeTeamPals.inc"

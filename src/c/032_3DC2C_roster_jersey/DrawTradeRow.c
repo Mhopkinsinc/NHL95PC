@@ -5,10 +5,12 @@
  number and name at x side * 1C0h + 5, y row * line height + 1Dh. */
 void DrawTradeRow(int side)
 {
-    int ofs;
+    int row;
+    int base;
 
-    ofs = tradecursor[side] * 0x16;
+    row = tradecursor[side] * 0x16;
+    base = side * 0x268;
     sub_93170(side * 0x1C0 + 5, byte_D42C3 * tradecursor[side] + 0x1D, (char *)str_C2dS,
-              traderoster[ofs + side * 0x268], tradejersey[ofs + side * 0x268],
-              traderoster + side * 0x268 + ofs + 3);
+              traderoster[base + row], tradejersey[base + row],
+              traderoster + base + row + 3);
 }

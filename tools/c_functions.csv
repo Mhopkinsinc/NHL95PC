@@ -215,7 +215,7 @@ ReadLeagueInfo,3D8DD,476,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge
 ReadTeamNames,3DAB9,136,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadTeamNames.c,matched,
 WaitLeagueFloppy,3D84F,142,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/WaitLeagueFloppy.c,nonmatching,"draft: file/name params in edi/esi swapped, local order and MessageBox result kept in eax not edx"
 LoadNhlCfg,3DB41,231,031_3DB41_config_cfg,src/c/031_3DB41_config_cfg/LoadNhlCfg.c,matched,
-DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,nonmatching,"draft: row offset in ecx vs eax, add order; 1 byte longer"
+DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,matched,
 FindTradeSlot,3EF3C,77,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FindTradeSlot.c,matched,
 LoadTradeTeamPals,3E835,410,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/LoadTradeTeamPals.c,matched,
 TradeCancel,3EF27,21,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeCancel.c,matched,
