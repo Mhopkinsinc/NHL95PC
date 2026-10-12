@@ -352,7 +352,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | SetLCmode | 4D9FC | 59 | matched | [SetLCmode.c](src/c/037_4842A_engine_player_logic/SetLCmode.c) |  |
 | StartFaceoffLineChange | 4DA37 | 68 | matched | [StartFaceoffLineChange.c](src/c/037_4842A_engine_player_logic/StartFaceoffLineChange.c) |  |
 | a2offsides | 4DCDD | 116 | matched | [a2offsides.c](src/c/037_4842A_engine_player_logic/a2offsides.c) |  |
-| ChkTwoLinePass | 4DD51 | 195 | nonmatching | [ChkTwoLinePass.c](src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c) |  |
+| ChkTwoLinePass | 4DD51 | 195 | nonmatching | [ChkTwoLinePass.c](src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c) | draft: same size; lasttouch stays in si and the side test is xor edx,ebx. C keeps lasttouch in bx and compares. Writing ^ instead of != dropped the esi save (190 vs 195). Do not retry that. |
 | a2touchpuck | 4DE14 | 400 | matched | [a2touchpuck.c](src/c/037_4842A_engine_player_logic/a2touchpuck.c) |  |
 | puckflip | 4DFA4 | 83 | matched | [puckflip.c](src/c/037_4842A_engine_player_logic/puckflip.c) |  |
 | assrefatdot | 4DFF7 | 198 | matched | [assrefatdot.c](src/c/037_4842A_engine_player_logic/assrefatdot.c) |  |

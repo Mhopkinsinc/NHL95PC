@@ -417,6 +417,7 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * DrawScrollBar: x is in ebp and y in edi (207). The original has x in edi and y in ebp (209). Declaring x before y did not swap them.
 * DrawEditCursor: y is `movzx edi, [byte_D42C5]` (229). C zero-extends the byte into edx (230). Computing y before h, and reusing the width local, did not select edi.
 * assepen: the penalty flags are `mov cl, dl; or cl, 4; mov ch, cl; and ch, 0xED` (255). C does `or dl, 4` in place (239). A separate `signed char` for the or-then-and still updated dl in place.
+* ChkTwoLinePass: same size. `lasttouch` stays in si and the side test is `xor edx, ebx`. C keeps `lasttouch` in bx and compares. Writing `^` instead of `!=` dropped the esi save (190 vs 195). Do not retry that.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 

@@ -249,7 +249,7 @@ SimAddPair,452A6,31,035_45282_options_settings,src/c/035_45282_options_settings/
 FadeOutPalCycle,47C31,165,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,draft: asm keeps the byte in bl and writes bl-1 from bh; ours decrements bl in place
 AddStar,48789,80,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/AddStar.c,matched,
 AdjustFacingDirection,4B4E9,217,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/AdjustFacingDirection.c,matched,
-ChkTwoLinePass,4DD51,195,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c,nonmatching,
+ChkTwoLinePass,4DD51,195,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c,nonmatching,"draft: same size; lasttouch stays in si and the side test is xor edx,ebx. C keeps lasttouch in bx and compares. Writing ^ instead of != dropped the esi save (190 vs 195). Do not retry that."
 ClampYPosition,4B6F4,128,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ClampYPosition.c,matched,
 CrowdOnStoppage,4E71A,469,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/CrowdOnStoppage.c,matched,
 GoalieToPuckVec,4B467,130,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/GoalieToPuckVec.c,matched,
