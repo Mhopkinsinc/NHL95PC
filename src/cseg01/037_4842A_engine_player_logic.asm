@@ -42,7 +42,7 @@ extern word_E9AAE, PerTimeTotal, lj1, lasttouch, lty, startm, starpl
 global ClampYPosition, Endfaceoff, SetLCmode, StartFaceoffLineChange, a2offsides, a2touchpuck, ass_pc_slot20, assthreestars
 global assleaveice, assrefatdot, assreffollow, assrefsignal, assrefgoalpa, assrefdrop, assrefgoalline, assrefwhistle
 global assintrostand, assintroline, assboxenter, assbenchside, asspenshooter, assbench, asscenterd, asscentero
-global assdefd, assdefo, assdopen, asseben, assepen, assexit, assfaceoff, assfaceoffp1
+global assdefd, assdefo, assdopen, asseben, assepen, assexit, assfaceoff, assfaceoffpl
 global assgoalie, assgoalietopuck, assnearest, asspenalty, asspuckc, assscore, assshoot, assstanley
 global asswingd, asswingo, RequestLineChange
 global asswingd_skate0, asswingd_skateto
@@ -6629,11 +6629,11 @@ or byte [byte eax+044h], 2	; 4D522
 pop edx	; 4D526
 ret	; 4D527
 %endif ; C
-; C: src/c/037_4842A_engine_player_logic/assfaceoffp1.c
+; C: src/c/037_4842A_engine_player_logic/assfaceoffpl.c
 %ifdef CBUILD
-%include "c/037_4842A_engine_player_logic/assfaceoffp1.inc"
+%include "c/037_4842A_engine_player_logic/assfaceoffpl.inc"
 %else
-assfaceoffp1:
+assfaceoffpl:
 push dword 10h	; 4D528
 call __CHK	; 4D52D
 push ebx	; 4D532

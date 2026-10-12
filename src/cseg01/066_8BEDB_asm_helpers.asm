@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_8BEDB progbits alloc exec nowrite align=1
-extern StanleyCupTimer, __CHK, musicon, vtoa_dt, screenbm, songdata, rinkbm, musicslot
+extern seed, __CHK, musicon, vtoa_dt, screenbm, songdata, rinkbm, musicslot
 extern musichandle, vgapage, AnyInputPressed, ReadBE32, sub_1AC25, sub_1ACF1, sub_1AD16, sub_1B002
 extern sub_1B092, sub_1B0BB, sub_1B0C9, sub_1B0D7, sub_1B0E5, sub_1B0F3, sub_1B18B, sub_1B1C2
 extern sub_1B2A7, sub_1B8AC, sub_1B92E, WaitClickTimeout, ClearInputQueue, sub_8FB8E, sub_8FC8A, sub_8FCDF
@@ -338,8 +338,8 @@ call __CHK	; 8C228
 ret	; 8C22D
 %endif ; C
 db 00h,00h
-; randomd0 = 93G middle93_1 randomd0: 32-bit LCG seed = seed*BB40E62Dh + 1,
-; returns ((seed>>8)&FFFFh * ax) >> 16, i.e. a value in 0..ax-1.  The seed high word is StanleyCupTimer+2.
+; randomd0: 32-bit LCG. seed = seed*BB40E62Dh + 1.
+; returns ((seed>>8)&FFFFh * ax) >> 16, a value in 0..ax-1. The high word is seed+2.
 randomd0:
 push ebp	; 8C230
 LD mov, ebp, esp	; 8C231
@@ -347,11 +347,11 @@ push ebx	; 8C233
 push ecx	; 8C234
 push edx	; 8C235
 push ax	; 8C236
-mov ax, word [StanleyCupTimer+2]	; 8C238
+mov ax, word [seed+2]	; 8C238
 mov dx, 0E62Dh	; 8C23E
 mul dx	; 8C242
 LD mov, bx, ax	; 8C245
-mov ax, word [StanleyCupTimer]	; 8C248
+mov ax, word [seed]	; 8C248
 LD mov, cx, ax	; 8C24E
 mov dx, 0BB40h	; 8C251
 mul dx	; 8C255
@@ -362,8 +362,8 @@ mul dx	; 8C262
 LD add, dx, bx	; 8C265
 add ax, byte 1	; 8C268
 adc dx, byte 0	; 8C26C
-mov word [StanleyCupTimer], ax	; 8C270
-mov word [StanleyCupTimer+2], dx	; 8C276
+mov word [seed], ax	; 8C270
+mov word [seed+2], dx	; 8C276
 LD mov, al, ah	; 8C27D
 LD mov, ah, dl	; 8C27F
 pop dx	; 8C281

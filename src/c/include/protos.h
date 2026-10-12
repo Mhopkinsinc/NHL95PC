@@ -894,7 +894,7 @@ void assgoalietopuck(Player *p);  /* 4B5C2 */
 void SteerToTarget(Player *p);  /* 492F9 */
 void sub_4C8BD(Player *p);  /* 4C8BD */
 void ass_pc_slot20(Player *p);  /* 49460 */
-void assfaceoffp1(Player *p);  /* 4D528 */
+void assfaceoffpl(Player *p);  /* 4D528 */
 void assdefo(Player *p);  /* 49CDD */
 int BuildLeagueList(char ***list, char **names, int flags);  /* 411C8 */
 void checkob(Player *p);  /* 53F8C */

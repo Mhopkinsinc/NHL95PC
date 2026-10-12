@@ -23,7 +23,7 @@ extern regd3, word_E03B8, regd0, regd1, Ylist, OOlistpos, CwdExciteLvl, lasttouc
 extern lty, word_E9B28
 global Bcheck, CPgoalie, CheckBump, FallDown, Findhittype, SetShotMode, ShotMode, Sweepcheck
 global burst, check4check, checkagr, checkcheck, checkcoll, checkcx, checkgoal, checkgoalp
-global checkgoalp_CalcGoalShotDir, checkint, checkob, checkplcoll, checkpuckcoll, checkwallcoll, chk4lc, chk4shot
+global shotdiradj, checkint, checkob, checkplcoll, checkpuckcoll, checkwallcoll, chk4lc, chk4shot
 global deflect, chk4pass, dopass, doshot, holdcheck
 global checkob_ret5a, checkob_ret5
 global chk4lc_shoot
@@ -5921,7 +5921,7 @@ call puckflip	; 57A91
 pop edx	; 57A96
 ret	; 57A97
 %endif ; C
-checkgoalp_CalcGoalShotDir:
+shotdiradj:
 push dword 34h	; 57A98
 call __CHK	; 57A9D
 push ebx	; 57AA2
@@ -5952,7 +5952,7 @@ inc edx	; 57ADA
 add eax, 80h	; 57ADB
 .4:
 cmp dx, byte 6	; 57AE0
-jl short checkgoalp_CalcGoalShotDir.3	; 57AE4
+jl short shotdiradj.3	; 57AE4
 .5:
 cmp dx, byte 6	; 57AE6
 jne short .6	; 57AEA
@@ -6064,7 +6064,7 @@ push edi	; 57C19
 push ebp	; 57C1A
 sub esp, byte 14h	; 57C1B
 mov esi, eax	; 57C1E
-call checkgoalp_CalcGoalShotDir	; 57C20
+call shotdiradj	; 57C20
 mov ax, word [byte esi+SCnum]	; 57C25
 mov word [lastplayer], ax	; 57C29
 and byte [sflags], 0F7h	; 57C2F

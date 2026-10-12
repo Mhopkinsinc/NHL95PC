@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_150C6 progbits alloc exec nowrite align=1
-extern StanleyCupTimer, __CHK, str_Scrbrd2, str_Srb3, str_Crests4, str_Stanley, str_PPV, VisTeam, awtmline, hmtmline, lcline
+extern seed, __CHK, str_Scrbrd2, str_Srb3, str_Crests4, str_Stanley, str_PPV, VisTeam, awtmline, hmtmline, lcline
 extern musicon, byte_DC8D8, byte_DC91B, byte_DC9D7, byte_DC9D8, byte_DCA1B, byte_DCAD7, ctlavailmask
 extern demomode, fileoncd
 extern gameresult, gamemode, gameopts, teamdivflags, hudclockmin
@@ -1153,7 +1153,7 @@ mov edx, eax	; 15DA5
 shl edx, 10h	; 15DA7
 call rand_	; 15DAA
 add edx, eax	; 15DAF
-mov dword [StanleyCupTimer], edx	; 15DB1
+mov dword [seed], edx	; 15DB1
 mov edx, dword [dword_C5886]	; 15DB7
 inc edx	; 15DBD
 mov ebx, 3	; 15DBE

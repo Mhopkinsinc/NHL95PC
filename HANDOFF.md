@@ -212,7 +212,9 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 When C matching resumes, start with the LoadPlayoffModeTree draft (stack slots of `a` and the return temporary), then the items already listed below.
 
-**Naming pass (started 2026-10-12, after this note):** propagate the Oct 2026 Genesis name and comment cleanup into 95PC. Source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table), and the two New York teams keep the long names NYIslanders and NYRangers. One module at a time: names, then locals, then comments and file headers. `make fullcheck` after each module.
+**Naming pass (in progress, 2026-10-12):** source order is NHL95Genesis, then NHL94Genesis, then NHLPA93Genesis, then a name from what the PC routine does. Team abbreviation labels use the spelling in 95PC's own team data (OTT, TB, ANA, and the rest of that table), and the two New York teams keep the long names NYIslanders and NYRangers. One module at a time: names, then locals, then comments and file headers.
+
+Done so far: `assfaceoffp1` is `assfaceoffpl`, `checkgoalp_CalcGoalShotDir` is `shotdiradj`, `StanleyCupTimer` is `seed`. Left on purpose: `PenaltyList` is the PC penalty-name string table, not the Genesis message-offset table `Penaltylist`; `hmtmstruct` stays beside `awtmstruct` (both structs are live; 95G has one home pointer, `tmstruct`); `ReplayPrevFrame` / `ReplayStep` are PC record-pointer helpers, not the 68k `suba4` / `adda4` bodies. Next: the team-abbreviation strings in `data_frontend_01`, then comment and header cleanup module by module.
 
 * Last session (+34): OpenSpeechBank.c now holds ReadSpeechSample/MoveSampleMem/CompactSpeechSlot (matched;
   OpenSpeechBank itself a draft: header-word stack slots); DrawDbList matched in LoadDbDialogShapes.c (DrawDbDialog

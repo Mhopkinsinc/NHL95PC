@@ -380,7 +380,7 @@
 ;  4D3F8  assshoot                                 cseg01/037_4842A_engine_player_logic.asm     1
 ;  4D4F0  assfaceoff                               cseg01/037_4842A_engine_player_logic.asm     1
 ;  4D509  assexit                                  cseg01/037_4842A_engine_player_logic.asm     2
-;  4D528  assfaceoffp1                             cseg01/037_4842A_engine_player_logic.asm     1
+;  4D528  assfaceoffpl                             cseg01/037_4842A_engine_player_logic.asm     1
 ;  4D8C7  pucknorm                                 cseg01/037_4842A_engine_player_logic.asm     1
 ;  4D8FD  pucknothing                              cseg01/037_4842A_engine_player_logic.asm     1
 ;  4D938  RequestLineChange                        cseg01/037_4842A_engine_player_logic.asm     1
@@ -3877,7 +3877,7 @@
 ;  C90DE  clockticks                               dseg02/035_C9078_data_engine_35.asm          10
 ;  C90E0  dirtab                                   dseg02/035_C9078_data_engine_35.asm          3
 ;  C90E2  dirtab_y                                 dseg02/035_C9078_data_engine_35.asm          3
-;  C9100  StanleyCupTimer                          dseg02/035_C9078_data_engine_35.asm          4
+;  C9100  seed                                     dseg02/035_C9078_data_engine_35.asm          4
 ;  C9104  pendelaytab                              dseg02/035_C9078_data_engine_35.asm          1
 ;  C9111  byte_C9111                               dseg02/035_C9078_data_engine_35.asm          1
 ;  C9120  dword_C9120                              dseg02/035_C9078_data_engine_35.asm          1
@@ -4024,6 +4024,7 @@
 ;  CCC9D  dword_CCC9D                              dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC9E  dword_CCC9E                              dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCCA0  byte_CCCA0                               dseg02/037_CC01D_data_engine_37.asm          2
+;  CCCA1  Setplass_alist                           dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCCA8  word_CCCA8                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCCB8  dword_CCCB8                              dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCCC5  dword_CCCC5                              dseg02/037_CC01D_data_engine_37.asm          1

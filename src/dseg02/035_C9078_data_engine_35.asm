@@ -5,11 +5,11 @@ section s_C9078 progbits alloc noexec write align=1
 extern ass_pc_slot20, assthreestars, assleaveice, assrefatdot, assreffollow, assrefsignal, assrefgoalpa, assrefdrop
 extern assrefgoalline, assrefwhistle, assintrostand, assintroline, asstakeposition, assleavebox, assbenchwait, assboxenter
 extern assbenchside, assrefpenshot, asspsclear, asspenshooter, assbench, asscenterd, asscentero, assdefd
-extern assdefo, assdopen, asseben, assepen, assfaceoff, assfaceoffp1, assgoalie, assgoalietopuck
+extern assdefo, assdopen, asseben, assepen, assfaceoff, assfaceoffpl, assgoalie, assgoalietopuck
 extern assnearest, asspassrec, asspenalty, asspuckc, assscore, assshoot, assstanley, asswingd
 extern asswingo, puckfaceoff, puckfaceoff2, pucknorm, pucknothing, puckshadow, rtss
 extern unk_DFF5E, unk_E0416, puckstruct
-global StanleyCupTimer, asstab, sflags, gmode2, pendelaytab
+global seed, asstab, sflags, gmode2, pendelaytab
 global byte_C9111, penmintab, byte_C9142, byte_C9146, priolist, byte_CBC37, byte_CBEA8, collflag
 global dirtab, wcradiusy, yleader, sflags3, cont2team, HomeTeam, dword_C9120, shownumbers
 global dword_CBEBE, bannertimer, puckvx, gmode, replaystart, puckx, pucky, puckvy
@@ -122,7 +122,7 @@ db 00h,00h
 dirtab_y:
 db 0C8h,00h,08Dh,00h,08Dh,00h,0C8h,00h,00h,00h,08Dh,00h,073h,0FFh,00h,00h
 db 038h,0FFh,073h,0FFh,073h,0FFh,038h,0FFh,00h,00h,073h,0FFh,08Dh,00h
-StanleyCupTimer:
+seed:
 db 021h,043h
 db 0CDh,0ABh
 pendelaytab:
@@ -163,7 +163,7 @@ dd asspassrec
 dd ass_pc_slot20
 dd assthreestars
 dd assfaceoff
-dd assfaceoffp1
+dd assfaceoffpl
 dd pucknorm
 dd puckshadow
 dd pucknothing

@@ -1,8 +1,7 @@
 genesis_symbol,pc_address,evidence
 Ylist_m2,E9A56,Ylist-2: the -5r load dword [eax*2+E9A56] / sar 10h reads Ylist[eax]; used in nosplit operands so it cannot be folded
 PBnum,E9ABA,"aligned 2/3 accesses in assdopen, asspenalty"
-RNGseed,C9100,randomd0 seed (manual)
-StanleyCupTimer,C9100,randomd0 seed (manual)
+seed,C9100,"95G seed (93G ram93, 94G RNGseed). randomd0 LCG state, initial dword ABCD4321, stirred with the two team numbers and reseeded for the demo"
 collflag,C90BA,"aligned 2/3 accesses in Bcheck, holdcheck"
 dirtab,C90E0,"data table byte match (words->le16, logic93_5.asm, 16 elems)"
 puckvx,C9080,"pointer to the puck's Xvel (dd word_DFF28 = SortCords+14*80h+Xvel); skatetopuck reads its high byte /2 (93G skatetopuckinit puckvx) and vtoa(puckvx,puckvy); was gameclock in the seed global_map (2/2 weak alignment)"

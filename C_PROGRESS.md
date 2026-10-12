@@ -345,7 +345,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | asspuckc | 4C6F3 | 458 | matched | [asspuckc.c](src/c/037_4842A_engine_player_logic/asspuckc.c) |  |
 | sub_4C8BD | 4C8BD | 320 | matched | [sub_4C8BD.c](src/c/037_4842A_engine_player_logic/sub_4C8BD.c) |  |
 | assexit | 4D509 | 31 | matched | [assexit.c](src/c/037_4842A_engine_player_logic/assexit.c) |  |
-| assfaceoffp1 | 4D528 | 396 | matched | [assfaceoffp1.c](src/c/037_4842A_engine_player_logic/assfaceoffp1.c) |  |
+| assfaceoffpl | 4D528 | 396 | matched | [assfaceoffpl.c](src/c/037_4842A_engine_player_logic/assfaceoffpl.c) |  |
 | pucknorm | 4D8C7 | 54 | matched | [pucknorm.c](src/c/037_4842A_engine_player_logic/pucknorm.c) |  |
 | pucknothing puckunflip | 4D8FD | 59 | matched | [pucknothing.c](src/c/037_4842A_engine_player_logic/pucknothing.c) |  |
 | puckunflip | 4D907 | 49 | matched | [puckunflip.c](src/c/037_4842A_engine_player_logic/puckunflip.c) |  |

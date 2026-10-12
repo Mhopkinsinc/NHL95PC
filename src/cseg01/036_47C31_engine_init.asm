@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_47C31 progbits alloc exec nowrite align=1
-extern DoGameFrame, SetSPA, StanleyCupTimer, __CHK, assreplace, sflags, byte_CC9B0, loadpals, VisTeam, bgscrollx, scrollx
+extern DoGameFrame, SetSPA, seed, __CHK, assreplace, sflags, byte_CC9B0, loadpals, VisTeam, bgscrollx, scrollx
 extern textline1, textline2, textline3, textline4, textline5, joysampling, inputframes, escrequest
 extern rinkscrollx, rinkscrolly, loadscreenon, cont2team, HomeTeam, shownumbers, bannertimer, dword_CC0EC
 extern introskipped, dword_CC9AD, spritedrawcount, frameaccum, dword_D8C72, viewscrolly, dword_D8C7A, viewscrollx
@@ -125,7 +125,7 @@ shl edx, 10h	; 47D73
 mov eax, dword [VisTeam-2]	; 47D76
 sar eax, 10h	; 47D7B
 add eax, edx	; 47D7E
-add dword [StanleyCupTimer], eax	; 47D80
+add dword [seed], eax	; 47D80
 xor ecx, ecx	; 47D86
 mov dword [shownumbers], ecx	; 47D88
 mov dword [seqtimer], 708h	; 47D8E

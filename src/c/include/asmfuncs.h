@@ -491,7 +491,7 @@ extern void NetCollide(); /* 5601D */
 extern void puckglue(); /* 56F5A */
 extern void puckgoalie(); /* 57096 */
 extern void puckstick(); /* 57483 */
-extern void checkgoalp_CalcGoalShotDir(); /* 57A98 */
+extern void shotdiradj(); /* 57A98 */
 extern void checkcoll(); /* 580F5 */
 extern void checkwallcoll(); /* 582C9 */
 extern void checkgoal(); /* 584AA */

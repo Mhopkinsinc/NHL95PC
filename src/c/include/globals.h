@@ -2735,7 +2735,7 @@ extern short gameclock; /* C90DC */
 extern short clockticks[]; /* C90DE */
 extern short dirtab[]; /* C90E0 */
 extern short dirtab_y[]; /* C90E2 */
-extern int StanleyCupTimer[]; /* C9100 */
+extern int seed[]; /* C9100 */
 extern signed char pendelaytab[]; /* C9104 */
 extern signed char byte_C9111; /* C9111 */
 extern int dword_C9120[]; /* C9120 */

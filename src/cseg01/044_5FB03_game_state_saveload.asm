@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_5FB03 progbits alloc exec nowrite align=1
-extern PBnum, StanleyCupTimer, __CHK, __STOSB, __STOSD, str_ErrLoadGame, str_ErrSaveGame, pad1dev
+extern PBnum, seed, __CHK, __STOSB, __STOSD, str_ErrLoadGame, str_ErrSaveGame, pad1dev
 extern pad2dev, sflags, gmode2, byte_CCE00, hmroster, awroster, byte_DC264, byte_DC265
 extern byte_DC266, byte_DC267, byte_DC268, byte_E024C, PlList, PenBuf, iflags, byte_E9AC8
 extern byte_E9AD3, OOlist, collflag, postate, lgstate, gamemode, ctl1team, ctl2team
@@ -278,7 +278,7 @@ add eax, byte 2	; 5FEA6
 mov dx, word [bannertimer]	; 5FEA9
 mov word [eax], dx	; 5FEB0
 add eax, byte 2	; 5FEB3
-mov edx, dword [StanleyCupTimer]	; 5FEB6
+mov edx, dword [seed]	; 5FEB6
 mov dword [eax], edx	; 5FEBC
 add eax, byte 4	; 5FEBE
 mov dx, word [PBnum]	; 5FEC1
@@ -1056,7 +1056,7 @@ mov ax, word [ebx]	; 60A03
 mov word [bannertimer], ax	; 60A06
 add ebx, byte 2	; 60A0C
 mov eax, dword [ebx]	; 60A0F
-mov dword [StanleyCupTimer], eax	; 60A11
+mov dword [seed], eax	; 60A11
 add ebx, byte 4	; 60A16
 mov ax, word [ebx]	; 60A19
 mov word [PBnum], ax	; 60A1C
