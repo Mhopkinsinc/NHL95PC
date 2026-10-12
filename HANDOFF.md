@@ -346,7 +346,7 @@ just stored needs the chained form `a = b = 0` (SetupPenaltyShot puck reset).
 | LeagueOptsToBits, CmpSavePct | own files | block layout | code matches; jump table before the label / data after the ret (needs splice support) |
 | PostGameDesk | PostGameDesk.c | 2 copies | asm copies results to edx (mov edx,eax) before testing |
 | SayPlayoffResult, SayPlayoffTonight | own files | stack slots | only the 16-byte buffers' slots differ |
-| AskExportToFloppy, PickOtherGames, SelectSavedFile, SelectMatchingPlayers | own files | 1-2 registers | see csv notes |
+| PickOtherGames, SelectSavedFile, SelectMatchingPlayers | own files | 1-2 registers | see csv notes |
 | SplitPlayerName, DrawTeamGrid, noturn0, LoadJerseyColours, SetupPenaltyShot, SayPenalty | own files | registers / frame | see csv notes |
 | ChkGoalies | ChkGoalies.c | 1 register | other-team pointer in edx (C) vs esi |
 | assepen | assepen.c | multiply | shift-multiply by 11 vs imul; try the `byte &=` form that fixed CtlSwapScoreFix |
