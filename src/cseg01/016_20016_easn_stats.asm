@@ -1371,6 +1371,10 @@ pop ecx	; 2134D
 pop ebx	; 2134E
 ret	; 2134F
 %endif ; C
+; C: src/c/016_20016_easn_stats/CalTeamStatsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/CalTeamStatsScreen.inc"
+%else
 CalTeamStatsScreen:
 push dword 334h	; 21350
 call __CHK	; 21355
@@ -1467,6 +1471,7 @@ pop edx	; 214AD
 pop ecx	; 214AE
 pop ebx	; 214AF
 ret	; 214B0
+%endif ; C
 CalSkaterStatsScreen:
 push dword 334h	; 214B1
 call __CHK	; 214B6
