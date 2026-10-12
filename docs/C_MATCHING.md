@@ -146,6 +146,17 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   widths matter (`short sub_8F80E(int)` gives `test ax,ax`).
 * **Declaration order picks registers**: locals get registers in declaration order. restoreteams matched only
   with `unsigned char *r;` declared before `short *dst;` (r took eax, dst edx); playeracc needed `short yacc, xacc;`.
+* **-od, one array, and the hidden return temporary**: with `-od`, each short or int local is 4 bytes and they are
+  allocated from ebp downward in declaration order. The parameters and the hidden `return 0` temporary come after
+  those scalars. One array leaves parameter `a` at the lower address and the return temporary just above it
+  (LoadLeagueTree; LoadPlayoffModeTree's original, `a` at ebp-30h and the return at ebp-2Ch). Two or three arrays
+  swap those two slots. Joining the regions into one buffer keeps every other address and restores that order:
+  LoadPlayoffModeTree's unused 64 bytes, the 32-byte path and the 8-byte schedule record are one `unsigned char buf[104]`
+  (`buf + 64` is the path, `buf + 96` is the record). `return 0;` is the hidden temporary. An explicit `int ret = 0; return ret;`
+  copies into a second slot and does not match.
+* **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
+  `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
+  saves x in edi and y in esi; copying y before x did not swap those.
 * **Operand order of commutative ops matters**: `xacc ^ p->Wallsin` loads Wallsin into eax and xacc into edx;
   `p->Wallsin ^ xacc` swaps them. Likewise `HIBYTE(p->Xvel) + HIWORD(p->Xpos)` vs the reverse (skateto).
 * **Common subexpressions are reused, named temps are not always**: playeracc's `(legstr + 30h)` written twice

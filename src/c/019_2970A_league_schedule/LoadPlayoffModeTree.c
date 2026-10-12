@@ -6,8 +6,8 @@
  (ReadTeamNames; else from LSSCHED.DB, opened here), the 15 series pairs from schedule games 444h + 7n, then the
  final's seven games from 4A6h on: count each team's wins (game score bytes +4 +5), the first to 4 is pochampion.
  Closes the file and runs PlayoffTreeScreen when nothing failed. Returns 0.
- Draft: all code matches; only a (ebp-30h in the asm) and the return temporary (-2Ch) trade slots. Tried
- extra unused ints arrays and array orders (LoadLeagueTree matched that way). */
+ The unused 64 bytes, the path, and the schedule record are one buffer: with -od, separate arrays swap
+ parameter a with the return temporary. */
 int LoadPlayoffModeTree(int a, int b)
 {
     short t1;
@@ -19,40 +19,38 @@ int LoadPlayoffModeTree(int a, int b)
     short t2;
     short err;
     int x0;                     /* unused */
-    unsigned char rec[8];
-    char path[32];
-    char s[64];                 /* unused */
+    unsigned char buf[104];
 
     fh = -1;
-    MakePath(path, (char *)statsleague, (char *)leaguedbnames[4], (char *)str_extDB);
-    err = ReadTeamNames(path, (char *)treeteamnames, 0);
+    MakePath((char *)(buf + 64), (char *)statsleague, (char *)leaguedbnames[4], (char *)str_extDB);
+    err = ReadTeamNames((char *)(buf + 64), (char *)treeteamnames, 0);
     if (err == 0) {
-        MakePath(path, 0, (char *)str_LSSCHED, (char *)str_extDB);
-        err = FileOpenRead(path, (int *)&fh);
+        MakePath((char *)(buf + 64), 0, (char *)str_LSSCHED, (char *)str_extDB);
+        err = FileOpenRead((char *)(buf + 64), (int *)&fh);
     }
     for (idx = 0, g = 0; g < 105 && err == 0; g += 7) {
-        err = ReadSchedGame(fh, rec, g + 0x444);
-        playofftree[idx] = rec[2];
+        err = ReadSchedGame(fh, buf + 96, g + 0x444);
+        playofftree[idx] = buf[98];
         idx++;
-        playofftree[idx] = rec[3];
+        playofftree[idx] = buf[99];
         idx++;
     }
     hw = 0;
     aw = 0;
     for (g = 0; g < 7 && err == 0; g++) {
-        err = ReadSchedGame(fh, rec, g + 0x4A6);
+        err = ReadSchedGame(fh, buf + 96, g + 0x4A6);
         if (g == 0) {
-            t1 = rec[2];
-            t2 = rec[3];
+            t1 = buf[98];
+            t2 = buf[99];
         }
-        if (rec[4] > rec[5] && rec[2] == t1 || rec[5] > rec[4] && rec[3] == t1) hw++;
+        if (buf[100] > buf[101] && buf[98] == t1 || buf[101] > buf[100] && buf[99] == t1) hw++;
         else aw++;
-        if (hw == 4 && rec[2] == t1 || aw == 4 && rec[2] == t2) {
-            pochampion = rec[2];
+        if (hw == 4 && buf[98] == t1 || aw == 4 && buf[98] == t2) {
+            pochampion = buf[98];
             g = 7;
         }
-        if (aw == 4 && rec[3] == t2 || hw == 4 && rec[3] == t1) {
-            pochampion = rec[3];
+        if (aw == 4 && buf[99] == t2 || hw == 4 && buf[99] == t1) {
+            pochampion = buf[99];
             g = 7;
         }
     }

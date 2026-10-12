@@ -168,7 +168,7 @@ void stub_8C1B7(void);  /* 8C1B7 */
 void stub_8C1F7(void);  /* 8C1F7 */
 void stub_8C202(void);  /* 8C202 */
 void stub_8C20D(void);  /* 8C20D */
-void stub_8C218(void);  /* 8C218 */
+void __cdecl stub_8C218(int page, int x, int y, int w, int h, int zero);  /* 8C218: empty; the line editor pushes a clip blit */
 int DlgReturnZero(void);  /* 2FED2 */
 int GadgetStub0(void);  /* 7E032 */
 int LeagueCheckStub(void);  /* 41337 */
@@ -202,6 +202,7 @@ void WaitKeyRelease(int key);
 int __cdecl sub_B2CBE(int key);  /* keyboard library: key down? */
 void __cdecl sub_B3A24(void);  /* keyboard library */
 unsigned char RandLfsrByte(unsigned char *s);  /* 7665E */
+void BlitClipRect(int x, int y, int w, int h);  /* 7668D */
 void puckunflip(Player *p);  /* 4D907 */
 void CopyRoster1Rec(void);  /* 6DE4C */
 void GetLineEnergies(short team, int *out);  /* 14BEF */

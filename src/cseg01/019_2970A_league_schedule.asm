@@ -9,6 +9,10 @@ extern ReadSchedGame, PlayoffTreeScreen, ReadTeamNames, sub_8E8A0, sub_90D20, su
 extern statsleague, treeteamnames
 global LoadPlayoffModeTree, TreeSeriesWinner, OpenStatsSchedule
 global LoadLeagueTree, FitPlayerName, DrawBevelBox
+; C: src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c
+%ifdef CBUILD
+%include "c/019_2970A_league_schedule/LoadPlayoffModeTree.inc"
+%else
 LoadPlayoffModeTree:
 push dword 0B0h	; 2970A
 call __CHK	; 2970F
@@ -194,6 +198,7 @@ pop esi	; 29918
 pop ecx	; 29919
 pop ebx	; 2991A
 ret	; 2991B
+%endif ; C
 TreeSeriesWinner:
 push dword 38h	; 2991C
 call __CHK	; 29921
