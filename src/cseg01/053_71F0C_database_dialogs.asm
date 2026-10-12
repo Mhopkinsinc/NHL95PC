@@ -1748,6 +1748,10 @@ push eax	; 733B7
 mov edi, dword [pointerspr]	; 733B8
 push edi	; 733BE
 jmp near DbDialogLoop.5	; 733BF
+; C: src/c/053_71F0C_database_dialogs/OpenSelectedDb.c
+%ifdef CBUILD
+%include "c/053_71F0C_database_dialogs/OpenSelectedDb.inc"
+%else
 OpenSelectedDb:
 push dword 20h	; 733C4
 call __CHK	; 733C9
@@ -1806,6 +1810,7 @@ pop edi	; 73457
 pop esi	; 73458
 pop edx	; 73459
 ret	; 7345A
+%endif ; C
 ; C: src/c/053_71F0C_database_dialogs/LoadDbsFromDir.c
 %ifdef CBUILD
 %include "c/053_71F0C_database_dialogs/LoadDbsFromDir.inc"
