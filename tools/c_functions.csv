@@ -3,6 +3,7 @@ DiskFreeBytes,106C8,74,001_10010_main_startup,src/c/001_10010_main_startup/DiskF
 DrawFrameSprite,110E0,86,001_10010_main_startup,src/c/001_10010_main_startup/DrawFrameSprite.c,nonmatching,registers: asm builds x+C0h in esi and 140h-y in edx (then ebx); C swaps them
 DrawRinkEndArt,11136,43,001_10010_main_startup,src/c/001_10010_main_startup/DrawRinkEndArt.c,matched,
 DrawSpriteNumber,11005,219,001_10010_main_startup,src/c/001_10010_main_startup/DrawSpriteNumber.c,nonmatching,"register / stack slots: asm keeps n in ax/edi, sy and suffix as stack words (read as dword >> 16); C needs ebp"
+FadePalette,11598,227,001_10010_main_startup,src/c/001_10010_main_startup/FadePalette.c,nonmatching,"draft: 224 vs 227. The clamp compares steps in ebx; the original reloads the stack home into ecx. A volatile parameter, a local copy, and an inlined mov ecx,[esp] rewrote the ternary. Do not retry those."
 GetMemListHead,10010,26,001_10010_main_startup,src/c/001_10010_main_startup/GetMemListHead.c,matched,
 GetMemStats,1002A,106,001_10010_main_startup,src/c/001_10010_main_startup/GetMemStats.c,matched,
 IntermissionPC,10F6D,152,001_10010_main_startup,src/c/001_10010_main_startup/IntermissionPC.c,matched,
@@ -21,7 +22,7 @@ LoadPhotoBankF,138D2,141,004_13320_asset_loading,src/c/004_13320_asset_loading/L
 LoadPlayerPhotos,1395F,208,004_13320_asset_loading,src/c/004_13320_asset_loading/LoadPhotoBankF.c,matched,
 LoadTransparentRinkEndOverlay,13A2F,98,004_13320_asset_loading,src/c/004_13320_asset_loading/LoadTransparentRinkEndOverlay.c,matched,
 SetupDemoGame,13FA7,175,004_13320_asset_loading,src/c/004_13320_asset_loading/SetupDemoGame.c,matched,
-SetupGame,13E8F,280,004_13320_asset_loading,src/c/004_13320_asset_loading/SetupGame.c,nonmatching,
+SetupGame,13E8F,280,004_13320_asset_loading,src/c/004_13320_asset_loading/SetupGame.c,matched,
 CheckGameDiskSpace,148A5,282,005_1431E_file_utils,src/c/005_1431E_file_utils/CheckGameDiskSpace.c,matched,
 CopyFile,1466B,288,005_1431E_file_utils,src/c/005_1431E_file_utils/CopyFile.c,nonmatching,stack slots / argument shuffling order differ (locals at 400h-44Ch in another order); logic matches
 DeleteDir,14442,227,005_1431E_file_utils,src/c/005_1431E_file_utils/DeleteDir.c,matched,
@@ -280,6 +281,7 @@ asspenshooter,4FAE8,512,037_4842A_engine_player_logic,src/c/037_4842A_engine_pla
 asspuckc,4C6F3,458,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspuckc.c,matched,
 assrefatdot,4DFF7,198,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefatdot.c,matched,
 assscore,4A90F,435,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assscore.c,matched,
+assshoot,4D3F8,248,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assshoot.c,nonmatching,"draft: 242 vs 248. The pfna clear is and bl,0FDh; the original copies bl to ah first. The word at +4Ch is counted in ax (original di), so edi is not saved. A separate byte local moved the and into al. Do not retry that."
 assstanley,4A832,221,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assstanley.c,matched,
 puckflip,4DFA4,83,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/puckflip.c,matched,
 pucknorm,4D8C7,54,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/pucknorm.c,matched,
@@ -457,6 +459,7 @@ SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/
 ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,nonmatching,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only"
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,
+BuildFreeAgentList,6BF4A,249,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,nonmatching,"draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those."
 BuildTeamRosterList,6C043,344,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c,nonmatching,
 CalLeftJoystick CalRightJoystick,6B35C,53,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/CalLeftJoystick.c,matched,
 ClearInputQueue,6B3D7,57,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/ClearInputQueue.c,matched,
