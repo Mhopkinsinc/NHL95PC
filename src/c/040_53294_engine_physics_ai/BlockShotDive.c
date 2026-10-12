@@ -2,15 +2,12 @@
 #include "nhl95.h"
 
 /* BlockShotDive: player p dives to block a shot. dir is the dive direction from CanBlockShot.
- CanBlock (replay95.asm) tests whether a joystick player may block. check4check and
- check4check2 (logic95.asm) then play SPAblock and lock the animation. chkblock, called from
- holdplayer, may replace SPAhook with SPAblock. Those three play that one animation in place.
- This dive locks the animation (pflags bit 5) and turns to face the puck. Directions 3 and 10
- are the high blocks: SPAblocklow while the puck is low and not rising fast, otherwise
- SPAblockhigh. Any other direction is a slide. slideface is the word at player+4Ah. newspd is
- the Y component from word_CCC32, then the X component from word_CCC30 (both indexed by slide2,
- twice that facing, and negated when dir < 3). Damp oldvel, then add newspd. The slide is
- SPAblockslide when handedness and "dir < 3" disagree, otherwise SPAblockslide2. */
+ Lock the current animation (pflags bit 5) and turn to face the puck. Directions 3 and 10 are the
+ high blocks: SPAblocklow while the puck is low and not rising fast, otherwise SPAblockhigh. Any
+ other direction is a slide. slideface is the word at player+4Ah. newspd is the Y speed from
+ blockspd_y, then the X speed from blockspd (both indexed by slide2, twice that facing, and
+ negated when dir < 3). Damp oldvel, then add newspd. The slide is SPAblockslide when handedness
+ and "dir < 3" disagree, otherwise SPAblockslide2. */
 void BlockShotDive(Player *p, int dir)
 {
     int oldvel;
@@ -30,7 +27,7 @@ void BlockShotDive(Player *p, int dir)
         slideface = *(short *)((char *)p + 0x4A);
         p->facedir = slideface;
         slide2 = (short)(slideface + slideface);   /* table index, kept in si for both columns */
-        newspd = word_CCC32[slide2];               /* Y component */
+        newspd = blockspd_y[slide2];               /* Y speed for this facing */
         if (dir < 3) newspd = -newspd;             /* the other way along the ice */
         oldvel = p->Yvel;
         /* Opposite signs: the new speed reverses him, so kill most of the old Y velocity.
@@ -47,7 +44,7 @@ void BlockShotDive(Player *p, int dir)
             else p->Yvel >>= 3;
         }
         p->Yvel += newspd;
-        newspd = word_CCC30[slide2];               /* X component, same index */
+        newspd = blockspd[slide2];               /* X speed, same index */
         if (dir < 3) newspd = -newspd;
         /* handed == 0 is one hand. Disagreeing with dir < 3 picks the other slide animation.
          This overwrites dir; the speed is already in newspd. */

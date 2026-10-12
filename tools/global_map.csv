@@ -2262,3 +2262,5 @@ scpflags2,DF861,"SortCords+pflags2; MenuModeSettings clears bit 3 of each of the
 doortemp1,DFFC2,sortobj15+temp1; assboxenter waits until the penalty-box door is ready
 doorpflags,DFFE0,sortobj15+pflags; assboxenter sets bit 5 as the door closes
 icingPlayer,E9AC1,95G a2touchpuck stores the low byte of SCnum (SCnum+1 on 68k) in the byte after iflags
+blockspd,CCC30,"X column of the shot-block slide speeds. Eight facings, short index = facing*2: 0, ±0BB8h (3000), ±1092h (4242). Same interleaved layout as dirtab, and nosplit, so the Y column keeps its own label."
+blockspd_y,CCC32,"Y column of the shot-block slide speeds, the short after blockspd. Own label because nasm drops nosplit on [idx*s+blockspd+2], same as dirtab_y."

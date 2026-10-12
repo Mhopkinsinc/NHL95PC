@@ -4009,8 +4009,8 @@
 ;  CCC0C  word_CCC0C                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC1C  word_CCC1C                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC2C  dword_CCC2C                              dseg02/037_CC01D_data_engine_37.asm          1
-;  CCC30  word_CCC30                               dseg02/037_CC01D_data_engine_37.asm          1
-;  CCC32  word_CCC32                               dseg02/037_CC01D_data_engine_37.asm          1
+;  CCC30  blockspd                                 dseg02/037_CC01D_data_engine_37.asm          1
+;  CCC32  blockspd_y                               dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC4E  dword_CCC4E                              dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC60  shotsets                                 dseg02/037_CC01D_data_engine_37.asm          1
 ;  CCC62  shotsetz                                 dseg02/037_CC01D_data_engine_37.asm          1

@@ -33,8 +33,7 @@
 #define SPApflip        0x239   /* puck flip */
 #define SPAholdchk      0x873   /* hold check */
 #define SPAholdchkair   0x639   /* hold check, stick in the air */
-/* Shot block. CanBlock, check4check, and chkblock play one animation, SPAblock. These four
-   tables are the dive: two slides that fall, and two high poses. */
+/* Shot-block animations: two slides that fall, and two high poses. */
 #define SPAblockslide   0x13C5  /* sliding shot block; hand and dive side disagree */
 #define SPAblockslide2  0x141D  /* sliding shot block */
 #define SPAblockhigh    0x1475  /* high shot block; puck is high or rising fast */

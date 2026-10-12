@@ -2878,8 +2878,8 @@ extern short word_CCBFC[]; /* CCBFC */
 extern short word_CCC0C[]; /* CCC0C */
 extern short word_CCC1C[]; /* CCC1C */
 extern int dword_CCC2C; /* CCC2C */
-extern short word_CCC30[]; /* CCC30 */
-extern short word_CCC32[]; /* CCC32 */
+extern short blockspd[]; /* CCC30 */
+extern short blockspd_y[]; /* CCC32 */
 extern int dword_CCC4E[]; /* CCC4E */
 extern short shotsets[]; /* CCC60 */
 extern short shotsetz[]; /* CCC62 */

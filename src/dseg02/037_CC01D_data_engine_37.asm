@@ -16,8 +16,8 @@ global dword_CCC9E, dword_CCCB8, dword_CCCC5, dword_CCD4F, doplayeracc_ftab, Max
 global off_CC01D, starordtab, shotsets, unk_CCCC8, word_CC054, word_CC0B0, lldispodd, ltack
 global crowdlevel, word_CC10C, word_CC9CC, word_CC9EA, word_CC9EC, word_CCA18, word_CCA1A, word_CCA1C
 global word_CCA1E, word_CCA38, word_CCA3A, word_CCA3C, word_CCA3E, word_CCA6E, word_CCA70, word_CCA9C
-global linenext, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, word_CCC30
-global word_CCC32, shotsetz, word_CCCA8, word_CCEF8, Setplass_alist
+global linenext, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, blockspd
+global blockspd_y, shotsetz, word_CCCA8, word_CCEF8, Setplass_alist
 off_CC01D:
 dd unk_CBF18
 dd unk_CBEFC
@@ -350,9 +350,11 @@ word_CCC1C:
 db 066h,0FFh,066h,0FFh,066h,0FFh,066h,0FFh,066h,0FFh,066h,0FFh,068h,0FFh,068h,0FFh
 dword_CCC2C:
 db 00h,00h,00h,00h
-word_CCC30:
+; Shot-block slide speeds, eight facings. blockspd is X and blockspd_y is Y, the next short.
+; The short index is the facing doubled. An axis facing is ±4242 and 0; a diagonal is ±3000 on both.
+blockspd:
 db 092h,010h
-word_CCC32:
+blockspd_y:
 db 00h,00h,0B8h,0Bh,048h,0F4h,00h,00h,06Eh,0EFh,048h,0F4h,048h,0F4h,06Eh,0EFh
 db 00h,00h,048h,0F4h,0B8h,0Bh,00h,00h,092h,010h,0B8h,0Bh
 dword_CCC4E:

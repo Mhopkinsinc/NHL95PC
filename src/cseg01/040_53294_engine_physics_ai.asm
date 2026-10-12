@@ -18,8 +18,8 @@ extern QuickShotChk, CountShotOnGoal, EndPenaltyShot, RemoveFromLines, imul32, s
 extern vtoa, wcradiusx, regd4, camx, camy, shotplayer, passdir
 extern passspeed, passplayer, xc1, yc1, fox, c1playernum, c2playernum, cont1team
 extern gsp, gameclock, clockticks, dirtab_y, word_CBEC2, word_CBEC6, bannermsg, ltack
-extern crowdlevel, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, word_CCC30
-extern word_CCC32, shotsetz, hmtmap, awtmap, pucknopuck, word_E03A0, regd2
+extern crowdlevel, word_CCBCC, word_CCBDC, word_CCBEC, word_CCBFC, word_CCC0C, word_CCC1C, blockspd
+extern blockspd_y, shotsetz, hmtmap, awtmap, pucknopuck, word_E03A0, regd2
 extern regd3, word_E03B8, regd0, regd1, Ylist, OOlistpos, CwdExciteLvl, lasttouch
 extern lty, word_E9B28
 global Bcheck, CPgoalie, CheckBump, FallDown, Findhittype, SetShotMode, ShotMode, Sweepcheck
@@ -112,7 +112,7 @@ mov edx, 621h	; 53378
 call SetSPA	; 5337D
 jmp near checkob_ret5	; 53382
 ; BlockShotDive: eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
-; 1475h; else a sliding block with dirtab speed (word_CCC32).
+; 1475h; else a sliding block. blockspd is the X speed and blockspd_y the Y speed for that facing.
 ; C: src/c/040_53294_engine_physics_ai/BlockShotDive.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/BlockShotDive.inc"
@@ -150,7 +150,7 @@ mov word [byte eax+facedir], dx	; 533DF
 mov esi, edx	; 533E3
 add esi, edx	; 533E5
 movsx edx, si	; 533E7
-mov dx, word [nosplit edx*2+word_CCC32]	; 533EA
+mov dx, word [nosplit edx*2+blockspd_y]	; 533EA
 cmp ebx, byte 3	; 533F2
 jge short .4	; 533F5
 neg edx	; 533F7
@@ -182,7 +182,7 @@ sar word [byte eax+Yvel], 3	; 5342A
 .9:
 add word [byte eax+Yvel], dx	; 5342F
 movsx edx, si	; 53433
-mov dx, word [nosplit edx*2+word_CCC30]	; 53436
+mov dx, word [nosplit edx*2+blockspd]	; 53436
 cmp ebx, byte 3	; 5343E
 jge short .10	; 53441
 neg edx	; 53443
