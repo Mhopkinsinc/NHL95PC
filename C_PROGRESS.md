@@ -193,7 +193,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | LoadCalendarShapes | 212FE | 82 | matched | [LoadCalendarShapes.c](src/c/016_20016_easn_stats/LoadCalendarShapes.c) |  |
 | CalStandingsScreen | 216D7 | 279 | nonmatching | [CalStandingsScreen.c](src/c/016_20016_easn_stats/CalStandingsScreen.c) |  |
 | DrawPhotoWithPal | 21C04 | 218 | nonmatching | [DrawPhotoWithPal.c](src/c/016_20016_easn_stats/DrawPhotoWithPal.c) | register allocation only: the second statspalvalid read lands in eax/ecx/edx, the EXE uses ebx |
-| CmpTeamStandings | 22DDE | 336 | nonmatching | [CmpTeamStandings.c](src/c/017_21CDE_player_stats/CmpTeamStandings.c) |  |
+| CmpTeamStandings | 22DDE | 336 | nonmatching | [CmpTeamStandings.c](src/c/017_21CDE_player_stats/CmpTeamStandings.c) | draft: body matches; tail is add esp,0Ch / jmp CmpTeamPK_x (336) and C inlines pop ebp..ret (337). Needs CmpTeamScoring, CmpTeamDefense, CmpTeamPP and CmpTeamPK in the same file. |
 | PlayerFromMouseY | 24453 | 143 | matched | [PlayerFromMouseY.c](src/c/017_21CDE_player_stats/PlayerFromMouseY.c) |  |
 | CmpGoals | 25144 | 243 | matched | [CmpGoals.c](src/c/017_21CDE_player_stats/CmpGoals.c) |  |
 | CmpAssists | 25237 | 238 | matched | [CmpAssists.c](src/c/017_21CDE_player_stats/CmpAssists.c) |  |
@@ -201,7 +201,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | CmpSHGoals | 25438 | 275 | matched | [CmpSHGoals.c](src/c/017_21CDE_player_stats/CmpSHGoals.c) |  |
 | CmpPlusMinus | 2554B | 247 | matched | [CmpPlusMinus.c](src/c/017_21CDE_player_stats/CmpPlusMinus.c) |  |
 | CmpPIM | 25642 | 275 | matched | [CmpPIM.c](src/c/017_21CDE_player_stats/CmpPIM.c) |  |
-| CmpShootPct | 25755 | 277 | nonmatching | [CmpShootPct.c](src/c/017_21CDE_player_stats/CmpShootPct.c) |  |
+| CmpShootPct | 25755 | 277 | nonmatching | [CmpShootPct.c](src/c/017_21CDE_player_stats/CmpShootPct.c) | draft: season record is mov edx,[statsskaterbuf]; add eax,edx (277). C copies the index first (mov edx,eax; mov eax,[buf]; add eax,edx, 278). Operand order and if/else did not flip that add. Do not retry those. |
 | CmpGoalieWins | 2586A | 342 | matched | [CmpGoalieWins.c](src/c/017_21CDE_player_stats/CmpGoalieWins.c) |  |
 | CmpSavePct | 259C0 | 310 | matched | [CmpSavePct.c](src/c/017_21CDE_player_stats/CmpSavePct.c) |  |
 | MoveTreeHighlight | 27BC3 | 113 | matched | [MoveTreeHighlight.c](src/c/018_27080_standings_playoffs/MoveTreeHighlight.c) |  |
@@ -581,7 +581,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | MenuOpenDatabase | 73703 | 167 | matched | [LoadDbDialogShapes.c](src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c) |  |
 | FindRosterSlot | 739B6 | 98 | matched | [FindRosterSlot.c](src/c/054_737AA_line_editor_rosters/FindRosterSlot.c) |  |
 | DrawLineJerseys | 75046 | 438 | nonmatching | [DrawLineJerseys.c](src/c/054_737AA_line_editor_rosters/DrawLineJerseys.c) | stack slots of the spilled side / c1 / c2 bytes rotate (+24h/+28h/+2Ch); independent of declaration order |
-| CmpRosterSkaters | 75931 | 262 | nonmatching | [CmpRosterSkaters.c](src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c) |  |
+| CmpRosterSkaters | 75931 | 262 | nonmatching | [CmpRosterSkaters.c](src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c) | draft: season *a*28h is add ebx,eax / shl ebx,3 / mov eax,[rosterpstat] / add eax,ebx (262). C puts the product in eax and folds add eax,[rosterpstat] (260). n += (n<<2), declaration order, and a comma expression did not put *a in ebx. Do not retry those. |
 | CmpRosterGoalies MenuRegSeasonStats MenuPlayoffStats | 75A37 | 448 | matched | [CmpRosterGoalies.c](src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c) |  |
 | FadePalStep | 76429 | 242 | nonmatching | [FadePalStep.c](src/c/054_737AA_line_editor_rosters/FadePalStep.c) |  |
 | FadePalStepSlow | 7651B | 249 | nonmatching | [FadePalStep.c](src/c/054_737AA_line_editor_rosters/FadePalStep.c) |  |

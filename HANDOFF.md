@@ -411,6 +411,9 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * ClearPanelPenalties: the zero is hoisted into si. An inner `short z = 0` was still hoisted.
 * MenuP1ControlsInGame: ControlsDlgInGame is split in the EXE, so the file cannot be marked. MenuP2ControlsInGame matches on its own and is blocked by that split.
 * SetGameSides: `g * 6` is shifted in eax (`mov eax, ebx`) and the original shifts edx. Declaring `o` first did not change it. `games += g * 6` kept the pointer in edx but widened the byte with `movzx edi` and an extra `push edi` (103 vs 106). Do not retry those.
+* CmpShootPct: the season record is `mov edx, [statsskaterbuf]; add eax, edx` (277). C copies the index first (`mov edx, eax; mov eax, [buf]; add eax, edx`, 278). Operand order and an if/else did not flip that add.
+* CmpTeamStandings: the body matches. The tail is `add esp, 0Ch; jmp CmpTeamPK_x` (336) and C inlines `pop ebp` .. `ret` (337). It needs CmpTeamScoring, CmpTeamDefense, CmpTeamPP and CmpTeamPK in the same file.
+* CmpRosterSkaters: season `*a * 0x28` is `add ebx, eax; shl ebx, 3; mov eax, [rosterpstat]; add eax, ebx` (262). C keeps the product in eax and folds `add eax, [rosterpstat]` (260). A named `n += (n << 2)`, declaration order, and a comma expression did not put `*a` in ebx.
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 
