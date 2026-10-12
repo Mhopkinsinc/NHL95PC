@@ -6,14 +6,14 @@ extern TeamList, str_ArtHart, str_ArtRoss, str_ArtNorr, str_ArtSelk, str_ArtVezi
 extern str_ArtPres, str_ArtConn, str_ArtEasn, str_ArtStan, unk_C0243, unk_C0248, unk_C0251, unk_C0258
 extern unk_C025E, unk_C0265, unk_C026E, unk_C0275, unk_C0280, unk_C028C, unk_C029A, unk_C02A7
 extern unk_C02BC, unk_C02CA, unk_C02D9, unk_C02E9, unk_C0300, unk_C0310, unk_C032B, unk_C0337
-extern unk_C0352, unk_C0362, unk_C0379, unk_C0390, unk_C0397, unk_C04D0, unk_C04D4, unk_C04D8
-extern unk_C04DC, unk_C04E0, unk_C04E4, unk_C04E8, unk_C04EC, unk_C04EF, unk_C04F3, unk_C04F7
-extern unk_C04FA, unk_C04FE, unk_C0502, unk_C0506, unk_C050A, unk_C050E, unk_C0512, unk_C0516
-extern unk_C0519, unk_C051C, unk_C0520, unk_C0524, unk_C0528, unk_C052C, unk_C0530, unk_C0534
-extern unk_C0538, unk_C0543, unk_C054B, unk_C0553, unk_C055B, unk_C0563, unk_C056C, unk_C0575
-extern unk_C0581, unk_C0588, unk_C0591, unk_C059C, unk_C05A9, unk_C05B4, unk_C05BB, unk_C05C8
-extern unk_C05D3, unk_C05DA, unk_C05E3, unk_C05EC, unk_C05F6, unk_C05FE, unk_C0608, unk_C0613
-extern unk_C061C, unk_C0624, unk_C062C, unk_C063B, unk_D97CA, unk_D9800, unk_D9836, unk_D9865
+extern unk_C0352, unk_C0362, unk_C0379, unk_C0390, unk_C0397, BOS, BUF, CGY
+extern CHI, DET, EDM, HFD, LA, DAL, MTL, NJ
+extern NYI, NYR, OTT, PHI, PIT, QUE, STL, SJ
+extern TB, TOR, VAN, WSH, WPG, ANA, FLA, ASW
+extern ASE, Buffalo, Calgary, Chicago, Detroit, Edmonton, Hartford, LosAngeles
+extern Dallas, Montreal, NewJersey, NYIslanders, NYRangers, Ottawa, Philadelphia, Pittsburgh
+extern Quebec, StLouis, SanJose, TampaBay, Toronto, Vancouver, Washington, Winnipeg
+extern Anaheim, Florida, AllStarsWest, AllStarsEast, unk_D97CA, unk_D9800, unk_D9836, unk_D9865
 extern unk_D9894, unk_D98C3, unk_D98F2, unk_D9921, unk_D9950
 global str_D02d, str_D01d, pad1dev, pad2dev, lasthotkey, byte_C5138, awardtype, keydirtab
 global byte_C541B, byte_C5424
@@ -307,61 +307,61 @@ db 00h
 awshotcnt:
 db 00h,00h,00h,00h,00h,00h,00h
 teamabbrevs:
-dd unk_C04D0
-dd unk_C04D4
+dd BOS
+dd BUF
 off_C5441:
-dd unk_C04D8
-dd unk_C04DC
-dd unk_C04E0
-dd unk_C04E4
-dd unk_C04E8
-dd unk_C04EC
-dd unk_C04EF
-dd unk_C04F3
-dd unk_C04F7
-dd unk_C04FA
-dd unk_C04FE
-dd unk_C0502
-dd unk_C0506
-dd unk_C050A
-dd unk_C050E
-dd unk_C0512
-dd unk_C0516
-dd unk_C0519
-dd unk_C051C
-dd unk_C0520
-dd unk_C0524
-dd unk_C0528
-dd unk_C052C
-dd unk_C0530
-dd unk_C0534
-dd unk_C0538
+dd CGY
+dd CHI
+dd DET
+dd EDM
+dd HFD
+dd LA
+dd DAL
+dd MTL
+dd NJ
+dd NYI
+dd NYR
+dd OTT
+dd PHI
+dd PIT
+dd QUE
+dd STL
+dd SJ
+dd TB
+dd TOR
+dd VAN
+dd WSH
+dd WPG
+dd ANA
+dd FLA
+dd ASW
+dd ASE
 teamcitynames:
 dd TeamList
-dd unk_C0543
-dd unk_C054B
-dd unk_C0553
-dd unk_C055B
-dd unk_C0563
-dd unk_C056C
-dd unk_C0575
-dd unk_C0581
-dd unk_C0588
-dd unk_C0591
-dd unk_C059C
-dd unk_C05A9
-dd unk_C05B4
-dd unk_C05BB
-dd unk_C05C8
-dd unk_C05D3
-dd unk_C05DA
-dd unk_C05E3
-dd unk_C05EC
-dd unk_C05F6
-dd unk_C05FE
-dd unk_C0608
-dd unk_C0613
-dd unk_C061C
-dd unk_C0624
-dd unk_C062C
-dd unk_C063B
+dd Buffalo
+dd Calgary
+dd Chicago
+dd Detroit
+dd Edmonton
+dd Hartford
+dd LosAngeles
+dd Dallas
+dd Montreal
+dd NewJersey
+dd NYIslanders
+dd NYRangers
+dd Ottawa
+dd Philadelphia
+dd Pittsburgh
+dd Quebec
+dd StLouis
+dd SanJose
+dd TampaBay
+dd Toronto
+dd Vancouver
+dd Washington
+dd Winnipeg
+dd Anaheim
+dd Florida
+dd AllStarsWest
+dd AllStarsEast

@@ -2187,3 +2187,58 @@ ovlstepidx,E9AB4,"index of the current step in the overlay script, advanced by U
 ovlsteptimer,E9AB2,frames left in the current overlay step (from word_CC054[ovlseq])
 ovlscript,E0248,pointer to the loaded overlay script bytes (cleared when the sequence ends)
 shownumbers,CBC3E,toggled by HandleHotKey on scan code 0Fh (Tab); while set the frame code draws each player's number (+5Eh) above him with DrawSpriteNumber
+BOS,C04D0,on-screen team abbreviation in teamabbrevs
+BUF,C04D4,on-screen team abbreviation in teamabbrevs
+CGY,C04D8,on-screen team abbreviation in teamabbrevs
+CHI,C04DC,on-screen team abbreviation in teamabbrevs
+DET,C04E0,on-screen team abbreviation in teamabbrevs
+EDM,C04E4,on-screen team abbreviation in teamabbrevs
+HFD,C04E8,on-screen team abbreviation in teamabbrevs
+LA,C04EC,on-screen team abbreviation in teamabbrevs
+DAL,C04EF,on-screen team abbreviation in teamabbrevs
+MTL,C04F3,on-screen team abbreviation in teamabbrevs
+NJ,C04F7,on-screen team abbreviation in teamabbrevs
+NYI,C04FA,on-screen team abbreviation in teamabbrevs
+NYR,C04FE,on-screen team abbreviation in teamabbrevs
+OTT,C0502,on-screen abbreviation OTT (95G spells the short form OTW)
+PHI,C0506,on-screen team abbreviation in teamabbrevs
+PIT,C050A,on-screen team abbreviation in teamabbrevs
+QUE,C050E,on-screen team abbreviation in teamabbrevs
+STL,C0512,on-screen team abbreviation in teamabbrevs
+SJ,C0516,on-screen team abbreviation in teamabbrevs
+TB,C0519,on-screen abbreviation TB
+TOR,C051C,on-screen team abbreviation in teamabbrevs
+VAN,C0520,on-screen team abbreviation in teamabbrevs
+WSH,C0524,on-screen team abbreviation in teamabbrevs
+WPG,C0528,on-screen team abbreviation in teamabbrevs
+ANA,C052C,on-screen abbreviation ANA (95G spells the short form ANH)
+FLA,C0530,on-screen team abbreviation in teamabbrevs
+ASW,C0534,on-screen abbreviation for West All Stars
+ASE,C0538,on-screen abbreviation for East All Stars
+NYIslanders,C059C,"city string NY ISLANDERS; long name, not NYI"
+NYRangers,C05A9,"city string NY RANGERS; long name, not NYR"
+Buffalo,C0543,city string BUFFALO
+Calgary,C054B,city string CALGARY
+Chicago,C0553,city string CHICAGO
+Detroit,C055B,city string DETROIT
+Edmonton,C0563,city string EDMONTON
+Hartford,C056C,city string HARTFORD
+LosAngeles,C0575,city string LOS ANGELES
+Dallas,C0581,city string DALLAS
+Montreal,C0588,city string MONTREAL
+NewJersey,C0591,city string NEW JERSEY
+Ottawa,C05B4,city string OTTAWA
+Philadelphia,C05BB,city string PHILADELPHIA
+Pittsburgh,C05C8,city string PITTSBURGH
+Quebec,C05D3,city string QUEBEC
+StLouis,C05DA,city string ST LOUIS
+SanJose,C05E3,city string SAN JOSE
+TampaBay,C05EC,city string TAMPA BAY
+Toronto,C05F6,city string TORONTO
+Vancouver,C05FE,city string VANCOUVER
+Washington,C0608,city string WASHINGTON
+Winnipeg,C0613,city string WINNIPEG
+Anaheim,C061C,city string ANAHEIM
+Florida,C0624,city string FLORIDA
+AllStarsWest,C062C,city string WEST ALL STARS
+AllStarsEast,C063B,city string EAST ALL STARS
