@@ -388,6 +388,10 @@ jne near check4check.4	; 5368D
 mov eax, ecx	; 53693
 call TryBlockShot	; 53695
 jmp near checkob_ret5	; 5369A
+; C: src/c/040_53294_engine_physics_ai/checkagr.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkagr.inc"
+%else
 checkagr:
 push dword 10h	; 5369F
 call __CHK	; 536A4
@@ -478,6 +482,7 @@ pop edx	; 53789
 pop ecx	; 5378A
 pop ebx	; 5378B
 ret	; 5378C
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/FacingBoards.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/FacingBoards.inc"

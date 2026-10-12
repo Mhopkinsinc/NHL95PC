@@ -111,7 +111,7 @@ SetScreenTitle,1D610,174,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labe
 StrLenToDot,1D5D5,34,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/StrLenToDot.c,matched,
 StrPrefixDiffers,1D6BE,42,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/StrPrefixDiffers.c,matched,
 CmpGAA,1FC8F,367,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/CmpGAA.c,matched,
-CmpPoints,1FB7F,272,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/CmpPoints.c,nonmatching,
+CmpPoints,1FB7F,272,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/CmpPoints.c,matched,
 InitMenuRemap,1FAA7,117,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/InitMenuRemap.c,nonmatching,draft: asm calls __STOSB for the 15h-byte clear (inline memset helper); default-flag memset calls memset_
 TextPrintf TextPrintf2,1FB1C,99,015_1D6E8_menu_system,src/c/015_1D6E8_menu_system/TextPrintf.c,matched,
 CalStandingsScreen,216D7,279,016_20016_easn_stats,src/c/016_20016_easn_stats/CalStandingsScreen.c,nonmatching,
@@ -189,7 +189,7 @@ ApplyShapePalette,34789,46,027_33FFD_calendar,src/c/027_33FFD_calendar/ApplyShap
 CalNextMonth,34691,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalNextMonth.c,matched,
 CalPrevMonth,346FE,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalPrevMonth.c,matched,
 CalReturn,3476B,30,027_33FFD_calendar,src/c/027_33FFD_calendar/CalReturn.c,matched,
-SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,nonmatching,draft: record pointer built in edx (asm) vs eax; o kept in edx
+SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,nonmatching,"draft: g*6 shifted in eax (mov eax,ebx) vs edx. Declaration order unchanged. games += g*6 kept the pointer in edx but widened the byte with movzx edi and push edi (103). Do not retry those."
 DrawTeamGrid,37FBA,303,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGrid.c,nonmatching,
 DrawTeamGridName,37C53,279,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGridName.c,nonmatching,register allocation: asm keeps the row in a stack slot and the column in edi (no order of the 5 locals matches)
 HighlightGridCell,37EA6,276,028_35FB9_import_export,src/c/028_35FB9_import_export/HighlightGridCell.c,nonmatching,register / stack slots of the 8 frame corner temporaries differ; logic matches
@@ -327,7 +327,7 @@ SkillForAnim,54134,150,040_53294_engine_physics_ai,src/c/040_53294_engine_physic
 Sweepcheck,532A2,27,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Sweepcheck.c,matched,
 ToFixed,53294,14,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ToFixed.c,matched,
 TryBlockShot,534BB,124,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/TryBlockShot.c,nonmatching,"registers only: original p in ecx, n in ebx, gmode2 temp in edx; this draft p in ebx, n in edx. 10-min cap"
-checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkagr.c,nonmatching,
+checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkagr.c,matched,
 checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoalp.c,nonmatching,C hoists the wcradiusy load above the SCnum 12 test and swaps esi / edi for p / SCnum; rest of the logic matches
 checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkint.c,matched,
 checkplcoll,58CE2,229,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkplcoll.c,nonmatching,stack slots: asm spills x (word) at [esp] and y at [esp+4]; C swaps the two slots; rest matches

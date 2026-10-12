@@ -2890,6 +2890,10 @@ pop edi	; 1FB7A
 pop esi	; 1FB7B
 ret 4	; 1FB7C
 %endif ; C
+; C: src/c/015_1D6E8_menu_system/CmpPoints.c
+%ifdef CBUILD
+%include "c/015_1D6E8_menu_system/CmpPoints.inc"
+%else
 CmpPoints:
 push dword 14h	; 1FB7F
 call __CHK	; 1FB84
@@ -3003,6 +3007,7 @@ pop esi	; 1FC8B
 pop ecx	; 1FC8C
 pop ebx	; 1FC8D
 ret	; 1FC8E
+%endif ; C
 ; C: src/c/015_1D6E8_menu_system/CmpGAA.c
 %ifdef CBUILD
 %include "c/015_1D6E8_menu_system/CmpGAA.inc"
