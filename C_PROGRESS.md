@@ -556,7 +556,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | MenuHitTest | 6BA4D | 158 | nonmatching | [MenuHitTest.c](src/c/050_6B093_joystick_calibration/MenuHitTest.c) | draft: same size. The item pointer is in edx and the origin pointer in eax (original item in eax, origin in edx). Adding the item on the left loaded x2 before x1. Do not retry that add order. |
 | MenuCentralRegistry | 6BE95 | 168 | matched | [MenuCentralRegistry.c](src/c/050_6B093_joystick_calibration/MenuCentralRegistry.c) |  |
 | BuildFreeAgentList | 6BF4A | 249 | nonmatching | [BuildFreeAgentList.c](src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c) | draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those. |
-| BuildTeamRosterList | 6C043 | 344 | nonmatching | [BuildTeamRosterList.c](src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c) |  |
+| BuildTeamRosterList | 6C043 | 344 | nonmatching | [BuildTeamRosterList.c](src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c) | 338 vs 344. Team stays in eax; original saves esi and reloads before TeamRecPtr. Dressed byte is mov al,[ebx+eax+0E4h]; original is add edx,ebx / mov ah. Do not retry a named team, an esi aux, or naming the fill byte. |
 | LoadLeagueDbsMem | 6C19B | 350 | matched | [LoadLeagueDbsMem.c](src/c/050_6B093_joystick_calibration/LoadLeagueDbsMem.c) |  |
 | MenuSaveDbs | 6C2F9 | 194 | matched | [MenuSaveDbs.c](src/c/051_6C2F9_database_save/MenuSaveDbs.c) |  |
 | MenuSaveDbsAs | 6C3BB | 255 | nonmatching | [MenuSaveDbsAs.c](src/c/051_6C2F9_database_save/MenuSaveDbsAs.c) |  |
@@ -573,7 +573,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | CopyRoster1Rec | 6DE4C | 50 | matched | [CopyRoster1Rec.c](src/c/052_6D2F8_create_player/CopyRoster1Rec.c) |  |
 | DrawDBErrorsScreen | 6EC95 | 164 | matched | [DrawDBErrorsScreen.c](src/c/052_6D2F8_create_player/DrawDBErrorsScreen.c) |  |
 | ShowDBError | 6ED39 | 86 | matched | [ShowDBError.c](src/c/052_6D2F8_create_player/ShowDBError.c) |  |
-| SplitPlayerName | 6F159 | 323 | nonmatching | [SplitPlayerName.c](src/c/052_6D2F8_create_player/SplitPlayerName.c) |  |
+| SplitPlayerName | 6F159 | 323 | nonmatching | [SplitPlayerName.c](src/c/052_6D2F8_create_player/SplitPlayerName.c) | same 323. stop/first/last match at esp+0/+4/+8 as one struct. Name is in edi (original ecx), so the copy count stays in ebx (original edx). Do not retry an aux that forces ecx. |
 | RatingToFloat | 6F6AD | 39 | matched | [RatingToFloat.c](src/c/052_6D2F8_create_player/RatingToFloat.c) |  |
 | CreatePlayerNop | 6FA72 | 11 | matched | [CreatePlayerNop.c](src/c/052_6D2F8_create_player/CreatePlayerNop.c) |  |
 | DrawShootsField | 6FA7D | 184 | matched | [DrawShootsField.c](src/c/052_6D2F8_create_player/DrawShootsField.c) |  |

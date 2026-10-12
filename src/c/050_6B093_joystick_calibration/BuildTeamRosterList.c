@@ -1,4 +1,9 @@
-/* BuildTeamRosterList - fill list (28 entries of 1Bh bytes) with team's roster: entry i gets index i at +2; the 25
+/* BuildTeamRosterList - DRAFT 338 vs 344. Team stays in eax through the index loop; the original saves it
+ with mov esi,eax and reloads mov eax,esi just before TeamRecPtr. The dressed byte is mov al,[ebx+eax+0E4h];
+ the original adds the index into edx and loads ah, so eax is not the base. A named team was eliminated.
+ An aux returning esi reloaded eax at once and saved esi last. Naming the fill byte lengthened the copies.
+ Do not retry those.
+ Fill list (28 entries of 1Bh bytes) with team's roster: entry i gets index i at +2; the 25
    skater slots (key offsets at team record +4Ch) and the 3 goalie slots (+B0h) become entries 0-24 and 25-27: an
    empty slot (-1) is position 0, number 64h, status 0; else position (key +2), number (+1), status 3, the key offset
    at +4 and "<initial>. <last name>" (key +3 and +13h) at +8. The 8 dressed-player bytes at team record +E4h mark

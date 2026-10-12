@@ -469,7 +469,7 @@ ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_displ
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,
 BuildFreeAgentList,6BF4A,249,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,nonmatching,"draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those."
-BuildTeamRosterList,6C043,344,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c,nonmatching,
+BuildTeamRosterList,6C043,344,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c,nonmatching,"338 vs 344. Team stays in eax; original saves esi and reloads before TeamRecPtr. Dressed byte is mov al,[ebx+eax+0E4h]; original is add edx,ebx / mov ah. Do not retry a named team, an esi aux, or naming the fill byte."
 CalLeftJoystick CalRightJoystick,6B35C,53,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/CalLeftJoystick.c,matched,
 ClearInputQueue,6B3D7,57,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/ClearInputQueue.c,matched,
 DrawMenuBar,6B5E4,160,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuBar.c,matched,
@@ -510,7 +510,7 @@ SelectMatchingPlayers,71690,429,052_6D2F8_create_player,src/c/052_6D2F8_create_p
 SetRosterTeamMenus,7183D,292,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SetRosterTeamMenus.c,nonmatching,
 ShellSortBytes,6D7ED,173,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShellSortBytes.c,matched,
 ShowDBError,6ED39,86,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShowDBError.c,matched,
-SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SplitPlayerName.c,nonmatching,
+SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SplitPlayerName.c,nonmatching,"same 323. stop/first/last match at esp+0/+4/+8 as one struct. Name is in edi (original ecx), so the copy count stays in ebx (original edx). Do not retry an aux that forces ecx."
 DbDialogHitTest,72A5C,82,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DbDialogHitTest.c,matched,
 DrawDbDialogButtons,72605,464,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c,matched,
 LoadDbDialogShapes,7230B,385,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
