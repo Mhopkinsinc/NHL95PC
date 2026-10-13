@@ -344,6 +344,7 @@ void POSimSeries(unsigned char *s, int games);
 void POPreSimRound2(unsigned char *po, int a, int b);  /* 87FE0 */
 void POPreSimConfFinals(unsigned char *po, int a, int b);  /* 8803B */
 int TradeRosterCmp(unsigned char *a, unsigned char *b);  /* 3FEF0 */
+int BuildTradeRoster(char *dir, int team, unsigned char *list, unsigned char *rec);  /* 3DC2C */
 int strcmp(const char *a, const char *b);  /* Watcom CRT strcmp_ */
 int ComparePlayerEntry(unsigned char *a, unsigned char *b);  /* 6D78B */
 int GameRosterCmp(unsigned char *a, unsigned char *b);  /* 76A93 */
@@ -883,6 +884,8 @@ int GameDressPlayer(unsigned char *nums, int a, unsigned char side, int *sel, in
 void checkint(Player *a, Player *b);  /* 53E6A */
 int __cdecl vecdist(int x, int y);  /* B3D94 */
 void checkgoalp(Player *p, Player *g, short x, short y);  /* 53CE5 */
+void checkgoal(Player *p, Player *g, short x, short y);  /* 584AA */
+void wallcollb(Player *p);  /* 58B7F */
 int MenuMergeUpdateDbs(void);  /* 333D7 */
 void DrawLineJerseys(unsigned char *nums, int art, unsigned char side);  /* 75046 */
 int FileDlgHitTest(int x, int y, int *item);  /* 2C3FF */

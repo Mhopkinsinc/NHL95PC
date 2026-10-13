@@ -232,6 +232,7 @@ ReadLeagueInfo,3D8DD,476,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge
 ReadTeamNames,3DAB9,136,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadTeamNames.c,matched,
 WaitLeagueFloppy,3D84F,142,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/WaitLeagueFloppy.c,nonmatching,"draft: file/name params in edi/esi swapped, local order and MessageBox result kept in eax not edx"
 LoadNhlCfg,3DB41,231,031_3DB41_config_cfg,src/c/031_3DB41_config_cfg/LoadNhlCfg.c,matched,
+BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/BuildTradeRoster.c,nonmatching,draft: 473 vs 473. The fill loop keeps the index in ebx and stores it through al; the original keeps the index in eax and reloads the byte into dl. Do not retry: a separate unsigned char is the same ebx/al pair. Storing the index directly reloads eax (477 bytes). An aux that reloads dl parks list in edi; passing list in esi pushes the incoming args and shifts the frame.
 DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,matched,
 FindTradeSlot,3EF3C,77,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FindTradeSlot.c,matched,
 LoadTradeTeamPals,3E835,410,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/LoadTradeTeamPals.c,matched,
@@ -353,6 +354,7 @@ checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoalp.c,nonmatching,C hoists the wcradiusy load above the SCnum 12 test and swaps esi / edi for p / SCnum; rest of the logic matches
 checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkint.c,matched,
 checkplcoll,58CE2,229,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkplcoll.c,nonmatching,stack slots: asm spills x (word) at [esp] and y at [esp+4]; C swaps the two slots; rest matches
+checkwallcoll,582C9,481,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkwallcoll.c,nonmatching,"draft: 470 vs 481. xlim reloads in edx (original ecx). The x test negates that limit in ecx and compares dx with cx; the original negates it in edx, reloads x, and compares with regd4 in memory. Do not retry: non-volatile limits sign-extend the radii and spill y. Declaring ylim before xlim swaps the two stack slots."
 deflect,57A3E,90,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/deflect.c,matched,
 holdcheck,56B79,397,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/holdcheck.c,matched,
 newcheck,58084,113,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/newcheck.c,matched,

@@ -370,7 +370,6 @@ extern void ImportMasterLeague_ret(); /* 3C6DB */
 extern void ExportDbs(); /* 3D108 */
 extern void LoadNhlCfg(); /* 3DB41 */
 extern void negone_3DC28(); /* 3DC28 */
-extern void BuildTradeRoster(); /* 3DC2C */
 extern void TradeShowStats(); /* 3DE05 */
 extern void FixJerseyConflict(); /* 3E055 */
 extern void ExecuteTrade(); /* 3E390 */
@@ -486,9 +485,7 @@ extern void puckgoalie(); /* 57096 */
 extern void puckstick(); /* 57483 */
 extern void shotdiradj(); /* 57A98 */
 extern void checkwallcoll(); /* 582C9 */
-extern void checkgoal(); /* 584AA */
 extern void wallcoll(); /* 587D3 */
-extern void wallcollb(); /* 58B7F */
 extern void ReturnGoalies(); /* 59352 */
 extern void sndcb_addesp8_x(); /* 594AC */
 extern void CrowdNoiseUpdate(); /* 594CD */
