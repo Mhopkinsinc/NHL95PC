@@ -193,7 +193,13 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **Locals vs fields**: `pos = p->position` then `Setplass_alist[pos]` gives `movsx edx,dx`; indexing with the
   field re-reads it as a dword. `t = expr; n = t; if (t < 25) n = 25;` gives updatecrowdf's clamp.
 * **Parameter reuse**: assigning the result back to a parameter (`dir = (p->facedir - dir) & 7`) keeps it in the
-  parameter's register (Findhittype `mov edx,ecx`); a new local takes another one.
+  parameter's register (Findhittype `mov edx,ecx`); a new local takes another one. A dead parameter is the
+  temp that turns an in-place `sub/sar/add` into `lea eax,[reg-imm] / sar eax,2 / lea reg,[eax+imm]`
+  (CrowdNoiseUpdate's `n = (v - 0x390) >> 2; v = n + 0x28`). A fresh local is coalesced back into `v`.
+* **A symbol address cast to int is immediate 0**: `(int)&str_HasNotBeenMerged` has no fixup.
+  `*(char **)(mergestatemsg + 8) = (char *)str_HasNotBeenMerged` is `mov dword [mergestatemsg+8], str_HasNotBeenMerged`
+  (UpdateTeamDbs). That instruction relocates both the displacement and the immediate; cdiff masks one fixup, so it
+  prints `!` even when both targets are the original ones.
 * **Early return first** reproduces the original block order (Acheck: `impact == 0` path first).
 * **Declaration order** of locals changes register allocation in some functions (calcpuckcross), not in others.
 * **gmode bit 0** (`gmclock`) means "game clock stopped" (93G ram93): ResetClock sets it, the faceoff drop

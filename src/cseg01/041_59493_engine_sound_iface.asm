@@ -46,6 +46,10 @@ push edx	; 594C5
 call sub_8E908	; 594C6
 jmp short sndcb_addesp8_x	; 594CB
 %endif ; C
+; C: src/c/041_59493_engine_sound_iface/CrowdNoiseUpdate.c
+%ifdef CBUILD
+%include "c/041_59493_engine_sound_iface/CrowdNoiseUpdate.inc"
+%else
 CrowdNoiseUpdate:
 push dword 14h	; 594CD
 call __CHK	; 594D2
@@ -251,6 +255,7 @@ pop edx	; 59744
 pop ecx	; 59745
 pop ebx	; 59746
 ret	; 59747
+%endif ; C
 ; C: src/c/041_59493_engine_sound_iface/CrowdNoiseOff.c
 %ifdef CBUILD
 %include "c/041_59493_engine_sound_iface/CrowdNoiseOff.inc"

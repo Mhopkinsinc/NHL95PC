@@ -500,6 +500,10 @@ pop ebp	; 3B033
 pop edi	; 3B034
 pop esi	; 3B035
 ret 0Ch	; 3B036
+; C: src/c/030_3A9AA_database_merge/UpdateTeamDbs.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/UpdateTeamDbs.inc"
+%else
 UpdateTeamDbs:
 push dword 74h	; 3B039
 call __CHK	; 3B03E
@@ -670,6 +674,7 @@ pop edx	; 3B256
 pop ecx	; 3B257
 pop ebx	; 3B258
 ret	; 3B259
+%endif ; C
 MergeLeagueFiles:
 push dword 8Ch	; 3B25A
 call __CHK	; 3B25F
