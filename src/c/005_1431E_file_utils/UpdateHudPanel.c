@@ -1,5 +1,9 @@
-/* File utils: per-frame redraw of the top panel. */
+/* File utils: per-frame redraw of the top panel, and the clock digits that share its exit. */
+#define DrawPanelClock DrawPanelClock_decl
 #include "nhl95.h"
+#undef DrawPanelClock
+
+#define PUTDIGIT ((void (__cdecl *)(int spr, int x, int y))sub_B4CD8)
 
 /* UpdateHudPanel: on the screen bitmap, tick the panel clock and both penalty lists (unless the
  clock was already stopped, or a replay is up), refresh both teams' line energies, and draw the
@@ -55,4 +59,31 @@ void UpdateHudPanel(void)
         DrawPanelPenalties(hudpenaway, 0xBF);
         dword_C5860 = 0;
     }
+}
+
+/* DrawPanelClock: draw the clock on the screen bitmap. With no minutes left, the colon is the
+ tens of seconds and the hundredths follow; otherwise the minutes and seconds are two digits each.
+ A value under 10 uses the colon sprite as a blank tens digit. The three fields are saved afterwards. */
+void DrawPanelClock(void)
+{
+    if (hudclockmin == 0) {
+        PUTDIGIT(clockcolon, 0xAA, 3);
+        if (hudclocksec < 10)
+            PUTDIGIT(clockcolon, 0x8C, 3);
+        else
+            PUTDIGIT(clockdigits[hudclocksec / 10], 0x8C, 3);
+        PUTDIGIT(clockdigits[hudclocksec % 10], 0x95, 3);
+        PUTDIGIT(clockdigits[hudclockhund / 10], 0xA1, 3);
+    } else {
+        if (hudclockmin < 10)
+            PUTDIGIT(clockcolon, 0x8C, 3);
+        else
+            PUTDIGIT(clockdigits[hudclockmin / 10], 0x8C, 3);
+        PUTDIGIT(clockdigits[hudclockmin % 10], 0x95, 3);
+        PUTDIGIT(clockdigits[hudclocksec / 10], 0xA1, 3);
+        PUTDIGIT(clockdigits[hudclocksec % 10], 0xAA, 3);
+    }
+    dword_C5710 = hudclockmin;
+    dword_C5714 = hudclocksec;
+    dword_C5718 = hudclockhund;
 }

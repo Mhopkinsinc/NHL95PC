@@ -148,6 +148,9 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   widths matter (`short sub_8F80E(int)` gives `test ax,ax`).
 * **Declaration order picks registers**: locals get registers in declaration order. restoreteams matched only
   with `unsigned char *r;` declared before `short *dst;` (r took eax, dst edx); playeracc needed `short yacc, xacc;`.
+  A named local keeps that register on a path where the value is dead, so the other arm cannot reuse it.
+  DrawPanelClock tests `hudclockmin` directly: the load stays in edx for the minutes arm (`mov eax, edx` into
+  the divide) and the zero-minute arm reuses edx for the colon sprite. An `int m = hudclockmin` left the colon in ebp.
 * **-od, one array, and the hidden return temporary**: with `-od`, each short or int local is 4 bytes and they are
   allocated from ebp downward in declaration order. The parameters and the hidden `return 0` temporary come after
   those scalars. One array leaves parameter `a` at the lower address and the return temporary just above it

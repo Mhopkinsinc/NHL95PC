@@ -1185,6 +1185,10 @@ pop ecx	; 14F2E
 pop ebx	; 14F2F
 ret	; 14F30
 %endif ; C
+; C: src/c/005_1431E_file_utils/UpdateHudPanel.c (DrawPanelClock)
+%ifdef CBUILD
+%include "c/005_1431E_file_utils/UpdateHudPanel.DrawPanelClock.inc"
+%else
 DrawPanelClock:
 push dword 28h	; 14F31
 call __CHK	; 14F36
@@ -1305,3 +1309,4 @@ mov dword [dword_C5714], eax	; 150B2
 mov eax, dword [hudclockhund]	; 150B7
 mov dword [dword_C5718], eax	; 150BC
 jmp near UpdateHudPanel_x	; 150C1
+%endif ; C
