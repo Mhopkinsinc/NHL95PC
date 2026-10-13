@@ -152,6 +152,7 @@ FitPlayerName,29C75,139,019_2970A_league_schedule,src/c/019_2970A_league_schedul
 LoadLeagueTree,29B07,366,019_2970A_league_schedule,src/c/019_2970A_league_schedule/LoadLeagueTree.c,matched,
 LoadPlayoffModeTree,2970A,530,019_2970A_league_schedule,src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c,matched,
 OpenStatsSchedule,29A97,112,019_2970A_league_schedule,src/c/019_2970A_league_schedule/OpenStatsSchedule.c,matched,
+TreeSeriesWinner,2991C,379,019_2970A_league_schedule,src/c/019_2970A_league_schedule/TreeSeriesWinner.c,nonmatching,"draft: 379 vs 379, instructions match, stack slots do not. Win counters match. The series pointer, same and round are reversed against the original homes, and the return sits at ebp-10h (original ebp-4). Do not retry: reversing local order, or putting every local in one block."
 CmpFileNames,2BEEA,19,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/CmpFileNames.c,matched,
 FileDlgHitTest,2C3FF,82,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c,matched,
 LoadFileDlgShapes,2B7C3,385,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
@@ -341,6 +342,7 @@ CompShoot,55A35,106,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 FacingBoards,5378D,159,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/FacingBoards.c,matched,
 Findhittype,579FF,63,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Findhittype.c,matched,
 MarkTwoLinePlayers,55C6F,185,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/MarkTwoLinePlayers.c,matched,
+PassLaneChk,54C09,346,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate y stays in edx. The other gap is inc esi versus lea eax,[esi+1]. Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx."
 PuckCheckColl,548AC,228,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PuckCheckColl.c,matched,
 ScatterPass,54D63,145,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ScatterPass.c,matched,
 SetShotMode,5786E,140,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/SetShotMode.c,nonmatching,"draft: vtoa result copied to edx before the regd0 store; asm stores ax then movsx edx,ax after word_C90A6"
