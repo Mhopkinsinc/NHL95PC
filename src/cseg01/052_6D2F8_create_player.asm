@@ -2001,6 +2001,10 @@ pop ebp	; 6EAAF
 pop edi	; 6EAB0
 pop esi	; 6EAB1
 ret 4	; 6EAB2
+; C: src/c/052_6D2F8_create_player/ErrorScreenWait.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/ErrorScreenWait.inc"
+%else
 ErrorScreenWait:
 push dword 3Ch	; 6EAB5
 call __CHK	; 6EABA
@@ -2172,6 +2176,7 @@ pop ebp	; 6EC91
 pop edi	; 6EC92
 pop esi	; 6EC93
 ret	; 6EC94
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/DrawDBErrorsScreen.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/DrawDBErrorsScreen.inc"

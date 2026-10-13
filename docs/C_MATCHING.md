@@ -168,6 +168,7 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   Hide that name around the include and declare `extern unsigned char str_RosterIncomplete[]`. The copy is then
   `mov esi, str / rep movsd` with no segment override (CheckRosterComplete). Writing the same count expression twice
   recomputes it in eax after that register is reused for the plural pointer; a named `n` keeps the value in edx.
+* **Copy the register first**: `ox = x = *p` stores through eax, then copies into esi. `ox = *p; x = ox` is `mov esi,[p]` / `mov [x],esi` (ErrorScreenWait). The first calls then pass ox and oy, the registers, not the stack copies.
 * **A char parameter is homed inside the local frame**: `unsigned char team` plus `unsigned char buf[0x80]` and two
   int parameters is `sub esp,94h` then `mov byte [esp+90h],al` / `mov [esp+80h],edx` / `mov [esp+84h],ebx`, not three
   pushes (CheckGameRosterComplete). A spilled int adds 4 bytes and shifts the byte home. `off = slot * 39` before
