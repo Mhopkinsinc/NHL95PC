@@ -39,7 +39,6 @@ extern void DrawPanelClock(); /* 14F31 */
 extern void DrawPanelClockDigits(); /* 1540A */
 extern void TickPanelPenalties(); /* 15655 */
 extern void DrawEnergyBar(); /* 15707 */
-extern void DrawLineGroupBars(); /* 157BD */
 extern void DrawPanelPenalties(); /* 15995 */
 extern void RunDemoGame(); /* 15D6B */
 extern void RunDemoGame_x(); /* 16005 */
@@ -6476,7 +6475,6 @@ extern void loc_B4C95(); /* B4C95 */
 extern void sub_B4CA7(); /* B4CA7 */
 extern void sub_B4CB4(); /* B4CB4 */
 extern void sub_B4CD8(); /* B4CD8 */
-extern void sub_B4CF2(); /* B4CF2 */
 extern void loc_B4D0C(); /* B4D0C */
 extern void loc_B4D1A(); /* B4D1A */
 extern void loc_B4D3C(); /* B4D3C */

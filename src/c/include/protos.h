@@ -207,6 +207,8 @@ void BlitClipRect(int x, int y, int w, int h);  /* 7668D */
 void puckunflip(Player *p);  /* 4D907 */
 void CopyRoster1Rec(void);  /* 6DE4C */
 void GetLineEnergies(short team, int *out);  /* 14BEF */
+void DrawLineGroupBars(int *drawn, int *inds, int line, int *energy, int x);  /* 157BD */
+void __cdecl sub_B4CF2(int shape);  /* video library: draw one shape */
 short TeamLineEnergy(short team, short line);  /* 5A2EE */
 void DrawButtons(Button *b, int n);  /* 30AE2 */
 void DrawButton(Button *b);  /* 30B16 */
