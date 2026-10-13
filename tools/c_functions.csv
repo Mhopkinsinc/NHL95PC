@@ -340,6 +340,7 @@ TakePlayerFromBox,51115,159,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engi
 assbenchwait,526ED,51,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assbenchwait.c,matched,
 assleavebox,5147D,612,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assleavebox.c,matched,
 asspsclear,52DB0,512,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/asspsclear.c,matched,
+assrefpenshot,52FB0,740,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assrefpenshot.c,nonmatching,"draft: 737 vs 740. Prologue matches and the pfna clear is mov dh, dl. The hidden puck reloads the zero into ax (original dx), so the five stores address through edx. The countdown is add al, 8 (original mov ah, ch; add ah, 8). Do not retry a function-level int, an unnamed reload, or a second pflags shape."
 check4bench,52BB6,506,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/check4bench.c,matched,
 Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Bcheck.c,matched,
 BlockShotDive,53387,308,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/BlockShotDive.c,matched,
