@@ -232,6 +232,7 @@ LocateTeamDbCopy,3AF70,201,030_3A9AA_database_merge,src/c/030_3A9AA_database_mer
 MergeUpdateDbs,3B8B0,282,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeUpdateDbs.c,matched,
 ReadLeagueInfo,3D8DD,476,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadLeagueInfo.c,nonmatching,register allocation only: teams (edx) and b (ecx) swap between ebp and the stack slot at +44h
 ReadTeamNames,3DAB9,136,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadTeamNames.c,matched,
+SelectFloppyDrive,3D46D,551,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/SelectFloppyDrive.c,nonmatching,"draft: 551 vs 551. file is in edi. name lands in ebp and the found flag in esi (original keeps name in esi and the flag in ebp). The drive loop reloads the index into edx, then copies it to eax and incs; the original stores floppyok through edx and uses lea eax,[edx+1]. Declaration order, register, and a char* flag did not swap ebp/esi."
 WaitLeagueFloppy,3D84F,142,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/WaitLeagueFloppy.c,nonmatching,"draft: file/name params in edi/esi swapped, local order and MessageBox result kept in eax not edx"
 LoadNhlCfg,3DB41,231,031_3DB41_config_cfg,src/c/031_3DB41_config_cfg/LoadNhlCfg.c,matched,
 BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/BuildTradeRoster.c,nonmatching,draft: 473 vs 473. The fill loop keeps the index in ebx and stores it through al; the original keeps the index in eax and reloads the byte into dl. Do not retry: a separate unsigned char is the same ebx/al pair. Storing the index directly reloads eax (477 bytes). An aux that reloads dl parks list in edi; passing list in esi pushes the incoming args and shifts the frame.
@@ -604,6 +605,7 @@ DrawGadgetButton,7E067,147,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_repl
 DrawGadgetByType,7DF4E,228,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/DrawGadgetByType.c,matched,
 GadgetHitTest,7E8E5,89,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/GadgetHitTest.c,matched,
 GadgetStub0,7E032,13,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/GadgetStub0.c,matched,
+LoadRockMusic,7DC8B,573,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/LoadRockMusic.c,nonmatching,"draft: 577 vs 573. The cue loops, the random retry, and the tune banks match. The zero cue is xor ebp instead of xor esi, so ebp is pushed and the cookie is 3Ch. team*3 reloads the stack slot instead of copying it through edx, and the accepted cue id stays in eax instead of edx."
 PickNearestPlayer,7E93E,110,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/PickNearestPlayer.c,nonmatching,"register allocation only: asm spills y to the stack and reloads it into ebp (x in edi, best in esi)"
 sub_7E03F,7E03F,32,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/sub_7E03F.c,matched,
 CmpInt,7FC31,43,058_7F724_highlights,src/c/058_7F724_highlights/CmpInt.c,matched,
