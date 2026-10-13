@@ -2345,6 +2345,10 @@ pop edi	; 751F8
 pop esi	; 751F9
 pop ecx	; 751FA
 ret	; 751FB
+; C: src/c/054_737AA_line_editor_rosters/CheckRosterComplete.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/CheckRosterComplete.inc"
+%else
 CheckRosterComplete:
 push dword 0B0h	; 751FC
 call __CHK	; 75201
@@ -2569,6 +2573,7 @@ pop edi	; 75452
 pop esi	; 75453
 pop ecx	; 75454
 ret	; 75455
+%endif ; C
 LineEdDone:
 push dword 14h	; 75456
 call __CHK	; 7545B

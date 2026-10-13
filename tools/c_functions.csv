@@ -544,6 +544,7 @@ DrawDbDialog,727EE,622,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialo
 LoadDbsFromDir,7345B,360,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbsFromDir.c,matched,
 OpenSelectedDb,733C4,151,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/OpenSelectedDb.c,matched,
 BlitClipRect,7668D,173,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/BlitClipRect.c,nonmatching,x in esi and y in edi (original x in edi and y in esi); in-place add matches. 5 attempts
+CheckRosterComplete,751FC,602,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CheckRosterComplete.c,matched,
 CmpRosterGoalies MenuRegSeasonStats MenuPlayoffStats,75A37,448,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c,matched,
 CmpRosterSkaters,75931,262,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c,nonmatching,"draft: season *a*28h is add ebx,eax / shl ebx,3 / mov eax,[rosterpstat] / add eax,ebx (262). C puts the product in eax and folds add eax,[rosterpstat] (260). n += (n<<2), declaration order, and a comma expression did not put *a in ebx. Do not retry those."
 DbLineEditor,737E1,469,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditor.c,matched,

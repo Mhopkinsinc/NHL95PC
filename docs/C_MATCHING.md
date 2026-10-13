@@ -164,6 +164,10 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   `p->Wallsin ^ xacc` swaps them. Likewise `HIBYTE(p->Xvel) + HIWORD(p->Xpos)` vs the reverse (skateto).
 * **Common subexpressions are reused, named temps are not always**: playeracc's `(legstr + 30h)` written twice
   (no variable) gave `movzx edi,[legstr] / ... / add edi,30h` once, as the original; a `str` variable reordered it.
+* **A code-segment string copied as data**: `extern void str_RosterIncomplete();` makes a struct copy switch DS to CS.
+  Hide that name around the include and declare `extern unsigned char str_RosterIncomplete[]`. The copy is then
+  `mov esi, str / rep movsd` with no segment override (CheckRosterComplete). Writing the same count expression twice
+  recomputes it in eax after that register is reused for the plural pointer; a named `n` keeps the value in edx.
 * **Two read-modify-writes on one byte merge**: `p->pflags &= ~pfjoy; p->pflags |= pfna;` (the 93G bclr/bset)
   gives `mov ch,[x] / and ch,0F5h / mov dl,ch / or dl,2 / mov [x],dl` (restorepl); one combined expression does not.
 * **Known-zero registers are reused**: after `mov ax,[position] / test ax,ax / jne` the compiler skips the
