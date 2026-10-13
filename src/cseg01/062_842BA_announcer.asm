@@ -1558,6 +1558,10 @@ pop ecx	; 8556D
 pop ebx	; 8556E
 ret	; 8556F
 %endif ; C
+; C: src/c/062_842BA_announcer/QueuePenaltyType.c
+%ifdef CBUILD
+%include "c/062_842BA_announcer/QueuePenaltyType.inc"
+%else
 QueuePenaltyType:
 push dword 28h	; 85570
 call __CHK	; 85575
@@ -1732,6 +1736,7 @@ jl short QueuePenaltyType.14	; 85797
 add esp, byte 10h	; 85799
 pop edx	; 8579C
 ret	; 8579D
+%endif ; C
 ; C: src/c/062_842BA_announcer/PreloadAnnouncerClips.c
 %ifdef CBUILD
 %include "c/062_842BA_announcer/PreloadAnnouncerClips.inc"

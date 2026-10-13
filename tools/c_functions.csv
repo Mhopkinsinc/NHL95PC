@@ -660,6 +660,7 @@ PenaltyLenClip,842BA,76,062_842BA_announcer,src/c/062_842BA_announcer/PenaltyLen
 PlayoffRoundClipD,84306,137,062_842BA_announcer,src/c/062_842BA_announcer/PlayoffRoundClipD.c,matched,
 PlayoffRoundClipU,8438F,137,062_842BA_announcer,src/c/062_842BA_announcer/PlayoffRoundClipU.c,matched,
 PreloadAnnouncerClips,8579E,390,062_842BA_announcer,src/c/062_842BA_announcer/PreloadAnnouncerClips.c,matched,
+QueuePenaltyType,85570,558,062_842BA_announcer,src/c/062_842BA_announcer/QueuePenaltyType.c,matched,
 QueueTimeClips,84EAC,207,062_842BA_announcer,src/c/062_842BA_announcer/QueueTimeClips.c,matched,
 RequestTimeClips,84DDD,207,062_842BA_announcer,src/c/062_842BA_announcer/RequestTimeClips.c,matched,
 SayGoal,8531F,397,062_842BA_announcer,src/c/062_842BA_announcer/SayGoal.c,matched,
