@@ -859,6 +859,10 @@ StubRet4b:
 push dword 10h	; 78E29
 call __CHK	; 78E2E
 ret 4	; 78E33
+; C: src/c/055_78346_team_select/CheckGameRosterComplete.c
+%ifdef CBUILD
+%include "c/055_78346_team_select/CheckGameRosterComplete.inc"
+%else
 CheckGameRosterComplete:
 push dword 0C0h	; 78E36
 call __CHK	; 78E3B
@@ -1067,6 +1071,7 @@ pop edi	; 7908C
 pop esi	; 7908D
 pop ecx	; 7908E
 ret	; 7908F
+%endif ; C
 PruneGameLines:
 push dword 18h	; 79090
 call __CHK	; 79095
