@@ -158,6 +158,7 @@ LoadPlayoffModeTree,2970A,530,019_2970A_league_schedule,src/c/019_2970A_league_s
 OpenStatsSchedule,29A97,112,019_2970A_league_schedule,src/c/019_2970A_league_schedule/OpenStatsSchedule.c,matched,
 TreeSeriesWinner,2991C,379,019_2970A_league_schedule,src/c/019_2970A_league_schedule/TreeSeriesWinner.c,nonmatching,"draft: 379 vs 379, instructions match, stack slots do not. Win counters match. The series pointer, same and round are reversed against the original homes, and the return sits at ebp-10h (original ebp-4). Do not retry: reversing local order, or putting every local in one block."
 CmpFileNames,2BEEA,19,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/CmpFileNames.c,matched,
+DeleteSavedGame,2CE29,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/DeleteSavedGame.c,nonmatching,"draft: 623 vs 624 beside LoadFileDlgShapes. The pack loop, both result zeros, the count decrement and the empty-list switch match. strcpy's cursor and the strcat extension index are eax (original edx); mov eax,[fdlgtab] is 5 bytes and mov edx,[fdlgtab] is 6. Do not retry naming that index or an inner block for it."
 FileDlgHitTest,2C3FF,82,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c,matched,
 LoadFileDlgShapes,2B7C3,385,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
 DrawFileDlgTabs,2BD16,468,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
