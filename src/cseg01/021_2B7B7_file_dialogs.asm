@@ -432,6 +432,10 @@ pop esi	; 2BD12
 pop ecx	; 2BD13
 pop ebx	; 2BD14
 ret	; 2BD15
+; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlgTabs)
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlgTabs.inc"
+%else
 DrawFileDlgTabs:
 push dword 28h	; 2BD16
 call __CHK	; 2BD1B
@@ -568,6 +572,7 @@ push edi	; 2BEDC
 call sub_91370	; 2BEDD
 add esp, byte 0Ch	; 2BEE2
 jmp near LoadFileDlgShapes_x	; 2BEE5
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/CmpFileNames.c
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/CmpFileNames.inc"
