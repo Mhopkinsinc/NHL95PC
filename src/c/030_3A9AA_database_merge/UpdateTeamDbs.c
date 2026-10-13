@@ -1,9 +1,11 @@
 /* Database merge: refresh the human team databases from the current league. */
 #define LeagueCheckStub LeagueCheckStub_decl
 #define CopyHumanTeamDBs CopyHumanTeamDBs_decl
+#define RebuildLeagueDbs RebuildLeagueDbs_decl
 #include "nhl95.h"
 #undef LeagueCheckStub
 #undef CopyHumanTeamDBs
+#undef RebuildLeagueDbs
 
 int LeagueCheckStub(char *dir, int mode);
 int CopyHumanTeamDBs(char *dir, void *teams, int which);
@@ -68,5 +70,55 @@ void UpdateTeamDbs(void)
         MessageBox(-1, -1, (char *)updateerrmsg, 2, 0, 0, (int)&s.my, (int)&s.btn, -1);
     }
 done:
+    SetDialogColors(0x2A, 0x3F, 0x17, 0x3F, 0);
+}
+
+/* RebuildLeagueDbs: ask each human team for its password, then the master password. When the stub
+ check and those passwords all succeed, open PINFO.DB, read the word at 13h, delete the saved game
+ and copy the human team databases. Any error on that path is the update-error box. Restores the
+ dialog colours either way. */
+void RebuildLeagueDbs(void)
+{
+    struct {
+        char path[0x20];
+        int fh;
+        int btn;
+        int my;
+        int mx;
+        unsigned char flags[4];
+    } s;
+    int err;
+    int pw;
+
+    s.fh = -1;
+    SetDialogColors(0xF9, 0xFA, 0xF8, 0xFA, 0);
+    err = LeagueCheckStub((char *)&curleague, 2);
+    if (!err) {
+        err = ReadLeagueInfo((char *)&curleague, leagueteams, (char *)masterpw,
+            (short *)&leaguemaster, &humancount, &leagueflags, &leaguesaved, (char *)&savedname);
+        pw = 0;
+        for (s.mx = pw; s.mx < 0x1A && pw == 0; s.mx++) {
+            if (lgteam_17[s.mx * 30] == 1)
+                pw = AskTeamPassword(s.mx, (char *)leagueteams);
+        }
+        if (pw == 0)
+            pw = AskMasterPassword(leaguemaster, (char *)leagueteams, (char *)masterpw);
+    }
+    if (err == 0 && pw == 0) {
+        MakePath(s.path, (char *)&curleague, (char *)str_PINFO, (char *)str_extDB);
+        err = FileOpenRW(s.path, &s.fh);
+        if (err == 0)
+            err = FileReadAt(s.fh, s.flags, 0x13, 2);
+        FileClose(&s.fh);
+        if (err == 0) {
+            strcpy(s.path, (char *)&curleague);
+            DeleteFiles(s.path, (char *)str_GAME2, (char *)str_SAV2);
+            err = CopyHumanTeamDBs((char *)&curleague, leagueteams, -1);
+        }
+        if (err != 0) {
+            sub_B2DCA(&s.mx, &s.my, &s.btn);
+            MessageBox(-1, -1, (char *)updateerrmsg, 2, 0, 0, (int)&s.my, (int)&s.btn, -1);
+        }
+    }
     SetDialogColors(0x2A, 0x3F, 0x17, 0x3F, 0);
 }

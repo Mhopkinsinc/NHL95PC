@@ -1259,6 +1259,10 @@ pop ecx	; 3B9C7
 pop ebx	; 3B9C8
 ret	; 3B9C9
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/UpdateTeamDbs.c (RebuildLeagueDbs)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/UpdateTeamDbs.RebuildLeagueDbs.inc"
+%else
 RebuildLeagueDbs:
 push dword 60h	; 3B9CA
 call __CHK	; 3B9CF
@@ -1391,6 +1395,7 @@ mov eax, 2Ah	; 3BB75
 call SetDialogColors	; 3BB7A
 add esp, byte 34h	; 3BB7F
 jmp near UpdateTeamDbs_ret	; 3BB82
+%endif ; C
 ExportTeamToFloppy:
 push dword 130h	; 3BB87
 call __CHK	; 3BB8C
