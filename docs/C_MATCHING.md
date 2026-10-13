@@ -196,6 +196,7 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   parameter's register (Findhittype `mov edx,ecx`); a new local takes another one. A dead parameter is the
   temp that turns an in-place `sub/sar/add` into `lea eax,[reg-imm] / sar eax,2 / lea reg,[eax+imm]`
   (CrowdNoiseUpdate's `n = (v - 0x390) >> 2; v = n + 0x28`). A fresh local is coalesced back into `v`.
+* **A repeated `!err` inside a loop that already tests `!err`**: `for (i = 0; i < n && !err; i++) { if (!err && cond) ... else ... }` puts a `jne else` at the top of the body. The flags are the loop's `test ebx, ebx`, so the jump is not taken (UpdatePlayoffSeries). `base = err` stores that zero with `mov [base], ebx`. Declare `__STOSD` as `modify [eax edx ecx]` so the zero stays in ebx across the fill. The team record, 26 win counts, an 8-byte game and the six indexes are one struct (`sub esp, 370h`).
 * **A symbol address cast to int is immediate 0**: `(int)&str_HasNotBeenMerged` has no fixup.
   `*(char **)(mergestatemsg + 8) = (char *)str_HasNotBeenMerged` is `mov dword [mergestatemsg+8], str_HasNotBeenMerged`
   (UpdateTeamDbs). That instruction relocates both the displacement and the immediate; cdiff masks one fixup, so it

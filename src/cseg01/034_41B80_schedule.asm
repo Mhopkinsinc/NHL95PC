@@ -375,6 +375,10 @@ pop ebp	; 41F5E
 pop edi	; 41F5F
 pop esi	; 41F60
 ret 8	; 41F61
+; C: src/c/034_41B80_schedule/UpdatePlayoffSeries.c
+%ifdef CBUILD
+%include "c/034_41B80_schedule/UpdatePlayoffSeries.inc"
+%else
 UpdatePlayoffSeries:
 push dword 384h	; 41F64
 call __CHK	; 41F69
@@ -562,6 +566,7 @@ pop edi	; 421FF
 pop esi	; 42200
 pop ecx	; 42201
 ret	; 42202
+%endif ; C
 db 08Bh,0C0h
 SeriesLength_jt:
 dd SeriesLength_bo1
