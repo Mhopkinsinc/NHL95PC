@@ -464,6 +464,7 @@ GameTimeStamp,62CD7,34,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_pe
 PostGoalEvent,62343,374,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostGoalEvent.c,matched,
 PostInjuryEvent,62764,148,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostInjuryEvent.c,matched,
 NullCallback0C,627F8,15,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostInjuryEvent.c,matched,
+PostPenaltyEvent,624B9,683,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostPenaltyEvent.c,nonmatching,"draft: 688 vs 683. Prologue matches (cookie 2Ch, len moved to edx). gsumqcount*11 is in esi (original ecx). The wording tail recomputes who==0, widens the jersey with mov al/and eax instead of movzx edi, and uses setb instead of setl. A withtime local brought the frame pointer back. Do not retry that local, an early return, or a duplicated PaPenalty."
 QueueDeferredCall,619C8,95,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/QueueDeferredCall.c,matched,
 QueueGoalieNote,62C37,160,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/QueueGoalieNote.c,nonmatching,"tail keeps 1 in esi; asm is mov [deferpending],1 / mov eax,1. -od spills the frame; ternary pushes edi; side-side+1 folds back. Do not retry those"
 QuickShotChk,6427F,185,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/QuickShotChk.c,nonmatching,"asm keeps facedir in bx and si (2 saved regs, frame 10h); C saves only edx"
