@@ -409,6 +409,7 @@ int MergeLeagueFiles(void);
 int __cdecl sub_8CCA8(char *name, int size, int flags);  /* file library: load file */
 int CupSeriesWinner(unsigned char *s, unsigned games);  /* 15CE1 */
 void DrawModeSetChecks(void);  /* 7B7BE */
+void BlitTileMap(unsigned char *shape, unsigned char *tiles, int x0, short y, short x, short flags);  /* 33C08 */
 void SetRinkScroll(int x, int y);  /* 33DD3 */
 void sub_6A033(int what);  /* engine display: redraw */
 void IntermissionPC(void);  /* 10F6D */
@@ -826,6 +827,7 @@ int OutputCurrentData(void);  /* 18D7F */
 void clearteams(void);  /* 5B881 */
 void PickGoalie(short side, short slot, short force);  /* 652D6 */
 void checkcx(Player *p, short x, short d, short pl);  /* 58DC7 */
+void checkcoll(Player *p, int x, int y);  /* 580F5 */
 void checkplcoll(Player *p, short x, int y);  /* 58CE2 */
 void checkpuckcoll(Player *p, int pl);  /* 5428A */
 void PuckCheckColl(Player *p);  /* 548AC */

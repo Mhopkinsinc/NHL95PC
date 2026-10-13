@@ -348,7 +348,6 @@ extern void MenuAddTeam_common(); /* 3325B */
 extern void MenuAddTeam_ret2(); /* 332B6 */
 extern void MenuRebuildDbs_x(); /* 333C0 */
 extern void nullsub_6(); /* 33468 */
-extern void BlitTileMap(); /* 33C08 */
 extern void DrawCalendarDay(); /* 33FFD */
 extern void ApplyShapePalette(); /* 34789 */
 extern void CalendarScreen(); /* 34821 */
@@ -487,7 +486,6 @@ extern void puckglue(); /* 56F5A */
 extern void puckgoalie(); /* 57096 */
 extern void puckstick(); /* 57483 */
 extern void shotdiradj(); /* 57A98 */
-extern void checkcoll(); /* 580F5 */
 extern void checkwallcoll(); /* 582C9 */
 extern void checkgoal(); /* 584AA */
 extern void wallcoll(); /* 587D3 */
