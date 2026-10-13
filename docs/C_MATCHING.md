@@ -134,6 +134,8 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **Chained assignments store right to left**: `joyqtick = joyqcount = 0` stores joyqcount first.
 * **Branch layout follows the source**: the `if` arm comes first; flip the condition when the arms are swapped
   (updatePPTeamTime needed `(gmode2 & 0x40) == 0`). Small tails (`inc / ret`) are duplicated into both arms.
+* **`if ((A && B) || C) return 0` shares one epilogue**: a false A jumps to the C test, a true B jumps to
+  `xor eax, eax`, and C falling through uses that same return (check4bench). Two separate `if`s duplicate it.
 * **Argument count shows in register choice**: a value kept across calls goes into the first register that is not
   an argument (edx, then ebx, then ecx; esi/edi after). PaPlayerNumber keeps its first argument in ecx, so it
   takes three arguments (eax, edx, ebx) and passes them through to SayPlayerNumber.

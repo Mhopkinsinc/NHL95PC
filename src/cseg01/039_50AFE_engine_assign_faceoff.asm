@@ -2508,6 +2508,10 @@ xor edx, edx	; 52BA8
 mov eax, ebx	; 52BAA
 call SkateToSpot	; 52BAC
 jmp near TakePlayerFromBox_ret5	; 52BB1
+; C: src/c/039_50AFE_engine_assign_faceoff/check4bench.c
+%ifdef CBUILD
+%include "c/039_50AFE_engine_assign_faceoff/check4bench.inc"
+%else
 check4bench:
 push dword 10h	; 52BB6
 call __CHK	; 52BBB
@@ -2676,6 +2680,7 @@ pop edx	; 52DAC
 pop ecx	; 52DAD
 pop ebx	; 52DAE
 ret	; 52DAF
+%endif ; C
 ; C: src/c/039_50AFE_engine_assign_faceoff/asspsclear.c
 %ifdef CBUILD
 %include "c/039_50AFE_engine_assign_faceoff/asspsclear.inc"

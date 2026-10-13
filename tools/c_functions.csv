@@ -22,6 +22,7 @@ ReloadGameGfx,13BB4,197,004_13320_asset_loading,src/c/004_13320_asset_loading/Lo
 LoadPhotoBankF,138D2,141,004_13320_asset_loading,src/c/004_13320_asset_loading/LoadPhotoBankF.c,matched,
 LoadPlayerPhotos,1395F,208,004_13320_asset_loading,src/c/004_13320_asset_loading/LoadPhotoBankF.c,matched,
 LoadTransparentRinkEndOverlay,13A2F,98,004_13320_asset_loading,src/c/004_13320_asset_loading/LoadTransparentRinkEndOverlay.c,matched,
+PlacePlayersAtStart,13C79,534,004_13320_asset_loading,src/c/004_13320_asset_loading/PlacePlayersAtStart.c,nonmatching,"draft: 535 vs 534. The assignment number is lea edx,[eax+16h] where the original adds 16h in eax. The map negate is cwde instead of a reload. The mirror negates regd1 in ecx. The loop count is in si, so esi is saved (cookie 14h). Do not retry an int sum for that add, or n += 0x16."
 SetupDemoGame,13FA7,175,004_13320_asset_loading,src/c/004_13320_asset_loading/SetupDemoGame.c,matched,
 SetupGame,13E8F,280,004_13320_asset_loading,src/c/004_13320_asset_loading/SetupGame.c,matched,
 CheckGameDiskSpace,148A5,282,005_1431E_file_utils,src/c/005_1431E_file_utils/CheckGameDiskSpace.c,matched,
@@ -331,6 +332,7 @@ TakePlayerFromBox,51115,159,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engi
 assbenchwait,526ED,51,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assbenchwait.c,matched,
 assleavebox,5147D,612,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assleavebox.c,matched,
 asspsclear,52DB0,512,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/asspsclear.c,matched,
+check4bench,52BB6,506,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/check4bench.c,matched,
 Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Bcheck.c,matched,
 BlockShotDive,53387,308,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/BlockShotDive.c,matched,
 CPgoalie,591C7,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CPgoalie.c,matched,
