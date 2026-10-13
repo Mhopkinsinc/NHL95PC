@@ -512,6 +512,7 @@ MenuSaveDbsAs,6C3BB,255,051_6C2F9_database_save,src/c/051_6C2F9_database_save/Me
 TeamRecPtr,6CB90,39,051_6C2F9_database_save,src/c/051_6C2F9_database_save/TeamRecPtr.c,matched,
 AskLeftRight,6FBE8,120,052_6D2F8_create_player,src/c/052_6D2F8_create_player/AskLeftRight.c,matched,
 CheckDatabases,6EF84,469,052_6D2F8_create_player,src/c/052_6D2F8_create_player/CheckDatabases.c,nonmatching,"draft: 463 vs 469. skaters is zeroed in edi and defense in ebp, back to back. The original zeros skaters in ebp, stores goalies, zeros the index, stores forwards, then zeros defense in edi. The skater id is a scaled load into eax. The original is shl eax,2 / add eax,esi / mov ecx,[eax+4Ch] / mov eax,ecx. Do not retry: a line pointer swaps ebp and edi; without it the scans are cmp [edx+esi+disp] (451 bytes). rec+i*4+4Ch, line=rec+i*4, off=i<<2, and slot+=i<<2 all fold into the scaled load."
+CheckTeamLines,6ED8F,501,052_6D2F8_create_player,src/c/052_6D2F8_create_player/CheckTeamLines.c,matched,
 ComparePlayerEntry,6D78B,98,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ComparePlayerEntry.c,matched,
 CopyRoster1Rec,6DE4C,50,052_6D2F8_create_player,src/c/052_6D2F8_create_player/CopyRoster1Rec.c,matched,
 CountSelected,6DA88,59,052_6D2F8_create_player,src/c/052_6D2F8_create_player/CountSelected.c,nonmatching,original keeps the list pointer in edx and the count in eax; this draft swaps them. 10-min cap
@@ -525,6 +526,7 @@ LoadTempDatabases,710D8,388,052_6D2F8_create_player,src/c/052_6D2F8_create_playe
 MoveToFreeAgents,70E8D,438,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToFreeAgents.c,nonmatching,"Hex-Rays draft (slot order fixed: ntried, moved, nsel, other); left: the asm computes side/other from one cmp in al (setne al; and eax,0FFh; mov esi,eax; sete al), C uses setne dl / movzx and a second cmp, 437 vs 438 bytes; msglines stores are address-immediate only"
 RatingToFloat,6F6AD,39,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RatingToFloat.c,matched,
 RemovePlayerFromTeam,71043,149,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RemovePlayerFromTeam.c,matched,
+RosterPanelClick,6DAC3,507,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RosterPanelClick.c,nonmatching,"draft: 507 vs 507. The free-agent toggle folds falistsel into edi (add edi,eax / mov al,[edi]) where the original is mov dl,[edi+eax]. A named pointer and a split byte local still fold. Do not retry fa[row] = ~fa[row] or bit = ~fa[row]."
 SelectMatchingPlayers,71690,429,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SelectMatchingPlayers.c,nonmatching,
 SetRosterTeamMenus,7183D,292,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SetRosterTeamMenus.c,nonmatching,
 ShellSortBytes,6D7ED,173,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShellSortBytes.c,matched,

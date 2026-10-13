@@ -2264,6 +2264,10 @@ pop edi	; 6ED8C
 pop esi	; 6ED8D
 ret	; 6ED8E
 %endif ; C
+; C: src/c/052_6D2F8_create_player/CheckTeamLines.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/CheckTeamLines.inc"
+%else
 CheckTeamLines:
 push dword 78h	; 6ED8F
 call __CHK	; 6ED94
@@ -2425,6 +2429,7 @@ pop ebp	; 6EF7E
 pop edi	; 6EF7F
 pop esi	; 6EF80
 ret 0Ch	; 6EF81
+%endif ; C
 CheckDatabases:
 push dword 48h	; 6EF84
 call __CHK	; 6EF89
