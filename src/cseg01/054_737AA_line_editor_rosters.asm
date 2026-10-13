@@ -52,6 +52,10 @@ str_Player:
 db 050h,06Ch,061h,079h,065h,072h,00h
 str_GoalieW:
 db 047h,06Fh,061h,06Ch,069h,065h,00h
+; C: src/c/054_737AA_line_editor_rosters/DbLineEditor.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/DbLineEditor.inc"
+%else
 DbLineEditor:
 push dword 50h	; 737E1
 call __CHK	; 737E6
@@ -179,6 +183,7 @@ pop ebp	; 739B2
 pop edi	; 739B3
 pop esi	; 739B4
 ret	; 739B5
+%endif ; C
 ; C: src/c/054_737AA_line_editor_rosters/FindRosterSlot.c
 %ifdef CBUILD
 %include "c/054_737AA_line_editor_rosters/FindRosterSlot.inc"

@@ -759,8 +759,6 @@ extern void FixJerseyNumber(); /* 6DCBE */
 extern void LoadBothRosterLists(); /* 6DE7E */
 extern void EditTeamLines(); /* 6DF06 */
 extern void EditRosters(); /* 6E089 */
-extern void CheckTeamLines(); /* 6ED8F */
-extern void CheckDatabases(); /* 6EF84 */
 extern void MoveToOtherRoster(); /* 6F29C */
 extern void RandomizeNewRatings(); /* 6F6D4 */
 extern void DrawShootsField_tail(); /* 6FB2B */
@@ -798,8 +796,6 @@ extern void str_Scratch(); /* 737C5 */
 extern void str_Dress(); /* 737CD */
 extern void str_Player(); /* 737D3 */
 extern void str_GoalieW(); /* 737DA */
-extern void DbLineEditor(); /* 737E1 */
-extern void DbLineEditorLoop(); /* 73A18 */
 extern void CheckRosterComplete(); /* 751FC */
 extern void LineEdDone(); /* 75456 */
 extern void MenuShowPlayerStats(); /* 7556E */
@@ -823,7 +819,6 @@ extern void DrawGameLineJerseys_st1(); /* 78460 */
 extern void DrawGameLineJerseys_st2(); /* 78477 */
 extern void DrawGameLineJerseys_st0(); /* 7847E */
 extern void DrawGameLineJerseys_join(); /* 78483 */
-extern void DrawLineEditorScreen(); /* 78500 */
 extern void StubRet4a(); /* 78A81 */
 extern void DrawDlgFrame(); /* 78BE7 */
 extern void CheckGameRosterComplete(); /* 78E36 */
@@ -1509,7 +1504,6 @@ extern void loc_905C8(); /* 905C8 */
 extern void loc_905E0(); /* 905E0 */
 extern void loc_90607(); /* 90607 */
 extern void loc_90614(); /* 90614 */
-extern void sub_9061C(); /* 9061C */
 extern void sub_90638(); /* 90638 */
 extern void loc_9065F(); /* 9065F */
 extern void loc_90660(); /* 90660 */

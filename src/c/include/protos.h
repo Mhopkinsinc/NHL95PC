@@ -328,10 +328,12 @@ int SaveHilight(int team);  /* 7FA10 */
 void SetPalette768(unsigned char *pal);  /* 76614 */
 void __cdecl sub_B4C84(void);  /* video library: wait for retrace */
 void __cdecl sub_B4B88(int first, int count, unsigned char *rgb);  /* video library: set palette entries */
-void ShowDBError(int *sel, int *state, int msg, int arg);  /* 6ED39 */
+int ShowDBError(int *sel, int *state, int msg, int arg);  /* 6ED39 */
 void __cdecl sub_B4BA8(void);  /* video library */
 void __cdecl sub_9121C(int buf);  /* graphics library */
-void ErrorScreenWait(int msg, int arg, char *title, int type);  /* 6EAB5 */
+int ErrorScreenWait(int msg, int arg, char *title, int type);  /* 6EAB5 */
+int CheckTeamLines(int team, int *line, int *sel, int *first, int flags, int x, int y);  /* 6ED8F */
+int CheckDatabases(int x, int y);  /* 6EF84 */
 void FmtFromLeague(char *dst, char *name, char *file);  /* 41171 */
 unsigned _fstrcspn(const char __far *s, const char __far *set);  /* Watcom CRT _fstrcspn_ */
 void POPreSimRound1(unsigned char *po, int a, int b);  /* 87F85 */
@@ -359,6 +361,10 @@ void LoadRink(int team);
 void LoadPlayerPhotos(void);
 void __cdecl sub_8FFB0(int first, int count, unsigned char *pal);  /* graphics library: set palette */
 void FadePalStep(int dir, unsigned char *pal, int steps);
+void DrawLineEditorScreen(int team, int shape, int zero, int buttons, int n);  /* 78500 */
+void DbLineEditorLoop(int lines, int shape, int team, int zero, int buttons, int n, int bank);  /* 73A18 */
+void DbLineEditor(unsigned char team, int lines, int buttons, int n);  /* 737E1 */
+void __cdecl sub_9061C(int bm);  /* graphics library: draw a bitmap */
 void CalNextMonth(void);  /* 34691 */
 void CalPrevMonth(void);
 void CalPrevMonth(void);  /* 346FE */
