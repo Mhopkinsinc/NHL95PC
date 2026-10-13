@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_1AC25 progbits alloc exec nowrite align=1
-extern __CHK, asc_C09A0, asc_C09AE, jctime, sub_8CCA8, sub_8CCC4, sub_9132C, sub_B3ABC
+extern __CHK, asc_C09A0, asc_C09AE, FreeMemBlock, sub_8CCA8, sub_8CCC4, sub_9132C, sub_B3ABC
 extern sub_B4F8C
 global loc_1AC96, loc_1ACBB, loc_1ACCB, loc_1ACDB, loc_1ACEB, loc_1AD12, loc_1ADE0, loc_1ADF0
 global loc_1AE3B, loc_1AE65, loc_1AEE2, loc_1AEEF, loc_1AF62, loc_1AFB8, loc_1AFD3, loc_1AFDB
@@ -51,7 +51,7 @@ mov edx, dword [byte eax+01Ch]	; 1ACAB
 test edx, edx	; 1ACAE
 je short loc_1ACBB	; 1ACB0
 push edx	; 1ACB2
-call jctime	; 1ACB3
+call FreeMemBlock	; 1ACB3
 add esp, byte 4	; 1ACB8
 loc_1ACBB:
 mov ecx, dword [byte esi+020h]	; 1ACBB
@@ -92,7 +92,7 @@ test eax, eax	; 1AD00
 je short loc_1AD12	; 1AD02
 call sub_1AC9A	; 1AD04
 push edx	; 1AD09
-call jctime	; 1AD0A
+call FreeMemBlock	; 1AD0A
 add esp, byte 4	; 1AD0F
 loc_1AD12:
 pop edx	; 1AD12

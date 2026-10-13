@@ -19,7 +19,7 @@ int MenuAddTeam(void)
     pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     return 2;
 }
 
@@ -38,7 +38,7 @@ int MenuRemoveTeam(void)
     pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     return 2;
 }
 
@@ -60,7 +60,7 @@ int MenuLeagueSettings(void)
         pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
         sub_8FFB0(0, 0x100, pal);
         FadePalStep(1, pal, 0x10);
-        jctime((int)pal);
+        FreeMemBlock((int)pal);
         r = 2;
     }
     if (ok) LeagueSettingsDlg();
@@ -100,7 +100,7 @@ int MenuMergeUpdateDbs(void)
         pal = sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
         sub_8FFB0(0, 0x100, (unsigned char *)pal);
         FadePalStep(1, (unsigned char *)pal, 0x10);
-        jctime(pal);
+        FreeMemBlock(pal);
         return 2;
     }
     return 0;
@@ -123,7 +123,7 @@ int MenuMergeLeagueFiles(void)
         pal = sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
         sub_8FFB0(0, 0x100, (unsigned char *)pal);
         FadePalStep(1, (unsigned char *)pal, 0x10);
-        jctime(pal);
+        FreeMemBlock(pal);
         return 2;
     }
     return 0;
@@ -157,7 +157,7 @@ int MenuTradePlayers(void)
     pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     return 2;
 }
 
@@ -193,7 +193,7 @@ int MenuNextLeagueGame(int *fh)
     pal = sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
     sub_8FFB0(0, 0x100, (unsigned char *)pal);
     FadePalStep(1, (unsigned char *)pal, 0x10);
-    jctime(pal);
+    FreeMemBlock(pal);
     return 2;
 }
 
@@ -240,6 +240,6 @@ int MenuExportDbs(void)
     pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     return 2;
 }

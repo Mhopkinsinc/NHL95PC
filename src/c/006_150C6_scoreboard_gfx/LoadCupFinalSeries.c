@@ -18,7 +18,7 @@ void LoadCupFinalSeries(void)
         LoadScheduleDB((int *)&db);
         db = db + 2;
         for (i = 0; i < 7; i++) ((Game6 *)cupseries)[i] = ((Game6 *)db)[i + 0x4A6];
-        if (db -= 2) jctime((int)db);
+        if (db -= 2) FreeMemBlock((int)db);
     } else {
         cupseries = 0;
     }

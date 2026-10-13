@@ -7,7 +7,7 @@ extern curleague, sflags, musicon, byte_D9299, awardwinners, fileoncd, joysampli
 extern inputframes, escrequest, demomode, gameresult, gamemode, hudclockmin, hudclocksec, hudclockhund
 extern deferpending, rinkscrollx, rinkscrolly, cont2team, HomeTeam, bannertimer, dword_CC080, introskipped
 extern penshotlive, cddriveptr, mousex, mousey, spritedrawcount, frameaccum, dword_D8C72, viewscrolly
-extern dword_D8C78, dword_D8C7A, viewscrollx, curperiod, s1font, dword_DC28C, rinkwtiles, rinkhtiles
+extern hudhundaccum, dword_D8C7A, viewscrollx, curperiod, s1font, hudhundstep, rinkwtiles, rinkhtiles
 extern bgscrolly, dword_DEF8C, savedmousex, savedmousey, dword_E0244, recbpr, dword_E9A9E, j_unlink_
 extern HandleHotKey_ret, off_C524F, off_C5253, off_C5257, off_C525B, off_C525F, off_C5263, off_C5267
 extern off_C526F, off_C5273, teamabbrevs, leaguedbnames, replaystart, camx_m2
@@ -18,7 +18,7 @@ extern LoadRink, SetRinkScroll, ReadGoalieSeasonRec, ReadTeamNames, FadeOutPalCy
 extern CrowdFadeOut, CrowdNoiseReset, StopDigiSample, PlayCrowdSample, PaPreloadClips, DrawRinkOverlays, PeriodOver, LoadGameState
 extern RunDeferredCalls, FlushGSumQueue, BuildDefaultLines, SetupTeamLines, NormalizeDressFlags, LoadTeamPalette, sub_6ADA7, sub_6AF52
 extern sub_6AF97, sub_6B008, LoadRockMusic, SpeechStopQueue, MusicChanReset, SelectScreenBM, sub_8E8A0, sub_8EA18
-extern sub_8F633, sub_8FFB0, sub_90354, sub_9035C, MouseSetPos, sub_B396E, sub_B4BA8, str_backslash
+extern sub_8F633, sub_8FFB0, sub_90354, sub_9035C, MouseSetPos, TicksSinceLastCall, sub_B4BA8, str_backslash
 extern cupteam, presidentsteam, unk_D958C, unk_D95C0, unk_D95F4, unk_D9628, unk_D965C, unk_D9690
 extern unk_D96F8, unk_D972C, unk_D9794, unk_D98C3, treeteamnames, savepal, gamepal, camx
 extern gsp, gameclock, word_CBC44, exitgame, gameover, fadeinpending, ovlseq, scrolly
@@ -36,7 +36,7 @@ push esi	; 11688
 push edi	; 11689
 push ebp	; 1168A
 sub esp, byte 20h	; 1168B
-call sub_B396E	; 1168E
+call TicksSinceLastCall	; 1168E
 .1:
 mov dword [joysampling], 1	; 11693
 cmp word [gameover], byte 0	; 1169D
@@ -150,20 +150,20 @@ call CrowdNoiseUpdate	; 1183A
 cmp dword [penshotlive], byte 0	; 1183F
 je short .8	; 11846
 xor edi, edi	; 11848
-mov dword [dword_DC28C], edi	; 1184A
+mov dword [hudhundstep], edi	; 1184A
 jmp near .9	; 11850
 .8:
-mov edx, dword [dword_D8C78]	; 11855
+mov edx, dword [hudhundaccum]	; 11855
 mov ebx, 18h	; 1185B
 mov eax, edx	; 11860
 sar edx, 1Fh	; 11862
 idiv ebx	; 11865
-mov dword [dword_DC28C], eax	; 11867
-mov eax, dword [dword_D8C78]	; 1186C
+mov dword [hudhundstep], eax	; 11867
+mov eax, dword [hudhundaccum]	; 1186C
 mov edx, eax	; 11871
 sar edx, 1Fh	; 11873
 idiv ebx	; 11876
-mov dword [dword_D8C78], edx	; 11878
+mov dword [hudhundaccum], edx	; 11878
 cmp word [exitgame], byte 0	; 1187E
 je short .9	; 11886
 mov edx, dword [gameclock-2]	; 11888
@@ -187,7 +187,7 @@ add eax, edx	; 118BF
 shl eax, 2	; 118C1
 mov edx, dword [hudclockhund]	; 118C4
 add eax, edx	; 118CA
-mov dword [dword_DC28C], eax	; 118CC
+mov dword [hudhundstep], eax	; 118CC
 .9:
 call UpdateHudPanel	; 118D1
 mov edx, dword [bgscrolly-2]	; 118D6
@@ -432,7 +432,7 @@ xor eax, eax	; 11CBB
 mov word [exitgame], ax	; 11CBD
 xor ebx, ebx	; 11CC3
 mov dword [frameaccum], ebx	; 11CC5
-mov dword [dword_D8C78], edx	; 11CCB
+mov dword [hudhundaccum], edx	; 11CCB
 call joyq_flush	; 11CD1
 jmp near GameLoop.1	; 11CD6
 .29:

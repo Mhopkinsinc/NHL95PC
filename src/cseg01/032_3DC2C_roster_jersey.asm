@@ -11,7 +11,7 @@ extern tradejersey, tradeslot, fileoncd
 extern statscategory, statsredrawcb, tradebtnx, tradebtny, HomeTeam, cddriveptr, curperiod, pointerspr
 extern dword_DC738, statspalshape, statsbgshapes, statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, traderesult
 extern tradeclick, traderemap1, traderemap2, tradecursor, jerseymsg, tradeside
-extern dword_DE264, ptrupdatefn, jctime, memcpy_, leaguedbnames, unequaltrademsg, menuact_gamedress
+extern dword_DE264, ptrupdatefn, FreeMemBlock, memcpy_, leaguedbnames, unequaltrademsg, menuact_gamedress
 extern menuact_gamescratch, qsort_, sprintf_, strcat_, strcmp_, strcpy_, MakePath, FileOpenRead
 extern FileOpenRW, FileClose, ReadKeyRec, WriteKeyRec, ReadTeamRec, LoadGameTeams, RunMenu, InitMenuRemap
 extern TeamRosterScreen, TextInputDialog, MessageBox, WriteTeamRec, GetInputEvent, ClearInputQueue, DrawMenuBar, DrawMenuDropdown
@@ -277,7 +277,7 @@ mov ebx, 300h	; 3DF31
 mov eax, esi	; 3DF36
 call memcpy_	; 3DF38
 push edi	; 3DF3D
-call jctime	; 3DF3E
+call FreeMemBlock	; 3DF3E
 add esp, byte 4	; 3DF43
 mov eax, 1	; 3DF46
 call InitMenuRemap	; 3DF4B
@@ -305,19 +305,19 @@ mov dword [dword_DC738], ecx	; 3DFA1
 mov dword [statsredrawcb], ecx	; 3DFA7
 mov eax, dword [statsteambuf]	; 3DFAD
 push eax	; 3DFB2
-call jctime	; 3DFB3
+call FreeMemBlock	; 3DFB3
 add esp, byte 4	; 3DFB8
 mov edx, dword [statsgoaliebuf]	; 3DFBB
 push edx	; 3DFC1
-call jctime	; 3DFC2
+call FreeMemBlock	; 3DFC2
 add esp, byte 4	; 3DFC7
 mov ebx, dword [statsskaterbuf]	; 3DFCA
 push ebx	; 3DFD0
-call jctime	; 3DFD1
+call FreeMemBlock	; 3DFD1
 add esp, byte 4	; 3DFD6
 mov ecx, dword [statsplayerbuf]	; 3DFD9
 push ecx	; 3DFDF
-call jctime	; 3DFE0
+call FreeMemBlock	; 3DFE0
 add esp, byte 4	; 3DFE5
 xor edi, edi	; 3DFE8
 mov dword [statsplayerbuf], edi	; 3DFEA
@@ -333,7 +333,7 @@ push edi	; 3E018
 call sub_B392C	; 3E019
 add esp, byte 4	; 3E01E
 push esi	; 3E021
-call jctime	; 3E022
+call FreeMemBlock	; 3E022
 add esp, byte 4	; 3E027
 mov ecx, dword [byte esp+010h]	; 3E02A
 push ecx	; 3E02E
@@ -536,7 +536,7 @@ call sub_B4B88	; 3E2EE
 add esp, byte 0Ch	; 3E2F3
 mov ecx, dword [dword esp+0638h]	; 3E2F6
 push ecx	; 3E2FD
-call jctime	; 3E2FE
+call FreeMemBlock	; 3E2FE
 add esp, byte 4	; 3E303
 lea eax, [dword esp+0608h]	; 3E306
 push eax	; 3E30D
@@ -814,7 +814,7 @@ mov edx, edi	; 3E739
 mov eax, 1	; 3E73B
 call FadePalStep	; 3E740
 push edi	; 3E745
-call jctime	; 3E746
+call FreeMemBlock	; 3E746
 add esp, byte 4	; 3E74B
 mov ecx, 3	; 3E74E
 mov ebx, unk_CF3CF	; 3E753
@@ -837,7 +837,7 @@ mov edx, edi	; 3E791
 mov eax, 1	; 3E793
 call FadePalStep	; 3E798
 push edi	; 3E79D
-call jctime	; 3E79E
+call FreeMemBlock	; 3E79E
 add esp, byte 4	; 3E7A3
 .13:
 mov eax, esi	; 3E7A6
@@ -953,7 +953,7 @@ inc eax	; 3E8B4
 cmp eax, 100h	; 3E8B5
 jl short LoadTradeTeamPals.4	; 3E8BA
 push ecx	; 3E8BC
-call jctime	; 3E8BD
+call FreeMemBlock	; 3E8BD
 add esp, byte 4	; 3E8C2
 mov ecx, str_extBIN	; 3E8C5
 mov ebx, str_HOMEPALS2	; 3E8CA
@@ -1002,7 +1002,7 @@ inc eax	; 3E946
 cmp eax, 100h	; 3E947
 jl short LoadTradeTeamPals.9	; 3E94C
 push ecx	; 3E94E
-call jctime	; 3E94F
+call FreeMemBlock	; 3E94F
 add esp, byte 4	; 3E954
 mov byte [dword esi+0171h], 18h	; 3E957
 mov byte [dword esi+0172h], 0	; 3E95E
@@ -1069,7 +1069,7 @@ call sub_91370	; 3EA3F
 add esp, byte 0Ch	; 3EA44
 mov ecx, dword [byte esp+030h]	; 3EA47
 push ecx	; 3EA4B
-call jctime	; 3EA4C
+call FreeMemBlock	; 3EA4C
 add esp, byte 4	; 3EA51
 push byte 42h	; 3EA54
 mov ecx, 41h	; 3EA56
@@ -1118,7 +1118,7 @@ mov eax, esi	; 3EAF1
 call memcpy_	; 3EAF3
 mov eax, dword [statsbgshapes]	; 3EAF8
 push eax	; 3EAFD
-call jctime	; 3EAFE
+call FreeMemBlock	; 3EAFE
 add esp, byte 4	; 3EB03
 mov edx, dword [byte edi+04h]	; 3EB06
 mov eax, dword [edi]	; 3EB09
@@ -1240,7 +1240,7 @@ xor eax, eax	; 3EC91
 call FadePalStep	; 3EC93
 mov esi, dword [byte esp+034h]	; 3EC98
 push esi	; 3EC9C
-call jctime	; 3EC9D
+call FreeMemBlock	; 3EC9D
 add esp, byte 4	; 3ECA2
 add esp, byte 38h	; 3ECA5
 pop ebp	; 3ECA8
@@ -1453,7 +1453,7 @@ push dword 0FBh	; 3EEED
 call sub_B4B88	; 3EEF2
 add esp, byte 0Ch	; 3EEF7
 push esi	; 3EEFA
-call jctime	; 3EEFB
+call FreeMemBlock	; 3EEFB
 add esp, byte 4	; 3EF00
 mov eax, dword [esp]	; 3EF03
 push eax	; 3EF06
@@ -1879,7 +1879,7 @@ mov dword [byte ebp+eax*8-03Eh], edi	; 3F3AA
 mov dword [byte ebp+eax*8-042h], edi	; 3F3AE
 mov edx, dword [byte ebp+eax*4-022h]	; 3F3B2
 push edx	; 3F3B6
-call jctime	; 3F3B7
+call FreeMemBlock	; 3F3B7
 add esp, byte 4	; 3F3BC
 .25:
 dec dword [byte ebp+042h]	; 3F3BF
@@ -1931,7 +1931,7 @@ jne short .27	; 3F44A
 call ClearInputQueue	; 3F44C
 mov edi, dword [byte ebp+05Eh]	; 3F451
 push edi	; 3F454
-call jctime	; 3F455
+call FreeMemBlock	; 3F455
 add esp, byte 4	; 3F45A
 xor eax, eax	; 3F45D
 jmp near .81	; 3F45F
@@ -2047,7 +2047,7 @@ mov dword [byte ebp+eax*8-03Eh], ebx	; 3F577
 mov dword [byte ebp+eax*8-042h], ebx	; 3F57B
 mov ecx, dword [byte ebp+eax*4-022h]	; 3F57F
 push ecx	; 3F583
-call jctime	; 3F584
+call FreeMemBlock	; 3F584
 add esp, byte 4	; 3F589
 mov eax, dword [byte ebp+042h]	; 3F58C
 xor esi, esi	; 3F58F
@@ -2300,7 +2300,7 @@ mov dword [byte ebp+eax*8-03Eh], esi	; 3F838
 mov dword [byte ebp+eax*8-042h], esi	; 3F83C
 mov edi, dword [byte ebp+eax*4-022h]	; 3F840
 push edi	; 3F844
-call jctime	; 3F845
+call FreeMemBlock	; 3F845
 add esp, byte 4	; 3F84A
 .55:
 dec dword [byte ebp+042h]	; 3F84D
@@ -2772,7 +2772,7 @@ cmp dword [traderesult], byte 0	; 3FEB8
 je near TradeScreenLoop.6	; 3FEBF
 mov ecx, dword [byte ebp+05Eh]	; 3FEC5
 push ecx	; 3FEC8
-call jctime	; 3FEC9
+call FreeMemBlock	; 3FEC9
 add esp, byte 4	; 3FECE
 cmp dword [traderesult], byte 0	; 3FED1
 jle short .80	; 3FED8
@@ -2866,7 +2866,7 @@ mov edx, edi	; 3FFA7
 mov eax, 1	; 3FFA9
 call FadePalStep	; 3FFAE
 push edi	; 3FFB3
-call jctime	; 3FFB4
+call FreeMemBlock	; 3FFB4
 add esp, byte 4	; 3FFB9
 mov edx, dword [dword_DE264]	; 3FFBC
 push edx	; 3FFC2
@@ -2971,7 +2971,7 @@ mov edi, eax	; 40144
 .6:
 mov eax, dword [dword esp+062Ch]	; 40146
 push eax	; 4014D
-call jctime	; 4014E
+call FreeMemBlock	; 4014E
 add esp, byte 4	; 40153
 lea eax, [dword esp+05D0h]	; 40156
 push eax	; 4015D
@@ -2979,7 +2979,7 @@ call sub_8EA00	; 4015E
 add esp, byte 4	; 40163
 mov edx, dword [dword esp+0630h]	; 40166
 push edx	; 4016D
-call jctime	; 4016E
+call FreeMemBlock	; 4016E
 add esp, byte 4	; 40173
 mov eax, edi	; 40176
 add esp, 634h	; 40178

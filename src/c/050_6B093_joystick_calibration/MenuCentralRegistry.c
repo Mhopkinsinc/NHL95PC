@@ -12,11 +12,11 @@ int MenuCentralRegistry(void)
     dword_C71E0 = 0;
     RunEditRosters();
     if (falistsel) {
-        jctime(falistsel);
+        FreeMemBlock(falistsel);
         falistsel = 0;
     }
     if (falist) {
-        jctime((int)falist);
+        FreeMemBlock((int)falist);
         falist = 0;
     }
     if (musicon) {

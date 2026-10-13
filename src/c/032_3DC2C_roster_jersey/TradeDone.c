@@ -36,7 +36,7 @@ void TradeDone(int a, int b, int c, int d, int e, int f, int g, int h, unsigned 
         sub_B2DCA(&i, &mx, &my);
         MessageBox(-1, -1, (char *)unequaltrademsg, 3, 0, 0, (int)&mx, (int)&my, -1);
         sub_B4B88(0xFB, 4, buf);
-        jctime((int)buf);
+        FreeMemBlock((int)buf);
         MouseSetPos(mx, my);
     } else {
         traderesult = 1;

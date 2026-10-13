@@ -21,7 +21,7 @@ extern j___fprtf_, sprintf_, strncpy_, sub_8D2F0, sub_8D484, sub_8E9C0, sub_8E9E
 extern sub_8EA18, sub_8FFB0, sub_90354, sub_9035C, sub_90373, sub_903F0, sub_9061C, sub_90D20
 extern sub_92CD0, sub_92F50, sub_93000, sub_93170, DebugPrintf, sub_9362C, sub_936C0, sub_938C8
 extern sub_938F4, sub_93908, sub_984D0, sub_9C594, sub_9C5A8, sub_9C5B0, sub_9C890, sub_9CA6C
-extern sub_9CA90, sub_9D090, sub_9D2E0, sub_B30B4, sub_B392C, sub_B3989, sub_B3999, sub_B39D0
+extern sub_9CA90, sub_9D090, sub_9D2E0, sub_B30B4, sub_B392C, SetTickDeadline, WaitTickDeadline, sub_B39D0
 extern sub_B3A24, sub_B3A88, sub_B3AA1, sub_B3CC8, sub_B40BF, sub_B4B88, sub_B4BA8, sub_B4BC4
 extern sub_B4FAC, unk_C4040, unk_C40A0, unk_C40CC, unk_C40D0, unk_C40D4, unk_C40D8, unk_C40DC
 extern unk_C40E0, unk_C40E4, unk_C40E8, unk_C40EC, unk_C40F0, unk_C40F4, unk_C40F8, unk_C40FC
@@ -3033,7 +3033,7 @@ mov al, byte [byte esp+02h]	; 95A87
 mov dword [dword esp+0324h], eax	; 95A8B
 loc_95A92:
 push byte 0Ah	; 95A92
-call sub_B3989	; 95A94
+call SetTickDeadline	; 95A94
 add esp, byte 4	; 95A99
 mov eax, dword [dword esp+0314h]	; 95A9C
 mov dword [dword esp+0300h], eax	; 95AA3
@@ -3341,7 +3341,7 @@ push dword 0DCh	; 95E9E
 call sub_93170	; 95EA3
 add esp, byte 10h	; 95EA8
 call sub_9C5A8	; 95EAB
-call sub_B3999	; 95EB0
+call WaitTickDeadline	; 95EB0
 cmp ebp, byte 1Bh	; 95EB5
 jne near loc_95A92	; 95EB8
 add esp, 330h	; 95EBE

@@ -29,8 +29,8 @@ int LeagueSettingsDlg(void)
     LeagueOptsToBits();
     LeagueSetEditLoop(1);
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     seriesgameno = sg;
     return 0;
@@ -53,8 +53,8 @@ int MenuPlayoffSettings(void)
     LeagueOptsToBits();
     LeagueSetEditLoop(0);
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }
@@ -81,8 +81,8 @@ int EditPlayoffSettings(void)
     WriteModeState(postate);
     LoadModeState(exhstate);
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }
@@ -104,8 +104,8 @@ int MenuLeagueSettingsEdit(void)
     LeagueOptsToBits();
     LeagueSetEditLoop(1);
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }
@@ -126,8 +126,8 @@ int MenuShowLeagueSettings(void)
     LeagueOptsToBits();
     LeagueSetViewLoop();
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }

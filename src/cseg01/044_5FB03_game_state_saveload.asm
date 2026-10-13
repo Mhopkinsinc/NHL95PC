@@ -12,7 +12,7 @@ extern dword_C66D4, yleader, sflags3, cont2team, HomeTeam, shownumbers, bannerti
 extern lastsfx, photobankf, onetimerflag, shotongoal, penshotplayer, penshotpnum, penshotteam, penshotctl
 extern penshotfox, penshotfoy, penshotmode, penshotstart, penshottimer, shotontarget, penshotlive, psendcount
 extern sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir, crowdsmooth, frameaccum
-extern dword_D8C78, curperiod, photobanks, dword_DB088, dword_DC28C, savedmousex, savedmousey, hmtmstruct
+extern hudhundaccum, curperiod, photobanks, dword_DB088, hudhundstep, savedmousex, savedmousey, hmtmstruct
 extern dword_DF6F2, dword_DF6F6, hmtmplstats, hmtmglstats, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort
 extern awtmstruct, awtmlines, dword_DF7F2, dword_DF7F6, awtmplstats, awtmglstats, awtmroster, awtmptrF2
 extern awtmsort, dword_E009C, ovlscript, recbpr, dword_E9A9E, dword_E9AB6, dword_E9B2A, gmode
@@ -455,7 +455,7 @@ add eax, byte 2	; 60187
 mov dx, word [word_CC0B0]	; 6018A
 mov word [eax], dx	; 60191
 add eax, byte 2	; 60194
-mov dx, word [dword_D8C78]	; 60197
+mov dx, word [hudhundaccum]	; 60197
 mov word [eax], dx	; 6019E
 add eax, byte 2	; 601A1
 mov dx, word [frameaccum]	; 601A4
@@ -1239,7 +1239,7 @@ mov ax, word [ebx]	; 60CC1
 mov word [word_CC0B0], ax	; 60CC4
 add ebx, byte 2	; 60CCA
 movsx eax, word [ebx]	; 60CCD
-mov dword [dword_D8C78], eax	; 60CD0
+mov dword [hudhundaccum], eax	; 60CD0
 add ebx, byte 2	; 60CD5
 movsx eax, word [ebx]	; 60CD8
 mov dword [frameaccum], eax	; 60CDB
@@ -1639,7 +1639,7 @@ mov ebp, 1	; 61279
 mov dword [dword_C66D4], ebp	; 6127E
 mov dword [dword_C66D0], ebp	; 61284
 xor edx, edx	; 6128A
-mov dword [dword_DC28C], edx	; 6128C
+mov dword [hudhundstep], edx	; 6128C
 call LoadRockMusic	; 61292
 mov ecx, 17h	; 61297
 mov edx, 0FFFFFFFFh	; 6129C

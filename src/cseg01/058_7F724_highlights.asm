@@ -8,7 +8,7 @@ extern hmrosterjersey, byte_DB7F1, byte_DC267, byte_DC268, hilightrec
 extern hudclockmin, hudclocksec, hudclockhund, songdata, rinkscrollx, rinkscrolly
 extern cont2team, HomeTeam, musichandle, fontcolor, rinkendbank, numshpbank, curperiod, musicslot
 extern s1font, scrbrdshapes, recbpr
-extern dword_ED6F8, hilightfont, fputchar, jctime, DrawGadgetButton_ret, lseek_, teamabbrevs, teamcitynames
+extern dword_ED6F8, hilightfont, fputchar, FreeMemBlock, DrawGadgetButton_ret, lseek_, teamabbrevs, teamcitynames
 extern replaystart, qsort_, sprintf_, strcat_, strcpy_, strcspn_, stricmp_, SetScreenSize
 extern LoadGameGfx, MakePath, FileOpenRead, FileOpenWrite, FileCreate, FileClose, FileReadAt, FileWriteAt
 extern sub_1BAB1, ListDialog, SetDialogColors, MessageBox, FreeRinkGfx, LoadRink, ShowLoadingScreen, FadeOutPalCycle
@@ -752,11 +752,11 @@ mov dword [eax], esi	; 7FFE8
 .13:
 mov eax, dword [dword esp+01DCh]	; 7FFEA
 push eax	; 7FFF1
-call jctime	; 7FFF2
+call FreeMemBlock	; 7FFF2
 add esp, byte 4	; 7FFF7
 mov edx, dword [dword esp+01D8h]	; 7FFFA
 push edx	; 80001
-call jctime	; 80002
+call FreeMemBlock	; 80002
 add esp, byte 4	; 80007
 .14:
 lea eax, [dword esp+01C8h]	; 8000A
@@ -977,19 +977,19 @@ add esp, byte 4	; 802EC
 call sub_1BAB1	; 802EF
 mov eax, dword [rinkendbank]	; 802F4
 push eax	; 802F9
-call jctime	; 802FA
+call FreeMemBlock	; 802FA
 add esp, byte 4	; 802FF
 mov edx, dword [scrbrdshapes]	; 80302
 push edx	; 80308
-call jctime	; 80309
+call FreeMemBlock	; 80309
 add esp, byte 4	; 8030E
 mov ebx, dword [numshpbank]	; 80311
 push ebx	; 80317
-call jctime	; 80318
+call FreeMemBlock	; 80318
 add esp, byte 4	; 8031D
 mov ecx, dword [hilightfont]	; 80320
 push ecx	; 80326
-call jctime	; 80327
+call FreeMemBlock	; 80327
 add esp, byte 4	; 8032C
 call FreeRockMusic	; 8032F
 call FreeRinkGfx	; 80334

@@ -6,10 +6,10 @@ extern __CHK, str_Pointer6, str_DBOX, str_extDB, str_ORG, byte_C4B6C, byte_D42C3
 extern dword_C4B69, boxfillcolor, boxlitecolor, boxshadecolor, dlgtextfg, dlgtextbg, dlgsavebuf, listscroll
 extern fontcolor, dword_D42AC
 extern pointerspr, dlgsavex, dlgsavey, editcurw, editpos, editmaxw, editbuf, editcuron
-extern edity, editx, dbextension, criterrflag, ptrupdatefn, fputchar, jctime, dbchoicelines
+extern edity, editx, dbextension, criterrflag, ptrupdatefn, fputchar, FreeMemBlock, dbchoicelines
 extern strlen_, SetTextColors, PrintShadowText, GetInputEvent, ClearInputQueue, InputInstall, InputRemove, PrintMenuText
 extern sub_8CCA8, sub_8E9C0, sub_903F0, sub_90A40, sub_90D20, sub_90EC0, sub_91044, sub_91370
-extern sub_91400, sub_92CD0, sub_B2CBE, MouseSetPos, sub_B2DCA, sub_B3989, sub_B39A7, PollKey
+extern sub_91400, sub_92CD0, sub_B2CBE, MouseSetPos, sub_B2DCA, SetTickDeadline, TickDeadlinePassed, PollKey
 extern sub_B3D46, sub_B3D64, sub_B4BA8, sub_B4FAC, str_Dot, str_Space, dbchoicebtns, unknown_libname_4
 global DrawListItem_x
 global TrackButtons_x, DrawButton_x
@@ -1063,7 +1063,7 @@ push esi	; 309C2
 call sub_903F0	; 309C3
 add esp, byte 0Ch	; 309C8
 push esi	; 309CB
-call jctime	; 309CC
+call FreeMemBlock	; 309CC
 add esp, byte 4	; 309D1
 call RestoreDialogBg	; 309D4
 mov eax, ebp	; 309D9
@@ -1605,7 +1605,7 @@ call sub_903F0	; 30F3A
 add esp, byte 0Ch	; 30F3F
 mov edi, dword [dlgsavebuf]	; 30F42
 push edi	; 30F48
-call jctime	; 30F49
+call FreeMemBlock	; 30F49
 add esp, byte 4	; 30F4E
 xor ebp, ebp	; 30F51
 mov dword [dlgsavebuf], ebp	; 30F53
@@ -2120,7 +2120,7 @@ mov eax, dword [byte esp+010h]	; 3147F
 mov edx, dword [byte esp+08h]	; 31483
 mov dword [edx], eax	; 31487
 push edi	; 31489
-call jctime	; 3148A
+call FreeMemBlock	; 3148A
 add esp, byte 4	; 3148F
 mov eax, dword [byte esp+018h]	; 31492
 add esp, byte 24h	; 31496
@@ -2367,7 +2367,7 @@ mov eax, dword [byte esp+024h]	; 3176C
 call DrawEditCursor	; 31770
 mov eax, dword [byte esp+020h]	; 31775
 push eax	; 31779
-call sub_B3989	; 3177A
+call SetTickDeadline	; 3177A
 add esp, byte 4	; 3177F
 push byte 4	; 31782
 call sub_B3D46	; 31784
@@ -2381,7 +2381,7 @@ jmp near .17	; 317A0
 .2:
 mov eax, dword [byte esp+020h]	; 317A5
 push eax	; 317A9
-call sub_B3989	; 317AA
+call SetTickDeadline	; 317AA
 add esp, byte 4	; 317AF
 mov edx, dword [byte esp+04h]	; 317B2
 cmp edx, byte 0Dh	; 317B6
@@ -2507,7 +2507,7 @@ and eax, 0FFh	; 31954
 mov dword [editcuron], eax	; 31959
 cmp dword [byte esp+020h], byte 0	; 3195E
 je short EditTextField.17	; 31963
-call sub_B39A7	; 31965
+call TickDeadlinePassed	; 31965
 test eax, eax	; 3196A
 jne near .33	; 3196C
 jmp short EditTextField.17	; 31972

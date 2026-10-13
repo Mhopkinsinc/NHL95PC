@@ -7,8 +7,8 @@ extern byte_D41CC, byte_D41CD, byte_F1A1C, byte_F1A1D, byte_F1D61, byte_F234D, b
 extern byte_F23CD, byte_F23CF, byte_F23E0, byte_F243E, dword_D41CE, dword_D41EA, dword_D4F64, dword_D4F8A
 extern dword_D4F8E, dword_D4F92, dword_D4F96, dword_D4F9A, dword_EDCFC, dword_EDD00, dword_EDD04, dword_EDE34
 extern dword_EDE5C, dword_F189C, dword_F18A4, dword_F1A1E, dword_F22FC, dword_F2300, dword_F2304, dword_F2308
-extern dword_F230C, dword_F23EA, dword_F23EE, dword_F2416, jctime, sprintf_, strlen_, SndLoadFile
-extern SndLoadFile2, sub_8D144, sub_8D2F0, sub_8DBD4, sub_8DBDC, sub_8E4C0, sub_8E4F8, sub_902A0
+extern dword_F230C, dword_F23EA, dword_F23EE, dword_F2416, FreeMemBlock, sprintf_, strlen_, SndLoadFile
+extern SndLoadFile2, sub_8D144, sub_8D2F0, sub_8DBD4, sub_8DBDC, addtimer, RemoveTimerCallback, __GETDS
 extern sub_97166, sub_971BE, sub_971F8, sub_9720B, sub_97268, sub_98F11, sub_98F46, sub_99522
 extern sub_99620, sub_996B0, sub_99700, sub_997B7, sub_998A0, sub_B3454, sub_B3ABC, sub_B3FB0
 extern unk_C3FD5, unk_D41D2, unk_F21FC, word_D4F68, word_D4F88
@@ -45,7 +45,7 @@ push ecx	; 8EB5C
 push edx	; 8EB5D
 call sub_8EB93	; 8EB5E
 push sub_98F11	; 8EB63
-call sub_8E4C0	; 8EB68
+call addtimer	; 8EB68
 add esp, byte 4	; 8EB6D
 cmp byte [byte_D41CC], 0	; 8EB70
 jne short loc_8EB8D	; 8EB77
@@ -64,7 +64,7 @@ push ebx	; 8EB93
 push ecx	; 8EB94
 push edx	; 8EB95
 push sub_98F11	; 8EB96
-call sub_8E4F8	; 8EB9B
+call RemoveTimerCallback	; 8EB9B
 add esp, byte 4	; 8EBA0
 mov edx, dword [dword_D4F64]	; 8EBA3
 jmp short loc_8EBB4	; 8EBA9
@@ -570,7 +570,7 @@ pop ebx	; 8F0D5
 ret	; 8F0D6
 sub_8F0D7:
 push ds	; 8F0D7
-call sub_902A0	; 8F0D8
+call __GETDS	; 8F0D8
 mov edx, dword [dword_EDE5C]	; 8F0DD
 test edx, edx	; 8F0E3
 jne short loc_8F0EB	; 8F0E5
@@ -597,7 +597,7 @@ pop ds	; 8F112
 ret	; 8F113
 sub_8F114:
 push ds	; 8F114
-call sub_902A0	; 8F115
+call __GETDS	; 8F115
 cmp dword [dword_EDE5C], byte 0	; 8F11A
 jne short loc_8F127	; 8F121
 xor eax, eax	; 8F123
@@ -2007,7 +2007,7 @@ mov edx, dword [eax]	; 8FF24
 test edx, edx	; 8FF26
 je short loc_8FF39	; 8FF28
 push edx	; 8FF2A
-call jctime	; 8FF2B
+call FreeMemBlock	; 8FF2B
 add esp, byte 4	; 8FF30
 mov dword [esi], 0	; 8FF33
 loc_8FF39:

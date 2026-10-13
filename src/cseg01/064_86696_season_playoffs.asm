@@ -18,7 +18,7 @@ extern boxshadecolor, dlgtextfg, dlgtextbg, songdata, cont2team, HomeTeam, menua
 extern menuact_pohilights, dword_CEDE7, dword_CEE07, seasondb, careerdb, keydb, seasondb_size, careerdb_size
 extern keydb_size, musichandle, dword_D2884, dword_D288C, seriesgameno, dword_D2B70, dword_D2BEC, musicslot
 extern cddriveptr, kaufmfont, mainfont, schedgameidx, pointerspr, playofftree, playofftree_p1, pochampion
-extern dbextension, ptrupdatefn, fputchar, j_unlink_, jctime, mkdir_, teamabbrevs, teamcitynames
+extern dbextension, ptrupdatefn, fputchar, j_unlink_, FreeMemBlock, mkdir_, teamabbrevs, teamcitynames
 extern off_C6D22, leaguedbnames, off_CEF43, off_CEF63
 extern off_CF983, msg_POExists, msg_POSetupError, msg_POSettingUp, msg_PODiskSpace, msg_POHumanOut, msg_POTeamOut, msg_POGenFinal
 extern mousepollfn, randomd0, rmdir_, sprintf_, strcat_, strcpy_, SetupControllers, PlayGame
@@ -32,7 +32,7 @@ extern DrawMenuItemNorm, MenuHitTest, FadePalStep, EditPlayoffSettings, LockerRo
 extern sub_8D2F0, sub_8E83C, sub_8E8A0, sub_8E8B8, sub_8E9C0, sub_8E9E8, sub_8EA00, sub_8EA18
 extern sub_8FC8A, sub_8FCDF, sub_8FFB0, sub_903F0, sub_910B0, sub_9121C, sub_91370, sub_913B4
 extern sub_91400, sub_92DE0, sub_92F50, sub_932D0, FatalError, MouseSetPos, sub_B2DCA, sub_B2E1B
-extern sub_B30B4, sub_B3989, sub_B3999, sub_B4B88, sub_B4BA8, sub_B4BC4, EasnTeamStatsScreen, EasnSkaterStatsScreen
+extern sub_B30B4, SetTickDeadline, WaitTickDeadline, sub_B4B88, sub_B4BA8, sub_B4BC4, EasnTeamStatsScreen, EasnSkaterStatsScreen
 extern EasnGoalieStatsScreen, EasnStandingsMenu, savenamedefault, str_E1, str_E2, str_F1, str_F2, unk_C3A66
 extern str_D, unk_C3AF8, exhstate, btn_LeagueExists, unk_CEE4F, unk_CEEAF, unk_CF90F, unk_D2864
 extern btn_POHumanOut, hmteamrec, treeteamnames, unk_DDCFB, unk_ED7BC, unknown_libname_1
@@ -129,7 +129,7 @@ push eax	; 867D1
 call sub_913B4	; 867D2
 add esp, byte 4	; 867D7
 push edi	; 867DA
-call jctime	; 867DB
+call FreeMemBlock	; 867DB
 jmp short .4	; 867E0
 .3:
 push str_Bkgd	; 867E2
@@ -298,10 +298,10 @@ call DeleteDir	; 86A70
 jmp short .15	; 86A75
 .14:
 push ebp	; 86A77
-call jctime	; 86A78
+call FreeMemBlock	; 86A78
 add esp, byte 4	; 86A7D
 push esi	; 86A80
-call jctime	; 86A81
+call FreeMemBlock	; 86A81
 add esp, byte 4	; 86A86
 mov edi, 1	; 86A89
 .15:
@@ -427,7 +427,7 @@ call sub_9121C	; 86C4C
 add esp, byte 4	; 86C51
 mov edx, dword [dword esp+0A8h]	; 86C54
 push edx	; 86C5B
-call jctime	; 86C5C
+call FreeMemBlock	; 86C5C
 jmp short .22	; 86C61
 .21:
 push str_Bkgd	; 86C63
@@ -447,10 +447,10 @@ mov ebx, 10h	; 86C8B
 xor eax, eax	; 86C90
 call FadePalStep	; 86C92
 push ebp	; 86C97
-call jctime	; 86C98
+call FreeMemBlock	; 86C98
 add esp, byte 4	; 86C9D
 push esi	; 86CA0
-call jctime	; 86CA1
+call FreeMemBlock	; 86CA1
 add esp, byte 4	; 86CA6
 mov eax, esp	; 86CA9
 call POSeedTeams	; 86CAB
@@ -477,12 +477,12 @@ call CopyFile	; 86CFA
 test eax, eax	; 86CFF
 je short .24	; 86D01
 push dword 190h	; 86D03
-call sub_B3989	; 86D08
+call SetTickDeadline	; 86D08
 add esp, byte 4	; 86D0D
 lea eax, [dword esp+08Ch]	; 86D10
 call DeleteDir	; 86D17
 mov edi, 1	; 86D1C
-call sub_B3999	; 86D21
+call WaitTickDeadline	; 86D21
 jmp short .25	; 86D26
 .24:
 inc esi	; 86D28
@@ -497,7 +497,7 @@ call POCreateSchedule	; 86D3F
 test eax, eax	; 86D44
 je short .26	; 86D46
 push dword 190h	; 86D48
-call sub_B3989	; 86D4D
+call SetTickDeadline	; 86D4D
 add esp, byte 4	; 86D52
 push edi	; 86D55
 lea eax, [dword esp+0A4h]	; 86D56
@@ -513,7 +513,7 @@ mov eax, edx	; 86D77
 call MessageBox	; 86D79
 lea eax, [dword esp+08Ch]	; 86D7E
 call DeleteDir	; 86D85
-call sub_B3999	; 86D8A
+call WaitTickDeadline	; 86D8A
 call RestoreDialogBg	; 86D8F
 .26:
 mov eax, postate	; 86D94
@@ -533,10 +533,10 @@ jmp short .29	; 86DD5
 lea eax, [dword esp+08Ch]	; 86DD7
 call rmdir_	; 86DDE
 push ebp	; 86DE3
-call jctime	; 86DE4
+call FreeMemBlock	; 86DE4
 add esp, byte 4	; 86DE9
 push esi	; 86DEC
-call jctime	; 86DED
+call FreeMemBlock	; 86DED
 add esp, byte 4	; 86DF2
 .29:
 push byte 20h	; 86DF5
@@ -555,7 +555,7 @@ mov edx, esi	; 86E20
 mov eax, 1	; 86E22
 call FadePalStep	; 86E27
 push esi	; 86E2C
-call jctime	; 86E2D
+call FreeMemBlock	; 86E2D
 add esp, byte 4	; 86E32
 mov eax, exhstate	; 86E35
 call LoadModeState	; 86E3A
@@ -1053,21 +1053,21 @@ mov ebp, dword [seasondb]	; 87419
 test ebp, ebp	; 8741F
 je short .2	; 87421
 push ebp	; 87423
-call jctime	; 87424
+call FreeMemBlock	; 87424
 add esp, byte 4	; 87429
 .2:
 mov edx, dword [careerdb]	; 8742C
 test edx, edx	; 87432
 je short .3	; 87434
 push edx	; 87436
-call jctime	; 87437
+call FreeMemBlock	; 87437
 add esp, byte 4	; 8743C
 .3:
 mov ecx, dword [keydb]	; 8743F
 test ecx, ecx	; 87445
 je short .4	; 87447
 push ecx	; 87449
-call jctime	; 8744A
+call FreeMemBlock	; 8744A
 add esp, byte 4	; 8744F
 .4:
 xor ebp, ebp	; 87452
@@ -1127,7 +1127,7 @@ lea eax, [dword esp+080h]	; 874FD
 call FileClose	; 87504
 .9:
 push esi	; 87509
-call jctime	; 8750A
+call FreeMemBlock	; 8750A
 add esp, byte 4	; 8750F
 mov eax, edi	; 87512
 .10:
@@ -2660,7 +2660,7 @@ call RestoreDialogBg	; 884DB
 jmp short .30	; 884E0
 .29:
 push dword 3E8h	; 884E2
-call sub_B3989	; 884E7
+call SetTickDeadline	; 884E7
 add esp, byte 4	; 884EC
 mov ebx, 10h	; 884EF
 mov edx, dword [byte esp+06Ch]	; 884F4
@@ -2678,7 +2678,7 @@ mov ebx, msg_POTeamOut	; 88514
 mov edx, 0FFFFFFFFh	; 88519
 mov eax, edx	; 8851E
 call MessageBox	; 88520
-call sub_B3999	; 88525
+call WaitTickDeadline	; 88525
 call RestoreDialogBg	; 8852A
 .30:
 mov ebx, 10h	; 8852F
@@ -2702,21 +2702,21 @@ mov edi, dword [seasondb]	; 88574
 test edi, edi	; 8857A
 je short .31	; 8857C
 push edi	; 8857E
-call jctime	; 8857F
+call FreeMemBlock	; 8857F
 add esp, byte 4	; 88584
 .31:
 mov edx, dword [careerdb]	; 88587
 test edx, edx	; 8858D
 je short .32	; 8858F
 push edx	; 88591
-call jctime	; 88592
+call FreeMemBlock	; 88592
 add esp, byte 4	; 88597
 .32:
 mov ecx, dword [keydb]	; 8859A
 test ecx, ecx	; 885A0
 je short .33	; 885A2
 push ecx	; 885A4
-call jctime	; 885A5
+call FreeMemBlock	; 885A5
 add esp, byte 4	; 885AA
 .33:
 xor edi, edi	; 885AD
@@ -2743,7 +2743,7 @@ call FadePalStep	; 8860B
 mov ebp, dword [byte esp+068h]	; 88610
 push ebp	; 88614
 .34:
-call jctime	; 88615
+call FreeMemBlock	; 88615
 add esp, byte 4	; 8861A
 add esp, byte 70h	; 8861D
 jmp near POCreateSchedule_x	; 88620
@@ -3448,21 +3448,21 @@ mov edx, dword [seasondb]	; 88E7D
 test edx, edx	; 88E83
 je short .60	; 88E85
 push edx	; 88E87
-call jctime	; 88E88
+call FreeMemBlock	; 88E88
 add esp, byte 4	; 88E8D
 .60:
 mov ecx, dword [careerdb]	; 88E90
 test ecx, ecx	; 88E96
 je short .61	; 88E98
 push ecx	; 88E9A
-call jctime	; 88E9B
+call FreeMemBlock	; 88E9B
 add esp, byte 4	; 88EA0
 .61:
 mov eax, dword [keydb]	; 88EA3
 test eax, eax	; 88EA8
 je short .62	; 88EAA
 push eax	; 88EAC
-call jctime	; 88EAD
+call FreeMemBlock	; 88EAD
 add esp, byte 4	; 88EB2
 .62:
 xor ebx, ebx	; 88EB5
@@ -3810,7 +3810,7 @@ mov dword [schedgameidx], eax	; 8932B
 mov eax, dword [byte esp+020h]	; 89330
 sub eax, byte 2	; 89334
 push eax	; 89337
-call jctime	; 89338
+call FreeMemBlock	; 89338
 add esp, byte 4	; 8933D
 xor edx, edx	; 89340
 mov dword [byte esp+020h], edx	; 89342
@@ -3839,7 +3839,7 @@ mov edx, esi	; 89397
 mov eax, 1	; 89399
 call FadePalStep	; 8939E
 push esi	; 893A3
-call jctime	; 893A4
+call FreeMemBlock	; 893A4
 add esp, byte 4	; 893A9
 cmp byte [musicon], 0	; 893AC
 je short .4	; 893B3
@@ -3921,7 +3921,7 @@ mov edx, esi	; 8950A
 mov eax, 1	; 8950C
 call FadePalStep	; 89511
 push esi	; 89516
-call jctime	; 89517
+call FreeMemBlock	; 89517
 add esp, byte 4	; 8951C
 call InputInstall	; 8951F
 .8:
@@ -4036,7 +4036,7 @@ mov edx, esi	; 8969B
 mov eax, 1	; 8969D
 call FadePalStep	; 896A2
 push esi	; 896A7
-call jctime	; 896A8
+call FreeMemBlock	; 896A8
 add esp, byte 4	; 896AD
 cmp dword [byte esp+024h], byte 0	; 896B0
 jne short .22	; 896B5
@@ -4115,7 +4115,7 @@ mov eax, dword [dword_C65AC]	; 897A5
 test eax, eax	; 897AA
 je short .26	; 897AC
 push eax	; 897AE
-call jctime	; 897AF
+call FreeMemBlock	; 897AF
 add esp, byte 4	; 897B4
 xor ebx, ebx	; 897B7
 mov dword [dword_C65AC], ebx	; 897B9
@@ -4157,7 +4157,7 @@ mov edx, esi	; 8983A
 mov eax, ebx	; 8983C
 call FadePalStep	; 8983E
 push esi	; 89843
-call jctime	; 89844
+call FreeMemBlock	; 89844
 add esp, byte 4	; 89849
 call SetupControllers	; 8984C
 mov eax, postate	; 89851
@@ -4200,7 +4200,7 @@ call ShowLoadingScreen	; 898D4
 mov eax, dword [byte esp+020h]	; 898D9
 sub eax, byte 2	; 898DD
 push eax	; 898E0
-call jctime	; 898E1
+call FreeMemBlock	; 898E1
 add esp, byte 4	; 898E6
 xor edi, edi	; 898E9
 mov dword [byte esp+020h], edi	; 898EB
@@ -4227,7 +4227,7 @@ mov edx, esi	; 89971
 mov eax, ebx	; 89973
 call FadePalStep	; 89975
 push esi	; 8997A
-call jctime	; 8997B
+call FreeMemBlock	; 8997B
 add esp, byte 4	; 89980
 mov dword [byte esp+02Ch], 4	; 89983
 .31:
@@ -4296,7 +4296,7 @@ mov edx, esi	; 89A53
 mov eax, 1	; 89A55
 call FadePalStep	; 89A5A
 push esi	; 89A5F
-call jctime	; 89A60
+call FreeMemBlock	; 89A60
 add esp, byte 4	; 89A65
 xor ecx, ecx	; 89A68
 mov dword [dword_C6D26], ecx	; 89A6A
@@ -4327,13 +4327,13 @@ jmp near PlayoffModeLoop.25	; 89AC7
 mov eax, dword [byte esp+020h]	; 89ACC
 sub eax, byte 2	; 89AD0
 push eax	; 89AD3
-call jctime	; 89AD4
+call FreeMemBlock	; 89AD4
 add esp, byte 4	; 89AD9
 mov ebx, dword [dword_C65AC]	; 89ADC
 test ebx, ebx	; 89AE2
 je short .39	; 89AE4
 push ebx	; 89AE6
-call jctime	; 89AE7
+call FreeMemBlock	; 89AE7
 add esp, byte 4	; 89AEC
 xor esi, esi	; 89AEF
 mov dword [dword_C65AC], esi	; 89AF1
@@ -4354,7 +4354,7 @@ mov edx, esi	; 89B22
 mov eax, 1	; 89B24
 call FadePalStep	; 89B29
 push esi	; 89B2E
-call jctime	; 89B2F
+call FreeMemBlock	; 89B2F
 add esp, byte 4	; 89B34
 xor eax, eax	; 89B37
 call SetupStatsSourceMenu	; 89B39
@@ -4651,7 +4651,7 @@ mov dword [byte esp+esi*8+014h], ecx	; 89F12
 mov dword [byte esp+esi*8+010h], ecx	; 89F16
 mov edi, dword [byte esp+ebp+060h]	; 89F1A
 push edi	; 89F1E
-call jctime	; 89F1F
+call FreeMemBlock	; 89F1F
 add esp, byte 4	; 89F24
 .10:
 dec esi	; 89F27
@@ -4668,7 +4668,7 @@ sar eax, 10h	; 89F4D
 mov dword [dword esp+0CCh], eax	; 89F50
 mov ebp, dword [dword esp+0B0h]	; 89F57
 push ebp	; 89F5E
-call jctime	; 89F5F
+call FreeMemBlock	; 89F5F
 add esp, byte 4	; 89F64
 mov byte [dword esp+090h], 18h	; 89F67
 xor dl, dl	; 89F6F
@@ -4741,7 +4741,7 @@ mov dword [dword esp+084h], edx	; 8A07A
 cmp ebp, byte 1	; 8A081
 jne short .12	; 8A084
 push eax	; 8A086
-call jctime	; 8A087
+call FreeMemBlock	; 8A087
 add esp, byte 4	; 8A08C
 mov eax, ebp	; 8A08F
 jmp near .x	; 8A091
@@ -4749,7 +4749,7 @@ jmp near .x	; 8A091
 cmp ebp, byte 4	; 8A096
 jne short .13	; 8A099
 push eax	; 8A09B
-call jctime	; 8A09C
+call FreeMemBlock	; 8A09C
 add esp, byte 4	; 8A0A1
 xor eax, eax	; 8A0A4
 jmp near .x	; 8A0A6
@@ -4811,7 +4811,7 @@ mov edx, edi	; 8A168
 xor eax, eax	; 8A16A
 call FadePalStep	; 8A16C
 push esi	; 8A171
-call jctime	; 8A172
+call FreeMemBlock	; 8A172
 add esp, byte 4	; 8A177
 .18:
 call sub_B4BA8	; 8A17A
@@ -4916,7 +4916,7 @@ mov dword [byte esp+esi*8+014h], eax	; 8A2EC
 mov dword [byte esp+esi*8+010h], eax	; 8A2F0
 mov edx, dword [byte esp+edi+060h]	; 8A2F4
 push edx	; 8A2F8
-call jctime	; 8A2F9
+call FreeMemBlock	; 8A2F9
 add esp, byte 4	; 8A2FE
 xor ebx, ebx	; 8A301
 mov dword [byte esp+edi+060h], ebx	; 8A303
@@ -5132,7 +5132,7 @@ mov dword [byte esp+esi*8+014h], ecx	; 8A5F0
 mov dword [byte esp+esi*8+010h], ecx	; 8A5F4
 mov ebp, dword [byte esp+edi+060h]	; 8A5F8
 push ebp	; 8A5FC
-call jctime	; 8A5FD
+call FreeMemBlock	; 8A5FD
 add esp, byte 4	; 8A602
 xor eax, eax	; 8A605
 mov dword [byte esp+edi+060h], eax	; 8A607
@@ -5224,7 +5224,7 @@ push byte 0	; 8A71F
 call sub_B4B88	; 8A721
 add esp, byte 0Ch	; 8A726
 push edi	; 8A729
-call jctime	; 8A72A
+call FreeMemBlock	; 8A72A
 add esp, byte 4	; 8A72F
 xor edi, edi	; 8A732
 mov dword [dword_C6D26], edi	; 8A734
@@ -5299,7 +5299,7 @@ push eax	; 8A82A
 call sub_91370	; 8A82B
 add esp, byte 0Ch	; 8A830
 push edi	; 8A833
-call jctime	; 8A834
+call FreeMemBlock	; 8A834
 add esp, byte 4	; 8A839
 xor ecx, ecx	; 8A83C
 mov ebx, str_Scuparrw	; 8A83E
@@ -6336,7 +6336,7 @@ jl near DrawPlayoffTree.68	; 8B828
 call TextGridOff	; 8B82E
 mov edi, dword [dword esp+0ECh]	; 8B833
 push edi	; 8B83A
-call jctime	; 8B83B
+call FreeMemBlock	; 8B83B
 add esp, byte 4	; 8B840
 lea eax, [byte esp+078h]	; 8B843
 push eax	; 8B847

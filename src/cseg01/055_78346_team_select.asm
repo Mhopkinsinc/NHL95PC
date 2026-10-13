@@ -10,7 +10,7 @@ extern byte_D1333, byte_D1334, byte_D1335, byte_D1336, hmroster, hmrosterjersey,
 extern byte_ECDF4, gmroster, gmrosterjersey, gmrosterslot, statscategory, fileoncd
 extern statsredrawcb, cont2team, HomeTeam, dlgfillcol, dlgedgecol1, dlgedgecol2, dlgedgecol3, dlgbevelcol1
 extern dlgbevelcol2, lineslotx, linesloty, jerseydigits, cddriveptr, curperiod, dword_DC734, dword_DC738
-extern statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, exit_, j___close_, jctime, lseek_
+extern statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, exit_, j___close_, FreeMemBlock, lseek_
 extern crestnames, menuact_uselines2, menuact_savedeflines2, menuact_gamedress, menuact_gamescratch, menuact_uselines, menuact_savedeflines, menuact_savelines
 extern open_, perror_, read_, sprintf_, MakePath, RunMenu, TeamRosterScreen, MessageBox
 extern DrawMenuBar, FadePalStep, PrintLineEdStatus, sub_8CCA8, sub_8E83C, sub_8E8A0, sub_8E9C0, sub_8FFB0
@@ -263,7 +263,7 @@ inc eax	; 7861A
 cmp eax, 100h	; 7861B
 jl short DrawLineEditorScreen.8	; 78620
 push ecx	; 78622
-call jctime	; 78623
+call FreeMemBlock	; 78623
 add esp, byte 4	; 78628
 mov eax, esp	; 7862B
 push eax	; 7862D
@@ -279,7 +279,7 @@ push eax	; 78648
 call sub_91FE0	; 78649
 add esp, byte 0Ch	; 7864E
 push esi	; 78651
-call jctime	; 78652
+call FreeMemBlock	; 78652
 add esp, byte 4	; 78657
 mov esi, dword [dword esp+0158h]	; 7865A
 push esi	; 78661
@@ -334,7 +334,7 @@ push eax	; 78713
 call sub_91370	; 78714
 add esp, byte 0Ch	; 78719
 push esi	; 7871C
-call jctime	; 7871D
+call FreeMemBlock	; 7871D
 add esp, byte 4	; 78722
 push byte 1	; 78725
 mov ecx, 54h	; 78727
@@ -638,7 +638,7 @@ mov byte [byte_D1334], 0FCh	; 78BB4
 mov byte [byte_D1335], 0FDh	; 78BBB
 mov byte [byte_D1336], 0FEh	; 78BC2
 push ebp	; 78BC9
-call jctime	; 78BCA
+call FreeMemBlock	; 78BCA
 add esp, byte 4	; 78BCF
 push jerseyremap	; 78BD2
 call sub_B4DD4	; 78BD7
@@ -2042,19 +2042,19 @@ mov dword [dword_DC738], edi	; 79C57
 mov dword [statsredrawcb], edi	; 79C5D
 mov edx, dword [statsteambuf]	; 79C63
 push edx	; 79C69
-call jctime	; 79C6A
+call FreeMemBlock	; 79C6A
 add esp, byte 4	; 79C6F
 mov ebx, dword [statsgoaliebuf]	; 79C72
 push ebx	; 79C78
-call jctime	; 79C79
+call FreeMemBlock	; 79C79
 add esp, byte 4	; 79C7E
 mov ecx, dword [statsskaterbuf]	; 79C81
 push ecx	; 79C87
-call jctime	; 79C88
+call FreeMemBlock	; 79C88
 add esp, byte 4	; 79C8D
 mov edi, dword [statsplayerbuf]	; 79C90
 push edi	; 79C96
-call jctime	; 79C97
+call FreeMemBlock	; 79C97
 add esp, byte 4	; 79C9C
 xor eax, eax	; 79C9F
 mov dword [statsplayerbuf], eax	; 79CA1

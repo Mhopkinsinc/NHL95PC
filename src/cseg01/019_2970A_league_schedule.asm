@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_2970A progbits alloc exec nowrite align=1
 extern __CHK, str_LSSCHED, str_extDB, str_space, statsfromleague, boxfillcolor, boxlitecolor, lgstate
-extern boxshadecolor, playofftree, playofftree_p1, pochampion, fputchar, jctime, teamcitynames, leaguedbnames
+extern boxshadecolor, playofftree, playofftree_p1, pochampion, fputchar, FreeMemBlock, teamcitynames, leaguedbnames
 extern strcat_, strcmp_, strcpy_, strlen_, MakePath, FileOpenRead, FileClose
 extern ReadSchedGame, PlayoffTreeScreen, ReadTeamNames, sub_8E8A0, sub_90D20, sub_B4FAC, sub_B5DB0, str_Space2
 extern statsleague, treeteamnames
@@ -504,7 +504,7 @@ mov dword [pochampion], 1Ah	; 29C45
 mov eax, dword [byte ebp-01Ch]	; 29C4F
 sub eax, byte 2	; 29C52
 push eax	; 29C55
-call jctime	; 29C56
+call FreeMemBlock	; 29C56
 add esp, byte 4	; 29C5B
 call PlayoffTreeScreen	; 29C5E
 mov dword [byte ebp-02Ch], 0	; 29C63

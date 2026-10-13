@@ -15,7 +15,7 @@ void DbLineEditor(unsigned char team, int lines, int buttons, int n)
     pal = (unsigned char *)sub_8CCA8((char *)str_Pal25, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     if (musicon && songdata) sub_8FCDF(musichandle, 3, 0x32);
     ShowLoadingScreen();
     SetDrawBitmap(fullscrbmp);
@@ -36,7 +36,7 @@ void DbLineEditor(unsigned char team, int lines, int buttons, int n)
     sub_B4BA8();
     sub_9061C(((int *)fullscrbmp)[0x2C / 4]);
     DbLineEditorLoop(lines, shape, team, 0, buttons, n, bank);
-    jctime(bank);
+    FreeMemBlock(bank);
     dlgfillcol = 0x41;
     dlgedgecol1 = 0x40;
     dlgedgecol2 = 0x42;

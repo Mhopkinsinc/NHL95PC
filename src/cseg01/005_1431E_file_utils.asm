@@ -7,7 +7,7 @@ extern __CHK, _dos_close_, _dos_creat_, _dos_getdiskfree_, _dos_open_, _dos_read
 extern str_ErrDiskFree5, str_GsummaryDb, str_NeedKbytesFmt, msg_NeedKbytes, str_dot, curleague, dword_C56C4, dword_C56E4
 extern hudclockmin, hudclocksec, hudclockhund, dword_C5710, dword_C5714, dword_C5718, dword_C583C, dword_C5844
 extern dword_C5848, hudhomeline, hudawayline, dword_C5854, dword_C5858, dword_C585C, dword_C5860, linesprites
-extern dword_DC28C, hmpanelspr, awpanelspr, scoredigits, clockdigits, clockcolon, gmode, j_unlink_
+extern hudhundstep, hmpanelspr, awpanelspr, scoredigits, clockdigits, clockcolon, gmode, j_unlink_
 extern lseek_, off_C56B5, leaguedbnames, rmdir_, sprintf_, strcat_, strcpy_, TickPanelClock
 extern DrawPanelClockDigits, TickPanelPenalties, DrawEnergyBar, DrawLineGroupBars, DrawPanelPenalties, MessageBox, TeamLineEnergy, SelectScreenBM
 extern SelectRinkBM, FatalError, MouseSetPos, sub_B4CD8, sub_B4CF2, str_star, str_backslash2, hmlineind
@@ -1051,10 +1051,10 @@ push ebp	; 14D00
 call SelectScreenBM	; 14D01
 cmp dword [hudclockmin], byte 0	; 14D06
 jl near UpdateHudPanel_x	; 14D0D
-mov eax, dword [dword_DC28C]	; 14D13
+mov eax, dword [hudhundstep]	; 14D13
 mov dword [dword_C583C], eax	; 14D18
 xor ebx, ebx	; 14D1D
-mov dword [dword_DC28C], ebx	; 14D1F
+mov dword [hudhundstep], ebx	; 14D1F
 call TickPanelClock	; 14D25
 test eax, eax	; 14D2A
 je short .1	; 14D2C

@@ -10,10 +10,10 @@ extern dword_CDA38, joybtnheld, enterheld, lastmousebtns, lastmousex, lastmousey
 extern facount, seasondb, careerdb, carteamsdb, keydb, teamsdb, attdb, seasondb_size
 extern careerdb_size, carteamsdb_size, keydb_size, teamsdb_size, attdb_size, joycalactive, mousex, mousey
 extern mousebtns, ptrupdatefn, inputqueue, lastinputdir, inputrepeat, inputev
-extern speechbank, jctime, memcpy_, memset_, leaguedbnames
+extern speechbank, FreeMemBlock, memcpy_, memset_, leaguedbnames
 extern mousepollfn, joycalprehook, joycalposthook, strcat_, MakePath, SetTextColors
 extern PrintShadowText, FreeLeagueDbsMem, TeamRecPtr, KeyDbPtr, RunEditRosters, FadePalStep, InitSpeechSlots, sub_8CCA8
-extern sub_8D2F0, sub_8E4C0, sub_8E4F8, sub_8E83C, sub_8E8A0, sub_8E9C0, sub_8E9E8, sub_8EA00
+extern sub_8D2F0, addtimer, RemoveTimerCallback, sub_8E83C, sub_8E8A0, sub_8E9C0, sub_8E9E8, sub_8EA00
 extern sub_8EA18, sub_90D20, sub_910E0, sub_9121C, sub_91370, sub_913B4, sub_91400, sub_91964
 extern sub_92CD0, sub_92DE0, sub_B29F0, sub_B2CBE, MouseSetPos, sub_B2F22, sub_B30B4, sub_B30F4
 extern sub_B340B, sub_B3464, sub_B384E, sub_B387E, sub_B392C, sub_B39D0, PollKey, sub_B4B88
@@ -198,11 +198,11 @@ add esp, byte 0Ch	; 6B2F2
 jmp near JoystickCalScreen.5	; 6B2F5
 .8:
 push ebp	; 6B2FA
-call jctime	; 6B2FB
+call FreeMemBlock	; 6B2FB
 add esp, byte 4	; 6B300
 mov ebp, dword [dword esp+0340h]	; 6B303
 push ebp	; 6B30A
-call jctime	; 6B30B
+call FreeMemBlock	; 6B30B
 add esp, byte 4	; 6B310
 mov ebx, 10h	; 6B313
 mov edx, esp	; 6B318
@@ -324,7 +324,7 @@ mov dword [dword_CDA24], ebx	; 6B446
 mov dword [ptrstep], ebx	; 6B44C
 mov dword [inputinstalled], 1	; 6B452
 push InputPollTick	; 6B45C
-call sub_8E4C0	; 6B461
+call addtimer	; 6B461
 add esp, byte 4	; 6B466
 call ClearInputQueue	; 6B469
 mov dword [ptrupdatefn], EventToPointer	; 6B46E
@@ -350,7 +350,7 @@ xor ebx, ebx	; 6B493
 mov dword [dword_CDA24], ebx	; 6B495
 mov dword [ptrstep], ebx	; 6B49B
 push InputPollTick	; 6B4A1
-call sub_8E4F8	; 6B4A6
+call RemoveTimerCallback	; 6B4A6
 add esp, byte 4	; 6B4AB
 xor esi, esi	; 6B4AE
 mov dword [inputinstalled], esi	; 6B4B0
@@ -1359,7 +1359,7 @@ mov esi, dword [falistsel]	; 6BED8
 test esi, esi	; 6BEDE
 je short .2	; 6BEE0
 push esi	; 6BEE2
-call jctime	; 6BEE3
+call FreeMemBlock	; 6BEE3
 add esp, byte 4	; 6BEE8
 xor ebp, ebp	; 6BEEB
 mov dword [falistsel], ebp	; 6BEED
@@ -1368,7 +1368,7 @@ mov eax, dword [falist]	; 6BEF3
 test eax, eax	; 6BEF8
 je short .3	; 6BEFA
 push eax	; 6BEFC
-call jctime	; 6BEFD
+call FreeMemBlock	; 6BEFD
 add esp, byte 4	; 6BF02
 xor ebx, ebx	; 6BF05
 mov dword [falist], ebx	; 6BF07

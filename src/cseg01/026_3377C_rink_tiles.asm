@@ -5,10 +5,10 @@ section s_3377C progbits alloc exec nowrite align=1
 extern __CHK, str_Rink2, str_Til, str_InvalidFileSize, str_TILES, str_ErrorLoadingFile, str_Map, str_CRESTS3
 extern str_Pal16, rinkarenas, str_extBIN, fileoncd
 extern rinktilebm, rinkbm, rinkfileidx, currink, rinkscrollx
-extern rinkscrolly, cddriveptr, dword_DD6A6, rinkwtiles, rinkhtiles, bgscrolly, ptrupdatefn, jctime
+extern rinkscrolly, cddriveptr, dword_DD6A6, rinkwtiles, rinkhtiles, bgscrolly, ptrupdatefn, FreeMemBlock
 extern MakePath, sub_6A033, sub_6A0F6, sub_6A106, sub_6A156, sub_6AD4F, sub_6AF52, sub_6AF97
 extern GetInputEvent, FadePalStep, sub_8CCA8, sub_8DBC0, sub_8E83C, sub_8E8A0, sub_8FFB0, sub_913B4
-extern sub_92DE0, sub_92EE4, FatalError, sub_B30B4, sub_B395C, SetDrawBitmap, sub_B4F8C, unk_DC890
+extern sub_92DE0, sub_92EE4, FatalError, sub_B30B4, GetTicks, SetDrawBitmap, sub_B4F8C, unk_DC890
 extern scrolly, scrollx, bgscrollx
 global LoadRink, BlitTileMap, SetRinkScroll, WaitClickTimeout, LoadCrestsPalette
 LoadRink:
@@ -32,7 +32,7 @@ cmp eax, 37840h	; 337A4
 je short .1	; 337A9
 mov ecx, dword [rinkbm]	; 337AB
 push ecx	; 337B1
-call jctime	; 337B2
+call FreeMemBlock	; 337B2
 add esp, byte 4	; 337B7
 xor esi, esi	; 337BA
 mov dword [rinkbm], esi	; 337BC
@@ -47,7 +47,7 @@ cmp eax, 37840h	; 337D5
 je short .2	; 337DA
 mov edx, dword [rinktilebm]	; 337DC
 push edx	; 337E2
-call jctime	; 337E3
+call FreeMemBlock	; 337E3
 add esp, byte 4	; 337E8
 xor ebx, ebx	; 337EB
 mov dword [rinktilebm], ebx	; 337ED
@@ -96,7 +96,7 @@ push eax	; 3388B
 call sub_913B4	; 3388C
 add esp, byte 4	; 33891
 push esi	; 33894
-call jctime	; 33895
+call FreeMemBlock	; 33895
 add esp, byte 4	; 3389A
 mov ecx, str_Til	; 3389D
 mov esi, edi	; 338A2
@@ -219,11 +219,11 @@ call BlitTileMap	; 33A0A
 .12:
 mov edx, dword [byte esp+014h]	; 33A0F
 push edx	; 33A13
-call jctime	; 33A14
+call FreeMemBlock	; 33A14
 add esp, byte 4	; 33A19
 mov ebx, dword [byte esp+010h]	; 33A1C
 push ebx	; 33A20
-call jctime	; 33A21
+call FreeMemBlock	; 33A21
 add esp, byte 4	; 33A26
 mov dword [currink], edi	; 33A29
 .13:
@@ -595,7 +595,7 @@ push edi	; 33E78
 push ebp	; 33E79
 sub esp, byte 10h	; 33E7A
 push eax	; 33E7D
-call sub_B395C	; 33E7E
+call GetTicks	; 33E7E
 mov dword [byte esp+0Ch], eax	; 33E83
 xor edi, edi	; 33E87
 xor esi, esi	; 33E89
@@ -611,7 +611,7 @@ test al, 2	; 33EA6
 je short .4	; 33EA8
 test esi, esi	; 33EAA
 jne short .2	; 33EAC
-call sub_B395C	; 33EAE
+call GetTicks	; 33EAE
 mov ebp, eax	; 33EB3
 jmp short .3	; 33EB5
 .2:
@@ -624,7 +624,7 @@ je short .5	; 33EC2
 mov esi, 3	; 33EC4
 mov edi, 0FFFFFFFFh	; 33EC9
 .5:
-call sub_B395C	; 33ECE
+call GetTicks	; 33ECE
 mov edx, eax	; 33ED3
 test esi, esi	; 33ED5
 je short .6	; 33ED7
@@ -697,7 +697,7 @@ inc eax	; 33F85
 cmp eax, 300h	; 33F86
 jl short LoadCrestsPalette.3	; 33F8B
 push esi	; 33F8D
-call jctime	; 33F8E
+call FreeMemBlock	; 33F8E
 add esp, byte 4	; 33F93
 push byte 0	; 33F96
 push unk_DC890	; 33F98
@@ -724,7 +724,7 @@ inc eax	; 33FD3
 cmp eax, 2FDh	; 33FD4
 jl short LoadCrestsPalette.5	; 33FD9
 push esi	; 33FDB
-call jctime	; 33FDC
+call FreeMemBlock	; 33FDC
 add esp, byte 4	; 33FE1
 mov ebx, 10h	; 33FE4
 mov edx, esp	; 33FE9

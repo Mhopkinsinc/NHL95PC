@@ -17,9 +17,9 @@ void UpdateHudPanel(void)
 
     SelectScreenBM();
     if (hudclockmin < 0) return;
-    n = dword_DC28C;
+    n = hudhundstep;
     dword_C583C = n;
-    dword_DC28C = 0;
+    hudhundstep = 0;
     if (TickPanelClock(n) && (gmode & 0x10) == 0) {
         TickPanelPenalties(hudpenhome, dword_C583C);
         TickPanelPenalties(hudpenaway, dword_C583C);

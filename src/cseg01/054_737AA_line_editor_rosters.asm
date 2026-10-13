@@ -19,7 +19,7 @@ extern dword_D1418, dword_D141C, dword_D1458, dword_D145C, dword_D1468, dword_D1
 extern cddriveptr, mainfont, curperiod, dword_DBC7C, dword_DBCE0, pointerspr, statsskaterorder, statsgoalieorder
 extern statsgoalieplr, statsskaterplr, statsplayerbuf, ptrupdatefn, fullscrbmp, rosterteamrec, rostergstat, rosterpstat
 extern msglines, editptrspr, blitclipright, blitclipbottom, blitcliptop, blitclipleft
-extern vgapage, fputchar, j___close_, j___delay_, jctime, lseek_, memcpy_, menuact_uselines2
+extern vgapage, fputchar, j___close_, j___delay_, FreeMemBlock, lseek_, memcpy_, menuact_uselines2
 extern menuact_savedeflines2, menuact_gamedress, menuact_gamescratch, menuact_uselines, menuact_savedeflines, menuact_savelines, menuact_dbdress, menuact_dbscratch
 extern open_, qsort_, read_, sprintf_, strcmp_, MakePath, SetTextColors, PrintCenteredText
 extern PrintShadowText, PrintFmt1, PrintFmt2, RunMenu, FitPlayerName, MessageBox, ShowLoadingScreen, FadeOutPalCycle
@@ -83,7 +83,7 @@ mov edx, esi	; 7382C
 mov eax, 1	; 7382E
 call FadePalStep	; 73833
 push esi	; 73838
-call jctime	; 73839
+call FreeMemBlock	; 73839
 add esp, byte 4	; 7383E
 cmp byte [musicon], 0	; 73841
 je short .1	; 73848
@@ -167,7 +167,7 @@ mov edx, esi	; 73968
 mov eax, dword [byte esp+02Ch]	; 7396A
 call DbLineEditorLoop	; 7396E
 push edi	; 73973
-call jctime	; 73974
+call FreeMemBlock	; 73974
 add esp, byte 4	; 73979
 mov ebx, 41h	; 7397C
 mov dword [dlgfillcol], ebx	; 73981
@@ -444,7 +444,7 @@ mov eax, dword [byte ebp+04Ah]	; 73C80
 call memcpy_	; 73C83
 mov edx, dword [byte ebp+046h]	; 73C88
 push edx	; 73C8B
-call jctime	; 73C8C
+call FreeMemBlock	; 73C8C
 add esp, byte 4	; 73C91
 xor ecx, ecx	; 73C94
 mov cl, byte [byte ebp+072h]	; 73C96
@@ -494,7 +494,7 @@ mov ebx, 93h	; 73D33
 call memcpy_	; 73D38
 mov ecx, dword [byte ebp+046h]	; 73D3D
 push ecx	; 73D40
-call jctime	; 73D41
+call FreeMemBlock	; 73D41
 add esp, byte 4	; 73D46
 mov ebx, 10h	; 73D49
 mov edx, dword [byte ebp+04Ah]	; 73D4E
@@ -772,7 +772,7 @@ mov dword [byte ebp+eax*8-07Ah], esi	; 74006
 mov dword [byte ebp+eax*8-07Eh], esi	; 7400A
 mov edi, dword [byte ebp+eax*4+02h]	; 7400E
 push edi	; 74012
-call jctime	; 74013
+call FreeMemBlock	; 74013
 add esp, byte 4	; 74018
 .37:
 dec dword [byte ebp+042h]	; 7401B
@@ -916,7 +916,7 @@ mov dword [byte ebp+eax*8-07Ah], esi	; 74187
 mov dword [byte ebp+eax*8-07Eh], esi	; 7418B
 mov edx, dword [byte ebp+eax*4+02h]	; 7418F
 push edx	; 74193
-call jctime	; 74194
+call FreeMemBlock	; 74194
 add esp, byte 4	; 74199
 mov eax, dword [byte ebp+042h]	; 7419C
 mov dword [byte ebp+eax*4+02h], esi	; 7419F
@@ -1168,7 +1168,7 @@ mov dword [byte ebp+eax*8-07Ah], edi	; 7444B
 mov dword [byte ebp+eax*8-07Eh], edi	; 7444F
 mov edx, dword [byte ebp+eax*4+02h]	; 74453
 push edx	; 74457
-call jctime	; 74458
+call FreeMemBlock	; 74458
 add esp, byte 4	; 7445D
 .66:
 dec dword [byte ebp+042h]	; 74460
@@ -2175,7 +2175,7 @@ jmp near DbLineEditorLoop.27	; 75007
 call ClearInputQueue	; 7500C
 mov edi, dword [byte ebp+066h]	; 75011
 push edi	; 75014
-call jctime	; 75015
+call FreeMemBlock	; 75015
 add esp, byte 4	; 7501A
 mov ebx, 10h	; 7501D
 mov edx, dword [byte ebp+04Ah]	; 75022
@@ -2183,7 +2183,7 @@ mov eax, 1	; 75025
 call FadePalStep	; 7502A
 mov eax, dword [byte ebp+04Ah]	; 7502F
 push eax	; 75032
-call jctime	; 75033
+call FreeMemBlock	; 75033
 add esp, byte 4	; 75038
 xor eax, eax	; 7503B
 lea esp, [byte ebp+07Ah]	; 7503D
@@ -2725,15 +2725,15 @@ mov eax, unk_D075E	; 755FE
 call RunMenu	; 75603
 mov edx, dword [rostergstat]	; 75608
 push edx	; 7560E
-call jctime	; 7560F
+call FreeMemBlock	; 7560F
 add esp, byte 4	; 75614
 mov ebx, dword [rosterpstat]	; 75617
 push ebx	; 7561D
-call jctime	; 7561E
+call FreeMemBlock	; 7561E
 add esp, byte 4	; 75623
 mov ecx, dword [statsplayerbuf]	; 75626
 push ecx	; 7562C
-call jctime	; 7562D
+call FreeMemBlock	; 7562D
 add esp, byte 4	; 75632
 xor edi, edi	; 75635
 mov dword [statsplayerbuf], edi	; 75637
@@ -3458,7 +3458,7 @@ push byte 0	; 75E4B
 call sub_B4BC4	; 75E4D
 add esp, byte 10h	; 75E52
 push esi	; 75E55
-call jctime	; 75E56
+call FreeMemBlock	; 75E56
 add esp, byte 4	; 75E5B
 lea eax, [byte esp+010h]	; 75E5E
 push eax	; 75E62
@@ -4242,7 +4242,7 @@ mov edx, edi	; 76819
 mov eax, 1	; 7681B
 call FadePalStep	; 76820
 push edi	; 76825
-call jctime	; 76826
+call FreeMemBlock	; 76826
 add esp, byte 4	; 7682B
 cmp byte [musicon], 0	; 7682E
 je short .2	; 76835
@@ -4372,7 +4372,7 @@ mov edx, edi	; 76A15
 mov eax, dword [byte esp+02Ch]	; 76A17
 call GameLineEditorLoop	; 76A1B
 push ebp	; 76A20
-call jctime	; 76A21
+call FreeMemBlock	; 76A21
 add esp, byte 4	; 76A26
 mov eax, dword [byte esp+010h]	; 76A29
 mov dword [dlgfillcol], eax	; 76A2D
@@ -4684,7 +4684,7 @@ mov eax, dword [byte ebp+046h]	; 76DA0
 call memcpy_	; 76DA3
 mov ecx, dword [byte ebp+03Ah]	; 76DA8
 push ecx	; 76DAB
-call jctime	; 76DAC
+call FreeMemBlock	; 76DAC
 add esp, byte 4	; 76DB1
 xor eax, eax	; 76DB4
 mov al, byte [byte ebp+072h]	; 76DB6
@@ -4740,7 +4740,7 @@ mov ebx, 93h	; 76E61
 call memcpy_	; 76E66
 mov edx, dword [byte ebp+03Ah]	; 76E6B
 push edx	; 76E6E
-call jctime	; 76E6F
+call FreeMemBlock	; 76E6F
 add esp, byte 4	; 76E74
 mov ebx, 10h	; 76E77
 mov edx, dword [byte ebp+046h]	; 76E7C
@@ -4748,7 +4748,7 @@ xor eax, eax	; 76E7F
 call FadePalStep	; 76E81
 mov ebx, dword [byte ebp+046h]	; 76E86
 push ebx	; 76E89
-call jctime	; 76E8A
+call FreeMemBlock	; 76E8A
 add esp, byte 4	; 76E8F
 cmp edi, byte 20h	; 76E92
 jge short .16	; 76E95
@@ -5007,7 +5007,7 @@ mov dword [byte ebp+eax*8-06Eh], esi	; 77130
 mov dword [byte ebp+eax*8-072h], esi	; 77134
 mov edi, dword [byte ebp+eax*4-022h]	; 77138
 push edi	; 7713C
-call jctime	; 7713D
+call FreeMemBlock	; 7713D
 add esp, byte 4	; 77142
 .40:
 dec dword [byte ebp+036h]	; 77145
@@ -5149,7 +5149,7 @@ mov dword [byte ebp+eax*8-06Eh], edi	; 772B0
 mov dword [byte ebp+eax*8-072h], edi	; 772B4
 mov edx, dword [byte ebp+eax*4-022h]	; 772B8
 push edx	; 772BC
-call jctime	; 772BD
+call FreeMemBlock	; 772BD
 add esp, byte 4	; 772C2
 mov eax, dword [byte ebp+036h]	; 772C5
 mov dword [byte ebp+eax*4-022h], edi	; 772C8
@@ -5396,7 +5396,7 @@ mov dword [byte ebp+eax*8-06Eh], edi	; 7755A
 mov dword [byte ebp+eax*8-072h], edi	; 7755E
 mov edx, dword [byte ebp+eax*4-022h]	; 77562
 push edx	; 77566
-call jctime	; 77567
+call FreeMemBlock	; 77567
 add esp, byte 4	; 7756C
 .68:
 dec dword [byte ebp+036h]	; 7756F
@@ -6217,7 +6217,7 @@ jmp near GameLineEditorLoop.30	; 77F4E
 call ClearInputQueue	; 77F53
 mov edi, dword [byte ebp+05Ah]	; 77F58
 push edi	; 77F5B
-call jctime	; 77F5C
+call FreeMemBlock	; 77F5C
 add esp, byte 4	; 77F61
 xor eax, eax	; 77F64
 lea esp, [byte ebp+076h]	; 77F66

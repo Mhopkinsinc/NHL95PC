@@ -18,7 +18,7 @@ extern curperiod, dword_DB086, dword_DB088, hmtmstruct, dword_DF642, dword_DF648
 extern hmtmpdst_m2, awtmstruct, dword_DF748, dword_DF752, dword_DF848, puckstruct
 extern sortobj15, dword_E0244, dword_E038E, dword_E03AE
 extern dword_E9A9E, dword_E9AB6, dword_E9AB7, gwgteam, gwgplayer, startm_m2
-extern seqtimer, puckvx, gmode, goalieacc, jctime, PreGameIntro_popebp, PreGameIntro_popx, ltx
+extern seqtimer, puckvx, gmode, goalieacc, FreeMemBlock, PreGameIntro_popebp, PreGameIntro_popx, ltx
 extern teamabbrevs, puckx, pucky, puckvy, puckz, puckc, camx_m2, starordtab
 extern playeracc, puckshadow, puckvz, qsort_, randomd0, sfx, skateto, skatetopuck
 extern sprintf_, vecdist, FadePalette, IsCupClinched, ThreeStarsLoop, joyq_flush, getlchoice, PenShotAssign
@@ -1077,7 +1077,7 @@ cmp eax, byte 0FFFFFFFFh	; 48FE1
 je short .1	; 48FE4
 mov ecx, dword [dword_E0244]	; 48FE6
 push ecx	; 48FEC
-call jctime	; 48FED
+call FreeMemBlock	; 48FED
 add esp, byte 4	; 48FF2
 .1:
 mov edx, 0FFFFFFFFh	; 48FF5

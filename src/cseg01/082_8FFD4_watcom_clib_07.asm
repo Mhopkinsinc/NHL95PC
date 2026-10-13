@@ -9,7 +9,7 @@ global __STOSB, __STOSD, loc_90048, loc_9004A, loc_9004E, loc_90066, loc_90080, 
 global loc_90090, loc_900A1, loc_900B4, loc_900D0, loc_90108, loc_9010A, loc_90127, loc_9013B
 global loc_9014C, loc_90163, loc_901B8, loc_901CA, loc_901DF, loc_901ED, loc_9022E, loc_90265
 global loc_9027B, loc_9028A, loc_902B6, loc_902C3, loc_902E0, loc_902EB, loc_902F7, loc_90300
-global loc_90326, loc_90329, loc_90337, loc_90352, start, sub_90267, sub_902A0
+global loc_90326, loc_90329, loc_90337, loc_90352, start, sub_90267, __GETDS
 start:
 jmp short loc_9004E	; 8FFD4
 push edi	; 8FFD6
@@ -291,7 +291,7 @@ pop eax	; 9029A
 mov ah, 4Ch	; 9029B
 int 21h	; 9029D
 nop	; 9029F
-sub_902A0:
+__GETDS:
 db 066h,02Eh,08Eh,01Dh	; 902A0 o16 mov ds,[cs:80048h]
 dd loc_90048
 ret	; 902A8

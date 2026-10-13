@@ -7,7 +7,7 @@ extern dword_EA03C, dword_EA040, dword_EA044, dword_EA048, dword_EA04C, dword_EA
 extern dword_EA060, dword_EA064, dword_EA068, dword_EA06C, dword_EA070, dword_EA074, dword_EA078, dword_EA07C
 extern dword_EA080, dword_EA084, dword_EA088, dword_EA08C, dword_EA090, dword_EA094, dword_EA098, dword_EA09C
 extern dword_EA0A0, dword_EA0A4, dword_EA0AC, dword_EA0B0, dword_EA0B4, dword_EA0B8, dword_EA0BC, dword_EA0C4
-extern dword_EA0C8, dword_EA0CC, dword_EA0D0, fputchar, jctime, memset_, sub_8CCA8, sub_903F0
+extern dword_EA0C8, dword_EA0CC, dword_EA0D0, fputchar, FreeMemBlock, memset_, sub_8CCA8, sub_903F0
 extern FatalError, sub_B4BA8, sub_B4BC4, SetDrawBitmap, sub_B4FAC
 global loc_6A12A, loc_6A13E, loc_6A149, loc_6A18A, loc_6A3B9, loc_6A3BA, loc_6A3FA, loc_6A41D
 global loc_6A479, loc_6A4A8, loc_6A4AD, loc_6A4CB, loc_6A4FD, loc_6A4FF, loc_6A51E, loc_6A520
@@ -1083,7 +1083,7 @@ push ecx	; 6AAE0
 push edx	; 6AAE1
 mov edx, dword [dword_EA088]	; 6AAE2
 push edx	; 6AAE8
-call jctime	; 6AAE9
+call FreeMemBlock	; 6AAE9
 add esp, byte 4	; 6AAEE
 pop edx	; 6AAF1
 pop ecx	; 6AAF2

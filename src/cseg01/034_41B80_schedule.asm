@@ -7,7 +7,7 @@ extern str_SelHumanTeams, str_EnterLeagueName, str_KbytesFreeLine, divisionteams
 extern curleague, leagueflags, lgteamflags, lgteam_17, lgteam_18, lgteam_19, savedname, byte_DDD40
 extern byte_DE268, lgstate, gameopts, teamdivflags, confteams, dword_C5619, dword_C8C61, dword_C8D06
 extern dword_C9002, seasondb, careerdb, keydb, seasondb_size, careerdb_size, keydb_size, dbextension
-extern leaguemaster, leaguesaved, lgteamver, humancount, dword_DDD34, lgplayteam, dword_DDD3C, jctime
+extern leaguemaster, leaguesaved, lgteamver, humancount, dword_DDD34, lgplayteam, dword_DDD3C, FreeMemBlock
 extern memset_, mkdir_, msg_LeagueExists, leaguedbnames
 extern msg_GenSchedule, msg_NoDiskSpace, rand_, sprintf_, strcat_, strcpy_, DiskFreeBytes
 extern AwardsCeremony, FileExists, MakePath, DeleteDir, FileOpenRead, FileOpenRW, FileClose, FileReadAt
@@ -338,21 +338,21 @@ mov ecx, dword [seasondb]	; 41EDF
 test ecx, ecx	; 41EE5
 je short .12	; 41EE7
 push ecx	; 41EE9
-call jctime	; 41EEA
+call FreeMemBlock	; 41EEA
 add esp, byte 4	; 41EEF
 .12:
 mov edi, dword [careerdb]	; 41EF2
 test edi, edi	; 41EF8
 je short .13	; 41EFA
 push edi	; 41EFC
-call jctime	; 41EFD
+call FreeMemBlock	; 41EFD
 add esp, byte 4	; 41F02
 .13:
 mov edx, dword [keydb]	; 41F05
 test edx, edx	; 41F0B
 je short .14	; 41F0D
 push edx	; 41F0F
-call jctime	; 41F10
+call FreeMemBlock	; 41F10
 add esp, byte 4	; 41F15
 .14:
 xor ecx, ecx	; 41F18
@@ -1307,7 +1307,7 @@ call FileWriteAt	; 42B91
 mov dword [dword esp+09Ch], eax	; 42B96
 .9:
 push esi	; 42B9D
-call jctime	; 42B9E
+call FreeMemBlock	; 42B9E
 add esp, byte 4	; 42BA3
 mov ebx, dword [dword esp+09Ch]	; 42BA6
 .10:
@@ -3995,7 +3995,7 @@ mov ebx, dword [dword_C8C61]	; 44DA9
 test ebx, ebx	; 44DAF
 je short .14	; 44DB1
 push ebx	; 44DB3
-call jctime	; 44DB4
+call FreeMemBlock	; 44DB4
 add esp, byte 4	; 44DB9
 xor esi, esi	; 44DBC
 mov dword [dword_C8C61], esi	; 44DBE

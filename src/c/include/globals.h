@@ -2065,7 +2065,7 @@ extern int dword_C585C; /* C585C */
 extern int dword_C5860; /* C5860 */
 extern int dword_C5861[]; /* C5861 */
 extern int dword_C5862[]; /* C5862 */
-extern int dword_C5886; /* C5886 */
+extern int demoteammode; /* C5886 */
 extern int dword_C588A; /* C588A */
 extern unsigned char unk_C588E[]; /* C588E */
 extern unsigned char unk_C588F[]; /* C588F */
@@ -3660,10 +3660,10 @@ extern int dword_D2F88; /* D2F88 */
 extern int dword_D2F8C[]; /* D2F8C */
 extern int dword_D2F90[]; /* D2F90 */
 extern int joycalactive; /* D2FD8 */
-extern int dword_D2FDC; /* D2FDC */
-extern int dword_D2FE0; /* D2FE0 */
-extern int dword_D2FE4; /* D2FE4 */
-extern short word_D2FE8; /* D2FE8 */
+extern int tickcount; /* D2FDC */
+extern int slowtickcount; /* D2FE0 */
+extern int oldint8off; /* D2FE4 */
+extern short oldint8sel; /* D2FE8 */
 extern int dword_D2FEC; /* D2FEC */
 extern int dword_D2FF0; /* D2FF0 */
 extern int dword_D2FF4; /* D2FF4 */
@@ -3754,7 +3754,7 @@ extern int dword_D41AB; /* D41AB */
 extern int dword_D41AF; /* D41AF */
 extern int dword_D41B3; /* D41B3 */
 extern unsigned char byte_D41B7[]; /* D41B7 */
-extern unsigned char unk_D41C8[]; /* D41C8 */
+extern unsigned char randseed[]; /* D41C8 */
 extern unsigned char byte_D41CC; /* D41CC */
 extern unsigned char byte_D41CD; /* D41CD */
 extern int dword_D41CE; /* D41CE */
@@ -3800,8 +3800,8 @@ extern int dword_D4274; /* D4274 */
 extern int dword_D4278; /* D4278 */
 extern int dword_D427C; /* D427C */
 extern unsigned char byte_D4280[]; /* D4280 */
-extern int dword_D4294; /* D4294 */
-extern int dword_D4298; /* D4298 */
+extern int tickdeadline; /* D4294 */
+extern int ticklast; /* D4298 */
 extern int dword_D429C; /* D429C */
 extern int off_D42A0; /* D42A0 */
 extern int off_D42A4; /* D42A4 */
@@ -4588,7 +4588,7 @@ extern int frameaccum; /* D8C6C */
 extern int rinkendart; /* D8C70 */
 extern int dword_D8C72[]; /* D8C72 */
 extern int viewscrolly; /* D8C74 */
-extern int dword_D8C78; /* D8C78 */
+extern int hudhundaccum; /* D8C78 */
 extern int dword_D8C7A[]; /* D8C7A */
 extern int viewscrollx; /* D8C7C */
 extern int numshpbank; /* D8C80 */
@@ -4667,7 +4667,7 @@ extern unsigned char byte_DC266; /* DC266 */
 extern unsigned char byte_DC267; /* DC267 */
 extern unsigned char byte_DC268; /* DC268 */
 extern int linesprites[]; /* DC26C */
-extern int dword_DC28C; /* DC28C */
+extern int hudhundstep; /* DC28C */
 extern int penaltydigits[]; /* DC290 */
 extern int dword_DC2B8; /* DC2B8 */
 extern int hmpanelspr; /* DC2BC */
@@ -5275,7 +5275,7 @@ extern unsigned char byte_EDCC1; /* EDCC1 */
 extern unsigned char byte_EDCC3; /* EDCC3 */
 extern unsigned char byte_EDCC5; /* EDCC5 */
 extern unsigned char byte_EDCC7; /* EDCC7 */
-extern int dword_EDCDC[]; /* EDCDC */
+extern int timercallbacks[]; /* EDCDC */
 extern int dword_EDCFC[]; /* EDCFC */
 extern int dword_EDD00[]; /* EDD00 */
 extern int dword_EDD04[]; /* EDD04 */

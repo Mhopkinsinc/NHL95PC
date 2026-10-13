@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_B3B00 progbits alloc exec nowrite align=1
-extern asc_D43F4, byte_D4410, dword_D2FE0, dword_D4438, dword_D443C, dword_D4440, dword_D4444, dword_D44AC
+extern asc_D43F4, byte_D4410, slowtickcount, dword_D4438, dword_D443C, dword_D4440, dword_D4444, dword_D44AC
 extern dword_D4530, dword_D4F2C, dword_D4F30, dword_D4F34, dword_D4F38, dword_D4F3C, dword_D4F40, sprintf_
 extern FatalError, sub_B49C0, sub_B4A60, sub_B4A66, unk_D4448, unk_D44B0, unk_D44CE
 global loc_B3B6E, loc_B3BB9, loc_B3BEE, loc_B3C2B, loc_B3C53, loc_B3C6E, loc_B3C76, loc_B3C85
@@ -249,20 +249,20 @@ mov ah, 4Fh	; B3D38
 int 21h	; B3D3A
 jb short loc_B3D26	; B3D3C
 jmp short loc_B3D0A	; B3D3E
-mov eax, dword [dword_D2FE0]	; B3D40
+mov eax, dword [slowtickcount]	; B3D40
 ret	; B3D45
 sub_B3D46:
 mov eax, dword [byte esp+04h]	; B3D46
-add eax, dword [dword_D2FE0]	; B3D4A
+add eax, dword [slowtickcount]	; B3D4A
 mov dword [dword_D4530], eax	; B3D50
 ret	; B3D55
 sub_B3D56:
-mov eax, dword [dword_D2FE0]	; B3D56
+mov eax, dword [slowtickcount]	; B3D56
 sub eax, dword [dword_D4530]	; B3D5B
 js short sub_B3D56	; B3D61
 ret	; B3D63
 sub_B3D64:
-mov ebx, dword [dword_D2FE0]	; B3D64
+mov ebx, dword [slowtickcount]	; B3D64
 sub ebx, dword [dword_D4530]	; B3D6A
 LD sbb, eax, eax	; B3D70
 inc eax	; B3D72
@@ -271,11 +271,11 @@ sub_B3D74:
 push ebp	; B3D74
 LD mov, ebp, esp	; B3D75
 add esp, byte 0FFFFFFFCh	; B3D77
-mov eax, dword [dword_D2FE0]	; B3D7A
+mov eax, dword [slowtickcount]	; B3D7A
 add eax, dword [byte ebp+08h]	; B3D7F
 mov dword [byte ebp-04h], eax	; B3D82
 loc_B3D85:
-mov eax, dword [dword_D2FE0]	; B3D85
+mov eax, dword [slowtickcount]	; B3D85
 sub eax, dword [byte ebp-04h]	; B3D8A
 js short loc_B3D85	; B3D8D
 leave	; B3D8F

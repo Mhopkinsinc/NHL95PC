@@ -42,7 +42,7 @@ int CalTeamStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal8);
     FadePalStep(0, (unsigned char *)statspalshape + 0x10, 0x10);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     RunMenu(unk_CF78F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);
     FadePalStep(1, buf, 0x10);
@@ -83,7 +83,7 @@ int CalSkaterStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal8);
     FadePalStep(0, (unsigned char *)statspalshape + 0x10, 0x10);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     RunMenu(unk_CF80F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);
     FadePalStep(1, buf, 0x10);
@@ -123,7 +123,7 @@ int CalGoalieStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal8);
     FadePalStep(0, (unsigned char *)statspalshape + 0x10, 0x10);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     RunMenu(unk_CF88F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);
     FadePalStep(1, buf, 0x10);

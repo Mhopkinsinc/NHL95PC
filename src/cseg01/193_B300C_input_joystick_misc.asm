@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_B300C progbits alloc exec nowrite align=1
 extern atexit_, joyenablemask, byte_D4168, byte_D416A, byte_D4174, byte_D4175, byte_D4176, byte_D41B7
-extern byte_D4244, byte_D4245, byte_D4246, byte_D4280, dword_D2C84, dword_D2FDC, dword_D3090, dword_D3096
+extern byte_D4244, byte_D4245, byte_D4246, byte_D4280, dword_D2C84, tickcount, dword_D3090, dword_D3096
 extern dword_D30A4, cliprect_x0, cliprect_y0, cliprect_x1, cliprect_y1, dword_D4158, dword_D415C, dword_D4160
 extern dword_D4164, dword_D416C, dword_D4170, dword_D4177, dword_D417B, dword_D417F, dword_D4183, dword_D4187
 extern dword_D418B, dword_D418F, dword_D4193, dword_D4197, dword_D419B, dword_D419F, dword_D41A3, dword_D41A7
@@ -11,7 +11,7 @@ extern dword_D41AB, dword_D41AF, dword_D41B3, dword_D41FC, dword_D4200, dword_D4
 extern dword_D4210, dword_D4214, dword_D4218, dword_D421C, dword_D4220, dword_D4224, dword_D4228, dword_D422C
 extern dword_D4230, dword_D4234, dword_D4238, dword_D423C, dword_D4240, dword_D4248, dword_D424C, dword_D4250
 extern dword_D4254, dword_D4258, dword_D425C, dword_D4260, dword_D4264, dword_D4268, dword_D426C, dword_D4270
-extern dword_D4274, dword_D4278, dword_D427C, dword_D4294, dword_D4298, exit_, off_D42A0, sub_902A0
+extern dword_D4274, dword_D4278, dword_D427C, tickdeadline, ticklast, exit_, off_D42A0, __GETDS
 extern sub_90D20, sub_9864C, sub_98664, FatalError, unk_8E870, word_D3094, word_D309A
 global loc_B3089, loc_B30B0, loc_B30BD, loc_B30D1, loc_B30E3, loc_B30F1, loc_B3115, loc_B3129
 global loc_B3132, loc_B3156, loc_B31A5, loc_B31A9, loc_B31BB, loc_B31BF, loc_B31D0, loc_B31DB
@@ -27,8 +27,8 @@ global loc_B37EB, loc_B37F9, loc_B380D, loc_B3824, loc_B3838, loc_B3845, loc_B38
 global loc_B38FB, loc_B391A, loc_B39C3, loc_B39DE, loc_B39EC, loc_B3A01, loc_B3A07, loc_B3A47
 global loc_B3A59, loc_B3A70, loc_B3ADF, sub_B300C, sub_B3010, sub_B3036, sub_B308B, sub_B30B4
 global sub_B30BB, sub_B30F4, sub_B3168, sub_B33DB, sub_B340B, sub_B3421, sub_B3454, sub_B345D
-global sub_B3464, sub_B384E, sub_B387E, sub_B38AE, sub_B392C, sub_B395C, sub_B3962, sub_B396E
-global sub_B3981, sub_B3989, sub_B3999, sub_B39A7, sub_B39B7, sub_B39D0, PollKey, sub_B39F3
+global sub_B3464, sub_B384E, sub_B387E, sub_B38AE, sub_B392C, GetTicks, TicksSince, TicksSinceLastCall
+global ResetTicks, SetTickDeadline, WaitTickDeadline, TickDeadlinePassed, WaitTicks, sub_B39D0, PollKey, sub_B39F3
 global WaitKey, sub_B3A24, sub_B3A2F, sub_B3A88, sub_B3AA1, sub_B3ABC
 sub_B300C:
 LD xor, eax, eax	; B300C
@@ -46,7 +46,7 @@ push ds	; B3017
 push es	; B3018
 push fs	; B3019
 push gs	; B301B
-call sub_902A0	; B301D
+call __GETDS	; B301D
 call dword [cs:dword_D3096]	; B3022
 pop gs	; B3029
 pop fs	; B302B
@@ -773,46 +773,46 @@ call sub_90D20	; B3950
 add sp, byte 14h	; B3955
 ret	; B3959
 db 00h,00h
-sub_B395C:
-mov eax, dword [dword_D2FDC]	; B395C
+GetTicks:
+mov eax, dword [tickcount]	; B395C
 ret	; B3961
-sub_B3962:
+TicksSince:
 mov ecx, dword [byte esp+04h]	; B3962
-mov eax, dword [dword_D2FDC]	; B3966
+mov eax, dword [tickcount]	; B3966
 LD sub, eax, ecx	; B396B
 ret	; B396D
-sub_B396E:
-mov ebx, dword [dword_D4298]	; B396E
-mov eax, dword [dword_D2FDC]	; B3974
-mov dword [dword_D4298], eax	; B3979
+TicksSinceLastCall:
+mov ebx, dword [ticklast]	; B396E
+mov eax, dword [tickcount]	; B3974
+mov dword [ticklast], eax	; B3979
 LD sub, eax, ebx	; B397E
 ret	; B3980
-sub_B3981:
+ResetTicks:
 LD xor, eax, eax	; B3981
-mov dword [dword_D2FDC], eax	; B3983
+mov dword [tickcount], eax	; B3983
 ret	; B3988
-sub_B3989:
+SetTickDeadline:
 mov eax, dword [byte esp+04h]	; B3989
-add eax, dword [dword_D2FDC]	; B398D
-mov dword [dword_D4294], eax	; B3993
+add eax, dword [tickcount]	; B398D
+mov dword [tickdeadline], eax	; B3993
 ret	; B3998
-sub_B3999:
-mov eax, dword [dword_D2FDC]	; B3999
-sub eax, dword [dword_D4294]	; B399E
-js short sub_B3999	; B39A4
+WaitTickDeadline:
+mov eax, dword [tickcount]	; B3999
+sub eax, dword [tickdeadline]	; B399E
+js short WaitTickDeadline	; B39A4
 ret	; B39A6
-sub_B39A7:
-mov ebx, dword [dword_D2FDC]	; B39A7
-sub ebx, dword [dword_D4294]	; B39AD
+TickDeadlinePassed:
+mov ebx, dword [tickcount]	; B39A7
+sub ebx, dword [tickdeadline]	; B39AD
 LD sbb, eax, eax	; B39B3
 inc eax	; B39B5
 ret	; B39B6
-sub_B39B7:
+WaitTicks:
 mov eax, dword [byte esp+04h]	; B39B7
-mov ebx, dword [dword_D2FDC]	; B39BB
+mov ebx, dword [tickcount]	; B39BB
 LD add, eax, ebx	; B39C1
 loc_B39C3:
-mov ebx, dword [dword_D2FDC]	; B39C3
+mov ebx, dword [tickcount]	; B39C3
 LD sub, ebx, eax	; B39C9
 js short loc_B39C3	; B39CB
 ret	; B39CD
@@ -864,7 +864,7 @@ sub_B3A2F:
 call dword [off_D42A0]	; B3A2F
 LD or, ax, ax	; B3A35
 jne short loc_B3A47	; B3A38
-call sub_B39A7	; B3A3A
+call TickDeadlinePassed	; B3A3A
 LD or, ax, ax	; B3A3F
 je short sub_B3A2F	; B3A42
 LD xor, ax, ax	; B3A44
@@ -873,7 +873,7 @@ ret	; B3A47
 push ebp	; B3A48
 LD mov, ebp, esp	; B3A49
 add esp, byte 0FFFFFFFCh	; B3A4B
-call sub_B395C	; B3A4E
+call GetTicks	; B3A4E
 add eax, dword [byte ebp+08h]	; B3A53
 mov dword [byte ebp-04h], eax	; B3A56
 loc_B3A59:
@@ -881,7 +881,7 @@ LD xor, eax, eax	; B3A59
 call PollKey	; B3A5B
 LD or, eax, eax	; B3A60
 jne short loc_B3A70	; B3A62
-call sub_B395C	; B3A64
+call GetTicks	; B3A64
 sub eax, dword [byte ebp-04h]	; B3A69
 js short loc_B3A59	; B3A6C
 LD xor, eax, eax	; B3A6E

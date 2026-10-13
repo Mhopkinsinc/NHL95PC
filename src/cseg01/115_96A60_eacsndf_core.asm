@@ -4,7 +4,7 @@ bits 32
 section s_96A60 progbits alloc exec nowrite align=1
 extern _os_handle_3, byte_EDEAC, byte_F243E, dword_D4BC8, dword_D4F64, dword_D4F96, dword_EDE8C, dword_EDE90
 extern dword_EDE94, dword_EDE98, dword_EDE9C, dword_EDEA0, dword_EDEA4, dword_EDEA8, dword_EDEB0, off_D4BA0
-extern sub_8DBD4, sub_902A0, sub_96A10, sub_B3ABC, sub_B3C74, unk_EDE88
+extern sub_8DBD4, __GETDS, sub_96A10, sub_B3ABC, sub_B3C74, unk_EDE88
 global loc_96AA4, loc_96AB2, loc_96AC0, loc_96B15, loc_96B38, loc_96B73, loc_96BA1, loc_96BC5
 global loc_96C15, loc_96C2B, loc_96C43, loc_96CA2, loc_96CBD, loc_96CF3, loc_96D01, loc_96D0E
 global loc_96D27, loc_96D5E, loc_96D8B, loc_96DA9, loc_96DC4, loc_96DF4, loc_96E09, loc_96E2D
@@ -850,45 +850,45 @@ pop esi	; 972A7
 ret 18h	; 972A8
 sub_972AB:
 push ds	; 972AB
-call sub_902A0	; 972AC
+call __GETDS	; 972AC
 sub_972B1:
 mov eax, 1	; 972B1
 pop ds	; 972B6
 ret	; 972B7
 sub_972B8:
 push ds	; 972B8
-call sub_902A0	; 972B9
+call __GETDS	; 972B9
 sub_972BE:
 pop ds	; 972BE
 ret	; 972BF
 sub_972C0:
 push ds	; 972C0
-call sub_902A0	; 972C1
+call __GETDS	; 972C1
 sub_972C6:
 pop ds	; 972C6
 ret	; 972C7
 sub_972C8:
 push ds	; 972C8
-call sub_902A0	; 972C9
+call __GETDS	; 972C9
 sub_972CE:
 mov eax, 0FFFFFFFFh	; 972CE
 pop ds	; 972D3
 ret	; 972D4
 sub_972D5:
 push ds	; 972D5
-call sub_902A0	; 972D6
+call __GETDS	; 972D6
 sub_972DB:
 pop ds	; 972DB
 ret	; 972DC
 sub_972DD:
 push ds	; 972DD
-call sub_902A0	; 972DE
+call __GETDS	; 972DE
 sub_972E3:
 pop ds	; 972E3
 ret	; 972E4
 sub_972E5:
 push ds	; 972E5
-call sub_902A0	; 972E6
+call __GETDS	; 972E6
 sub_972EB:
 pop ds	; 972EB
 ret	; 972EC

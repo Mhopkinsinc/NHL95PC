@@ -10,7 +10,7 @@ extern str_dumpRule, str_dumpTeamHdrH, str_dumpHome, str_dumpPlHdrH, str_dumpPlL
 extern str_dumpAway, str_dumpPlHdrA, str_dumpPlLineA, str_dumpGlHdrA, hmgoalcnt, hmshotcnt, awgoalcnt, awshotcnt
 extern gmode2, gamemode, sflags3, shotongoal, penshotplayer, penshotpnum, penshotteam, penshotctl
 extern penshotmode, penshotstart, penshottimer, shotontarget, penshotlive, psendcount, dbg_spalist, bailout_vec
-extern frameaccum, dword_D8C78, hmtmstruct
+extern frameaccum, hudhundaccum, hmtmstruct
 extern hmtmpdst_m2, hmtmplstats, awtmstruct, hmscore
 extern awscore
 extern awtmplstats, dword_E9A14, fclose_, fopen_, fprintf_, gmode, puckc, PenBuf
@@ -554,7 +554,7 @@ mov edx, dword [gamemode]	; 68EB2
 push edx	; 68EB8
 mov esi, dword [frameaccum]	; 68EB9
 push esi	; 68EBF
-mov edi, dword [dword_D8C78]	; 68EC0
+mov edi, dword [hudhundaccum]	; 68EC0
 push edi	; 68EC6
 push str_dumpPool	; 68EC7
 push eax	; 68ECC

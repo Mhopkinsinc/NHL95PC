@@ -10,7 +10,7 @@ extern textline3, textline4, textline5, byte_E0393, byte_E0397, iflags, checkwin
 extern joysampling, gameopts, yleader, sflags3, cont2team, bannertimer, dword_CC0EC, introskipped
 extern onetimerflag, dword_CC0FA, penshotplayer, penshotteam, penshotmode, penshotstart, hmtmstruct, awtmstruct
 extern dword_E0244, dword_E9A9E, forcepldata, puckvx, gmode
-extern jctime, CanBlockShot_ret5, ltx, puckx, pucky, puckvy, puckz, puckc
+extern FreeMemBlock, CanBlockShot_ret5, ltx, puckx, pucky, puckvy, puckz, puckc
 extern puckvz, randomd0, resetplstuff, setpersonel, sfx, skateto, skatetopuck, DrawPanelLine
 extern StopIfFree, SkateToSpot, lcfound, CenterMouse, ReturnGoalies, StopDigiSample, PaSpeechBusy, changeplayer
 extern restorepl, CompLine, setplayer, clockcont_0, SprSortVert, SprSort, SetExitGame, EvadePC
@@ -1467,7 +1467,7 @@ cmp eax, byte 0FFFFFFFFh	; 51C86
 je short .3	; 51C89
 mov edi, dword [dword_E0244]	; 51C8B
 push edi	; 51C91
-call jctime	; 51C92
+call FreeMemBlock	; 51C92
 add esp, byte 4	; 51C97
 .3:
 xor ebp, ebp	; 51C9A

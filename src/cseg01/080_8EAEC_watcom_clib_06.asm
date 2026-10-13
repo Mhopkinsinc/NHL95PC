@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_8EAEC progbits alloc exec nowrite align=1
-extern unk_D41C8
+extern randseed
 global _dos_getdate_, _dos_gettime_, loc_8EB49, loc_8EB59, rand_, srand_, sub_8EB21
 _dos_getdate_:
 push edx	; 8EAEC
@@ -37,7 +37,7 @@ pop ecx	; 8EB1E
 pop edx	; 8EB1F
 ret	; 8EB20
 sub_8EB21:
-mov eax, unk_D41C8	; 8EB21
+mov eax, randseed	; 8EB21
 ret	; 8EB26
 rand_:
 push edx	; 8EB27

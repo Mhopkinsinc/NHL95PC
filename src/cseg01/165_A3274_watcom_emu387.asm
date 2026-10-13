@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_A3274 progbits alloc exec nowrite align=1
-extern _dos_setvect_, asc_C4B30, byte_D65F8, byte_D65F9, dword_D4D11, sub_902A0, unk_D657C, unk_F58E4
+extern _dos_setvect_, asc_C4B30, byte_D65F8, byte_D65F9, dword_D4D11, __GETDS, unk_D657C, unk_F58E4
 global __hook387, __init_80x87, __unhook387, jpt_A33EC, jpt_A34EC, jpt_A41C1, jpt_A4300, jpt_A4381
 global jpt_A459C, jpt_A46A6, jpt_A47BE, jpt_A4847, jpt_A4A50, jpt_A4C05, loc_A369A, loc_A3706
 global loc_A370C, loc_A3732, loc_A3735, loc_A373E, loc_A3747, loc_A3750, loc_A3759, loc_A3761
@@ -386,7 +386,7 @@ LD mov, esi, ebx	; A36D8
 LD mov, bl, ah	; A36DA
 and ebx, byte 38h	; A36DC
 LD or, bl, al	; A36DF
-call sub_902A0	; A36E1
+call __GETDS	; A36E1
 lea ebp, [unk_D657C]	; A36E6
 mov edi, dword [byte ds:ebp+04h]	; A36EC
 and edi, 3800h	; A36F0
@@ -451,7 +451,7 @@ inc esi	; A3766
 jmp short loc_A3706	; A3767
 loc_A3769:
 mov dword [byte ebp+038h], esi	; A3769
-call sub_902A0	; A376C
+call __GETDS	; A376C
 lea ebp, [unk_D657C]	; A3771
 LD mov, dl, ah	; A3777
 and edx, byte 38h	; A3779

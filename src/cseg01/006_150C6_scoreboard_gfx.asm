@@ -8,9 +8,9 @@ extern demomode, fileoncd
 extern gameresult, gamemode, gameopts, teamdivflags, hudclockmin
 extern hudclocksec, hudclockhund, dword_C5710, dword_C5714, dword_C5718, dword_C583C, dword_C5844, dword_C5848
 extern hudhomeline, hudawayline, dword_C5854, dword_C5858, dword_C585C, dword_C5860, dword_C5861, dword_C5862
-extern dword_C5886, cont2team, HomeTeam, dword_CC0EC, introskipped, cddriveptr, mousebtns, linesprites
+extern demoteammode, cont2team, HomeTeam, dword_CC0EC, introskipped, cddriveptr, mousebtns, linesprites
 extern penaltydigits, dword_DC2B8, clockdigits, clockcolon, cupseries, hmscore, awscore, hmtmstruct
-extern jctime, DrawPanelLine_x, UpdateHudPanel_x, teamabbrevs, perioddigits, off_C57C8, crestnames, awtmstruct
+extern FreeMemBlock, DrawPanelLine_x, UpdateHudPanel_x, teamabbrevs, perioddigits, off_C57C8, crestnames, awtmstruct
 extern mousepollfn, rand_, randomd0, SetupControllers, SetScreenSize, GameLoop, ReloadGameGfx, SetupDemoGame
 extern MakePath, DrawPanelScore, DrawPanelClock, InitGameSummary, LoadModeState, DemoSetupStub, LoadRink, SeriesLength
 extern ShowLoadingScreen, FadeOutPalCycle, joyq_flush, PaPreloadClips, GetPeriodTime, LoadTeamPalette, InputInstall, InputRemove
@@ -146,7 +146,7 @@ call sub_B4CD8	; 1525C
 add esp, byte 0Ch	; 15261
 mov esi, dword [byte esp+014h]	; 15264
 push esi	; 15268
-call jctime	; 15269
+call FreeMemBlock	; 15269
 add esp, byte 4	; 1526E
 mov ecx, str_PPV	; 15271
 mov ebx, str_Crests4	; 15276
@@ -202,7 +202,7 @@ mov ch, 43h	; 15321
 mov byte [byte_DCA1B], ch	; 15323
 mov byte [byte_DC91B], ch	; 15329
 push esi	; 1532F
-call jctime	; 15330
+call FreeMemBlock	; 15330
 add esp, byte 4	; 15335
 push byte 14h	; 15338
 push byte 2Ah	; 1533A
@@ -988,7 +988,7 @@ sub eax, byte 2	; 15C0C
 mov dword [esp], eax	; 15C0F
 je short .x	; 15C12
 push eax	; 15C14
-call jctime	; 15C15
+call FreeMemBlock	; 15C15
 add esp, byte 4	; 15C1A
 jmp short .x	; 15C1D
 .2:
@@ -1154,13 +1154,13 @@ shl edx, 10h	; 15DA7
 call rand_	; 15DAA
 add edx, eax	; 15DAF
 mov dword [seed], edx	; 15DB1
-mov edx, dword [dword_C5886]	; 15DB7
+mov edx, dword [demoteammode]	; 15DB7
 inc edx	; 15DBD
 mov ebx, 3	; 15DBE
 mov eax, edx	; 15DC3
 sar edx, 1Fh	; 15DC5
 idiv ebx	; 15DC8
-mov dword [dword_C5886], edx	; 15DCA
+mov dword [demoteammode], edx	; 15DCA
 mov ecx, 1Dh	; 15DD0
 mov edi, esp	; 15DD5
 mov esi, exhstate	; 15DD7

@@ -7,7 +7,7 @@ extern asc_C3ED4, asc_C3F00, byte_EDABB, byte_EDCC0, byte_EDCC1, byte_EDCC3, byt
 extern dword_D2F80, dword_D2F88, dword_D2F8C, dword_D2F90, dword_D3024, dword_D3044, dword_D3048, dword_D304C
 extern dword_D3050, dword_D3054, dword_D3058, dword_D30A4, dword_D30D4, dword_D30D8, dword_D30DC, dword_D30E0
 extern dword_D30E4, dword_D30E8, dword_D30EC, dword_D30F0, dword_D30F4, dword_D30F8, dword_D3104, dword_D4108
-extern dword_D4F4C, dword_D4F50, dword_EDABA, dword_EDCB8, dword_EDCBC, jctime, spawnl_, strncmp_
+extern dword_D4F4C, dword_D4F50, dword_EDABA, dword_EDCB8, dword_EDCBC, FreeMemBlock, spawnl_, strncmp_
 extern sub_8DBC0, sub_8E8A0, sub_98A40, FatalError, sub_B3ABC, sub_B3E98, sub_B3FC2, sub_B4BA8
 extern sub_B5E00, sub_B5EA7, sub_B5EB8, unk_EDAB8, unk_EDBB8, unlink_, word_EDBCA
 global loc_8DF8B, loc_8DFB0, loc_8DFEA, loc_8E011, loc_8E06C, loc_8E0A0, loc_8E0AE, loc_8E0C6
@@ -93,7 +93,7 @@ call sub_B3FC2	; 8E064
 add esp, byte 8	; 8E069
 loc_8E06C:
 push esi	; 8E06C
-call jctime	; 8E06D
+call FreeMemBlock	; 8E06D
 add esp, byte 4	; 8E072
 mov eax, dword [dword_EDCB8]	; 8E075
 pop esi	; 8E07A

@@ -21,6 +21,6 @@ int MenuSoundSettings(void)
     DrawSoundCardOpts();
     SoundCardDlgLoop();
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
+    FreeMemBlock(bm);
     return 0;
 }

@@ -24,7 +24,7 @@ void LoadHomePals(int home, int vis)
     s += 0xC0;
     for (i = 0; i < 0x90; i++) byte_DC8D8[i] = s[i];
     for (i = 0x90; i < 0x100; i++) byte_DC8D8[i] = s[i] + 0x40;
-    jctime((int)buf);
+    FreeMemBlock((int)buf);
     pal[0x171] = 0x18;
     pal[0x172] = 0;
     pal[0x173] = 0;

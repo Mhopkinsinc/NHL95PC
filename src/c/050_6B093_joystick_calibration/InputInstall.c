@@ -12,7 +12,7 @@ void InputInstall(void)
         sub_B29F0();
         ptrstep = dword_CDA24 = 0;
         inputinstalled = 1;
-        sub_8E4C0(InputPollTick);
+        addtimer(InputPollTick);
         ClearInputQueue();
         ptrupdatefn = (int)EventToPointer;
     }

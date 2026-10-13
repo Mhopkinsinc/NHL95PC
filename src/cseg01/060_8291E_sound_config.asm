@@ -9,11 +9,11 @@ extern musicslot, musicon, byte_D2439, dword_C4CFC, gameopts, fileoncd
 extern sounddev, songdata, dword_CCC94, dword_D2350, dword_D2423, dword_D2427, dword_D242B
 extern musichandle, dword_D2435, sounddevids, sndcardname, dword_D27B2, speechinit, cddriveptr, pointerspr
 extern ptrupdatefn, setbits, dword_ED7A4, dword_ED7A8, speechq, speechbank, fclose_, fopen_
-extern fprintf_, jctime, ShutdownSpeech_ret5, msg_InitMT32, strcpy_, MakePath, SetDialogColors, RestoreDialogBg
+extern fprintf_, FreeMemBlock, ShutdownSpeech_ret5, msg_InitMT32, strcpy_, MakePath, SetDialogColors, RestoreDialogBg
 extern MessageBox, PlayDigiSample, WaitDigiSample, GetInputEvent, ClearInputQueue, DrawSelBoxOn, DrawSelBoxOff, SoundCardHitTest
 extern RedrawSoundCardOpts, InitSpeech, ShutdownSpeech, sub_8CCA8, sub_8D2F0, sub_8EB5B, sub_8EB93, sub_8ECC0
 extern sub_8F13B, sub_8F1FE, sub_8F98F, sub_8FB8E, sub_8FBE5, sub_8FC37, sub_8FC8A, sub_8FCDF
-extern sub_903F0, sub_91370, sub_91400, sub_97079, FatalError, sub_B2DCA, sub_B3989, sub_B3999
+extern sub_903F0, sub_91370, sub_91400, sub_97079, FatalError, sub_B2DCA, SetTickDeadline, WaitTickDeadline
 extern sub_B4BA8, unk_C36AC, str_PC, unk_D2403, unk_D2413, unk_D249C
 global SoundCardDlgLoop_poll
 global SoundCardDlgLoop_next, SoundCardDlgLoop_x
@@ -63,7 +63,7 @@ mov edx, dword [dword_D2435]	; 82987
 test edx, edx	; 8298D
 je short .1	; 8298F
 push edx	; 82991
-call jctime	; 82992
+call FreeMemBlock	; 82992
 add esp, byte 4	; 82997
 xor ecx, ecx	; 8299A
 mov dword [dword_D2435], ecx	; 8299C
@@ -250,7 +250,7 @@ je near .15	; 82BE6
 mov eax, dword [setbits]	; 82BEC
 mov dword [sounddev], eax	; 82BF1
 push ebp	; 82BF6
-call jctime	; 82BF7
+call FreeMemBlock	; 82BF7
 add esp, byte 4	; 82BFC
 cmp byte [musicon], 0	; 82BFF
 je short .13	; 82C06
@@ -344,7 +344,7 @@ mov eax, unk_D2413	; 82D3B
 call DrawSelBoxOn	; 82D40
 SoundCardDlgLoop_next:
 push ebp	; 82D45
-call jctime	; 82D46
+call FreeMemBlock	; 82D46
 add esp, byte 4	; 82D4B
 .1:
 xor eax, eax	; 82D4E
@@ -395,7 +395,7 @@ jne short .2	; 82DB0
 call ShutdownSpeech	; 82DB2
 mov edx, dword [dword_ED7A8]	; 82DB7
 push edx	; 82DBD
-call jctime	; 82DBE
+call FreeMemBlock	; 82DBE
 add esp, byte 4	; 82DC3
 xor ebx, ebx	; 82DC6
 mov dword [dword_ED7A8], ebx	; 82DC8
@@ -709,9 +709,9 @@ mov dword [dword_D2423], 0FFFFFFFFh	; 83238
 .38:
 call sub_8EB93	; 83242
 push byte 64h	; 83247
-call sub_B3989	; 83249
+call SetTickDeadline	; 83249
 add esp, byte 4	; 8324E
-call sub_B3999	; 83251
+call WaitTickDeadline	; 83251
 .39:
 cmp dword [dword_D2423], byte 0	; 83256
 je near SetSoundDevice.5	; 8325D

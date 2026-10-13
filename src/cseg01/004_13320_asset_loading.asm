@@ -12,9 +12,9 @@ extern joysampling
 extern inputframes, gameopts, sounddev, deferpending, dword_C66D0, dword_C66D4, songdata, cont2team
 extern HomeTeam, bannertimer, dword_CC0AC, photobankf, dword_CC0EC, introskipped, shotongoal, penshotplayer
 extern penshotmode, penshotstart, shotontarget, penshotlive, crowdsmooth, musichandle, cddriveptr, musicslot
-extern kaufmfont, numshapes, dword_D8C4C, rinkendbank, frameaccum, rinkendart, dword_D8C78, numshpbank
+extern kaufmfont, numshapes, dword_D8C4C, rinkendbank, frameaccum, rinkendart, hudhundaccum, numshpbank
 extern curperiod, photobanks, photoptrs, savedmousex, savedmousey, dword_E009C, photoptrsf
-extern dword_E9A9E, dword_E9AB6, hilightfont, jctime, PickAwardWinners_x, memcpy_, nullsub_2
+extern dword_E9A9E, dword_E9AB6, hilightfont, FreeMemBlock, PickAwardWinners_x, memcpy_, nullsub_2
 extern puckx, pucky, lastplayer, randomd0, sprintf_, FadePalette, PickAwardWinners, ShowAwardScreens
 extern DrawAwardsSummary, MakePath, FileOpenRead, FileClose, DrawHudPanel, SetTextColors, ClearPanelPenalties, WaitClickTimeout
 extern StartPreGame, joyq_flush, CrowdNoiseReset, StopDigiSample, PlayDigiSample, WaitDigiSample, StartGame, forceteams
@@ -136,7 +136,7 @@ mov ebx, 300h	; 13460
 mov eax, esi	; 13465
 call memcpy_	; 13467
 push ebp	; 1346C
-call jctime	; 1346D
+call FreeMemBlock	; 1346D
 add esp, byte 4	; 13472
 cmp byte [musicon], 0	; 13475
 je short .8	; 1347C
@@ -265,7 +265,7 @@ mov eax, 1	; 1362A
 call FadePalStep	; 1362F
 .20:
 push esi	; 13634
-call jctime	; 13635
+call FreeMemBlock	; 13635
 add esp, byte 4	; 1363A
 call PickAwardWinners	; 1363D
 mov esi, eax	; 13642
@@ -384,7 +384,7 @@ mov edx, ebp	; 137D4
 mov eax, 1	; 137D6
 call FadePalStep	; 137DB
 push esi	; 137E0
-call jctime	; 137E1
+call FreeMemBlock	; 137E1
 add esp, byte 4	; 137E6
 .31:
 call sub_B4BA8	; 137E9
@@ -1234,7 +1234,7 @@ xor ecx, ecx	; 142B2
 mov word [exitgame], cx	; 142B4
 xor esi, esi	; 142BB
 mov word [gameover], si	; 142BD
-mov dword [dword_D8C78], edi	; 142C4
+mov dword [hudhundaccum], edi	; 142C4
 mov dword [frameaccum], edi	; 142CA
 mov dword [joysampling], edi	; 142D0
 mov word [joysampling_save], cx	; 142D6

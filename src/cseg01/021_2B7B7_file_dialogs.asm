@@ -16,7 +16,7 @@ extern seriesgameno, cddriveptr, pointerspr, exhfiles, exhfilenames
 extern pofiles, pofilenames, lgfiles
 extern lgfilenames, fdlg_tabexh, fdlg_none, fdlg_tabpo, fdlg_open, fdlg_del, fdlg_up
 extern fdlg_cancel, fdlg_tabnone, fdlg_down, fdlgtab, fdlg_arrow, fdlg_tablp, fdlg_noarrow, otherperiod
-extern ptrupdatefn, j_unlink_, jctime, teamabbrevs, off_C5441, off_C6F7C, off_C6F80, off_C6F84
+extern ptrupdatefn, j_unlink_, FreeMemBlock, teamabbrevs, off_C5441, off_C6F7C, off_C6F80, off_C6F84
 extern qsort_, strcat_, strcmp_, strcpy_, stricmp_, strncpy_, MakePath, DeleteDir
 extern FileOpenRead, FileCreate, FileClose, FileReadAt, FileWriteAt, CopyFile, SetupStatsSourceMenu, BuildSavedGameLabels
 extern SetDialogColors, MessageBox, LoadModeState, MenuNewExhibition, MenuNextLeagueGame, MenuExportDbs, GetInputEvent, ClearInputQueue
@@ -192,11 +192,11 @@ push ebp	; 2B9B1
 call sub_910E0	; 2B9B2
 add esp, byte 0Ch	; 2B9B7
 push ebp	; 2B9BA
-call jctime	; 2B9BB
+call FreeMemBlock	; 2B9BB
 add esp, byte 4	; 2B9C0
 mov edx, dword [fdlgshapes]	; 2B9C3
 push edx	; 2B9C9
-call jctime	; 2B9CA
+call FreeMemBlock	; 2B9CA
 add esp, byte 4	; 2B9CF
 xor ebx, ebx	; 2B9D2
 mov dword [fdlgshapes], ebx	; 2B9D4
@@ -847,7 +847,7 @@ push eax	; 2C1EB
 call sub_91284	; 2C1EC
 add esp, byte 0Ch	; 2C1F1
 push esi	; 2C1F4
-call jctime	; 2C1F5
+call FreeMemBlock	; 2C1F5
 add esp, byte 4	; 2C1FA
 mov dword [fdlgmask], 10h	; 2C1FD
 mov dword [fdlgtab], 0FFFFFFFFh	; 2C207
@@ -1717,7 +1717,7 @@ add esp, byte 0Ch	; 2CC42
 mov edi, dword [byte esp+01Ch]	; 2CC45
 push edi	; 2CC49
 .33:
-call jctime	; 2CC4A
+call FreeMemBlock	; 2CC4A
 add esp, byte 4	; 2CC4F
 xor eax, eax	; 2CC52
 jmp near DrawFileDlg_x	; 2CC54
@@ -1815,7 +1815,7 @@ call sub_91370	; 2CD5D
 add esp, byte 0Ch	; 2CD62
 mov eax, dword [byte esp+01Ch]	; 2CD65
 push eax	; 2CD69
-call jctime	; 2CD6A
+call FreeMemBlock	; 2CD6A
 add esp, byte 4	; 2CD6F
 call SelectSavedFile	; 2CD72
 jmp near DrawFileDlg_x	; 2CD77
@@ -2150,7 +2150,7 @@ sar edx, 1Fh	; 2D1EF
 idiv ecx	; 2D1F2
 mov dword [seriesgameno], edx	; 2D1F4
 push ebx	; 2D1FA
-call jctime	; 2D1FB
+call FreeMemBlock	; 2D1FB
 add esp, byte 4	; 2D200
 mov eax, esi	; 2D203
 jmp short .x	; 2D205

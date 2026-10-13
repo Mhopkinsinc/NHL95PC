@@ -8,7 +8,7 @@ extern musicon, leaguedbfmt2, leaguedbfmt, ctlavailmask, fileoncd
 extern gamemode, gameopts, ctl1team, ctl2team, ctl1dev, ctl2dev, ctl1side
 extern ctl2side, teamstatscb, skaterstatscb, goaliestatscb, standingscb, standingsmenucb, keepdesksong, songdata
 extern cont2team, HomeTeam, mainmenubar, musichandle, musicslot
-extern cddriveptr, pointerspr, ptrupdatefn, jctime, memcpy_, teamabbrevs, setdiskmsg, mousepollfn
+extern cddriveptr, pointerspr, ptrupdatefn, FreeMemBlock, memcpy_, teamabbrevs, setdiskmsg, mousepollfn
 extern strcpy_, strncpy_, DiskFreeBytes, FileExists, MakePath, FileOpenRead, FileOpenRW, FileCreate
 extern FileClose, FileReadAt, FileWriteAt, SetupStatsSourceMenu, SetScreenTitle, EasnStandingsScreen, MessageBox, FadeOutPalCycle
 extern GetInputEvent, ClearInputQueue, InputRemove, DrawMenuBar, DrawMenuDropdown, DrawMenuItemSel, DrawMenuItemNorm, MenuHitTest
@@ -228,7 +228,7 @@ mov ebx, 10h	; 31DC8
 xor eax, eax	; 31DCD
 call FadePalStep	; 31DCF
 push ebp	; 31DD4
-call jctime	; 31DD5
+call FreeMemBlock	; 31DD5
 add esp, byte 4	; 31DDA
 call ClearInputQueue	; 31DDD
 .11:
@@ -340,7 +340,7 @@ mov dword [byte esp+esi*8+04h], ecx	; 31F68
 mov dword [esp+esi*8], ecx	; 31F6C
 mov edi, dword [byte esp+ebp+050h]	; 31F6F
 push edi	; 31F73
-call jctime	; 31F74
+call FreeMemBlock	; 31F74
 add esp, byte 4	; 31F79
 .18:
 dec esi	; 31F7C
@@ -351,7 +351,7 @@ xor eax, eax	; 31F81
 mov dword [dword esp+09Ch], eax	; 31F83
 mov edx, dword [dword esp+090h]	; 31F8A
 push edx	; 31F91
-call jctime	; 31F92
+call FreeMemBlock	; 31F92
 add esp, byte 4	; 31F97
 xor ebx, ebx	; 31F9A
 mov dword [keepdesksong], ebx	; 31F9C
@@ -542,7 +542,7 @@ mov edx, esi	; 32236
 xor eax, eax	; 32238
 call FadePalStep	; 3223A
 push ebp	; 3223F
-call jctime	; 32240
+call FreeMemBlock	; 32240
 add esp, byte 4	; 32245
 .32:
 xor eax, eax	; 32248
@@ -590,7 +590,7 @@ mov dword [byte esp+esi*8+04h], eax	; 322CC
 mov dword [esp+esi*8], eax	; 322D0
 mov edx, dword [byte esp+edi+050h]	; 322D3
 push edx	; 322D7
-call jctime	; 322D8
+call FreeMemBlock	; 322D8
 add esp, byte 4	; 322DD
 xor ebx, ebx	; 322E0
 mov dword [byte esp+edi+050h], ebx	; 322E2
@@ -670,7 +670,7 @@ mov dword [byte esp+esi*8+04h], eax	; 323D3
 mov dword [esp+esi*8], eax	; 323D7
 mov edx, dword [byte esp+edi+050h]	; 323DA
 push edx	; 323DE
-call jctime	; 323DF
+call FreeMemBlock	; 323DF
 add esp, byte 4	; 323E4
 xor ebx, ebx	; 323E7
 mov dword [byte esp+edi+050h], ebx	; 323E9
@@ -854,7 +854,7 @@ mov dword [byte esp+esi*8+04h], edx	; 32657
 mov dword [esp+esi*8], edx	; 3265B
 mov ebx, dword [byte esp+ebp+050h]	; 3265E
 push ebx	; 32662
-call jctime	; 32663
+call FreeMemBlock	; 32663
 add esp, byte 4	; 32668
 .51:
 dec esi	; 3266B
@@ -896,7 +896,7 @@ jmp near MainDeskLoop.15	; 326E4
 call ClearInputQueue	; 326E9
 call InputRemove	; 326EE
 push edx	; 326F3
-call jctime	; 326F4
+call FreeMemBlock	; 326F4
 add esp, byte 4	; 326F9
 xor eax, eax	; 326FC
 add esp, 0A0h	; 326FE

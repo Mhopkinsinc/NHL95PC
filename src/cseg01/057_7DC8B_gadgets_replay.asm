@@ -11,13 +11,13 @@ extern spritedrawcount, dword_D8C72, viewscrolly, dword_D8C7A, viewscrollx, poin
 extern bgscrolly, replayplay, dword_E9F16, dword_E9F38, ptrupdatefn, rockteamcues, rocktunes
 extern rockrandcues, dword_ED6D0, dword_ED6D4, gadgetfile, gadgetptry, gadgetptrx, gadgetshape
 extern dword_ED6E8, dword_ED6EC, dword_ED6F0, dword_ED6F4, dword_ED6F8, dword_ED6FC, dword_ED704, dword_ED708
-extern dword_ED70C, dword_ED74C, dword_ED750, dword_ED754, dword_ED756, jctime, camx_m2, off_CD4FA
+extern dword_ED70C, dword_ED74C, dword_ED750, dword_ED754, dword_ED756, FreeMemBlock, camx_m2, off_CD4FA
 extern rockcuefiles, teamrockcuetbl, teamtunefiles, msg_NoHilightSpace, rand_, SetScreenSize, DrawFrameSprite, FadePalette
 extern MakePath, SetDialogColors, RestoreDialogBg, MessageBox, SetRinkScroll, CrowdNoiseOff, ReplayFirstFrame, ReplayStep
 extern DrawRinkSideObjects, sub_6ADA7, sub_6AF52, sub_6AF97, sub_6B008, GetInputEvent, ClearInputQueue, HilightSaveToDlg
 extern SaveHilight, NudgeRinkScroll, SelectScreenBM, SelectRinkBM, sub_8CCA8, sub_8E8A0, sub_8E9E8, sub_8EA00
 extern sub_8EA18, sub_8F13B, sub_8F1FE, sub_8FFB0, sub_91370, sub_913B4, sub_91400, sub_96A78
-extern MouseSetPos, sub_B2E1B, sub_B30B4, sub_B396E, sub_B3989, sub_B3999, sub_B4BA8, sub_B4BC4
+extern MouseSetPos, sub_B2E1B, sub_B30B4, TicksSinceLastCall, SetTickDeadline, WaitTickDeadline, sub_B4BA8, sub_B4BC4
 extern sub_B4CD8, sub_B4FAC, sub_B500C, sub_B5DB0, str_BothTeams, str_NeitherTeams, savepal, gamepal
 extern camx, camy, crowdlevel, word_CD4FC, replaysfx, scrolly, word_E9F18, word_E9F3A
 extern word_ED758
@@ -678,7 +678,7 @@ mov ebx, 10h	; 7E429
 mov edx, gamepal	; 7E42E
 xor eax, eax	; 7E433
 call FadePalette	; 7E435
-call sub_B396E	; 7E43A
+call TicksSinceLastCall	; 7E43A
 call ClearInputQueue	; 7E43F
 xor ebp, ebp	; 7E444
 mov dword [byte esp+014h], ebp	; 7E446
@@ -925,7 +925,7 @@ add eax, ebx	; 7E812
 neg eax	; 7E814
 call sub_6AF97	; 7E816
 call sub_6ADA7	; 7E81B
-call sub_B396E	; 7E820
+call TicksSinceLastCall	; 7E820
 mov dword [byte esp+014h], eax	; 7E825
 jmp near InstantReplay.12	; 7E829
 .29:
@@ -959,7 +959,7 @@ mov eax, 1	; 7E8AA
 call FadePalette	; 7E8AF
 mov ebx, dword [gadgetfile]	; 7E8B4
 push ebx	; 7E8BA
-call jctime	; 7E8BB
+call FreeMemBlock	; 7E8BB
 add esp, byte 4	; 7E8C0
 call sub_B4BA8	; 7E8C3
 cmp dword [esp], byte 0	; 7E8C8
@@ -1585,7 +1585,7 @@ cmp edx, ebx	; 7F0DB
 jne near .9	; 7F0DD
 .1:
 push byte 64h	; 7F0E3
-call sub_B3989	; 7F0E5
+call SetTickDeadline	; 7F0E5
 add esp, byte 4	; 7F0EA
 mov edi, dword [ctl1team]	; 7F0ED
 test edi, edi	; 7F0F3
@@ -1623,7 +1623,7 @@ push ecx	; 7F150
 call sub_8EA18	; 7F151
 add esp, byte 4	; 7F156
 push dword 1F4h	; 7F159
-call sub_B3989	; 7F15E
+call SetTickDeadline	; 7F15E
 add esp, byte 4	; 7F163
 push byte 0	; 7F166
 mov ecx, 59h	; 7F168
@@ -1647,7 +1647,7 @@ call sub_8EA00	; 7F1A0
 add esp, byte 4	; 7F1A5
 mov esi, dword [gadgetfile]	; 7F1A8
 push esi	; 7F1AE
-call jctime	; 7F1AF
+call FreeMemBlock	; 7F1AF
 add esp, byte 4	; 7F1B4
 mov ecx, str_PPV	; 7F1B7
 mov ebx, str_Gadget6	; 7F1BC
@@ -1671,11 +1671,11 @@ push eax	; 7F1F6
 call sub_B30B4	; 7F1F7
 add esp, byte 8	; 7F1FC
 mov dword [gadgetshape], eax	; 7F1FF
-call sub_B3999	; 7F204
+call WaitTickDeadline	; 7F204
 call RestoreDialogBg	; 7F209
 jmp near ReplaySaveHilight_n3.x	; 7F20E
 .8:
-call sub_B3999	; 7F213
+call WaitTickDeadline	; 7F213
 jmp near ReplaySaveHilight_n3.x	; 7F218
 .9:
 call SelectScreenBM	; 7F21D
@@ -1839,7 +1839,7 @@ add esp, byte 0Ch	; 7F460
 jmp near ReplaySaveHilight.10	; 7F463
 .18:
 push byte 64h	; 7F468
-call sub_B3989	; 7F46A
+call SetTickDeadline	; 7F46A
 add esp, byte 4	; 7F46F
 push dword 0C8h	; 7F472
 push byte 0	; 7F477
@@ -1951,7 +1951,7 @@ mov dword [byte esp+068h], ebx	; 7F5AA
 cmp dword [byte esp+068h], byte 0	; 7F5AE
 je near .4	; 7F5B3
 push dword 1F4h	; 7F5B9
-call sub_B3989	; 7F5BE
+call SetTickDeadline	; 7F5BE
 add esp, byte 4	; 7F5C3
 push byte 0	; 7F5C6
 mov ecx, 59h	; 7F5C8
@@ -1971,7 +1971,7 @@ xor eax, eax	; 7F5F4
 call MessageBox	; 7F5F6
 mov esi, dword [gadgetfile]	; 7F5FB
 push esi	; 7F601
-call jctime	; 7F602
+call FreeMemBlock	; 7F602
 add esp, byte 4	; 7F607
 mov ecx, str_PPV	; 7F60A
 mov ebx, str_Gadget6	; 7F60F
@@ -1995,11 +1995,11 @@ push eax	; 7F649
 call sub_B30B4	; 7F64A
 add esp, byte 8	; 7F64F
 mov dword [gadgetshape], eax	; 7F652
-call sub_B3999	; 7F657
+call WaitTickDeadline	; 7F657
 call RestoreDialogBg	; 7F65C
 jmp short .5	; 7F661
 .4:
-call sub_B3999	; 7F663
+call WaitTickDeadline	; 7F663
 .5:
 call NudgeRinkScroll	; 7F668
 mov eax, dword [byte esp+04h]	; 7F66D
@@ -2014,7 +2014,7 @@ add esp, byte 8	; 7F689
 cmp dword [byte esp+068h], byte 0	; 7F68C
 je short .6	; 7F691
 push dword 1F4h	; 7F693
-call sub_B3989	; 7F698
+call SetTickDeadline	; 7F698
 add esp, byte 4	; 7F69D
 push byte 0	; 7F6A0
 mov ecx, 59h	; 7F6A2
@@ -2033,7 +2033,7 @@ mov ebx, msg_NoHilightSpace	; 7F6CC
 mov edx, 0FFFFFFFFh	; 7F6D1
 mov eax, edx	; 7F6D6
 call MessageBox	; 7F6D8
-call sub_B3999	; 7F6DD
+call WaitTickDeadline	; 7F6DD
 call RestoreDialogBg	; 7F6E2
 .6:
 push dword 0C8h	; 7F6E7
@@ -2043,7 +2043,7 @@ push byte 0	; 7F6F3
 call sub_B4BC4	; 7F6F5
 add esp, byte 10h	; 7F6FA
 push ebp	; 7F6FD
-call jctime	; 7F6FE
+call FreeMemBlock	; 7F6FE
 add esp, byte 4	; 7F703
 push dword 0C1h	; 7F706
 push dword 140h	; 7F70B

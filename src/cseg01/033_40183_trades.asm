@@ -9,7 +9,7 @@ extern curleague, byte_DC8D8, byte_DC9D8, leagueflags, savedname, byte_DDD40, by
 extern msg_InsertDisk_arg, msg_WrongDisk_arg, msg_Copying_arg, msg_MasterDB_arg, msg_SavedGame_arg, dword_C87C0, dword_C87C8
 extern dword_C87E0, dword_C87E8, dlgfillcol, dlgedgecol1, dlgedgecol2, dlgedgecol3, dlgbevelcol1, dlgbevelcol2
 extern cddriveptr, leaguemaster, leaguesaved, humancount, dword_DDD34, lgplayteam, dword_DDD3C, dword_DE264
-extern fputchar, jctime, memset_, teamcitynames, msg_OneHuman, leaguedbnames
+extern fputchar, FreeMemBlock, memset_, teamcitynames, msg_OneHuman, leaguedbnames
 extern msg_TradeDeadline, sprintf_, strcat_, strcpy_, strcspn_, stricmp_, strncpy_, MakePath
 extern DeleteFiles, FileOpenRead, FileOpenWrite, FileOpenRW, FileCreate, FileClose, FileReadAt, FileWriteAt
 extern CopyFile, ReadSchedGame, SetDialogColors, RestoreDialogBg, MessageBox, LeagueTeamSelect, WriteLeagueTeamEntry, AskTeamPassword
@@ -393,7 +393,7 @@ mov eax, dword [dword esp+0D0h]	; 4076A
 mov dword [dlgbevelcol2], eax	; 40771
 mov ebx, dword [dword_DE264]	; 40776
 push ebx	; 4077C
-call jctime	; 4077D
+call FreeMemBlock	; 4077D
 add esp, byte 4	; 40782
 add esp, 0D8h	; 40785
 pop ebp	; 4078B
@@ -484,7 +484,7 @@ inc eax	; 40869
 cmp eax, 100h	; 4086A
 jl short LoadHomePals.7	; 4086F
 push ecx	; 40871
-call jctime	; 40872
+call FreeMemBlock	; 40872
 add esp, byte 4	; 40877
 mov byte [dword esp+0171h], 18h	; 4087A
 xor dh, dh	; 40882
@@ -648,7 +648,7 @@ push byte 0	; 40AA5
 call sub_B4B88	; 40AA7
 add esp, byte 0Ch	; 40AAC
 push edi	; 40AAF
-call jctime	; 40AB0
+call FreeMemBlock	; 40AB0
 add esp, byte 4	; 40AB5
 mov ah, 17h	; 40AB8
 mov byte [byte esp+040h], ah	; 40ABA
@@ -894,7 +894,7 @@ push byte 0	; 40DD9
 call sub_B4B88	; 40DDB
 add esp, byte 0Ch	; 40DE0
 push edi	; 40DE3
-call jctime	; 40DE4
+call FreeMemBlock	; 40DE4
 add esp, byte 4	; 40DE9
 mov ah, 17h	; 40DEC
 mov byte [byte esp+040h], ah	; 40DEE

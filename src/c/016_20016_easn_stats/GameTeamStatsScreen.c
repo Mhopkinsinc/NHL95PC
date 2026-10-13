@@ -37,7 +37,7 @@ int GameTeamStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal6);
     memcpy(buf, (unsigned char *)statspalshape + 0x10, 0x300);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     FadePalStep(0, buf, 0x10);
     RunMenu(unk_CF78F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);
@@ -73,7 +73,7 @@ int GameGoalieStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal6);
     memcpy(buf, (unsigned char *)statspalshape + 0x10, 0x300);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     FadePalStep(0, buf, 0x10);
     RunMenu(unk_CF88F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);

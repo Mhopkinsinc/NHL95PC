@@ -10,7 +10,7 @@ extern scoutcatidx, curleague, musicon, byte_D42C3, hmroster, fileoncd
 extern gameopts, ctl1team, ctl2team
 extern teamconf, boxfillcolor, boxlitecolor, boxshadecolor, songdata, cont2team, HomeTeam, musicslot
 extern musichandle, cddriveptr, kaufmfont, mainfont, dword_DBC7C, schedgameidx, pointerspr, ptrupdatefn
-extern fputchar, jctime, memcpy_, teamabbrevs, crestnames, scoutcatnames, leaguedbnames
+extern fputchar, FreeMemBlock, memcpy_, teamabbrevs, crestnames, scoutcatnames, leaguedbnames
 extern off_CEF43, off_CEF63, sprintf_, MakePath, FileOpenRead, FileClose, ReadKeyRec, ReadTeamRec
 extern SetTextColors, PrintShadowText, PrintOutlinedText, FitPlayerName, DrawBevelBox, SetDialogColors, TrackButtons, DrawButtons
 extern WaitClickTimeout, ShowLoadingScreen, PaTonightIntro, PaLineups, PaPlayoffTonight, PaOpenBank, PaPreloadClips, GetInputEvent
@@ -120,7 +120,7 @@ mov edx, esi	; 2A08A
 mov eax, 1	; 2A08C
 call FadePalStep	; 2A091
 push esi	; 2A096
-call jctime	; 2A097
+call FreeMemBlock	; 2A097
 add esp, byte 4	; 2A09C
 cmp byte [musicon], 0	; 2A09F
 je short .6	; 2A0A6
@@ -191,7 +191,7 @@ push edi	; 2A192
 call sub_9061C	; 2A193
 add esp, byte 4	; 2A198
 push esi	; 2A19B
-call jctime	; 2A19C
+call FreeMemBlock	; 2A19C
 add esp, byte 4	; 2A1A1
 xor ecx, ecx	; 2A1A4
 mov ebx, str_Srlogo	; 2A1A6
@@ -235,7 +235,7 @@ push eax	; 2A226
 call sub_91370	; 2A227
 add esp, byte 0Ch	; 2A22C
 push esi	; 2A22F
-call jctime	; 2A230
+call FreeMemBlock	; 2A230
 add esp, byte 4	; 2A235
 push ebp	; 2A238
 call sub_8EA18	; 2A239
@@ -765,7 +765,7 @@ mov edx, esi	; 2A9EE
 mov eax, 1	; 2A9F0
 call FadePalStep	; 2A9F5
 push esi	; 2A9FA
-call jctime	; 2A9FB
+call FreeMemBlock	; 2A9FB
 add esp, byte 4	; 2AA00
 push byte 0	; 2AA03
 push byte 0	; 2AA05
@@ -773,7 +773,7 @@ push ebp	; 2AA07
 call sub_903F0	; 2AA08
 add esp, byte 0Ch	; 2AA0D
 push ebp	; 2AA10
-call jctime	; 2AA11
+call FreeMemBlock	; 2AA11
 add esp, byte 4	; 2AA16
 mov ebx, 10h	; 2AA19
 mov edx, dword [dword esp+0644h]	; 2AA1E
@@ -857,11 +857,11 @@ call sub_8EA00	; 2AB47
 add esp, byte 4	; 2AB4C
 mov edx, dword [dword esp+0644h]	; 2AB4F
 push edx	; 2AB56
-call jctime	; 2AB57
+call FreeMemBlock	; 2AB57
 add esp, byte 4	; 2AB5C
 mov ebx, dword [dword esp+0660h]	; 2AB5F
 push ebx	; 2AB66
-call jctime	; 2AB67
+call FreeMemBlock	; 2AB67
 add esp, byte 4	; 2AB6C
 cmp dword [dword esp+0640h], byte 2	; 2AB6F
 jge short .13	; 2AB77
@@ -1009,7 +1009,7 @@ call sub_91400	; 2AD6C
 add esp, byte 0Ch	; 2AD71
 mov eax, dword [dword esp+0FCh]	; 2AD74
 push eax	; 2AD7B
-call jctime	; 2AD7C
+call FreeMemBlock	; 2AD7C
 add esp, byte 4	; 2AD81
 xor ecx, ecx	; 2AD84
 mov ebx, str_Ctbkgd	; 2AD86
@@ -1654,7 +1654,7 @@ je near TonightsGameScreen.20	; 2B6A2
 .49:
 mov ecx, dword [dword esp+010Ch]	; 2B6A8
 push ecx	; 2B6AF
-call jctime	; 2B6B0
+call FreeMemBlock	; 2B6B0
 add esp, byte 4	; 2B6B5
 cmp byte [musicon], 0	; 2B6B8
 je short .50	; 2B6BF
@@ -1701,23 +1701,23 @@ call sub_8EA00	; 2B751
 add esp, byte 4	; 2B756
 mov ecx, dword [dword esp+0F4h]	; 2B759
 push ecx	; 2B760
-call jctime	; 2B761
+call FreeMemBlock	; 2B761
 add esp, byte 4	; 2B766
 mov edi, dword [dword esp+0F8h]	; 2B769
 push edi	; 2B770
-call jctime	; 2B771
+call FreeMemBlock	; 2B771
 add esp, byte 4	; 2B776
 mov ebp, dword [dword esp+0F0h]	; 2B779
 push ebp	; 2B780
-call jctime	; 2B781
+call FreeMemBlock	; 2B781
 add esp, byte 4	; 2B786
 mov eax, dword [dword esp+0E0h]	; 2B789
 push eax	; 2B790
-call jctime	; 2B791
+call FreeMemBlock	; 2B791
 add esp, byte 4	; 2B796
 mov edx, dword [dword esp+0E4h]	; 2B799
 push edx	; 2B7A0
-call jctime	; 2B7A1
+call FreeMemBlock	; 2B7A1
 add esp, byte 4	; 2B7A6
 mov eax, esi	; 2B7A9
 add esp, 120h	; 2B7AB

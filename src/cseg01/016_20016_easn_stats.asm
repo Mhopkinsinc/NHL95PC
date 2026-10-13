@@ -8,7 +8,7 @@ extern str_Pal8, str_tstat3, str_keys3, str_pstat3, str_gstat3, str_EASNvfn, fil
 extern gamemode, dword_C65A8, dword_C65AC, statscategory
 extern statsteamsel, statsredrawcb, deskexit, standingscb, statsplayoffs, statspalvalid, dword_C6D26, keepdesksong
 extern calendarshapes, cddriveptr, statsteamorder, dword_DC6B4, dword_DC734, dword_DC738, playofftree, statspalshape
-extern statsbgshapes, statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, statspal, dword_DDD2C, jctime
+extern statsbgshapes, statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, statspal, dword_DDD2C, FreeMemBlock
 extern memcpy_, statsbgnames, MakePath, FreeDeskBuffers, RunMenu, RunTeamPickMenu, RunPlayerPickMenu, InitMenuRemap
 extern SkaterStatsCard, GoalieStatsCard, TeamStatsScreen, TeamRosterScreen, LeadersScreen, StandingsScreen, ShowPlayoffTree, DrawMenuBar
 extern FadePalStep, sub_8CCA8, sub_8DAB8, sub_8E83C, sub_8E8A0, sub_8FFB0, sub_91FE0, sub_B30B4
@@ -93,7 +93,7 @@ mov eax, esp	; 200F1
 call memcpy_	; 200F3
 mov ecx, dword [statsbgshapes]	; 200F8
 push ecx	; 200FE
-call jctime	; 200FF
+call FreeMemBlock	; 200FF
 add esp, byte 4	; 20104
 mov ebx, 10h	; 20107
 mov edx, esp	; 2010C
@@ -196,7 +196,7 @@ mov eax, esp	; 20259
 call memcpy_	; 2025B
 mov esi, dword [statsbgshapes]	; 20260
 push esi	; 20266
-call jctime	; 20267
+call FreeMemBlock	; 20267
 add esp, byte 4	; 2026C
 mov ebx, 10h	; 2026F
 mov edx, esp	; 20274
@@ -297,7 +297,7 @@ mov eax, esp	; 203BB
 call memcpy_	; 203BD
 mov ecx, dword [statsbgshapes]	; 203C2
 push ecx	; 203C8
-call jctime	; 203C9
+call FreeMemBlock	; 203C9
 add esp, byte 4	; 203CE
 mov ebx, 10h	; 203D1
 mov edx, esp	; 203D6
@@ -496,7 +496,7 @@ call sub_B4B88	; 2068B
 add esp, byte 0Ch	; 20690
 mov eax, dword [statsbgshapes]	; 20693
 push eax	; 20698
-call jctime	; 20699
+call FreeMemBlock	; 20699
 add esp, byte 4	; 2069E
 push byte 42h	; 206A1
 mov ecx, 41h	; 206A3
@@ -613,19 +613,19 @@ call FadePalStep	; 20875
 call FreeDeskBuffers	; 2087A
 mov edi, dword [statsteambuf]	; 2087F
 push edi	; 20885
-call jctime	; 20886
+call FreeMemBlock	; 20886
 add esp, byte 4	; 2088B
 mov ebp, dword [statsgoaliebuf]	; 2088E
 push ebp	; 20894
-call jctime	; 20895
+call FreeMemBlock	; 20895
 add esp, byte 4	; 2089A
 mov eax, dword [statsskaterbuf]	; 2089D
 push eax	; 208A2
-call jctime	; 208A3
+call FreeMemBlock	; 208A3
 add esp, byte 4	; 208A8
 mov edx, dword [statsplayerbuf]	; 208AB
 push edx	; 208B1
-call jctime	; 208B2
+call FreeMemBlock	; 208B2
 add esp, byte 4	; 208B7
 mov dword [statsplayerbuf], esi	; 208BA
 mov dword [statsteambuf], esi	; 208C0
@@ -706,7 +706,7 @@ xor eax, eax	; 209D3
 call FadePalStep	; 209D5
 mov esi, dword [statsbgshapes]	; 209DA
 push esi	; 209E0
-call jctime	; 209E1
+call FreeMemBlock	; 209E1
 add esp, byte 4	; 209E6
 push byte 42h	; 209E9
 mov ecx, 41h	; 209EB
@@ -800,7 +800,7 @@ xor eax, eax	; 20B2D
 call FadePalStep	; 20B2F
 mov esi, dword [statsbgshapes]	; 20B34
 push esi	; 20B3A
-call jctime	; 20B3B
+call FreeMemBlock	; 20B3B
 add esp, byte 4	; 20B40
 push byte 42h	; 20B43
 mov ecx, 41h	; 20B45
@@ -899,7 +899,7 @@ xor eax, eax	; 20CA4
 call FadePalStep	; 20CA6
 mov esi, dword [statsbgshapes]	; 20CAB
 push esi	; 20CB1
-call jctime	; 20CB2
+call FreeMemBlock	; 20CB2
 add esp, byte 4	; 20CB7
 push byte 42h	; 20CBA
 mov ecx, 41h	; 20CBC
@@ -942,7 +942,7 @@ mov eax, 1	; 20D4A
 call FadePalStep	; 20D4F
 mov ebp, dword [statsbgshapes]	; 20D54
 push ebp	; 20D5A
-call jctime	; 20D5B
+call FreeMemBlock	; 20D5B
 add esp, byte 4	; 20D60
 xor eax, eax	; 20D63
 mov dword [dword_DC738], eax	; 20D65
@@ -1154,7 +1154,7 @@ xor eax, eax	; 2102F
 call FadePalStep	; 21031
 mov edx, dword [statsbgshapes]	; 21036
 push edx	; 2103C
-call jctime	; 2103D
+call FreeMemBlock	; 2103D
 add esp, byte 4	; 21042
 push byte 42h	; 21045
 mov ecx, 41h	; 21047
@@ -1265,19 +1265,19 @@ mov dword [dword_C6D26], ecx	; 2120F
 call FreeDeskBuffers	; 21215
 mov esi, dword [statsteambuf]	; 2121A
 push esi	; 21220
-call jctime	; 21221
+call FreeMemBlock	; 21221
 add esp, byte 4	; 21226
 mov edi, dword [statsgoaliebuf]	; 21229
 push edi	; 2122F
-call jctime	; 21230
+call FreeMemBlock	; 21230
 add esp, byte 4	; 21235
 mov ebp, dword [statsskaterbuf]	; 21238
 push ebp	; 2123E
-call jctime	; 2123F
+call FreeMemBlock	; 2123F
 add esp, byte 4	; 21244
 mov eax, dword [statsplayerbuf]	; 21247
 push eax	; 2124C
-call jctime	; 2124D
+call FreeMemBlock	; 2124D
 add esp, byte 4	; 21252
 xor edx, edx	; 21255
 mov dword [statsplayerbuf], edx	; 21257
@@ -1325,7 +1325,7 @@ mov edx, dword [calendarshapes]	; 212DF
 test edx, edx	; 212E5
 je short .1	; 212E7
 push edx	; 212E9
-call jctime	; 212EA
+call FreeMemBlock	; 212EA
 add esp, byte 4	; 212EF
 .1:
 xor ecx, ecx	; 212F2
@@ -1438,7 +1438,7 @@ xor eax, eax	; 21432
 call FadePalStep	; 21434
 mov ecx, dword [statsbgshapes]	; 21439
 push ecx	; 2143F
-call jctime	; 21440
+call FreeMemBlock	; 21440
 add esp, byte 4	; 21445
 push byte 42h	; 21448
 mov ecx, 41h	; 2144A
@@ -1539,7 +1539,7 @@ xor eax, eax	; 21593
 call FadePalStep	; 21595
 mov ecx, dword [statsbgshapes]	; 2159A
 push ecx	; 215A0
-call jctime	; 215A1
+call FreeMemBlock	; 215A1
 add esp, byte 4	; 215A6
 push byte 42h	; 215A9
 mov ecx, 41h	; 215AB
@@ -1615,7 +1615,7 @@ xor eax, eax	; 216A6
 call FadePalStep	; 216A8
 mov ecx, dword [statsbgshapes]	; 216AD
 push ecx	; 216B3
-call jctime	; 216B4
+call FreeMemBlock	; 216B4
 add esp, byte 4	; 216B9
 push byte 42h	; 216BC
 mov ecx, 41h	; 216BE
@@ -1813,7 +1813,7 @@ xor eax, eax	; 21978
 call FadePalStep	; 2197A
 mov eax, dword [statsbgshapes]	; 2197F
 push eax	; 21984
-call jctime	; 21985
+call FreeMemBlock	; 21985
 add esp, byte 4	; 2198A
 push byte 42h	; 2198D
 mov ecx, 41h	; 2198F
@@ -1921,19 +1921,19 @@ mov dword [dword_C6D26], ebx	; 21B49
 call FreeDeskBuffers	; 21B4F
 mov ecx, dword [statsteambuf]	; 21B54
 push ecx	; 21B5A
-call jctime	; 21B5B
+call FreeMemBlock	; 21B5B
 add esp, byte 4	; 21B60
 mov esi, dword [statsgoaliebuf]	; 21B63
 push esi	; 21B69
-call jctime	; 21B6A
+call FreeMemBlock	; 21B6A
 add esp, byte 4	; 21B6F
 mov edi, dword [statsskaterbuf]	; 21B72
 push edi	; 21B78
-call jctime	; 21B79
+call FreeMemBlock	; 21B79
 add esp, byte 4	; 21B7E
 mov ebp, dword [statsplayerbuf]	; 21B81
 push ebp	; 21B87
-call jctime	; 21B88
+call FreeMemBlock	; 21B88
 add esp, byte 4	; 21B8D
 xor eax, eax	; 21B90
 mov dword [statsplayerbuf], eax	; 21B92

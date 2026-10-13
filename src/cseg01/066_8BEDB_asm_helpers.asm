@@ -7,7 +7,7 @@ extern seed, __CHK, musicon, vtoa_dt, screenbm, songdata, rinkbm, musicslot
 extern musichandle, vgapage, AnyInputPressed, ReadBE32, sub_1AC25, sub_1ACF1, sub_1AD16, sub_1B002
 extern sub_1B092, sub_1B0BB, sub_1B0C9, sub_1B0D7, sub_1B0E5, sub_1B0F3, sub_1B18B, sub_1B1C2
 extern sub_1B2A7, sub_1B8AC, sub_1B92E, WaitClickTimeout, ClearInputQueue, sub_8FB8E, sub_8FC8A, sub_8FCDF
-extern sub_90D20, sub_910E0, sub_B395C, sub_B3989, sub_B39A7, sub_B4B88, sub_B4BA8, SetDrawBitmap
+extern sub_90D20, sub_910E0, GetTicks, SetTickDeadline, TickDeadlinePassed, sub_B4B88, sub_B4BA8, SetDrawBitmap
 extern scrpitch, saved_ss, scrolly, scrollx, bgscrollx, bgscrolly8
 global SelectScreenBM_set
 global randomd0, PlayMVI, stub_8C1B7, SelectScreenBM, SelectRinkBM
@@ -15,7 +15,7 @@ global stub_8C1F7, stub_8C202, stub_8C20D, stub_8C218, stub_8C223, vgacopy_bg, S
 ; PlayMVI(eax=path, edx=x, ebx=y) -> eax key. (CD movie player).
 ; Opens the file through the cdstream reader, then per chunk:
 ; 'MVIh' header: sets up the decoder (cmv_player) and the frame delay
-; 'MVIf' frame: decodes and waits for the frame time (sub_B395C ticks)
+; 'MVIf' frame: decodes and waits for the frame time (GetTicks ticks)
 ; 'MVIe' end: stops. A key press (AnyInputPressed) aborts.
 ; Afterwards waits for the music fade and restarts the song if music is on.
 PlayMVI:
@@ -44,10 +44,10 @@ add esp, byte 8	; 8BF1F
 call sub_1AC25	; 8BF22
 mov edi, eax	; 8BF27
 push dword 96h	; 8BF29
-call sub_B3989	; 8BF2E
+call SetTickDeadline	; 8BF2E
 add esp, byte 4	; 8BF33
 .prime:
-call sub_B39A7	; 8BF36
+call TickDeadlinePassed	; 8BF36
 test eax, eax	; 8BF3B
 jne short .1	; 8BF3D
 call sub_1B2A7	; 8BF3F
@@ -56,11 +56,11 @@ jmp short PlayMVI.prime	; 8BF44
 mov dword [byte esp+0Ch], 0Ah	; 8BF46
 xor ebp, ebp	; 8BF4E
 mov dword [byte esp+010h], ebp	; 8BF50
-call sub_B395C	; 8BF54
+call GetTicks	; 8BF54
 xor esi, esi	; 8BF59
 mov dword [byte esp+01Ch], ebp	; 8BF5B
 mov dword [byte esp+02Ch], ebp	; 8BF5F
-call sub_B395C	; 8BF63
+call GetTicks	; 8BF63
 mov dword [byte esp+024h], eax	; 8BF68
 mov dword [byte esp+028h], ebp	; 8BF6C
 call sub_1B2A7	; 8BF70
@@ -98,7 +98,7 @@ add dword [byte esp+02Ch], eax	; 8BFDB
 mov eax, edi	; 8BFDF
 call sub_1B002	; 8BFE1
 mov dword [esp], eax	; 8BFE6
-call sub_B395C	; 8BFE9
+call GetTicks	; 8BFE9
 sub eax, dword [byte esp+024h]	; 8BFEE
 cmp eax, dword [byte esp+02Ch]	; 8BFF2
 jge short .4	; 8BFF6
@@ -126,7 +126,7 @@ mov ecx, 7Fh	; 8C037
 mov ebx, 3	; 8C03C
 call sub_8FB8E	; 8C041
 .5:
-call sub_B395C	; 8C046
+call GetTicks	; 8C046
 mov dword [byte esp+024h], eax	; 8C04B
 .6:
 dec ebp	; 8C04F
@@ -182,7 +182,7 @@ add esp, byte 8	; 8C0DF
 call sub_1B2A7	; 8C0E2
 cmp dword [byte esp+08h], 4D564966h	; 8C0E7
 jne short .8	; 8C0EF
-call sub_B395C	; 8C0F1
+call GetTicks	; 8C0F1
 sub eax, dword [byte esp+024h]	; 8C0F6
 mov ebx, dword [byte esp+02Ch]	; 8C0FA
 cmp eax, ebx	; 8C0FE
@@ -190,10 +190,10 @@ jge short .8	; 8C100
 mov edx, ebx	; 8C102
 sub edx, eax	; 8C104
 push edx	; 8C106
-call sub_B3989	; 8C107
+call SetTickDeadline	; 8C107
 add esp, byte 4	; 8C10C
 .wait:
-call sub_B39A7	; 8C10F
+call TickDeadlinePassed	; 8C10F
 test eax, eax	; 8C114
 jne short .8	; 8C116
 test esi, esi	; 8C118

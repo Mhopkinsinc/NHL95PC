@@ -51,6 +51,6 @@ void LoadJerseyColours(int away, int unused, unsigned char *dst)
     byte_D1334 = 0xFC;
     byte_D1335 = 0xFD;
     byte_D1336 = 0xFE;
-    jctime((int)buf);
+    FreeMemBlock((int)buf);
     sub_B4DD4(jerseyremap);
 }

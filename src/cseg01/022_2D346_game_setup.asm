@@ -15,14 +15,14 @@ extern leaguedbfmt2, leaguedbfmt, othergames, othergamesb, otherscores, othersco
 extern gameresult, gameopts, sounddev, songdata, cont2team, HomeTeam, dword_CCC94, musicslot
 extern musichandle, cddriveptr, kaufmfont, dword_DBC7C, schedgameidx, hmcrestbmp, vscrestbmp, otherperiod
 extern hmtmstruct
-extern fputchar, jctime, memcpy_
+extern fputchar, FreeMemBlock, memcpy_
 extern crestnames, gamestatlabels, leaguedbnames, penaltynames, rand_, sprintf_
 extern strcat_, strcpy_, FadePalette, MakePath, FileOpenRead, FileOpenRW, FileClose, ReadKeyRec
 extern ReadSeasonRec, ReadTeamRec, ReadGSummaryRec, SetTextColors, PrintShadowText, sub_1BAF3, FitPlayerName, WaitClickTimeout
 extern FadeOutPalCycle, joyq_flush, StopDigiSample, PlayDigiSample, PaScoringPeriod, PaElseNhl, PaOpenBank, ClearInputQueue
 extern FadePalStep, DrawGadgetByType, MusicChanCmd3, sub_8CCA8, sub_8D2F0, sub_8E83C, sub_8E8A0, sub_8E9E8
 extern sub_8EA00, sub_8EA18, sub_8F13B, sub_8F1FE, sub_8F98F, sub_8FB8E, sub_8FC8A, sub_8FCDF
-extern sub_903F0, sub_913B4, sub_913D0, sub_B30B4, sub_B392C, sub_B3989, sub_B3999, sub_B4B88
+extern sub_903F0, sub_913B4, sub_913D0, sub_B30B4, sub_B392C, SetTickDeadline, WaitTickDeadline, sub_B4B88
 extern sub_B4BA8, sub_B4BC4, SetDrawBitmap, sub_B4F8C, gsuminitff, str_D6, str_OT, str_S3
 extern str_CommaSp, str_RParen2, str_D7, awlinetab, hmteamrec, hmlinetab, hmscore
 global GameSummaryScreen_jt
@@ -241,7 +241,7 @@ mov dx, word [byte esi+0Ah]	; 2D647
 mov word [byte eax+0Ah], dx	; 2D64B
 call sub_B4BA8	; 2D64F
 push edi	; 2D654
-call jctime	; 2D655
+call FreeMemBlock	; 2D655
 add esp, byte 4	; 2D65A
 xor ecx, ecx	; 2D65D
 mov ebx, str_Ctbkgd2	; 2D65F
@@ -2006,14 +2006,14 @@ mov eax, dword [dword esp+07ACh]	; 2F1BB
 test eax, eax	; 2F1C2
 je short .86	; 2F1C4
 push eax	; 2F1C6
-call jctime	; 2F1C7
+call FreeMemBlock	; 2F1C7
 add esp, byte 4	; 2F1CC
 .86:
 mov ebx, dword [dword esp+07C0h]	; 2F1CF
 test ebx, ebx	; 2F1D6
 je short .87	; 2F1D8
 push ebx	; 2F1DA
-call jctime	; 2F1DB
+call FreeMemBlock	; 2F1DB
 add esp, byte 4	; 2F1E0
 .87:
 lea eax, [dword esp+075Ch]	; 2F1E3
@@ -2030,23 +2030,23 @@ call sub_8EA00	; 2F21B
 add esp, byte 4	; 2F220
 mov esi, dword [dword esp+077Ch]	; 2F223
 push esi	; 2F22A
-call jctime	; 2F22B
+call FreeMemBlock	; 2F22B
 add esp, byte 4	; 2F230
 mov edi, dword [dword esp+078Ch]	; 2F233
 push edi	; 2F23A
-call jctime	; 2F23B
+call FreeMemBlock	; 2F23B
 add esp, byte 4	; 2F240
 mov ebp, dword [dword esp+0784h]	; 2F243
 push ebp	; 2F24A
-call jctime	; 2F24B
+call FreeMemBlock	; 2F24B
 add esp, byte 4	; 2F250
 mov eax, dword [hmcrestbmp]	; 2F253
 push eax	; 2F258
-call jctime	; 2F259
+call FreeMemBlock	; 2F259
 add esp, byte 4	; 2F25E
 mov edx, dword [vscrestbmp]	; 2F261
 push edx	; 2F267
-call jctime	; 2F268
+call FreeMemBlock	; 2F268
 add esp, byte 4	; 2F26D
 mov ebx, dword [dword esp+076Ch]	; 2F270
 test ebx, ebx	; 2F277
@@ -2431,7 +2431,7 @@ push eax	; 2F6B6
 call sub_913B4	; 2F6B7
 add esp, byte 4	; 2F6BC
 push esi	; 2F6BF
-call jctime	; 2F6C0
+call FreeMemBlock	; 2F6C0
 add esp, byte 4	; 2F6C5
 xor ecx, ecx	; 2F6C8
 mov ebx, str_Cttitle32	; 2F6CA
@@ -2465,7 +2465,7 @@ push eax	; 2F71F
 call sub_913B4	; 2F720
 add esp, byte 4	; 2F725
 push esi	; 2F728
-call jctime	; 2F729
+call FreeMemBlock	; 2F729
 add esp, byte 4	; 2F72E
 xor ecx, ecx	; 2F731
 mov ebx, str_Ctlogo3	; 2F733
@@ -2868,9 +2868,9 @@ mov ebx, 28h	; 2FC0A
 mov edx, 3	; 2FC0F
 call sub_8FCDF	; 2FC14
 push byte 28h	; 2FC19
-call sub_B3989	; 2FC1B
+call SetTickDeadline	; 2FC1B
 add esp, byte 4	; 2FC20
-call sub_B3999	; 2FC23
+call WaitTickDeadline	; 2FC23
 mov edi, dword [songdata]	; 2FC28
 push edi	; 2FC2E
 call sub_8D2F0	; 2FC2F
@@ -2982,7 +2982,7 @@ call sub_8EA00	; 2FDB6
 add esp, byte 4	; 2FDBB
 mov edi, dword [byte ebp-010h]	; 2FDBE
 push edi	; 2FDC1
-call jctime	; 2FDC2
+call FreeMemBlock	; 2FDC2
 add esp, byte 4	; 2FDC7
 mov esp, ebp	; 2FDCA
 jmp near UpdateOtherScores_x	; 2FDCC

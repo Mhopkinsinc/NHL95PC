@@ -22,8 +22,8 @@ int MenuExhibitionSettings(void)
     ExhOptsToBits();
     ExhSetEditLoop();
     sub_903F0(bm, 0xA, 0x13);
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }

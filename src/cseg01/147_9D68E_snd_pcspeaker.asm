@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_9D68E progbits alloc exec nowrite align=1
 extern abs_, byte_D5224, byte_F24D9, byte_F27EE, byte_F27EF, byte_F27FD, dword_D4CE8, dword_D4F9A
-extern dword_F27F6, sub_8F114, sub_902A0, sub_9F685, sub_9F725, sub_9FA5D, sub_9FC24, sub_9FC94
+extern dword_F27F6, sub_8F114, __GETDS, sub_9F685, sub_9F725, sub_9FA5D, sub_9FC24, sub_9FC94
 extern sub_A65E8, sub_A6612, sub_A6635, sub_A6672, sub_A6684, sub_A677B, unk_F21FC, unk_F24D8
 extern unk_F27D8
 global loc_9D6A2, loc_9D6B8, loc_9D6C4, loc_9D6D9, loc_9D723, loc_9D73E, loc_9D802, loc_9D81C
@@ -24,7 +24,7 @@ ret	; 9D696
 db 00h
 sub_9D698:
 push ds	; 9D698
-call sub_902A0	; 9D699
+call __GETDS	; 9D699
 sub_9D69E:
 xor eax, eax	; 9D69E
 jmp short loc_9D6B8	; 9D6A0
@@ -58,21 +58,21 @@ pop ds	; 9D6E4
 ret	; 9D6E5
 sub_9D6E6:
 push ds	; 9D6E6
-call sub_902A0	; 9D6E7
+call __GETDS	; 9D6E7
 sub_9D6EC:
 call sub_A6612	; 9D6EC
 pop ds	; 9D6F1
 ret	; 9D6F2
 sub_9D6F3:
 push ds	; 9D6F3
-call sub_902A0	; 9D6F4
+call __GETDS	; 9D6F4
 sub_9D6F9:
 call sub_9D880	; 9D6F9
 pop ds	; 9D6FE
 ret	; 9D6FF
 sub_9D700:
 push ds	; 9D700
-call sub_902A0	; 9D701
+call __GETDS	; 9D701
 push esi	; 9D706
 xor eax, eax	; 9D707
 mov al, byte [byte esp+0Ch]	; 9D709
@@ -155,7 +155,7 @@ pop ds	; 9D803
 ret	; 9D804
 sub_9D805:
 push ds	; 9D805
-call sub_902A0	; 9D806
+call __GETDS	; 9D806
 mov bh, byte [byte esp+08h]	; 9D80B
 mov bl, byte [byte esp+0Ch]	; 9D80F
 mov eax, unk_F24D8	; 9D813
@@ -192,7 +192,7 @@ pop ds	; 9D856
 ret	; 9D857
 sub_9D858:
 push ds	; 9D858
-call sub_902A0	; 9D859
+call __GETDS	; 9D859
 xor eax, eax	; 9D85E
 mov al, byte [byte esp+0Ch]	; 9D860
 push eax	; 9D864
@@ -412,7 +412,7 @@ mov eax, 1	; 9DAA6
 ret	; 9DAAB
 sub_9DAAC:
 push ds	; 9DAAC
-call sub_902A0	; 9DAAD
+call __GETDS	; 9DAAD
 sub_9DAB2:
 push esi	; 9DAB2
 push edi	; 9DAB3
@@ -589,7 +589,7 @@ pop ds	; 9DC9D
 ret	; 9DC9E
 sub_9DC9F:
 push ds	; 9DC9F
-call sub_902A0	; 9DCA0
+call __GETDS	; 9DCA0
 sub_9DCA5:
 push esi	; 9DCA5
 push edi	; 9DCA6
