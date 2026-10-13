@@ -609,6 +609,7 @@ ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_
 ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,
 ModeOptsToBits,7B604,304,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeOptsToBits.c,matched,
 ModeSetHitTest,7B734,138,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeSetHitTest.c,matched,
+ModeSetViewLoop,7B846,418,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeSetViewLoop.c,nonmatching,"draft: 418 vs 418 beside MenuModeSettings. Slots, sprite size, and the 17-byte header match. The button test copies the result through edx (mov edx, eax; test dl, 6); the original stores eax and tests al. Do not retry a named h/w or the other multiply order."
 SetCtlTeams,7DB67,292,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/SetCtlTeams.c,matched,
 SetLeagueSetImage,7A6AD,16,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/SetLeagueSetImage.c,matched,
 SettingsStub,7B39C,11,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/SettingsStub.c,matched,
