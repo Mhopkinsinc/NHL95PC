@@ -479,6 +479,7 @@ chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_
 releasepl,6392A,122,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/releasepl.c,matched,
 updatePPTeamTime,63B57,46,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c,matched,
 updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,nonmatching,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add
+CanFillLineSlot,64A0B,669,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,draft: 688 vs 669. side*444h is computed in eax and added to hmroster; the original keeps that stride in ebx and indexes [ebx+eax+hmroster]. The sign-extended side is not stored at esp+4.
 CloseTextOverlay,66DDA,44,046_644A8_engine_display,src/c/046_644A8_engine_display/CloseTextOverlay.c,matched,
 DitherRect,65CA8,89,046_644A8_engine_display,src/c/046_644A8_engine_display/DitherRect.c,matched,
 LoadTeamPalette,673C5,415,046_644A8_engine_display,src/c/046_644A8_engine_display/LoadTeamPalette.c,matched,
