@@ -186,6 +186,7 @@ SaveDialogBg,30E66,172,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SaveD
 SetDialogColors,30A0C,45,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetDialogColors.c,matched,
 SetListItemColors,30209,53,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetListItemColors.c,matched,
 TrackButtons,30A39,169,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackButtons.c,matched,
+TrackScrollBars,30D0E,344,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackScrollBars.c,nonmatching,"draft: 344 vs 344 beside TrackButtons. Prologue matches (cookie 20h, y in ebp, hit at esp+8). The item index multiplies after h-4 is stored; the original multiplies the thumb by total first. Do not retry a pointer local or dropping the volatile slot."
 CopyGameSettings,32C9E,267,024_31AB5_main_desk,src/c/024_31AB5_main_desk/CopyGameSettings.c,matched,
 MenuExit,3270B,16,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MenuExit.c,matched,
 SaveModeState,3271B,134,024_31AB5_main_desk,src/c/024_31AB5_main_desk/SaveModeState.c,matched,
