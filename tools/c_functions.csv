@@ -287,6 +287,7 @@ SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoff
 SimScheduleDay,42631,634,034_41B80_schedule,src/c/034_41B80_schedule/SimScheduleDay.c,matched,
 SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,
 UpdatePlayoffSeries,41F64,671,034_41B80_schedule,src/c/034_41B80_schedule/UpdatePlayoffSeries.c,matched,
+UpdateSeasonSchedule,41CC4,672,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft: 672 vs 672 (best of 5). The frame, opens, database loads, the 0/1 playoff test and both calls match. ext is in ebp and err in esi (original esi and ebp), so careerdb reloads through that freed register instead of edi. Do not retry an int or char* copy of ext (homes swap, ext stays in ebp), making err a pointer (655), or folding play into the if."
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,
 ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_settings/ShowLoadingScreen.c,nonmatching,
@@ -529,6 +530,7 @@ EventToPointer,6B4BB,297,050_6B093_joystick_calibration,src/c/050_6B093_joystick
 GetInputEvent,6B391,70,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/GetInputEvent.c,matched,
 InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputInstall.c,nonmatching,registers: C loads inputinstalled into edx and reuses the 0 for the ptrstep/dword_CDA24 stores; asm compares memory and zeroes ebx
 InputRemove,6B47C,63,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputRemove.c,matched,
+JoystickCalScreen,6B093,713,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/JoystickCalScreen.c,nonmatching,"draft: 711 vs 713 (best of 5). The abort test falls through and the frame matches. The side-art call is still two calls (bank reloaded into ebp and edi), so it does not merge, and sub_8E83C is stored without mov esi, eax before add esp, 8. A bank register plus duplicated side calls merged that call but skipped the puck store at [esp+344h] and pushed 0 after the width and height reads (698). Do not retry an abort-first if, a ternary that puts the side string in eax, or a bank register used for every sub_B30B4."
 LoadLeagueDbsMem,6C19B,350,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/LoadLeagueDbsMem.c,matched,
 MenuCentralRegistry,6BE95,168,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/MenuCentralRegistry.c,matched,
 MenuHitTest,6BA4D,158,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/MenuHitTest.c,nonmatching,"draft: same size. The item pointer is in edx and the origin pointer in eax (original item in eax, origin in edx). Adding the item on the left loaded x2 before x1. Do not retry that add order."
