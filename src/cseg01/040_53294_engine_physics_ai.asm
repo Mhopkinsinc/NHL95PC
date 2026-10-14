@@ -1309,9 +1309,9 @@ pop edx	; 54130
 pop ecx	; 54131
 pop ebx	; 54132
 ret	; 54133
-; C: src/c/040_53294_engine_physics_ai/SkillForAnim.c
+; C: src/c/040_53294_engine_physics_ai/checkob.c (SkillForAnim)
 %ifdef CBUILD
-%include "c/040_53294_engine_physics_ai/SkillForAnim.inc"
+%include "c/040_53294_engine_physics_ai/checkob.SkillForAnim.inc"
 %else
 SkillForAnim:
 push dword 8	; 54134
