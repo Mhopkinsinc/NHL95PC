@@ -78,6 +78,7 @@ StatsSelLeaguePlayoffs,17CE0,142,008_17816_output_files,src/c/008_17816_output_f
 StatsSelPlayoffMode,17D6E,142,008_17816_output_files,src/c/008_17816_output_files/StatsSel9394Playoffs.c,matched,
 StatsSel9394Season,17A00,243,008_17816_output_files,src/c/008_17816_output_files/StatsSel9394Season.c,matched,
 WriteScreenTextFile,17816,416,008_17816_output_files,src/c/008_17816_output_files/WriteScreenTextFile.c,matched,
+ShowPlayerStatsItem,18D0D,38,009_17DFC_palette_fx,src/c/009_17DFC_palette_fx/ShowPlayerStatsItem.c,matched,
 StatsMenuAssists,18508,227,009_17DFC_palette_fx,src/c/009_17DFC_palette_fx/StatsMenuAssists.c,matched,
 StatsMenuGAA,18A5A,227,009_17DFC_palette_fx,src/c/009_17DFC_palette_fx/StatsMenuGAA.c,matched,
 StatsMenuGoalieWins,18B3D,227,009_17DFC_palette_fx,src/c/009_17DFC_palette_fx/StatsMenuGoalieWins.c,matched,

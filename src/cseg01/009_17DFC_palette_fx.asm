@@ -1218,6 +1218,10 @@ ret	; 18D02
 DeskSetExit3b:
 push dword 4	; 18D03
 jmp near DeskSetExit3_body	; 18D08
+; C: src/c/009_17DFC_palette_fx/ShowPlayerStatsItem.c
+%ifdef CBUILD
+%include "c/009_17DFC_palette_fx/ShowPlayerStatsItem.inc"
+%else
 ShowPlayerStatsItem:
 push dword 4	; 18D0D
 call __CHK	; 18D12
@@ -1227,6 +1231,7 @@ and eax, 0FFh	; 18D21
 add eax, byte 4	; 18D26
 mov dword [deskexit], eax	; 18D29
 jmp near DeskSetExit_ret1	; 18D2E
+%endif ; C
 FreeDeskBuffers:
 push dword 1Ch	; 18D33
 call __CHK	; 18D38
