@@ -338,7 +338,7 @@ LD mov, ecx, eax	; B6024
 shr ecx, 1	; B6026
 rep movsd	; B6028
 LD adc, ecx, ecx	; B602A
-rep movsw	; B602C
+db 0F3h,066h,0A5h	; B602C rep movsw (nasm 3 emits 66h F3h)
 add esi, dword [byte ebp-010h]	; B602F
 LD add, edi, ebx	; B6032
 dec edx	; B6034
@@ -355,7 +355,7 @@ LD mov, ecx, eax	; B603D
 shr ecx, 1	; B603F
 rep movsd	; B6041
 LD adc, ecx, ecx	; B6043
-rep movsw	; B6045
+db 0F3h,066h,0A5h	; B6045 rep movsw (nasm 3 emits 66h F3h)
 movsb	; B6048
 add esi, dword [byte ebp-010h]	; B6049
 LD add, edi, ebx	; B604C
@@ -1343,7 +1343,7 @@ shr eax, 1	; B68E8
 jb short loc_B68FA	; B68EA
 loc_B68EC:
 LD mov, ecx, eax	; B68EC
-rep movsw	; B68EE
+db 0F3h,066h,0A5h	; B68EE rep movsw (nasm 3 emits 66h F3h)
 LD add, edi, ebx	; B68F1
 dec edx	; B68F3
 jg short loc_B68EC	; B68F4
@@ -1356,7 +1356,7 @@ loc_B68FA:
 je short loc_B690B	; B68FA
 loc_B68FC:
 LD mov, ecx, eax	; B68FC
-rep movsw	; B68FE
+db 0F3h,066h,0A5h	; B68FE rep movsw (nasm 3 emits 66h F3h)
 movsb	; B6901
 LD add, edi, ebx	; B6902
 dec edx	; B6904
@@ -2051,7 +2051,7 @@ jae short loc_B6F39	; B6F1A
 je short loc_B6F2E	; B6F1C
 loc_B6F1E:
 LD mov, ecx, eax	; B6F1E
-rep movsw	; B6F20
+db 0F3h,066h,0A5h	; B6F20 rep movsw (nasm 3 emits 66h F3h)
 movsb	; B6F23
 add edi, dword [byte ebp-010h]	; B6F24
 LD add, esi, ebx	; B6F27
@@ -2067,7 +2067,7 @@ jg short loc_B6F2E	; B6F35
 jmp short loc_B6F46	; B6F37
 loc_B6F39:
 LD mov, ecx, eax	; B6F39
-rep movsw	; B6F3B
+db 0F3h,066h,0A5h	; B6F3B rep movsw (nasm 3 emits 66h F3h)
 add edi, dword [byte ebp-010h]	; B6F3E
 LD add, esi, ebx	; B6F41
 dec edx	; B6F43
@@ -2082,7 +2082,7 @@ jae short loc_B6F68	; B6F53
 je short loc_B6F78	; B6F55
 loc_B6F57:
 mov ecx, dword [byte ebp-01Ch]	; B6F57
-rep movsw	; B6F5A
+db 0F3h,066h,0A5h	; B6F5A rep movsw (nasm 3 emits 66h F3h)
 movsb	; B6F5D
 LD add, esi, ebx	; B6F5E
 dec edx	; B6F60
@@ -2090,7 +2090,7 @@ jg short loc_B6F57	; B6F61
 jmp near loc_B6E53	; B6F63
 loc_B6F68:
 mov ecx, dword [byte ebp-01Ch]	; B6F68
-rep movsw	; B6F6B
+db 0F3h,066h,0A5h	; B6F6B rep movsw (nasm 3 emits 66h F3h)
 LD add, esi, ebx	; B6F6E
 dec edx	; B6F70
 jg short loc_B6F68	; B6F71
@@ -2246,7 +2246,7 @@ ret	; B70FB
 loc_B70FC:
 LD mov, ah, al	; B70FC
 shr ecx, 1	; B70FE
-rep stosw	; B7100
+db 0F3h,066h,0ABh	; B7100 rep stosw (nasm 3 emits 66h F3h)
 LD adc, ecx, ecx	; B7103
 rep stosb	; B7105
 pop edi	; B7107
