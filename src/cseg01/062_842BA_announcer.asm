@@ -12,7 +12,7 @@ extern str_NumberCor, str_NowbackInt, str_BackmomtInt, str_CoachclpInt, str_OfBa
 extern str_EasportsBar, str_TonightBar, str_GamebtwnBar, str_GoodniteInt, str_LineupsInt, str_TakeynowBar, str_HighliteBar, str_OvertimeBar
 extern str_HavewonBar, str_Scor1perBar, str_Scor2perBar, str_Scor3perBar, str_Scor1otpBar, str_Scor2otpBar, str_Scor3otpBar, str_ScortotpBar
 extern str_ThegameBar, str_VIV, dword_CCC98, dword_D27A2, speechinit, cddriveptr, speechq, fileoncd
-extern speechbank, itoa_, ShutdownSpeech_ret6, penaltyclips, scorperclips, sprintf_, strcpy_, strncpy_
+extern speechbank, itoa_, ShutdownSpeech, ShutdownSpeech_ret6, penaltyclips, scorperclips, sprintf_, strcpy_, strncpy_
 extern MakePath, ResetSpeechQueue, ResetSampleReq, SpeechIdle, OpenSpeechBank, LoadSpeechSlot, PlaceSpeechSlot, FindFreeSpeechSlot
 extern FindSpeechSlot, SpeechSlotLoaded, RequestSample, EnsureSampleRoom
 global SayClip_body
@@ -290,6 +290,10 @@ mov eax, 1	; 8452C
 .7:
 add esp, byte 38h	; 84531
 jmp near ShutdownSpeech_ret6	; 84534
+; C: src/c/061_83459_speech/ShutdownSpeech.c (LoadClipSlot)
+%ifdef CBUILD
+%include "c/061_83459_speech/ShutdownSpeech.LoadClipSlot.inc"
+%else
 LoadClipSlot:
 push dword 48h	; 84539
 call __CHK	; 8453E
@@ -366,6 +370,7 @@ mov eax, 1	; 84602
 .5:
 add esp, byte 2Ch	; 84607
 jmp near ShutdownSpeech_ret6	; 8460A
+%endif ; C
 SayClip_body:
 call SpeechIdle	; 8460F
 test eax, eax	; 84614

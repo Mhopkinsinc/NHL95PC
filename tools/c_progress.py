@@ -49,7 +49,9 @@ def main():
         rel = os.path.relpath(src, ROOT)
         body = re.sub(r'/\*.*?\*/', '', open(src).read(), flags=re.S)
         defs = re.findall(r'^[A-Za-z_][\w \t\*]*?\b([A-Za-z_]\w*)\s*\([^;{]*\)\s*\{', body, flags=re.M) or [fil]
-        addr = dict((d, cc.label_addr(asm, d)) for d in defs)
+        addr = {}
+        for d in defs:
+            addr[d] = cc.label_addr(cc.c_paths(src, d)[2], d)
         left = list(defs)
         for g in cc.file_blocks(src):          # marked blocks: matched (with the functions that fall through inside)
             s, e, labs, _ = cc.block(src, g)

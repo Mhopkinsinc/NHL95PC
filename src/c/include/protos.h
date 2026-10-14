@@ -261,6 +261,7 @@ void MakePath(char *out, char *dir, char *name, char *ext);  /* 1431E */
 char *strcat(char *d, const char *s);  /* Watcom CRT strcat_ */
 void InitScrollBar(int *sb, int visible, int total);  /* 30BF3 */
 int FindSpeechSlot(char *name);  /* 83EEB */
+int LoadClipSlot(char *name);  /* 84539 */
 void MakeGSummaryPath(void);  /* 1C807 */
 void InitGameSummary(int a, int b);  /* 1BEFD */
 void RestoreGridCellBg(int unused1, int unused2);  /* 37E5B */

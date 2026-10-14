@@ -912,7 +912,6 @@ extern void MusicChanReset2(); /* 8373E */
 extern void ReadBE24_ret(); /* 83857 */
 extern void OpenSpeechBank_ret(); /* 83BC1 */
 extern void CompactSpeechMem(); /* 8427E */
-extern void LoadClipSlot(); /* 84539 */
 extern void SayClip_body(); /* 8460F */
 extern void FreeClip_ret(); /* 847B7 */
 extern void SayTheGame(); /* 84A6C */

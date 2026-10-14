@@ -44,7 +44,7 @@ def orig_fixups(a0, a1):
     return out
 
 def func_addr(src, func):
-    stem, f, asm, inc = cc.c_paths(src)
+    stem, f, asm, inc = cc.c_paths(src, func)
     func = func or f
     L = open(asm).read().split('\n')
     for k, l in enumerate(L):

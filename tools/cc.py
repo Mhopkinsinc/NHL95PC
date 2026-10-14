@@ -122,8 +122,12 @@ def c_paths(src, func=None):
         seg = os.environ.get('CC_SEG')
         if seg: asm = os.path.join(ROOT, 'src/cseg01', seg + '.asm')
         elif '%%include "%s"' % inc not in open(asm).read():
+            label = None
             for g in sorted(glob.glob(os.path.join(ROOT, 'src/cseg01/*.asm'))):
-                if '%%include "%s"' % inc in open(g).read(): asm = g; break
+                t = open(g).read()
+                if '%%include "%s"' % inc in t: asm = g; label = None; break
+                if label is None and re.search(r'(?m)^%s:' % re.escape(func), t): label = g
+            if label: asm = label
     return stem, func, asm, inc
 
 def file_blocks(src):

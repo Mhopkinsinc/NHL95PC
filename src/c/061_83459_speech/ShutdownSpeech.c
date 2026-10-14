@@ -86,3 +86,37 @@ void PlaceSpeechSlot(int n)
     BANKD(0x3B6C) += got;
     BANKD(0x3B74)++;
 }
+
+/* LoadClipSlot: swap the named clip's slot with a free slot when the sample still fits,
+ then load it (goalie clips, type byte 'G') or place it from the bank. */
+int LoadClipSlot(char *name)
+{
+    int slot;
+    int free;
+    int loaded;
+    SpeechSlot tmp;
+    int off;
+    SpeechSlot *src;
+
+    slot = FindSpeechSlot(name);
+    if (slot == -1)
+        return 0;
+    loaded = SpeechSlotLoaded(slot);
+    if (loaded)
+        return 1;
+    free = FindFreeSpeechSlot(loaded);
+    if (free == -1)
+        return 0;
+    off = slot * 0x26;
+    src = (SpeechSlot *)((char *)speechbank + off);
+    if ((unsigned)(BANKD(0x3B6C) + src->size) > (unsigned)BANKD(0x3B68))
+        return 0;
+    tmp = speechbank[free];
+    speechbank[free] = *src;
+    speechbank[slot] = tmp;
+    if (((unsigned char *)&speechbank[free])[0xD] == 0x47)
+        LoadSpeechSlot(free);
+    else
+        PlaceSpeechSlot(free);
+    return 1;
+}
