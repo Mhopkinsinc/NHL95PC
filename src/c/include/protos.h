@@ -537,6 +537,7 @@ int CmpShootPct(int *a, int *b);  /* 25755 */
 void InitCoachModes(void);  /* 5A669 */
 short SetCoachMode(int side);
 void ChkGoalies(void);  /* 59265 */
+void ReturnGoalies(void);  /* 59352 */
 void CPgoalie(Team *t, Team *o, int y);
 int ChkPullGoalieLate(int side);  /* 593F5 */
 int SetupGame(void);  /* 13E8F */

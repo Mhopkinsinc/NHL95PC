@@ -486,7 +486,6 @@ extern void puckstick(); /* 57483 */
 extern void shotdiradj(); /* 57A98 */
 extern void checkwallcoll(); /* 582C9 */
 extern void wallcoll(); /* 587D3 */
-extern void ReturnGoalies(); /* 59352 */
 extern void sndcb_addesp8_x(); /* 594AC */
 extern void CrowdNoiseUpdate(); /* 594CD */
 extern void PlayCrowdSample_ret(); /* 59A7D */

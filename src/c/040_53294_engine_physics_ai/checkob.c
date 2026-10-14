@@ -147,3 +147,28 @@ box2:
         return sum + prev;
     }
 }
+
+/* ReturnGoalies: a pulled goalie (tmgoalie low byte under 10h) goes back in net.
+ The pulled menu item is unchecked and the goalie item checked, then a computer
+ team may pull again. */
+void ReturnGoalies(void)
+{
+    Team *t;
+    Team *o;
+    short i;
+
+    i = 0;
+    t = &hmtmstruct;
+    o = &awtmstruct;
+    for (; i < 2; i++) {
+        if ((((unsigned char *)&t->tmgoalie)[0] & 0xF0) == 0) {
+            ((unsigned char *)&t->tmgoalie)[1] = 0;
+            *(unsigned char *)((int (*)[3])off_CD4A0)[i][0] = 2;
+            *(unsigned char *)((int (*)[3])off_CD498)[i][(short)(t->tmgoalie & 0xF)] = 1;
+            if (cont1team != i + 1 && cont2team != i + 1)
+                CPgoalie(t, o, *(int *)((char *)&foy - 2) >> 16);
+        }
+        t = &awtmstruct;
+        o = &hmtmstruct;
+    }
+}

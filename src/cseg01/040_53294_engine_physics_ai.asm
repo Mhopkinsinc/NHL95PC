@@ -7857,6 +7857,10 @@ pop ecx	; 5934F
 pop ebx	; 59350
 ret	; 59351
 ; ReturnGoalies: (computer returns a pulled goalie), from puckfaceoff.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (ReturnGoalies)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.ReturnGoalies.inc"
+%else
 ReturnGoalies:
 push dword 1Ch	; 59352
 call __CHK	; 59357
@@ -7910,6 +7914,7 @@ inc ecx	; 593E9
 cmp cx, byte 2	; 593EA
 jl short ReturnGoalies.1	; 593EE
 jmp near checkob_ret5a	; 593F0
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/ChkPullGoalieLate.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/ChkPullGoalieLate.inc"
