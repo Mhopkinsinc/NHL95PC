@@ -187,6 +187,7 @@ GrowToButtons,30FB4,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowT
 ListHitTest,3023E,123,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/ListHitTest.c,nonmatching,"scheduling: asm loads w (stack arg) before top+2 and keeps x1 at [esp], x2 at [esp+4]; C swaps the slots"
 MeasureTextLine,309E4,40,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/MeasureTextLine.c,matched,
 RestoreDialogBg,30F12,77,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/RestoreDialogBg.c,matched,
+RunMessageBox,31250,589,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/RunMessageBox.c,matched,
 SaveDialogBg,30E66,172,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SaveDialogBg.c,matched,
 SetDialogColors,30A0C,45,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetDialogColors.c,matched,
 SetListItemColors,30209,53,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetListItemColors.c,matched,

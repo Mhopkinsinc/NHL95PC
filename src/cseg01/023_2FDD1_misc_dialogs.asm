@@ -1916,6 +1916,10 @@ jl short MessageBox.15	; 31242
 mov eax, dword [byte esp+08h]	; 31244
 add esp, byte 20h	; 31248
 jmp near DlgNullCallback	; 3124B
+; C: src/c/023_2FDD1_misc_dialogs/RunMessageBox.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/RunMessageBox.inc"
+%else
 RunMessageBox:
 push dword 40h	; 31250
 call __CHK	; 31255
@@ -2128,6 +2132,7 @@ pop ebp	; 31499
 pop edi	; 3149A
 pop esi	; 3149B
 ret	; 3149C
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/CritErrHandler.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/CritErrHandler.inc"
