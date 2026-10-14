@@ -13,7 +13,7 @@ global byte_D42C3, byte_D42C4, byte_D42C5, byte_D42C6, byte_D42E4, byte_D4410, b
 global byte_D4546, byte_D4B9C, byte_D4B9D, dword_D2C84, dword_D2C8C, dword_D2CCC, dword_D2CD0, dword_D2CD8
 global dword_D2D5C, dword_D2D62, dword_D2D68, dword_D2F58, dword_D2F5C, dword_D2F60, dword_D2F64, dword_D2F74
 global dword_D2F78, dword_D2F7A, dword_D2F7C, dword_D2F80, dword_D2F84, dword_D2F88, dword_D2F8C, dword_D2F90
-global joycalactive, dword_D2FDC, dword_D2FE0, dword_D2FE4, dword_D2FEC, dword_D2FF0, dword_D2FF4, dword_D2FF8
+global joycalactive, tickcount, slowtickcount, oldint8off, dword_D2FEC, dword_D2FF0, dword_D2FF4, dword_D2FF8
 global dword_D2FFC, dword_D3000, dword_D301C, dword_D3024, dword_D3028, mousex, mousey, mousebtns
 global dword_D3038, dword_D303C, dword_D3044, dword_D3048, dword_D304C, dword_D3050, dword_D3054, dword_D3058
 global dword_D305C, dword_D3060, dword_D3090, dword_D3096, dword_D30A4, dword_D30A8, cliprect_x0, cliprect_y0
@@ -26,16 +26,16 @@ global dword_D41AF, dword_D41B3, dword_D41CE, dword_D41EA, bailout_vec, dword_D4
 global dword_D4204, dword_D4208, dword_D420C, dword_D4210, dword_D4214, dword_D4218, dword_D421C, dword_D4220
 global dword_D4224, dword_D4228, dword_D422C, dword_D4230, dword_D4234, dword_D4238, dword_D423C, dword_D4240
 global dword_D4248, dword_D424C, dword_D4250, dword_D4254, dword_D4258, dword_D425C, dword_D4260, dword_D4264
-global dword_D4268, dword_D426C, dword_D4270, dword_D4274, dword_D4278, dword_D427C, dword_D4294, dword_D4298
+global dword_D4268, dword_D426C, dword_D4270, dword_D4274, dword_D4278, dword_D427C, tickdeadline, ticklast
 global dword_D429C, fontcolor, dword_D42AC, dword_D42B0, dword_D42B4, dword_D42B8, dword_D42BC, dword_D42C8
 global dword_D42CC, dword_D42D0, dword_D42D4, dword_D42D8, dword_D42DC, dword_D42E0, dword_D43E4, dword_D43E8
 global dword_D43EC, dword_D43F0, dword_D4438, dword_D443C, dword_D4440, dword_D4444, dword_D44AC, dword_D4530
 global dword_D4534, dword_D453C, dword_D4540, dword_D4548, dword_D457C, dword_D4580, dword_D4584, dword_D4588
 global dword_D458C, dword_D4590, dword_D4594, dword_D4598, dword_D459C, dword_D45A0, dword_D45A4, dword_D45B0
 global off_D2F68, off_D2F6C, off_D2F70, off_D306C, off_D3070, off_D3074, mousepollfn, off_D3088
-global off_D308C, off_D42A0, off_D42A4, joycalprehook, joycalposthook, unk_D41C8, unk_D41D2, unk_D4448
+global off_D308C, off_D42A0, off_D42A4, joycalprehook, joycalposthook, randseed, unk_D41D2, unk_D4448
 global unk_D44B0, unk_D44CE, unk_D45D8, unk_D45F8, unk_D47B4, word_D2D60, word_D2D66, word_D2D6C
-global word_D2D6E, saved_ss, word_D2FE8, word_D3004, word_D3006, word_D3008, word_D3094, word_D309A
+global word_D2D6E, saved_ss, oldint8sel, word_D3004, word_D3006, word_D3008, word_D3094, word_D309A
 global word_D41F8, word_D41FA
 dword_D2C84:
 dd sub_B2CCD
@@ -161,13 +161,13 @@ db 00h,00h,00h,00h,00h,05h,00h,00h,00h,04h,00h,00h,00h,00h,00h,00h
 db 00h,00h,00h,00h,00h,00h,00h,00h
 joycalactive:
 db 00h,00h,00h,00h
-dword_D2FDC:
+tickcount:
 db 00h,00h,00h,00h
-dword_D2FE0:
+slowtickcount:
 db 00h,00h,00h,00h
-dword_D2FE4:
+oldint8off:
 db 00h,00h,00h,00h
-word_D2FE8:
+oldint8sel:
 db 00h,00h,00h,00h
 dword_D2FEC:
 db 00h,00h,00h,00h
@@ -616,7 +616,7 @@ db 00h,00h,00h,00h
 byte_D41B7:
 db 00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h,00h,01h,05h,00h
 db 00h
-unk_D41C8:
+randseed:
 db 01h,00h,00h,00h
 byte_D41CC:
 db 00h
@@ -710,9 +710,9 @@ db 00h,00h,00h,00h
 byte_D4280:
 db 00h,03h,0Ch,0Fh,00h,01h,05h,00h,03h,02h,04h,03h,07h,08h,06h,07h
 db 00h,01h,05h,00h
-dword_D4294:
+tickdeadline:
 db 00h,00h,00h,00h
-dword_D4298:
+ticklast:
 db 00h,00h,00h,00h
 dword_D429C:
 db 0A0h,086h,01h,00h

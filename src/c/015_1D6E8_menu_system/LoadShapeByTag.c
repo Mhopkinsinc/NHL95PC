@@ -62,13 +62,13 @@ int LoadShapeByTag(char *path, char *tag)
             }
         }
     }
-    if (dir) jctime(dir);
+    if (dir) FreeMemBlock(dir);
     if (s.err == 0 && s.found != 0) {
         n = ((short *)s.hdr)[2] * ((short *)s.hdr)[3] + 0x11;
         p = sub_8CCA8((char *)str_shape, n, 0x20);
         s.shape = p;
         if (FileReadAt(s.handle, (void *)p, pos, n) < 0) {
-            jctime(p);
+            FreeMemBlock(p);
             s.shape = p = 0;
         }
     }

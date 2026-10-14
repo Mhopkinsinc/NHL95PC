@@ -12,7 +12,7 @@ extern dlgtextbg, songdata, msg_InsertDisk_arg, dword_C7F0B
 extern gridcellbuf, HomeTeam, musichandle, cddriveptr, dword_DB088, schedgameidx, dword_DC23E, musicslot
 extern leaguemaster, leaguesaved, humancount, dword_DDD34, lgplayteam, dword_DDD3C, dword_DDD44, gridcelly
 extern gridcellx, awtmlines, startm_m2, hmtmlines, hmtmstruct
-extern fputchar, jctime, memset_, crestnames, firstteammsg, leaguedbnames
+extern fputchar, FreeMemBlock, memset_, crestnames, firstteammsg, leaguedbnames
 extern sprintf_, strcat_, strcpy_, SetupControllers, PlayGame, FileExists, MakePath
 extern FileOpenRead, FileOpenWrite, FileOpenRW, FileClose, FileReadAt, FileWriteAt, ReadKeyRec, ReadSeasonRec
 extern ReadSchedGame, ReadTeamRec, ReadGSummaryRec, CheckGameDiskSpace, SetTextColors, PrintCenteredText, PrintShadowText, InitGameSummary
@@ -1087,7 +1087,7 @@ mov eax, 1	; 36F60
 call FadePalStep	; 36F65
 mov eax, dword [dword esp+080h]	; 36F6A
 push eax	; 36F71
-call jctime	; 36F72
+call FreeMemBlock	; 36F72
 add esp, byte 4	; 36F77
 cmp byte [musicon], 0	; 36F7A
 je near .22	; 36F81
@@ -1309,7 +1309,7 @@ mov edx, esi	; 3728E
 mov eax, 1	; 37290
 call FadePalStep	; 37295
 push esi	; 3729A
-call jctime	; 3729B
+call FreeMemBlock	; 3729B
 add esp, byte 4	; 372A0
 .37:
 cmp byte [musicon], 0	; 372A3
@@ -1484,7 +1484,7 @@ call sub_B4B88	; 37534
 add esp, byte 0Ch	; 37539
 mov ebx, dword [byte esp+068h]	; 3753C
 push ebx	; 37540
-call jctime	; 37541
+call FreeMemBlock	; 37541
 add esp, byte 4	; 37546
 mov dl, 17h	; 37549
 mov byte [byte esp+060h], dl	; 3754B
@@ -1892,7 +1892,7 @@ mov eax, 1	; 37ACF
 call FadePalStep	; 37AD4
 mov eax, dword [dword esp+08Ch]	; 37AD9
 push eax	; 37AE0
-call jctime	; 37AE1
+call FreeMemBlock	; 37AE1
 add esp, byte 4	; 37AE6
 cmp byte [musicon], 0	; 37AE9
 je short .83	; 37AF0
@@ -2242,7 +2242,7 @@ call sub_903F0	; 37E82
 add esp, byte 0Ch	; 37E87
 mov edi, dword [gridcellbuf]	; 37E8A
 push edi	; 37E90
-call jctime	; 37E91
+call FreeMemBlock	; 37E91
 add esp, byte 4	; 37E96
 xor ebp, ebp	; 37E99
 mov dword [gridcellbuf], ebp	; 37E9B
@@ -2467,7 +2467,7 @@ cmp ebp, byte 4	; 380C6
 jl near DrawTeamGrid.4	; 380C9
 mov ebx, dword [dword esp+0C8h]	; 380CF
 push ebx	; 380D6
-call jctime	; 380D7
+call FreeMemBlock	; 380D7
 add esp, byte 4	; 380DC
 add esp, 0CCh	; 380DF
 pop ebp	; 380E5

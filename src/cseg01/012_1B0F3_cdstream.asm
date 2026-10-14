@@ -4,8 +4,8 @@ bits 32
 section s_1B0F3 progbits alloc exec nowrite align=1
 extern __CHK, asc_C09BC, asc_C09C5, asc_C09E6, asc_C09F2, joysampling, dword_C66B0, rinkbm, ovlseq
 extern bannertimer, photobankf, rinkendbank, numshpbank, photobanks, s1font, scrbrdshapes, cupseries
-extern dword_DC8A0, dword_DC8C8, dword_E0244, hilightfont, jctime, FreeRinkGfx, joyq_flush, CrowdNoiseOff
-extern GameOver, FreeRockMusic, sub_8CCA8, sub_8DAB8, sub_8E4C0, sub_8E4F8, sub_8EA18, sub_91FA4
+extern dword_DC8A0, dword_DC8C8, dword_E0244, hilightfont, FreeMemBlock, FreeRinkGfx, joyq_flush, CrowdNoiseOff
+extern GameOver, FreeRockMusic, sub_8CCA8, sub_8DAB8, addtimer, RemoveTimerCallback, sub_8EA18, sub_91FA4
 extern FatalError, sub_B3ABC, sub_B3B5A, sub_B3C60, sub_B3C74, sub_B3CB3, scrpitch
 global jpt_1B283, loc_1B1B7, loc_1B218, loc_1B225, loc_1B2B4, loc_1B2D5, loc_1B2DC, loc_1B2E0
 global loc_1B2F0, loc_1B334, loc_1B3AE, loc_1B42A, loc_1B468, loc_1B46D, loc_1B485, loc_1B49D
@@ -57,7 +57,7 @@ add esp, byte 8	; 1B16D
 mov dword [byte esi+050h], eax	; 1B170
 mov dword [byte esi+04Ch], 0	; 1B173
 push sub_1B818	; 1B17A
-call sub_8E4C0	; 1B17F
+call addtimer	; 1B17F
 add esp, byte 4	; 1B184
 mov eax, esi	; 1B187
 pop esi	; 1B189
@@ -68,7 +68,7 @@ call __CHK	; 1B190
 push esi	; 1B195
 mov esi, dword [byte esp+08h]	; 1B196
 push sub_1B818	; 1B19A
-call sub_8E4F8	; 1B19F
+call RemoveTimerCallback	; 1B19F
 add esp, byte 4	; 1B1A4
 mov edx, dword [byte esi+018h]	; 1B1A7
 test edx, edx	; 1B1AA
@@ -78,7 +78,7 @@ call sub_B3C60	; 1B1AF
 add esp, byte 4	; 1B1B4
 loc_1B1B7:
 push esi	; 1B1B7
-call jctime	; 1B1B8
+call FreeMemBlock	; 1B1B8
 add esp, byte 4	; 1B1BD
 pop esi	; 1B1C0
 ret	; 1B1C1
@@ -756,7 +756,7 @@ mov edx, dword [dword_E0244]	; 1B9A9
 test edx, edx	; 1B9AF
 je short loc_1B9C4	; 1B9B1
 push edx	; 1B9B3
-call jctime	; 1B9B4
+call FreeMemBlock	; 1B9B4
 add esp, byte 4	; 1B9B9
 xor ecx, ecx	; 1B9BC
 mov dword [dword_E0244], ecx	; 1B9BE
@@ -766,7 +766,7 @@ mov esi, dword [rinkendbank]	; 1B9C9
 test esi, esi	; 1B9CF
 je short loc_1B9E4	; 1B9D1
 push esi	; 1B9D3
-call jctime	; 1B9D4
+call FreeMemBlock	; 1B9D4
 add esp, byte 4	; 1B9D9
 xor ebp, ebp	; 1B9DC
 mov dword [rinkendbank], ebp	; 1B9DE
@@ -775,7 +775,7 @@ mov eax, dword [numshpbank]	; 1B9E4
 test eax, eax	; 1B9E9
 je short loc_1B9FE	; 1B9EB
 push eax	; 1B9ED
-call jctime	; 1B9EE
+call FreeMemBlock	; 1B9EE
 add esp, byte 4	; 1B9F3
 xor ebx, ebx	; 1B9F6
 mov dword [numshpbank], ebx	; 1B9F8
@@ -784,7 +784,7 @@ mov ecx, dword [scrbrdshapes]	; 1B9FE
 test ecx, ecx	; 1BA04
 je short loc_1BA19	; 1BA06
 push ecx	; 1BA08
-call jctime	; 1BA09
+call FreeMemBlock	; 1BA09
 add esp, byte 4	; 1BA0E
 xor edi, edi	; 1BA11
 mov dword [scrbrdshapes], edi	; 1BA13
@@ -793,7 +793,7 @@ mov ebp, dword [hilightfont]	; 1BA19
 test ebp, ebp	; 1BA1F
 je short loc_1BA34	; 1BA21
 push ebp	; 1BA23
-call jctime	; 1BA24
+call FreeMemBlock	; 1BA24
 add esp, byte 4	; 1BA29
 xor edx, edx	; 1BA2C
 mov dword [hilightfont], edx	; 1BA2E
@@ -803,7 +803,7 @@ mov ebx, dword [cupseries]	; 1BA39
 test ebx, ebx	; 1BA3F
 je short loc_1BA54	; 1BA41
 push ebx	; 1BA43
-call jctime	; 1BA44
+call FreeMemBlock	; 1BA44
 add esp, byte 4	; 1BA49
 xor esi, esi	; 1BA4C
 mov dword [cupseries], esi	; 1BA4E
@@ -836,7 +836,7 @@ mov edx, dword [photobankf]	; 1BA92
 test edx, edx	; 1BA98
 je short loc_1BAA5	; 1BA9A
 push edx	; 1BA9C
-call jctime	; 1BA9D
+call FreeMemBlock	; 1BA9D
 add esp, byte 4	; 1BAA2
 loc_1BAA5:
 xor ecx, ecx	; 1BAA5
@@ -863,7 +863,7 @@ mov edx, dword [dword esi+photobanks]	; 1BAD1
 test edx, edx	; 1BAD7
 je short loc_1BAEC	; 1BAD9
 push edx	; 1BADB
-call jctime	; 1BADC
+call FreeMemBlock	; 1BADC
 add esp, byte 4	; 1BAE1
 xor ecx, ecx	; 1BAE4
 mov dword [dword esi+photobanks], ecx	; 1BAE6
@@ -894,7 +894,7 @@ mov edx, dword [rinkbm]	; 1BB18
 test edx, edx	; 1BB1E
 je short loc_1BB33	; 1BB20
 push edx	; 1BB22
-call jctime	; 1BB23
+call FreeMemBlock	; 1BB23
 add esp, byte 4	; 1BB28
 xor ecx, ecx	; 1BB2B
 mov dword [rinkbm], ecx	; 1BB2D
@@ -914,7 +914,7 @@ mov esi, dword [dword_E0244]	; 1BB57
 test esi, esi	; 1BB5D
 je short loc_1BB71	; 1BB5F
 push esi	; 1BB61
-call jctime	; 1BB62
+call FreeMemBlock	; 1BB62
 add esp, byte 4	; 1BB67
 xor eax, eax	; 1BB6A
 mov dword [dword_E0244], eax	; 1BB6C
@@ -935,7 +935,7 @@ mov edx, dword [dword esi+photobanks]	; 1BB98
 test edx, edx	; 1BB9E
 je short loc_1BBB3	; 1BBA0
 push edx	; 1BBA2
-call jctime	; 1BBA3
+call FreeMemBlock	; 1BBA3
 add esp, byte 4	; 1BBA8
 xor ecx, ecx	; 1BBAB
 mov dword [dword esi+photobanks], ecx	; 1BBAD

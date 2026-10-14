@@ -39,8 +39,8 @@ int MenuModeSettings(void)
     else sub_8F984();
     if (gameopts.sfx) sub_8F963();
     else sub_8F96E();
-    jctime(bm);
-    jctime(settingsfile);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
 }

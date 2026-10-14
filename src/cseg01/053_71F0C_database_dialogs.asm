@@ -14,7 +14,7 @@ extern cddriveptr, dword_D42AC, pointerspr, fdlg_tabexh, fdlg_none, fdlg_tabpo
 extern fdlg_open, fdlg_del, fdlg_up, fdlg_cancel, fdlg_tabnone, fdlg_down, fdlgtab, fdlg_arrow
 extern fdlg_tablp, fdlg_noarrow, ptrupdatefn, dbdirty, dblistcur
 extern dblisttemp, dblisttempnames, dblistorig
-extern fputchar, jctime, leaguedbnames
+extern fputchar, FreeMemBlock, leaguedbnames
 extern dbtablists, qsort_, strcat_, strcpy_, strlen_
 extern MakePath, DeleteDir, PrintShadowText, CmpFileNames, PrintTextCopy, FileDlgHitTest, DlgReturnZero, MeasureTextLine
 extern MessageBox, EditTextField, GetInputEvent, ClearInputQueue, FreeLeagueDbsMem, DrawEditRosters, LoadBothRosterLists, DrawDlgFrame
@@ -327,7 +327,7 @@ call sub_903F0	; 7229E
 add esp, byte 0Ch	; 722A3
 mov ecx, dword [byte esp+050h]	; 722A6
 push ecx	; 722AA
-call jctime	; 722AB
+call FreeMemBlock	; 722AB
 add esp, byte 4	; 722B0
 mov eax, ebp	; 722B3
 call strlen_	; 722B5
@@ -779,7 +779,7 @@ push eax	; 7284A
 call sub_91284	; 7284B
 add esp, byte 0Ch	; 72850
 push esi	; 72853
-call jctime	; 72854
+call FreeMemBlock	; 72854
 add esp, byte 4	; 72859
 mov dword [fdlgmask], 10h	; 7285C
 mov dword [fdlgtab], 0FFFFFFFFh	; 72866
@@ -1566,7 +1566,7 @@ call sub_91370	; 73192
 add esp, byte 0Ch	; 73197
 .19:
 push ebp	; 7319A
-call jctime	; 7319B
+call FreeMemBlock	; 7319B
 add esp, byte 4	; 731A0
 xor eax, eax	; 731A3
 jmp near .36	; 731A5
@@ -1681,7 +1681,7 @@ push eax	; 732DD
 call sub_91370	; 732DE
 add esp, byte 0Ch	; 732E3
 push ebp	; 732E6
-call jctime	; 732E7
+call FreeMemBlock	; 732E7
 add esp, byte 4	; 732EC
 call OpenSelectedDb	; 732EF
 call LoadBothRosterLists	; 732F4
@@ -2085,13 +2085,13 @@ add esp, byte 0Ch	; 7377C
 .1:
 mov edx, dword [fdlgshapes]	; 7377F
 push edx	; 73785
-call jctime	; 73786
+call FreeMemBlock	; 73786
 add esp, byte 4	; 7378B
 xor ebx, ebx	; 7378E
 mov dword [fdlgshapes], ebx	; 73790
 mov ecx, dword [esp]	; 73796
 push ecx	; 73799
-call jctime	; 7379A
+call FreeMemBlock	; 7379A
 add esp, byte 4	; 7379F
 add esp, byte 4	; 737A2
 jmp near DbDialog_epilogue	; 737A5

@@ -11,7 +11,7 @@ extern treecol_Er2
 extern treecol_Er1, teamconf, fileoncd
 extern dword_C65AC, statsplayoffs, statsfromleague, statspalvalid, dword_C6D26, dword_C6DBA, dword_C6E20, treerowy
 extern divx, divy, cddriveptr, kaufmfont, mainfont, playofftree, statspalshape, statsbgshapes
-extern statspal, fputchar, j___close_, jctime, lseek_, memcpy_, divisionnames, statsbgnames
+extern statspal, fputchar, j___close_, FreeMemBlock, lseek_, memcpy_, divisionnames, statsbgnames
 extern statsteamdbs, off_CF6A3, open_, qsort_, read_, sprintf_, strcat_, MakePath
 extern SetTextColors, PrintCenteredText, PrintShadowText, PrintOutlinedText, PrintFmt1, PrintFmt2, TextGridOpen, TextGridOff
 extern DeskSetExit3b, MakeStatsTitle, stand_tmpl2, LoadPlayoffModeTree, OpenStatsSchedule, LoadLeagueTree, LoadScheduleDB, sub_8E83C
@@ -195,7 +195,7 @@ push byte 0	; 272DD
 call sub_B4BC4	; 272DF
 add esp, byte 10h	; 272E4
 push dword [statsbgshapes]	; 272E7
-call jctime	; 272ED
+call FreeMemBlock	; 272ED
 add esp, byte 4	; 272F2
 mov dword [dword ebp-0438h], 0	; 272F5
 mov eax, str_Pstatbar8	; 272FF
@@ -231,7 +231,7 @@ push dword [statspalshape]	; 27374
 call sub_91370	; 2737A
 add esp, byte 0Ch	; 2737F
 push dword [statsbgshapes]	; 27382
-call jctime	; 27388
+call FreeMemBlock	; 27388
 add esp, byte 4	; 2738D
 call TextGridOpen	; 27390
 lea eax, [dword ebp-0E8h]	; 27395
@@ -1295,7 +1295,7 @@ jmp short CountSeriesWins.72	; 27F84
 mov eax, dword [byte ebp-08h]	; 27F86
 sub eax, byte 2	; 27F89
 push eax	; 27F8C
-call jctime	; 27F8D
+call FreeMemBlock	; 27F8D
 add esp, byte 4	; 27F92
 mov esp, ebp	; 27F95
 pop ebp	; 27F97
@@ -1375,7 +1375,7 @@ push byte 0	; 280B0
 call sub_B4BC4	; 280B2
 add esp, byte 10h	; 280B7
 push dword [statsbgshapes]	; 280BA
-call jctime	; 280C0
+call FreeMemBlock	; 280C0
 add esp, byte 4	; 280C5
 jmp short .6	; 280C8
 .5:
@@ -1449,7 +1449,7 @@ call sub_B4B88	; 281D8
 add esp, byte 0Ch	; 281DD
 .10:
 push dword [statsbgshapes]	; 281E0
-call jctime	; 281E6
+call FreeMemBlock	; 281E6
 add esp, byte 4	; 281EB
 mov dword [dword_C6D26], 0	; 281EE
 .11:
@@ -1536,7 +1536,7 @@ push dword [statspalshape]	; 28336
 call sub_91370	; 2833C
 add esp, byte 0Ch	; 28341
 push dword [statsbgshapes]	; 28344
-call jctime	; 2834A
+call FreeMemBlock	; 2834A
 add esp, byte 4	; 2834F
 mov dword [dword ebp-01F0h], 0	; 28352
 mov eax, str_Scuparrw2	; 2835C
@@ -2911,7 +2911,7 @@ jmp near PlayoffTreeScreen.108	; 29651
 .120:
 call TextGridOff	; 29656
 push dword [statsbgshapes]	; 2965B
-call jctime	; 29661
+call FreeMemBlock	; 29661
 add esp, byte 4	; 29666
 lea eax, [dword ebp-09Ch]	; 29669
 push eax	; 2966F

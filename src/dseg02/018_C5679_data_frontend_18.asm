@@ -35,7 +35,7 @@ global mi_9394Playoffs, mi_LeagueSeason, mi_LeaguePlayoffs, mi_PlayoffMode, byte
 global treecol_Er2, treecol_Er1
 global scoutcatidx, desksongalt, dword_C56C4, dword_C56E4, hudclockmin, hudclocksec, hudclockhund, dword_C5710
 global dword_C5714, dword_C5718, dword_C583C, deferpending, dword_C5844, dword_C5848, hudhomeline, hudawayline
-global dword_C5854, dword_C5858, dword_C585C, dword_C5860, dword_C5861, dword_C5862, dword_C5886, dword_C588A
+global dword_C5854, dword_C5858, dword_C585C, dword_C5860, dword_C5861, dword_C5862, demoteammode, dword_C588A
 global textgrid, textgridon, textcolor, textshadow, textoutlinedx, textoutlinedy, dword_C65A8, dword_C65AC
 global statscategory, statsteamsel, statsredrawcb, deskexit, teamstatscb, skaterstatscb, goaliestatscb, standingscb
 global standingsmenucb, hlplayedmask, dword_C66A4, dword_C66AC, dword_C66B0, screenbm, dirtyrectcount, dword_C66D0
@@ -198,7 +198,7 @@ dword_C5862:
 db 00h,00h,08h,011h,04h,012h,02h,015h,014h,03h,0Fh,016h,0Ch,015h,0Ch,0Bh
 db 00h,09h,0Ah,01h,08h,015h,014h,012h,0Ch,015h,0Ch,016h,0Ah,00h,0Ch,0Ah
 db 014h,015h,0Ch,015h
-dword_C5886:
+demoteammode:
 db 02h,00h,00h,00h
 dword_C588A:
 db 01h,00h,00h,00h

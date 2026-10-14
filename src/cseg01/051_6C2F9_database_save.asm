@@ -9,7 +9,7 @@ extern boxlitecolor, boxshadecolor, dlgtextfg, dlgtextbg, songdata, falist, fali
 extern seasondb, careerdb, carteamsdb, keydb, teamsdb, attdb, seasondb_size, careerdb_size
 extern carteamsdb_size, keydb_size, teamsdb_size, attdb_size, dword_D0B12, dword_D0BFC, dword_D0C04, dword_D0C10
 extern dword_D0C18, dword_D0C20, musichandle, mainfont, pointerspr, dword_EA2B0, fullscrbmp, musicslot
-extern rosterteamptr, dbdirty, msglines, dword_EBCA4, editptrspr, editrosters_exit, fputchar, jctime
+extern rosterteamptr, dbdirty, msglines, dword_EBCA4, editptrspr, editrosters_exit, fputchar, FreeMemBlock
 extern BuildFreeAgentList_ret, mkdir_, leaguedbnames
 extern dbexistsmsg, nodiskspacemsg, rmdir_, sprintf_, strcat_, strcpy_, strlen_, strupr_
 extern MakePath, DeleteDir, PrintCenteredText, PrintShadowText, FitPlayerName, TextInputDialog, DrawButtons, DrawScrollBar
@@ -633,7 +633,7 @@ mov edx, dword [attdb]	; 6CA9F
 test edx, edx	; 6CAA5
 je short .1	; 6CAA7
 push edx	; 6CAA9
-call jctime	; 6CAAA
+call FreeMemBlock	; 6CAAA
 add esp, byte 4	; 6CAAF
 xor ecx, ecx	; 6CAB2
 mov dword [attdb], ecx	; 6CAB4
@@ -643,7 +643,7 @@ mov edi, dword [teamsdb]	; 6CAC0
 test edi, edi	; 6CAC6
 je short .2	; 6CAC8
 push edi	; 6CACA
-call jctime	; 6CACB
+call FreeMemBlock	; 6CACB
 add esp, byte 4	; 6CAD0
 xor eax, eax	; 6CAD3
 mov dword [teamsdb], eax	; 6CAD5
@@ -653,7 +653,7 @@ mov ebx, dword [keydb]	; 6CADF
 test ebx, ebx	; 6CAE5
 je short .3	; 6CAE7
 push ebx	; 6CAE9
-call jctime	; 6CAEA
+call FreeMemBlock	; 6CAEA
 add esp, byte 4	; 6CAEF
 xor esi, esi	; 6CAF2
 mov dword [keydb], esi	; 6CAF4
@@ -663,7 +663,7 @@ mov ebp, dword [carteamsdb]	; 6CB00
 test ebp, ebp	; 6CB06
 je short .4	; 6CB08
 push ebp	; 6CB0A
-call jctime	; 6CB0B
+call FreeMemBlock	; 6CB0B
 add esp, byte 4	; 6CB10
 xor edx, edx	; 6CB13
 mov dword [carteamsdb], edx	; 6CB15
@@ -673,7 +673,7 @@ mov ecx, dword [careerdb]	; 6CB21
 test ecx, ecx	; 6CB27
 je short .5	; 6CB29
 push ecx	; 6CB2B
-call jctime	; 6CB2C
+call FreeMemBlock	; 6CB2C
 add esp, byte 4	; 6CB31
 xor edi, edi	; 6CB34
 mov dword [careerdb], edi	; 6CB36
@@ -683,7 +683,7 @@ mov eax, dword [seasondb]	; 6CB42
 test eax, eax	; 6CB47
 je near BuildFreeAgentList_ret	; 6CB49
 push eax	; 6CB4F
-call jctime	; 6CB50
+call FreeMemBlock	; 6CB50
 add esp, byte 4	; 6CB55
 xor ebx, ebx	; 6CB58
 mov dword [seasondb], ebx	; 6CB5A
@@ -918,7 +918,7 @@ call EditRosters	; 6CE03
 call FreeLeagueDbsMem	; 6CE08
 mov eax, dword [editptrspr]	; 6CE0D
 push eax	; 6CE12
-call jctime	; 6CE13
+call FreeMemBlock	; 6CE13
 add esp, byte 4	; 6CE18
 cmp byte [musicon], 0	; 6CE1B
 je short .4	; 6CE22
@@ -939,7 +939,7 @@ mov edx, ebp	; 6CE56
 mov eax, 1	; 6CE58
 call FadePalStep	; 6CE5D
 push ebp	; 6CE62
-call jctime	; 6CE63
+call FreeMemBlock	; 6CE63
 add esp, byte 4	; 6CE68
 mov eax, esp	; 6CE6B
 push eax	; 6CE6D
@@ -947,7 +947,7 @@ call sub_8EA00	; 6CE6E
 add esp, byte 4	; 6CE73
 mov ebx, dword [fullscrbmp]	; 6CE76
 push ebx	; 6CE7C
-call jctime	; 6CE7D
+call FreeMemBlock	; 6CE7D
 add esp, byte 4	; 6CE82
 mov eax, dword [byte esp+050h]	; 6CE85
 mov dword [boxfillcolor], eax	; 6CE89

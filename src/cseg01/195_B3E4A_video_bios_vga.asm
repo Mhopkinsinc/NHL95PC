@@ -7,7 +7,7 @@ extern byte_D6074, dword_D3024, dword_D305C, dword_D3060, dword_D30A4, dword_D30
 extern cliprect_x1, cliprect_y1, dword_D30BC, dword_D30C0, dword_D30D4, dword_D429C, dword_D4F2C, dword_D4F30
 extern dword_D4F34, dword_D4F38, dword_D4F3C, dword_D4F40, dword_D4FA0, dword_D4FA4, dword_D4FEB, dword_D5562
 extern dword_D5566, dword_D5678, dword_D5D78, dword_D6178, dword_D6578, dword_D7178, loc_B4D0C, mousepollfn
-extern off_D567C, printf_, sub_910B0, sub_B3168, sub_B3454, sub_B395C, sub_B3962, sub_B39D0
+extern off_D567C, printf_, sub_910B0, sub_B3168, sub_B3454, GetTicks, TicksSince, sub_B39D0
 extern word_D4F46, word_D4FE4, word_D4FE6, word_D4FE9
 global jpt_B4253, jpt_B42B2, jpt_B439E, jpt_B4488, jpt_B466E, loc_B3ED7, loc_B3F23, loc_B3F3D
 global loc_B3F4B, loc_B3FAC, loc_B3FC8, loc_B401F, loc_B402B, loc_B4030, loc_B403F, loc_B4049
@@ -214,7 +214,7 @@ LD xor, ax, ax	; B4057
 ret	; B405A
 loc_B405B:
 push dword [dword_D4FEB]	; B405B
-call sub_B3962	; B4061
+call TicksSince	; B4061
 add esp, byte 4	; B4066
 cmp ax, word [word_D4FE9]	; B4069
 jl short loc_B4057	; B4070
@@ -230,7 +230,7 @@ mov word [word_D4FE4], ax	; B408F
 mov ax, 46h	; B4095
 mov word [word_D4FE9], ax	; B4099
 loc_B409F:
-call sub_B395C	; B409F
+call GetTicks	; B409F
 mov dword [dword_D4FEB], eax	; B40A4
 mov ax, word [word_D4FE4]	; B40A9
 ret	; B40AF

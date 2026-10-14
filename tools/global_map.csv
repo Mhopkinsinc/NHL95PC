@@ -2264,3 +2264,14 @@ doorpflags,DFFE0,sortobj15+pflags; assboxenter sets bit 5 as the door closes
 icingPlayer,E9AC1,95G a2touchpuck stores the low byte of SCnum (SCnum+1 on 68k) in the byte after iflags
 blockspd,CCC30,"X column of the shot-block slide speeds. Eight facings, short index = facing*2: 0, ±0BB8h (3000), ±1092h (4242). Same interleaved layout as dirtab, and nosplit, so the Y column keeps its own label."
 blockspd_y,CCC32,"Y column of the shot-block slide speeds, the short after blockspd. Own label because nasm drops nosplit on [idx*s+blockspd+2], same as dirtab_y."
+tickcount,D2FDC,"100 Hz tick count: TimerISR incs it on every IRQ0 (PIT divisor 2E9Ch at 8E5EB); read by GetTicks, TicksSince, TicksSinceLastCall, SetTickDeadline, WaitTickDeadline, TickDeadlinePassed, WaitTicks"
+timercallbacks,EDCDC,"8-dword table of tick callbacks: TimerISR calls each non-null slot (8E473), addtimer fills a free slot, RemoveTimerCallback clears one, InstallTimer clears all 8"
+slowtickcount,D2FE0,"20 Hz tick count: TimerISR incs it on every 5th tick, when it chains to the saved int 08h vector (8E4A1); ea_fileio keeps a second set of tick helpers on it (B3D40 get, B3D46 set deadline in dword_D4530, B3D56 wait, B3D64 passed, B3D74 wait n)"
+oldint8off,D2FE4,"offset of the saved int 08h vector: InstallTimer stores _dos_getvect_(8) eax here, RestoreTimer passes it back to _dos_setvect_, TimerISR far-calls through it with oldint8sel"
+oldint8sel,D2FE8,"selector of the saved int 08h vector: InstallTimer stores the _dos_getvect_(8) selector (dx) here, RestoreTimer passes it back in cx"
+tickdeadline,D4294,SetTickDeadline writes tickcount + n; WaitTickDeadline and TickDeadlinePassed compare tickcount with it
+ticklast,D4298,TicksSinceLastCall: tickcount at the previous call
+demoteammode,C5886,"RunDemoGame (15DB7): (x+1) mod 3 on every demo game picks how the two teams are chosen: 2 fixed teams 1Bh/1Ah, 1 a pair from the dword_C5861 table by randomd0(17), 0 rand_ and randomd0"
+randseed,D41C8,"Watcom rand_/srand_ state (sub_8EB21 returns its address; rand_ is the LCG x*41C64E6Dh+3039h, result (x>>16)&7FFFh; initial value 1); not the game RNG, which is StanleyCupTimer (randomd0)"
+hudhundaccum,D8C78,HUD clock accumulator: RunGameFrames adds 64h on every running frame (11504); GameLoop (11855) and the game_frame loop (69BA6) move the quotient by 18h (24 frames a second) into hudhundstep and keep the remainder
+hudhundstep,DC28C,"hundredths of a second to tick off the HUD clock and the penalty timers this pass: GameLoop sets it from hudhundaccum/18h (or the whole remaining HUD clock at game exit, 118CC); UpdateHudPanel (14D13) copies it to dword_C583C for TickPanelClock / TickPanelPenalties and clears it"

@@ -5,10 +5,10 @@ section s_12849 progbits alloc exec nowrite align=1
 extern __CHK, str_ANA, str_Cal, str_Flo, str_SS, str_Min, str_GAA, str_Shots
 extern str_Pct, str_PIM, str_PlusMinus, str_PPG, str_SHG, str_Pal3, str_Palmem, str_D02d
 extern str_D01d, awardtype, byte_D42C3, awardwinners, fileoncd, dword_C513C, dword_C5168
-extern cddriveptr, fputchar, jctime, PickAwardWinners_x, awardart, awardnames, awardtitles, off_C524F
+extern cddriveptr, fputchar, FreeMemBlock, PickAwardWinners_x, awardart, awardnames, awardtitles, off_C524F
 extern off_C527B, sprintf_, strcat_, strcpy_, strnicmp_, MakePath, SetTextColors, PrintShadowText
 extern PrintFmt1, PrintFmt2, FitPlayerName, WaitClickTimeout, ClearInputQueue, FadePalStep, sub_8CCA8, sub_8E83C
-extern sub_8FFB0, sub_9035C, sub_9061C, sub_B30B4, sub_B395C, str_MightyDucks, unk_C03C4, unk_C03C6
+extern sub_8FFB0, sub_9035C, sub_9061C, sub_B30B4, GetTicks, str_MightyDucks, unk_C03C4, unk_C03C6
 extern str_GP, str_W, str_L, str_T, str_SO, str_EN, str_G, str_A
 extern str_Pt, str_fmtpd, cupteam, presidentsteam, treeteamnames
 global ShowAwardScreens, DrawAwardsSummary
@@ -31,7 +31,7 @@ mov esi, ebx	; 1286C
 mov eax, dword [nosplit ebx*4+dword_C513C]	; 1286E
 xor edx, edx	; 12875
 call SetTextColors	; 12877
-call sub_B395C	; 1287C
+call GetTicks	; 1287C
 xor ecx, ecx	; 12881
 mov ebx, dword [nosplit esi*4+awardart]	; 12883
 mov eax, dword [nosplit esi*4+dword_C5168]	; 1288A
@@ -721,7 +721,7 @@ xor eax, eax	; 13108
 call FadePalStep	; 1310A
 mov ebx, dword [byte esp+02Ch]	; 1310F
 push ebx	; 13113
-call jctime	; 13114
+call FreeMemBlock	; 13114
 add esp, byte 4	; 13119
 mov eax, 2710h	; 1311C
 call WaitClickTimeout	; 13121
@@ -742,7 +742,7 @@ mov edx, esi	; 13153
 mov eax, 1	; 13155
 call FadePalStep	; 1315A
 push esi	; 1315F
-call jctime	; 13160
+call FreeMemBlock	; 13160
 add esp, byte 4	; 13165
 inc dword [byte esp+038h]	; 13168
 .27:

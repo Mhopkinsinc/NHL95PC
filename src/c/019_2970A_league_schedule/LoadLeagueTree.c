@@ -31,7 +31,7 @@ int LoadLeagueTree(int a, int b)
     p = sched + 0x1BE4;
     pochampion = TreeSeriesWinner(p, *(int *)(sched + 0x88), same);
     if (pochampion == -1) pochampion = 26;
-    jctime((int)(sched - 2));
+    FreeMemBlock((int)(sched - 2));
     PlayoffTreeScreen();
     return 0;
 }

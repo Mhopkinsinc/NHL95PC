@@ -13,7 +13,7 @@ global loc_8CF84, loc_8CF9B, loc_8CFA5, loc_8CFB4, loc_8CFBD, loc_8D022, loc_8D0
 global loc_8D08F, loc_8D097, loc_8D0BF, loc_8D0C1, loc_8D1CB, loc_8D202, loc_8D227, loc_8D241
 global loc_8D257, loc_8D271, loc_8D29A, loc_8D2AE, loc_8D2B9, sub_8C990, sub_8CA6C, sub_8CAF4
 global sub_8CBA4, sub_8CC5C, sub_8CC70, sub_8CC8C, sub_8CCA8, sub_8CCC4, sub_8CCE0, sub_8CD04
-global sub_8CD4C, sub_8D0C8, sub_8D0EC, sub_8D10C, sub_8D12C, sub_8D144, sub_8D15C, sub_8D2A0
+global sub_8CD4C, sub_8D0C8, sub_8D0EC, sub_8D10C, sub_8D12C, sub_8D144, sub_8D15C, findmemblock
 global sub_8D2D2
 sub_8C990:
 push esi	; 8C990
@@ -707,7 +707,7 @@ mov ebx, dword [byte esp+0Ch]	; 8D0CD
 push ebx	; 8D0D1
 mov ecx, dword [byte esp+0Ch]	; 8D0D2
 push ecx	; 8D0D6
-call sub_8D2A0	; 8D0D7
+call findmemblock	; 8D0D7
 add esp, byte 4	; 8D0DC
 push eax	; 8D0DF
 call sub_8D15C	; 8D0E0
@@ -720,7 +720,7 @@ mov edx, dword [byte esp+0Ch]	; 8D0EE
 push edx	; 8D0F2
 mov ebx, dword [byte esp+0Ch]	; 8D0F3
 push ebx	; 8D0F7
-call sub_8D2A0	; 8D0F8
+call findmemblock	; 8D0F8
 add esp, byte 4	; 8D0FD
 push eax	; 8D100
 call sub_8D15C	; 8D101
@@ -733,7 +733,7 @@ mov edx, dword [byte esp+0Ch]	; 8D10E
 push edx	; 8D112
 mov ebx, dword [byte esp+0Ch]	; 8D113
 push ebx	; 8D117
-call sub_8D2A0	; 8D118
+call findmemblock	; 8D118
 add esp, byte 4	; 8D11D
 push eax	; 8D120
 call sub_8D15C	; 8D121
@@ -881,7 +881,7 @@ pop ebp	; 8D29C
 pop edi	; 8D29D
 pop esi	; 8D29E
 ret	; 8D29F
-sub_8D2A0:
+findmemblock:
 mov ebx, dword [byte esp+04h]	; 8D2A0
 mov eax, dword [dword_D2F58]	; 8D2A4
 mov eax, dword [eax]	; 8D2A9

@@ -20,7 +20,7 @@ extern soundcardrects, musichandle, dword_D2435, cddriveptr, musicslot
 extern kaufmfont, mainfont, s1font, pointerspr, fdlg_cancel, ptrupdatefn, setbits, pl20spr
 extern pl05spr, pl10spr, pg07spr, na05spr, pg01spr, acptspr, na03spr, pg03spr
 extern chkoffspr, pg05spr, chkonspr, na01spr, titlebckspr, homebckspr, homenamebckspr, visbckspr
-extern visnamebckspr, fputchar, jctime, teamcitynames, off_CECFF, off_CED3F, off_D21C0, off_D2230
+extern visnamebckspr, fputchar, FreeMemBlock, teamcitynames, off_CECFF, off_CED3F, off_D21C0, off_D2230
 extern sprintf_, strcpy_, strncpy_, MakePath, SetTextColors, PrintShadowText, PrintOutlinedText, ShowLoadingScreen
 extern FadeOutPalCycle, GetInputEvent, ClearInputQueue, FadePalStep, SoundCardDlgLoop, WriteCurModeState, sub_8CCA8, sub_8D2F0
 extern sub_8E83C, sub_8E9C0, sub_8E9E8, sub_8EA00, sub_8EA18, sub_8F98F, sub_8FB8E, sub_8FC8A
@@ -629,23 +629,23 @@ call LockerRoomLoop	; 80A24
 mov esi, eax	; 80A29
 mov edi, dword [titlebckspr]	; 80A2B
 push edi	; 80A31
-call jctime	; 80A32
+call FreeMemBlock	; 80A32
 add esp, byte 4	; 80A37
 mov ebp, dword [homenamebckspr]	; 80A3A
 push ebp	; 80A40
-call jctime	; 80A41
+call FreeMemBlock	; 80A41
 add esp, byte 4	; 80A46
 mov eax, dword [visnamebckspr]	; 80A49
 push eax	; 80A4E
-call jctime	; 80A4F
+call FreeMemBlock	; 80A4F
 add esp, byte 4	; 80A54
 mov edx, dword [homebckspr]	; 80A57
 push edx	; 80A5D
-call jctime	; 80A5E
+call FreeMemBlock	; 80A5E
 add esp, byte 4	; 80A63
 mov ebx, dword [visbckspr]	; 80A66
 push ebx	; 80A6C
-call jctime	; 80A6D
+call FreeMemBlock	; 80A6D
 add esp, byte 4	; 80A72
 lea eax, [dword esp+0300h]	; 80A75
 push eax	; 80A7C
@@ -738,7 +738,7 @@ push eax	; 80B6E
 call sub_912C8	; 80B6F
 add esp, byte 4	; 80B74
 push esi	; 80B77
-call jctime	; 80B78
+call FreeMemBlock	; 80B78
 add esp, byte 4	; 80B7D
 push byte 1	; 80B80
 mov ecx, 1E0h	; 80B82
@@ -857,7 +857,7 @@ push eax	; 80D31
 call sub_912C8	; 80D32
 add esp, byte 4	; 80D37
 push esi	; 80D3A
-call jctime	; 80D3B
+call FreeMemBlock	; 80D3B
 add esp, byte 4	; 80D40
 mov eax, dword [VisTeam-2]	; 80D43
 sar eax, 10h	; 80D48
@@ -925,7 +925,7 @@ push eax	; 80E2D
 call sub_912C8	; 80E2E
 add esp, byte 4	; 80E33
 push esi	; 80E36
-call jctime	; 80E37
+call FreeMemBlock	; 80E37
 add esp, byte 4	; 80E3C
 mov edx, 62h	; 80E3F
 mov eax, 77h	; 80E44
@@ -1552,7 +1552,7 @@ call sub_912C8	; 81719
 add esp, byte 4	; 8171E
 mov edx, dword [byte ebp-04h]	; 81721
 push edx	; 81724
-call jctime	; 81725
+call FreeMemBlock	; 81725
 add esp, byte 4	; 8172A
 push dword 0FFh	; 8172D
 push byte 77h	; 81732
@@ -2417,7 +2417,7 @@ mov eax, 1	; 822B6
 call FadePalStep	; 822BB
 mov ebp, dword [dword esp+0318h]	; 822C0
 push ebp	; 822C7
-call jctime	; 822C8
+call FreeMemBlock	; 822C8
 add esp, byte 4	; 822CD
 cmp byte [musicon], 0	; 822D0
 je short .13	; 822D7
@@ -2463,7 +2463,7 @@ mov eax, 1	; 8235B
 call FadePalStep	; 82360
 mov edi, dword [dword esp+0318h]	; 82365
 push edi	; 8236C
-call jctime	; 8236D
+call FreeMemBlock	; 8236D
 add esp, byte 4	; 82372
 cmp byte [musicon], 0	; 82375
 je short .3	; 8237C
@@ -2507,7 +2507,7 @@ mov eax, 1	; 823FC
 call FadePalStep	; 82401
 mov ebp, dword [dword esp+0318h]	; 82406
 push ebp	; 8240D
-call jctime	; 8240E
+call FreeMemBlock	; 8240E
 add esp, byte 4	; 82413
 cmp byte [musicon], 0	; 82416
 je short LockerRoomLoop_n7.3	; 8241D
@@ -2701,7 +2701,7 @@ push ebp	; 82602
 call sub_903F0	; 82603
 add esp, byte 0Ch	; 82608
 push ebp	; 8260B
-call jctime	; 8260C
+call FreeMemBlock	; 8260C
 add esp, byte 4	; 82611
 xor eax, eax	; 82614
 pop ebp	; 82616
@@ -2750,7 +2750,7 @@ push eax	; 82676
 call sub_91284	; 82677
 add esp, byte 0Ch	; 8267C
 push esi	; 8267F
-call jctime	; 82680
+call FreeMemBlock	; 82680
 add esp, byte 4	; 82685
 add esp, byte 20h	; 82688
 pop esi	; 8268B

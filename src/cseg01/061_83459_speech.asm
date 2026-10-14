@@ -4,9 +4,9 @@ bits 32
 section s_83459 progbits alloc exec nowrite align=1
 extern __CHK, __CHP, _dos_close_, _dos_open_, _dos_read_, _fmemmove_, _os_handle_3, str_Speechbuf
 extern str_Sentence, str_SampleMemMan, str_SpeechBank, byte_D27B6, dword_CCC94, musichandle, dword_D27B2, speechcopylen
-extern speechinit, speechq, speechbank, samplereq, speechcopybuf, jctime, FreeClip_ret, lseek_
+extern speechinit, speechq, speechbank, samplereq, speechcopybuf, FreeMemBlock, FreeClip_ret, lseek_
 extern qword_C37B0, qword_C37B8, qword_C37C0, qword_C37C8, qword_C37D0, strncpy_, SpeechTimerTick, ClearSpeechSlot
-extern ResetSpeechQueue, sub_8CC70, sub_8CCA8, sub_8D2F0, sub_8DBD4, sub_8E4C0, sub_8E4F8, sub_8FCAC
+extern ResetSpeechQueue, sub_8CC70, sub_8CCA8, sub_8D2F0, sub_8DBD4, addtimer, RemoveTimerCallback, sub_8FCAC
 extern sub_98028
 global ShutdownSpeech_ret6, ShutdownSpeech_ret5
 global ReadBE24_ret
@@ -149,7 +149,7 @@ mov dword [speechbank], eax	; 83613
 mov eax, esi	; 83618
 call InitSpeechSlots	; 8361A
 push SpeechTimerTick	; 8361F
-call sub_8E4C0	; 83624
+call addtimer	; 83624
 add esp, byte 4	; 83629
 mov dword [speechinit], 1	; 8362C
 .x:
@@ -174,7 +174,7 @@ push ebp	; 8364B
 cmp dword [speechinit], byte 0	; 8364C
 je short ShutdownSpeech_ret6	; 83653
 push SpeechTimerTick	; 83655
-call sub_8E4F8	; 8365A
+call RemoveTimerCallback	; 8365A
 add esp, byte 4	; 8365F
 mov eax, dword [speechbank]	; 83662
 cmp dword [dword eax+03B78h], byte 0	; 83667
@@ -184,7 +184,7 @@ call _dos_close_	; 83676
 .1:
 mov ecx, dword [speechq]	; 8367B
 push ecx	; 83681
-call jctime	; 83682
+call FreeMemBlock	; 83682
 add esp, byte 4	; 83687
 mov eax, dword [speechbank]	; 8368A
 mov esi, dword [dword eax+03B60h]	; 8368F
@@ -193,11 +193,11 @@ call sub_8D2F0	; 83696
 add esp, byte 4	; 8369B
 mov edi, dword [speechbank]	; 8369E
 push edi	; 836A4
-call jctime	; 836A5
+call FreeMemBlock	; 836A5
 add esp, byte 4	; 836AA
 mov ebp, dword [samplereq]	; 836AD
 push ebp	; 836B3
-call jctime	; 836B4
+call FreeMemBlock	; 836B4
 add esp, byte 4	; 836B9
 xor eax, eax	; 836BC
 mov dword [speechinit], eax	; 836BE

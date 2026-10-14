@@ -4,7 +4,7 @@ bits 32
 section s_B12A0 progbits alloc exec nowrite align=1
 extern byte_F79A7, byte_F79A8, byte_F79D8, dword_D87A0, dword_D87A8, dword_D87AC, dword_D87B0, dword_D87B4
 extern dword_D87B8, dword_D87BC, dword_D87C0, dword_D87C4, dword_D87C8, dword_D87CC, dword_D87D0, dword_D87D4
-extern inp_, outp_, sub_902A0, sub_B0BE4, word_D8760, word_D8762, word_D876C, word_D876E
+extern inp_, outp_, __GETDS, sub_B0BE4, word_D8760, word_D8762, word_D876C, word_D876E
 extern word_D8772, word_D8776, word_D8778, word_F799E, word_F79A2
 global loc_B12DD, loc_B12EC, loc_B1311, loc_B1358, loc_B1365, loc_B1392, loc_B13AF, loc_B13E7
 global loc_B13EF, loc_B13F6, loc_B13FB, loc_B146B, loc_B1476, loc_B147B, loc_B1493, loc_B149E
@@ -23,7 +23,7 @@ push fs	; B12A3
 push gs	; B12A5
 mov ebp, esp	; B12A7
 cld	; B12A9
-call sub_902A0	; B12AA
+call __GETDS	; B12AA
 xor ah, ah	; B12AF
 mov al, byte [byte_F79A8]	; B12B1
 and eax, 0FFFFh	; B12B6
@@ -62,7 +62,7 @@ push fs	; B131F
 push gs	; B1321
 mov ebp, esp	; B1323
 cld	; B1325
-call sub_902A0	; B1326
+call __GETDS	; B1326
 xor ah, ah	; B132B
 mov al, byte [byte_F79A7]	; B132D
 and eax, 0FFFFh	; B1332

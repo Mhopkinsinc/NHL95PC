@@ -25,10 +25,10 @@ void FadeOutPalCycle(void)
             }
         }
         palcyclelock = 0;
-        sub_B3989(2);
-        sub_B3999();
+        SetTickDeadline(2);
+        WaitTickDeadline();
     }
     palcyclelock = 1;
-    sub_8E4F8(LoadScreenPalTick);
+    RemoveTimerCallback(LoadScreenPalTick);
     loadscreenon = 0;
 }

@@ -2,13 +2,13 @@
 #include "nhl95.h"
 
 /* InputRemove: if the input tick handler is installed: clear the pointer step state and remove InputPollTick
- from the timer (sub_8E4F8). */
+ from the timer (RemoveTimerCallback). */
 void InputRemove(void)
 {
     if (inputinstalled) {
         dword_CDA24 = 0;
         ptrstep = 0;
-        sub_8E4F8(InputPollTick);
+        RemoveTimerCallback(InputPollTick);
         inputinstalled = 0;
     }
 }

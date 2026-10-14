@@ -6,7 +6,7 @@ extern __CHK, __STOSB, str_PointerMenu, str_menubuff, str_sfh, str_shape, str_93
 extern str_LgSeasonTitle, str_LgPlayoffsTitle, str_POTitle, mi_9394Season, mi_9394Playoffs, mi_LeagueSeason, mi_LeaguePlayoffs, mi_PlayoffMode
 extern menuremap, menuremap2, statscategory, statsteamsel, statsplayoffs, statspalvalid, pointerspr
 extern statsteamorder, statsnumgoalies, statsskaterorder, statsgoalieorder, statsgoalieplr, statsnumskaters, statsskaterplr, playofftree
-extern statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, statspal, ptrupdatefn, jctime, memcmp_
+extern statsteambuf, statsskaterbuf, statsgoaliebuf, statsplayerbuf, statspal, ptrupdatefn, FreeMemBlock, memcmp_
 extern memcpy_, mousepollfn, sprintf_, strcat_, strlen_, strncpy_, FileOpenRead, FileClose
 extern FileReadAt, DeskSetExit3b, ShowPlayerStatsItem, StrPrefixDiffers, PlayerFromMouseY, TeamFromMouse, MoveTreeHighlight, PlayoffTreeScreen
 extern PlayoffTreeHitTest, GetInputEvent, ClearInputQueue, DrawMenuDropdown, DrawMenuItemSel, DrawMenuItemNorm, MenuHitTest, sub_8CCA8
@@ -228,7 +228,7 @@ mov dword [byte esp+esi*8+0Ch], ebx	; 1D992
 mov dword [byte esp+esi*8+08h], ebx	; 1D996
 mov ecx, dword [byte esp+ebp+048h]	; 1D99A
 push ecx	; 1D99E
-call jctime	; 1D99F
+call FreeMemBlock	; 1D99F
 add esp, byte 4	; 1D9A4
 .8:
 dec esi	; 1D9A7
@@ -344,7 +344,7 @@ mov dword [byte esp+esi*8+0Ch], eax	; 1DB25
 mov dword [byte esp+esi*8+08h], eax	; 1DB29
 mov edx, dword [byte esp+edi+048h]	; 1DB2D
 push edx	; 1DB31
-call jctime	; 1DB32
+call FreeMemBlock	; 1DB32
 add esp, byte 4	; 1DB37
 xor ebx, ebx	; 1DB3A
 mov dword [byte esp+edi+048h], ebx	; 1DB3C
@@ -570,7 +570,7 @@ mov dword [byte esp+esi*8+0Ch], edx	; 1DE1E
 mov dword [byte esp+esi*8+08h], edx	; 1DE22
 mov ebx, dword [byte esp+ebp+048h]	; 1DE26
 push ebx	; 1DE2A
-call jctime	; 1DE2B
+call FreeMemBlock	; 1DE2B
 add esp, byte 4	; 1DE30
 .25:
 dec esi	; 1DE33
@@ -627,7 +627,7 @@ jmp near RunMenu.5	; 1DEE0
 .28:
 mov ebx, dword [dword esp+084h]	; 1DEE5
 push ebx	; 1DEEC
-call jctime	; 1DEED
+call FreeMemBlock	; 1DEED
 add esp, byte 4	; 1DEF2
 xor eax, eax	; 1DEF5
 add esp, 94h	; 1DEF7
@@ -846,7 +846,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1E18B
 mov dword [byte esp+esi*8+08h], ecx	; 1E18F
 mov ebp, dword [byte esp+edi+048h]	; 1E193
 push ebp	; 1E197
-call jctime	; 1E198
+call FreeMemBlock	; 1E198
 add esp, byte 4	; 1E19D
 xor eax, eax	; 1E1A0
 mov dword [byte esp+edi+048h], eax	; 1E1A2
@@ -1003,7 +1003,7 @@ mov dword [byte esp+esi*8+0Ch], eax	; 1E3BC
 mov dword [byte esp+esi*8+08h], eax	; 1E3C0
 mov edx, dword [byte esp+ebp+048h]	; 1E3C4
 push edx	; 1E3C8
-call jctime	; 1E3C9
+call FreeMemBlock	; 1E3C9
 add esp, byte 4	; 1E3CE
 .24:
 dec esi	; 1E3D1
@@ -1124,7 +1124,7 @@ jne short .37	; 1E542
 mov ebp, dword [dword esp+08Ch]	; 1E544
 push ebp	; 1E54B
 .36:
-call jctime	; 1E54C
+call FreeMemBlock	; 1E54C
 add esp, byte 4	; 1E551
 xor eax, eax	; 1E554
 jmp near .86	; 1E556
@@ -1302,7 +1302,7 @@ mov dword [byte esp+esi*8+0Ch], edx	; 1E771
 mov dword [byte esp+esi*8+08h], edx	; 1E775
 mov ebx, dword [byte esp+edi+048h]	; 1E779
 push ebx	; 1E77D
-call jctime	; 1E77E
+call FreeMemBlock	; 1E77E
 add esp, byte 4	; 1E783
 xor ecx, ecx	; 1E786
 mov dword [byte esp+edi+048h], ecx	; 1E788
@@ -1676,7 +1676,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1EC4C
 mov dword [byte esp+esi*8+08h], ecx	; 1EC50
 mov edi, dword [byte esp+ebp+048h]	; 1EC54
 push edi	; 1EC58
-call jctime	; 1EC59
+call FreeMemBlock	; 1EC59
 add esp, byte 4	; 1EC5E
 .77:
 dec esi	; 1EC61
@@ -1742,7 +1742,7 @@ mov dword [byte esp+esi*8+0Ch], ebx	; 1ED1E
 mov dword [byte esp+esi*8+08h], ebx	; 1ED22
 mov ecx, dword [byte esp+ebp+048h]	; 1ED26
 push ecx	; 1ED2A
-call jctime	; 1ED2B
+call FreeMemBlock	; 1ED2B
 add esp, byte 4	; 1ED30
 .83:
 dec esi	; 1ED33
@@ -2091,7 +2091,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1F195
 mov dword [byte esp+esi*8+08h], ecx	; 1F199
 mov edi, dword [byte esp+ebp+048h]	; 1F19D
 push edi	; 1F1A1
-call jctime	; 1F1A2
+call FreeMemBlock	; 1F1A2
 add esp, byte 4	; 1F1A7
 .19:
 dec esi	; 1F1AA
@@ -2174,7 +2174,7 @@ jne short .26	; 1F2A1
 mov esi, dword [dword esp+088h]	; 1F2A3
 push esi	; 1F2AA
 .25:
-call jctime	; 1F2AB
+call FreeMemBlock	; 1F2AB
 add esp, byte 4	; 1F2B0
 xor eax, eax	; 1F2B3
 jmp near .69	; 1F2B5
@@ -2369,7 +2369,7 @@ mov dword [byte esp+esi*8+0Ch], edx	; 1F50E
 mov dword [byte esp+esi*8+08h], edx	; 1F512
 mov ebx, dword [byte esp+edi+048h]	; 1F516
 push ebx	; 1F51A
-call jctime	; 1F51B
+call FreeMemBlock	; 1F51B
 add esp, byte 4	; 1F520
 xor ecx, ecx	; 1F523
 mov dword [byte esp+edi+048h], ecx	; 1F525
@@ -2585,7 +2585,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1F7F2
 mov dword [byte esp+esi*8+08h], ecx	; 1F7F6
 mov edi, dword [byte esp+ebp+048h]	; 1F7FA
 push edi	; 1F7FE
-call jctime	; 1F7FF
+call FreeMemBlock	; 1F7FF
 add esp, byte 4	; 1F804
 .52:
 dec esi	; 1F807
@@ -2686,7 +2686,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1F920
 mov dword [byte esp+esi*8+08h], ecx	; 1F924
 mov edi, dword [byte esp+ebp+048h]	; 1F928
 push edi	; 1F92C
-call jctime	; 1F92D
+call FreeMemBlock	; 1F92D
 add esp, byte 4	; 1F932
 .60:
 dec esi	; 1F935
@@ -2763,7 +2763,7 @@ mov dword [byte esp+esi*8+0Ch], ecx	; 1FA15
 mov dword [byte esp+esi*8+08h], ecx	; 1FA19
 mov edi, dword [byte esp+ebp+048h]	; 1FA1D
 push edi	; 1FA21
-call jctime	; 1FA22
+call FreeMemBlock	; 1FA22
 add esp, byte 4	; 1FA27
 .66:
 dec esi	; 1FA2A
@@ -3246,7 +3246,7 @@ je short LoadShapeByTag.3	; 1FF07
 test ebp, ebp	; 1FF09
 je short .7	; 1FF0B
 push ebp	; 1FF0D
-call jctime	; 1FF0E
+call FreeMemBlock	; 1FF0E
 add esp, byte 4	; 1FF13
 .7:
 cmp dword [byte esp+02Ch], byte 0	; 1FF16
@@ -3274,7 +3274,7 @@ call FileReadAt	; 1FF58
 test eax, eax	; 1FF5D
 jge short .8	; 1FF5F
 push esi	; 1FF61
-call jctime	; 1FF62
+call FreeMemBlock	; 1FF62
 add esp, byte 4	; 1FF67
 xor esi, esi	; 1FF6A
 mov dword [byte esp+028h], esi	; 1FF6C

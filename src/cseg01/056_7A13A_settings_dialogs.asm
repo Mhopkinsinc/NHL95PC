@@ -16,7 +16,7 @@ extern ctldlgalt, settingsfile, musichandle, musicslot
 extern seriesgameno, cddriveptr, pointerspr, fdlg_cancel, hmtmstruct, dword_DF648, hmscore
 extern ptrupdatefn, leaguesetimg, setbits, dword_ED364, pl20spr, pl05spr, pl10spr, puckstruct
 extern pg07spr, na05spr, pg01spr, acptspr, na03spr, pg03spr, chkoffspr, pg05spr
-extern chkonspr, na01spr, puckvx, gmode, jctime, teamcitynames, puckx, pucky
+extern chkonspr, na01spr, puckvx, gmode, FreeMemBlock, teamcitynames, puckx, pucky
 extern puckvy, puckc, off_CD498, off_CD4A0, setpersonel, MakePath, SaveModeState, LoadModeState
 extern WriteModeState, CrowdNoiseOff, CrowdNoiseReset, restorepl, GetInputEvent, ClearInputQueue, LoadSettingsShapes, DrawSettingsHeading
 extern SetSideControls, WriteCurModeState, sub_8CCA8, sub_8E83C, sub_8E9C0, sub_8F963, sub_8F96E, sub_8F979
@@ -86,11 +86,11 @@ push ebp	; 7A1BE
 call sub_903F0	; 7A1BF
 add esp, byte 0Ch	; 7A1C4
 push ebp	; 7A1C7
-call jctime	; 7A1C8
+call FreeMemBlock	; 7A1C8
 add esp, byte 4	; 7A1CD
 mov ebx, dword [settingsfile]	; 7A1D0
 push ebx	; 7A1D6
-call jctime	; 7A1D7
+call FreeMemBlock	; 7A1D7
 add esp, byte 4	; 7A1DC
 xor ecx, ecx	; 7A1DF
 mov dword [settingsfile], ecx	; 7A1E1
@@ -152,11 +152,11 @@ push ebp	; 7A26C
 call sub_903F0	; 7A26D
 add esp, byte 0Ch	; 7A272
 push ebp	; 7A275
-call jctime	; 7A276
+call FreeMemBlock	; 7A276
 add esp, byte 4	; 7A27B
 mov edx, dword [settingsfile]	; 7A27E
 push edx	; 7A284
-call jctime	; 7A285
+call FreeMemBlock	; 7A285
 add esp, byte 4	; 7A28A
 xor ebx, ebx	; 7A28D
 mov dword [settingsfile], ebx	; 7A28F
@@ -343,7 +343,7 @@ call sub_91370	; 7A4A8
 add esp, byte 0Ch	; 7A4AD
 mov ebx, dword [byte esp+020h]	; 7A4B0
 push ebx	; 7A4B4
-call jctime	; 7A4B5
+call FreeMemBlock	; 7A4B5
 add esp, byte 4	; 7A4BA
 push dword 0FFh	; 7A4BD
 push dword 0F8h	; 7A4C2
@@ -385,11 +385,11 @@ push esi	; 7A54E
 call sub_903F0	; 7A54F
 add esp, byte 0Ch	; 7A554
 push esi	; 7A557
-call jctime	; 7A558
+call FreeMemBlock	; 7A558
 add esp, byte 4	; 7A55D
 mov ebp, dword [settingsfile]	; 7A560
 push ebp	; 7A566
-call jctime	; 7A567
+call FreeMemBlock	; 7A567
 add esp, byte 4	; 7A56C
 xor eax, eax	; 7A56F
 mov dword [settingsfile], eax	; 7A571
@@ -447,7 +447,7 @@ push eax	; 7A5FD
 call sub_91284	; 7A5FE
 add esp, byte 0Ch	; 7A603
 push esi	; 7A606
-call jctime	; 7A607
+call FreeMemBlock	; 7A607
 add esp, byte 4	; 7A60C
 push dword 0FFh	; 7A60F
 push dword 0F8h	; 7A614
@@ -561,7 +561,7 @@ push eax	; 7A761
 call sub_931FC	; 7A762
 add esp, byte 0Ch	; 7A767
 push edi	; 7A76A
-call jctime	; 7A76B
+call FreeMemBlock	; 7A76B
 add esp, byte 4	; 7A770
 test esi, esi	; 7A773
 je short .5	; 7A775
@@ -1144,7 +1144,7 @@ push ebp	; 7ADB7
 call sub_903F0	; 7ADB8
 add esp, byte 0Ch	; 7ADBD
 push ebp	; 7ADC0
-call jctime	; 7ADC1
+call FreeMemBlock	; 7ADC1
 add esp, byte 4	; 7ADC6
 xor eax, eax	; 7ADC9
 add esp, byte 14h	; 7ADCB
@@ -1545,7 +1545,7 @@ call sub_91FE0	; 7B2E8
 add esp, byte 0Ch	; 7B2ED
 .33:
 push ebp	; 7B2F0
-call jctime	; 7B2F1
+call FreeMemBlock	; 7B2F1
 add esp, byte 4	; 7B2F6
 xor eax, eax	; 7B2F9
 add esp, byte 1Ch	; 7B2FB
@@ -1712,11 +1712,11 @@ jmp short .11	; 7B4BC
 call sub_8F96E	; 7B4BE
 .11:
 push ebp	; 7B4C3
-call jctime	; 7B4C4
+call FreeMemBlock	; 7B4C4
 add esp, byte 4	; 7B4C9
 mov ebx, dword [settingsfile]	; 7B4CC
 push ebx	; 7B4D2
-call jctime	; 7B4D3
+call FreeMemBlock	; 7B4D3
 add esp, byte 4	; 7B4D8
 xor ecx, ecx	; 7B4DB
 mov dword [settingsfile], ecx	; 7B4DD
@@ -1781,7 +1781,7 @@ push eax	; 7B566
 call sub_91284	; 7B567
 add esp, byte 0Ch	; 7B56C
 push esi	; 7B56F
-call jctime	; 7B570
+call FreeMemBlock	; 7B570
 add esp, byte 4	; 7B575
 push dword 0FFh	; 7B578
 push dword 0F8h	; 7B57D
@@ -2189,7 +2189,7 @@ push ebp	; 7B9CC
 call sub_903F0	; 7B9CD
 add esp, byte 0Ch	; 7B9D2
 push ebp	; 7B9D5
-call jctime	; 7B9D6
+call FreeMemBlock	; 7B9D6
 add esp, byte 4	; 7B9DB
 xor eax, eax	; 7B9DE
 add esp, byte 14h	; 7B9E0
@@ -2552,7 +2552,7 @@ call sub_903F0	; 7BE88
 add esp, byte 0Ch	; 7BE8D
 .26:
 push ebp	; 7BE90
-call jctime	; 7BE91
+call FreeMemBlock	; 7BE91
 add esp, byte 4	; 7BE96
 xor eax, eax	; 7BE99
 add esp, byte 1Ch	; 7BE9B
@@ -2613,11 +2613,11 @@ push ebp	; 7BF24
 call sub_903F0	; 7BF25
 add esp, byte 0Ch	; 7BF2A
 push ebp	; 7BF2D
-call jctime	; 7BF2E
+call FreeMemBlock	; 7BF2E
 add esp, byte 4	; 7BF33
 mov edx, dword [settingsfile]	; 7BF36
 push edx	; 7BF3C
-call jctime	; 7BF3D
+call FreeMemBlock	; 7BF3D
 add esp, byte 4	; 7BF42
 xor ebx, ebx	; 7BF45
 mov dword [settingsfile], ebx	; 7BF47
@@ -2898,7 +2898,7 @@ push eax	; 7C206
 call sub_91284	; 7C207
 add esp, byte 0Ch	; 7C20C
 push esi	; 7C20F
-call jctime	; 7C210
+call FreeMemBlock	; 7C210
 add esp, byte 4	; 7C215
 cmp dword [sounddev], byte 10h	; 7C218
 jne short .3	; 7C21F
@@ -3344,7 +3344,7 @@ call sub_903F0	; 7C796
 add esp, byte 0Ch	; 7C79B
 .25:
 push ebp	; 7C79E
-call jctime	; 7C79F
+call FreeMemBlock	; 7C79F
 add esp, byte 4	; 7C7A4
 xor eax, eax	; 7C7A7
 add esp, byte 18h	; 7C7A9
@@ -3598,7 +3598,7 @@ call sub_903F0	; 7CA2D
 add esp, byte 0Ch	; 7CA32
 mov ecx, dword [esp]	; 7CA35
 push ecx	; 7CA38
-call jctime	; 7CA39
+call FreeMemBlock	; 7CA39
 add esp, byte 4	; 7CA3E
 xor esi, esi	; 7CA41
 mov dword [ctldlgalt], esi	; 7CA43
@@ -3657,7 +3657,7 @@ push ebp	; 7CAD8
 call sub_903F0	; 7CAD9
 add esp, byte 0Ch	; 7CADE
 push ebp	; 7CAE1
-call jctime	; 7CAE2
+call FreeMemBlock	; 7CAE2
 add esp, byte 4	; 7CAE7
 xor edx, edx	; 7CAEA
 mov dword [ctldlgalt], edx	; 7CAEC
@@ -4194,7 +4194,7 @@ cmp edx, byte 2	; 7D117
 jle short ControlsDlgInGame_setside.13	; 7D11A
 mov edi, dword [byte esp+08h]	; 7D11C
 push edi	; 7D120
-call jctime	; 7D121
+call FreeMemBlock	; 7D121
 add esp, byte 4	; 7D126
 mov eax, dword [byte esp+04h]	; 7D129
 ControlsDlg_ret0C:
@@ -4296,7 +4296,7 @@ mov dword [samesideflag], eax	; 7D238
 .7:
 mov ebx, dword [byte esp+04h]	; 7D23D
 push ebx	; 7D241
-call jctime	; 7D242
+call FreeMemBlock	; 7D242
 add esp, byte 4	; 7D247
 xor eax, eax	; 7D24A
 add esp, byte 8	; 7D24C
@@ -4357,7 +4357,7 @@ push eax	; 7D2FE
 call sub_931FC	; 7D2FF
 add esp, byte 0Ch	; 7D304
 push edi	; 7D307
-call jctime	; 7D308
+call FreeMemBlock	; 7D308
 add esp, byte 4	; 7D30D
 test esi, esi	; 7D310
 je short .5	; 7D312
@@ -4899,7 +4899,7 @@ mov eax, unk_D19DC	; 7D928
 call DrawCtlBoxOn	; 7D92D
 .19:
 push ebp	; 7D932
-call jctime	; 7D933
+call FreeMemBlock	; 7D933
 add esp, byte 4	; 7D938
 xor eax, eax	; 7D93B
 add esp, byte 1Ch	; 7D93D

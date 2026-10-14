@@ -2,7 +2,7 @@
 #include "nhl95.h"
 
 /* RunGameFrames: run up to n game frames: every 3 frames take the next queued input event (none: stop; a hot key
- that HandleHotKey takes flushes the queue and stops); the clock runs while not stopped (dword_D8C78 + 100
+ that HandleHotKey takes flushes the queue and stops); the clock runs while not stopped (hudhundaccum + 100
  outside penalty shots); stop early on a deferred call, exit or game over. */
 void RunGameFrames(int n)
 {
@@ -21,7 +21,7 @@ void RunGameFrames(int n)
             inputframes = 3;
         }
         if (!(gmode & 1)) {
-            if (!penshotlive) dword_D8C78 += 100;
+            if (!penshotlive) hudhundaccum += 100;
             ClockTick();
         }
         DoGameFrame();

@@ -8,7 +8,7 @@ extern monthfirstday, musicon, lgteam_17, gameopts, teamstatscb, fileoncd
 extern skaterstatscb, goaliestatscb, standingscb, standingsmenucb, songdata, calcolx, calrowy
 extern calendarshapes, musichandle, cddriveptr, fontcolor, mainfont, pointerspr, musicslot
 extern calsel, calexit, calmonth, calselday, dword_DDD2C, calselmonth, ptrupdatefn, fputchar
-extern jctime, crestnames, calnextslot, calprevslot, sprintf_, MakePath, FileOpenRead, leaguedbnames
+extern FreeMemBlock, crestnames, calnextslot, calprevslot, sprintf_, MakePath, FileOpenRead, leaguedbnames
 extern FileClose, FileReadAt, ReadSchedGame, GameTeamStatsScreen, GameSkaterStatsScreen, GameGoalieStatsScreen, GameStandingsScreen, GameStandingsMenu
 extern CalTeamStatsScreen, CalSkaterStatsScreen, CalGoalieStatsScreen, CalStandingsScreen, CalStandingsMenu, SetDialogColors, ShowLoadingScreen, FadeOutPalCycle
 extern GetInputEvent, ClearInputQueue, DrawMenuBar, DrawMenuDropdown, DrawMenuItemSel, DrawMenuItemNorm, MenuHitTest, FadePalStep
@@ -1260,7 +1260,7 @@ mov dword [dword esp+esi*8+0718h], eax	; 3514E
 mov dword [dword esp+esi*8+071Ch], eax	; 35155
 mov ebx, dword [dword esp+edi+073Ch]	; 3515C
 push ebx	; 35163
-call jctime	; 35164
+call FreeMemBlock	; 35164
 add esp, byte 4	; 35169
 .39:
 dec word [dword esp+07CCh]	; 3516C
@@ -1289,7 +1289,7 @@ cmp esi, byte 1	; 351D8
 jne short .42	; 351DB
 mov esi, dword [dword esp+0794h]	; 351DD
 push esi	; 351E4
-call jctime	; 351E5
+call FreeMemBlock	; 351E5
 add esp, byte 4	; 351EA
 cmp byte [musicon], 0	; 351ED
 je short .41	; 351F4
@@ -1406,7 +1406,7 @@ mov dword [dword esp+edi*8+071Ch], eax	; 353D4
 mov dword [dword esp+edi*8+0718h], eax	; 353DB
 mov edx, dword [dword esp+esi+073Ch]	; 353E2
 push edx	; 353E9
-call jctime	; 353EA
+call FreeMemBlock	; 353EA
 add esp, byte 4	; 353EF
 xor ebx, ebx	; 353F2
 mov dword [dword esp+esi+073Ch], ebx	; 353F4
@@ -1489,7 +1489,7 @@ mov dword [dword esp+edi*8+0718h], ecx	; 3554E
 mov dword [dword esp+edi*8+071Ch], ecx	; 35555
 mov edx, dword [dword esp+esi+073Ch]	; 3555C
 push edx	; 35563
-call jctime	; 35564
+call FreeMemBlock	; 35564
 add esp, byte 4	; 35569
 xor ebx, ebx	; 3556C
 mov dword [dword esp+esi+073Ch], ebx	; 3556E
@@ -1688,7 +1688,7 @@ mov dword [dword esp+edi*8+0718h], ebx	; 358E6
 mov dword [dword esp+edi*8+071Ch], ebx	; 358ED
 mov edi, dword [dword esp+esi+073Ch]	; 358F4
 push edi	; 358FB
-call jctime	; 358FC
+call FreeMemBlock	; 358FC
 add esp, byte 4	; 35901
 xor eax, eax	; 35904
 mov dword [dword esp+esi+073Ch], eax	; 35906
@@ -1769,7 +1769,7 @@ mov dword [dword esp+esi*8+0718h], eax	; 35A4F
 mov dword [dword esp+esi*8+071Ch], eax	; 35A56
 mov ebx, dword [dword esp+edi+073Ch]	; 35A5D
 push ebx	; 35A64
-call jctime	; 35A65
+call FreeMemBlock	; 35A65
 add esp, byte 4	; 35A6A
 .67:
 dec word [dword esp+07CCh]	; 35A6D
@@ -2063,15 +2063,15 @@ je near CalendarScreen.32	; 35F15
 .83:
 mov edi, dword [dword esp+0794h]	; 35F1B
 push edi	; 35F22
-call jctime	; 35F23
+call FreeMemBlock	; 35F23
 add esp, byte 4	; 35F28
 mov ebp, dword [dword esp+078Ch]	; 35F2B
 push ebp	; 35F32
-call jctime	; 35F33
+call FreeMemBlock	; 35F33
 add esp, byte 4	; 35F38
 mov eax, dword [calendarshapes]	; 35F3B
 push eax	; 35F40
-call jctime	; 35F41
+call FreeMemBlock	; 35F41
 add esp, byte 4	; 35F46
 xor edx, edx	; 35F49
 mov dword [calendarshapes], edx	; 35F4B

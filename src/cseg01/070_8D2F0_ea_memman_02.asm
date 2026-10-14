@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_8D2F0 progbits alloc exec nowrite align=1
 extern asc_C3D60, dword_D2F58, dword_D2F64, memlist1, dword_EDAAC, dword_EDAB0, dword_EDAB4, sub_8CD4C
-extern sub_8D2A0, sub_8E3F8, sub_8E44C, sub_986E4, FatalError, sub_B3ABC, unknown_libname_22
+extern findmemblock, sub_8E3F8, sub_8E44C, sub_986E4, FatalError, sub_B3ABC, unknown_libname_22
 global loc_8D340, loc_8D379, loc_8D38E, loc_8D40C, loc_8D427, loc_8D438, loc_8D45C, loc_8D45E
 global loc_8D521, loc_8D53A, loc_8D542, loc_8D591, loc_8D5B0, loc_8D5B8, loc_8D640, loc_8D653
 global loc_8D670, loc_8D683, loc_8D697, loc_8D6AA, loc_8D6D8, loc_8D708, loc_8D70A, loc_8D727
@@ -49,7 +49,7 @@ db 08Dh,040h,00h
 sub_8D344:
 mov edx, dword [byte esp+04h]	; 8D344
 push edx	; 8D348
-call sub_8D2A0	; 8D349
+call findmemblock	; 8D349
 add esp, byte 4	; 8D34E
 push eax	; 8D351
 call sub_8D35C	; 8D352
@@ -165,7 +165,7 @@ sub_8D468:
 push byte 1	; 8D468
 mov edx, dword [byte esp+08h]	; 8D46A
 push edx	; 8D46E
-call sub_8D2A0	; 8D46F
+call findmemblock	; 8D46F
 add esp, byte 4	; 8D474
 push eax	; 8D477
 call sub_8D4B0	; 8D478
@@ -184,7 +184,7 @@ mov edx, dword [byte esp+08h]	; 8D494
 push edx	; 8D498
 mov ebx, dword [byte esp+08h]	; 8D499
 push ebx	; 8D49D
-call sub_8D2A0	; 8D49E
+call findmemblock	; 8D49E
 add esp, byte 4	; 8D4A3
 push eax	; 8D4A6
 call sub_8D4B0	; 8D4A7
@@ -958,7 +958,7 @@ ret	; 8DBBF
 sub_8DBC0:
 mov edx, dword [byte esp+04h]	; 8DBC0
 push edx	; 8DBC4
-call sub_8D2A0	; 8DBC5
+call findmemblock	; 8DBC5
 add esp, byte 4	; 8DBCA
 mov eax, dword [byte eax+014h]	; 8DBCD
 ret	; 8DBD0

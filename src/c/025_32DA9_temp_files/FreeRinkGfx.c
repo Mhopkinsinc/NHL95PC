@@ -6,11 +6,11 @@
 void FreeRinkGfx(void)
 {
     if (rinkbm != 0) {
-        jctime(rinkbm);
+        FreeMemBlock(rinkbm);
         rinkbm = 0;
     }
     if (rinktilebm != 0) {
-        jctime(rinktilebm);
+        FreeMemBlock(rinktilebm);
         rinktilebm = 0;
         currink = -1;
     }

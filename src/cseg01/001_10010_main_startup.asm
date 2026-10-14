@@ -15,17 +15,17 @@ extern ctl1team, ctl2team, ctl1dev, ctl2dev, ctl1side, ctl2side, deferpending, s
 extern songdata, rinkscrollx, rinkscrolly, cont2team, HomeTeam, shownumbers, penshotlive, musicslot
 extern musichandle, cddriveptr, mousex, mousey, mousebtns, dword_D30D4, dword_D4158, dword_D415C
 extern dword_D4160, dword_D4164, bailout_vec, kaufmfont, pntrshapes, scor2font, mainfont, scor3font
-extern joyrawbits, numshapes, dword_D8C4C, rinkendart, dword_D8C78, curperiod, photoptrs, s1font
+extern joyrawbits, numshapes, dword_D8C4C, rinkendart, hudhundaccum, curperiod, photoptrs, s1font
 extern pointerspr, savedmousex, savedmousey, dword_E9A9E, memlist1, memlist0, exit_, gmode
 extern int386_, mousepollfn, printf_, srand_, MakePath, FileOpenRead, FileClose, FileReadAt
 extern DrawHudPanel, RunIntro, ShowCredits, IntermissionDesk, sub_1BAF3, DrawSprite, CritErrHandler, MainDeskLoop
 extern LoadModeState, LoadNhlCfg, ShowLoadingScreen, joyq_pop, joyq_flush, joyq_peek, CrowdNoiseOff, CrowdFadeOut
 extern CrowdNoiseReset, StopDigiSample, ClockTick, ShowGoalieBanner, sub_6A9CE, JoystickCalScreen, ClearInputQueue, InputInstall
 extern InputRemove, FadePalStep, InstantReplay, SpeechStopQueue, MusicChanReset, InitFileLocations, sub_8CCA8, sub_8D2F0
-extern sub_8DF54, sub_8E080, sub_8E4C0, sub_8E5AC, sub_8E7A0, sub_8E83C, sub_8E8A0, sub_8EA18
+extern sub_8DF54, sub_8E080, addtimer, InstallTimer, sub_8E7A0, sub_8E83C, sub_8E8A0, sub_8EA18
 extern sub_8F633, sub_8F963, sub_8F96E, sub_8F979, sub_8F984, sub_8FC8A, sub_8FCDF, sub_8FFB0
 extern sub_B29F0, sub_B2CBE, FatalError, MouseSetPos, sub_B2E1B, sub_B2F22, sub_B3036, sub_B30B4
-extern sub_B30F4, sub_B33DB, sub_B3464, sub_B392C, sub_B3989, sub_B3999, PollKey, sub_B3A24
+extern sub_B30F4, sub_B33DB, sub_B3464, sub_B392C, SetTickDeadline, WaitTickDeadline, PollKey, sub_B3A24
 extern sub_B4B58, sub_B4B88, sub_B4BA8, sub_B4BC4, sub_B4C33, sub_B4C84, str_S1, str_errd3
 extern str_errd4, unk_C4E30, exhstate, joyqueue, savepal, vtoa, cont1team, word_CBC44
 extern exitgame, gameover, fadeinpending, lcrequest, lcreqchoice, joysampling_save
@@ -227,12 +227,12 @@ push dword 1E0h	; 10236
 push dword 280h	; 1023B
 call sub_8E080	; 10240
 add esp, byte 8	; 10245
-call sub_8E5AC	; 10248
+call InstallTimer	; 10248
 xor eax, eax	; 1024D
 mov dword [joysampling], eax	; 1024F
 db 068h	; 10254 push 0DCDh
 dd SampleInputTick
-call sub_8E4C0	; 10259
+call addtimer	; 10259
 add esp, byte 4	; 1025E
 or byte [ctlavailmask], 8	; 10261
 call sub_B2F22	; 10268
@@ -1340,7 +1340,7 @@ push byte 0	; 10EF9
 call sub_B392C	; 10EFB
 add esp, byte 4	; 10F00
 push byte 28h	; 10F03
-call sub_B3989	; 10F05
+call SetTickDeadline	; 10F05
 add esp, byte 4	; 10F0A
 call sub_B4C33	; 10F0D
 push edi	; 10F12
@@ -1369,7 +1369,7 @@ call sub_B2E1B	; 10F4E
 add esp, byte 10h	; 10F53
 mov dword [screenw], esi	; 10F56
 mov dword [screenh], edi	; 10F5C
-call sub_B3999	; 10F62
+call WaitTickDeadline	; 10F62
 .x:
 pop ebp	; 10F67
 pop edi	; 10F68
@@ -1836,7 +1836,7 @@ test byte [gmode], 1	; 114F2
 jne short .5	; 114F9
 cmp dword [penshotlive], byte 0	; 114FB
 jne short .4	; 11502
-add dword [dword_D8C78], byte 64h	; 11504
+add dword [hudhundaccum], byte 64h	; 11504
 .4:
 call ClockTick	; 1150B
 .5:

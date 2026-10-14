@@ -26,5 +26,5 @@ void DrawTeamGrid(unsigned char *teams, char *title, unsigned char *grid, int ar
             if (teams[t * 30 + 0x17] == 1) DrawTeamGridName(t, teams, arg4, grid);
         }
     }
-    jctime(bank);
+    FreeMemBlock(bank);
 }

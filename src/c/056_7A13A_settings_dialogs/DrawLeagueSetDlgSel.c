@@ -31,7 +31,7 @@ int DrawLeagueSetDlgSel(void)
     }
     img = sub_8E83C(path, 0);
     sub_91284(sub_B30B4(img, (char *)str_Dbox2), 0x0A, 0x13);
-    jctime(img);
+    FreeMemBlock(img);
     sub_8E9C0(0xF8, 0xFF);
     if (sounddev == 0x10) {
         sub_91964((char *)str_Music, 0x68, 0xAA);

@@ -7,15 +7,15 @@ extern DoGameFrame, ResetBench, __CHK, assreplace, sflags, gmode2, musicon, bgsc
 extern iflags, icingPlayer, joysampling, inputframes, escrequest, demomode, gameopts, hudclockmin
 extern hudclocksec, hudclockhund, rinkscrollx, rinkscrolly, yleader, sflags3, cont2team, HomeTeam
 extern bannertimer, lastsfx, crowdsmooth, dword_CCC98, dword_CD9A0, spritedrawcount, dword_D8C72, viewscrolly
-extern dword_D8C78, dword_D8C7A, viewscrollx, curperiod, dword_DC28C, rinkwtiles, rinkhtiles, bgscrolly
+extern hudhundaccum, dword_D8C7A, viewscrollx, curperiod, hudhundstep, rinkwtiles, rinkhtiles, bgscrolly
 extern hmtmstruct, dword_DF646, dword_DF648, awtmstruct, dword_DF748, puckstruct
-extern dword_E0244, dword_E9A9E, forcepldata, gmode, jctime, puckx, pucky, puckc
+extern dword_E0244, dword_E9A9E, forcepldata, gmode, FreeMemBlock, puckx, pucky, puckc
 extern camx_m2, randomd0, reenergizeteam, resetplstuff, setpersonel, SetScreenSize, ResetInputSampling, RunGameFrames
 extern FadePalette, LoadPlayerPhotos, UpdateHudPanel, DrawHudPanel, sub_1BAF3, LoadGameTeams, LoadRink, SetRinkScroll
 extern ShowLoadingScreen, FadeOutPalCycle, joyq_flush, Readjoy1, Readjoy2, CrowdNoiseUpdate, CrowdFadeOut, StopDigiSample
 extern PaHighlightIntro, PaOpenBank, restoreteams, DrawRinkOverlays, setupice, SprSortVert, SprSort, Intermission
 extern FlushGSumQueue, ClearPenaltyBuffer, LoadTeamPalette, sub_6ADA7, sub_6AF52, sub_6AF97, sub_6B008, SpeechBusy
-extern MusicChanReset2, sub_8F633, sub_8FFB0, sub_B396E, awlinetab, hmlinetab, savepal, gamepal
+extern MusicChanReset2, sub_8F633, sub_8FFB0, TicksSinceLastCall, awlinetab, hmlinetab, savepal, gamepal
 extern SortCords, vtoa, camx, camy, passplayer, xc1, yc1
 extern c1playernum, c2playernum, cont1team, VisTeam, Pencntdwn, refsignal, RefStep, RefPen
 extern word_C90D8, gsp, gameclock, clockticks, word_CBC44, exitgame, gameover, energywarn
@@ -123,7 +123,7 @@ cmp eax, byte 0FFFFFFFFh	; 694A2
 je short .3	; 694A5
 mov ebx, dword [dword_E0244]	; 694A7
 push ebx	; 694AD
-call jctime	; 694AE
+call FreeMemBlock	; 694AE
 add esp, byte 4	; 694B3
 .3:
 mov edx, dword [VisTeam-2]	; 694B6
@@ -407,7 +407,7 @@ call DoGameFrame	; 6998B
 call SprSort	; 69990
 xor edi, edi	; 69995
 xor edx, edx	; 69997
-mov dword [dword_D8C78], edi	; 69999
+mov dword [hudhundaccum], edi	; 69999
 mov dword [inputframes], edi	; 6999F
 mov eax, dword [puckc]	; 699A5
 mov byte [eax], 0FFh	; 699AA
@@ -417,7 +417,7 @@ xor edx, edi	; 699B8
 mov word [exitgame], dx	; 699BA
 mov word [gameover], dx	; 699C1
 mov word [fadeinpending], si	; 699C8
-call sub_B396E	; 699CF
+call TicksSinceLastCall	; 699CF
 mov esi, 1	; 699D4
 mov dword [joysampling], esi	; 699D9
 mov dword [demomode], esi	; 699DF
@@ -542,17 +542,17 @@ mov dword [joysampling], eax	; 69B99
 .22:
 movsx eax, si	; 69B9E
 call CrowdNoiseUpdate	; 69BA1
-mov edx, dword [dword_D8C78]	; 69BA6
+mov edx, dword [hudhundaccum]	; 69BA6
 mov ebx, 18h	; 69BAC
 mov eax, edx	; 69BB1
 sar edx, 1Fh	; 69BB3
 idiv ebx	; 69BB6
-mov dword [dword_DC28C], eax	; 69BB8
-mov eax, dword [dword_D8C78]	; 69BBD
+mov dword [hudhundstep], eax	; 69BB8
+mov eax, dword [hudhundaccum]	; 69BBD
 mov edx, eax	; 69BC2
 sar edx, 1Fh	; 69BC4
 idiv ebx	; 69BC7
-mov dword [dword_D8C78], edx	; 69BC9
+mov dword [hudhundaccum], edx	; 69BC9
 cmp word [exitgame], byte 0	; 69BCF
 je short .23	; 69BD7
 mov eax, dword [gameclock-2]	; 69BD9
@@ -576,7 +576,7 @@ add eax, edx	; 69C10
 shl eax, 2	; 69C12
 mov edx, dword [hudclockhund]	; 69C15
 add eax, edx	; 69C1B
-mov dword [dword_DC28C], eax	; 69C1D
+mov dword [hudhundstep], eax	; 69C1D
 .23:
 call UpdateHudPanel	; 69C22
 mov bx, word [fadeinpending]	; 69C27
@@ -633,7 +633,7 @@ cmp eax, byte 0FFFFFFFFh	; 69CEF
 je short .27	; 69CF2
 mov ebx, dword [dword_E0244]	; 69CF4
 push ebx	; 69CFA
-call jctime	; 69CFB
+call FreeMemBlock	; 69CFB
 add esp, byte 4	; 69D00
 .27:
 mov edi, 0FFFFFFFFh	; 69D03
@@ -806,7 +806,7 @@ mov word [lcboxon+2], di	; 69FC0
 mov word [lcboxon], di	; 69FC7
 mov word [fadeinpending], 1	; 69FCE
 xor edx, edx	; 69FD7
-mov dword [dword_D8C78], edx	; 69FD9
+mov dword [hudhundaccum], edx	; 69FD9
 mov word [refsignal], di	; 69FDF
 mov word [RefStep], cx	; 69FE6
 mov edx, 1Eh	; 69FED

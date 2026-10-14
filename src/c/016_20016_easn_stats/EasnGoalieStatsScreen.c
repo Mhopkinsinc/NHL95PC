@@ -45,7 +45,7 @@ int EasnGoalieStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal7);
     FadePalStep(0, (unsigned char *)statspalshape + 0x10, 0x10);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     RunMenu(unk_CF88F, 4, 0x40, 0x41, 0x42);
     sub_8FFB0(0, 0x100, buf);
     if (gamemode != 1) {
@@ -63,7 +63,7 @@ int EasnGoalieStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal7) + 0x10;
     FadePalStep(1, buf, 0x10);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     dword_DC738 = 0;
     statsredrawcb = 0;
     return 2;

@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_A9C9C progbits alloc exec nowrite align=1
-extern sub_902A0, unk_A9C80, unk_A9C81, unk_A9C83, unk_A9C85, unk_A9C86, unk_A9C88, unk_A9C89
+extern __GETDS, unk_A9C80, unk_A9C81, unk_A9C83, unk_A9C85, unk_A9C86, unk_A9C88, unk_A9C89
 extern unk_A9C8A, unk_A9C8E, unk_A9C8F, unk_A9C90, unk_A9C91, unk_A9C92, unk_A9C96, unk_A9C98
 global loc_A9CAC, loc_A9CD2, loc_A9CDD, loc_A9CDF, loc_A9CE3, loc_A9CE5, loc_A9CFD, loc_A9CFF
 global loc_A9D05, loc_A9D07, loc_A9D09, loc_A9D11, loc_A9D13, loc_A9D19, loc_A9D1B, loc_A9D30
@@ -124,7 +124,7 @@ sub_A9D4C:
 pushf	; A9D4C
 pusha	; A9D4D
 push ds	; A9D4E
-call sub_902A0	; A9D4F
+call __GETDS	; A9D4F
 sub_A9D54:
 movzx edx, word [unk_A9C86]	; A9D54
 add edx, byte 0Eh	; A9D5B

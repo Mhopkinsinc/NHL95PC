@@ -2,7 +2,7 @@
 bits 32
 %include "hockey.inc"
 section s_92DE0 progbits alloc exec nowrite align=1
-extern jctime, sub_8D714, sub_8DBC0, sub_B3ABC, sub_B3B19, sub_B3C60, sub_B3C74
+extern FreeMemBlock, sub_8D714, sub_8DBC0, sub_B3ABC, sub_B3B19, sub_B3C60, sub_B3C74
 global loc_92E7B, loc_92EC1, sub_92DE0, sub_92DF0, sub_92E00, sub_92E40, sub_92ECC, sub_92EE4
 sub_92DE0:
 push byte 1	; 92DE0
@@ -61,7 +61,7 @@ push esi	; 92E67
 call sub_B3ABC	; 92E68
 add esp, byte 0Ch	; 92E6D
 push esi	; 92E70
-call jctime	; 92E71
+call FreeMemBlock	; 92E71
 add esp, byte 4	; 92E76
 jmp short loc_92EC1	; 92E79
 loc_92E7B:

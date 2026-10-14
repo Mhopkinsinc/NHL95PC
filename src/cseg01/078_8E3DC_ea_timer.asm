@@ -2,14 +2,14 @@
 bits 32
 %include "hockey.inc"
 section s_8E3DC progbits alloc exec nowrite align=1
-extern __STOSD, _dos_getvect_, _dos_setvect_, asc_C3F5C, dword_D2FDC, dword_D2FE0, dword_D2FE4, dword_EDCDC
-extern strncmp_, strncpy_, sub_902A0, sub_91FA4, sub_98B30, FatalError, sub_B3454, sub_B3ABC
-extern word_D2FE8
+extern __STOSD, _dos_getvect_, _dos_setvect_, asc_C3F5C, tickcount, slowtickcount, oldint8off, timercallbacks
+extern strncmp_, strncpy_, __GETDS, sub_91FA4, sub_98B30, FatalError, sub_B3454, sub_B3ABC
+extern oldint8sel
 global loc_8E42F, loc_8E440, loc_8E443, loc_8E449, loc_8E473, loc_8E484, loc_8E4B0, loc_8E4B8
 global loc_8E4CB, loc_8E4D6, loc_8E4E9, loc_8E507, loc_8E511, loc_8E523, loc_8E52C, loc_8E536
 global loc_8E56A, loc_8E5A5, loc_8E5A8, sub_8E3DC, sub_8E3E4, sub_8E3F8, sub_8E40C, sub_8E424
-global sub_8E44C, sub_8E45C, sub_8E4C0, sub_8E4F3, sub_8E4F8, sub_8E528, sub_8E544, sub_8E554
-global sub_8E5AC, sub_8E614, sub_8E624, sub_8E6A8, sub_8E6CC, sub_8E714, sub_8E738, sub_8E780
+global sub_8E44C, TimerISR, addtimer, sub_8E4F3, RemoveTimerCallback, CountTimerCallbacks, MaskTimerKbdIrq, RestoreTimer
+global InstallTimer, UnmaskTimerKbdIrq, sub_8E624, sub_8E6A8, sub_8E6CC, sub_8E714, sub_8E738, sub_8E780
 sub_8E3DC:
 mov eax, dword [byte esp+04h]	; 8E3DC
 ret	; 8E3E0
@@ -65,7 +65,7 @@ call sub_8E424	; 8E451
 add esp, byte 4	; 8E456
 ret	; 8E459
 db 08Bh,0C0h
-sub_8E45C:
+TimerISR:
 pusha	; 8E45C
 push ds	; 8E45D
 push es	; 8E45E
@@ -73,28 +73,28 @@ push fs	; 8E45F
 push gs	; 8E461
 mov ebp, esp	; 8E463
 cld	; 8E465
-call sub_902A0	; 8E466
-inc dword [dword_D2FDC]	; 8E46B
+call __GETDS	; 8E466
+inc dword [tickcount]	; 8E46B
 xor edx, edx	; 8E471
 loc_8E473:
-cmp dword [dword edx+dword_EDCDC], byte 0	; 8E473
+cmp dword [dword edx+timercallbacks], byte 0	; 8E473
 je short loc_8E484	; 8E47A
 mov eax, edx	; 8E47C
-call dword [dword eax+dword_EDCDC]	; 8E47E
+call dword [dword eax+timercallbacks]	; 8E47E
 loc_8E484:
 add edx, byte 4	; 8E484
 cmp edx, byte 20h	; 8E487
 jne short loc_8E473	; 8E48A
 mov ebx, 5	; 8E48C
-mov eax, dword [dword_D2FDC]	; 8E491
+mov eax, dword [tickcount]	; 8E491
 mov edx, eax	; 8E496
 sar edx, 1Fh	; 8E498
 idiv ebx	; 8E49B
 test edx, edx	; 8E49D
 jne short loc_8E4B0	; 8E49F
-inc dword [dword_D2FE0]	; 8E4A1
+inc dword [slowtickcount]	; 8E4A1
 pushf	; 8E4A7
-call far [dword_D2FE4]	; 8E4A8
+call far [oldint8off]	; 8E4A8
 jmp short loc_8E4B8	; 8E4AE
 loc_8E4B0:
 mov al, 20h	; 8E4B0
@@ -107,19 +107,19 @@ pop es	; 8E4BC
 pop ds	; 8E4BD
 popa	; 8E4BE
 iret	; 8E4BF
-sub_8E4C0:
+addtimer:
 xor eax, eax	; 8E4C0
-cmp dword [dword_EDCDC], byte 0	; 8E4C2
+cmp dword [timercallbacks], byte 0	; 8E4C2
 jne short loc_8E4D6	; 8E4C9
 loc_8E4CB:
 mov edx, dword [byte esp+04h]	; 8E4CB
-mov dword [dword eax+dword_EDCDC], edx	; 8E4CF
+mov dword [dword eax+timercallbacks], edx	; 8E4CF
 ret	; 8E4D5
 loc_8E4D6:
 add eax, byte 4	; 8E4D6
 cmp eax, byte 20h	; 8E4D9
 jge short loc_8E4E9	; 8E4DC
-cmp dword [dword eax+dword_EDCDC], byte 0	; 8E4DE
+cmp dword [dword eax+timercallbacks], byte 0	; 8E4DE
 je short loc_8E4CB	; 8E4E5
 jmp short loc_8E4D6	; 8E4E7
 loc_8E4E9:
@@ -129,33 +129,33 @@ sub_8E4F3:
 add esp, byte 4	; 8E4F3
 ret	; 8E4F6
 db 090h
-sub_8E4F8:
+RemoveTimerCallback:
 push esi	; 8E4F8
 mov edx, dword [byte esp+08h]	; 8E4F9
 xor eax, eax	; 8E4FD
-cmp edx, dword [dword_EDCDC]	; 8E4FF
+cmp edx, dword [timercallbacks]	; 8E4FF
 jne short loc_8E511	; 8E505
 loc_8E507:
 xor esi, esi	; 8E507
-mov dword [dword eax+dword_EDCDC], esi	; 8E509
+mov dword [dword eax+timercallbacks], esi	; 8E509
 pop esi	; 8E50F
 ret	; 8E510
 loc_8E511:
 add eax, byte 4	; 8E511
 cmp eax, byte 20h	; 8E514
 jge short loc_8E523	; 8E517
-cmp edx, dword [dword eax+dword_EDCDC]	; 8E519
+cmp edx, dword [dword eax+timercallbacks]	; 8E519
 je short loc_8E507	; 8E51F
 jmp short loc_8E511	; 8E521
 loc_8E523:
 pop esi	; 8E523
 ret	; 8E524
 db 08Dh,040h,00h
-sub_8E528:
+CountTimerCallbacks:
 xor edx, edx	; 8E528
 xor eax, eax	; 8E52A
 loc_8E52C:
-cmp dword [dword eax+dword_EDCDC], byte 0	; 8E52C
+cmp dword [dword eax+timercallbacks], byte 0	; 8E52C
 je short loc_8E536	; 8E533
 inc edx	; 8E535
 loc_8E536:
@@ -165,7 +165,7 @@ jne short loc_8E52C	; 8E53C
 mov eax, edx	; 8E53E
 ret	; 8E540
 db 08Dh,040h,00h
-sub_8E544:
+MaskTimerKbdIrq:
 push edx	; 8E544
 mov edx, 21h	; 8E545
 sub eax, eax	; 8E54A
@@ -175,18 +175,18 @@ out dx, al	; 8E54F
 pop edx	; 8E550
 ret	; 8E551
 db 08Bh,0C0h
-sub_8E554:
+RestoreTimer:
 push ebx	; 8E554
 push ecx	; 8E555
 push edx	; 8E556
-cmp dword [dword_D2FE4], byte 0	; 8E557
+cmp dword [oldint8off], byte 0	; 8E557
 jne short loc_8E56A	; 8E55E
-cmp word [word_D2FE8], byte 0	; 8E560
+cmp word [oldint8sel], byte 0	; 8E560
 je short loc_8E5A5	; 8E568
 loc_8E56A:
-call sub_8E544	; 8E56A
-mov cx, word [word_D2FE8]	; 8E56F
-mov ebx, dword [dword_D2FE4]	; 8E576
+call MaskTimerKbdIrq	; 8E56A
+mov cx, word [oldint8sel]	; 8E56F
+mov ebx, dword [oldint8off]	; 8E576
 mov eax, 8	; 8E57C
 call _dos_setvect_	; 8E581
 xor al, al	; 8E586
@@ -194,10 +194,10 @@ mov edx, 40h	; 8E588
 out dx, al	; 8E58D
 out dx, al	; 8E58E
 xor ebx, ebx	; 8E58F
-mov word [word_D2FE8], bx	; 8E591
+mov word [oldint8sel], bx	; 8E591
 xor ebx, ebx	; 8E598
-mov dword [dword_D2FE4], ebx	; 8E59A
-call sub_8E614	; 8E5A0
+mov dword [oldint8off], ebx	; 8E59A
+call UnmaskTimerKbdIrq	; 8E5A0
 loc_8E5A5:
 pop edx	; 8E5A5
 pop ecx	; 8E5A6
@@ -205,33 +205,33 @@ pop ebx	; 8E5A7
 loc_8E5A8:
 ret	; 8E5A8
 db 08Dh,040h,00h
-sub_8E5AC:
+InstallTimer:
 mov ecx, 8	; 8E5AC
 xor edx, edx	; 8E5B1
-mov eax, dword_EDCDC	; 8E5B3
+mov eax, timercallbacks	; 8E5B3
 call __STOSD	; 8E5B8
-cmp dword [dword_D2FE4], byte 0	; 8E5BD
+cmp dword [oldint8off], byte 0	; 8E5BD
 jne short loc_8E5A8	; 8E5C4
-cmp word [word_D2FE8], byte 0	; 8E5C6
+cmp word [oldint8sel], byte 0	; 8E5C6
 jne short loc_8E5A8	; 8E5CE
-call sub_8E544	; 8E5D0
+call MaskTimerKbdIrq	; 8E5D0
 mov eax, 8	; 8E5D5
 call _dos_getvect_	; 8E5DA
-mov word [word_D2FE8], dx	; 8E5DF
-mov dword [dword_D2FE4], eax	; 8E5E6
+mov word [oldint8sel], dx	; 8E5DF
+mov dword [oldint8off], eax	; 8E5E6
 mov al, 9Ch	; 8E5EB
 mov edx, 40h	; 8E5ED
 out dx, al	; 8E5F2
 mov al, 2Eh	; 8E5F3
 out dx, al	; 8E5F5
 mov ecx, cs	; 8E5F6
-mov ebx, sub_8E45C	; 8E5F8
+mov ebx, TimerISR	; 8E5F8
 mov eax, 8	; 8E5FD
 call _dos_setvect_	; 8E602
-push sub_8E554	; 8E607
+push RestoreTimer	; 8E607
 call sub_B3454	; 8E60C
 add esp, byte 4	; 8E611
-sub_8E614:
+UnmaskTimerKbdIrq:
 push edx	; 8E614
 mov edx, 21h	; 8E615
 sub eax, eax	; 8E61A

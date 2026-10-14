@@ -7,7 +7,7 @@ extern str_Iff10, str_Leaguetm2, str_Tspal, str_Pal20, str_Menubuff6, str_WhoWil
 extern str_extDB, str_EnterPasswordFor, str_VerifyPasswordFor, str_EnterMasterPassword, str_EnterMasterControllerPasswor, str_VerifyMasterControllerPasswo, passkey, passkey_m1
 extern divisionteams, musicon, leagueflags, savedname, gameopts, fileoncd
 extern songdata, teamselsetslot, musichandle, cddriveptr, mainfont, musicslot
-extern pointerspr, teamselresult, leaguemaster, leaguesaved, ptrupdatefn, jctime, memcpy_, memset_
+extern pointerspr, teamselresult, leaguemaster, leaguesaved, ptrupdatefn, FreeMemBlock, memcpy_, memset_
 extern pwmismatchmsg, strcat_, strcmp_, strcpy_, stricmp_, strlen_, MakePath, leaguedbnames
 extern FileOpenRead, FileClose, FileReadAt, FileWriteAt, ReadTeamRec, SetTextColors, TextInputDialog, ListDialog
 extern SetDialogColors, MessageBox, TeamGridHitTest, DrawTeamGridName, SaveGridCellBg, RestoreGridCellBg, HighlightGridCell, DrawTeamGrid
@@ -209,11 +209,11 @@ xor dh, dh	; 38354
 mov byte [savedname], dh	; 38356
 mov edi, dword [dword esp+0E4h]	; 3835C
 push edi	; 38363
-call jctime	; 38364
+call FreeMemBlock	; 38364
 add esp, byte 4	; 38369
 mov ebp, dword [dword esp+0E0h]	; 3836C
 push ebp	; 38373
-call jctime	; 38374
+call FreeMemBlock	; 38374
 add esp, byte 4	; 38379
 add esp, 0ECh	; 3837C
 pop ebp	; 38382
@@ -867,7 +867,7 @@ mov edx, esi	; 38CF9
 mov eax, 1	; 38CFB
 call FadePalStep	; 38D00
 push esi	; 38D05
-call jctime	; 38D06
+call FreeMemBlock	; 38D06
 add esp, byte 4	; 38D0B
 cmp byte [musicon], 0	; 38D0E
 je short .9	; 38D15
@@ -1071,7 +1071,7 @@ mov ebx, 10h	; 3901B
 xor eax, eax	; 39020
 call FadePalStep	; 39022
 push esi	; 39027
-call jctime	; 39028
+call FreeMemBlock	; 39028
 add esp, byte 4	; 3902D
 lea eax, [dword esp+0238h]	; 39030
 push eax	; 39037
@@ -1207,7 +1207,7 @@ mov dword [dword esp+esi*8+01D0h], ebx	; 3923D
 mov dword [dword esp+esi*8+01D4h], ebx	; 39244
 mov esi, dword [dword esp+edi+0210h]	; 3924B
 push esi	; 39252
-call jctime	; 39253
+call FreeMemBlock	; 39253
 add esp, byte 4	; 39258
 .30:
 dec dword [dword esp+028Ch]	; 3925B
@@ -1254,7 +1254,7 @@ mov edx, esi	; 39309
 mov eax, 1	; 3930B
 call FadePalStep	; 39310
 push esi	; 39315
-call jctime	; 39316
+call FreeMemBlock	; 39316
 add esp, byte 4	; 3931B
 jmp near .36	; 3931E
 .33:
@@ -1389,7 +1389,7 @@ mov dword [dword esp+edi*8+01D0h], eax	; 39545
 mov dword [dword esp+edi*8+01D4h], eax	; 3954C
 mov ebx, dword [dword esp+esi+0210h]	; 39553
 push ebx	; 3955A
-call jctime	; 3955B
+call FreeMemBlock	; 3955B
 add esp, byte 4	; 39560
 xor ecx, ecx	; 39563
 mov dword [dword esp+esi+0210h], ecx	; 39565
@@ -1624,7 +1624,7 @@ mov dword [dword esp+esi*8+01D0h], ecx	; 39989
 mov dword [dword esp+esi*8+01D4h], ecx	; 39990
 mov edx, dword [dword esp+edi+0210h]	; 39997
 push edx	; 3999E
-call jctime	; 3999F
+call FreeMemBlock	; 3999F
 add esp, byte 4	; 399A4
 .52:
 dec dword [dword esp+028Ch]	; 399A7
@@ -2139,7 +2139,7 @@ mov edx, dword [dword esp+0250h]	; 3A131
 mov dword [edx], eax	; 3A138
 mov esi, dword [dword esp+0280h]	; 3A13A
 push esi	; 3A141
-call jctime	; 3A142
+call FreeMemBlock	; 3A142
 add esp, byte 4	; 3A147
 mov eax, dword [dword esp+0288h]	; 3A14A
 shl eax, 2	; 3A151
@@ -2170,11 +2170,11 @@ mov eax, dword [dword esp+0258h]	; 3A1B4
 call memcpy_	; 3A1BB
 .80:
 push ebp	; 3A1C0
-call jctime	; 3A1C1
+call FreeMemBlock	; 3A1C1
 add esp, byte 4	; 3A1C6
 mov ebx, dword [dword esp+024Ch]	; 3A1C9
 push ebx	; 3A1D0
-call jctime	; 3A1D1
+call FreeMemBlock	; 3A1D1
 add esp, byte 4	; 3A1D6
 jmp short .84	; 3A1D9
 .81:

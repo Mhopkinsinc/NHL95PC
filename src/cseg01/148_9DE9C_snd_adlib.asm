@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_9DE9C progbits alloc exec nowrite align=1
 extern byte_F2F42, byte_F2F43, byte_F3196, byte_F3197, dword_D4F9A, dword_F2F28, dword_F3108, memcpy_
-extern sub_8F0D7, sub_902A0, sub_91FA4, sub_A68C9, sub_A699D, sub_A69E8, sub_A69FB, sub_A6A01
+extern sub_8F0D7, __GETDS, sub_91FA4, sub_A68C9, sub_A699D, sub_A69E8, sub_A69FB, sub_A6A01
 extern sub_A6A09, sub_A6B32, sub_A6B5D, sub_A6B73, sub_B4A60, unk_F21FC, unk_F3148, word_F2F3C
 extern word_F2F3E, word_F2F40, word_F2F44, word_F3150, word_F344E, word_F3450, word_F3452
 global jpt_9E414, loc_9DEE3, loc_9DF3A, loc_9DF46, loc_9DF5C, loc_9DF94, loc_9DFEF, loc_9DFFD
@@ -30,14 +30,14 @@ global sub_9E4D7, sub_9E511, sub_9E59D, sub_9E5C9, sub_9E676, sub_9E67C, sub_9E8
 global sub_9EBD5, sub_9ECE8, unk_9E876
 sub_9DE9C:
 push ds	; 9DE9C
-call sub_902A0	; 9DE9D
+call __GETDS	; 9DE9D
 sub_9DEA2:
 call sub_A6A01	; 9DEA2
 pop ds	; 9DEA7
 ret	; 9DEA8
 sub_9DEA9:
 push ds	; 9DEA9
-call sub_902A0	; 9DEAA
+call __GETDS	; 9DEAA
 sub_9DEAF:
 mov edx, dword [byte esp+08h]	; 9DEAF
 push edx	; 9DEB3
@@ -47,7 +47,7 @@ pop ds	; 9DEBC
 ret	; 9DEBD
 sub_9DEBE:
 push ds	; 9DEBE
-call sub_902A0	; 9DEBF
+call __GETDS	; 9DEBF
 sub_9DEC4:
 push esi	; 9DEC4
 push edi	; 9DEC5
@@ -104,14 +104,14 @@ pop ds	; 9DF71
 ret	; 9DF72
 sub_9DF73:
 push ds	; 9DF73
-call sub_902A0	; 9DF74
+call __GETDS	; 9DF74
 sub_9DF79:
 call sub_A69FB	; 9DF79
 pop ds	; 9DF7E
 ret	; 9DF7F
 sub_9DF80:
 push ds	; 9DF80
-call sub_902A0	; 9DF81
+call __GETDS	; 9DF81
 sub_9DF86:
 push esi	; 9DF86
 push edi	; 9DF87
@@ -787,7 +787,7 @@ pop ebx	; 9E674
 ret	; 9E675
 sub_9E676:
 push ds	; 9E676
-call sub_902A0	; 9E677
+call __GETDS	; 9E677
 sub_9E67C:
 push esi	; 9E67C
 push edi	; 9E67D

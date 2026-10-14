@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_9FD94 progbits alloc exec nowrite align=1
 extern byte_D5279, byte_D527A, dword_D5260, dword_D5264, dword_D5268, dword_D526C, dword_D5270, dword_D5274
-extern sub_902A0
+extern __GETDS
 global loc_9FE46, loc_9FEBE, loc_9FECC, loc_9FED3, loc_9FEDE, loc_9FEEC, loc_9FF00, loc_9FF02
 global loc_9FF11, loc_9FF17, loc_9FF1D, loc_9FF23, loc_9FF27, loc_9FF2B, loc_9FF31, loc_9FF35
 global loc_9FF3B, loc_9FF3F, loc_9FF4B, loc_9FF51, loc_9FF60, loc_9FF6E, loc_9FF77, loc_9FF86
@@ -233,7 +233,7 @@ leave	; 9FF9E
 ret	; 9FF9F
 sub_9FFA0:
 push ds	; 9FFA0
-call sub_902A0	; 9FFA1
+call __GETDS	; 9FFA1
 sub_9FFA6:
 push esi	; 9FFA6
 push edi	; 9FFA7

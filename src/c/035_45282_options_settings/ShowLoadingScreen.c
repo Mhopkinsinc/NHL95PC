@@ -46,11 +46,11 @@ void ShowLoadingScreen(void)
     }
     j = sub_B30B4(bank, (char *)str_LoadPic);
     sub_910E0(j, 0x64, 0x4B);
-    jctime(bank);
+    FreeMemBlock(bank);
     palcyclelock = 1;
     palcyclephase = 0;
     palcycledelay = 3;
-    sub_8E4C0(LoadScreenPalTick);
+    addtimer(LoadScreenPalTick);
     palcyclelock = 0;
     done = 0;
     while (!done) {
@@ -63,8 +63,8 @@ void ShowLoadingScreen(void)
                 }
             }
         }
-        sub_B3989(2);
-        sub_B3999();
+        SetTickDeadline(2);
+        WaitTickDeadline();
     }
     loadscreenon = 1;
 }

@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_9F226 progbits alloc exec nowrite align=1
 extern asc_C4A94, dword_D524C, dword_D5250, dword_D525C, dword_F3462, dword_F34DC, getenv_, int386x_
-extern memset_, outp_, sub_8F0D7, sub_902A0, sub_A6D24, sub_A6D8D, sub_A6DA0, sub_A6DED
+extern memset_, outp_, sub_8F0D7, __GETDS, sub_A6D24, sub_A6D8D, sub_A6DA0, sub_A6DED
 extern sub_A6E10, sub_A6E7B, sub_A6EA2, sub_A6EC3, sub_A6F3C, sub_A6FA2, sub_A6FE1, sub_A7094
 extern sub_A70BC, sub_A70DD, sub_A905E, sub_A9BA4, sub_AA1D9, unk_D522E, unk_D5254, unk_D5258
 extern unk_F3534, word_F3454, word_F3456, word_F345C, word_F3538, word_F354A, word_F3714, word_F3716
@@ -25,7 +25,7 @@ global sub_9F9C4, sub_9FA1A, sub_9FA5D, sub_9FB93, sub_9FBAA, sub_9FBB5, sub_9FC
 global sub_9FC94, sub_9FCAB, sub_9FD01, sub_9FD3D
 sub_9F226:
 push ds	; 9F226
-call sub_902A0	; 9F227
+call __GETDS	; 9F227
 sub_9F22C:
 sub esp, byte 10h	; 9F22C
 xor edx, edx	; 9F22F
@@ -159,7 +159,7 @@ pop ecx	; 9F385
 ret	; 9F386
 sub_9F387:
 push ds	; 9F387
-call sub_902A0	; 9F388
+call __GETDS	; 9F388
 sub_9F38D:
 push esi	; 9F38D
 cmp dword [byte esp+0Ch], byte 0	; 9F38E
@@ -206,7 +206,7 @@ pop ds	; 9F416
 ret	; 9F417
 sub_9F418:
 push ds	; 9F418
-call sub_902A0	; 9F419
+call __GETDS	; 9F419
 sub_9F41E:
 push esi	; 9F41E
 push edi	; 9F41F
@@ -252,7 +252,7 @@ pop ds	; 9F49E
 ret	; 9F49F
 sub_9F4A0:
 push ds	; 9F4A0
-call sub_902A0	; 9F4A1
+call __GETDS	; 9F4A1
 sub_9F4A6:
 cmp dword [dword_D5250], byte 0	; 9F4A6
 je short loc_9F4C6	; 9F4AD
@@ -266,7 +266,7 @@ pop ds	; 9F4C6
 ret	; 9F4C7
 sub_9F4C8:
 push ds	; 9F4C8
-call sub_902A0	; 9F4C9
+call __GETDS	; 9F4C9
 sub_9F4CE:
 push esi	; 9F4CE
 push edi	; 9F4CF
@@ -339,7 +339,7 @@ pop ds	; 9F575
 ret	; 9F576
 sub_9F577:
 push ds	; 9F577
-call sub_902A0	; 9F578
+call __GETDS	; 9F578
 sub_9F57D:
 push esi	; 9F57D
 mov edx, dword [byte esp+0Ch]	; 9F57E
@@ -410,7 +410,7 @@ call sub_AA1D9	; 9F61B
 jmp short loc_9F5E5	; 9F620
 sub_9F622:
 push ds	; 9F622
-call sub_902A0	; 9F623
+call __GETDS	; 9F623
 sub_9F628:
 movsx edx, word [byte esp+08h]	; 9F628
 mov eax, edx	; 9F62D
@@ -422,7 +422,7 @@ pop ds	; 9F640
 ret	; 9F641
 sub_9F642:
 push ds	; 9F642
-call sub_902A0	; 9F643
+call __GETDS	; 9F643
 sub_9F648:
 push esi	; 9F648
 push edi	; 9F649

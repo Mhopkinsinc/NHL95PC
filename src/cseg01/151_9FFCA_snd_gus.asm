@@ -6,7 +6,7 @@ extern __CHK, asc_C4A9C, asc_C4AA1, asc_C4AAA, asc_D53B8, byte_F5320, byte_F5321
 extern dword_D30A8, cliprect_x0, cliprect_x1, dword_D4F9A, dword_D53A0, dword_D53A4, dword_D53A8, dword_D53AC
 extern dword_D53B0, dword_D53B4, dword_D5424, dword_D543C, dword_F371E, dword_F532A, dword_F5332, dword_F558C
 extern dword_F55E4, dword_F55E8, dword_F55EC, dword_F55F0, dword_F55F4, dword_F58D0, fputchar, getenv_
-extern int386x_, memcpy_, memset_, strcat_, strcpy_, sub_8F0D7, sub_902A0, sub_91964
+extern int386x_, memcpy_, memset_, strcat_, strcpy_, sub_8F0D7, __GETDS, sub_91964
 extern sub_AA210, sub_AA300, sub_AAB5C, sub_AAC48, sub_AB79C, sub_AC0CC, sub_AC6E8, sub_AD298
 extern sub_AD4DC, sub_AD6F4, sub_AE9EB, sub_AEA23, sub_AEDBC, sub_AEE54, sub_AEF0E, sub_AEF33
 extern sub_AEFA2, sub_AEFC9, sub_AEFEA, sub_AF076, sub_AF0D5, sub_AF112, sub_AF198, sub_AF1A4
@@ -426,7 +426,7 @@ sub_A04B9:
 push dword 18h	; A04B9
 call __CHK	; A04BE
 push ds	; A04C3
-call sub_902A0	; A04C4
+call __GETDS	; A04C4
 push esi	; A04C9
 push edi	; A04CA
 push ebp	; A04CB
@@ -468,7 +468,7 @@ sub_A053C:
 push dword 18h	; A053C
 call __CHK	; A0541
 push ds	; A0546
-call sub_902A0	; A0547
+call __GETDS	; A0547
 sub_A054C:
 push esi	; A054C
 push edi	; A054D
@@ -503,7 +503,7 @@ sub_A059B:
 push dword 14h	; A059B
 call __CHK	; A05A0
 push ds	; A05A5
-call sub_902A0	; A05A6
+call __GETDS	; A05A6
 sub_A05AB:
 push esi	; A05AB
 push edi	; A05AC
@@ -524,7 +524,7 @@ sub_A05D3:
 push dword 14h	; A05D3
 call __CHK	; A05D8
 push ds	; A05DD
-call sub_902A0	; A05DE
+call __GETDS	; A05DE
 sub_A05E3:
 push esi	; A05E3
 push edi	; A05E4
@@ -545,7 +545,7 @@ sub_A060B:
 push dword 14h	; A060B
 call __CHK	; A0610
 push ds	; A0615
-call sub_902A0	; A0616
+call __GETDS	; A0616
 sub_A061B:
 push esi	; A061B
 push edi	; A061C
@@ -566,7 +566,7 @@ sub_A0643:
 push dword 14h	; A0643
 call __CHK	; A0648
 push ds	; A064D
-call sub_902A0	; A064E
+call __GETDS	; A064E
 sub_A0653:
 push esi	; A0653
 push edi	; A0654
@@ -587,7 +587,7 @@ sub_A067B:
 push dword 3Ch	; A067B
 call __CHK	; A0680
 push ds	; A0685
-call sub_902A0	; A0686
+call __GETDS	; A0686
 sub_A068B:
 push esi	; A068B
 push edi	; A068C
@@ -681,7 +681,7 @@ sub_A076E:
 push dword 28h	; A076E
 call __CHK	; A0773
 push ds	; A0778
-call sub_902A0	; A0779
+call __GETDS	; A0779
 sub_A077E:
 push esi	; A077E
 push edi	; A077F
@@ -765,7 +765,7 @@ sub_A0853:
 push dword 14h	; A0853
 call __CHK	; A0858
 push ds	; A085D
-call sub_902A0	; A085E
+call __GETDS	; A085E
 sub_A0863:
 push esi	; A0863
 push edi	; A0864
@@ -786,7 +786,7 @@ sub_A0886:
 push dword 34h	; A0886
 call __CHK	; A088B
 push ds	; A0890
-call sub_902A0	; A0891
+call __GETDS	; A0891
 sub_A0896:
 push esi	; A0896
 push edi	; A0897
@@ -1258,7 +1258,7 @@ sub_A0D99:
 push dword 40h	; A0D99
 call __CHK	; A0D9E
 push ds	; A0DA3
-call sub_902A0	; A0DA4
+call __GETDS	; A0DA4
 sub_A0DA9:
 push esi	; A0DA9
 push edi	; A0DAA
@@ -1459,7 +1459,7 @@ sub_A0FEA:
 push dword 3Ch	; A0FEA
 call __CHK	; A0FEF
 push ds	; A0FF4
-call sub_902A0	; A0FF5
+call __GETDS	; A0FF5
 sub_A0FFA:
 push esi	; A0FFA
 push edi	; A0FFB

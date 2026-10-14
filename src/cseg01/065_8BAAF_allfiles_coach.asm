@@ -5,7 +5,7 @@ section s_8BAAF progbits alloc exec nowrite align=1
 extern __CHK, str_NhlCfg, str_CantOpenNhlCfg2, str_ALLFILESTXT, str_ALLFILESTXT2, str_CouldNotOpenALLFILES, asc_C3B67, str_Coachcut
 extern str_Scrn4, str_Pal29, str_Iff13, str_Coach, str_Clip04d, str_Cmv2, musicon, gameopts
 extern cddrivestr, fileoncd, songdata, cddriveptr, musicslot
-extern fclose_, fgets_, fopen_, fscanf_, jctime, memcpy_, rand_, sprintf_
+extern fclose_, fgets_, fopen_, fscanf_, FreeMemBlock, memcpy_, rand_, sprintf_
 extern strcat_, stricmp_, FadePalette, MakePath, WaitClickTimeout, FadeOutPalCycle, InputInstall, InputRemove
 extern SpeechBusy, MusicChanReset2, SayCoachClip, FreeCoachClip, PlayMVI, sub_8D2F0, sub_8E83C, sub_8F98F
 extern sub_8FC8A, sub_8FFB0, sub_9061C, FatalError, sub_B30B4, sub_B4BA8, unk_C3B0C
@@ -190,7 +190,7 @@ mov ebx, 300h	; 8BCBF
 mov eax, esp	; 8BCC4
 call memcpy_	; 8BCC6
 push esi	; 8BCCB
-call jctime	; 8BCCC
+call FreeMemBlock	; 8BCCC
 add esp, byte 4	; 8BCD1
 cmp byte [musicon], 0	; 8BCD4
 je short .5	; 8BCDB

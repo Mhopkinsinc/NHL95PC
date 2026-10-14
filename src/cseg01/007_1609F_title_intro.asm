@@ -10,7 +10,7 @@ extern str_KMS, musicon, byte_D42C3, fileoncd
 extern dword_C4CFC, demomode, sounddev, dword_C588A, textgrid, textgridon
 extern textcolor, textshadow, textoutlinedx, textoutlinedy, songdata, dword_CC0EC, dword_CCC94, musicslot
 extern musichandle, cddriveptr, fontcolor, kaufmfont, mainfont, pointerspr, dword_DC33C, speechbank
-extern fputchar, jctime, RunDemoGame_x, memcpy_, memset_, off_C6399, rand_, sprintf_
+extern fputchar, FreeMemBlock, RunDemoGame_x, memcpy_, memset_, off_C6399, rand_, sprintf_
 extern srand_, strlen_, MakePath, RunDemoGame, AnyInputPressed, ReadBE32, sub_1AC25, sub_1ACF1
 extern sub_1AD16, sub_1B002, sub_1B092, sub_1B09F, sub_1B0AD, sub_1B0BB, sub_1B0C9, sub_1B0D7
 extern sub_1B0E5, sub_1B0F3, sub_1B18B, sub_1B1C2, sub_1B2A7, sub_1B8AC, sub_1B92E, WaitClickTimeout
@@ -18,7 +18,7 @@ extern FadeOutPalCycle, StopDigiSample, PlayDigiSample, PaNhlIntro, PaGoodnight,
 extern InitSpeechSlots, SpeechStopQueue, sub_8CCA8, sub_8D2F0, sub_8E83C, sub_8E9E8, sub_8EA00, sub_8EA18
 extern sub_8F13B, sub_8F1FE, sub_8F98F, sub_8FB8E, sub_8FC8A, sub_8FCDF, sub_903F0, sub_9061C
 extern sub_9087C, sub_9121C, sub_91284, sub_912C8, sub_9132C, sub_91370, sub_913B4, sub_91400
-extern sub_91964, sub_B30B4, sub_B392C, sub_B395C, sub_B396E, sub_B3989, sub_B3999, sub_B39A7
+extern sub_91964, sub_B30B4, sub_B392C, GetTicks, TicksSinceLastCall, SetTickDeadline, WaitTickDeadline, TickDeadlinePassed
 extern sub_B3A88, sub_B3AA1, sub_B4B88, sub_B4BA8, SetDrawBitmap, sub_B4F8C, unk_C4E30, unk_C638C
 global TitleScreen, RunIntro
 global ShowCredits, SetTextColors, RenderTextLine, PrintCenteredText, PrintShadowText, PrintOutlinedText, PrintFmt1, PrintFmt2
@@ -116,7 +116,7 @@ mov ebx, 9C40h	; 161BA
 call memcpy_	; 161BF
 mov esi, dword [dword esp+0320h]	; 161C4
 push esi	; 161CB
-call jctime	; 161CC
+call FreeMemBlock	; 161CC
 add esp, byte 4	; 161D1
 cmp byte [musicon], 0	; 161D4
 je short .8	; 161DB
@@ -190,10 +190,10 @@ add esp, byte 8	; 162D6
 call sub_1AC25	; 162D9
 mov edi, eax	; 162DE
 push dword 96h	; 162E0
-call sub_B3989	; 162E5
+call SetTickDeadline	; 162E5
 add esp, byte 4	; 162EA
 .16:
-call sub_B39A7	; 162ED
+call TickDeadlinePassed	; 162ED
 test eax, eax	; 162F2
 jne short .17	; 162F4
 call sub_1B2A7	; 162F6
@@ -219,10 +219,10 @@ mov edx, esp	; 16346
 xor eax, eax	; 16348
 call FadePalStep	; 1634A
 push byte 5Ah	; 1634F
-call sub_B3989	; 16351
+call SetTickDeadline	; 16351
 add esp, byte 4	; 16356
 .19:
-call sub_B39A7	; 16359
+call TickDeadlinePassed	; 16359
 test eax, eax	; 1635E
 jne short .21	; 16360
 call sub_1B2A7	; 16362
@@ -236,12 +236,12 @@ xor eax, eax	; 1637A
 call FadePalStep	; 1637C
 .21:
 xor esi, esi	; 16381
-call sub_B395C	; 16383
+call GetTicks	; 16383
 mov dword [dword esp+0344h], eax	; 16388
 mov dword [dword esp+034Ch], esi	; 1638F
 mov dword [dword esp+0338h], 1	; 16396
 xor ebp, ebp	; 163A1
-call sub_B396E	; 163A3
+call TicksSinceLastCall	; 163A3
 mov dword [dword esp+0348h], esi	; 163A8
 .22:
 mov edx, dword [dword esp+0340h]	; 163AF
@@ -276,7 +276,7 @@ inc ebp	; 1641F
 mov eax, edi	; 16420
 call sub_1B002	; 16422
 mov dword [dword esp+0328h], eax	; 16427
-call sub_B395C	; 1642E
+call GetTicks	; 1642E
 sub eax, dword [dword esp+0344h]	; 16433
 cmp eax, dword [dword esp+034Ch]	; 1643A
 jge short .26	; 16441
@@ -317,7 +317,7 @@ call PaNhlIntro	; 164C9
 .27:
 xor ecx, ecx	; 164CE
 mov dword [dword esp+0338h], ecx	; 164D0
-call sub_B395C	; 164D7
+call GetTicks	; 164D7
 mov dword [dword esp+0344h], eax	; 164DC
 jmp near .32	; 164E3
 .28:
@@ -402,7 +402,7 @@ add esp, byte 8	; 165E0
 call sub_1B2A7	; 165E3
 cmp dword [dword esp+0330h], 4D564966h	; 165E8
 jne short .35	; 165F3
-call sub_B395C	; 165F5
+call GetTicks	; 165F5
 sub eax, dword [dword esp+0344h]	; 165FA
 mov ebx, dword [dword esp+034Ch]	; 16601
 cmp eax, ebx	; 16608
@@ -410,10 +410,10 @@ jge short .35	; 1660A
 mov edx, ebx	; 1660C
 sub edx, eax	; 1660E
 push edx	; 16610
-call sub_B3989	; 16611
+call SetTickDeadline	; 16611
 add esp, byte 4	; 16616
 .33:
-call sub_B39A7	; 16619
+call TickDeadlinePassed	; 16619
 test eax, eax	; 1661E
 jne short .35	; 16620
 test esi, esi	; 16622
@@ -489,7 +489,7 @@ call sub_8F1FE	; 16708
 .42:
 mov eax, dword [dword esp+033Ch]	; 1670D
 push eax	; 16714
-call jctime	; 16715
+call FreeMemBlock	; 16715
 add esp, byte 4	; 1671A
 mov eax, esi	; 1671D
 add esp, 350h	; 1671F
@@ -569,7 +569,7 @@ push eax	; 16826
 call sub_9121C	; 16827
 add esp, byte 4	; 1682C
 push esi	; 1682F
-call jctime	; 16830
+call FreeMemBlock	; 16830
 add esp, byte 4	; 16835
 xor ecx, ecx	; 16838
 mov ebx, str_Pioneer2	; 1683A
@@ -643,9 +643,9 @@ mov ebx, 1	; 16954
 call sub_8FB8E	; 16959
 .12:
 push dword 104h	; 1695E
-call sub_B3989	; 16963
+call SetTickDeadline	; 16963
 add esp, byte 4	; 16968
-call sub_B3999	; 1696B
+call WaitTickDeadline	; 1696B
 mov dword [dword esp+063Ch], 50h	; 16970
 jmp short .14	; 1697B
 .13:
@@ -692,9 +692,9 @@ inc esi	; 169F1
 cmp esi, 300h	; 169F2
 jl short RunIntro.17	; 169F8
 push byte 2	; 169FA
-call sub_B3989	; 169FC
+call SetTickDeadline	; 169FC
 add esp, byte 4	; 16A01
-call sub_B3999	; 16A04
+call WaitTickDeadline	; 16A04
 test edi, edi	; 16A09
 je short RunIntro.16	; 16A0B
 mov eax, esp	; 16A0D
@@ -707,9 +707,9 @@ jmp short RunIntro.16	; 16A1F
 .20:
 mov edx, dword [dword esp+063Ch]	; 16A21
 push edx	; 16A28
-call sub_B3989	; 16A29
+call SetTickDeadline	; 16A29
 add esp, byte 4	; 16A2E
-call sub_B3999	; 16A31
+call WaitTickDeadline	; 16A31
 mov esi, 1	; 16A36
 .21:
 push esi	; 16A3B
@@ -751,9 +751,9 @@ inc esi	; 16AA9
 cmp esi, 270h	; 16AAA
 jl short RunIntro.23	; 16AB0
 push byte 5	; 16AB2
-call sub_B3989	; 16AB4
+call SetTickDeadline	; 16AB4
 add esp, byte 4	; 16AB9
-call sub_B3999	; 16ABC
+call WaitTickDeadline	; 16ABC
 test edi, edi	; 16AC1
 je short RunIntro.22	; 16AC3
 mov eax, esp	; 16AC5
@@ -777,9 +777,9 @@ mov ebx, 300h	; 16AFB
 lea eax, [dword esp+0300h]	; 16B00
 call memcpy_	; 16B07
 push byte 50h	; 16B0C
-call sub_B3989	; 16B0E
+call SetTickDeadline	; 16B0E
 add esp, byte 4	; 16B13
-call sub_B3999	; 16B16
+call WaitTickDeadline	; 16B16
 cmp byte [musicon], 0	; 16B1B
 je short .26	; 16B22
 cmp dword [dword esp+0648h], byte 0	; 16B24
@@ -810,7 +810,7 @@ push esi	; 16B7E
 call sub_9121C	; 16B7F
 add esp, byte 4	; 16B84
 push ebp	; 16B87
-call jctime	; 16B88
+call FreeMemBlock	; 16B88
 add esp, byte 4	; 16B8D
 mov edi, 1	; 16B90
 .28:
@@ -830,9 +830,9 @@ inc esi	; 16BB3
 cmp esi, 300h	; 16BB4
 jl short RunIntro.29	; 16BBA
 push byte 5	; 16BBC
-call sub_B3989	; 16BBE
+call SetTickDeadline	; 16BBE
 add esp, byte 4	; 16BC3
-call sub_B3999	; 16BC6
+call WaitTickDeadline	; 16BC6
 test edi, edi	; 16BCB
 je short RunIntro.28	; 16BCD
 mov eax, esp	; 16BCF
@@ -844,9 +844,9 @@ add esp, byte 0Ch	; 16BDE
 jmp short RunIntro.28	; 16BE1
 .31:
 push byte 28h	; 16BE3
-call sub_B3989	; 16BE5
+call SetTickDeadline	; 16BE5
 add esp, byte 4	; 16BEA
-call sub_B3999	; 16BED
+call WaitTickDeadline	; 16BED
 cmp byte [musicon], 0	; 16BF2
 je short .32	; 16BF9
 mov edi, dword [dword esp+0644h]	; 16BFB
@@ -879,9 +879,9 @@ mov byte [esp+eax], ch	; 16C4A
 mov byte [byte esp+eax+01h], ch	; 16C4D
 mov byte [byte esp+eax+02h], ch	; 16C51
 push byte 2	; 16C55
-call sub_B3989	; 16C57
+call SetTickDeadline	; 16C57
 add esp, byte 4	; 16C5C
-call sub_B3999	; 16C5F
+call WaitTickDeadline	; 16C5F
 mov eax, esp	; 16C64
 push eax	; 16C66
 push dword 100h	; 16C67
@@ -892,9 +892,9 @@ inc esi	; 16C76
 cmp esi, 0F0h	; 16C77
 jl short RunIntro.33	; 16C7D
 push dword 0C8h	; 16C7F
-call sub_B3989	; 16C84
+call SetTickDeadline	; 16C84
 add esp, byte 4	; 16C89
-call sub_B3999	; 16C8C
+call WaitTickDeadline	; 16C8C
 cmp byte [musicon], 0	; 16C91
 je short .35	; 16C98
 mov eax, dword [musichandle]	; 16C9A
@@ -1025,7 +1025,7 @@ push eax	; 16E61
 call sub_912C8	; 16E62
 add esp, byte 4	; 16E67
 push esi	; 16E6A
-call jctime	; 16E6B
+call FreeMemBlock	; 16E6B
 add esp, byte 4	; 16E70
 cmp byte [musicon], 0	; 16E73
 je short .50	; 16E7A
@@ -1057,9 +1057,9 @@ mov edx, esp	; 16EDD
 xor eax, eax	; 16EDF
 call FadePalStep	; 16EE1
 push dword 0C8h	; 16EE6
-call sub_B3989	; 16EEB
+call SetTickDeadline	; 16EEB
 add esp, byte 4	; 16EF0
-call sub_B3999	; 16EF3
+call WaitTickDeadline	; 16EF3
 cmp byte [musicon], 0	; 16EF8
 je short .52	; 16EFF
 cmp dword [songdata], byte 0	; 16F01
@@ -1182,7 +1182,7 @@ push edx	; 170A4
 call sub_9061C	; 170A5
 add esp, byte 4	; 170AA
 push ebp	; 170AD
-call jctime	; 170AE
+call FreeMemBlock	; 170AE
 add esp, byte 4	; 170B3
 push byte 3Fh	; 170B6
 push dword 14Ah	; 170B8
@@ -1338,7 +1338,7 @@ push edi	; 1730A
 call sub_91370	; 1730B
 add esp, byte 0Ch	; 17310
 push esi	; 17313
-call jctime	; 17314
+call FreeMemBlock	; 17314
 add esp, byte 4	; 17319
 jmp short .19	; 1731C
 .18:
@@ -1449,7 +1449,7 @@ call sub_8EA00	; 17490
 add esp, byte 4	; 17495
 mov edx, dword [dword esp+0360h]	; 17498
 push edx	; 1749F
-call jctime	; 174A0
+call FreeMemBlock	; 174A0
 add esp, byte 4	; 174A5
 call sub_B4BA8	; 174A8
 push byte 0	; 174AD

@@ -6,7 +6,7 @@ void RestoreDialogBg(void)
 {
     if (dlgsavebuf) {
         sub_903F0(dlgsavebuf, dlgsavex, dlgsavey);
-        jctime(dlgsavebuf);
+        FreeMemBlock(dlgsavebuf);
         dlgsavebuf = 0;
     }
 }

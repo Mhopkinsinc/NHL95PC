@@ -6,7 +6,7 @@
  and walk four blocks of games at +199Ah. Each played game (teams and scores not FFh) gives a win to
  the higher score, team byte +2 or +3. Those counts are written through teams[] into out[] for
  slots 0-0Fh, 10h-17h, 18h-1Bh and 1Ch-1Dh. The win bytes are cleared before each block. The
- schedule block is freed with jctime. */
+ schedule block is freed with FreeMemBlock. */
 void CountSeriesWins(int *teams, int *out, int mode)
 {
     unsigned char wins[0x20];
@@ -73,5 +73,5 @@ void CountSeriesWins(int *teams, int *out, int mode)
     }
     for (i = 0x1C; i < 0x1E; i++)
         out[i] = wins[teams[i]];
-    jctime(sched - 2);
+    FreeMemBlock(sched - 2);
 }

@@ -6,12 +6,12 @@ extern __CHK, str_GsummaryDb4, str_AGameYouRequire, str_DemoNhl, str_Gsummary3, 
 extern str_Sav3, str_Pointer22, str_Savegame, str_Prmt, str_Dialog, str_Nhl3, str_Err1, str_extDB
 extern str_AGameYouRequire3, curleague, othergames, otherscores, gameopts
 extern demomode, postate, lgstate, gamemode, cddriveptr, mainfont, pointerspr, fileoncd
-extern dword_DC888, dword_DC88C, otherperiod, ptrupdatefn, jctime, msg_SavingLeagueGame, msg_SavingPlayoffGame, msg_NoSaveSpace
+extern dword_DC888, dword_DC88C, otherperiod, ptrupdatefn, FreeMemBlock, msg_SavingLeagueGame, msg_SavingPlayoffGame, msg_NoSaveSpace
 extern sprintf_, strcat_, MakePath, FileCreate, FileClose, FileWriteAt, CopyFile, DiskSpaceShort
 extern SetDialogColors, RestoreDialogBg, MessageBox, EditTextField, SaveModeState, LoadModeState, WriteModeState, SaveLeagueGameRef
 extern SaveGameState, GetInputEvent, ClearInputQueue, ViewHilights, sub_8CCA8, sub_8E83C, sub_8E8A0, sub_8E9C0
 extern sub_8E9E8, sub_8EA00, sub_8EA18, sub_903F0, sub_910E0, sub_91284, sub_91370, sub_91400
-extern sub_92CD0, sub_92DE0, FatalError, MouseSetPos, sub_B2DCA, sub_B30B4, sub_B3989, sub_B3999
+extern sub_92CD0, sub_92DE0, FatalError, MouseSetPos, sub_B2DCA, sub_B30B4, SetTickDeadline, WaitTickDeadline
 extern sub_B4BA8, unk_C392C, unk_C392F, unk_C393B, unk_C393E, unk_C3941, unk_C3944, unk_C396F
 extern unk_C397B, exhstate, unknown_libname_1
 global MenuSaveGame, SaveGameStub, SaveGameNameDlg, MenuPlayNextGame, MenuReturnToSportsCentral, ViewPlayoffHilights
@@ -159,7 +159,7 @@ call FatalError	; 85B14
 add esp, byte 4	; 85B19
 .7:
 push edi	; 85B1C
-call jctime	; 85B1D
+call FreeMemBlock	; 85B1D
 add esp, byte 4	; 85B22
 mov ecx, 0Ch	; 85B25
 mov ebx, 0FFFFFFFFh	; 85B2A
@@ -225,7 +225,7 @@ push str_AGameYouRequire2	; 85C17
 jmp near MenuSaveGame.1	; 85C1C
 .12:
 push dword 0C8h	; 85C21
-call sub_B3989	; 85C26
+call SetTickDeadline	; 85C26
 add esp, byte 4	; 85C2B
 push esi	; 85C2E
 mov ecx, 0FAh	; 85C2F
@@ -299,7 +299,7 @@ push unk_C397B	; 85D3B
 call FatalError	; 85D40
 add esp, byte 4	; 85D45
 .16:
-call sub_B3999	; 85D48
+call WaitTickDeadline	; 85D48
 call RestoreDialogBg	; 85D4D
 .17:
 mov eax, esp	; 85D52
@@ -524,7 +524,7 @@ call sub_910E0	; 85FE8
 add esp, byte 0Ch	; 85FED
 mov edx, dword [dword esp+08Ch]	; 85FF0
 push edx	; 85FF7
-call jctime	; 85FF8
+call FreeMemBlock	; 85FF8
 add esp, byte 4	; 85FFD
 push str_Err1	; 86000
 mov ebx, dword [dword esp+08Ch]	; 86005
@@ -729,14 +729,14 @@ push esi	; 8629B
 call sub_910E0	; 8629C
 add esp, byte 0Ch	; 862A1
 push esi	; 862A4
-call jctime	; 862A5
+call FreeMemBlock	; 862A5
 add esp, byte 4	; 862AA
 push ebp	; 862AD
-call jctime	; 862AE
+call FreeMemBlock	; 862AE
 add esp, byte 4	; 862B3
 mov ebp, dword [dword esp+088h]	; 862B6
 push ebp	; 862BD
-call jctime	; 862BE
+call FreeMemBlock	; 862BE
 add esp, byte 4	; 862C3
 mov edx, str_Nhl3	; 862C6
 mov eax, dword [esp]	; 862CB
@@ -780,14 +780,14 @@ push edi	; 86348
 call sub_910E0	; 86349
 add esp, byte 0Ch	; 8634E
 push edi	; 86351
-call jctime	; 86352
+call FreeMemBlock	; 86352
 add esp, byte 4	; 86357
 push ebp	; 8635A
-call jctime	; 8635B
+call FreeMemBlock	; 8635B
 add esp, byte 4	; 86360
 mov edx, dword [dword esp+088h]	; 86363
 push edx	; 8636A
-call jctime	; 8636B
+call FreeMemBlock	; 8636B
 add esp, byte 4	; 86370
 mov eax, 1	; 86373
 jmp near .23	; 86378
@@ -853,7 +853,7 @@ call sub_910E0	; 8642A
 add esp, byte 0Ch	; 8642F
 mov ebx, dword [dword esp+08Ch]	; 86432
 push ebx	; 86439
-call jctime	; 8643A
+call FreeMemBlock	; 8643A
 add esp, byte 4	; 8643F
 push str_Prmt	; 86442
 mov ecx, dword [dword esp+08Ch]	; 86447
@@ -994,14 +994,14 @@ push esi	; 865DE
 call sub_910E0	; 865DF
 add esp, byte 0Ch	; 865E4
 push esi	; 865E7
-call jctime	; 865E8
+call FreeMemBlock	; 865E8
 add esp, byte 4	; 865ED
 push ebp	; 865F0
-call jctime	; 865F1
+call FreeMemBlock	; 865F1
 add esp, byte 4	; 865F6
 mov ebp, dword [dword esp+088h]	; 865F9
 push ebp	; 86600
-call jctime	; 86601
+call FreeMemBlock	; 86601
 add esp, byte 4	; 86606
 .22:
 xor eax, eax	; 86609

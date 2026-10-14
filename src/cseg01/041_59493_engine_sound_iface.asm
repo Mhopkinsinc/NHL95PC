@@ -9,7 +9,7 @@ extern dword_ED374, dword_ED7A4, gmode, teamabbrevs, rand_, randomd0, SpeechBusy
 extern SayNhlIntro, SayGoodnight, SayLineups, SayElseNhl, SayHighlightIntro, SayPlayoffResult, SayScoringPeriod, SayTonightIntro
 extern SayPlayoffTonight, SayPenalty, SayPenaltyShot, SayPlayerNumber, SayGoal, SayOneMinuteLeft, OpenAnnouncerBank, PreloadAnnouncerClips
 extern sub_8E8B8, sub_8E908, sub_8F270, sub_8F61D, sub_8F67D, sub_8F7AE, sub_8F80E, sub_8FD84
-extern sub_8FDB2, sub_8FDE5, sub_8FE1C, sub_8FE4F, sub_B3989, sub_B3999, crowdlevel
+extern sub_8FDB2, sub_8FDE5, sub_8FE1C, sub_8FE4F, SetTickDeadline, WaitTickDeadline, crowdlevel
 global sndcb_addesp8_x
 global PlayCrowdSample_ret
 global nullsub_5
@@ -327,7 +327,7 @@ je short .x	; 5980B
 cmp word [crowdlevel], byte 0	; 5980D
 jle short .3	; 59815
 push byte 1	; 59817
-call sub_B3989	; 59819
+call SetTickDeadline	; 59819
 add esp, byte 4	; 5981E
 mov bx, word [crowdlevel]	; 59821
 sub ebx, byte 32h	; 59828
@@ -339,7 +339,7 @@ mov word [crowdlevel], di	; 59839
 .2:
 mov eax, 2	; 59840
 call CrowdNoiseUpdate	; 59845
-call sub_B3999	; 5984A
+call WaitTickDeadline	; 5984A
 jmp short CrowdFadeOut.1	; 5984F
 .3:
 call CrowdNoiseOff	; 59851

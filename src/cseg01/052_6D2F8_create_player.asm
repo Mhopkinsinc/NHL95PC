@@ -23,7 +23,7 @@ extern seasondb, careerdb, carteamsdb, keydb, teamsdb, attdb, seasondb_size, car
 extern carteamsdb_size, keydb_size, teamsdb_size, attdb_size, dword_D0B12, dword_D0C10, dword_D0C20, dword_D0CDA
 extern cddriveptr, kaufmfont, mainfont, pointerspr, ptrupdatefn, fullscrbmp, rosterteamptr, musicslot
 extern dword_EA994, rosterteamrec, dword_EAF7C, dbdirty, msglines, dword_EBCA4
-extern editptrspr, editrosters_exit, fputchar, j_unlink_, jctime, RunEditRosters_ret6, RunEditRosters_ret5, memcpy_
+extern editptrspr, editrosters_exit, fputchar, j_unlink_, FreeMemBlock, RunEditRosters_ret6, RunEditRosters_ret5, memcpy_
 extern memset_, teamcitynames, leaguedbnames
 extern menu_r1_freeagents, menu_r2_freeagents, menu_r1_editlines, menu_r2_editlines, off_D0880, off_D08B9, off_D09DB, off_D0A04
 extern off_D0AC2, off_D1077, mousepollfn, qword_C2CE0, qword_C2CE8, randomd0, sprintf_, strcat_
@@ -119,7 +119,7 @@ push byte 0	; 6D3D0
 call sub_B4BC4	; 6D3D2
 add esp, byte 10h	; 6D3D7
 push esi	; 6D3DA
-call jctime	; 6D3DB
+call FreeMemBlock	; 6D3DB
 add esp, byte 4	; 6D3E0
 xor eax, eax	; 6D3E3
 call DrawRosterPanel	; 6D3E5
@@ -1035,7 +1035,7 @@ mov edx, dword [falistsel]	; 6DEB2
 test edx, edx	; 6DEB8
 je short .1	; 6DEBA
 push edx	; 6DEBC
-call jctime	; 6DEBD
+call FreeMemBlock	; 6DEBD
 add esp, byte 4	; 6DEC2
 xor ecx, ecx	; 6DEC5
 mov dword [falistsel], ecx	; 6DEC7
@@ -1044,7 +1044,7 @@ mov edi, dword [falist]	; 6DECD
 test edi, edi	; 6DED3
 je short .2	; 6DED5
 push edi	; 6DED7
-call jctime	; 6DED8
+call FreeMemBlock	; 6DED8
 add esp, byte 4	; 6DEDD
 xor eax, eax	; 6DEE0
 mov dword [falist], eax	; 6DEE2
@@ -1089,7 +1089,7 @@ mov ebx, dword [falistsel]	; 6DF65
 test ebx, ebx	; 6DF6B
 je short .3	; 6DF6D
 push ebx	; 6DF6F
-call jctime	; 6DF70
+call FreeMemBlock	; 6DF70
 add esp, byte 4	; 6DF75
 xor esi, esi	; 6DF78
 mov dword [falistsel], esi	; 6DF7A
@@ -1098,7 +1098,7 @@ mov edi, dword [falist]	; 6DF80
 test edi, edi	; 6DF86
 je short .4	; 6DF88
 push edi	; 6DF8A
-call jctime	; 6DF8B
+call FreeMemBlock	; 6DF8B
 add esp, byte 4	; 6DF90
 xor eax, eax	; 6DF93
 mov dword [falist], eax	; 6DF95
@@ -1512,7 +1512,7 @@ mov dword [byte esp+esi*8+04h], ecx	; 6E4E8
 mov dword [esp+esi*8], ecx	; 6E4EC
 mov edi, dword [byte esp+ebp+024h]	; 6E4EF
 push edi	; 6E4F3
-call jctime	; 6E4F4
+call FreeMemBlock	; 6E4F4
 add esp, byte 4	; 6E4F9
 .20:
 dec esi	; 6E4FC
@@ -1591,7 +1591,7 @@ mov dword [byte esp+esi*8+04h], eax	; 6E5C5
 mov dword [esp+esi*8], eax	; 6E5C9
 mov edx, dword [byte esp+edi+024h]	; 6E5CC
 push edx	; 6E5D0
-call jctime	; 6E5D1
+call FreeMemBlock	; 6E5D1
 add esp, byte 4	; 6E5D6
 xor ebx, ebx	; 6E5D9
 mov dword [byte esp+edi+024h], ebx	; 6E5DB
@@ -1673,7 +1673,7 @@ mov dword [byte esp+esi*8+04h], ebx	; 6E6BB
 mov dword [esp+esi*8], ebx	; 6E6BF
 mov ecx, dword [byte esp+edi+024h]	; 6E6C2
 push ecx	; 6E6C6
-call jctime	; 6E6C7
+call FreeMemBlock	; 6E6C7
 add esp, byte 4	; 6E6CC
 xor ebp, esi	; 6E6CF
 mov dword [byte esp+edi+024h], ebp	; 6E6D1
@@ -1895,7 +1895,7 @@ mov dword [byte esp+esi*8+04h], ecx	; 6E96A
 mov dword [esp+esi*8], ecx	; 6E96E
 mov edi, dword [byte esp+ebp+024h]	; 6E971
 push edi	; 6E975
-call jctime	; 6E976
+call FreeMemBlock	; 6E976
 add esp, byte 4	; 6E97B
 .42:
 dec esi	; 6E97E
@@ -4107,7 +4107,7 @@ push eax	; 702E2
 call sub_913B4	; 702E3
 add esp, byte 4	; 702E8
 push esi	; 702EB
-call jctime	; 702EC
+call FreeMemBlock	; 702EC
 add esp, byte 4	; 702F1
 xor ecx, ecx	; 702F4
 mov ebx, str_Pstatbar	; 702F6
@@ -4134,7 +4134,7 @@ push eax	; 70334
 call sub_913B4	; 70335
 add esp, byte 4	; 7033A
 push esi	; 7033D
-call jctime	; 7033E
+call FreeMemBlock	; 7033E
 add esp, byte 4	; 70343
 mov ebx, dword [kaufmfont]	; 70346
 push ebx	; 7034C
@@ -4331,7 +4331,7 @@ xor eax, eax	; 70570
 call FadePalStep	; 70572
 mov ebx, dword [byte esp+0Ch]	; 70577
 push ebx	; 7057B
-call jctime	; 7057C
+call FreeMemBlock	; 7057C
 add esp, byte 4	; 70581
 mov dword [esp], esi	; 70584
 push esi	; 70587
@@ -4928,7 +4928,7 @@ mov edx, edi	; 70E70
 xor eax, eax	; 70E72
 call FadePalStep	; 70E74
 push edi	; 70E79
-call jctime	; 70E7A
+call FreeMemBlock	; 70E7A
 add esp, byte 4	; 70E7F
 .x:
 add esp, 1E4h	; 70E82

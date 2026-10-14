@@ -10,7 +10,7 @@ extern gamemode, gameopts, ctl1team, ctl2team, teamconf, deferpending, hlplayedm
 extern dword_C66AC, dword_C66D0, dword_C66D4, boxfillcolor, boxlitecolor, boxshadecolor, dlgtextfg, dlgtextbg
 extern songdata, cont2team, HomeTeam, dword_CCC9D, musichandle, cddriveptr, bailout_vec, musicslot
 extern curperiod, s1font, schedgameidx, pointerspr, dword_DC868, dword_DC888, dword_DC88C, otherperiod
-extern ptrupdatefn, jctime, mi_HomeGoalie1, mi_HomeGoalie2, mi_HomeGoalieNone, mi_AwayGoalie1, mi_AwayGoalie2, mi_AwayGoalieNone
+extern ptrupdatefn, FreeMemBlock, mi_HomeGoalie1, mi_HomeGoalie2, mi_HomeGoalieNone, mi_AwayGoalie1, mi_AwayGoalie2, mi_AwayGoalieNone
 extern off_CEF23, mousepollfn, randomd0, sprintf_, SetScreenSize, FadePalette, ReplayIsEmpty, LoadPlayerPhotos
 extern MakePath, ShowCredits, WriteScreenTextFile, sub_1B982, sub_1BAF3, SetScreenTitle, GameSummaryScreen, PickOtherGames
 extern UpdateOtherScores, GameStatsScreen, TextInputDialog, SetDialogColors, MessageBox, LoadRink, WaitClickTimeout, ShowLoadingScreen
@@ -20,7 +20,7 @@ extern MenuHitTest, FadePalStep, GameLineEditor, InstantReplay, SetModeMenuLabel
 extern FreeNowBack, SayBackMoment, FreeBackMoment, CoachCutScene, sub_8CCA8, sub_8D2F0, sub_8E83C, sub_8E9E8
 extern sub_8EA00, sub_8EA18, sub_8F98F, sub_8FB8E, sub_8FC8A, sub_8FCDF, sub_8FFB0, sub_903F0
 extern sub_9061C, sub_91370, sub_91400, MouseSetPos, sub_B2DCA, sub_B2E1B, sub_B30B4, sub_B392C
-extern sub_B396E, sub_B4B58, sub_B4BA8, sub_B4FAC, unk_CEB8F, unk_CEC4F, unk_CF2EF, btn_POHumanOut
+extern TicksSinceLastCall, sub_B4B58, sub_B4BA8, sub_B4FAC, unk_CEB8F, unk_CEC4F, unk_CF2EF, btn_POHumanOut
 extern awlinetab, hmlinetab, unk_DC890, savepal, VisTeam, word_CBC44, exitgame, scrolly
 extern scrollx, hmscore, awscore
 global DeskGoToReplay, DeskHomeLines, DeskVisitorLines, DeskGameStats, DeskPenaltySummary, MenuCallbackTrue2
@@ -582,7 +582,7 @@ inc esi	; 194AE
 cmp esi, 300h	; 194AF
 jl short SportsDesk.6	; 194B5
 push edi	; 194B7
-call jctime	; 194B8
+call FreeMemBlock	; 194B8
 add esp, byte 4	; 194BD
 lea eax, [dword esp+0304h]	; 194C0
 push eax	; 194C7
@@ -747,7 +747,7 @@ cmp dword [ctl2team], byte 0	; 1974F
 jge short .13	; 19756
 mov dword [dword esp+03F4h], edi	; 19758
 .13:
-call sub_B396E	; 1975F
+call TicksSinceLastCall	; 1975F
 cmp dword [esp], byte 2	; 19764
 jne near .21	; 19768
 cmp dword [schedgameidx], 444h	; 1976E
@@ -832,7 +832,7 @@ call SayBackMoment	; 19893
 .24:
 cmp dword [dword esp+03F4h], byte 0	; 19898
 je near .29	; 198A0
-call sub_B396E	; 198A6
+call TicksSinceLastCall	; 198A6
 mov esi, dword [dword esp+03F0h]	; 198AB
 sub esi, eax	; 198B2
 mov dword [dword esp+03F0h], esi	; 198B4
@@ -886,7 +886,7 @@ mov eax, dword [gamemode]	; 1997D
 call SetScreenTitle	; 19982
 mov ebp, dword [dword esp+03F8h]	; 19987
 push ebp	; 1998E
-call jctime	; 1998F
+call FreeMemBlock	; 1998F
 add esp, byte 4	; 19994
 cmp byte [musicon], 0	; 19997
 je short .27	; 1999E
@@ -983,9 +983,9 @@ mov dword [dword esp+03ECh], eax	; 19AEF
 cmp byte [musicon], 0	; 19AF6
 je near SportsDesk.24	; 19AFD
 mov ebx, dword [dword esp+03E8h]	; 19B03
-cmp ebx, sub_B396E	; 19B0A
+cmp ebx, TicksSinceLastCall	; 19B0A
 jbe near SportsDesk.22	; 19B10
-call sub_B396E	; 19B16
+call TicksSinceLastCall	; 19B16
 sub dword [dword esp+03E8h], eax	; 19B1B
 jmp near SportsDesk.23	; 19B22
 .35:
@@ -1047,7 +1047,7 @@ mov dword [dword esp+esi*8+0368h], edx	; 19C11
 mov dword [dword esp+esi*8+0364h], edx	; 19C18
 mov ebx, dword [dword esp+ebp+0384h]	; 19C1F
 push ebx	; 19C26
-call jctime	; 19C27
+call FreeMemBlock	; 19C27
 add esp, byte 4	; 19C2C
 .37:
 dec esi	; 19C2F
@@ -1148,7 +1148,7 @@ mov ecx, dword [dword esp+03F8h]	; 19DDE
 test ecx, ecx	; 19DE5
 je short .43	; 19DE7
 push ecx	; 19DE9
-call jctime	; 19DEA
+call FreeMemBlock	; 19DEA
 add esp, byte 4	; 19DEF
 .43:
 cmp byte [musicon], 0	; 19DF2
@@ -1239,7 +1239,7 @@ inc esi	; 19F24
 cmp esi, 300h	; 19F25
 jl short SportsDesk.51	; 19F2B
 push edi	; 19F2D
-call jctime	; 19F2E
+call FreeMemBlock	; 19F2E
 add esp, byte 4	; 19F33
 push dword 0F8h	; 19F36
 mov ecx, 0F9h	; 19F3B
@@ -1295,7 +1295,7 @@ mov dword [dword esp+esi*8+0368h], eax	; 19FF8
 mov dword [dword esp+esi*8+0364h], eax	; 19FFF
 mov edx, dword [dword esp+edi+0384h]	; 1A006
 push edx	; 1A00D
-call jctime	; 1A00E
+call FreeMemBlock	; 1A00E
 add esp, byte 4	; 1A013
 xor ebx, ebx	; 1A016
 mov dword [dword esp+edi+0384h], ebx	; 1A018
@@ -1375,7 +1375,7 @@ mov dword [dword esp+esi*8+0368h], eax	; 1A149
 mov dword [dword esp+esi*8+0364h], eax	; 1A150
 mov edx, dword [dword esp+edi+0384h]	; 1A157
 push edx	; 1A15E
-call jctime	; 1A15F
+call FreeMemBlock	; 1A15F
 add esp, byte 4	; 1A164
 xor ebx, ebx	; 1A167
 mov dword [dword esp+edi+0384h], ebx	; 1A169
@@ -1559,7 +1559,7 @@ mov dword [dword esp+esi*8+0368h], edx	; 1A471
 mov dword [dword esp+esi*8+0364h], edx	; 1A478
 mov ebx, dword [dword esp+ebp+0384h]	; 1A47F
 push ebx	; 1A486
-call jctime	; 1A487
+call FreeMemBlock	; 1A487
 add esp, byte 4	; 1A48C
 .71:
 dec esi	; 1A48F

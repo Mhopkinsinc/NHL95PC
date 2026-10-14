@@ -147,8 +147,8 @@ void *__cdecl sub_8E8B8(char *name, int bank);  /* sound library loader, stack a
 void NudgeRinkScroll(void);  /* 7FC12 */
 void ClampYPosition(Player *p);  /* 4B6F4 */
 void CrowdFadeOut(void);
-void __cdecl sub_B3989(int n);  /* timer library, stack args */
-void __cdecl sub_B3999(void);  /* timer library */
+void __cdecl SetTickDeadline(int n);  /* timer library, stack args */
+void __cdecl WaitTickDeadline(void);  /* timer library */
 void PaPreloadClips(int a, int b);
 void TextGridPut(int x, int y, char *s);
 void *memcpy(void *d, const void *s, unsigned n);  /* Watcom CRT memcpy_ */
@@ -224,7 +224,7 @@ int FileExists(char *name);  /* 142E7 */
 int FileOpenRead(char *name, int *h);  /* 14525: 0 = ok */
 void FreeCalendarIfLowMem(void);  /* 212C6 */
 int __cdecl sub_8DAB8(void);  /* memory library: free memory */
-void __cdecl jctime(int p);  /* library: free a block */
+void __cdecl FreeMemBlock(int p);  /* library: free a block */
 void StopDigiSample(void);  /* 59981 */
 void sub_8F67D(int h);  /* sound library: stop sample */
 void FreeDigiSample(int unused);  /* 59945 */
@@ -241,7 +241,7 @@ void AppendGSumRecord(unsigned char *rec);  /* 61A8A */
 int CountSelected(char *list);  /* 6DA88 */
 int StrEqNoCase(char *a, char *b);  /* 83E32 */
 void InputRemove(void);  /* 6B47C */
-void __cdecl sub_8E4F8(void (*f)(void));  /* timer library: remove a tick handler */
+void __cdecl RemoveTimerCallback(void (*f)(void));  /* timer library: remove a tick handler */
 void InputPollTick(void);  /* input tick handler */
 int FindFreeSpeechSlot(int i);  /* 83E6D */
 int FindLoadedSpeechSlot(int i);  /* 83EAC */
@@ -487,7 +487,7 @@ void InitSpeechSlots(int size);  /* 83459 */
 int __cdecl sub_8CC70(char *name, int size, int flags);  /* memory library: allocate */
 int __cdecl sub_8DBD4(int buf);  /* memory library */
 void InitSpeech(unsigned char id, int size, int copybuf, int copylen);  /* 8357A */
-int __cdecl sub_8E4C0(void (*fn)(void));  /* timer library: add tick handler */
+int __cdecl addtimer(void (*fn)(void));  /* timer library: add tick handler */
 void BuildSavedGameLabels(void);  /* 1D518 */
 void sfx(int id);  /* 59884 */
 void sub_8F61D(int id);  /* sound library: play effect */
@@ -680,7 +680,7 @@ void SetSeriesTeams(unsigned char *s, int a, int b, int games);  /* 42F42 */
 void UpdatePowerPlayFlags(void);  /* 63C73 */
 int CheckBump(Player *p, Player *c);  /* 54990 */
 int ChkDelayedOffside(Player *p);  /* 541CA */
-int sub_B395C(void);  /* timer library: tick count */
+int GetTicks(void);  /* timer library: tick count */
 int WaitClickTimeout(int ticks);  /* 33E6A */
 void SetScreenTitle(int n);  /* 1D610 */
 void QueueTimeClips(int min, int sec);  /* 84EAC */

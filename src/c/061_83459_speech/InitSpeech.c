@@ -16,6 +16,6 @@ void InitSpeech(unsigned char id, int size, int copybuf, int copylen)
     ResetSampleReq();
     speechbank = (SpeechSlot *)sub_8CCA8((char *)str_SpeechBank, 0x3B93, dword_CCC94);
     InitSpeechSlots(size);
-    sub_8E4C0((void (*)(void))SpeechTimerTick);
+    addtimer((void (*)(void))SpeechTimerTick);
     speechinit = 1;
 }

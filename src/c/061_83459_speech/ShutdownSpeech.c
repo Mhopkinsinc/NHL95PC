@@ -9,12 +9,12 @@
 void ShutdownSpeech(void)
 {
     if (speechinit != 0) {
-        sub_8E4F8(SpeechTimerTick);
+        RemoveTimerCallback(SpeechTimerTick);
         if (BANKD(0x3B78) != 0) _dos_close(BANKD(0x3B7C));
-        jctime(speechq);
+        FreeMemBlock(speechq);
         sub_8D2F0(BANKD(0x3B60));
-        jctime((int)speechbank);
-        jctime((int)samplereq);
+        FreeMemBlock((int)speechbank);
+        FreeMemBlock((int)samplereq);
         speechinit = 0;
     }
 }

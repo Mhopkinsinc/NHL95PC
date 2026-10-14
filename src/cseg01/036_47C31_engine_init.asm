@@ -7,11 +7,11 @@ extern textline1, textline2, textline3, textline4, textline5, joysampling, input
 extern rinkscrollx, rinkscrolly, loadscreenon, cont2team, HomeTeam, shownumbers, bannertimer, dword_CC0EC
 extern introskipped, dword_CC9AD, spritedrawcount, frameaccum, dword_D8C72, viewscrolly, dword_D8C7A, viewscrollx
 extern curperiod, rinkwtiles, rinkhtiles, bgscrolly, palcyclelock, hmtmstruct, awtmstruct, puckstruct
-extern dword_E0244, dword_E9A9E, seqtimer, forcepldata, jctime, puckc, camx_m2, randomd0
+extern dword_E0244, dword_E9A9E, seqtimer, forcepldata, FreeMemBlock, puckc, camx_m2, randomd0
 extern reenergizeteam, resetplstuff, setpersonel, ResetInputSampling, RunGameFrames, FadePalette, UpdateHudPanel, SetRinkScroll
 extern LoadScreenPalTick, joyq_flush, Readjoy1, Readjoy2, CrowdNoiseUpdate, CrowdFadeOut, CrowdNoiseReset, StopDigiSample
 extern PlayCrowdSample, DrawRinkOverlays, SprSort, LoadTeamPPV, CloseTextOverlay, sub_6ADA7, sub_6AF52, sub_6AF97
-extern sub_6B008, SpeechStopQueue, SelectScreenBM, sub_8E4F8, sub_8FFB0, sub_B396E, sub_B3989, sub_B3999
+extern sub_6B008, SpeechStopQueue, SelectScreenBM, RemoveTimerCallback, sub_8FFB0, TicksSinceLastCall, SetTickDeadline, WaitTickDeadline
 extern savepal, gamepal, unk_DFD9C, camx, camy, xc1, yc1, SortCords
 extern fox, foy, c1playernum, c2playernum, RefStep, exitgame, energywarn
 extern lcblink, fadeinpending, ovlseq, word_CC9CC, scrolly
@@ -65,14 +65,14 @@ jl short FadeOutPalCycle.2	; 47C96
 xor ebp, ebp	; 47C98
 mov dword [palcyclelock], ebp	; 47C9A
 push byte 2	; 47CA0
-call sub_B3989	; 47CA2
+call SetTickDeadline	; 47CA2
 add esp, byte 4	; 47CA7
-call sub_B3999	; 47CAA
+call WaitTickDeadline	; 47CAA
 jmp short FadeOutPalCycle.1	; 47CAF
 .5:
 mov dword [palcyclelock], 1	; 47CB1
 push LoadScreenPalTick	; 47CBB
-call sub_8E4F8	; 47CC0
+call RemoveTimerCallback	; 47CC0
 add esp, byte 4	; 47CC5
 xor ecx, ecx	; 47CC8
 mov dword [loadscreenon], ecx	; 47CCA
@@ -425,7 +425,7 @@ test dh, 10h	; 4823A
 jne short PreGameIntro_frameloop.4	; 4823D
 test dh, 20h	; 4823F
 jne short PreGameIntro_frameloop.4	; 48242
-call sub_B3999	; 48244
+call WaitTickDeadline	; 48244
 jmp near ThreeStarsLoop_tick	; 48249
 PreGameIntro_end:
 xor esi, esi	; 4824E
@@ -436,7 +436,7 @@ cmp eax, byte 0FFFFFFFFh	; 4825E
 je short .1	; 48261
 mov edi, dword [dword_E0244]	; 48263
 push edi	; 48269
-call jctime	; 4826A
+call FreeMemBlock	; 4826A
 add esp, byte 4	; 4826F
 mov word [ovlseq], 0FFFFh	; 48272
 .1:
@@ -506,7 +506,7 @@ push edx	; 4833F
 push esi	; 48340
 push edi	; 48341
 push ebp	; 48342
-call sub_B396E	; 48343
+call TicksSinceLastCall	; 48343
 mov dword [joysampling], 1	; 48348
 xor ebx, ebx	; 48352
 mov dword [escrequest], ebx	; 48354
@@ -516,7 +516,7 @@ ThreeStarsLoop_tick:
 cmp dword [seqtimer], byte 0	; 4836E
 je near PreGameIntro_end	; 48375
 push byte 4	; 4837B
-call sub_B3989	; 4837D
+call SetTickDeadline	; 4837D
 add esp, byte 4	; 48382
 call ResetInputSampling	; 48385
 movsx edx, ax	; 4838A

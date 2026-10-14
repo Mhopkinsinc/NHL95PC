@@ -3,7 +3,7 @@ bits 32
 %include "hockey.inc"
 section s_96440 progbits alloc exec nowrite align=1
 extern _os_handle_3, asc_C4730, asc_C4760, asc_C4780, asc_C47A4, asc_C47AC, dword_D30A4, cliprect_x0
-extern cliprect_y0, cliprect_x1, cliprect_y1, dword_D30C8, dword_D30D0, dword_D3104, jctime, sub_8CC70
+extern cliprect_y0, cliprect_x1, cliprect_y1, dword_D30C8, dword_D30D0, dword_D3104, FreeMemBlock, sub_8CC70
 extern sub_8CCA8, sub_8CCC4, sub_8D2F0, sub_8DBD4, sub_8E8F0, sub_9132C, DebugPrintf, sub_B3A88
 extern sub_B3AA1, sub_B3ABC, sub_B3B5A, sub_B3C60, sub_B3C74, sub_B3CB3, sub_B4BA8, sub_B4BC4
 extern sub_B4F8C, sub_B5E00, sub_B6DF7
@@ -437,7 +437,7 @@ jne short loc_968A8	; 9688C
 cmp dword [dword esp+0330h], byte 0	; 9688E
 je short loc_968CD	; 96896
 push edi	; 96898
-call jctime	; 96899
+call FreeMemBlock	; 96899
 add esp, byte 4	; 9689E
 xor eax, eax	; 968A1
 jmp near loc_9699E	; 968A3
@@ -470,7 +470,7 @@ mov ecx, dword [dword esp+0318h]	; 968F5
 test ecx, ecx	; 968FC
 jne short loc_96915	; 968FE
 push esi	; 96900
-call jctime	; 96901
+call FreeMemBlock	; 96901
 add esp, byte 4	; 96906
 xor eax, eax	; 96909
 add esp, 31Ch	; 9690B
@@ -507,7 +507,7 @@ push ebp	; 9696A
 call sub_B3C60	; 9696B
 add esp, byte 4	; 96970
 push esi	; 96973
-call jctime	; 96974
+call FreeMemBlock	; 96974
 add esp, byte 4	; 96979
 xor eax, eax	; 9697C
 add esp, 31Ch	; 9697E
@@ -563,10 +563,10 @@ call sub_9132C	; 969F0
 add esp, byte 4	; 969F5
 mov ebx, dword [byte esi+01Ch]	; 969F8
 push ebx	; 969FB
-call jctime	; 969FC
+call FreeMemBlock	; 969FC
 add esp, byte 4	; 96A01
 push esi	; 96A04
-call jctime	; 96A05
+call FreeMemBlock	; 96A05
 add esp, byte 4	; 96A0A
 loc_96A0D:
 pop ebp	; 96A0D

@@ -39,7 +39,7 @@ int SelectSavedFile(void)
         MakePath(path, name, (char *)str_ScheduleDb2, 0);
         buf = (unsigned char *)sub_8E8A0(path, 0);
         seriesgameno = *(int *)(buf + 0x42) % 7;
-        jctime((int)buf);
+        FreeMemBlock((int)buf);
         return r;
     case 2:
         strcpy(name, (char *)exhfilenames[exhfiles[1]]);

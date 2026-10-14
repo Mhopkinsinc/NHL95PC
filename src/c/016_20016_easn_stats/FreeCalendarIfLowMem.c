@@ -5,7 +5,7 @@
 void FreeCalendarIfLowMem(void)
 {
     if (sub_8DAB8() <= 0x4B708) {
-        if (calendarshapes) jctime(calendarshapes);
+        if (calendarshapes) FreeMemBlock(calendarshapes);
         calendarshapes = 0;
     }
 }

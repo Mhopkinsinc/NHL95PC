@@ -17,7 +17,7 @@ extern recbpr, replayplay, dword_E03AE, dword_E03B9, dword_E03BD
 extern dword_E9A9E, dword_E9C24, dword_E9C85, dword_E9C88, dword_E9F16, dword_E9F32, dword_E9F34, dword_E9F38
 extern dword_E9F54, dword_E9F56, dword_E9F5A, dword_E9F76, dword_E9F78, dword_E9F7B, dword_E9F8C, dword_E9F98
 extern dword_E9FA5, dword_E9FA8, dword_E9FAA, dword_E9FD9, dword_E9FF0, dword_ED74C, fputchar, gmode
-extern jctime, replaystart, puckz, puckc, camx_m2, off_CBED0, off_CC01D, off_CD498
+extern FreeMemBlock, replaystart, puckz, puckc, camx_m2, off_CBED0, off_CC01D, off_CD498
 extern off_CD4A0, bannerstrs, setpersonel, sfx, sprintf_, DrawSpriteNumber, DrawFrameSprite, DrawRinkEndArt
 extern MakePath, DrawSprite, CrowdNoiseUpdate, CrowdNoiseOff, sub_6AB7C, sub_8DAB8, sub_8E83C, sub_8E8A0
 extern sub_8E9C0, sub_8EA18, sub_90354, sub_90D20, sub_90EC0, sub_91964, sub_93540, sub_B30B4
@@ -3557,7 +3557,7 @@ cmp bx, cx	; 66F0C
 jne short .8	; 66F0F
 mov ecx, dword [dword_E0244]	; 66F11
 push ecx	; 66F17
-call jctime	; 66F18
+call FreeMemBlock	; 66F18
 add esp, byte 4	; 66F1D
 mov eax, dword [ovlseq-2]	; 66F20
 sar eax, 10h	; 66F25
@@ -3966,7 +3966,7 @@ inc eax	; 67446
 cmp eax, 100h	; 67447
 jl short LoadTeamPalette.4	; 6744C
 push ebp	; 6744E
-call jctime	; 6744F
+call FreeMemBlock	; 6744F
 add esp, byte 4	; 67454
 mov ecx, str_extBIN	; 67457
 mov ebx, str_AWAYPALS	; 6745C
@@ -4016,7 +4016,7 @@ inc eax	; 674DC
 cmp eax, 100h	; 674DD
 jl short LoadTeamPalette.9	; 674E2
 push ebp	; 674E4
-call jctime	; 674E5
+call FreeMemBlock	; 674E5
 add esp, byte 4	; 674EA
 xor ecx, ecx	; 674ED
 mov ebx, str_Rinkpal	; 674EF
@@ -4055,7 +4055,7 @@ inc eax	; 6754B
 cmp eax, 300h	; 6754C
 jl short LoadTeamPalette.13	; 67551
 push ebp	; 67553
-call jctime	; 67554
+call FreeMemBlock	; 67554
 add esp, byte 4	; 67559
 add esp, byte 14h	; 6755C
 pop ebp	; 6755F

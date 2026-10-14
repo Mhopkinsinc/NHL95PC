@@ -4,10 +4,10 @@ bits 32
 section s_45282 progbits alloc exec nowrite align=1
 extern __CHK, tag_pset, tag_aps, tag_apset, tag_gset, tag_ags, tag_agset, str_LoadPic
 extern str_Pal23, loadpals, palcyclephase, palcycledelay, gameopts, simfwdorder, simdorder, fileoncd
-extern loadscreenon, seasondb, cddriveptr, palcyclelock, jctime, memcpy_, memset_, rand_
+extern loadscreenon, seasondb, cddriveptr, palcyclelock, FreeMemBlock, memcpy_, memset_, rand_
 extern MakePath, ReadTeamRec, WriteTeamRec, ReadDbRec4Ch, KeyDbPtr, SeasonDbPtr, SeasonDbPtr2, CareerDbPtr
-extern CareerDbPtr2, FadePalStep, sub_8CCA8, sub_8DAB8, sub_8E4C0, sub_8E83C, sub_8FFB0, sub_910E0
-extern sub_B30B4, sub_B392C, sub_B3989, sub_B3999, sub_B4B88, sub_B4BA8, sub_B4C61, tag_t
+extern CareerDbPtr2, FadePalStep, sub_8CCA8, sub_8DAB8, addtimer, sub_8E83C, sub_8FFB0, sub_910E0
+extern sub_B30B4, sub_B392C, SetTickDeadline, WaitTickDeadline, sub_B4B88, sub_B4BA8, sub_B4C61, tag_t
 extern tag_at, tag_pk, tag_ps, tag_gk, tag_gs
 global RandMod, SimAddPair, SimulateGame, LoadScreenPalTick
 global ShowLoadingScreen
@@ -2581,51 +2581,51 @@ mov dword [dword esp+01D0h], eax	; 4785D
 mov esi, dword [dword esp+01D0h]	; 47864
 mov ebx, dword [dword esp+esi*4+0114h]	; 4786B
 push ebx	; 47872
-call jctime	; 47873
+call FreeMemBlock	; 47873
 add esp, byte 4	; 47878
 mov ecx, dword [dword esp+esi*4+014Ch]	; 4787B
 push ecx	; 47882
-call jctime	; 47883
+call FreeMemBlock	; 47883
 add esp, byte 4	; 47888
 mov edi, dword [dword esp+esi*4+010Ch]	; 4788B
 push edi	; 47892
-call jctime	; 47893
+call FreeMemBlock	; 47893
 add esp, byte 4	; 47898
 mov ebp, dword [dword esp+esi*4+0124h]	; 4789B
 push ebp	; 478A2
-call jctime	; 478A3
+call FreeMemBlock	; 478A3
 add esp, byte 4	; 478A8
 mov eax, dword [dword esp+esi*4+0134h]	; 478AB
 push eax	; 478B2
-call jctime	; 478B3
+call FreeMemBlock	; 478B3
 add esp, byte 4	; 478B8
 mov edx, dword [dword esp+esi*4+0104h]	; 478BB
 push edx	; 478C2
-call jctime	; 478C3
+call FreeMemBlock	; 478C3
 add esp, byte 4	; 478C8
 mov ebx, dword [dword esp+esi*4+012Ch]	; 478CB
 push ebx	; 478D2
-call jctime	; 478D3
+call FreeMemBlock	; 478D3
 add esp, byte 4	; 478D8
 mov ecx, dword [dword esp+esi*4+015Ch]	; 478DB
 push ecx	; 478E2
-call jctime	; 478E3
+call FreeMemBlock	; 478E3
 add esp, byte 4	; 478E8
 mov edi, dword [dword esp+esi*4+0154h]	; 478EB
 push edi	; 478F2
-call jctime	; 478F3
+call FreeMemBlock	; 478F3
 add esp, byte 4	; 478F8
 mov ebp, dword [dword esp+esi*4+017Ch]	; 478FB
 push ebp	; 47902
-call jctime	; 47903
+call FreeMemBlock	; 47903
 add esp, byte 4	; 47908
 mov eax, dword [dword esp+esi*4+0164h]	; 4790B
 push eax	; 47912
-call jctime	; 47913
+call FreeMemBlock	; 47913
 add esp, byte 4	; 47918
 mov edx, dword [dword esp+esi*4+016Ch]	; 4791B
 push edx	; 47922
-call jctime	; 47923
+call FreeMemBlock	; 47923
 add esp, byte 4	; 47928
 lea ebx, [byte esi+01h]	; 4792B
 mov dword [dword esp+01D0h], ebx	; 4792E
@@ -2816,14 +2816,14 @@ push eax	; 47B86
 call sub_910E0	; 47B87
 add esp, byte 0Ch	; 47B8C
 push edi	; 47B8F
-call jctime	; 47B90
+call FreeMemBlock	; 47B90
 add esp, byte 4	; 47B95
 mov dword [palcyclelock], 1	; 47B98
 xor dl, dl	; 47BA2
 mov byte [palcyclephase], dl	; 47BA4
 mov byte [palcycledelay], 3	; 47BAA
 push LoadScreenPalTick	; 47BB1
-call sub_8E4C0	; 47BB6
+call addtimer	; 47BB6
 add esp, byte 4	; 47BBB
 xor ecx, ecx	; 47BBE
 mov dword [palcyclelock], ecx	; 47BC0
@@ -2857,9 +2857,9 @@ inc ecx	; 47C04
 cmp ecx, byte 3	; 47C05
 jl short ShowLoadingScreen.10	; 47C08
 push byte 2	; 47C0A
-call sub_B3989	; 47C0C
+call SetTickDeadline	; 47C0C
 add esp, byte 4	; 47C11
-call sub_B3999	; 47C14
+call WaitTickDeadline	; 47C14
 jmp short ShowLoadingScreen.9	; 47C19
 .13:
 mov dword [loadscreenon], 1	; 47C1B

@@ -107,7 +107,7 @@ void DrawDbDialog(void)
     MakePath(path, fileoncd[0x1C8] == 1 ? (char *)cddriveptr : 0, (char *)str_Dbdialog, 0);
     bank = sub_8E83C(path, 0);
     sub_91284(sub_B30B4(bank, (char *)str_Pdbx), 10, 0x13);
-    jctime(bank);
+    FreeMemBlock(bank);
     FDLGMASKD = 0x10;
     fdlgtab = -1;
     if (dblisttemp[0] != 0) {
@@ -288,7 +288,7 @@ void MenuOpenDatabase(void)
     DrawDbDialog();
     DrawDbDialogButtons();
     if (!DbDialogLoop()) sub_910E0(bm, 0xA, 0x13);
-    jctime(fdlgshapes);
+    FreeMemBlock(fdlgshapes);
     fdlgshapes = 0;
-    jctime(bm);
+    FreeMemBlock(bm);
 }

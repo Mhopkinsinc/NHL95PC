@@ -68,7 +68,7 @@ int ControlsDlgInGame(int side)
         else if (old1 != team && old2 != team && (cont1team == team || cont2team == team))
             CtlSwapTeamFlag(team == 2);
     }
-    jctime(buf);
+    FreeMemBlock(buf);
     return result;
 }
 

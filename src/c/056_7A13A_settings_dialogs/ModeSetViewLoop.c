@@ -48,6 +48,6 @@ int ModeSetViewLoop(void)
         ox = x;
     }
     sub_903F0(bm, oy - 4, ox);
-    jctime(bm);
+    FreeMemBlock(bm);
     return 0;
 }

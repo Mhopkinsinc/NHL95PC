@@ -6,7 +6,7 @@ extern __CHK, str_Palette2, str_Temp4, str_GameSav4, curleague, gameopts, VisTea
 extern musicon, byte_DE268, ctlavailmask, lgstate
 extern gamemode, teamstatscb, skaterstatscb, goaliestatscb
 extern standingscb, standingsmenucb, songdata, rinktilebm, rinkbm, currink, cont2team, HomeTeam
-extern menuact_export, menuact_nextlg, menusub_lgmgr, musichandle, schedgameidx, jctime, MainDeskLoop_x, musicslot
+extern menuact_export, menuact_nextlg, menusub_lgmgr, musichandle, schedgameidx, FreeMemBlock, MainDeskLoop_x, musicslot
 extern MainDeskLoop_x2, strcat_, strcpy_, SetupControllers, PlayGame, FileOpenRead, CheckGameDiskSpace, InitGameSummary
 extern SetupStatsSourceMenu, BuildSavedGameLabels, SetScreenTitle, GameTeamStatsScreen, GameSkaterStatsScreen, GameGoalieStatsScreen, GameStandingsScreen, GameStandingsMenu
 extern EasnStandingsScreen, PreGameScreen, SaveModeState, LoadModeState, PlayLeagueGame, UpdateTeamDbs, MergeLeagueFiles, MergeUpdateDbs
@@ -87,7 +87,7 @@ mov edx, edi	; 32EA7
 mov eax, 1	; 32EA9
 call FadePalStep	; 32EAE
 push edi	; 32EB3
-call jctime	; 32EB4
+call FreeMemBlock	; 32EB4
 add esp, byte 4	; 32EB9
 cmp byte [musicon], 0	; 32EBC
 je short .5	; 32EC3
@@ -139,7 +139,7 @@ mov edx, esi	; 32F5F
 mov eax, 1	; 32F61
 call FadePalStep	; 32F66
 push esi	; 32F6B
-call jctime	; 32F6C
+call FreeMemBlock	; 32F6C
 add esp, byte 4	; 32F71
 cmp byte [musicon], 0	; 32F74
 je short .10	; 32F7B
@@ -283,7 +283,7 @@ mov edx, esi	; 331C9
 mov eax, 1	; 331CB
 call FadePalStep	; 331D0
 push esi	; 331D5
-call jctime	; 331D6
+call FreeMemBlock	; 331D6
 add esp, byte 4	; 331DB
 cmp byte [musicon], 0	; 331DE
 je near MenuAddTeam_ret2	; 331E5
@@ -345,7 +345,7 @@ mov edx, esi	; 332A1
 mov eax, 1	; 332A3
 call FadePalStep	; 332A8
 push esi	; 332AD
-call jctime	; 332AE
+call FreeMemBlock	; 332AE
 add esp, byte 4	; 332B3
 MenuAddTeam_ret2:
 mov eax, 2	; 332B6
@@ -407,7 +407,7 @@ mov edx, esi	; 3335F
 mov eax, 1	; 33361
 call FadePalStep	; 33366
 push esi	; 3336B
-call jctime	; 3336C
+call FreeMemBlock	; 3336C
 add esp, byte 4	; 33371
 mov esi, 2	; 33374
 .2:
@@ -480,7 +480,7 @@ mov edx, esi	; 33443
 mov eax, 1	; 33445
 call FadePalStep	; 3344A
 push esi	; 3344F
-call jctime	; 33450
+call FreeMemBlock	; 33450
 add esp, byte 4	; 33455
 mov eax, 2	; 33458
 pop esi	; 3345D
@@ -536,7 +536,7 @@ mov edx, esi	; 334D5
 mov eax, 1	; 334D7
 call FadePalStep	; 334DC
 push esi	; 334E1
-call jctime	; 334E2
+call FreeMemBlock	; 334E2
 add esp, byte 4	; 334E7
 mov eax, 2	; 334EA
 pop esi	; 334EF
@@ -653,7 +653,7 @@ mov edx, esi	; 3364D
 mov eax, 1	; 3364F
 call FadePalStep	; 33654
 push esi	; 33659
-call jctime	; 3365A
+call FreeMemBlock	; 3365A
 add esp, byte 4	; 3365F
 mov eax, 2	; 33662
 add esp, byte 20h	; 33667
@@ -751,7 +751,7 @@ mov edx, dword [rinkbm]	; 33736
 test edx, edx	; 3373C
 je short .1	; 3373E
 push edx	; 33740
-call jctime	; 33741
+call FreeMemBlock	; 33741
 add esp, byte 4	; 33746
 xor ecx, ecx	; 33749
 mov dword [rinkbm], ecx	; 3374B
@@ -760,7 +760,7 @@ mov esi, dword [rinktilebm]	; 33751
 test esi, esi	; 33757
 je short .x	; 33759
 push esi	; 3375B
-call jctime	; 3375C
+call FreeMemBlock	; 3375C
 add esp, byte 4	; 33761
 xor ebp, ebp	; 33764
 mov dword [rinktilebm], ebp	; 33766

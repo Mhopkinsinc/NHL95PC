@@ -40,7 +40,7 @@ int GameSkaterStatsScreen(int cat)
     statsbgshapes = sub_8E83C((char *)buf + 0x300, 0);
     statspalshape = sub_B30B4(statsbgshapes, (char *)str_Pal6);
     memcpy(buf, (unsigned char *)statspalshape + 0x10, 0x300);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     FadePalStep(0, buf, 0x10);
     z = 0;
     statspalvalid = z;

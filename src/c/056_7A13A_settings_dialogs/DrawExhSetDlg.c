@@ -13,7 +13,7 @@ void DrawExhSetDlg(void)
     MakePath(path, fileoncd[0x176] == 1 ? (char *)cddriveptr : 0, (char *)str_Setting6, 0);
     bank = sub_8E83C(path, 0);
     sub_91284(sub_B30B4(bank, (char *)str_Dbox4), 0xA, 0x13);
-    jctime(bank);
+    FreeMemBlock(bank);
     if (sounddev == 0x10) {
         sub_91964((char *)str_Music3, 0x60, 0xAA);
         sub_91964((char *)str_Sound3, 0x60, 0xC0);
