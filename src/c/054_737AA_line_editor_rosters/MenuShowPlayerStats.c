@@ -3,11 +3,17 @@
 #define RunMenu RunMenu_decl
 #define DressPlayer DressPlayer_decl
 #define ScratchPlayer ScratchPlayer_decl
+#define LineEdDone LineEdDone_decl
+#define CheckRosterComplete CheckRosterComplete_decl
 #include "nhl95.h"
 #undef MenuShowPlayerStats
 #undef RunMenu
 #undef DressPlayer
 #undef ScratchPlayer
+#undef LineEdDone
+#undef CheckRosterComplete
+
+int CheckRosterComplete(int x, int y, int team);
 
 void RunMenu(void *bar, int n, int col1, int col2, int col3);
 
@@ -103,4 +109,79 @@ int DressPlayer(unsigned char *nums, int ignored, unsigned char side, int *sel, 
             rosterlist + side * 0x2F4 + *sel * 27 + 8);
     PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
     return 0;
+}
+
+/* LineEdDone: copy the dressed line into the team record.
+   DRAFT: 280 vs 280 (best of 5). The jersey pointer is lea ebx / [ebx] where the original is
+   lea ecx / [ecx], the inner counter is ebx and the side stride is ecx (original ecx and ebx),
+   and the scratch status byte is dl where the original is bl. Do not retry a named row for the
+   jersey index (it becomes lea ecx, [ebx+eax]) or n++ inside the subscript (it copies n to edx
+   before the inc).
+   nums is the 28h edited jerseys, lines is
+   the 30h-byte line (28 jersey slots, then 8 scratch slots). A 64h jersey is copied straight across;
+   any other jersey is replaced by the roster slot of the dressed player who wears it. Scratch slots
+   are filled with players whose status is neither 0 nor 3. Then 48 bytes at rosterteamrec+0BCh are
+   copied to +0ECh. Returns 0 when CheckRosterComplete says the roster is short. The exit is
+   MenuShowPlayerStats_ret. */
+int LineEdDone(unsigned char *nums, unsigned char *lines, unsigned char side, int ignored,
+               int a, int b, int c, int d, int x, int y)
+{
+    unsigned char *rec;
+    unsigned char *p;
+    int i;
+
+    (void)ignored;
+    (void)a;
+    (void)b;
+    (void)c;
+    (void)d;
+    if (CheckRosterComplete(x, y, side))
+        return 0;
+    for (i = 0; i < 0x28; i++) {
+        int stride;
+        int j;
+
+        p = nums + i;
+        if (*p == 0x64) {
+            lines[i] = *p;
+            continue;
+        }
+        for (j = 0; j < 0x1C; j++) {
+            stride = side * 0x2F4;
+            if (rosterstat[stride + j * 27] != 0 && nums[i] == rosterjersey[stride + j * 27]) {
+                lines[i] = rosterslot[stride + j * 27];
+                break;
+            }
+        }
+    }
+    for (i = 0; i < 8; i++)
+        lines[i + 0x28] = 0x64;
+    {
+        int n;
+        int stride;
+        int row;
+        unsigned char st;
+
+        i = 0;
+        n = 0;
+        goto scratch_test;
+scratch_body:
+        stride = side * 0x2F4;
+        row = stride + i * 27;
+        st = rosterstat[row];
+        if (st != 0 && st != 3) {
+            lines[0x28 + n] = rosterslot[row];
+            n++;
+        }
+        i++;
+scratch_test:
+        if (i < 0x1C)
+            goto scratch_body;
+    }
+    rec = (unsigned char *)rosterteamrec[side];
+    {
+        typedef struct { int w[12]; } Block;
+        *(Block *)(rec + 0xEC) = *(Block *)(rec + 0xBC);
+    }
+    return 1;
 }

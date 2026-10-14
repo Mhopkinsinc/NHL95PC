@@ -598,6 +598,7 @@ LineEdHitTest,77F6F,134,054_737AA_line_editor_rosters,src/c/054_737AA_line_edito
 MenuShowPlayerStats,7556E,514,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,
 ScratchPlayer,75770,248,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,
 DressPlayer,75868,201,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,
+LineEdDone,75456,280,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,nonmatching,"draft: 280 vs 280 (best of 5). The jersey pointer is lea ebx where the original is lea ecx, the inner counter is ebx and the side stride is ecx, and the scratch status byte is dl where the original is bl. Do not retry a named row (lea ecx,[ebx+eax]) or n++ inside the subscript (copies n to edx before the inc)."
 PrintLineEdStatus,76771,95,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/PrintLineEdStatus.c,matched,
 RandLfsrByte,7665E,47,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/RandLfsrByte.c,nonmatching,"original does byte ops (dl = bit, dh = *s shr 1, bl = dh ^ B8h, push ebx too); this draft widens to 32 bits. 10-min cap"
 SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/SetPalette768.c,matched,
