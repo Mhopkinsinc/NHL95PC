@@ -257,6 +257,7 @@ TradeDone,3EDAA,381,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeD
 TradeHitTest,3ECAE,252,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that."
 TradeRosterCmp,3FEF0,98,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeRosterCmp.c,matched,
 BuildLeagueList,411C8,367,033_40183_trades,src/c/033_40183_trades/BuildLeagueList.c,nonmatching,"register allocation only: the findnext result is copied to edx before the test, and the list store indexes via edx/eax swapped; structure matches"
+CheckMasterPassword,40F4E,547,033_40183_trades,src/c/033_40183_trades/CheckMasterPassword.c,matched,
 FmtFromLeague,41171,87,033_40183_trades,src/c/033_40183_trades/FmtFromLeague.c,matched,
 GetLeagueId,41344,137,033_40183_trades,src/c/033_40183_trades/GetLeagueId.c,matched,
 LeagueCheckStub,41337,13,033_40183_trades,src/c/033_40183_trades/LeagueCheckStub.c,matched,

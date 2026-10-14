@@ -993,6 +993,10 @@ push esi	; 40F3E
 mov ecx, 2	; 40F3F
 mov ebx, msg_OneHuman	; 40F44
 jmp near AddHumanTeam_msgbox	; 40F49
+; C: src/c/033_40183_trades/CheckMasterPassword.c
+%ifdef CBUILD
+%include "c/033_40183_trades/CheckMasterPassword.inc"
+%else
 CheckMasterPassword:
 push dword 4Ch	; 40F4E
 call __CHK	; 40F53
@@ -1159,6 +1163,7 @@ pop edx	; 4116D
 pop ecx	; 4116E
 pop ebx	; 4116F
 ret	; 41170
+%endif ; C
 ; C: src/c/033_40183_trades/FmtFromLeague.c
 %ifdef CBUILD
 %include "c/033_40183_trades/FmtFromLeague.inc"
