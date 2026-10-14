@@ -1,9 +1,11 @@
 /* Gadgets: load the team rock cues and the three tune banks. */
 #define LoadRockMusic LoadRockMusic_decl
 #define sub_8F13B sub_8F13B_decl
+#define FreeRockMusic FreeRockMusic_decl
 #include "nhl95.h"
 #undef LoadRockMusic
 #undef sub_8F13B
+#undef FreeRockMusic
 
 int sub_8F13B(char *path);
 
@@ -90,4 +92,33 @@ void LoadRockMusic(void)
     MakePath(s.path, fileoncd[0x161] == 1 ? (char *)cddriveptr : 0, (char *)str_ROCKDITI, 0);
     rocktunes[2] = sub_8F13B(s.path);
     dword_CCC94 = 0;
+}
+
+/* FreeRockMusic: release the six team cues, the three random cues and the three tune banks.
+   DRAFT: 133 vs 134. The three loops match. The exit is jmp to LoadRockMusic's pop ebp,
+   where the original pops ebp itself and then jumps to LoadRockMusic_ret. That happens
+   because the LoadRockMusic draft saves ebp. Do not retry this until that draft stops
+   pushing ebp. */
+void FreeRockMusic(void)
+{
+    int i;
+
+    for (i = 0; i < 6; i++) {
+        if (rockteamcues[i]) {
+            sub_8F1FE(rockteamcues[i]);
+            rockteamcues[i] = 0;
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (rockrandcues[i]) {
+            sub_8F1FE(rockrandcues[i]);
+            rockrandcues[i] = 0;
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (rocktunes[i]) {
+            sub_8F1FE(rocktunes[i]);
+            rocktunes[i] = 0;
+        }
+    }
 }
