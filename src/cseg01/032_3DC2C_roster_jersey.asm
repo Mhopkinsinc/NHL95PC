@@ -191,6 +191,10 @@ pop ebp	; 3DE01
 pop edi	; 3DE02
 pop esi	; 3DE03
 ret	; 3DE04
+; C: src/c/032_3DC2C_roster_jersey/TradeShowStats.c
+%ifdef CBUILD
+%include "c/032_3DC2C_roster_jersey/TradeShowStats.inc"
+%else
 TradeShowStats:
 push dword 38h	; 3DE05
 call __CHK	; 3DE0A
@@ -351,6 +355,7 @@ pop ebp	; 3E04F
 pop edi	; 3E050
 pop esi	; 3E051
 ret 14h	; 3E052
+%endif ; C
 FixJerseyConflict:
 push dword 670h	; 3E055
 call __CHK	; 3E05A
