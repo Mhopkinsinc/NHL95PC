@@ -632,6 +632,7 @@ sub_7E03F,7E03F,32,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/sub_7
 CmpInt,7FC31,43,058_7F724_highlights,src/c/058_7F724_highlights/CmpInt.c,matched,
 FormatHilightDesc,7FCA2,86,058_7F724_highlights,src/c/058_7F724_highlights/FormatHilightDesc.c,matched,
 NudgeRinkScroll,7FC12,31,058_7F724_highlights,src/c/058_7F724_highlights/NudgeRinkScroll.c,matched,
+PlayHilight,8011C,559,058_7F724_highlights,src/c/058_7F724_highlights/PlayHilight.c,nonmatching,"559 vs 559. songdata is ecx and the zero is esi (original esi and edi), so s1font is edi instead of ebp and the four jctime loads are shifted one register. Do not retry naming that pointer or folding songdata = z = 0."
 SaveHilight,7FA10,514,058_7F724_highlights,src/c/058_7F724_highlights/SaveHilight.c,matched,
 TeamFromHiName,7FC5C,70,058_7F724_highlights,src/c/058_7F724_highlights/TeamFromHiName.c,matched,
 ViewHilights,80075,167,058_7F724_highlights,src/c/058_7F724_highlights/ViewHilights.c,matched,
