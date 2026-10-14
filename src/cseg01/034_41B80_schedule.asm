@@ -886,6 +886,10 @@ pop esi	; 4262D
 pop ecx	; 4262E
 pop ebx	; 4262F
 ret	; 42630
+; C: src/c/034_41B80_schedule/SimScheduleDay.c
+%ifdef CBUILD
+%include "c/034_41B80_schedule/SimScheduleDay.inc"
+%else
 SimScheduleDay:
 push dword 40h	; 42631
 call __CHK	; 42636
@@ -1103,6 +1107,7 @@ pop ebp	; 428A5
 pop edi	; 428A6
 pop esi	; 428A7
 ret 14h	; 428A8
+%endif ; C
 BuildPlayoffs:
 push dword 0C0h	; 428AB
 call __CHK	; 428B0

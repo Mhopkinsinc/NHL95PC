@@ -281,6 +281,7 @@ SeedPlayoffRound3,43F4B,1131,034_41B80_schedule,src/c/034_41B80_schedule/SimPlay
 SimPlayoffRound3,443B6,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
 SeedPlayoffFinal,444C9,733,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
 SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"draft: same size; team index is bl (original cl) and i+1 is lea ecx,[eax+1] (original inc eax). A while loop moved the compare above the index load. Do not retry the while."
+SimScheduleDay,42631,634,034_41B80_schedule,src/c/034_41B80_schedule/SimScheduleDay.c,matched,
 SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,
 UpdatePlayoffSeries,41F64,671,034_41B80_schedule,src/c/034_41B80_schedule/UpdatePlayoffSeries.c,matched,
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,
