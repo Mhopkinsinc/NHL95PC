@@ -42,7 +42,7 @@ void GameLineEditor(int team, unsigned char *lines, unsigned char *names, int mo
     pal = (unsigned char *)sub_8CCA8((char *)str_Pal27, 0x300, 0x20);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     if (musicon && songdata) {
         sub_8FCDF(musichandle, 3, 0x32);
         while (!sub_8FC8A(*(int *)((char *)&musicslot - 3) >> 24, 3));
@@ -90,7 +90,7 @@ void GameLineEditor(int team, unsigned char *lines, unsigned char *names, int mo
     LoadGameRoster(team);
     qsort(gmroster, 0x1C, 0x16, (int (*)(const void *, const void *))GameRosterCmp);
     GameLineEditorLoop(s.lines_slot, shape, team, 0, s.names_slot, s.mode_slot, bank);
-    jctime(bank);
+    FreeMemBlock(bank);
     dlgfillcol = s.fill;
     dlgedgecol1 = s.edge1;
     dlgedgecol2 = s.edge2;

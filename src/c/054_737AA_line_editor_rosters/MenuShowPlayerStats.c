@@ -33,9 +33,9 @@ int MenuShowPlayerStats(unsigned char *nums, int ignored, unsigned char side, in
     rostergstat = (unsigned char *)sub_8CCA8((char *)str_Gstat3, 0x10E, 0);
     ShowRosterStats(0xC0, 0xC1, 0xC2, 0xC3);
     RunMenu(unk_D075E, 2, 0xC0, 0xC1, 0xC2);
-    jctime((int)rostergstat);
-    jctime(rosterpstat);
-    jctime(statsplayerbuf);
+    FreeMemBlock((int)rostergstat);
+    FreeMemBlock(rosterpstat);
+    FreeMemBlock(statsplayerbuf);
     z = 0;
     statsplayerbuf = z;
     rostergstat = (unsigned char *)z;

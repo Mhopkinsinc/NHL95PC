@@ -68,7 +68,7 @@ void DrawHudPanel(int home, int away, int period, int reset)
         x = 0xA0;
     }
     sub_B4CD8(sub_B30B4(bank, (char *)sprite), x, 0x16);
-    jctime(bank);
+    FreeMemBlock(bank);
     MakePath(path, fileoncd[0x57] == 1 ? (char *)cddriveptr : 0, (char *)str_Crests4, (char *)str_PPV);
     bank = sub_8E8A0(path, 0);
     byte_DCA1B = 0x67;
@@ -81,7 +81,7 @@ void DrawHudPanel(int home, int away, int period, int reset)
     sub_B4E50(sub_B30B4(bank, (char *)crestnames[away]), 0x11C, 4);
     byte_DCA1B = 0x43;
     byte_DC91B = 0x43;
-    jctime(bank);
+    FreeMemBlock(bank);
     sub_B4CD8(linesprites[hudhomeline], 0x2A, 0x14);
     sub_B4CD8(linesprites[hudawayline], 0xFB, 0x14);
 }

@@ -67,14 +67,14 @@ void RunEditRosters(void)
     LoadLeagueDbsMem((char *)str_extDB);
     EditRosters(unk_D0450, 6, 0x40, 0x41, 0x42);
     FreeLeagueDbsMem();
-    jctime(editptrspr);
+    FreeMemBlock(editptrspr);
     if (musicon && songdata)
         sub_8FCDF(musichandle, 3, 0x32);
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     sub_8EA00(s.state);
-    jctime(fullscrbmp);
+    FreeMemBlock(fullscrbmp);
     boxfillcolor = s.fill;
     boxlitecolor = s.lite;
     boxshadecolor = s.shade;

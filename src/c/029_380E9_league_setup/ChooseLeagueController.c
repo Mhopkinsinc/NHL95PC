@@ -1,5 +1,5 @@
 /* League setup: pick the controller and set the master password. */
-/* DRAFT: 669 vs 669. The body matches. The two jctime calls load list into ecx and names
+/* DRAFT: 669 vs 669. The body matches. The two FreeMemBlock calls load list into ecx and names
  into esi; the original uses edi and ebp. Parm order [eax][edx][ecx][ebx] plus copying x
  before y puts ebx at esp+0DCh and ecx at esp+0D8h. Declaring the 12-byte verify buffer
  before the first password buffer puts those slots back. Do not retry an inner block for
@@ -86,6 +86,6 @@ void ChooseLeagueController(unsigned char *teams, int n, int y, int x)
     *(int *)&leagueflags = bad;
     leaguesaved = bad;
     savedname = 0;
-    jctime((int)list);
-    jctime((int)names);
+    FreeMemBlock((int)list);
+    FreeMemBlock((int)names);
 }

@@ -79,9 +79,9 @@ int UpdateSeasonSchedule(char *dir, char *ext, int day, unsigned char *teams, in
         MakePath(s.path, dir, (char *)leaguedbnames[5], ext);
         sub_932D0(s.path, seasondb, seasondb_size);
     }
-    if (seasondb) jctime((int)seasondb);
-    if (careerdb) jctime((int)careerdb);
-    if (keydb) jctime((int)keydb);
+    if (seasondb) FreeMemBlock((int)seasondb);
+    if (careerdb) FreeMemBlock((int)careerdb);
+    if (keydb) FreeMemBlock((int)keydb);
     keydb_size = careerdb_size = seasondb_size = keydb = careerdb = seasondb = 0;
     FileClose(&s.rdfh);
     FileClose(&s.rwfh);

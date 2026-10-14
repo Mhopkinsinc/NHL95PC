@@ -62,10 +62,10 @@ void PlayHilight(void)
     FadePalStep(1, pal, 0x10);
     sub_8EA18(s1font);
     sub_1BAB1();
-    jctime(rinkendbank);
-    jctime(scrbrdshapes);
-    jctime(numshpbank);
-    jctime(hilightfont);
+    FreeMemBlock(rinkendbank);
+    FreeMemBlock(scrbrdshapes);
+    FreeMemBlock(numshpbank);
+    FreeMemBlock(hilightfont);
     FreeRockMusic();
     FreeRinkGfx();
     ClearInputQueue();

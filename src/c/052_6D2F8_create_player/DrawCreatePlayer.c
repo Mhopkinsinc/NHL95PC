@@ -21,11 +21,11 @@ void DrawCreatePlayer(unsigned char *pl, int units)
     shape = sub_B30B4(bank, (char *)str_Pal2);
     memcpy(savepal, (char *)shape + 0x10, 0x300);
     sub_913B4(sub_B30B4(bank, (char *)str_ea2));
-    jctime(bank);
+    FreeMemBlock(bank);
     MakePath(buf, fileoncd[0x13C] == 1 ? (char *)cddriveptr : 0, (char *)str_Pstatbar, 0);
     bank = sub_8E83C(buf, 0);
     sub_913B4(sub_B30B4(bank, (char *)str_Pst2));
-    jctime(bank);
+    FreeMemBlock(bank);
     sub_8EA18(kaufmfont);
     SetTextColors(0x40, 0x42);
     *(T11 *)buf = *(T11 *)str_FreeAgent;

@@ -51,7 +51,7 @@ void TradeShowStats(int list, unsigned char cat, int b2, int b3,
     bank = sub_8E83C(path, 0);
     shape = sub_B30B4(bank, (char *)str_Pal21);
     memcpy((unsigned char *)pal, (char *)shape + 0x10, 0x300);
-    jctime(bank);
+    FreeMemBlock(bank);
     InitMenuRemap(1);
     TeamRosterScreen(cat);
     DrawMenuBar(unk_C88E2, 2, 0x40, 0x41, 0x42);
@@ -60,10 +60,10 @@ void TradeShowStats(int list, unsigned char cat, int b2, int b3,
     c = 0;
     dword_DC738 = c;
     statsredrawcb = c;
-    jctime(statsteambuf);
-    jctime((int)statsgoaliebuf);
-    jctime((int)statsskaterbuf);
-    jctime(statsplayerbuf);
+    FreeMemBlock(statsteambuf);
+    FreeMemBlock((int)statsgoaliebuf);
+    FreeMemBlock((int)statsskaterbuf);
+    FreeMemBlock(statsplayerbuf);
     z = 0;
     statsplayerbuf = z;
     statsteambuf = z;
@@ -72,6 +72,6 @@ void TradeShowStats(int list, unsigned char cat, int b2, int b3,
     sub_B4BA8();
     FadePalStep(1, (unsigned char *)pal, 0x10);
     sub_B392C(z);
-    jctime(pal);
+    FreeMemBlock(pal);
     DrawTradeScreen(list, s0, s2, s1, s3, b3, b2);
 }

@@ -55,11 +55,11 @@ int LockerRoomScreen(void)
     ((short *)titlebckspr)[3] = 0x19;
     DrawLockerRoom();
     picked = LockerRoomLoop();
-    jctime(titlebckspr);
-    jctime(homenamebckspr);
-    jctime(visnamebckspr);
-    jctime(homebckspr);
-    jctime(visbckspr);
+    FreeMemBlock(titlebckspr);
+    FreeMemBlock(homenamebckspr);
+    FreeMemBlock(visnamebckspr);
+    FreeMemBlock(homebckspr);
+    FreeMemBlock(visbckspr);
     sub_8EA00(buf + 0x300);
     if (gamemode == 0)
         r = 2;

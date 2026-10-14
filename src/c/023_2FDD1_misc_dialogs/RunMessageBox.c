@@ -78,6 +78,6 @@ int RunMessageBox(int *xptr, int *yptr, int *buttons, int n)
     MouseSetPos(x, y);
     *xptr = x;
     *yptr = y;
-    jctime(bm);
+    FreeMemBlock(bm);
     return result;
 }

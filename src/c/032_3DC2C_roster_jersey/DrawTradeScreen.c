@@ -35,7 +35,7 @@ void DrawTradeScreen(int unused, int art, void *menu, int unused2, int count,
     MakePath(s.path1, fileoncd[0x8C] == 1 ? (char *)cddriveptr : 0, (char *)str_Embnhl2, 0);
     s.bank = sub_8E83C(s.path1, 0);
     sub_91370(sub_B30B4(s.bank, (char *)str_Bkgd9), 0, 0);
-    jctime(s.bank);
+    FreeMemBlock(s.bank);
     DrawMenuBar(menu, count, 0x40, 0x41, 0x42);
     DrawDlgFrame(0x1C0, 0, 0x27F, 0x1DF, 1);
     DrawDlgFrame(0, 0, 0xBE, 0x1DF, 1);
@@ -47,7 +47,7 @@ void DrawTradeScreen(int unused, int art, void *menu, int unused2, int count,
     shape = sub_B30B4(shape, (char *)str_Pal21);
     statspalshape = shape;
     memcpy(pal, (unsigned char *)shape + 0x10, 0x300);
-    jctime(statsbgshapes);
+    FreeMemBlock(statsbgshapes);
     LoadTradeTeamPals(teams[0], teams[1], pal);
     traderemap1[0] = (int)byte_DC9D8;
     traderemap2 = (int)byte_DC8D8;
@@ -80,5 +80,5 @@ void DrawTradeScreen(int unused, int art, void *menu, int unused2, int count,
     sub_B4BA8();
     sub_9121C(*(int *)(dword_DE264 + 0x2C));
     FadePalStep(0, s.pal, 0x10);
-    jctime((int)s.pal);
+    FreeMemBlock((int)s.pal);
 }

@@ -86,8 +86,8 @@ int __cdecl JoystickCalScreen(int mask, int shift, int side, char *title)
             sub_91370(s.shape, joycalx[prev], joycaly[prev]);
             sub_91964((char *)unk_C27F5, 0, 0x14);
         }
-        jctime((int)back);
-        jctime(s.bank);
+        FreeMemBlock((int)back);
+        FreeMemBlock(s.bank);
         FadePalStep(1, s.pal, 0x10);
         sub_8EA00(s.state);
     } else

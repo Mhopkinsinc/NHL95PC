@@ -33,7 +33,7 @@ int CoachCutScene(void)
     sub_B4BA8();
     sub_9061C(sub_B30B4(bank, (char *)str_Scrn4));
     memcpy(s.pal, (unsigned char *)sub_B30B4(bank, (char *)str_Pal29) + 0x10, 0x300);
-    jctime(bank);
+    FreeMemBlock(bank);
     if (musicon && !songdata) {
         MakePath(s.path, fileoncd[0x21F] == 1 ? (char *)cddriveptr : 0, (char *)str_Coach, (char *)str_Iff13);
         songdata = sub_8F98F(s.path);

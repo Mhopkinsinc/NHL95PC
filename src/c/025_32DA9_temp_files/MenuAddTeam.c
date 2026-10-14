@@ -306,7 +306,7 @@ int MenuNewLeague(void)
     if (musicon && songdata)
         sub_8FCDF(musichandle, 3, 0x64);
     FadePalStep(1, pal, 0x10);
-    jctime((int)pal);
+    FreeMemBlock((int)pal);
     if (musicon && songdata) {
         do
             slot = musicslot;
