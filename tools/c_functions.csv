@@ -725,6 +725,7 @@ POSetSeriesTeams,87520,131,064_86696_season_playoffs,src/c/064_86696_season_play
 POSimSeriesTo,88625,279,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSimSeriesTo.c,matched,
 SetSideControls,8B85B,212,064_86696_season_playoffs,src/c/064_86696_season_playoffs/SetSideControls.c,matched,
 WriteCurModeState,8B92F,62,064_86696_season_playoffs,src/c/064_86696_season_playoffs/WriteCurModeState.c,matched,
+CoachCutScene,8BC15,710,065_8BAAF_allfiles_coach,src/c/065_8BAAF_allfiles_coach/CoachCutScene.c,matched,
 InitFileLocations,8BAAF,358,065_8BAAF_allfiles_coach,src/c/065_8BAAF_allfiles_coach/InitFileLocations.c,matched,
 SelectScreenBM SelectRinkBM,8C1C2,53,066_8BEDB_asm_helpers,src/c/066_8BEDB_asm_helpers/SelectScreenBM.c,matched,
 stub_8C1B7,8C1B7,11,066_8BEDB_asm_helpers,src/c/066_8BEDB_asm_helpers/stub_8C1B7.c,matched,

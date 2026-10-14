@@ -130,6 +130,10 @@ pop ecx	; 8BC12
 pop ebx	; 8BC13
 ret	; 8BC14
 %endif ; C
+; C: src/c/065_8BAAF_allfiles_coach/CoachCutScene.c
+%ifdef CBUILD
+%include "c/065_8BAAF_allfiles_coach/CoachCutScene.inc"
+%else
 CoachCutScene:
 push dword 358h	; 8BC15
 call __CHK	; 8BC1A
@@ -337,3 +341,4 @@ pop edx	; 8BED7
 pop ecx	; 8BED8
 pop ebx	; 8BED9
 ret	; 8BEDA
+%endif ; C
