@@ -167,6 +167,10 @@ mov dword [standingscb], EasnStandingsScreen	; 32FD6
 mov dword [standingsmenucb], EasnStandingsMenu	; 32FE0
 mov eax, 2	; 32FEA
 jmp near MainDeskLoop_x	; 32FEF
+; C: src/c/025_32DA9_temp_files/MenuAddTeam.c (MenuNewLeague)
+%ifdef CBUILD
+%include "c/025_32DA9_temp_files/MenuAddTeam.MenuNewLeague.inc"
+%else
 MenuNewLeague:
 push dword 20h	; 32FF4
 call __CHK	; 32FF9
@@ -299,6 +303,7 @@ add esp, byte 4	; 3321A
 xor esi, esi	; 3321D
 mov dword [songdata], esi	; 3321F
 jmp near MenuAddTeam_ret2	; 33225
+%endif ; C
 ; C: src/c/025_32DA9_temp_files/MenuAddTeam.c
 %ifdef CBUILD
 %include "c/025_32DA9_temp_files/MenuAddTeam.inc"

@@ -179,6 +179,11 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   expression took edi and spilled the line count.
 * **Two read-modify-writes on one byte merge**: `p->pflags &= ~pfjoy; p->pflags |= pfna;` (the 93G bclr/bset)
   gives `mov ch,[x] / and ch,0F5h / mov dl,ch / or dl,2 / mov [x],dl` (restorepl); one combined expression does not.
+  The same two statements on a global byte keep both stores and use `bl`/`bh`:
+  `((unsigned char *)lgstate)[0x5A] &= 0x83; ((unsigned char *)lgstate)[0x5A] |= 0x78` is
+  `mov bl,[x] / and bl,83h / mov [x],bl / mov bh,bl / or bh,78h / mov [x],bh` (MenuNewLeague). A named
+  `unsigned char` for that mask uses `al` and folds the `or` in place. Testing the global itself
+  (`if (ctlavailmask & 2)`) loads `cl`; `unsigned char c = ctlavailmask` loads `al`.
 * **Known-zero registers are reused**: after `mov ax,[position] / test ax,ax / jne` the compiler skips the
   `xor ah,ah` it needs later. A `(unsigned short)` cast on the byte (`regd2.w += (unsigned short)p->legstr + 0x14`)
   gave the original `cmp word [position],0` + `xor ah,ah`.

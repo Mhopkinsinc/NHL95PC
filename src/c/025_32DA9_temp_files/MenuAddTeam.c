@@ -1,5 +1,7 @@
 /* Temp files: league desk menu actions (one source block from MenuAddTeam to MenuExportDbs: they share MenuAddTeam_common and MenuRebuildDbs_x). */
+#define MenuNewLeague MenuNewLeague_decl
 #include "nhl95.h"
+#undef MenuNewLeague
 
 /* MenuAddTeam: menu "add team": save the exhibition state, load the league state with the stats source
  menu for leagues (3), add a human team (AddHumanTeam); then back: stats source 0, save the league state, load
@@ -241,5 +243,76 @@ int MenuExportDbs(void)
     sub_8FFB0(0, 0x100, pal);
     FadePalStep(1, pal, 0x10);
     jctime((int)pal);
+    return 2;
+}
+
+/* MenuNewLeague: menu "new league". Fill a fresh league state (12 teams, best of 7, the first free
+   control), create the league, and point the desk at it when the new file has a name. Fade the
+   menu palette back in. Returns 2. */
+int MenuNewLeague(void)
+{
+    int slot;
+    unsigned char *pal;
+
+    SaveModeState(exhstate);
+    lgstate[0] = 2;
+    *(int *)((char *)lgstate + 0x51) = 0x0C;
+    *(int *)((char *)lgstate + 0x55) = 0x15;
+    *(unsigned short *)((char *)lgstate + 0x59) |= 0x2FF;
+    if (musicon)
+        ((unsigned char *)lgstate)[0x5A] |= 1;
+    else
+        ((unsigned char *)lgstate)[0x5A] &= 0xFE;
+    ((unsigned char *)lgstate)[0x5A] &= 0x83;
+    ((unsigned char *)lgstate)[0x5A] |= 0x78;
+    if (ctlavailmask & 2)
+        *(int *)((char *)lgstate + 0x65) = 2;
+    else if (ctlavailmask & 4)
+        *(int *)((char *)lgstate + 0x65) = 4;
+    else if (ctlavailmask & 8)
+        *(int *)((char *)lgstate + 0x65) = 8;
+    else if (ctlavailmask & 1)
+        *(int *)((char *)lgstate + 0x65) = 1;
+    else
+        *(int *)((char *)lgstate + 0x65) = 0x10;
+    if (*(int *)((char *)lgstate + 0x65) != 0x10)
+        *(int *)((char *)lgstate + 0x5D) = 0x0C;
+    else
+        *(int *)((char *)lgstate + 0x5D) = -1;
+    *(int *)((char *)lgstate + 0x69) = 0x10;
+    *(int *)((char *)lgstate + 0x61) = -2;
+    *(int *)((char *)lgstate + 0x6D) = 0;
+    *(int *)((char *)lgstate + 0x71) = 1;
+    LoadModeState(lgstate);
+    SetLeagueSetImage(0);
+    CreateNewLeague();
+    SettingsStub();
+    if (((unsigned char *)lgstate)[4]) {
+        BuildSavedGameLabels();
+        SetupStatsSourceMenu(0);
+        *(char **)&menuact_export = (char *)MenuExportDbs;
+        *(char **)&menuact_nextlg = (char *)MenuNextLeagueGame;
+        *(char **)&menusub_lgmgr = (char *)leaguemgrmenu;
+    } else {
+        BuildSavedGameLabels();
+        SetupStatsSourceMenu(0);
+        menuact_export = 0;
+        menuact_nextlg = 0;
+        menusub_lgmgr = 0;
+    }
+    LoadModeState(exhstate);
+    pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, pal);
+    if (musicon && songdata)
+        sub_8FCDF(musichandle, 3, 0x64);
+    FadePalStep(1, pal, 0x10);
+    jctime((int)pal);
+    if (musicon && songdata) {
+        do
+            slot = musicslot;
+        while (sub_8FC8A(slot, 3) == 0);
+        sub_8D2F0(songdata);
+        songdata = 0;
+    }
     return 2;
 }

@@ -196,6 +196,7 @@ MenuExit,3270B,16,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MenuExit.c,match
 SaveModeState,3271B,134,024_31AB5_main_desk,src/c/024_31AB5_main_desk/SaveModeState.c,matched,
 DemoSetupStub,3371C,11,025_32DA9_temp_files,src/c/025_32DA9_temp_files/DemoSetupStub.c,matched,
 FreeRinkGfx,33727,85,025_32DA9_temp_files,src/c/025_32DA9_temp_files/FreeRinkGfx.c,matched,
+MenuNewLeague,32FF4,566,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuAddTeam MenuRemoveTeam,3322A,204,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuRebuildDbs,3339D,58,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuMergeUpdateDbs,333D7,146,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
