@@ -4055,6 +4055,10 @@ jge near EditSkaterRating_tail	; 70242
 cmp dword [dword esp+098h], byte 0	; 70248
 je near EditGoalieRating.1	; 70250
 jmp near EditSkaterRating_tail	; 70256
+; C: src/c/052_6D2F8_create_player/DrawCreatePlayer.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/DrawCreatePlayer.inc"
+%else
 DrawCreatePlayer:
 push dword 6Ch	; 7025B
 call __CHK	; 70260
@@ -4254,6 +4258,7 @@ pop esi	; 704A2
 pop ecx	; 704A3
 pop ebx	; 704A4
 ret	; 704A5
+%endif ; C
 CreatePlayerLoop:
 push dword 44h	; 704A6
 call __CHK	; 704AB
