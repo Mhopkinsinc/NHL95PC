@@ -2932,6 +2932,10 @@ sub eax, edx	; 7585C
 shl eax, 2	; 7585E
 add eax, edx	; 75861
 jmp near MenuShowPlayerStats_status	; 75863
+; C: src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c (DressPlayer)
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/MenuShowPlayerStats.DressPlayer.inc"
+%else
 DressPlayer:
 push dword 44h	; 75868
 call __CHK	; 7586D
@@ -2998,6 +3002,7 @@ call PrintLineEdStatus	; 75922
 xor eax, eax	; 75927
 add esp, byte 20h	; 75929
 jmp near MenuShowPlayerStats_ret	; 7592C
+%endif ; C
 CmpRosterSkaters:
 push dword 14h	; 75931
 call __CHK	; 75936

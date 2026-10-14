@@ -1,9 +1,11 @@
 /* Line editor: show the selected player's season stats. */
 #define MenuShowPlayerStats MenuShowPlayerStats_decl
 #define RunMenu RunMenu_decl
+#define DressPlayer DressPlayer_decl
 #include "nhl95.h"
 #undef MenuShowPlayerStats
 #undef RunMenu
+#undef DressPlayer
 
 void RunMenu(void *bar, int n, int col1, int col2, int col3);
 
@@ -45,5 +47,29 @@ int MenuShowPlayerStats(unsigned char *nums, int ignored, unsigned char side, in
                 rosterjersey[side * 0x2F4 + *sel * 27], rosterlist + side * 0x2F4 + *sel * 27 + 8);
         PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
     }
+    return 0;
+}
+
+/* DressPlayer: line-editor menu action. Marks the selected roster row as dressed (status 3),
+   redraws the jerseys, and prints the same "<num> <name>" status line as MenuShowPlayerStats.
+   The exit pops land in MenuShowPlayerStats_ret (ret 18h), so the stack arguments match. */
+int DressPlayer(unsigned char *nums, int ignored, unsigned char side, int *sel, int art,
+                int zero, int buttons, int extra, int u1, int u2)
+{
+    char buf[32];
+
+    (void)ignored;
+    (void)zero;
+    (void)buttons;
+    (void)extra;
+    (void)u1;
+    (void)u2;
+    rosterstat[side * 0x2F4 + *sel * 27] = 3;
+    DrawLineJerseys(nums, art, side);
+    sub_8E9C0(0xC0, 0xC1);
+    sprintf(buf, (char *)str_C2dS2, rosterlist[side * 0x2F4 + *sel * 27],
+            rosterjersey[side * 0x2F4 + *sel * 27],
+            rosterlist + side * 0x2F4 + *sel * 27 + 8);
+    PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
     return 0;
 }

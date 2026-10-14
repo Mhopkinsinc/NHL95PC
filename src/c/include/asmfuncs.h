@@ -798,7 +798,6 @@ extern void MenuShowPlayerStats(); /* 7556E */
 extern void MenuShowPlayerStats_status(); /* 75756 */
 extern void MenuShowPlayerStats_ret(); /* 7576A */
 extern void ScratchPlayer(); /* 75770 */
-extern void DressPlayer(); /* 75868 */
 extern void MenuRegSeasonStats_common(); /* 75BBF */
 extern void FadePalStep_ret(); /* 76513 */
 extern void FadePalStepSlow(); /* 7651B */
