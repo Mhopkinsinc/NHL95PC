@@ -193,6 +193,11 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   `mov bl,[x] / and bl,83h / mov [x],bl / mov bh,bl / or bh,78h / mov [x],bh` (MenuNewLeague). A named
   `unsigned char` for that mask uses `al` and folds the `or` in place. Testing the global itself
   (`if (ctlavailmask & 2)`) loads `cl`; `unsigned char c = ctlavailmask` loads `al`.
+* **A duplicated byte constant uses the high half of a live byte register**: with `prev` in `bl` and
+  `diff` in `dx`, `byte_DF6E9 = 3; byte_DF6E6 = 3` is `mov bh, 3` / two stores from `bh` (UpdateCoachModes).
+  The original is `mov cl, 3`. A named `unsigned char`, a chained assignment, a reload of the stored byte,
+  a block scope and `&= ~1` stay on `bh`. An `int` or `short` for that 3 is `mov eax, 3` and shifts the
+  period-2 byte temps. Naming the period-2 `byte--` decrements in place (`dec bl`) instead of copying to `cl`.
 * **`rand() % n` leaves the remainder in edx**: `n = rand() % 0x32; sprintf(name, fmt, n + 1);` then
   `fileoncd[0x1E7 + n]` is `cmp byte [edx+fileoncd+1E7h], 1`. edx is a saved register, so the remainder
   survives sprintf (CoachCutScene).
