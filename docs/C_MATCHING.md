@@ -159,6 +159,7 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   LoadPlayoffModeTree's unused 64 bytes, the 32-byte path and the 8-byte schedule record are one `unsigned char buf[104]`
   (`buf + 64` is the path, `buf + 96` is the record). `return 0;` is the hidden temporary. An explicit `int ret = 0; return ret;`
   copies into a second slot and does not match.
+* **A volatile int through a pointer compares in memory**: `if (*(volatile int *)sel >= 0)` is `cmp dword [esi], 0` / `jl`. A plain `*sel >= 0` loads it (`mov eax,[esi]` / `test eax,eax`) and hoists the later `*sel * 27` into that register (MenuShowPlayerStats). `side * 0x2F4` is the shift chain (`shl` / `sub` / `shl`); `side * 0x2DC` is `imul`.
 * **A zero return right after a compare falls through**: `if (diff <= 0) return 0;` with `diff` just copied (`mov eax, ecx`) is `jg` over `xor eax, ecx` / `pop` / `ret` (ChkPullGoalieLate). `if (diff > 0) { ... } return 0;` puts the body first and jumps to the zero return. A later `return 0` that is the same `xor eax, eax` epilogue is a jump to the first one; inverting the last compare so the zero return sits at the bottom pulls every earlier return there too (ChkDelayedOffside, 208 vs 192).
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original

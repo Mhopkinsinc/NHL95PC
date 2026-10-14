@@ -2684,6 +2684,10 @@ mov eax, 1	; 75561
 .11:
 add esp, byte 4	; 75566
 jmp near MenuShowPlayerStats_ret	; 75569
+; C: src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/MenuShowPlayerStats.inc"
+%else
 MenuShowPlayerStats:
 push dword 48h	; 7556E
 call __CHK	; 75573
@@ -2839,6 +2843,7 @@ pop ebp	; 7576A
 pop edi	; 7576B
 pop esi	; 7576C
 ret 18h	; 7576D
+%endif ; C
 ScratchPlayer:
 push dword 48h	; 75770
 call __CHK	; 75775
