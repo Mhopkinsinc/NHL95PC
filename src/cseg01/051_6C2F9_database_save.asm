@@ -779,6 +779,10 @@ AttDbPtr2:
 push dword 8	; 6CC19
 jmp short AttDbPtr.1	; 6CC1E
 %endif ; C
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.inc"
+%else
 RunEditRosters:
 push dword 7Ch	; 6CC20
 call __CHK	; 6CC25
@@ -983,6 +987,7 @@ pop edx	; 6CEF7
 pop ecx	; 6CEF8
 pop ebx	; 6CEF9
 ret	; 6CEFA
+%endif ; C
 DrawRosterTitle:
 push dword 70h	; 6CEFB
 call __CHK	; 6CF00
