@@ -1028,6 +1028,10 @@ pop edi	; 6CF6B
 pop esi	; 6CF6C
 pop ecx	; 6CF6D
 ret	; 6CF6E
+; C: src/c/051_6C2F9_database_save/DrawRosterList.c
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/DrawRosterList.inc"
+%else
 DrawRosterList:
 push dword 94h	; 6CF6F
 call __CHK	; 6CF74
@@ -1280,6 +1284,7 @@ pop edi	; 6D252
 pop esi	; 6D253
 pop ecx	; 6D254
 ret	; 6D255
+%endif ; C
 ; C: src/c/051_6C2F9_database_save/DrawDatabaseName.c
 %ifdef CBUILD
 %include "c/051_6C2F9_database_save/DrawDatabaseName.inc"

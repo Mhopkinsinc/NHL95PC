@@ -537,6 +537,7 @@ MenuHitTest,6BA4D,158,050_6B093_joystick_calibration,src/c/050_6B093_joystick_ca
 PrintMenuText PrintMenuTextGrey PrintMenuTextAlt,6B88E,192,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/PrintMenuText.c,matched,
 CarTeamRecPtr,6CB6B,37,051_6C2F9_database_save,src/c/051_6C2F9_database_save/CarTeamRecPtr.c,matched,
 DrawDatabaseName,6D256,67,051_6C2F9_database_save,src/c/051_6C2F9_database_save/DrawDatabaseName.c,matched,
+DrawRosterList,6CF6F,743,051_6C2F9_database_save,src/c/051_6C2F9_database_save/DrawRosterList.c,matched,
 DrawRosterPanel,6D299,95,051_6C2F9_database_save,src/c/051_6C2F9_database_save/DrawRosterPanel.c,matched,
 DrawRosterTitle,6CEFB,116,051_6C2F9_database_save,src/c/051_6C2F9_database_save/DrawRosterTitle.c,nonmatching,draft: x/y params in esi/edi swapped vs asm
 KeyDbPtr SeasonDbPtr SeasonDbPtr2 CareerDbPtr CareerDbPtr2 AttDbPtr AttDbPtr2,6CBB7,105,051_6C2F9_database_save,src/c/051_6C2F9_database_save/KeyDbPtr.c,matched,
