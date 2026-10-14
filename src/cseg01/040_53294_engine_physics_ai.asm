@@ -58,6 +58,10 @@ call SetSPA	; 532B6
 pop edx	; 532BB
 ret	; 532BC
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/checkob.c (burst)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.burst.inc"
+%else
 burst:
 push dword 18h	; 532BD
 call __CHK	; 532C2
@@ -111,6 +115,7 @@ or byte [byte eax+pflags], 20h	; 53374
 mov edx, 621h	; 53378
 call SetSPA	; 5337D
 jmp near checkob_ret5	; 53382
+%endif ; C
 ; BlockShotDive: eax = player, edx = dive direction from CanBlockShot. High puck or fast Zvel: SPA 14ADh /
 ; 1475h; else a sliding block. blockspd is the X speed and blockspd_y the Y speed for that facing.
 ; C: src/c/040_53294_engine_physics_ai/BlockShotDive.c

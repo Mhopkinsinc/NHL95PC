@@ -172,3 +172,25 @@ void ReturnGoalies(void)
         o = &hmtmstruct;
     }
 }
+
+/* The clamped energy is passed through ebx so the team pointer reloads into ecx. */
+int burst_bx(int v);
+#pragma aux burst_bx = "mov ebx, edx" parm [edx] value [ebx] modify exact [ebx];
+
+/* burst: fatigue on, spend CCh energy (not below 0), then add facedir's dirtab step
+ times energy>>7 to Xvel and Yvel, lock the animation, and start SPA 621h. */
+void burst(Player *p)
+{
+    regd0.w = p->tmptr->tmpde[p->pnum];
+    if (gameopts.linechanges) {
+        regd0.w -= 0xCC;
+        p->tmptr->tmpde[p->pnum] = burst_bx(regd0.w < 0 ? 0 : regd0.w);
+        if (regd0.w < 0)
+            regd0.w = 0;
+    }
+    regd0.w >>= 7;
+    p->Xvel += dirtab[p->facedir * 2] * regd0.w;
+    p->Yvel += dirtab_y[p->facedir * 2] * regd0.w;
+    p->pflags |= pfalock;
+    SetSPA(p, 0x621);
+}

@@ -230,6 +230,7 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **Declaration order** of locals changes register allocation in some functions (calcpuckcross), not in others.
 * **gmode bit 0** (`gmclock`) means "game clock stopped" (93G ram93): ResetClock sets it, the faceoff drop
   clears it. Code that tests it and skips work does so while the clock is stopped.
+* **A clamped value copied with `mov ebx, edx`**: the ternary `regd0.w < 0 ? 0 : regd0.w` is computed in edx, then `mov ecx, edx` before the team pointer reloads into ebx (burst, registers swapped, same size). A `parm [ebx]` aux computes the ternary in ebx and drops the move (200 vs 202). `#pragma aux burst_bx = "mov ebx, edx" parm [edx] value [ebx] modify exact [ebx]` keeps that copy, so the pointer reloads into ecx and the store is `mov [ecx+edx*2+tmpde], bx`.
 * **Still open**: EvadePlayers needs one more stack dword (a swap spill for the vtoa args while ebp is busy);
   skateto picks edx where the original picks eax for two short-lived loads (Xvel|Yvel, the pucky pointer);
   calcpuckcross is 2 bytes short (x/side registers swapped, a 16-bit `mov bx,dx`). reenergizeteam (ends in

@@ -464,7 +464,6 @@ extern void puckfaceoff(); /* 516E1 */
 extern void puckfaceoff2(); /* 51BDB */
 extern void asstakeposition(); /* 52720 */
 extern void assrefpenshot(); /* 52FB0 */
-extern void burst(); /* 532BD */
 extern void check4check(); /* 53537 */
 extern void checkcheck(); /* 5382C */
 extern void checkob_ret5a(); /* 5412B */
