@@ -483,6 +483,10 @@ pop ebp	; 8082A
 pop edi	; 8082B
 pop esi	; 8082C
 ret 4	; 8082D
+; C: src/c/059_8034B_settings_lockerroom/LockerRoomScreen.c
+%ifdef CBUILD
+%include "c/059_8034B_settings_lockerroom/LockerRoomScreen.inc"
+%else
 LockerRoomScreen:
 push dword 368h	; 80830
 call __CHK	; 80835
@@ -663,6 +667,7 @@ pop edx	; 80AA0
 pop ecx	; 80AA1
 pop ebx	; 80AA2
 ret	; 80AA3
+%endif ; C
 DrawLockerRoom:
 push dword 384h	; 80AA4
 call __CHK	; 80AA9
