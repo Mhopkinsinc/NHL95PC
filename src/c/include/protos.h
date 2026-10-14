@@ -881,6 +881,7 @@ void DrawGadgetByType(unsigned type, unsigned char state, int b, int *shp, int c
 void __cdecl sub_913B4(int shape);  /* graphics library: draw a shape */
 void AddDirtyRect(short x, short y, short w, short h);  /* 1D02F */
 int GameDressPlayer(unsigned char *nums, int a, unsigned char side, int *sel, int art, int b, int c, int d, int e, int f);  /* 79F41 */
+int ScratchPlayer(unsigned char *nums, int ignored, unsigned char side, int *sel, int art, int zero, int buttons, int extra, int u1, int u2);  /* 75770 */
 int DressPlayer(unsigned char *nums, int ignored, unsigned char side, int *sel, int art, int zero, int buttons, int extra, int u1, int u2);  /* 75868 */
 void checkint(Player *a, Player *b);  /* 53E6A */
 int __cdecl vecdist(int x, int y);  /* B3D94 */

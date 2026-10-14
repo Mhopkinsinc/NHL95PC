@@ -2844,6 +2844,10 @@ pop edi	; 7576B
 pop esi	; 7576C
 ret 18h	; 7576D
 %endif ; C
+; C: src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c (ScratchPlayer)
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/MenuShowPlayerStats.ScratchPlayer.inc"
+%else
 ScratchPlayer:
 push dword 48h	; 75770
 call __CHK	; 75775
@@ -2932,6 +2936,7 @@ sub eax, edx	; 7585C
 shl eax, 2	; 7585E
 add eax, edx	; 75861
 jmp near MenuShowPlayerStats_status	; 75863
+%endif ; C
 ; C: src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c (DressPlayer)
 %ifdef CBUILD
 %include "c/054_737AA_line_editor_rosters/MenuShowPlayerStats.DressPlayer.inc"

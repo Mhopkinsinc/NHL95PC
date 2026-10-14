@@ -2,10 +2,12 @@
 #define MenuShowPlayerStats MenuShowPlayerStats_decl
 #define RunMenu RunMenu_decl
 #define DressPlayer DressPlayer_decl
+#define ScratchPlayer ScratchPlayer_decl
 #include "nhl95.h"
 #undef MenuShowPlayerStats
 #undef RunMenu
 #undef DressPlayer
+#undef ScratchPlayer
 
 void RunMenu(void *bar, int n, int col1, int col2, int col3);
 
@@ -47,6 +49,35 @@ int MenuShowPlayerStats(unsigned char *nums, int ignored, unsigned char side, in
                 rosterjersey[side * 0x2F4 + *sel * 27], rosterlist + side * 0x2F4 + *sel * 27 + 8);
         PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
     }
+    return 0;
+}
+
+/* ScratchPlayer: line-editor menu action. Any jersey number in nums that matches the selected
+   player's is replaced with 0x64, the row is marked scratched (status 2), and the status line
+   is the same tail as MenuShowPlayerStats (MenuShowPlayerStats_status). */
+int ScratchPlayer(unsigned char *nums, int ignored, unsigned char side, int *sel, int art,
+                  int zero, int buttons, int extra, int u1, int u2)
+{
+    char buf[32];
+    int i;
+
+    (void)ignored;
+    (void)zero;
+    (void)buttons;
+    (void)extra;
+    (void)u1;
+    (void)u2;
+    for (i = 0; i < 0x28; i++) {
+        if (nums[i] == rosterjersey[side * 0x2F4 + *sel * 27])
+            nums[i] = 0x64;
+    }
+    rosterstat[side * 0x2F4 + *sel * 27] = 2;
+    DrawLineJerseys(nums, art, side);
+    sub_8E9C0(0xFD, 0xC1);
+    sprintf(buf, (char *)str_C2dS2, rosterlist[side * 0x2F4 + *sel * 27],
+            rosterjersey[side * 0x2F4 + *sel * 27],
+            rosterlist + side * 0x2F4 + *sel * 27 + 8);
+    PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
     return 0;
 }
 
