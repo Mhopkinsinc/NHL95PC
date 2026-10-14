@@ -320,6 +320,7 @@ assepen,4B02D,255,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_lo
 assexit,4D509,31,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assexit.c,matched,
 assfaceoffpl,4D528,396,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assfaceoffpl.c,matched,
 assgoalietopuck,4B5C2,306,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assgoalietopuck.c,nonmatching,register allocation: x / |y| land in ecx / ebx (EXE ebx / ecx plus an eax copy of |y|) and the EXE also saves edi; declaration-order search found no match
+assintroline,484DA,687,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assintroline.c,nonmatching,"draft: 682 vs 687. The wait loop and the flag setup match. The distance sum stays in edx (imul edx,edx / imul eax,ecx / add edx,eax); the original copies dx into ecx and dy into eax so the sum stays in eax. The abs loads eax; the original loads edx because eax still holds that sum. Do not retry a folded abs, dy*dy first, nesting dist outside dx/dy, or a separate step local."
 assintrostand,4842A,176,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assintrostand.c,matched,
 assleaveice,4AB87,548,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assleaveice.c,matched,
 asspenshooter,4FAE8,512,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspenshooter.c,nonmatching,register allocation only: EXE loads the puckc pointer into edx for the first test (C: eax); everything else matches
@@ -583,6 +584,7 @@ DrawLineJerseys,75046,438,054_737AA_line_editor_rosters,src/c/054_737AA_line_edi
 FadePalStep,76429,242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,
 FadePalStepSlow,7651B,249,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,
 FindRosterSlot,739B6,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FindRosterSlot.c,matched,
+GameLineEditor,767D0,707,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameLineEditor.c,matched,
 GameRosterCmp,76A93,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameRosterCmp.c,matched,
 LineEdHitTest,77F6F,134,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/LineEdHitTest.c,nonmatching,"registers: asm keeps the slot y in ebp (4 saved regs, 14h frame); C uses eax and saves 3"
 MenuShowPlayerStats,7556E,514,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,

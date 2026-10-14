@@ -4220,6 +4220,10 @@ pop esi	; 767CD
 pop ecx	; 767CE
 ret	; 767CF
 %endif ; C
+; C: src/c/054_737AA_line_editor_rosters/GameLineEditor.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/GameLineEditor.inc"
+%else
 GameLineEditor:
 push dword 68h	; 767D0
 call __CHK	; 767D5
@@ -4406,6 +4410,7 @@ pop ebp	; 76A8F
 pop edi	; 76A90
 pop esi	; 76A91
 ret	; 76A92
+%endif ; C
 ; C: src/c/054_737AA_line_editor_rosters/GameRosterCmp.c
 %ifdef CBUILD
 %include "c/054_737AA_line_editor_rosters/GameRosterCmp.inc"
