@@ -709,6 +709,7 @@ ShutdownSpeech,8363C,142,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.
 ReadBE24,837FB,100,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 LoadSpeechSlot,83CAE,202,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 PlaceSpeechSlot,83D78,186,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
+SpeechTimerTick,832BC,265,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 LoadClipSlot,84539,214,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 SpeechBusy,836E4,45,061_83459_speech,src/c/061_83459_speech/SpeechBusy.c,matched,
 SpeechIdle,83711,45,061_83459_speech,src/c/061_83459_speech/SpeechIdle.c,matched,

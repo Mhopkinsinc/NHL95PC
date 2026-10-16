@@ -892,7 +892,6 @@ extern void SoundCardDlgLoop_next(); /* 82D45 */
 extern void SoundCardDlg_epilogue(); /* 82D53 */
 extern void SoundCardDlgLoop_x(); /* 82D5A */
 extern void SetSoundDevice(); /* 82D7A */
-extern void SpeechTimerTick(); /* 832BC */
 extern void ShutdownSpeech_ret6(); /* 836C3 */
 extern void ShutdownSpeech_ret5(); /* 836C4 */
 extern void MusicChanReset2(); /* 8373E */

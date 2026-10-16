@@ -3,6 +3,62 @@
 
 #define BANKD(off) (*(int *)((char *)speechbank + (off)))
 
+/* the speech queue (speechq, 100 bytes): clip slots to say in order, then the playback state */
+typedef struct SpeechQ {
+    int clip[20];               /* 00h: speechbank slots, -1 ends the sentence */
+    int delay;                  /* 50h: ticks until the next clip */
+    int count;                  /* 54h: clips queued */
+    int pos;                    /* 58h: next clip */
+    int idle;                   /* 5Ch: ticks of silence after a sentence */
+    int playing;                /* 60h: a sentence is being said */
+} SpeechQ;
+#define SPEECHQ ((SpeechQ *)speechq)
+
+/* SpeechTimerTick (832BC, PC only; segment 060, the same source file: it ends in ShutdownSpeech_ret5): the timer
+   handler InitSpeech installs (addtimer). With the speech system up: count the silence after a sentence down;
+   while a sentence plays, count the clip delay down, then start the next clip: its sample (data, size) plays on
+   channel dword_D27B2 (toggled 0 / 1 per clip) through sub_8FBE5 for kind 'G' or sub_8FC37 (twice the size), at
+   2B11h, volume 7Fh, and its delay is loaded. A slot of -1 ends the sentence; after the last clip the sentence
+   ends and the silence is the bank's value at +3B70h. No arguments, no result. */
+void SpeechTimerTick(void)
+{
+    SpeechSlot *s;
+    int n;
+    int clip;
+    int data;
+    int len;
+
+    if (!speechinit) return;
+    if (SPEECHQ->idle) SPEECHQ->idle--;
+    if (!SPEECHQ->playing) return;
+    if (SPEECHQ->delay) {
+        SPEECHQ->delay--;
+        return;
+    }
+    n = SPEECHQ->pos++;
+    if (n < SPEECHQ->count) {
+        clip = SPEECHQ->clip[n];
+        if (clip == -1) {
+            SPEECHQ->playing = 0;
+            return;
+        }
+        s = &speechbank[clip];
+        data = s->data;
+        len = s->size;
+        SPEECHQ->delay = s->delay;
+        dword_D27B2++;
+        dword_D27B2 &= 1;
+        if (s->kind == 'G') sub_8FBE5(data, musichandle, dword_D27B2, len, 0x2B11, 0x7F);
+        else {
+            len *= 2;
+            sub_8FC37(data, musichandle, dword_D27B2, len, 0x2B11, 0x7F);
+        }
+    } else {
+        SPEECHQ->playing = 0;
+        SPEECHQ->idle = BANKD(0x3B70);
+    }
+}
+
 /* ShutdownSpeech: when the speech system is up, remove the SpeechTimerTick timer handler,
  close the open bank file (flag +3B78h, handle +3B7Ch of speechbank), free the speech queue, the sample memory
  (+3B60h, sub_8D2F0), the bank and the request block, and clear speechinit. */

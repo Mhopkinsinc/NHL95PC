@@ -703,6 +703,7 @@ void MusicChanReset(void);  /* 837A8 */
 int SpeechBusy(void);  /* 836E4 */
 int IsSampleRequested(char *name);  /* 83F61 */
 int OpenAnnouncerBank(void);  /* 85507 */
+void SpeechTimerTick(void);  /* 832BC */
 void ShutdownSpeech(void);  /* 8363C */
 int ReadBE24(int fh);  /* 837FB */
 void PlayCrowdSample(int n);  /* 59A11 */

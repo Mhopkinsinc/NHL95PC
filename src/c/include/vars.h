@@ -52,9 +52,13 @@ extern unsigned char *teamsdb;      /* D07CB: team database buffer (2E8h bytes p
 extern unsigned char *attdb;        /* D07CF: attribute database buffer */
 /* speech bank slots, 26h bytes each (SpeechSlotLoaded SpeechSlotSize) */
 typedef struct SpeechSlot {
-    unsigned char pad0[0x16];
+    unsigned char pad0[0xD];
+    unsigned char kind;         /* 0Dh: 'G' plays through sub_8FBE5, else sub_8FC37 (SpeechTimerTick) */
+    int data;                   /* 0Eh: sample data in speech memory */
+    unsigned char pad12[4];
     int size;                   /* 16h: sample size */
-    unsigned char pad1[8];
+    unsigned char pad1A[4];
+    int delay;                  /* 1Eh: ticks to wait after the sample starts (SpeechTimerTick) */
     int loaded;                 /* 22h: 1 = sample in memory */
 } SpeechSlot;
 extern SpeechSlot *speechbank;  /* ED7B0: the speech bank slot array */
