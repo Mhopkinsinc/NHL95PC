@@ -766,6 +766,10 @@ pop ebp	; 1598F
 pop edi	; 15990
 pop esi	; 15991
 ret 4	; 15992
+; C: src/c/005_1431E_file_utils/DrawPanelLine.c (DrawPanelPenalties)
+%ifdef CBUILD
+%include "c/005_1431E_file_utils/DrawPanelLine.DrawPanelPenalties.inc"
+%else
 DrawPanelPenalties:
 push dword 2Ch	; 15995
 call __CHK	; 1599A
@@ -938,6 +942,7 @@ cmp ebx, byte 4	; 15B65
 jl near DrawPanelPenalties.1	; 15B68
 add esp, byte 8	; 15B6E
 jmp near DrawPanelLine_x	; 15B71
+%endif ; C
 LoadCupFinalSeries:
 push dword 28h	; 15B76
 call __CHK	; 15B7B

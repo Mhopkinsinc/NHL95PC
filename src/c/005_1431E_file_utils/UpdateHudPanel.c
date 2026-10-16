@@ -41,7 +41,7 @@ void UpdateHudPanel(void)
             sub_B4CF2(hmpanelspr);
             dword_C5854 = 1;
         }
-        DrawPanelPenalties(hudpenhome, 0x48);
+        DrawPanelPenalties((struct PenSlot *)hudpenhome, 0x48);
         dword_C585C = 0;
     }
     if (lcboxon[1] || dword_C5848 || (gmode & 0x10)) {
@@ -56,7 +56,7 @@ void UpdateHudPanel(void)
             sub_B4CF2(awpanelspr);
             dword_C5858 = 1;
         }
-        DrawPanelPenalties(hudpenaway, 0xBF);
+        DrawPanelPenalties((struct PenSlot *)hudpenaway, 0xBF);
         dword_C5860 = 0;
     }
 }
