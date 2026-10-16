@@ -85,7 +85,7 @@ python3 tools/libmatch.py $WATCOM_ROOT/w10a/WATCOM/LIB386/DOS/CLIB3R.LIB   # lib
 
 ## Segment naming (queue finished)
 
-The segment naming queue in [SEGMENT_AGENT.md](SEGMENT_AGENT.md) is **complete**. Leftover work there is auto/data names only. [PROMPT.md](PROMPT.md) has the C-matching prompt (primary) and the segment prompt (leftover names). Tools:
+The segment naming queue in [SEGMENT_AGENT.md](SEGMENT_AGENT.md) is **complete**. Leftover work there is auto/data names only. [PROMPT.md](PROMPT.md) has the C-matching prompt. Tools:
 * `tools/rename_symbol.py` renames a symbol across `src/`, rebuilds (must MATCH) and records the name in the maps.
 * `tools/auto_names.py` lists what is still unnamed in a segment.
 * `tools/update_symbols.py` regenerates `src/inc/symbols.inc`.
