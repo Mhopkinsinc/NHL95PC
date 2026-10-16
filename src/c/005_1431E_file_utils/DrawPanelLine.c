@@ -21,3 +21,73 @@ void DrawPanelLine(int side, int line)
     }
     SelectRinkBM();
 }
+
+/* One entry of a penalty panel list (hudpenhome / hudpenaway, 8 entries): player (-1 free), minutes, seconds,
+   hundredths. */
+typedef struct PenSlot { short pl, min, sec, hund; } PenSlot;
+
+/* TickPanelPenalties (15655, PC only; segment 006, the same source file: it ends in DrawPanelLine_x): run the
+   first two penalties of a panel list down by hund hundredths (borrowing from the seconds and the minutes); an
+   expired one is cleared and freed (player -1). Then pack the list: every used entry after a free one moves up.
+   pens: the list (hudpenhome or hudpenaway); hund: hundredths elapsed (UpdateHudPanel passes dword_C583C).
+   No result. */
+void TickPanelPenalties(PenSlot *pens, int hund)
+{
+    int i;
+    int j;
+    int k;
+    PenSlot *p;
+
+    for (i = 0; i < 2; i++) {
+        p = &pens[i];
+        if ((p->hund -= hund) < 0) {
+            p->hund += 100;
+            if (--p->sec < 0) {
+                p->sec = 59;
+                if (--p->min < 0) {
+                    p->min = 0;
+                    p->sec = 0;
+                    p->hund = 0;
+                    p->pl = -1;
+                }
+            }
+        }
+    }
+    for (i = 0; i < 7; i++) {
+        if (pens[i].pl < 0) {
+            k = i;
+            for (j = i + 1; j < 8; j++) {
+                p = &pens[j];
+                if (p->pl >= 0) {
+                    pens[k] = *p;
+                    p->pl = -1;
+                    k++;
+                }
+            }
+        }
+    }
+}
+
+/* DrawEnergyBar (15707, PC only; segment 006, ends in DrawPanelLine_x): draw a side's energy bar at x, two columns
+   of 3-pixel rows 1Ah down: level pixels in colour 67h (or 0 while that side's energywarn is set, side = x > A0h),
+   the remaining 8 - level in 0 (or 7 when warned). level: energy / 500 (0..8); x: the bar's left edge. No result.
+   DRAFT: x2 and w2 swap stack slots (original x2 at [esp], w2 at [esp+4]); see docs/UNSURE.md. */
+void DrawEnergyBar(int level, int x)
+{
+    int x2;
+    int w2;
+    int c2;
+    int c1;
+
+    if (energywarn[x > 0xA0]) {
+        c1 = 0;
+        c2 = 7;
+    } else {
+        c1 = 0x67;
+        c2 = 0;
+    }
+    sub_90D20(x + 9 - level, 0x1A, level, 3, c1);
+    sub_90D20(x2 = x + 0x10, 0x1A, level, 3, c1);
+    sub_90D20(++x, 0x1A, w2 = 8 - level, 3, c2);
+    sub_90D20(level += x2, 0x1A, w2, 3, c2);
+}

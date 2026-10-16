@@ -461,6 +461,10 @@ push ecx	; 15647
 call sub_B4CD8	; 15648
 add esp, byte 0Ch	; 1564D
 jmp near UpdateHudPanel_x	; 15650
+; C: src/c/005_1431E_file_utils/DrawPanelLine.c (TickPanelPenalties)
+%ifdef CBUILD
+%include "c/005_1431E_file_utils/DrawPanelLine.TickPanelPenalties.inc"
+%else
 TickPanelPenalties:
 push dword 18h	; 15655
 call __CHK	; 1565A
@@ -534,6 +538,7 @@ inc ebp	; 156FC
 cmp ebp, byte 7	; 156FD
 jl short TickPanelPenalties.3	; 15700
 jmp near DrawPanelLine_x	; 15702
+%endif ; C
 DrawEnergyBar:
 push dword 38h	; 15707
 call __CHK	; 1570C

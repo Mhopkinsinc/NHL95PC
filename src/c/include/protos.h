@@ -461,6 +461,9 @@ void DrawMenuBar(void *bar, int n, int col1, int col2, int col3);
 void FadeOutPalCycle(void);  /* 47C31 */
 int lcselect(Player *p, int n);  /* 50434 */
 void DrawPanelLine(int side, int line);
+struct PenSlot;
+void TickPanelPenalties(struct PenSlot *pens, int hund);  /* 15655 */
+void DrawEnergyBar(int level, int x);  /* 15707 */
 void SetDialogColors(int a, int b, int c, int d, int e);
 int SelectHilight(char *name, int *idx, unsigned char *league, int a, int b);
 void PlayHilight(void);

@@ -37,8 +37,6 @@ extern void UpdateHudPanel(); /* 14CF1 */
 extern void UpdateHudPanel_x(); /* 14F2A */
 extern void DrawPanelClock(); /* 14F31 */
 extern void DrawPanelClockDigits(); /* 1540A */
-extern void TickPanelPenalties(); /* 15655 */
-extern void DrawEnergyBar(); /* 15707 */
 extern void DrawPanelPenalties(); /* 15995 */
 extern void RunDemoGame(); /* 15D6B */
 extern void RunDemoGame_x(); /* 16005 */

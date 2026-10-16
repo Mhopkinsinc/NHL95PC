@@ -21,8 +21,8 @@ void UpdateHudPanel(void)
     dword_C583C = n;
     hudhundstep = 0;
     if (TickPanelClock(n) && (gmode & 0x10) == 0) {
-        TickPanelPenalties(hudpenhome, dword_C583C);
-        TickPanelPenalties(hudpenaway, dword_C583C);
+        TickPanelPenalties((struct PenSlot *)hudpenhome, dword_C583C);
+        TickPanelPenalties((struct PenSlot *)hudpenaway, dword_C583C);
     }
     GetLineEnergies(0, dword_C56E4);
     GetLineEnergies(1, dword_C56C4);
