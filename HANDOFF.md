@@ -7,9 +7,9 @@ at the end of every batch. Session diary: [docs/SESSION_LOG.md](docs/SESSION_LOG
 
 ## 1. Setup from scratch
 
-**The game EXE (you supply it, never commit it).** Copy your retail `HOCKEY.EXE` to the repo root:
-1,179,067 bytes, SHA-1 `3961e0eba6b0338fad1613bb534efafd9406ed4a`. `.gitignore` keeps it, `*.lst`,
-`FUNCTION_MAPPINGS95.md`, `tools/*.pkl`, `ref/` and `build/` out of git.
+**The retail EXE (committed).** `HOCKEY.EXE` at the repo root is the retail binary: 1,179,067 bytes,
+SHA-1 `3961e0eba6b0338fad1613bb534efafd9406ed4a`. `.gitignore` keeps `*.lst`, `FUNCTION_MAPPINGS95.md`,
+`tools/*.pkl`, `ref/` and `build/` out of git.
 
 **Tools.**
 * NASM 2.15+ (`apt install nasm`; tested with 2.16.03), GNU make, Python 3.
@@ -108,9 +108,9 @@ Parked: LoadShapeByTag, POPickConfTeams, BlitClipRect, SetCoachMode, FadeOutPalC
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 
-* Never commit `HOCKEY.EXE`, the IDA listing, `FUNCTION_MAPPINGS95.md`, `tools/*.pkl`, `ref/`, `build/`,
-  objects or generated `.inc` fragments. The three Watcom files under `tools/watcom/` are committed on purpose.
-  The `src/` asm tree is the agreed exception for game code.
+* Never commit the IDA listing, `FUNCTION_MAPPINGS95.md`, `tools/*.pkl`, `ref/`, `build/`, objects or
+  generated `.inc` fragments. The retail `HOCKEY.EXE` and the three Watcom files under `tools/watcom/` are
+  committed on purpose. The `src/` asm tree is the agreed exception for game code.
 * Every commit builds with `make` MATCH and `make CBUILD=0` MATCH. Commit per function or per batch. Tool and doc
   changes go in their own commits. Never force-push.
 * Do not change bytes; do not run `tools/gen_src.py`; do not edit `src/segments.txt` or section lines. Adding a

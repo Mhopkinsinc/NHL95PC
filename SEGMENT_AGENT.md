@@ -14,7 +14,7 @@ The segment boundaries come from `segmap95pc.json` (`tools/segdef.py`, `EXE_SEGM
 
 - Source of truth: `src/`. There is no listing in the repo. The IDA listing and `FUNCTION_MAPPINGS95.md` are private and stay private. Every instruction line ends with `; <address>`, which is the address in the EXE. Search `src/` for an address to find its line.
 - Do not disassemble `HOCKEY.EXE`. Do not write a disassembler. Do not run `tools/gen_src.py` on `src/`: it regenerates the tree and throws away every name and comment (it refuses without `--force`).
-- Reference EXE: your retail `HOCKEY.EXE` in the repo root (sha1 `3961e0eba6b0338fad1613bb534efafd9406ed4a`). It is never committed. `make` checks every build against it.
+- Reference EXE: the retail `HOCKEY.EXE` committed at the repo root (sha1 `3961e0eba6b0338fad1613bb534efafd9406ed4a`). `make` checks every build against it.
 - Name evidence:
   - `name_map_94.csv`: one row per function with the proposed Genesis name, source game and file, confidence and evidence. Filter on the `segment` column.
   - `tools/manual_names.csv`: hand-traced rows. They override the generated ones.
@@ -40,7 +40,7 @@ Name preference: the current 93G name when the body is the same routine, else th
 ## Build
 
 ```
-make            # or ./build.sh; needs nasm, python3 and your HOCKEY.EXE in the repo root
+make            # or ./build.sh; needs nasm, python3 (HOCKEY.EXE is in the repo root)
 ```
 `make` assembles every `src/` file, links (`tools/link_src.py`) and writes `build/HOCKEY.EXE`. It must end with `MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE`. On a mismatch the link prints the first differing addresses (built byte, retail byte) and any extra or missing fixups, then fails. Find the address in the `; <address>` comments.
 

@@ -2,15 +2,15 @@
 
 **Picking this up? Start with [HANDOFF.md](HANDOFF.md)** (setup, verify, current state, what to do next).
 
-Bitwise rebuild of NHL 95 for DOS (`HOCKEY.EXE`, EA Sports 1994). The whole EXE builds byte-exact from the NASM sources in `src/`. C matching is in progress: see [C_PROGRESS.md](C_PROGRESS.md).
+Bitwise rebuild of NHL 95 for DOS (`HOCKEY.EXE`, EA Sports 1994). The retail EXE is in the repo. The whole EXE builds byte-exact from the NASM sources in `src/`. C matching is in progress: see [C_PROGRESS.md](C_PROGRESS.md).
 
 `HOCKEY.EXE` is a Watcom C/C++32 10.0 program linked as a Linear Executable (LE) and bound to the DOS/4GW Professional extender (Rational DOS/16M loader, then a Watcom wstub, then the LE). The goal is a bit-perfect assembly rebuild first, then a matching C decompilation built with the same compiler.
 
 Sister projects: [NHLPA93Genesis](https://github.com/abdulahmad/NHLPA93Genesis), [NHL94Genesis](https://github.com/abdulahmad/NHL94Genesis), [NHL95Genesis](https://github.com/abdulahmad/NHL95Genesis). NHL 95 PC is a hybrid port of 93G and 94G (NHL 94 PC was ported from NHLPA 93 Genesis plus some 94 Genesis and new menus; NHL 95 PC is that plus further 94/95 Genesis additions). **Name mapping prefers 93G names, then 94G, then a name from behaviour.** NHL95Genesis is only loosely related (a loose reference, not a naming source). The front end is PC-new.
 
-## You supply the EXE
+## Retail EXE
 
-The game binary is not in this repo and never will be. Copy your own retail `HOCKEY.EXE` to the repo root:
+The retail `HOCKEY.EXE` is committed at the repo root (same layout the tools expect by default):
 
 | | |
 | --- | --- |
@@ -18,19 +18,20 @@ The game binary is not in this repo and never will be. Copy your own retail `HOC
 | Size | 1,179,067 bytes |
 | SHA-1 | `3961e0eba6b0338fad1613bb534efafd9406ed4a` |
 
-`.gitignore` keeps it out of commits, along with the IDA listing (`*.lst`), everything under `build/` (the extracted EXE parts), and the local Genesis source copies (`ref/`). The three Watcom files needed for C matching are committed under `tools/watcom/`.
+`.gitignore` keeps the IDA listing (`*.lst`), everything under `build/` (the extracted EXE parts), and the local Genesis source copies (`ref/`) out of commits. The three Watcom files needed for C matching are committed under `tools/watcom/`.
+
 
 ## Build from source
 
 The segment naming queue is finished. The main work is **C matching**: start with [HANDOFF.md](HANDOFF.md) and [docs/C_MATCHING.md](docs/C_MATCHING.md) (progress in [C_PROGRESS.md](C_PROGRESS.md)). Agent standing rules: [AGENTS.md](AGENTS.md).
 
-`python3 tools/rebuild_exe.py verify` needs **Python 3 only** (plus your retail `HOCKEY.EXE` in the repo root). Full `make` needs **nasm** (2.15+) and **make**. Matched C (`CBUILD=1`) also needs **DOSBox**; the three Watcom files are already in `tools/watcom/` (see [HANDOFF.md](HANDOFF.md)). Without DOSBox, `make` uses the asm and still matches.
+`python3 tools/rebuild_exe.py verify` needs **Python 3 only** (the committed `HOCKEY.EXE` is enough). Full `make` needs **nasm** (2.15+) and **make**. Matched C (`CBUILD=1`) also needs **DOSBox**; the three Watcom files are already in `tools/watcom/` (see [HANDOFF.md](HANDOFF.md)). Without DOSBox, `make` uses the asm and still matches.
 
 ```
 make -j8            # or ./build.sh [path/to/HOCKEY.EXE]
 ```
 
-This assembles the 304 files in `src/` (one per segment: 198 code, 106 data), links them with `tools/link_src.py`, and writes `build/HOCKEY.EXE`. It ends with `MATCH` when the result is byte-identical to the retail EXE; otherwise it fails. From your EXE the build takes only the three third-party stubs (DOS/16M loader, DOS/4GW kernel, Watcom wstub), the LE header fields and the fixup record order. Code, data and the fixups themselves come from `src/`. Layout, editing rules and how `src/` is regenerated (`tools/gen_src.py`): [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
+This assembles the 304 files in `src/` (one per segment: 198 code, 106 data), links them with `tools/link_src.py`, and writes `build/HOCKEY.EXE`. It ends with `MATCH` when the result is byte-identical to the retail EXE; otherwise it fails. From the committed EXE the build takes only the three third-party stubs (DOS/16M loader, DOS/4GW kernel, Watcom wstub), the LE header fields and the fixup record order. Code, data and the fixups themselves come from `src/`. Layout, editing rules and how `src/` is regenerated (`tools/gen_src.py`): [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
 
 ## Byte-exact rebuild from the EXE's own parts
 

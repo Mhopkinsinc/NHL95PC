@@ -11,7 +11,7 @@ Paste this into a new Copilot Agent session only when doing leftover auto or dat
 ```text
 Read SEGMENT_AGENT.md and AGENTS.md before you edit any asm. The naming queue is complete; this session is leftover auto/data names only. Take one segment file (or the leftovers named in Current segment). Do not start unrelated segments.
 
-Build before you edit anything. Your retail HOCKEY.EXE must be in the repo root (sha1 3961e0eba6b0338fad1613bb534efafd9406ed4a). Run make. It must end with "MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE". If HOCKEY.EXE is missing or make does not MATCH, stop and say what you ran and what it printed.
+Build before you edit anything. The retail HOCKEY.EXE is in the repo root (sha1 3961e0eba6b0338fad1613bb534efafd9406ed4a). Run make. It must end with "MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE". If HOCKEY.EXE is missing or make does not MATCH, stop and say what you ran and what it printed.
 
 src/ is the source. There is no listing in the repo. Every instruction line ends with "; <address>", the address in the EXE. Do not disassemble HOCKEY.EXE. Do not write a disassembler. Do not run tools/gen_src.py on src/. Do not delete an asm file. Edit the segment file in place. Do not edit src/segments.txt or a section line. Do not rewrite SEGMENT_AGENT.md as a whole file. Edit the current row in place. Do not append a history entry.
 
@@ -40,7 +40,7 @@ Read docs/C_MATCHING.md, HANDOFF.md (Current state, Next, Unsure plan) and AGENT
 3. Iterate with python3 tools/cdiff.py <file> until it prints MATCH. Do not use compiler flags other than the defaults without writing down why in docs/C_MATCHING.md.
 4. python3 tools/cc.py mark <file> [--end Label]. make must MATCH, and make CBUILD=0 must MATCH too. Do not edit the asm inside the marker.
 5. python3 tools/c_progress.py; put the reason for any non-matching draft in the notes column of tools/c_functions.csv. Record new compiler learnings in docs/C_MATCHING.md. Update HANDOFF Current state / Next if the headline numbers or Next item change.
-6. Commit: the C files, src/c/include, the marked asm files, C_PROGRESS.md, tools/c_functions.csv. Never commit HOCKEY.EXE, objects, .inc fragments or listings. The three Watcom files under tools/watcom/ stay committed. Never force-push.
+6. Commit: the C files, src/c/include, the marked asm files, C_PROGRESS.md, tools/c_functions.csv. Never commit objects, .inc fragments or listings. The retail HOCKEY.EXE and the three Watcom files under tools/watcom/ stay committed. Never force-push.
 
 Stop after 5 failed builds and report the file, the first differing address, and the change.
 ```
