@@ -657,6 +657,11 @@ void DrawGameLineJerseys(unsigned char *nums, int art, unsigned char side);  /* 
 void __cdecl sub_931FC(int art, int x, int y); /* graphics library: draw art (masked) */
 
 int CmpTeamStandings(int *a, int *b);  /* 22DDE */
+int CmpTeamScoring(int *a, int *b);  /* 22F2E */
+int CmpTeamDefense(int *a, int *b);  /* 23051 */
+int CmpTeamPP(int *a, int *b);  /* 2312D */
+int CmpTeamPK(int *a, int *b);  /* 232B7 */
+int CmpTeamPenalties(int *a, int *b);  /* 23437 */
 
 void BuildTeamRosterList(int team, unsigned char *list, unsigned char **rec);  /* 6C043 */
 
