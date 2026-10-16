@@ -731,7 +731,6 @@ extern void CareerDbPtr_common(); /* 6CBED */
 extern void RunEditRosters(); /* 6CC20 */
 extern void RunEditRosters_ret6(); /* 6CEF4 */
 extern void RunEditRosters_ret5(); /* 6CEF5 */
-extern void SelectRosterTeam(); /* 6D5D0 */
 extern void ShellSortBytes(); /* 6D7ED */
 extern void LoadRosterList_fa(); /* 6D89A */
 extern void LoadRosterList_faloop(); /* 6D8B9 */

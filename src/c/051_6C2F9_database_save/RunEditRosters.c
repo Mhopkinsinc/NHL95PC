@@ -90,6 +90,49 @@ void RunEditRosters(void)
 typedef struct MenuItem20 { int f[5]; int handler; int g[2]; } MenuItem20;  /* 20h-byte menu item, handler at +14h */
 typedef struct DivMenu { MenuItem20 *items; int pad[7]; } DivMenu;  /* roster1divmenus / roster2divmenus: 20h per division */
 
+/* SelectRosterTeam (6D5D0, PC only; segment 052, ends in RunEditRosters_ret6): a team item of a roster division
+   submenu. item: the menu callback argument (item[0] 1 for roster 1, else roster 2; item[1] the division, item[2]
+   the slot in divisionteams). The side shows that team (rosterteam); the team it showed before gets its item back
+   (SelectRosterTeam in both division menus), or the "Free Agents" items come back (ShowFreeAgents) when it showed
+   the free agents; the new teams items are disabled, the sides "Edit Team Lines" item enabled (EditTeamLines)
+   and rosterisfa cleared. Then LoadRosterList and DrawEditRosters. No result.
+   DRAFT: 267 vs 267. In the new team's item clear, slot * 20h is in ebx and the menu pointer in edx; the original
+   has them the other way round (and zeroes rosterisfa through bh). See docs/UNSURE.md. */
+void SelectRosterTeam(int *item)
+{
+    int side;
+    int slot;
+    int div;
+    unsigned char old;
+    int d;
+    int i;
+
+    side = *item != 1;
+    div = item[1];
+    slot = item[2];
+    old = rosterteam[side];
+    rosterteam[side] = ((unsigned char (*)[7])divisionteams)[div][slot];
+    if (old == 0xFF) {
+        menu_r2_freeagents = menu_r1_freeagents = (int)ShowFreeAgents;
+    } else {
+        d = teamdivflags[old] >> 1;
+        if (d == 4) d--;
+        i = 0;
+        do {
+            if (old == ((unsigned char (*)[7])divisionteams)[d][i]) break;
+        } while (++i < 7);
+        ((DivMenu *)roster1divmenus)[d].items[i].handler = (int)SelectRosterTeam;
+        ((DivMenu *)roster2divmenus)[d].items[i].handler = (int)SelectRosterTeam;
+    }
+    ((MenuItem20 *)roster1divmenus[div * 8])[slot].handler = 0;
+    ((MenuItem20 *)roster2divmenus[div * 8])[slot].handler = 0;
+    if (!side) menu_r1_editlines = (int)EditTeamLines;
+    else menu_r2_editlines = (int)EditTeamLines;
+    rosterisfa[side] = 0;
+    LoadRosterList(side);
+    DrawEditRosters();
+}
+
 /* ShowFreeAgents (6D6DB, PC only; segment 052, the same source file: it ends in RunEditRosters_ret5): the
    "Free Agents" item of a roster menu. The side whose menu it is (side 0 when *which is 1) gives its current team
    menu item back (handler SelectRosterTeam in both division menus; division teamdivflags >> 1, 4 counts as 3),

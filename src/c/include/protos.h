@@ -685,6 +685,7 @@ int FinishPlayoffs(int fh, int a, int b, int c, char *dir, char *ext, int round)
 void MoveToFreeAgents(int *mode, int *x, int *y);  /* 70E8D */
 void LoadRosterList(int side);  /* 6DE94 */
 void DrawEditRosters(void);  /* 6D2F8 */
+void SelectRosterTeam(int *item);  /* 6D5D0 */
 void ShowFreeAgents(int *which);  /* 6D6DB */
 void cleargamevars(void);  /* 5CD4F */
 int IsCupClinched(unsigned char home, unsigned char away);  /* 15C30 */

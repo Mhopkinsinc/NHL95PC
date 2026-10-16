@@ -561,6 +561,7 @@ MenuSaveDbs,6C2F9,194,051_6C2F9_database_save,src/c/051_6C2F9_database_save/Menu
 MenuSaveDbsAs,6C3BB,255,051_6C2F9_database_save,src/c/051_6C2F9_database_save/MenuSaveDbsAs.c,nonmatching,
 RunEditRosters,6CC20,731,051_6C2F9_database_save,src/c/051_6C2F9_database_save/RunEditRosters.c,matched,
 ShowFreeAgents,6D6DB,176,051_6C2F9_database_save,src/c/051_6C2F9_database_save/RunEditRosters.c,matched,
+SelectRosterTeam,6D5D0,267,051_6C2F9_database_save,src/c/051_6C2F9_database_save/RunEditRosters.c,nonmatching,"draft (RunEditRosters.c): 267 vs 267, ebx/edx swapped in the new team item clear. See UNSURE."
 TeamRecPtr,6CB90,39,051_6C2F9_database_save,src/c/051_6C2F9_database_save/TeamRecPtr.c,matched,
 AskLeftRight,6FBE8,120,052_6D2F8_create_player,src/c/052_6D2F8_create_player/AskLeftRight.c,matched,
 CheckDatabases,6EF84,469,052_6D2F8_create_player,src/c/052_6D2F8_create_player/CheckDatabases.c,nonmatching,"draft: 463 vs 469. skaters is zeroed in edi and defense in ebp, back to back. The original zeros skaters in ebp, stores goalies, zeros the index, stores forwards, then zeros defense in edi. The skater id is a scaled load into eax. The original is shl eax,2 / add eax,esi / mov ecx,[eax+4Ch] / mov eax,ecx. Do not retry: a line pointer swaps ebp and edi; without it the scans are cmp [edx+esi+disp] (451 bytes). rec+i*4+4Ch, line=rec+i*4, off=i<<2, and slot+=i<<2 all fold into the scaled load."
