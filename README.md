@@ -2,7 +2,7 @@
 
 > **Work in progress:** this decompilation is unfinished and unpolished, and is being actively worked on. Expect labels, file layout and docs to change.
 
-Current status:
+## 🚧 Current Status
 
 - McMarkis is working on the C decompilation.
 - 611 of 1084 functions matched.
