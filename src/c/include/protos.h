@@ -839,6 +839,9 @@ void SetScreenSize(int w, int h);  /* 10E9F */
 int avdgoal_box(Player *p, int x1, int x2, int y, int *ps, int *pt);  /* 5F04E */
 void DrawShootsField(void);  /* 6FA7D */
 void DrawGloveField(void);  /* 6FB35 */
+int EditSkaterRating(int *x, int *y, int *field);  /* 6FC60 */
+int EditGoalieRating(int *x, int *y, int *field);  /* 6FF69 */
+int CreatePlayerLoop(unsigned char *p);  /* 704A6 */
 int TrackButtons(int *list, int n, int x, int y, int buttons);  /* 30A39 */
 int TeamGridHitTest(int x, int y, unsigned char *tab);  /* 37B92 */
 int DeskPenaltySummary(void);  /* 1A9AC */

@@ -742,11 +742,8 @@ extern void MoveToOtherRoster(); /* 6F29C */
 extern void RandomizeNewRatings(); /* 6F6D4 */
 extern void DrawShootsField_tail(); /* 6FB2B */
 extern void DrawShootsField_pop(); /* 6FB2E */
-extern void EditSkaterRating(); /* 6FC60 */
 extern void EditSkaterRating_tail(); /* 6FF57 */
-extern void EditGoalieRating(); /* 6FF69 */
 extern void DrawCreatePlayer(); /* 7025B */
-extern void CreatePlayerLoop(); /* 704A6 */
 extern void CreateFreeAgent(); /* 706E2 */
 extern void SwapSelectedPlayers(); /* 71333 */
 extern void FindPlayer(); /* 71961 */
