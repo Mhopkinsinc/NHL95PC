@@ -1063,6 +1063,10 @@ xor edx, edx	; 6DEF7
 mov dword [facount], edx	; 6DEF9
 xor eax, eax	; 6DEFF
 jmp near LoadRosterList_faloop	; 6DF01
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (EditTeamLines)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.EditTeamLines.inc"
+%else
 EditTeamLines:
 push dword 30Ch	; 6DF06
 call __CHK	; 6DF0B
@@ -1167,6 +1171,7 @@ xor eax, eax	; 6E077
 call FadePalStep	; 6E079
 add esp, 2F0h	; 6E07E
 jmp near RunEditRosters_ret5	; 6E084
+%endif ; C
 EditRosters:
 push dword 0A0h	; 6E089
 call __CHK	; 6E08E

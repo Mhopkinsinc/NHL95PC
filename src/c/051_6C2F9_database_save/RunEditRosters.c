@@ -164,3 +164,47 @@ void ShowFreeAgents(int *which)
     LoadRosterList(side);
     DrawEditRosters();
 }
+
+typedef struct TeamRec2E8 { int d[0xBA]; } TeamRec2E8;  /* a team record (hmteamrec: home, then away), 2E8h bytes */
+
+/* EditTeamLines (6DF06, PC only; segment 052, ends in RunEditRosters_ret5): the "Edit Team Lines" item of a
+   roster menu (side 0 when *which is 3). The side's game team (HomeTeam / VisTeam) becomes the roster's team and
+   its game team record is replaced by the roster's record (rosterteamrec) while the line editor (DbLineEditor, on
+   the record's lines at +0BCh, unk_D05F4, 3) runs; the free-agent lists are freed first (falistsel, falist). Then
+   the screen is cleared, the record copy goes back (into the home record, hmteamrec, for either side), the team
+   is restored, a roster that shows the free agents on the other side is reloaded (LoadRosterList), and the editor
+   is redrawn (DrawEditRosters) and faded in (savepal). which: the menu callback argument. No result. */
+void EditTeamLines(int *which)
+{
+    TeamRec2E8 tmp;
+    int side;
+    short old;
+
+    side = *which != 3;
+    if (!side) {
+        old = HomeTeam;
+        HomeTeam = rosterteam[0];
+    } else {
+        old = VisTeam;
+        VisTeam = rosterteam[1];
+    }
+    if (falistsel) {
+        FreeMemBlock(falistsel);
+        falistsel = 0;
+    }
+    if (falist) {
+        FreeMemBlock((int)falist);
+        falist = 0;
+    }
+    tmp = ((TeamRec2E8 *)hmteamrec)[side];
+    ((TeamRec2E8 *)hmteamrec)[side] = *(TeamRec2E8 *)rosterteamrec[side];
+    DbLineEditor(side, rosterteamrec[side] + 0xBC, (int)unk_D05F4, 3);
+    sub_B4BA8();
+    sub_B392C(0);
+    *(TeamRec2E8 *)hmteamrec = tmp;
+    if (!side) HomeTeam = old;
+    else VisTeam = old;
+    if (rosterteam[!side] == 0xFF) LoadRosterList(!side);
+    DrawEditRosters();
+    FadePalStep(0, savepal, 0x10);
+}

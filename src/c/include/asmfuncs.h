@@ -739,7 +739,6 @@ extern void RosterPanelClick(); /* 6DAC3 */
 extern void RosterPanelClick_ret(); /* 6DCB8 */
 extern void FixJerseyNumber(); /* 6DCBE */
 extern void LoadBothRosterLists(); /* 6DE7E */
-extern void EditTeamLines(); /* 6DF06 */
 extern void EditRosters(); /* 6E089 */
 extern void MoveToOtherRoster(); /* 6F29C */
 extern void RandomizeNewRatings(); /* 6F6D4 */

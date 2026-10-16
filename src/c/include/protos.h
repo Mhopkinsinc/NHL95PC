@@ -687,6 +687,7 @@ void LoadRosterList(int side);  /* 6DE94 */
 void DrawEditRosters(void);  /* 6D2F8 */
 void SelectRosterTeam(int *item);  /* 6D5D0 */
 void ShowFreeAgents(int *which);  /* 6D6DB */
+void EditTeamLines(int *which);  /* 6DF06 */
 void cleargamevars(void);  /* 5CD4F */
 int IsCupClinched(unsigned char home, unsigned char away);  /* 15C30 */
 int SeriesLength(unsigned char *s);  /* 42221 */
