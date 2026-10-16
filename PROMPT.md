@@ -1,10 +1,29 @@
 # Prompts
 
-The **segment naming queue is complete** ([SEGMENT_AGENT.md](SEGMENT_AGENT.md)). Use the **C matching prompt** below for normal work. Use the segment prompt only for leftover auto/data names in a segment.
+## C matching prompt (primary)
 
-Standing rules: [AGENTS.md](AGENTS.md). Handoff: [HANDOFF.md](HANDOFF.md).
+Paste this into a new session for the C phase. Do not edit this prompt.
 
-## Segment prompt (leftover auto/data names only)
+```text
+You're working on the NHL 95 PC (DOS) decompilation in this repo: matching C compiled with Watcom 10.0 wcc386. First, install nasm, make and DOSBox if they're missing, then confirm `python3 tools/rebuild_exe.py verify` prints MATCH and `python3 tools/cc.py check` passes. Read AGENTS.md, HANDOFF.md, docs/C_MATCHING.md and docs/UNSURE.md before doing anything else.
+
+Order of work:
+1. The "Group 2" items in HANDOFF.md's Unsure plan, which are blocked only by file layout or tooling: the CmpTeamStandings family in one file, DrawListItem then DrawListItems, DrawMenuItemNorm next to DrawMenuItemSel, and the cdiff.py --func cross-segment lookup for TickPanelPenalties and DrawEnergyBar.
+2. Then untouched functions, starting from HANDOFF.md's "Next" (chk4lc into checkob.c).
+3. Leave the register-choice near misses ("Group 1") parked. Never retry a shape already listed in docs/UNSURE.md.
+
+Rules:
+- Every commit must build MATCH with `make` and `make CBUILD=0`. Main only takes byte-identical changes.
+- Make small commits, one per function or batch. Never force-push.
+- Timebox each function to about 8-10 minutes. If it doesn't match, keep the draft, add an Unsure entry saying exactly what you tried, and move on.
+- Names: 93G first, then 94G, else a name from behaviour, with the evidence in the comment. Batch renames with tools/rename_symbol.py --batch.
+- Every C function gets a comment: address, Genesis routine (or PC only), what it does, its arguments and its result.
+- At the end of each batch, run `python3 tools/c_progress.py`, update HANDOFF.md's current state, next steps and Unsure sections, commit and push.
+```
+
+## Segment prompt (secondary — leftover auto/data names only)
+
+The segment naming queue is complete ([SEGMENT_AGENT.md](SEGMENT_AGENT.md)). Use this prompt only for leftover auto/data names in a segment. Standing rules: [AGENTS.md](AGENTS.md).
 
 Paste this into a new Copilot Agent session only when doing leftover auto or data names. One segment only. Do not edit this prompt.
 
@@ -26,21 +45,4 @@ Follow the rules already in SEGMENT_AGENT.md. Naming source order: if the routin
 7. In SEGMENT_AGENT.md, note what was named and anything left. Commit: its file, the data files and src/inc files its names touched, the other src files where a renamed global is used, tools/manual_names.csv, name_map_94.csv (repo root, so `git add src tools` misses it), tools/global_map.csv, tools/struct_fieldmap.csv, SEGMENT_AGENT.md.
 
 Stop after 5 failed builds. Report the file, the first differing address make printed, the built byte, the retail byte, and the line you changed. Do not continue.
-```
-
-## C matching prompt
-
-Paste this into a new session for the C phase (one batch of functions per session). This is the primary prompt. Do not edit this prompt.
-
-```text
-Read docs/C_MATCHING.md, HANDOFF.md (Current state, Next, Unsure plan) and AGENTS.md first. Build before you change anything: make must end with "MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE" and make cinfo must say CBUILD=1 (DOSBox is needed; Watcom files are in tools/watcom). If not, stop and say what you ran and what it printed.
-
-1. Pick compiled-C functions (prologue push dword N / call __CHK) from C_PROGRESS.md's segments and HANDOFF Next / Unsure plan, starting with Group 2 unblocks and small untouched leaves. Skip hand-written asm (no __CHK) and parked Group 1 register near-misses. Check for shared tails and fall-through tail calls; such a group goes into one file. Timebox about 8-10 minutes per stubborn function; leave a draft and note what was tried in tools/c_functions.csv / docs/UNSURE.md.
-2. Write src/c/<segment>/<Func>.c: #include "nhl95.h", the asm label names, structs.inc fields, and a name from NHLPA93Genesis, else NHL94Genesis, else from behaviour. NHL95Genesis is a loose reference only, not a naming source. A comment on every function (address, Genesis routine or PC only, what it does, arguments, result) with the asm comments brought over. Add its prototype to src/c/include/protos.h; constants to consts.h, typed globals to vars.h, then python3 tools/gen_cheaders.py.
-3. Iterate with python3 tools/cdiff.py <file> until it prints MATCH. Do not use compiler flags other than the defaults without writing down why in docs/C_MATCHING.md.
-4. python3 tools/cc.py mark <file> [--end Label]. make must MATCH, and make CBUILD=0 must MATCH too. Do not edit the asm inside the marker.
-5. python3 tools/c_progress.py; put the reason for any non-matching draft in the notes column of tools/c_functions.csv. Record new compiler learnings in docs/C_MATCHING.md. Update HANDOFF Current state / Next if the headline numbers or Next item change.
-6. Commit: the C files, src/c/include, the marked asm files, C_PROGRESS.md, tools/c_functions.csv. Never commit objects, .inc fragments or listings. The retail HOCKEY.EXE and the three Watcom files under tools/watcom/ stay committed. Never force-push.
-
-Stop after 5 failed builds and report the file, the first differing address, and the change.
 ```
