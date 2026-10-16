@@ -359,3 +359,66 @@ void check4check(Player *p)
     } while (--regd2.w);
     TryBlockShot(p);
 }
+
+#define OLDYPOS(p) (*(short *)((char *)(p) + 0x7A))  /* integer word of the 93G OldYpos (+78h, after OldXpos) */
+
+/* ChkOffsides (55A9F; 93G logic93 ChkOffsides with ClearOffsidesIfAllPlayers inlined, "check for offsides
+   penalty"): with offsides on (gameopts bit 1) and no penalty shot (penshotlive, penshotstart). For each team
+   whose offsides flag (tmflags bit 4) is set, clear it once none of its skaters is past the blue line (4Eh, y
+   negated when it shoots at the bottom goal). Then, when the puck crossed a blue line this frame (y at or past
+   +-4Ah, the old y not; 93G 54h) count the shot on goal (CountShotOnGoal, PC) and flag the attacking team
+   (gmode bit 1 picks the side) when one of its skaters is already past the line (+-0Ah); PC: no flag, and the old
+   one cleared, when the last puck toucher (lasttouch) is on the other side. regd0 holds the 68k d0. puck: the
+   puck structure. No result. */
+void ChkOffsides(Player *puck)
+{
+    Team *t;
+    Player *q;
+    short i;
+    short side;
+
+    if (!gameopts.offsides || penshotlive || penshotstart) return;
+    for (side = 0, t = &hmtmstruct; side < 2; t = &awtmstruct, side++) {
+        if (!(t->tmflags & 0x10)) continue;
+        q = t->tmsort;
+        for (i = 0; i < 6; q++, i++) {
+            if (q->position < 0) continue;
+            regd0.w = HIWORD(q->Ypos);
+            if (!(q->pflags & pfgoal)) regd0.w = -regd0.w;
+            if (regd0.w > 0x4E) break;
+        }
+        if (i >= 6) t->tmflags &= ~0x10;
+    }
+    if ((regd0.w = 0x4A) <= HIWORD(puck->Ypos)) {
+        if (regd0.w <= OLDYPOS(puck)) return;
+        CountShotOnGoal();
+        regd0.w += 10;
+        t = (gmode & 2) ? &awtmstruct : &hmtmstruct;
+        q = t->tmsort;
+        if ((q->SCnum < 6) ^ (lasttouch < 6)) {
+            t->tmflags &= ~0x10;
+            return;
+        }
+        side = 6;
+        do {
+            if (q->position >= 0 && regd0.w < HIWORD(q->Ypos)) t->tmflags |= 0x10;
+            q++;
+        } while (--side);
+    } else {
+        if ((regd0.w = -0x4A) < HIWORD(puck->Ypos)) return;
+        if (regd0.w >= OLDYPOS(puck)) return;
+        CountShotOnGoal();
+        regd0.w -= 10;
+        t = !(gmode & 2) ? &awtmstruct : &hmtmstruct;
+        q = t->tmsort;
+        if ((q->SCnum < 6) ^ (lasttouch < 6)) {
+            t->tmflags &= ~0x10;
+            return;
+        }
+        side = 6;
+        do {
+            if (q->position >= 0 && regd0.w > HIWORD(q->Ypos)) t->tmflags |= 0x10;
+            q++;
+        } while (--side);
+    }
+}

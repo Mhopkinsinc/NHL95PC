@@ -464,7 +464,6 @@ extern void PassLaneChk_ret5a(); /* 54D5A */
 extern void PassLaneChk_ret5(); /* 54D5D */
 extern void dopass_ret6(); /* 55148 */
 extern void passtoa0(); /* 551CF */
-extern void ChkOffsides(); /* 55A9F */
 extern void NetCollide(); /* 5601D */
 extern void puckglue(); /* 56F5A */
 extern void puckgoalie(); /* 57096 */

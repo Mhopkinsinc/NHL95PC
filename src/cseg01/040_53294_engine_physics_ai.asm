@@ -3420,6 +3420,10 @@ ret	; 55A9E
 %endif ; C
 ; ChkOffsides: ClearOffsidesIfAllPlayers. Offsides option (gameopts bit 1): a team's
 ; offsides flag (tmflags bit 4) is cleared once none of its skaters is past the blue line (4Eh).
+; C: src/c/040_53294_engine_physics_ai/checkob.c (ChkOffsides)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.ChkOffsides.inc"
+%else
 ChkOffsides:
 push dword 18h	; 55A9F
 call __CHK	; 55AA4
@@ -3554,6 +3558,7 @@ add eax, 80h	; 55C61
 dec si	; 55C66
 jne short ChkOffsides.18	; 55C68
 jmp near checkob_ret5	; 55C6A
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/MarkTwoLinePlayers.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/MarkTwoLinePlayers.inc"
