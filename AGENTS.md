@@ -1,0 +1,16 @@
+# Agent and contributor rules
+
+Standing rules for work on this repo. Details: [HANDOFF.md](HANDOFF.md), [SEGMENT_AGENT.md](SEGMENT_AGENT.md), [docs/C_MATCHING.md](docs/C_MATCHING.md).
+
+* **`main` only takes byte-identical changes.** Every commit must build `MATCH` with `make` and with `make CBUILD=0`.
+* **Small, verified commits** per function or per batch. Tool and doc changes go in their own commits.
+* **Never force-push.**
+* **Timebox** each stubborn function (~8–10 minutes; see HANDOFF). Leave a draft and record what was tried.
+* **Batch renames** with `tools/rename_symbol.py --batch`.
+* **Keep the Unsure list** ([docs/UNSURE.md](docs/UNSURE.md)) with what was tried; follow the Unsure plan in HANDOFF. Never retry a listed shape.
+* **No numbered prefixes on new file names** (existing segment `NNN_*` names stay).
+* **Names:** 93G when the body matches, else 94G, else a name from behaviour. NHL95Genesis is a loose reference only, not a naming source. Team abbreviations follow 95PC's own spellings (e.g. TB, OTT).
+* At the end of each batch: `python3 tools/c_progress.py`, update HANDOFF Current state / Next if needed, commit, push.
+* Never commit `HOCKEY.EXE`, listings, `ref/`, `build/`, compiler files, objects or generated `.inc` fragments.
+
+Credits: see [README.md](README.md).
