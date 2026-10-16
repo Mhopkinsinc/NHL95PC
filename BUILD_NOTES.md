@@ -85,3 +85,5 @@ The 10.0 LA `wcc386` with default flags is the reference compiler for the C phas
 3. Assembler-based build: emit per-segment asm → assemble → harvest absolute relocations → `order_fixups()` → `rebuild_exe.build()`. Remember that stored values are **object-relative** offsets. **Done:** the NASM sources are committed in `src/` and `make` / `./build.sh` (`tools/link_src.py`) builds a sha1-identical EXE from them plus the stubs, LE header and fixup order extracted from your EXE. See [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
 4. Optionally run real wlink 10.0a/LA on synthetic OBJs to confirm the chunk/FIXUPP-order theory, so a fully native wcc386+wlink path can reproduce the order without the table.
 5. Run the remaining -o letter tests (-oe inlining, -om, -op, -oa) on functions that exercise them, plus FP-heavy functions (-fp3 vs -fp5).
+
+Credits: see README.

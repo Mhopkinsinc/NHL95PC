@@ -64,12 +64,13 @@ types: `size b` is `signed char`, `size w` `short`, `size d` `int`; overrides in
 1. Pick a compiled-C function in a game segment (library segments stay asm; starts with `push dword N` / `call __CHK`; not hand-written asm like `randomd0`,
    `vtoa`). Check its block has no jumps into other functions (shared tails) and that the previous function does
    not fall into it (see "Tail calls" below); otherwise take the whole group into one file.
-2. Read the asm, its comment, its `name_map_94.csv` row and the Genesis routine (95G, else 94G, else 93G). Write
+2. Read the asm, its comment, its `name_map_94.csv` row and the Genesis routine (93G, else 94G; not 95G). Write
    `src/c/<segment>/<Func>.c`:
    * `#include "nhl95.h"`, then a comment on **every** function: address, Genesis name and file (or "PC only"),
      what it does, arguments and result. Bring the asm comments over (block comment and the per-line ones).
    * Names: the asm labels for functions and globals, the `structs.inc` field names, Genesis names for constants
-     (`consts.h`). Source order is 95G, else 94G, else 93G, else behaviour. Locals by what they hold.
+     (`consts.h`). Source order is 93G, else 94G, else behaviour. NHL95Genesis is a loose reference only.
+     Locals by what they hold.
    * Name the auto globals this function uses (`byte_` / `word_` / `dword_`) from the same stores in that
      Genesis routine, with `tools/rename_symbol.py`, before the final `cdiff`. A label that is a known object's
      field takes that field's name (`pucktemp1` is `puckstruct+temp1`). A nosplit column keeps its own label.
@@ -236,3 +237,5 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   calcpuckcross is 2 bytes short (x/side registers swapped, a 16-bit `mov bx,dx`). reenergizeteam (ends in
   calcpuckcross's tail) matched in calcpuckcross.c anyway: the draft's tail bytes are unique, and GetHot (draft)
   between them gives the distance for the near jump. GetHot keeps the flip negate in a fresh register (esi).
+
+Credits: see README.

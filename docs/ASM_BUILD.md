@@ -215,3 +215,5 @@ Per-segment counts: `tools/asm_proto_summary.json`.
    chunk order needs the real OMF record split).
 6. Optional: GNU as backend (`{load}`/`{store}`) to compare, and a wasm/OMF path through `tools/omf.py` if a
    Watcom-native link (wlink) becomes the goal.
+
+Credits: see README.

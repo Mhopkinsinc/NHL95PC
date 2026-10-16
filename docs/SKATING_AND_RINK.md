@@ -44,3 +44,5 @@ PC top speeds are lower and in a narrower band than 93G. On PC, acceleration is 
 
 The PC rink is wider and shorter than 93G in game units. These are true world coordinates. There is
 no display scaling layer between the simulation and the screen.
+
+Credits: see README.

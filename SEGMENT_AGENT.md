@@ -21,7 +21,7 @@ The segment boundaries come from `segmap95pc.json` (`tools/segdef.py`, `EXE_SEGM
   - `EXE_SEGMAP95PC.md` and `segmap95pc.json`: the segment notes and Genesis counterparts.
   - `tools/struct_fieldmap.csv`: player structure fields.
   - `tools/global_map.csv`: globals. The seeded rows are weak alignments (`aligned 2/3 accesses ...`), not proof. When the code shows a seeded name is wrong, rename it and say why in the evidence (engine_skating: `gameclock` C9080 was the pointer to the puck's Xvel, `wcradiusy` E03B4 was the d4 static).
-- Style source, in order: the matching routine in https://github.com/abdulahmad/NHL95Genesis, then https://github.com/abdulahmad/NHL94Genesis, then https://github.com/abdulahmad/NHLPA93Genesis. NHL95Genesis is fully named (see Lineage).
+- Style source, in order: the matching routine in https://github.com/abdulahmad/NHLPA93Genesis, then https://github.com/abdulahmad/NHL94Genesis. NHL95Genesis is a loose reference only, not a naming source (see Lineage).
 - A local checkout of the three Genesis repos works the same as the GitHub pages; search it with `rg` (for example `rg -n '^skateto' src/logic93_*.asm`).
 - Docs: `docs/ASM_BUILD.md` covers the source tree, the encoding rules and the linker. `BUILD_NOTES.md` covers the compiler fingerprint and fixups. `docs/SKATING_AND_RINK.md` covers skating physics compared with 93G.
 
@@ -32,10 +32,10 @@ How the PC code relates to the Genesis games:
 - NHL 95 PC is NHL 94 PC plus NHL 94 and 95 Genesis additions: season mode, trades and create player (Genesis `season95`, `trade95`, `create95`).
 - The game engine's C code mostly follows 93G, routine for routine. Look there first.
   - Use 94G for one-timers, breakaways, the extra assignment slots (asstab slots 30 and up) and `doinput_ispc`.
-  - 95G is fully named. Season, trades and create player take the 95G name when the body is the same routine. Name 95PC-only code from what it does (strings, callers, data it touches).
+  - NHL95Genesis is only loosely related (a loose reference, not a naming source). Name 95PC-only code (season, trades, create player, front end) from what it does (strings, callers, data it touches).
 - The front end (menus, desk screens, file dialogs, configuration) is PC-new. Genesis only matches by role (`stats94` screens, `optsetup94`, `menu94`). Name those routines from what they do.
 
-Name preference: the current 95G name when the body is the same routine, else the current 94G name, else the current 93G name, else a name from what it does. Match on the body (calls, constants, structure fields, branch shape). If a 95PC label already uses that name for a different routine, rename that label too. Team abbreviation labels use the spelling in 95PC's own team data and on-screen text (OTT, TB, ANA, and the rest of that table). NYIslanders and NYRangers stay the long names for the two New York teams.
+Name preference: the current 93G name when the body is the same routine, else the current 94G name, else a name from what it does. Do not take names from 95G (not 95G for now). Match on the body (calls, constants, structure fields, branch shape). If a 95PC label already uses that name for a different routine, rename that label too. Team abbreviation labels use the spelling in 95PC's own team data and on-screen text (OTT, TB, ANA, and the rest of that table). NYIslanders and NYRangers stay the long names for the two New York teams.
 
 ## Build
 
@@ -91,7 +91,7 @@ After the segment's last change, also run `python3 tools/update_symbols.py --che
    - Switch tables (`jpt_`, or an `unk_` label over `dd loc_...` lines) get the function's name plus `_jt` (Watcom puts the table right before its function). Name the case labels `.cN`, N the table index (`avdgoal.c0`); the table refers to them as `func.cN`.
    - IDA sometimes labels a cross-jumped epilogue `sub_` (a `pop ...; ret` tail that several functions jump into). It is not a function: keep it global, name it for the first function and what it does (`EvadePlayers_popebp`, `EvadePC_x`), and rename it with `{no_record}`.
    - Data in code (`off_`, `asc_`, `dword_` in cseg01) is named for what it holds.
-4. Name the data and BSS labels the segment uses. They are defined in `src/dseg02`; `rename_symbol.py` finds them. Use the 95G RAM name of the same variable, else 94G, else 93G (`ram95.asm`, from a lined-up operand), else name it from what it holds.
+4. Name the data and BSS labels the segment uses. They are defined in `src/dseg02`; `rename_symbol.py` finds them. Use the 93G RAM name of the same variable, else 94G (`ram93.asm` / `ram94.asm`, from a lined-up operand), else name it from what it holds. Do not take names from 95G.
    - You may split a `db` run or a `resb` to put a label inside it, as long as the bytes do not change. For example, `resb 152` becomes `name: resb 4` plus `resb 148`.
 5. Write structure fields as names: `[byte ecx+06Ah]` becomes `[byte ecx+SCnum]`. Keep the displacement size, and add a field to `structs.inc` (with its `size` tag) and `tools/struct_fieldmap.csv` when the evidence is there. Start with `tools/struct_operands.py MODULE` (dry run), then do the rest by hand:
    - The Watcom `-5r` short load reads a 16-bit field as a dword 2 bytes earlier: `mov edx, [byte ecx+0Ah]` / `sar edx, 10h` is `[byte ecx+Xvel-2]`. A byte field is read 3 bytes earlier with `sar 18h`: `mov edx, [byte ebx+44h]` / `sar edx, 18h` is `[byte ebx+pnum-3]`.
@@ -148,7 +148,7 @@ workflow and compiler notes: [docs/C_MATCHING.md](docs/C_MATCHING.md); progress:
   marker (`tools/cc.py mark`). The asm stays inside the marker unchanged; both `make` and `make CBUILD=0` must MATCH.
 - Compiler: Watcom C/C++32 10.0 LA `wcc386`, default flags, under DOSBox (`$WATCOM_ROOT`, default `~/watcom`, never
   in the repo). Compare with `python3 tools/cdiff.py src/c/<segment>/<Func>.c`.
-- Names and comments: the asm labels and `structs.inc` fields; 95G, else 94G, else 93G, else behaviour. Every C
+- Names and comments: the asm labels and `structs.inc` fields; 93G, else 94G, else behaviour (not 95G). Every C
   function gets a comment (address, Genesis routine or "PC only", what it does, arguments, result); bring the asm
   comments over. Constants in `src/c/include/consts.h`, typed globals in `vars.h`, prototypes in `protos.h`.
 - When the function matches, name the auto globals it uses (`byte_` / `word_` / `dword_`) from the same stores
@@ -255,3 +255,4 @@ The first row that is not `done` is the current segment. The order is engine fir
 | 62 | `cseg01/063_85924_demo_savegame.asm` | done 2026-10-09: save game. MenuSaveGame ('Save Game ...': disk-space check msg_NoSaveSpace, SaveGameNameDlg, writes the .nhl save plus game.sav / gsummary.db copies, msg_SavingLeagueGame / msg_SavingPlayoffGame), SaveGameNameDlg ('savegame' dialog, prmt field, '.nhl', 'err1'), MenuPlayNextGame (returns 4), MenuReturnToSportsCentral (returns 1), ViewPlayoffHilights (postate + ViewHilights); low: SaveGameStub, savenamedefault. Not a demo player; the only demo link is that with demomode set MenuSaveGame writes 'demo.nhl' without the name dialog. Left: h1..h7 / A3 2-byte strings (MessageBox fragments), DC888 / DC88C. Auto names 49/47 -> 0/13 | 85924-86695 | 3442 | 6 | 49 / 47 | demo game, save game dialogs |
 | 63 | `cseg01/065_8BAAF_allfiles_coach.asm` | done 2026-10-09: InitFileLocations (from main_: nhl.cfg line 2 = CD drive letter into cddrivestr; opens <drive>:ALLFILES.TXT or local ALLFILES.TXT; sets all 549 fileoncd flags then clears those listed, so 1 = load from CD via the cddriveptr prefix in MakePath) and CoachCutScene (from PostGameDesk: coachcut scrn / !pal, SayCoachClip, random clip%04d.cmv through PlayMVI). Cross-cutting: the 100 auto byte labels inside fileoncd (ED7CD..ED9F0, the per-file 'cmp byte [X],1 / MakePath' checks across the frontend) folded to fileoncd+N; byte_ED909 kept (two-register operands). Data: fileoncd, cddrivestr (D2C68), cddriveptr (D2C6B), strings. Left: asc_C3B67, unk_C3B0C. Auto names 27/24 -> 0/2 | 8BAAF-8BEDA | 1068 | 2 | 27 / 24 | ALLFILES.TXT check, coach screen |
 
+Credits: see README.
