@@ -540,6 +540,7 @@ SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/
 ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,nonmatching,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only"
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,
+WriteLeagueDbsMem,6C96C,291,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,
 FreeLeagueDbsMem,6CA8F,220,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,
 BuildFreeAgentList,6BF4A,249,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,nonmatching,"draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those."
 BuildTeamRosterList,6C043,344,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c,nonmatching,"338 vs 344. Team stays in eax; original saves esi and reloads before TeamRecPtr. Dressed byte is mov al,[ebx+eax+0E4h]; original is add edx,ebx / mov ah. Do not retry a named team, an esi aux, or naming the fill byte."

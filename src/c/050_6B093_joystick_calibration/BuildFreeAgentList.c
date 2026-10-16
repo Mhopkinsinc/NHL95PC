@@ -37,6 +37,28 @@ void BuildFreeAgentList(void)
     }
 }
 
+/* WriteLeagueDbsMem (6C96C, PC only; segment 051, ends in BuildFreeAgentList_ret): write the six league databases
+   held in memory back to files in dir (the pair of LoadLeagueDbsMem): season, career, career teams, key, teams and
+   attributes, each named from leaguedbnames (MakePath) and written whole (sub_932D0). dir: the extension or
+   directory part MakePath appends. No result. */
+void WriteLeagueDbsMem(char *dir)
+{
+    char path[0x20];
+
+    MakePath(path, 0, (char *)leaguedbnames[5], dir);
+    sub_932D0(path, seasondb, seasondb_size);
+    MakePath(path, 0, (char *)leaguedbnames[1], dir);
+    sub_932D0(path, careerdb, careerdb_size);
+    MakePath(path, 0, (char *)leaguedbnames[3], dir);
+    sub_932D0(path, carteamsdb, carteamsdb_size);
+    MakePath(path, 0, (char *)leaguedbnames[0], dir);
+    sub_932D0(path, keydb, keydb_size);
+    MakePath(path, 0, (char *)leaguedbnames[4], dir);
+    sub_932D0(path, teamsdb, teamsdb_size);
+    MakePath(path, 0, (char *)leaguedbnames[2], dir);
+    sub_932D0(path, attdb, attdb_size);
+}
+
 /* FreeLeagueDbsMem (6CA8F, PC only; database-save segment 051, the same source file: it ends in
    BuildFreeAgentList_ret): free the six league databases held in memory (attribute, team, key, career team,
    career and season) and clear their pointers and sizes. No arguments, no result. */

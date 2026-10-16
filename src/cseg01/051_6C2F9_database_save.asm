@@ -529,6 +529,10 @@ pop esi	; 6C968
 pop ecx	; 6C969
 pop ebx	; 6C96A
 ret	; 6C96B
+; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (WriteLeagueDbsMem)
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/BuildFreeAgentList.WriteLeagueDbsMem.inc"
+%else
 WriteLeagueDbsMem:
 push dword 48h	; 6C96C
 call __CHK	; 6C971
@@ -620,6 +624,7 @@ call sub_932D0	; 6CA7F
 add esp, byte 0Ch	; 6CA84
 add esp, byte 20h	; 6CA87
 jmp near BuildFreeAgentList_ret	; 6CA8A
+%endif ; C
 ; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (FreeLeagueDbsMem)
 %ifdef CBUILD
 %include "c/050_6B093_joystick_calibration/BuildFreeAgentList.FreeLeagueDbsMem.inc"

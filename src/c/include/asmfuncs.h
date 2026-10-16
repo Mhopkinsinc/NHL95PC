@@ -719,7 +719,6 @@ extern void BuildFreeAgentList_ret(); /* 6C03C */
 extern void MenuSaveDbs(); /* 6C2F9 */
 extern void MenuSaveDbsAs(); /* 6C3BB */
 extern void SaveDbsToDir(); /* 6C4BA */
-extern void WriteLeagueDbsMem(); /* 6C96C */
 extern void SeasonDbPtr_common(); /* 6CBD1 */
 extern void CareerDbPtr_common(); /* 6CBED */
 extern void RunEditRosters(); /* 6CC20 */

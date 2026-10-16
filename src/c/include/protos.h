@@ -618,6 +618,7 @@ void MergeGoalieRecDelta(unsigned short *old, unsigned short *cur, unsigned shor
 int CmpGAA(int *a, int *b);  /* 1FC8F */
 int CmpRosterGoalies(int *a, int *b);  /* 75A37 */
 void LoadTempDatabases(void);  /* 710D8 */
+void WriteLeagueDbsMem(char *dir);  /* 6C96C */
 void FreeLeagueDbsMem(void);
 int __cdecl sub_92DE0(char *path);
 int PreloadAnnouncerClips(char *home, char *vis);  /* 8579E */
