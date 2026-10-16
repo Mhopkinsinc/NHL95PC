@@ -146,8 +146,8 @@ The queue above is done; the next phase rewrites the game's C functions in C tha
 workflow and compiler notes: [docs/C_MATCHING.md](docs/C_MATCHING.md); progress: [C_PROGRESS.md](C_PROGRESS.md).
 - A matched function lives in `src/c/<segment>/<Func>.c` and replaces its asm block through the `%ifdef CBUILD`
   marker (`tools/cc.py mark`). The asm stays inside the marker unchanged; both `make` and `make CBUILD=0` must MATCH.
-- Compiler: Watcom C/C++32 10.0 LA `wcc386`, default flags, under DOSBox (`$WATCOM_ROOT`, default `~/watcom`, never
-  in the repo). Compare with `python3 tools/cdiff.py src/c/<segment>/<Func>.c`.
+- Compiler: Watcom C/C++32 10.0 LA `wcc386`, default flags, under DOSBox (`$WATCOM_ROOT`, default
+  `tools/watcom`; the three files are committed there). Compare with `python3 tools/cdiff.py src/c/<segment>/<Func>.c`.
 - Names and comments: the asm labels and `structs.inc` fields; 93G, else 94G, else behaviour (not 95G). Every C
   function gets a comment (address, Genesis routine or "PC only", what it does, arguments, result); bring the asm
   comments over. Constants in `src/c/include/consts.h`, typed globals in `vars.h`, prototypes in `protos.h`.
@@ -167,8 +167,8 @@ workflow and compiler notes: [docs/C_MATCHING.md](docs/C_MATCHING.md); progress:
   functions between them; mark each with `cc.py mark File.c --func F` (C_MATCHING "Multi-block files").
 - At the end of each batch update the "Current state" and "Next" sections of [HANDOFF.md](HANDOFF.md).
 - Commit each batch with `make` MATCH (both CBUILD settings), `python3 tools/c_progress.py`, and the headers
-  regenerated with `python3 tools/gen_cheaders.py` when names changed. Never commit compiler binaries, OMF objects
-  or generated `.inc` fragments (they are under `build/`).
+  regenerated with `python3 tools/gen_cheaders.py` when names changed. Never commit OMF objects or generated
+  `.inc` fragments (they are under `build/`). The three Watcom files under `tools/watcom/` stay committed.
 
 ## Libraries (not in the queue, may be named)
 

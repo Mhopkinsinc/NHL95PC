@@ -33,7 +33,7 @@ build/obj → tools/link_src.py → build/HOCKEY.EXE → sha1 check (the same ch
   asm block (the function, its `.x`/`.1` locals, mid-function entry points other code jumps to) is re-emitted at
   its original offset (from the `; <address>` comments), so the rest of the segment assembles unchanged.
 * `make` sets `CBUILD=1` when the toolchain is found (`python3 tools/cc.py check`: dosbox, `$WATCOM_ROOT/dosla/WCC386.EXE`,
-  10.0a `DOS4GW.EXE` and `W32RUN.EXE`; `WATCOM_ROOT` defaults to `~/watcom`). `make CBUILD=0` builds the asm
+  10.0a `DOS4GW.EXE` and `W32RUN.EXE`; `WATCOM_ROOT` defaults to `tools/watcom`). `make CBUILD=0` builds the asm
   fallback. **Both must MATCH.** Switching CBUILD rebuilds the objects (stamp `build/cbuild.N`).
 * Only *marked* C files are built by `make`. A C file without the marker is a non-matching draft.
 * Name decoration: wcc386 emits functions as `Name_` and data as `_Name`; `tools/cobj.py` maps them back to the asm

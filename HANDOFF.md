@@ -16,25 +16,20 @@ at the end of every batch. Session diary: [docs/SESSION_LOG.md](docs/SESSION_LOG
 * Python package `capstone` (`pip install capstone`; tested with 5.0.7): `tools/cdiff.py` and multi-block C files.
 * DOSBox (`apt install dosbox`): the DOS Watcom compiler runs in it headless (`SDL_VIDEODRIVER=dummy`).
 
-**Watcom compilers (outside the repo, never commit them).** The tools look in `$WATCOM_ROOT` (default
-`~/watcom`). `make` and `tools/cc.py` need exactly these three files (`python3 tools/cc.py check` tests them):
+**Watcom (committed under `tools/watcom/`).** The three files needed for C matching are in the repo.
+`$WATCOM_ROOT` defaults to `tools/watcom` (override with the env var). `python3 tools/cc.py check` tests them
+plus DOSBox:
 
-| path under `$WATCOM_ROOT` | from | SHA-1 |
+| path under `tools/watcom/` | from | SHA-1 |
 |---|---|---|
 | `dosla/WCC386.EXE` | Watcom C/C++ 10.0 LA (Limited Availability, Mar 1994) CD | `b0538b84b6003c95da9f620ee7870c392e5e6d3e` |
 | `w10a/WATCOM/BIN/DOS4GW.EXE` | Watcom C/C++ 10.0a CD (Sep 1994) | `a897c7eb79145a308c4e60b43413bb2daa360506` |
 | `w10a/WATCOM/BIN/W32RUN.EXE` | same 10.0a CD | `495cbd29221f12e5c5fb0d67b1ba00837662d605` |
 
-* 10.0a: archive.org item `watcom-c-cpp-compilers-collection` (or `Watcom_C_10.0`, the same disc). Copy the
-  disc's installed `WATCOM` tree (with the A-level patches) to `$WATCOM_ROOT/w10a/WATCOM`.
-* 10.0 LA: the WinWorld "Watcom C/C++ 10.0 LA" ISO. Its files are packed in the Watcom install archiver format:
-  copy `WPACK.EXE` and the packs `PACK0022`, `PACK0686`, `PACK0700`, `PACK0701` from the ISO root to
-  `$WATCOM_ROOT/dosla/` and unpack them with `WPACK` under DOSBox (they give `wcc386.exe`, `clib3r.lib`,
-  `emu387.lib`, `math387r.lib`; `WPACK -l PACKnnnn` lists a pack). Check the SHA-1 of `WCC386.EXE` above.
-* `tools/wc10.sh` (experiments only: 10a / la / 105 side by side, plus `ow19/binl/wdis` from Open Watcom 1.9)
-  uses the same `$WATCOM_ROOT` layout. Not needed for `make`.
-* No 10.0 GA binaries are known publicly; the EXE was built with 10.0 GA, and 10.0 LA reproduces its game code.
-  History and evidence: [BUILD_NOTES.md](BUILD_NOTES.md).
+Extra installs for a full build: **nasm**, **make**, and **DOSBox** (plus Python 3 / capstone as above). Optional
+full historic Watcom trees for experiments (`tools/wc10.sh`) still live outside the repo (`~/watcom`); not needed
+for `make`. No 10.0 GA binaries are known publicly; 10.0 LA reproduces the game code. History:
+[BUILD_NOTES.md](BUILD_NOTES.md).
 
 **Genesis references (optional, for names).** Clone NHLPA93Genesis and NHL94Genesis into `ref/93` and
 `ref/94` (git-ignored). NHL95Genesis (`ref/95`) is optional as a loose reference only; it is not a naming
@@ -113,8 +108,9 @@ Parked: LoadShapeByTag, POPickConfTeams, BlitClipRect, SetCoachMode, FadeOutPalC
 
 ## 5. Rules (short form; the full list is in SEGMENT_AGENT.md)
 
-* Never commit `HOCKEY.EXE`, the IDA listing, `FUNCTION_MAPPINGS95.md`, `tools/*.pkl`, `ref/`, `build/`, compiler
-  files, objects or generated `.inc` fragments. The `src/` asm tree is the agreed exception.
+* Never commit `HOCKEY.EXE`, the IDA listing, `FUNCTION_MAPPINGS95.md`, `tools/*.pkl`, `ref/`, `build/`,
+  objects or generated `.inc` fragments. The three Watcom files under `tools/watcom/` are committed on purpose.
+  The `src/` asm tree is the agreed exception for game code.
 * Every commit builds with `make` MATCH and `make CBUILD=0` MATCH. Commit per function or per batch. Tool and doc
   changes go in their own commits. Never force-push.
 * Do not change bytes; do not run `tools/gen_src.py`; do not edit `src/segments.txt` or section lines. Adding a

@@ -18,13 +18,13 @@ The game binary is not in this repo and never will be. Copy your own retail `HOC
 | Size | 1,179,067 bytes |
 | SHA-1 | `3961e0eba6b0338fad1613bb534efafd9406ed4a` |
 
-`.gitignore` keeps it out of commits, along with the IDA listing (`*.lst`), everything under `build/` (the extracted EXE parts), the Watcom compilers and libraries, and the local Genesis source copies (`ref/`).
+`.gitignore` keeps it out of commits, along with the IDA listing (`*.lst`), everything under `build/` (the extracted EXE parts), and the local Genesis source copies (`ref/`). The three Watcom files needed for C matching are committed under `tools/watcom/`.
 
 ## Build from source
 
 The segment naming queue is finished. The main work is **C matching**: start with [HANDOFF.md](HANDOFF.md) and [docs/C_MATCHING.md](docs/C_MATCHING.md) (progress in [C_PROGRESS.md](C_PROGRESS.md)). Agent standing rules: [AGENTS.md](AGENTS.md).
 
-`python3 tools/rebuild_exe.py verify` needs **Python 3 only** (plus your retail `HOCKEY.EXE` in the repo root). Full `make` needs **nasm** (2.15+) and **make**. Matched C (`CBUILD=1`) also needs **DOSBox** and the three Watcom files outside the repo (`~/watcom`: `dosla/WCC386.EXE`, `w10a/WATCOM/BIN/DOS4GW.EXE`, `w10a/WATCOM/BIN/W32RUN.EXE`; see [HANDOFF.md](HANDOFF.md)). Without Watcom, `make` uses the asm and still matches.
+`python3 tools/rebuild_exe.py verify` needs **Python 3 only** (plus your retail `HOCKEY.EXE` in the repo root). Full `make` needs **nasm** (2.15+) and **make**. Matched C (`CBUILD=1`) also needs **DOSBox**; the three Watcom files are already in `tools/watcom/` (see [HANDOFF.md](HANDOFF.md)). Without DOSBox, `make` uses the asm and still matches.
 
 ```
 make -j8            # or ./build.sh [path/to/HOCKEY.EXE]
@@ -60,7 +60,7 @@ The analysis scripts in `tools/` (`le_parse.py`, `lst_parse.py`, `build_funcs.py
 * Flags inferred: `-5r -fpi -zp1` (`-mf`, stack checks on, no `-o` options). Evidence: 2,527 `mov r32,[x-2]; sar r32,10h` short loads (-5r), EMU387 linked (-fpi), unaligned dwords in packed structs (-zp1, medium confidence).
 * No public 10.0 GA binaries are known. Use 10.0 LA as the reference compiler.
 
-Test harness (needs `dosbox` and the historic Watcom installs outside the repo; set `WATCOM_ROOT`, default `~/watcom`):
+Test harness (needs `dosbox`; `$WATCOM_ROOT` defaults to `tools/watcom`; optional full historic installs elsewhere):
 
 ```
 tools/wc10.sh la tools/cc_tests/t1.c ""   # compile with 10.0 LA wcc386 under headless DOSBox -> build/cc/la/

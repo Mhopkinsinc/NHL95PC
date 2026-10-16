@@ -33,14 +33,14 @@ Stop after 5 failed builds. Report the file, the first differing address make pr
 Paste this into a new session for the C phase (one batch of functions per session). This is the primary prompt. Do not edit this prompt.
 
 ```text
-Read docs/C_MATCHING.md, HANDOFF.md (Current state, Next, Unsure plan) and AGENTS.md first. Build before you change anything: make must end with "MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE" and make cinfo must say CBUILD=1 (the Watcom 10.0 LA toolchain under ~/watcom and dosbox are needed). If not, stop and say what you ran and what it printed.
+Read docs/C_MATCHING.md, HANDOFF.md (Current state, Next, Unsure plan) and AGENTS.md first. Build before you change anything: make must end with "MATCH: build/HOCKEY.EXE is byte-identical to the retail HOCKEY.EXE" and make cinfo must say CBUILD=1 (DOSBox is needed; Watcom files are in tools/watcom). If not, stop and say what you ran and what it printed.
 
 1. Pick compiled-C functions (prologue push dword N / call __CHK) from C_PROGRESS.md's segments and HANDOFF Next / Unsure plan, starting with Group 2 unblocks and small untouched leaves. Skip hand-written asm (no __CHK) and parked Group 1 register near-misses. Check for shared tails and fall-through tail calls; such a group goes into one file. Timebox about 8-10 minutes per stubborn function; leave a draft and note what was tried in tools/c_functions.csv / docs/UNSURE.md.
 2. Write src/c/<segment>/<Func>.c: #include "nhl95.h", the asm label names, structs.inc fields, and a name from NHLPA93Genesis, else NHL94Genesis, else from behaviour. NHL95Genesis is a loose reference only, not a naming source. A comment on every function (address, Genesis routine or PC only, what it does, arguments, result) with the asm comments brought over. Add its prototype to src/c/include/protos.h; constants to consts.h, typed globals to vars.h, then python3 tools/gen_cheaders.py.
 3. Iterate with python3 tools/cdiff.py <file> until it prints MATCH. Do not use compiler flags other than the defaults without writing down why in docs/C_MATCHING.md.
 4. python3 tools/cc.py mark <file> [--end Label]. make must MATCH, and make CBUILD=0 must MATCH too. Do not edit the asm inside the marker.
 5. python3 tools/c_progress.py; put the reason for any non-matching draft in the notes column of tools/c_functions.csv. Record new compiler learnings in docs/C_MATCHING.md. Update HANDOFF Current state / Next if the headline numbers or Next item change.
-6. Commit: the C files, src/c/include, the marked asm files, C_PROGRESS.md, tools/c_functions.csv. Never commit HOCKEY.EXE, objects, .inc fragments, listings or compiler files. Never force-push.
+6. Commit: the C files, src/c/include, the marked asm files, C_PROGRESS.md, tools/c_functions.csv. Never commit HOCKEY.EXE, objects, .inc fragments or listings. The three Watcom files under tools/watcom/ stay committed. Never force-push.
 
 Stop after 5 failed builds and report the file, the first differing address, and the change.
 ```

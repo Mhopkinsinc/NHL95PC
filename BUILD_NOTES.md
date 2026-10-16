@@ -1,6 +1,6 @@
 # NHL 95 PC (HOCKEY.EXE) – rebuild + toolchain notes
 
-All paths are relative to the repo root. The historic Watcom compilers live outside the repo (default `~/watcom`, override with `WATCOM_ROOT=...`). They are not committed.
+All paths are relative to the repo root. The three Watcom binaries for C matching are committed under `tools/watcom/` (`$WATCOM_ROOT` defaults there; override with the env var). Optional full historic installs for experiments still live outside the repo (e.g. `~/watcom`).
 
 ## 1. Byte-exact rebuild (`tools/rebuild_exe.py`)
 
@@ -70,10 +70,10 @@ Confidence: version family 10.0 = very high. GA rather than 10.0a/LA = high. Fla
    * Other idioms seen: `push N; call __CHK` prologue; callee saves every register it uses; ebp used as a general register (no frame); functions not aligned; cross-function tail merging.
 4. **-zp**: the 10.0 default is -zp1 (test struct {char;int;short} has sizeof 7). In the EXE, 296 of 1,350 `dword_` labels sit at addresses that are not a multiple of 4, which fits packed structs.
 
-### Toolchains used (`$WATCOM_ROOT`, default `~/watcom`, 2.2 GB, public downloads only, not in this repo)
-* Open Watcom 1.9 (`ow19/`, linux binl works: wcc386, wdis, wlink, dmpobj) and OW 2.0 snapshot (`ow2/`).
-* Watcom 10.0a CD (`w10a/`, unpacked tree + A_LEVEL patches), 10.0 LA CD (`wla/`; clib3r/math387r/emu387/wcc386 unpacked with WPACK under DOSBox into `dosla/`), 10.5 CD libs and binaries (`w105/`), 9.5b zip (`w95b/`, WPK-packed, not unpacked).
-* Source: archive.org item `watcom-c-cpp-compilers-collection` (and Watcom_C_10.0, which is the same 10.0a disc). **No 10.0 GA binaries are known to exist publicly.** The a-level patch format (bpatch DIFFS) only stores new bytes, so it cannot be run backwards to get GA.
+### Toolchains
+* **In repo (`tools/watcom/`, default `$WATCOM_ROOT`):** `dosla/WCC386.EXE`, `w10a/WATCOM/BIN/DOS4GW.EXE`, `w10a/WATCOM/BIN/W32RUN.EXE` — enough for `make` C matching with DOSBox.
+* **Optional full trees** (outside the repo, e.g. `~/watcom`, ~2.2 GB): Open Watcom 1.9 (`ow19/`), OW 2.0 (`ow2/`), Watcom 10.0a CD (`w10a/`), 10.0 LA CD (`wla/` → unpacked into `dosla/`), 10.5 (`w105/`), 9.5b (`w95b/`). Used by `tools/wc10.sh` / library matching, not required for `make`.
+* Source of the historic media: archive.org item `watcom-c-cpp-compilers-collection` (and Watcom_C_10.0, the same 10.0a disc). **No 10.0 GA binaries are known to exist publicly.** The a-level patch format (bpatch DIFFS) only stores new bytes, so it cannot be run backwards to get GA.
 
 ## 2b. C matching (Oct 2026)
 

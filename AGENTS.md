@@ -11,6 +11,6 @@ Standing rules for work on this repo. Details: [HANDOFF.md](HANDOFF.md), [SEGMEN
 * **No numbered prefixes on new file names** (existing segment `NNN_*` names stay).
 * **Names:** 93G when the body matches, else 94G, else a name from behaviour. NHL95Genesis is a loose reference only, not a naming source. Team abbreviations follow 95PC's own spellings (e.g. TB, OTT).
 * At the end of each batch: `python3 tools/c_progress.py`, update HANDOFF Current state / Next if needed, commit, push.
-* Never commit `HOCKEY.EXE`, listings, `ref/`, `build/`, compiler files, objects or generated `.inc` fragments.
+* Never commit `HOCKEY.EXE`, listings, `ref/`, `build/`, objects or generated `.inc` fragments. The three Watcom files under `tools/watcom/` are committed on purpose.
 
 Credits: see [README.md](README.md).
