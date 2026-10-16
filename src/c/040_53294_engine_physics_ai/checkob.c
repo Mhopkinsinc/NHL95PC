@@ -239,6 +239,48 @@ void ChkShotStat(void)
     ((GlStat *)o->tmglstats)[g].sht++;
 }
 
+/* setInjuryType (55E72; 93G hockey93 setInjuryType, "sets period injury"): player p is hurt. 93G part: mark him
+   unavailable (pflags2 bit 2), crowd +300 (PC: only while not over 1000, capped at 1000), CwdExciteLvl +30, sfx
+   A1h (93G SFX0D), centre the scroll on him (xc1 / yc1; PC: 50 lower when he is left of camx) and lock it
+   (sflags bit 6, sfslock). PC part: a random roll on his roster byte +0Fh (records at Team +0DEh, 14h bytes each)
+   makes the injury serious when over 6 and word_E9B28 is over 2Dh: out for the game (tmpdst -4, roster status 1),
+   else for the period (tmpdst -3, roster status 6, and -1 for the event). word_CBEC6 = 1, then the event is
+   posted (PostInjuryEvent: side, pnum, kind, minutes and seconds into the period) and he leaves the lines
+   (RemoveFromLines). p: the injured player. No result. */
+void setInjuryType(Player *p)
+{
+    Team *t;
+    int left;
+    int kind;
+
+    p->pflags2 |= 4;
+    if (crowdlevel <= 1000) {
+        crowdlevel += 300;
+        if (crowdlevel > 1000) crowdlevel = 1000;
+    }
+    CwdExciteLvl += 30;
+    sfx(0xA1);
+    xc1 = HIWORD(p->Xpos);
+    yc1 = HIWORD(p->Ypos);
+    if (HIWORD(p->Xpos) < camx) yc1 += 50;
+    sflags |= 0x40;
+    t = p->tmptr;
+    kind = randomd0((*(unsigned char **)((char *)t + 0xDE))[p->pnum * 20 + 0xF] + 8) > 6;
+    if (kind > 0 && word_E9B28 > 0x2D) {
+        t->tmpdst[p->pnum] = -4;
+        t->tmroster[p->pnum * 39] = 1;
+    } else {
+        t->tmpdst[p->pnum] = -3;
+        t->tmroster[p->pnum * 39] = 6;
+        kind = -1;
+    }
+    word_CBEC6 = 1;
+    left = PerTimeTotal - gameclock;
+    if (gameclock < 60 && clockticks[0]) left--;
+    ((int (*)(int, int, int, int, int, int, int))PostInjuryEvent)((p->pflags & pfteam) != 0, p->pnum, kind, left / 60, left % 60, 0, 0);
+    RemoveFromLines((p->pflags & pfteam) != 0, p->pnum);
+}
+
 /* ReturnGoalies: a pulled goalie (tmgoalie low byte under 10h) goes back in net.
  The pulled menu item is unchecked and the goalie item checked, then a computer
  team may pull again. */

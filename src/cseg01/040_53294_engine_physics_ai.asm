@@ -3713,6 +3713,10 @@ jmp near checkob_ret5	; 55E6D
 %endif ; C
 ; setInjuryType: Player unavailable (pflags2 bit 2), crowd up, sfx A1h, camera locked
 ; on him (xc1/yc1, sfslock).
+; C: src/c/040_53294_engine_physics_ai/checkob.c (setInjuryType)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.setInjuryType.inc"
+%else
 setInjuryType:
 push dword 24h	; 55E72
 call __CHK	; 55E77
@@ -3838,6 +3842,7 @@ xor ah, ah	; 56010
 cwde	; 56012
 call RemoveFromLines	; 56013
 jmp near checkob_ret5	; 56018
+%endif ; C
 NetCollide:
 push dword 2Ch	; 5601D
 call __CHK	; 56022

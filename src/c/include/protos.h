@@ -948,6 +948,7 @@ int BuildLeagueList(char ***list, char **names, int flags);  /* 411C8 */
 void checkob(Player *p);  /* 53F8C */
 short chk4lc(Player *p);  /* 54AF9 */
 void ChkShotStat(void);  /* 55D28 */
+void setInjuryType(Player *p);  /* 55E72 */
 short chk4shot(Player *p);  /* 55804 */
 short chk4pass(Player *p);  /* 55493 */
 void asspuckc(Player *p);  /* 4C6F3 */
