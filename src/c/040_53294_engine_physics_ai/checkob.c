@@ -327,3 +327,35 @@ void burst(Player *p)
     p->pflags |= pfalock;
     SetSPA(p, 0x621);
 }
+
+/* check4check (53537; 93G logic93 check4check, "look for good opportunity for checking opponent"): the odds are
+   20 - p's checking rating (93G aggress), half again with penalties on (gameopts bit 0); a roll of
+   randomd0(twice that) over 8 (93G: over 3) skips. Otherwise walk the six opponents: one on the ice (position),
+   not animation-locked (pfalock) and not fighting (pflags2 bit 0), within 30 in x and y, straight ahead of p
+   (vtoa of the offset equals facedir) gets checked: 1 in 4 Acheck, else burst. PC: with nobody to check, p may
+   try to block a shot (TryBlockShot). regd0-regd2 hold the 68k d0-d2. p: the player. No result. */
+void check4check(Player *p)
+{
+    Player *q;
+
+    regd0.w = 0x14 - p->checking;
+    if (gameopts.optbit0) regd0.w += regd0.w >> 1;
+    if (randomd0(regd0.w * 2) > 8) return;
+    q = &SortCords[p->SCnum < 6 ? 6 : 0];
+    regd2.w = 6;
+    do {
+        if (q->position && !(q->pflags & pfalock) && !(q->pflags2 & 1)) {
+            regd0.w = HIWORD(q->Xpos) - HIWORD(p->Xpos);
+            if ((regd0.w < 0 ? -regd0.w : regd0.w) <= 0x1E) {
+                regd1.w = HIWORD(q->Ypos) - HIWORD(p->Ypos);
+                if ((regd1.w < 0 ? -regd1.w : regd1.w) <= 0x1E && vtoa(regd0.w, regd1.w) == p->facedir) {
+                    if (randomd0(4)) burst(p);
+                    else Acheck(p, q);
+                    return;
+                }
+            }
+        }
+        q++;
+    } while (--regd2.w);
+    TryBlockShot(p);
+}

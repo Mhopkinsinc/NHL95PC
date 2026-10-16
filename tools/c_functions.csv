@@ -397,6 +397,7 @@ checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoalp.c,nonmatching,C hoists the wcradiusy load above the SCnum 12 test and swaps esi / edi for p / SCnum; rest of the logic matches
 checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkint.c,matched,
 burst,532BD,202,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
+check4check,53537,360,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 SkillForAnim,54134,150,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 ChkShotStat,55D28,330,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 setInjuryType,55E72,427,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,

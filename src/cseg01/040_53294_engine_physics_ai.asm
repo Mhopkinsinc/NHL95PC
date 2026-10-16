@@ -291,6 +291,10 @@ pop edx	; 53533
 pop ecx	; 53534
 pop ebx	; 53535
 ret	; 53536
+; C: src/c/040_53294_engine_physics_ai/checkob.c (check4check)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.check4check.inc"
+%else
 check4check:
 push dword 18h	; 53537
 call __CHK	; 5353C
@@ -398,6 +402,7 @@ jne near check4check.4	; 5368D
 mov eax, ecx	; 53693
 call TryBlockShot	; 53695
 jmp near checkob_ret5	; 5369A
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/checkagr.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/checkagr.inc"
