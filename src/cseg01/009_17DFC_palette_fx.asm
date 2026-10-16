@@ -1232,6 +1232,10 @@ add eax, byte 4	; 18D26
 mov dword [deskexit], eax	; 18D29
 jmp near DeskSetExit_ret1	; 18D2E
 %endif ; C
+; C: src/c/008_17816_output_files/StatsSel9394Playoffs.c (FreeDeskBuffers)
+%ifdef CBUILD
+%include "c/008_17816_output_files/StatsSel9394Playoffs.FreeDeskBuffers.inc"
+%else
 FreeDeskBuffers:
 push dword 1Ch	; 18D33
 call __CHK	; 18D38
@@ -1260,3 +1264,4 @@ mov dword [dword_C65A8], ebp	; 18D72
 .2:
 xor eax, eax	; 18D78
 jmp near StatsSel_x	; 18D7A
+%endif ; C

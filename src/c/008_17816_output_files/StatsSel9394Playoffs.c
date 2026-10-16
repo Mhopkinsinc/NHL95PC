@@ -95,3 +95,19 @@ void StatsSelPlayoffMode(void)
     statspal = 0;
     FadePalStep(0, unk_DC340, 0x10);
 }
+
+/* FreeDeskBuffers (18D33, PC only; segment 009, the same source file: it ends in StatsSel_x): free the two stats
+   desk buffers dword_C65AC and dword_C65A8 (FreeMemBlock) when they are allocated and clear them. No arguments.
+   Result: 0. */
+int FreeDeskBuffers(void)
+{
+    if (dword_C65AC) {
+        FreeMemBlock(dword_C65AC);
+        dword_C65AC = 0;
+    }
+    if (dword_C65A8) {
+        FreeMemBlock(dword_C65A8);
+        dword_C65A8 = 0;
+    }
+    return 0;
+}

@@ -331,6 +331,10 @@ call LoadRosterList	; 6D6C9
 call DrawEditRosters	; 6D6CE
 add esp, byte 4	; 6D6D3
 jmp near RunEditRosters_ret6	; 6D6D6
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (ShowFreeAgents)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.ShowFreeAgents.inc"
+%else
 ShowFreeAgents:
 push dword 18h	; 6D6DB
 call __CHK	; 6D6E0
@@ -385,6 +389,7 @@ mov eax, edi	; 6D77A
 call LoadRosterList	; 6D77C
 call DrawEditRosters	; 6D781
 jmp near RunEditRosters_ret5	; 6D786
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/ComparePlayerEntry.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/ComparePlayerEntry.inc"

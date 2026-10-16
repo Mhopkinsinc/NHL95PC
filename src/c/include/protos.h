@@ -142,6 +142,7 @@ void SetTextColors(int color, int shadow);  /* 174C2 */
 void SaveModeState(unsigned char *st);
 char *strcpy(char *d, const char *s);  /* Watcom CRT strcpy_ */
 int DeskSetExit1(void);  /* 179B6 */
+int FreeDeskBuffers(void);  /* 18D33 */
 void SndLoadFile(int unused, char *name);
 void *__cdecl sub_8E8B8(char *name, int bank);  /* sound library loader, stack args */
 void NudgeRinkScroll(void);  /* 7FC12 */
@@ -684,6 +685,7 @@ int FinishPlayoffs(int fh, int a, int b, int c, char *dir, char *ext, int round)
 void MoveToFreeAgents(int *mode, int *x, int *y);  /* 70E8D */
 void LoadRosterList(int side);  /* 6DE94 */
 void DrawEditRosters(void);  /* 6D2F8 */
+void ShowFreeAgents(int *which);  /* 6D6DB */
 void cleargamevars(void);  /* 5CD4F */
 int IsCupClinched(unsigned char home, unsigned char away);  /* 15C30 */
 int SeriesLength(unsigned char *s);  /* 42221 */

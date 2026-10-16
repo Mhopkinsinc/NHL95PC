@@ -86,3 +86,38 @@ void RunEditRosters(void)
         songdata = 0;
     }
 }
+
+typedef struct MenuItem20 { int f[5]; int handler; int g[2]; } MenuItem20;  /* 20h-byte menu item, handler at +14h */
+typedef struct DivMenu { MenuItem20 *items; int pad[7]; } DivMenu;  /* roster1divmenus / roster2divmenus: 20h per division */
+
+/* ShowFreeAgents (6D6DB, PC only; segment 052, the same source file: it ends in RunEditRosters_ret5): the
+   "Free Agents" item of a roster menu. The side whose menu it is (side 0 when *which is 1) gives its current team
+   menu item back (handler SelectRosterTeam in both division menus; division teamdivflags >> 1, 4 counts as 3),
+   disables both "Free Agents" items and its "Edit Team Lines" item, shows the free agents (rosterteam FFh,
+   rosterisfa 1), reloads the list (LoadRosterList) and redraws (DrawEditRosters). which: the menu callback
+   argument. No result. */
+void ShowFreeAgents(int *which)
+{
+    int side;
+    int team;
+    int d;
+    int i;
+
+    side = *which != 1;
+    team = rosterteam[side];
+    d = teamdivflags[team] >> 1;
+    if (d == 4) d--;
+    i = 0;
+    do {
+        if (((unsigned char (*)[7])divisionteams)[d][i] == team) break;
+    } while (++i < 7);
+    ((DivMenu *)roster1divmenus)[d].items[i].handler = (int)SelectRosterTeam;
+    ((DivMenu *)roster2divmenus)[d].items[i].handler = (int)SelectRosterTeam;
+    menu_r2_freeagents = menu_r1_freeagents = 0;
+    if (!side) menu_r1_editlines = 0;
+    else menu_r2_editlines = 0;
+    rosterteam[side] = 0xFF;
+    rosterisfa[side] = 1;
+    LoadRosterList(side);
+    DrawEditRosters();
+}

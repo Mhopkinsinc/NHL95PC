@@ -49,7 +49,6 @@ extern void StatsSel_common(); /* 17B65 */
 extern void StatsSel_x(); /* 17BE1 */
 extern void StatsSelLeaguePlayoffs(); /* 17CE0 */
 extern void StatsSelPlayoffMode(); /* 17D6E */
-extern void FreeDeskBuffers(); /* 18D33 */
 extern void DeskLines_common(); /* 1A8F0 */
 extern void DeskSummary_common(); /* 1AAB6 */
 extern void DeskItem_ret2(); /* 1AABB */
@@ -733,7 +732,6 @@ extern void RunEditRosters(); /* 6CC20 */
 extern void RunEditRosters_ret6(); /* 6CEF4 */
 extern void RunEditRosters_ret5(); /* 6CEF5 */
 extern void SelectRosterTeam(); /* 6D5D0 */
-extern void ShowFreeAgents(); /* 6D6DB */
 extern void ShellSortBytes(); /* 6D7ED */
 extern void LoadRosterList_fa(); /* 6D89A */
 extern void LoadRosterList_faloop(); /* 6D8B9 */
