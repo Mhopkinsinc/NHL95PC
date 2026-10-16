@@ -195,7 +195,6 @@ extern void RunMenu_ret4(); /* 1DEFD */
 extern void RunTeamPickMenu(); /* 1DF03 */
 extern void RunPlayerPickMenu(); /* 1ED96 */
 extern void LoadShapeByTag_x(); /* 1FF80 */
-extern void MakeStatsTitle(); /* 1FF86 */
 extern void GameTeamStatsScreen(); /* 20016 */
 extern void GameTeamStatsScreen_common(); /* 2012B */
 extern void GameSkaterStatsScreen(); /* 20171 */

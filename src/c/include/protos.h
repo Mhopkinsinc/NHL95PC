@@ -388,6 +388,7 @@ int __cdecl sub_8E83C(char *path, int flags);  /* graphics library: load bank */
 void __cdecl sub_91284(int art, int x, int y);  /* graphics library: draw art */
 void InitMenuRemap(int mode);  /* 1FAA7 */
 int LoadShapeByTag(char *path, char *tag);  /* 1FDFE */
+void MakeStatsTitle(char *dst, char *suffix);  /* 1FF86 */
 void __cdecl sub_B4DD4(unsigned char *remap);  /* graphics library: set colour remap */
 int AskDatabaseChoice(void);  /* 2FDD1 */
 void __cdecl sub_B2DCA(int *btn, int *y, int *x);  /* mouse library: read state */
