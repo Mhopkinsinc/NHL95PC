@@ -53,6 +53,7 @@ ReadSchedGame,147A0,41,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadSched
 ReadTeamRec ReadGSummaryRec,147C9,92,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadTeamRec.c,matched,
 UpdateHudPanel,14CF1,576,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,
 DrawPanelClock,14F31,405,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,
+DrawPanelClockDigits,1540A,587,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,
 AnyInputPressed,1600C,102,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c,nonmatching,draft: asm keeps result in esi and saves 4 regs; ours uses edx
 CupSeriesWinner,15CE1,138,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/CupSeriesWinner.c,nonmatching,"draft: need computed in ebp (mov ebp,edx / shr / inc) vs lea; same logic"
 DrawHudPanel,150C6,686,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/DrawHudPanel.c,nonmatching,"draft: 691 vs 686. home stays in ebp and away is stored; the original pushes eax and keeps away in ebp. The /60 setup writes edx before 3Ch. Do not retry volatile home, a local copy of away, or taking home's address."

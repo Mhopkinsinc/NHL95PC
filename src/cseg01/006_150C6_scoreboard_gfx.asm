@@ -275,6 +275,10 @@ pop ecx	; 15407
 pop ebx	; 15408
 ret	; 15409
 %endif ; C
+; C: src/c/005_1431E_file_utils/UpdateHudPanel.c (DrawPanelClockDigits)
+%ifdef CBUILD
+%include "c/005_1431E_file_utils/UpdateHudPanel.DrawPanelClockDigits.inc"
+%else
 DrawPanelClockDigits:
 push dword 28h	; 1540A
 call __CHK	; 1540F
@@ -461,6 +465,7 @@ push ecx	; 15647
 call sub_B4CD8	; 15648
 add esp, byte 0Ch	; 1564D
 jmp near UpdateHudPanel_x	; 15650
+%endif ; C
 ; C: src/c/005_1431E_file_utils/DrawPanelLine.c (TickPanelPenalties)
 %ifdef CBUILD
 %include "c/005_1431E_file_utils/DrawPanelLine.TickPanelPenalties.inc"

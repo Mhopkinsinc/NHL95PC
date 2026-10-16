@@ -462,6 +462,7 @@ void DrawMenuBar(void *bar, int n, int col1, int col2, int col3);
 void FadeOutPalCycle(void);  /* 47C31 */
 int lcselect(Player *p, int n);  /* 50434 */
 void DrawPanelLine(int side, int line);
+void DrawPanelClockDigits(void);  /* 1540A */
 struct PenSlot;
 void TickPanelPenalties(struct PenSlot *pens, int hund);  /* 15655 */
 void DrawEnergyBar(int level, int x);  /* 15707 */
