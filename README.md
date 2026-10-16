@@ -2,6 +2,12 @@
 
 > **Work in progress:** this decompilation is unfinished and unpolished, and is being actively worked on. Expect labels, file layout and docs to change.
 
+Current status:
+
+- McMarkis is working on the C decompilation.
+- 611 of 1084 functions matched.
+- Names come from 93G first, then 94G.
+
 **Picking this up? Start with [HANDOFF.md](HANDOFF.md)** (setup, verify, current state, what to do next).
 
 Bitwise rebuild of NHL 95 for DOS (`HOCKEY.EXE`, EA Sports 1994). The retail EXE is in the repo. The whole EXE builds byte-exact from the NASM sources in `src/`. C matching is in progress: see [C_PROGRESS.md](C_PROGRESS.md).
