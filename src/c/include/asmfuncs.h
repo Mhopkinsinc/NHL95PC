@@ -716,10 +716,8 @@ extern void PrintMenuTextGrey(); /* 6B8CB */
 extern void PrintMenuTextGrey_common(); /* 6B907 */
 extern void PrintMenuTextGrey_ret(); /* 6B90A */
 extern void PrintMenuTextAlt(); /* 6B910 */
-extern void DrawMenuItemSel(); /* 6B94E */
 extern void DrawMenuItemSel_common(); /* 6B9AB */
 extern void DrawMenuItemSel_ret(); /* 6B9E2 */
-extern void DrawMenuItemNorm(); /* 6B9EB */
 extern void MenuHitTest(); /* 6BA4D */
 extern void PollMouseEvent(); /* 6BC30 */
 extern void PollJoystickEvent(); /* 6BCDA */

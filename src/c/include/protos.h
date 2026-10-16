@@ -914,6 +914,9 @@ int MenuSoundSettings(void);  /* 82579 */
 int MenuCentralRegistry(void);  /* 6BE95 */
 void SetModeMenuLabels(unsigned mode);  /* 805C4 */
 void DrawMenuBox(int x1, int y1, int x2, int y2, int c1, int c2, int c3);  /* 6B7FC */
+struct MenuItem;
+void DrawMenuItemSel(struct MenuItem *m, int x, int y, int col, int selfill, int normfill);  /* 6B94E */
+void DrawMenuItemNorm(struct MenuItem *m, int x, int y, int col, int selfill, int normfill);  /* 6B9EB */
 void PrintMenuText(int x, int y, char *s);  /* 6B88E */
 int ReadTeamRec(int fd, void *buf, int team);  /* 147C9 */
 void SortStandings(int *teams, int *pts, int *wins, int *gf, int *ga, int n);  /* 42DAA */

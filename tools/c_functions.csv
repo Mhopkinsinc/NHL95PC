@@ -536,8 +536,8 @@ CalLeftJoystick CalRightJoystick,6B35C,53,050_6B093_joystick_calibration,src/c/0
 ClearInputQueue,6B3D7,57,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/ClearInputQueue.c,matched,
 DrawMenuBar,6B5E4,160,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuBar.c,matched,
 DrawMenuDropdown DrawMenuBox,6B684,522,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuDropdown.c,matched,
-DrawMenuItemSel,6B94E,157,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,nonmatching,registers: x / y params in ebp / edi (EXE edi / ebp); Norm also needs the cross-jumps into Sel_ret / Sel_common
-DrawMenuItemNorm,6B9EB,98,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,nonmatching,"draft: x is in ebp and y in edi (original edi, ebp). The exit is inlined; original jumps to DrawMenuItemSel_ret."
+DrawMenuItemSel,6B94E,157,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,matched,
+DrawMenuItemNorm,6B9EB,98,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,matched,
 EventToPointer,6B4BB,297,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/EventToPointer.c,matched,
 GetInputEvent,6B391,70,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/GetInputEvent.c,matched,
 InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputInstall.c,nonmatching,registers: C loads inputinstalled into edx and reuses the 0 for the ptrstep/dword_CDA24 stores; asm compares memory and zeroes ebx
