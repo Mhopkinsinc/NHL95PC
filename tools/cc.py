@@ -35,7 +35,7 @@ leaves the slice as `dd (Label+k)-($+4)` to the asm label of the block it lands 
 in a marked block (drafts, functions kept in the file for the original layout) is compiled but not spliced. A
 branch out of a slice into unmarked code, or a short (rel8) one, is an error.
 
-Compiler: Watcom C/C++32 10.0 LA wcc386 (WATCOM_ROOT, default ~/watcom: dosla/WCC386.EXE + w10a DOS4GW), default
+Compiler: Watcom C/C++32 10.0 LA wcc386 (WATCOM_ROOT, default tools/watcom: dosla/WCC386.EXE + w10a DOS4GW), default
 flags. A source may add flags with a comment line `/* cflags: -xx */` (none needed so far). Headers come from
 src/c/include (8.3 names)."""
 import glob
@@ -43,7 +43,7 @@ import os, re, sys, shutil, subprocess, tempfile, argparse
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import cobj
-W = os.environ.get('WATCOM_ROOT', os.path.expanduser('~/watcom'))
+W = os.environ.get('WATCOM_ROOT', os.path.join(ROOT, 'tools/watcom'))
 CC = os.path.join(W, 'dosla/WCC386.EXE'); D4G = os.path.join(W, 'w10a/WATCOM/BIN/DOS4GW.EXE')
 W32 = os.path.join(W, 'w10a/WATCOM/BIN/W32RUN.EXE')
 INC = os.path.join(ROOT, 'src/c/include')
