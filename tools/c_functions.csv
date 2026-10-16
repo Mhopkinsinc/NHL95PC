@@ -302,6 +302,7 @@ SimScheduleDay,42631,634,034_41B80_schedule,src/c/034_41B80_schedule/SimSchedule
 SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,
 UpdatePlayoffSeries,41F64,671,034_41B80_schedule,src/c/034_41B80_schedule/UpdatePlayoffSeries.c,matched,
 UpdateSeasonSchedule,41CC4,672,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft: 672 vs 672 (best of 5). The frame, opens, database loads, the 0/1 playoff test and both calls match. ext is in ebp and err in esi (original esi and ebp), so careerdb reloads through that freed register instead of edi. Do not retry an int or char* copy of ext (homes swap, ext stays in ebp), making err a pointer (655), or folding play into the if."
+SortStandings,42DAA,367,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft (UpdateSeasonSchedule.c): 365 vs 367, temp allocation. See UNSURE."
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,
 ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_settings/ShowLoadingScreen.c,nonmatching,
