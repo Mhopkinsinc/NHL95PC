@@ -1,9 +1,9 @@
-# --- Copyrighted game files: supply your own, never commit ---
-HOCKEY.EXE
+# --- Game binary: retail HOCKEY.EXE is committed at the repo root ---
 *.EXE
 *.exe
 *.EXP
 *.exp
+!HOCKEY.EXE
 HOCKEY.EXE.lst
 *.lst
 FUNCTION_MAPPINGS95.md
