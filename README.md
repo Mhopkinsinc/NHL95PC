@@ -6,7 +6,7 @@ Bitwise rebuild of NHL 95 for DOS (`HOCKEY.EXE`, EA Sports 1994). The whole EXE 
 
 `HOCKEY.EXE` is a Watcom C/C++32 10.0 program linked as a Linear Executable (LE) and bound to the DOS/4GW Professional extender (Rational DOS/16M loader, then a Watcom wstub, then the LE). The goal is a bit-perfect assembly rebuild first, then a matching C decompilation built with the same compiler.
 
-Sister projects: [NHL95Genesis](https://github.com/abdulahmad/NHL95Genesis), [NHL94Genesis](https://github.com/abdulahmad/NHL94Genesis), [NHLPA93Genesis](https://github.com/abdulahmad/NHLPA93Genesis). NHL 94 PC was ported from NHLPA 93 Genesis (plus some 94 Genesis and new menus). NHL 95 PC is 94 PC plus 94/95 Genesis additions. Name mapping prefers 93G names, then 94G, then 95G. The front end is PC-new.
+Sister projects: [NHLPA93Genesis](https://github.com/abdulahmad/NHLPA93Genesis), [NHL94Genesis](https://github.com/abdulahmad/NHL94Genesis), [NHL95Genesis](https://github.com/abdulahmad/NHL95Genesis). NHL 95 PC is a hybrid port of 93G and 94G (NHL 94 PC was ported from NHLPA 93 Genesis plus some 94 Genesis and new menus; NHL 95 PC is that plus further 94/95 Genesis additions). **Name mapping prefers 93G names, then 94G, then a name from behaviour.** NHL95Genesis is only loosely related (a loose reference, not a naming source). The front end is PC-new.
 
 ## You supply the EXE
 
@@ -22,15 +22,15 @@ The game binary is not in this repo and never will be. Copy your own retail `HOC
 
 ## Build from source
 
-Needs `nasm` (2.15+) and Python 3. Run from the repo root, with your `HOCKEY.EXE` there:
+The segment naming queue is finished. The main work is **C matching**: start with [HANDOFF.md](HANDOFF.md) and [docs/C_MATCHING.md](docs/C_MATCHING.md) (progress in [C_PROGRESS.md](C_PROGRESS.md)). Agent standing rules: [AGENTS.md](AGENTS.md).
+
+`python3 tools/rebuild_exe.py verify` needs **Python 3 only** (plus your retail `HOCKEY.EXE` in the repo root). Full `make` needs **nasm** (2.15+) and **make**. Matched C (`CBUILD=1`) also needs **DOSBox** and the three Watcom files outside the repo (`~/watcom`: `dosla/WCC386.EXE`, `w10a/WATCOM/BIN/DOS4GW.EXE`, `w10a/WATCOM/BIN/W32RUN.EXE`; see [HANDOFF.md](HANDOFF.md)). Without Watcom, `make` uses the asm and still matches.
 
 ```
 make -j8            # or ./build.sh [path/to/HOCKEY.EXE]
 ```
 
-This assembles the 304 files in `src/` (one per segment: 198 code, 106 data), links them with `tools/link_src.py`, and writes `build/HOCKEY.EXE`. It ends with `MATCH` when the result is byte-identical to the retail EXE; otherwise it fails. From your EXE the build takes only the three third-party stubs (DOS/16M loader, DOS/4GW kernel, Watcom wstub), the LE header fields and the fixup record order. Code, data and the fixups themselves come from `src/`. `src/` holds the game's code and data as assembler text, as the Genesis sister repos do. Layout, editing rules and how `src/` is regenerated (`tools/gen_src.py`): [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
-
-Matched C: functions rewritten in C under `src/c/` replace their asm when the Watcom 10.0 compiler is installed (`~/watcom`, run under DOSBox); without it `make` uses the asm, with the same result. See [docs/C_MATCHING.md](docs/C_MATCHING.md) and [C_PROGRESS.md](C_PROGRESS.md).
+This assembles the 304 files in `src/` (one per segment: 198 code, 106 data), links them with `tools/link_src.py`, and writes `build/HOCKEY.EXE`. It ends with `MATCH` when the result is byte-identical to the retail EXE; otherwise it fails. From your EXE the build takes only the three third-party stubs (DOS/16M loader, DOS/4GW kernel, Watcom wstub), the LE header fields and the fixup record order. Code, data and the fixups themselves come from `src/`. Layout, editing rules and how `src/` is regenerated (`tools/gen_src.py`): [docs/ASM_BUILD.md](docs/ASM_BUILD.md).
 
 ## Byte-exact rebuild from the EXE's own parts
 
@@ -72,15 +72,23 @@ python3 tools/libmatch.py $WATCOM_ROOT/w10a/WATCOM/LIB386/DOS/CLIB3R.LIB   # lib
 
 ## Docs
 
+* [AGENTS.md](AGENTS.md): standing rules for contributors and agents
+* [HANDOFF.md](HANDOFF.md): setup, verify, current state, Next, Unsure plan
 * [BUILD_NOTES.md](BUILD_NOTES.md): rebuild format, fixup ordering (wlink algorithm), compiler fingerprint, next steps
 * [EXE_SEGMAP95PC.md](EXE_SEGMAP95PC.md): segment map
 * [docs/SKATING_AND_RINK.md](docs/SKATING_AND_RINK.md): skating physics and rink geometry vs. 93 Genesis
 * [docs/C_MATCHING.md](docs/C_MATCHING.md): C matching decompilation (wcc386 10.0 LA → OMF → spliced into the asm build), headers, workflow, compiler learnings; progress in [C_PROGRESS.md](C_PROGRESS.md)
 * [docs/ASM_BUILD.md](docs/ASM_BUILD.md): the `src/` tree and `make` build, LE fixups as symbolic labels (`tools/fixup_labels.py`), the NASM toolchain, and the asm emitter (`tools/asm_proto.py`, `tools/gen_src.py`)
+* [docs/UNSURE.md](docs/UNSURE.md): capped drafts and what was tried
+* [docs/SESSION_LOG.md](docs/SESSION_LOG.md): archived session diary from earlier HANDOFF updates
 
-## Segment queue
+## Segment naming (queue finished)
 
-[SEGMENT_AGENT.md](SEGMENT_AGENT.md) is the queue of the game segments of `src/` to name and comment. It follows the NHL94Genesis/NHL95Genesis layout. It has a current-segment marker, and the per-segment workflow, rules and conventions (Watcom register calls, NASM encodings, Genesis lineage). [PROMPT.md](PROMPT.md) is the prompt for one agent session, one segment. Tools:
+The segment naming queue in [SEGMENT_AGENT.md](SEGMENT_AGENT.md) is **complete**. Leftover work there is auto/data names only. [PROMPT.md](PROMPT.md) has the C-matching prompt (primary) and the segment prompt (leftover names). Tools:
 * `tools/rename_symbol.py` renames a symbol across `src/`, rebuilds (must MATCH) and records the name in the maps.
 * `tools/auto_names.py` lists what is still unnamed in a segment.
 * `tools/update_symbols.py` regenerates `src/inc/symbols.inc`.
+
+## Credits
+
+Thanks to **chaos**, **StaticEck** and **McMarkis** for help with the disassemblies.
