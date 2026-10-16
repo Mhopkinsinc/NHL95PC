@@ -143,6 +143,53 @@ void PlaceSpeechSlot(int n)
     BANKD(0x3B74)++;
 }
 
+/* QueueSpeechClip (84418, PC only; announcer segment 062, the same source file: it ends in ShutdownSpeech_ret6):
+   append the named clip to the speech queue. A clip whose sample is in memory is queued as it is; otherwise its
+   bank slot is swapped with a free slot (FindFreeSpeechSlot) and, when the sample still fits the speech memory
+   (bank +3B6Ch used + its size, up to +3B68h), loaded (kind 'G': LoadSpeechSlot) or placed (PlaceSpeechSlot)
+   there and that slot queued. name: the clip name. Result: 1 when queued; 0 (and the queue entry dropped) when
+   the clip is unknown, no slot is free or the sample does not fit.
+   DRAFT: 293 vs 289. slot is in ebp, free in ebx and the swapped slot pointer in edx (original ebx, edx, ebp);
+   pos and free, and off and bank, sit in swapped stack slots; the first queue store reloads pos. See UNSURE. */
+int QueueSpeechClip(char *name)
+{
+    int pos;
+    int slot;
+    int free;
+    int loaded;
+    SpeechSlot tmp;
+    int off;
+    SpeechSlot *bank;
+    SpeechSlot *dst;
+
+    pos = SPEECHQ->count++;
+    slot = FindSpeechSlot(name);
+    if (slot == -1) {
+fail:
+        SPEECHQ->count--;
+        return 0;
+    }
+    loaded = SpeechSlotLoaded(slot);
+    if (loaded) {
+        SPEECHQ->clip[pos] = slot;
+        return 1;
+    }
+    free = FindFreeSpeechSlot(loaded);
+    if (free == -1) goto fail;
+    off = free * 0x26;
+    bank = speechbank;
+    dst = (SpeechSlot *)((char *)bank + off);
+    tmp = *dst;
+    *dst = bank[slot];
+    speechbank[slot] = tmp;
+    dst = (SpeechSlot *)((char *)speechbank + off);
+    if ((unsigned)(BANKD(0x3B6C) + dst->size) > (unsigned)BANKD(0x3B68)) goto fail;
+    if (dst->kind == 'G') LoadSpeechSlot(free);
+    else PlaceSpeechSlot(free);
+    SPEECHQ->clip[pos] = free;
+    return 1;
+}
+
 /* LoadClipSlot: swap the named clip's slot with a free slot when the sample still fits,
  then load it (goalie clips, type byte 'G') or place it from the bank. */
 int LoadClipSlot(char *name)

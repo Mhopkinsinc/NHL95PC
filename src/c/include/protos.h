@@ -299,7 +299,7 @@ int SayOneMinuteLeft(void);  /* 854AC */
 void ResetSpeechQueue(void);  /* 833FA */
 void RequestSample(char *name);  /* 83FAF */
 void EnsureSampleRoom(void);  /* 8426F */
-void QueueSpeechClip(char *name);  /* 84418 */
+int QueueSpeechClip(char *name);  /* 84418 */
 int SayScorePeriod(int per);  /* 84657 */
 void joyq_pop(void);  /* 4FCE8 */
 void DrawRosterPanel(int side);  /* 6D299 */
