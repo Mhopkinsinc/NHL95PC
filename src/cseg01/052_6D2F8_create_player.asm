@@ -51,6 +51,10 @@ global DrawDBErrorsScreen, ShowDBError, CheckTeamLines, CheckDatabases, SplitPla
 global CreatePlayerNop, DrawShootsField, DrawGloveField, AskLeftRight, EditSkaterRating, EditGoalieRating, DrawCreatePlayer, CreatePlayerLoop
 global CreateFreeAgent, MoveToFreeAgents, RemovePlayerFromTeam, LoadTempDatabases, DeleteTempDatabases, SwapSelectedPlayers, SelectMatchingPlayers, SetRosterTeamMenus
 global FindPlayer
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (DrawEditRosters)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.DrawEditRosters.inc"
+%else
 DrawEditRosters:
 push dword 80h	; 6D2F8
 call __CHK	; 6D2FD
@@ -241,6 +245,7 @@ call sub_9121C	; 6D5AB
 add esp, byte 4	; 6D5B0
 add esp, byte 54h	; 6D5B3
 jmp near RunEditRosters_ret5	; 6D5B6
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/EditRostersReturn.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/EditRostersReturn.inc"

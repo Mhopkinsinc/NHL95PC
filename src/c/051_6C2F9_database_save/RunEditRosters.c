@@ -87,6 +87,64 @@ void RunEditRosters(void)
     }
 }
 
+/* DrawEditRosters (6D2F8, PC only; create-player segment 052, the same source file: it ends in
+   RunEditRosters_ret5): redraw the Edit Rosters screen on the full-screen bitmap: the menu bar (unk_D0450), the
+   prez2 background (palette into savepal, the "ea" art drawn full screen below line 13h), both roster panels
+   (DrawRosterPanel) and, in ratings mode (dword_D0B12 == 2), the ratings box: a dialog frame with bevelled edges,
+   "Ratings " + the first roster team's name centred, the nine rating names (off_D0AC2) with their values from the
+   team record (+2DCh, picked by byte_D0AE6), and the two buttons (unk_D0B80). Then the bitmap is shown
+   (sub_9121C). No arguments, no result. */
+void DrawEditRosters(void)
+{
+    char buf[0x54];
+    int bank;
+    int shape;
+    unsigned char *vals;
+    int y;
+    int i;
+
+    SetDrawBitmap(fullscrbmp);
+    SetTextColors(0x40, 0x43);
+    DrawMenuBar(unk_D0450, 5, 0x40, 0x41, 0x42);
+    MakePath(buf, fileoncd[0x1C3] == 1 ? (char *)cddriveptr : 0, (char *)str_Prez2, 0);
+    bank = sub_8E83C(buf, 0);
+    memcpy(savepal, (char *)sub_B30B4(bank, (char *)str_Pal) + 0x10, 0x300);
+    shape = sub_B30B4(bank, (char *)str_ea);
+    sub_B4BC4(0, 0x280, 0x13, 0x1E0);
+    sub_913B4(shape);
+    sub_B4BC4(0, 0x280, 0, 0x1E0);
+    FreeMemBlock(bank);
+    DrawRosterPanel(0);
+    DrawRosterPanel(1);
+    if (dword_D0B12 == 2) {
+        DrawDlgFrame(0xB4, 0x8C, 0x1CC, 0x154, 1);
+        sub_90D20(0xB4, 0x8C, 0x119, 0xC9, 0x41);
+        sub_B4FAC(0xB4, 0x8C, 0x1CB, 0x8C, 0x40);
+        sub_B4FAC(0xB4, 0x8C, 0xB4, 0x153, 0x40);
+        sub_B4FAC(0x1CC, 0x8D, 0x1CC, 0x154, 0x42);
+        sub_B4FAC(0xB5, 0x154, 0x1CC, 0x154, 0x42);
+        sub_B5DB0(0xB4, 0x154, 0x41);
+        sub_B5DB0(0x1CC, 0x8C, 0x41);
+        strcpy(buf, (char *)str_Ratings);
+        strcat(buf, (char *)&str_space);
+        strcat(buf, (char *)rosterteamrec[0] + 0x1A);
+        PrintShadowText((0x118 - fputchar(buf)) / 2 + 0xB4, 0x99, buf);
+        vals = (unsigned char *)rosterteamrec[0] + 0x2DC;
+        y = 0xB0;
+        i = 0;
+        do {
+            PrintShadowText(0xD2, y, (char *)off_D0AC2[i]);
+            sprintf(buf, (char *)str_fmt2d, vals[byte_D0AE6[i]]);
+            PrintShadowText(0x1A9, y, buf);
+            i++;
+            y += 0xD;
+        } while (i < 9);
+        DrawButtons((Button *)unk_D0B80, 2);
+    }
+    sub_B4BA8();
+    sub_9121C(((int *)fullscrbmp)[0x2C / 4]);
+}
+
 typedef struct MenuItem20 { int f[5]; int handler; int g[2]; } MenuItem20;  /* 20h-byte menu item, handler at +14h */
 typedef struct DivMenu { MenuItem20 *items; int pad[7]; } DivMenu;  /* roster1divmenus / roster2divmenus: 20h per division */
 
