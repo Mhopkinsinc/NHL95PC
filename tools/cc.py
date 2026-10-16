@@ -394,7 +394,30 @@ class TextTargets:
         hits = [m.start() for m in re.finditer(re.escape(tail), orig)]
         if len(hits) != 1:
             raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, tail.hex(), g, len(hits), g))
-        return '%s+0%Xh' % (g, hits[0]), ga + hits[0]
+        ta = ga + hits[0]
+        if func != '?' and c_paths(self.src, func)[2] != self.asm:
+            # the branch is in a block marked in another asm file (FreeLeagueDbsMem in 051 ending in the draft
+            # BuildFreeAgentList's tail in 050): name the tail by the nearest global label of the draft's segment
+            gl = [(n, x) for n, x in global_labels(self.asm).items() if x <= ta]
+            if gl:
+                n, x = max(gl, key=lambda v: v[1])
+                return ('%s+0%Xh' % (n, ta - x) if ta != x else n), ta
+        return '%s+0%Xh' % (g, hits[0]), ta
+
+def global_labels(asm):
+    """{label: address} of the labels an asm segment exports (its `global` lines)"""
+    L = open(asm).read().split('\n')
+    names = set()
+    for l in L:
+        if l.startswith('global '): names.update(x.strip() for x in l[7:].split(','))
+    out = {}
+    for k, l in enumerate(L):
+        m = LABEL.match(l)
+        if m and m.group(1) in names and m.group(1) not in out:
+            for l2 in L[k + 1:]:
+                a = ADDR.search(l2)
+                if a: out[m.group(1)] = int(a.group(1), 16); break
+    return out
 
 _syms = None
 def symbols():
