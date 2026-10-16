@@ -148,6 +148,55 @@ box2:
     }
 }
 
+/* PC coach-mode settings in the Team structure (InitCoachModes / SetCoachMode write them as byte_DF6E8 /
+   dword_DF6EA for home, DF7E8 / DF7EA for away): +0D4h flags (bit 6: the coach changes lines on the clock only),
+   +0D6h the line energy limit for a computer line change (CCCh, D9Ah when trailing; 93G used a fixed C00h). */
+#define TMCOACHFLAGS(t) (((unsigned char *)(t))[0xD4])
+#define TMLCENERGY(t)   (*(unsigned *)((unsigned char *)(t) + 0xD6))
+
+/* chk4lc (54AF9; 93G logic93 chk4lc, "see if computer should call line change"): for the computer puck carrier p
+   with line changes on and no penalty shot: the puck in p's own half below the blue line (pucky, negated when p
+   shoots at the bottom goal, 0..4Eh), 1 in 4 (randomd0), not in line change mode (pf2lcm). PC additions: the
+   game clock must have 15 or more left; unless the coach flag is set, the current line's average energy (AvgCline
+   into regd0) must be under the limit (F33h when the teams' tmap differ, else the coach-mode limit at +0D6h; at
+   15..1Dh on the clock also under 800h); when the tmap differ, the shortest penalty (GetLowestPen) must have 15 or
+   more left. Then CompLine picks the line, setpersonel sends it and CompShoot dumps the puck (chk4lc_shoot, which
+   chk4shot also jumps to). Result: 1 when the change was called, else 0.
+   DRAFT: 273 vs 272. gameclock is loaded into di in the energy arm; the original uses ax. See docs/UNSURE.md. */
+short chk4lc(Player *p)
+{
+    Team *t;
+    Team *o;
+    short d;
+
+    if (!gameopts.linechanges || penshotlive) goto no;
+    regd0.w = *pucky;
+    if (!(p->pflags & pfgoal)) regd0.w = -regd0.w;
+    if (regd0.w < 0 || regd0.w > 0x4E) goto no;
+    if (randomd0(4)) goto no;
+    if (p->pflags2 & pf2lcm) goto no;
+    t = p->tmptr;
+    o = p->optmptr;
+    d = t->tmap - o->tmap;
+    if (!(TMCOACHFLAGS(t) & 0x40)) goto energy;
+    if (gameclock < 0xF) goto no;
+pen:
+    if (!d || (short)GetLowestPen() >= 0xF) goto change;
+no:
+    return 0;
+energy:
+    AvgCline(t);
+    if (gameclock < 0xF) goto no;
+    if (gameclock < 0x1E && (unsigned short)regd0.w > 0x800) goto no;
+    if ((unsigned short)regd0.w > (d ? 0xF33 : TMLCENERGY(t))) goto no;
+    goto pen;
+change:
+    CompLine(o, t);
+    setpersonel(t);
+    CompShoot(p);
+    return 1;
+}
+
 /* ReturnGoalies: a pulled goalie (tmgoalie low byte under 10h) goes back in net.
  The pulled menu item is unchecked and the goalie item checked, then a computer
  team may pull again. */
