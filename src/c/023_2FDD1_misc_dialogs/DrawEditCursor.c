@@ -32,3 +32,42 @@ void DrawEditCursor(int mode)
     y = byte_D42C5 + edity - h - 2;
     FILLRECT(x, y, w, h, fontcolor);
 }
+
+#define CLEARRECT ((void (__cdecl *)(int x, int y, int w, int h, int col))sub_90EC0)
+
+/* DrawEditText (31599, PC only; ends in DrawEditCursor's exits): draw the text of the edit field. With a field
+   width (editmaxw), first cut editbuf from the end until it fits (in fixed-pitch mode, mode bit 2, by the width of
+   "." per character, else by fputchar); clamp editpos to the text; print it at editx, edity (fixed-pitch: a "."
+   per character); then clear the rest of the field (sub_90EC0, byte_D42C5 - 2 high, colour dword_D42AC).
+   mode: the edit mode bits. No result.
+   DRAFT: 369 vs 372. The width of "." stays in edi (original ebp, with the text length in edi); see UNSURE. */
+void DrawEditText(int mode)
+{
+    int cw;
+    int len;
+    int i;
+    int w;
+
+    cw = fputchar((char *)str_Dot);
+    if (editmaxw) {
+        if (mode & 2) {
+            while ((int)strlen((char *)editbuf) * cw > editmaxw && strlen((char *)editbuf))
+                ((char *)editbuf)[strlen((char *)editbuf) - 1] = 0;
+        } else {
+            while (fputchar((char *)editbuf) > editmaxw && strlen((char *)editbuf))
+                ((char *)editbuf)[strlen((char *)editbuf) - 1] = 0;
+        }
+    }
+    len = strlen((char *)editbuf);
+    if (len < editpos) editpos = len;
+    if (mode & 2) {
+        for (i = 0; i < len; i++) sub_92CD0((char *)str_Dot, editx + cw * i, edity);
+    } else {
+        sub_92CD0((char *)editbuf, editx, edity);
+    }
+    if (!editmaxw) return;
+    if (mode & 2) w = len * cw;
+    else w = fputchar((char *)editbuf);
+    if (editmaxw - w <= 0) return;
+    CLEARRECT(editx + w, edity, editmaxw - w, byte_D42C5 - 2, dword_D42AC);
+}
