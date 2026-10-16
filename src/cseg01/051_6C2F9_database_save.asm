@@ -620,6 +620,10 @@ call sub_932D0	; 6CA7F
 add esp, byte 0Ch	; 6CA84
 add esp, byte 20h	; 6CA87
 jmp near BuildFreeAgentList_ret	; 6CA8A
+; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (FreeLeagueDbsMem)
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/BuildFreeAgentList.FreeLeagueDbsMem.inc"
+%else
 FreeLeagueDbsMem:
 push dword 20h	; 6CA8F
 call __CHK	; 6CA94
@@ -689,6 +693,7 @@ xor ebx, ebx	; 6CB58
 mov dword [seasondb], ebx	; 6CB5A
 mov dword [seasondb_size], ebx	; 6CB60
 jmp near BuildFreeAgentList_ret	; 6CB66
+%endif ; C
 ; C: src/c/051_6C2F9_database_save/CarTeamRecPtr.c
 %ifdef CBUILD
 %include "c/051_6C2F9_database_save/CarTeamRecPtr.inc"

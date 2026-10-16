@@ -36,3 +36,34 @@ void BuildFreeAgentList(void)
         i++;
     }
 }
+
+/* FreeLeagueDbsMem (6CA8F, PC only; database-save segment 051, the same source file: it ends in
+   BuildFreeAgentList_ret): free the six league databases held in memory (attribute, team, key, career team,
+   career and season) and clear their pointers and sizes. No arguments, no result. */
+void FreeLeagueDbsMem(void)
+{
+    if (attdb) {
+        FreeMemBlock((int)attdb);
+        attdb_size = (int)(attdb = 0);
+    }
+    if (teamsdb) {
+        FreeMemBlock((int)teamsdb);
+        teamsdb_size = (int)(teamsdb = 0);
+    }
+    if (keydb) {
+        FreeMemBlock((int)keydb);
+        keydb_size = (int)(keydb = 0);
+    }
+    if (carteamsdb) {
+        FreeMemBlock((int)carteamsdb);
+        carteamsdb_size = (int)(carteamsdb = 0);
+    }
+    if (careerdb) {
+        FreeMemBlock((int)careerdb);
+        careerdb_size = (int)(careerdb = 0);
+    }
+    if (seasondb) {
+        FreeMemBlock((int)seasondb);
+        seasondb_size = (int)(seasondb = 0);
+    }
+}
