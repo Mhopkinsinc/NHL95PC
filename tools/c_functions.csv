@@ -536,6 +536,7 @@ LoadTeamPalette,673C5,415,046_644A8_engine_display,src/c/046_644A8_engine_displa
 NormalizeDressFlags,65B48,59,046_644A8_engine_display,src/c/046_644A8_engine_display/NormalizeDressFlags.c,matched,
 PickGoalie,652D6,232,046_644A8_engine_display,src/c/046_644A8_engine_display/PickGoalie.c,matched,
 RefillLineSlots,6552E,158,046_644A8_engine_display,src/c/046_644A8_engine_display/RefillLineSlots.c,nonmatching,registers: asm keeps from in edi and the side*25 base in ebx; C spills from to the stack (8-byte frame)
+RemoveFromLines,655CC,807,046_644A8_engine_display,src/c/046_644A8_engine_display/RemoveFromLines.c,nonmatching,"draft: 811 vs 807, register choices (r, zero temps, pnum cache). See UNSURE."
 ReplayFirstFrame,67581,31,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayFirstFrame.c,matched,
 ReplayPrevFrame,675A0,54,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayPrevFrame.c,matched,
 ReplayRecordReset,67564,29,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayRecordReset.c,matched,
