@@ -885,10 +885,8 @@ extern void ShutdownSpeech_ret5(); /* 836C4 */
 extern void MusicChanReset2(); /* 8373E */
 extern void ReadBE24_ret(); /* 83857 */
 extern void OpenSpeechBank_ret(); /* 83BC1 */
-extern void CompactSpeechMem(); /* 8427E */
 extern void SayClip_body(); /* 8460F */
 extern void FreeClip_ret(); /* 847B7 */
-extern void SayTheGame(); /* 84A6C */
 extern void SayScoringPeriod_ot2(); /* 84ACC */
 extern void SayScoringPeriod_ot3(); /* 84AD3 */
 extern void SayScoringPeriod_ott(); /* 84ADA */

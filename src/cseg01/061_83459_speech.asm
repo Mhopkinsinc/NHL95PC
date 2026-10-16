@@ -1344,10 +1344,19 @@ pop ecx	; 8426C
 pop ebx	; 8426D
 ret	; 8426E
 %endif ; C
+; C: src/c/062_842BA_announcer/SayNhlIntro.c (EnsureSampleRoom)
+%ifdef CBUILD
+%include "c/062_842BA_announcer/SayNhlIntro.EnsureSampleRoom.inc"
+%else
 EnsureSampleRoom:
 push dword 4	; 8426F
 call __CHK	; 84274
 call MakeSampleRoom	; 84279
+%endif ; C
+; C: src/c/062_842BA_announcer/SayNhlIntro.c (CompactSpeechMem)
+%ifdef CBUILD
+%include "c/062_842BA_announcer/SayNhlIntro.CompactSpeechMem.inc"
+%else
 CompactSpeechMem:
 push dword 0Ch	; 8427E
 call __CHK	; 84283
@@ -1370,3 +1379,4 @@ mov eax, ebx	; 842AF
 call FindFreeSpeechSlot	; 842B1
 mov ebx, eax	; 842B6
 jmp short CompactSpeechMem.1	; 842B8
+%endif ; C

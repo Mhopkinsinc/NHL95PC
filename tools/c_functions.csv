@@ -746,6 +746,10 @@ RequestTimeClips,84DDD,207,062_842BA_announcer,src/c/062_842BA_announcer/Request
 SayGoal,8531F,397,062_842BA_announcer,src/c/062_842BA_announcer/SayGoal.c,matched,
 SayHighlightIntro,847CE,319,062_842BA_announcer,src/c/062_842BA_announcer/SayHighlightIntro.c,matched,
 SayNhlIntro SayGoodnight SayLineups SayNowBack FreeNowBack SayBackMoment FreeBackMoment SayCoachClip FreeCoachClip FreeClip SayElseNhl,846B4,282,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,
+EnsureSampleRoom,8426F,15,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,
+CompactSpeechMem,8427E,60,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,
+SayTheGame,84A6C,17,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,nonmatching,draft (SayNhlIntro.c): kept for the layout (distance to FreeClip_ret); jumps to SayClip.
+SayScoringPeriod,84A7D,144,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,nonmatching,draft (SayNhlIntro.c): pieces interleaved with SayClip in the EXE; kept for the layout.
 SayOneMinuteLeft,854AC,91,062_842BA_announcer,src/c/062_842BA_announcer/SayOneMinuteLeft.c,matched,
 SayPenalty,84F7B,419,062_842BA_announcer,src/c/062_842BA_announcer/SayPenalty.c,nonmatching,
 SayPenaltyShot,8511E,245,062_842BA_announcer,src/c/062_842BA_announcer/SayPenaltyShot.c,matched,

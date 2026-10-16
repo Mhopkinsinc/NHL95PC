@@ -299,6 +299,7 @@ int SayOneMinuteLeft(void);  /* 854AC */
 void ResetSpeechQueue(void);  /* 833FA */
 void RequestSample(char *name);  /* 83FAF */
 void EnsureSampleRoom(void);  /* 8426F */
+void CompactSpeechMem(void);  /* 8427E */
 int QueueSpeechClip(char *name);  /* 84418 */
 int SayScorePeriod(int per);  /* 84657 */
 void joyq_pop(void);  /* 4FCE8 */
@@ -763,6 +764,7 @@ void StubRet4b(int a, int b, int c, int d, int e);  /* 78E29 */
 int MenuLineEdCancel(int a, int b, int c, int d, int e, int f, int g, int h, int i, int j);  /* 7928A */
 int DeskSetExit2(void);  /* 179D0 */
 int DeskSetExit3(void);  /* 179E6 */
+int SayTheGame(void);  /* 84A6C */
 int SayScoringPeriod(int period, int b, int c);  /* 84A7D */
 void PaScoringPeriod(int period, int b, int c);  /* 59BFC */
 void PaNhlIntro(void);  /* 59C1D */
