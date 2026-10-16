@@ -197,6 +197,48 @@ change:
     return 1;
 }
 
+typedef struct SkStat { short g, a, pen, pm, ppg, shg, eng, sht; } SkStat;  /* tmplstats entry */
+typedef struct GlStat { short min, sht, sav; } GlStat;  /* tmglstats entry */
+
+/* ChkShotStat (55D28; 93G penalty93 ChkShotStat, "add to shot stat if a shot was taken"): when the shot flag
+   (gmode2 bit 4, 93G sf2shot) is set, clear it; with the clock running and the shot going at the shooter's
+   (shotplayer) attacking goal (pucky's side against pfgoal): the crowd level goes up by 100 (capped at 1000;
+   PC: only while it is not over 1000) and CwdExciteLvl by 10. Outside a replay (gmode bit 4) the shooter's team
+   counts the shot (tmshots; PC: also the word at +6 on a power play, gmode2 bit 5 with more men on the ice), the
+   side's shot count byte (hmshotcnt / awshotcnt), the shooter's own count (skater stats word 7) and the other
+   team's goalie in net (tmgoalie, his roster slot 19h-1Bh from tmlines +24h) his shots against (goalie stats word
+   1). No arguments, no result. */
+void ChkShotStat(void)
+{
+    Player *p;
+    Team *t;
+    Team *o;
+    short g;
+
+    if (!(gmode2 & 0x10)) return;
+    gmode2 &= ~0x10;
+    if (gmode & 1) return;
+    p = &SortCords[shotplayer];
+    if ((*pucky > 0) ^ ((p->pflags & pfgoal) != 0)) return;
+    if (crowdlevel <= 1000) {
+        crowdlevel += 100;
+        if (crowdlevel > 1000) crowdlevel = 1000;
+    }
+    CwdExciteLvl += 10;
+    if (gmode & 0x10) return;
+    t = p->tmptr;
+    o = p->optmptr;
+    t->tmshots++;
+    if ((gmode2 & 0x20) && t->tmap > o->tmap) ((short *)t)[3]++;
+    if (!(p->pflags & pfteam)) hmshotcnt++;
+    else awshotcnt++;
+    if (p->pnum < 0x19) ((SkStat *)t->tmplstats)[p->pnum].sht++;
+    if (o->tmgoalie < 0) return;
+    g = (o->tmlines + 0x24)[o->tmgoalie] - 0x19;
+    if (g < 0 || g >= 3) return;
+    ((GlStat *)o->tmglstats)[g].sht++;
+}
+
 /* ReturnGoalies: a pulled goalie (tmgoalie low byte under 10h) goes back in net.
  The pulled menu item is unchecked and the goalie item checked, then a computer
  team may pull again. */

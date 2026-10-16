@@ -3619,6 +3619,10 @@ ret	; 55D27
 %endif ; C
 ; ChkShotStat: If the shot flag (gmode2 bit 4) was set: clear it, crowdlevel +100,
 ; shot counts for the shooter and the goalie.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (ChkShotStat)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.ChkShotStat.inc"
+%else
 ChkShotStat:
 push dword 18h	; 55D28
 call __CHK	; 55D2D
@@ -3706,6 +3710,7 @@ sub eax, edx	; 55E60
 mov edx, dword [dword ebx+0EAh]	; 55E62
 inc word [byte edx+eax*2+02h]	; 55E68
 jmp near checkob_ret5	; 55E6D
+%endif ; C
 ; setInjuryType: Player unavailable (pflags2 bit 2), crowd up, sfx A1h, camera locked
 ; on him (xc1/yc1, sfslock).
 setInjuryType:

@@ -398,6 +398,7 @@ checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_
 checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkint.c,matched,
 burst,532BD,202,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 SkillForAnim,54134,150,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
+ChkShotStat,55D28,330,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 ReturnGoalies,59352,163,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 checkob,53F8C,424,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 424 vs 424. The far-side player test is cmp ecx,esi / jg; the original is cmp esi,ecx / jl. Do not retry: writing the limit on the left of < hoists that lea out of the loop."
 GetLowestPen,54A53,166,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 166 vs 166. The trail step is sub eax,ecx / cwde / add ebx,eax; the original has no cwde. The power-play return is lea eax,[ebx+ecx]; the original is mov eax,ebx / add eax,ecx. Do not retry: a named int for the step pushes ebp, an unsigned short store is and eax,0FFFFh, and pen-prev as an expression moves the box pointer from edx to eax."
