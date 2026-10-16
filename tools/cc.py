@@ -365,10 +365,20 @@ class TextTargets:
         for g in file_blocks(src):
             gs, ge, gl, _ = block(src, g)
             if g not in r['pubs']: raise SystemExit('%s: no public %s in the object' % (src, g))
-            self.where.append((r['pubs'][g], r['pubs'][g] + ge - gs, gl[0][0], gs))
+            self.where.append((r['pubs'][g], r['pubs'][g] + ge - gs, gl[0][0], gs, gl, c_paths(src, g)[2]))
     def resolve(self, t, func='?'):
-        for a, e, lab, gs in self.where:
-            if a <= t < e or (t == e and a < e): return '%s+0%Xh' % (lab, t - a), gs + t - a
+        for a, e, lab, gs, gl, gasm in self.where:
+            if a <= t < e or (t == e and a < e):
+                ta = gs + t - a
+                if func != '?' and gasm != c_paths(self.src, func)[2]:
+                    # a block in another asm file (one source file across a segment split, e.g. TickPanelPenalties
+                    # in 006 ending in DrawPanelLine_x of 005): only that segment's global labels are visible
+                    # there, so name the target by the nearest global label at or before it
+                    g = [(n, x) for n, x in gl if '.' not in n and x <= ta]
+                    if g:
+                        n, x = max(g, key=lambda v: v[1])
+                        return ('%s+0%Xh' % (n, ta - x) if ta != x else n), ta
+                return '%s+0%Xh' % (lab, t - a), ta
         pubs = sorted(self.r['pubs'].items(), key=lambda x: x[1])
         own = [(n, o) for n, o in pubs if o <= t]
         if not own: raise SystemExit('%s: %s refers to _TEXT+%X before any function' % (self.src, func, t))
