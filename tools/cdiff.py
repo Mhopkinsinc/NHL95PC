@@ -77,8 +77,8 @@ def main():
     text = r['text']; c0 = off0
     n = len(text) - c0
     stem, fil, asm, inc = cc.c_paths(a.src)
-    if func != fil and len(r['pubs']) > 1:     # one function of a multi-function file: just its asm block
-        n = min(n, cc.asm_range(a.src, func)[1] - addr)
+    if len(r['pubs']) > 1:     # one function of a multi-function file (the file's own one too): just its asm block
+        n = min(n, cc.asm_range(a.src, None if func == fil else func)[1] - addr)
     tt = None
     orig = original(addr, max(n, 1) + 64)
     ofx = orig_fixups(addr, addr + len(orig))
