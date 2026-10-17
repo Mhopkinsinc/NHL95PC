@@ -1866,6 +1866,10 @@ jl near RunGameFrames.1	; 11547
 pop edx	; 1154D
 pop ebx	; 1154E
 ret	; 1154F
+; C: src/c/001_10010_main_startup/HandleHotKey.c (SetFullPalette)
+%ifdef CBUILD
+%include "c/001_10010_main_startup/HandleHotKey.SetFullPalette.inc"
+%else
 SetFullPalette:
 push dword 28h	; 11550
 call __CHK	; 11555
@@ -1893,6 +1897,7 @@ add edi, 180h	; 11585
 cmp esi, 100h	; 1158B
 jl short SetFullPalette.1	; 11591
 jmp near HandleHotKey_ret	; 11593
+%endif ; C
 FadePalette:
 push dword 18h	; 11598
 call __CHK	; 1159D

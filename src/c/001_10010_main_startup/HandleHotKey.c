@@ -97,3 +97,16 @@ int HandleHotKey(int key)
     }
     return 0;
 }
+
+/* SetFullPalette (11550, PC only; ends in HandleHotKey_ret): set all 256 colours from the palette pal (3 bytes
+   each) in two halves of 80h, each after a vertical retrace (sub_B4C84). pal: the palette. No result. */
+void SetFullPalette(unsigned char *pal)
+{
+    int i;
+    int o;
+
+    for (i = 0, o = 0; i < 0x100; i += 0x80, o += 0x180) {
+        sub_B4C84();
+        sub_B4B88(i, 0x80, pal + o);
+    }
+}
