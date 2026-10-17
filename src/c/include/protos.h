@@ -354,6 +354,8 @@ int ComparePlayerEntry(unsigned char *a, unsigned char *b);  /* 6D78B */
 int GameRosterCmp(unsigned char *a, unsigned char *b);  /* 76A93 */
 void holdplayer(Player *p);  /* 503CD */
 int OppInReach(Player *p);
+void lineinput(Player *p);  /* 4FD8E */
+void RequestLineChange(Player *p);  /* 4D938 */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */

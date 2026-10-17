@@ -92,6 +92,10 @@ ret	; 4FD8D
 ; lineinput: role. The PC line change box is one-button: the highlighted choice
 ; (lcsel lcline) cycles every 60 frames (lctimer) and blinks every 12 (lcblink); a press takes it
 ; through lcfound. Otherwise the player skates (doplayeracc).
+; C: src/c/038_4FCE8_engine_input/CanBlockShot.c (lineinput)
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/CanBlockShot.lineinput.inc"
+%else
 lineinput:
 push dword 18h	; 4FD8E
 call __CHK	; 4FD93
@@ -194,6 +198,7 @@ sar edx, 10h	; 4FEFE
 mov eax, ecx	; 4FF01
 call doplayeracc	; 4FF03
 jmp near CanBlockShot_ret5	; 4FF08
+%endif ; C
 ; faceoffinput: (afaceoffpl 17h, fodir1/fodir2, pf2aip). PC adds an automatic
 ; pull when temp5 runs out (SPA 7F1h) and picks the pull anim by pucktemp1.
 faceoffinput:

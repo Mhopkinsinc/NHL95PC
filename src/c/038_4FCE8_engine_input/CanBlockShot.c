@@ -109,3 +109,43 @@ int OppInReach(Player *p)
     } while (i < 6);
     return 0;
 }
+
+/* lineinput (4FD8E; 93G logic93 lineinput "process input for line changes", PC version; ends in
+   CanBlockShot_ret5): the player in line change mode. A pending line change request (tmflags bit 0) is cleared
+   and raised (RequestLineChange). The PC box is one-button: a press (bit 6 of the new presses in regd2) takes the
+   highlighted choice (lcsel into regd2, lcfound) and closes the box (lcblink, lcboxon 0); else the choice cycles
+   every 60 frames (lctimer; two choices on the special lines above 3, else four; lcline steps through linenext)
+   and blinks every 12 (lcblinktime, lcblink). Then a joystick player that is not animation-locked or fighting
+   (and with dword_CCC9C clear) skates (doplayeracc with the direction in regd0). p: the player. No result. */
+void lineinput(Player *p)
+{
+    Team *t;
+    short side;
+
+    t = p->tmptr;
+    if (t->tmflags & 1) {
+        t->tmflags &= ~1;
+        RequestLineChange(p);
+    }
+    side = (p->pflags & pfteam) != 0;
+    if (*(unsigned char *)&regd2 & 0x40) {
+        regd2.w = lcsel[side];
+        lcfound(p);
+        lcboxon[side] = lcblink[side] = 0;
+        return;
+    }
+    if (lctimer[side]-- == 0) {
+        lctimer[side] += 0x3C;
+        if (lcline[side] > 3) lcsel[side] = (lcsel[side] + 1) % 2;
+        else lcsel[side] = (lcsel[side] + 1) % 4;
+        lcline[side] = linenext[lcline[side]];
+        lcblink[side] = 1;
+        lcblinktime[side] = 0xC;
+    }
+    if (lcblinktime[side]-- == 0) {
+        lcblinktime[side] += 0xC;
+        lcblink[side] = lcblink[side] == 0;
+    }
+    if (!(p->pflags & pfjoy) || dword_CCC9C || (p->pflags & pfalock) || (p->pflags2 & 1)) return;
+    doplayeracc(p, regd0.w);
+}

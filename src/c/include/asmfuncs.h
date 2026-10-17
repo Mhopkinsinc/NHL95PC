@@ -429,7 +429,6 @@ extern void assshoot(); /* 4D3F8 */
 extern void assshoot_ret(); /* 4D4EF */
 extern void assfaceoff(); /* 4D4F0 */
 extern void pucknorm_body(); /* 4D6B4 */
-extern void RequestLineChange(); /* 4D938 */
 extern void Endfaceoff(); /* 4DA7B */
 extern void assreffollow(); /* 4E0BD */
 extern void assrefwhistle(); /* 4E8EF */
@@ -440,7 +439,6 @@ extern void assrefsignal(); /* 4EB04 */
 extern void assrefgoalpa(); /* 4ED7C */
 extern void assrefdrop(); /* 4F5BF */
 extern void assrefgoalline(); /* 4F7D0 */
-extern void lineinput(); /* 4FD8E */
 extern void CanBlockShot_ret6(); /* 50336 */
 extern void CanBlockShot_ret5(); /* 50337 */
 extern void doinput(); /* 504DA */
