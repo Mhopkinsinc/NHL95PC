@@ -360,6 +360,7 @@ void lineinput(Player *p);  /* 4FD8E */
 void asspassrec(Player *p);  /* 50F3F */
 void PassRecOneTimer(Player *p);  /* 50B55 */
 void RequestLineChange(Player *p);  /* 4D938 */
+void CountPuckThreat(Player *p);  /* 4C632 */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */

@@ -89,3 +89,27 @@ void RequestLineChange(Player *p)
     if (s) dword_C5860 = 0;
     else dword_C585C = 0;
 }
+
+/* CountPuckThreat (4C632, PC only; ends in ass_popx): count into threat the opposing skaters within 14h (x and
+   y) of where the puck goes next (the puck plus the goalie's velocity / 100h), each skater also taken one step
+   ahead. p: the goalie (SCnum below 6 is the home side: look at the away skaters, SortCords + 6). No result. */
+void CountPuckThreat(Player *p)
+{
+    short y;
+    Player *q;
+    short x;
+    short i;
+    short d;
+
+    x = (p->Xvel >> 8) + *puckx;
+    y = (p->Yvel >> 8) + *pucky;
+    threat = 0;
+    q = &SortCords[p->SCnum < 6 ? 6 : 0];
+    for (i = 0; i < 6; q++, i++) {
+        d = (q->Xvel >> 8) + HIWORD(q->Xpos) - x;
+        if ((d < 0 ? -d : d) > 0x14) continue;
+        d = (q->Yvel >> 8) + HIWORD(q->Ypos) - y;
+        if ((d < 0 ? -d : d) > 0x14) continue;
+        threat++;
+    }
+}

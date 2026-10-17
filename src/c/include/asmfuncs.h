@@ -421,7 +421,6 @@ extern void asspenalty(); /* 4ADAB */
 extern void assbench(); /* 4B12C */
 extern void assgoalie(); /* 4B774 */
 extern void assgoalie_popebp(); /* 4C62C */
-extern void CountPuckThreat(); /* 4C632 */
 extern void asspuckc_chkdir(); /* 4C9FD */
 extern void assnearest(); /* 4CD4B */
 extern void assshoot(); /* 4D3F8 */

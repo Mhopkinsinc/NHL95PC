@@ -5357,6 +5357,10 @@ call playeracc	; 4C627
 assgoalie_popebp:
 pop ebp	; 4C62C
 jmp near ass_popx	; 4C62D
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (CountPuckThreat)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.CountPuckThreat.inc"
+%else
 CountPuckThreat:
 push dword 18h	; 4C632
 call __CHK	; 4C637
@@ -5434,6 +5438,7 @@ inc ebx	; 4C6E7
 cmp bx, byte 6	; 4C6E8
 jl short CountPuckThreat.3	; 4C6EC
 jmp near ass_popx	; 4C6EE
+%endif ; C
 ; asspuckc: asstab 10h (player has the puck): checkob, chk4lc, chk4shot, chk4pass, then
 ; skateto with asspuckc_chkdir as the collision routine.
 ; C: src/c/037_4842A_engine_player_logic/asspuckc.c
