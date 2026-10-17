@@ -348,6 +348,7 @@ void POSimSeries(unsigned char *s, int games);
 void POPreSimRound2(unsigned char *po, int a, int b);  /* 87FE0 */
 void POPreSimConfFinals(unsigned char *po, int a, int b);  /* 8803B */
 int TradeRosterCmp(unsigned char *a, unsigned char *b);  /* 3FEF0 */
+int TradeScreen(char *dir, int *teams, int b, int c, int d);  /* 3FF52 */
 int BuildTradeRoster(char *dir, int team, unsigned char *list, unsigned char *rec);  /* 3DC2C */
 int strcmp(const char *a, const char *b);  /* Watcom CRT strcmp_ */
 int ComparePlayerEntry(unsigned char *a, unsigned char *b);  /* 6D78B */

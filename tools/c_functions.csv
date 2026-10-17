@@ -274,6 +274,7 @@ LoadTradeTeamPals,3E835,410,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jerse
 TradeCancel,3EF27,21,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeCancel.c,matched,
 TradeDone,3EDAA,381,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeDone.c,nonmatching,"register allocation only: sel / bad / the byte live in edx / ebx / cl in asm, ebx / ecx / dl in C"
 TradeHitTest,3ECAE,252,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that."
+TradeScreen,3FF52,561,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft (TradeHitTest.c): 561 vs 561, teams/result registers and two stack homes. See UNSURE."
 TradeRosterCmp,3FEF0,98,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeRosterCmp.c,matched,
 TradeShowStats,3DE05,592,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeShowStats.c,matched,
 BuildLeagueList,411C8,367,033_40183_trades,src/c/033_40183_trades/BuildLeagueList.c,nonmatching,"register allocation only: the findnext result is copied to edx before the test, and the list store indexes via edx/eax swapped; structure matches"

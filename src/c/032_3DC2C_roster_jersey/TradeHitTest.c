@@ -48,3 +48,50 @@ int TradeHitTest(int x, int y, int *out, int *slot, int *flag)
     }
     return hit;
 }
+
+/* TradeScreen (3FF52, PC only; ends in TradeHitTest_ret): the trade screen of league dir between teams[0] and
+   teams[1]. Fade to the black "Temp" palette, clear the screen bitmap (dword_DE264), save the text state, load the
+   S12 font and the lineditp bank ("Shrt" art), reset the cursors and clicks (tradecursor, tradeclick, tradeside -1)
+   and build both trade rosters (BuildTradeRoster into traderoster / +268h, the team records into recs); when both
+   load, sort them (TradeRosterCmp) and run the screen (TradeScreenLoop). Then free the bank, restore the text
+   state and free the font. dir: the league dir; teams: the two teams; b, c, d: passed on to TradeScreenLoop.
+   Result: BuildTradeRoster's error, else TradeScreenLoop's result.
+   DRAFT: 561 vs 561. teams lands in edi and the palette / result in esi (original esi, edi), and the bank and
+   shape stack slots are swapped (original shape +620h, bank +62Ch). See docs/UNSURE.md. */
+int TradeScreen(char *dir, int *teams, int b, int c, int d)
+{
+    unsigned char recs[0x5D0];
+    unsigned char state[0x40];
+    char path[0x10];
+    int shape;
+    int bank;
+    int font;
+    int r;
+
+    sub_B4BA8();
+    r = sub_8CCA8((char *)str_Temp6, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)r);
+    FadePalStep(1, (unsigned char *)r, 0x10);
+    FreeMemBlock(r);
+    SetDrawBitmap(dword_DE264);
+    sub_B392C(0);
+    sub_8E9E8(state);
+    MakePath(path, fileoncd[0xE7] == 1 ? (char *)cddriveptr : 0, (char *)str_S12, (char *)str_VFN);
+    font = sub_8E8A0(path, 0);
+    sub_8EA18(font);
+    MakePath(path, fileoncd[0xE8] == 1 ? (char *)cddriveptr : 0, (char *)str_Lineditp, 0);
+    bank = sub_8E83C(path, 0);
+    shape = sub_B30B4(bank, (char *)str_Shrt);
+    tradeside = tradeclick[1] = tradeclick[0] = tradecursor[1] = tradecursor[0] = -1;
+    r = BuildTradeRoster(dir, teams[0], traderoster, recs);
+    if (!r) r = BuildTradeRoster(dir, teams[1], traderoster + 0x268, recs + 0x2E8);
+    if (!r) {
+        qsort(traderoster, 0x1C, 0x16, (int (*)(const void *, const void *))TradeRosterCmp);
+        qsort(traderoster + 0x268, 0x1C, 0x16, (int (*)(const void *, const void *))TradeRosterCmp);
+        r = ((int (*)(int, unsigned char *, int *, int, int, int, int, int))TradeScreenLoop)(shape, recs, teams, b, c, bank, font, d);
+    }
+    FreeMemBlock(bank);
+    sub_8EA00(state);
+    FreeMemBlock(font);
+    return r;
+}

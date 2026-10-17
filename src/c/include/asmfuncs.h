@@ -366,7 +366,6 @@ extern void DrawTradeScreen(); /* 3E9CF */
 extern void TradeHitTest(); /* 3ECAE */
 extern void TradeHitTest_ret(); /* 3EDA4 */
 extern void TradeScreenLoop(); /* 3EF89 */
-extern void TradeScreen(); /* 3FF52 */
 extern void TradePlayers(); /* 40183 */
 extern void AddHumanTeam(); /* 408F5 */
 extern void AddHumanTeam_msgbox(); /* 40C13 */
