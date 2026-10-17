@@ -353,6 +353,8 @@ puckunflip,4D907,49,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_
 rtss,4F990,11,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/rtss.c,matched,
 sub_4C8BD,4C8BD,320,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/sub_4C8BD.c,matched,
 Acheck,4FFAE,64,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Acheck.c,matched,
+CanBlockShot,4FFEE,847,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,"draft (owner of CanBlockShot_ret5/6): unsolved xor eax,edx return. See UNSURE."
+OppInReach,5033D,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,"draft (CanBlockShot.c): 139 vs 144, offset register. See UNSURE."
 CenterMouse,50ADE,32,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CenterMouse.c,matched,
 Readjoy1,50A05,127,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,registers: asm keeps the held buttons in eax and does regd1 = held & changed in ecx (saves ecx); C reuses eax/ebx; Readjoy2 is the clone (shared tail)
 faceoffinput,4FF0D,161,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/faceoffinput.c,nonmatching,draft: pflags2 kept in al (ours) vs cl then copied to al
