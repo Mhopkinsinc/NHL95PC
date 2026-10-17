@@ -57,3 +57,78 @@ int PassLaneChk(Player *p, Player *o)
     if ((wrapped & 7) >= 3) return 0;
     return 1;
 }
+
+/* NetCollide (5601D, PC only; ends in PassLaneChk_ret5): player p near a net (60h, CAh from centre on his side):
+   unless he is at least 18h from the net centre nothing happens; else his unit offset (x4) picks the side he
+   hits: front or back (facing within the range for that side, dir + 2 / + 1 & 7) or the posts (dir 5+ / 1-3);
+   he is snapped to the net edge for his facing (offset tables word_CCBEC, word_CCBFC, word_CCBCC, word_CCBDC;
+   mirrored by the x-flip attribute bit 3), stopped, and the bump SPA for that side is returned (F0Fh, F55h,
+   F9Bh / FE1h). p: the player; dir: his direction. Result: the new SPA, or his SPA when nothing changes.
+   DRAFT: 714 vs 700 (147 of 200 instructions). The original keeps dir in ebp, the net y in edi and dx / dy / net x
+   on the stack; the first x-flip test materializes a bool (sete). See docs/UNSURE.md. */
+int NetCollide(Player *p, int dir)
+{
+    int gx;
+    int dx;
+    int dy;
+    int gy;
+    int dist;
+    int ux;
+    int uy;
+
+    gx = HIWORD(p->Xpos) >= 0 ? 0x60 : -0x60;
+    dx = (p->Xpos >> 16) - gx;
+    gy = HIWORD(p->Ypos) >= 0 ? 0xCA : -0xCA;
+    dy = (p->Ypos >> 16) - gy;
+    dist = vecdist(dx, dy);
+    if (dist < 0x18) goto keep;
+    ux = (dx << 8) / dist >> 2;
+    uy = (dy << 8) / dist >> 2;
+    if ((uy < 0 ? -uy : uy) >= (ux < 0 ? -ux : ux)) {
+        if (gy >= 0) {
+            dir = dir + 2 & 7;
+            if (dir < 5) goto keep;
+            HIWORD(p->Xpos) = gx + ux;
+            if (gx < 0 && (p->attribute & 8) == 0) HIWORD(p->Xpos) += 6;
+            if (gx > 0 && (p->attribute & 8)) HIWORD(p->Xpos) -= 6;
+            HIWORD(p->Ypos) = uy + gy - 8;
+            p->Xvel = 0;
+            p->Yvel = 0;
+            HIWORD(p->Ypos) += word_CCBEC[p->facedir] - 0x108;
+            return 0xF0F;
+        }
+        dir = dir + 1 & 7;
+        if (dir >= 3) goto keep;
+        HIWORD(p->Xpos) = gx + ux;
+        HIWORD(p->Ypos) = uy + gy;
+        p->Xvel = 0;
+        p->Yvel = 0;
+        HIWORD(p->Ypos) += word_CCBFC[p->facedir] + 0x108;
+        return 0xF55;
+    }
+    if (gx >= 0) {
+        if (dir < 5) goto keep;
+        ux -= 6;
+        HIWORD(p->Xpos) = gx + ux;
+        HIWORD(p->Ypos) = uy + gy + (gy > 0 ? -10 : 0);
+        p->Xvel = 0;
+        p->Yvel = 0;
+        if (p->attribute & 8) HIWORD(p->Xpos) -= word_CCBDC[8 - p->facedir & 7] + 0x9A;
+        else HIWORD(p->Xpos) += word_CCBCC[p->facedir] - 0x9A;
+        if (p->attribute & 8) return 0xFE1;
+        return 0xF9B;
+    }
+    if (dir == 0) goto keep;
+    if (--dir >= 3) goto keep;
+    ux += 6;
+    HIWORD(p->Xpos) = gx + ux;
+    HIWORD(p->Ypos) = uy + gy + (gy > 0 ? -10 : 0);
+    p->Xvel = 0;
+    p->Yvel = 0;
+    if (p->attribute & 8) HIWORD(p->Xpos) -= word_CCBCC[8 - p->facedir & 7] - 0x9A;
+    else HIWORD(p->Xpos) += word_CCBDC[p->facedir] + 0x9A;
+    if (p->attribute & 8) return 0xF9B;
+    return 0xFE1;
+keep:
+    return p->SPA;
+}

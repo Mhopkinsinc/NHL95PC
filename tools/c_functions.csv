@@ -393,6 +393,7 @@ FacingBoards,5378D,159,040_53294_engine_physics_ai,src/c/040_53294_engine_physic
 Findhittype,579FF,63,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Findhittype.c,matched,
 MarkTwoLinePlayers,55C6F,185,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/MarkTwoLinePlayers.c,matched,
 PassLaneChk,54C09,346,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate y stays in edx. The other gap is inc esi versus lea eax,[esi+1]. Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx."
+NetCollide,5601D,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft (PassLaneChk.c): 714 vs 700, first pass. See UNSURE."
 PuckCheckColl,548AC,228,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PuckCheckColl.c,matched,
 ScatterPass,54D63,145,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ScatterPass.c,matched,
 SetShotMode,5786E,140,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/SetShotMode.c,nonmatching,"draft: vtoa result copied to edx before the regd0 store; asm stores ax then movsx edx,ax after word_C90A6"

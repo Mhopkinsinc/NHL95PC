@@ -355,6 +355,7 @@ int ComparePlayerEntry(unsigned char *a, unsigned char *b);  /* 6D78B */
 int GameRosterCmp(unsigned char *a, unsigned char *b);  /* 76A93 */
 void holdplayer(Player *p);  /* 503CD */
 int OppInReach(Player *p);
+int NetCollide(Player *p, int dir);  /* 5601D */
 void lineinput(Player *p);  /* 4FD8E */
 void asspassrec(Player *p);  /* 50F3F */
 void PassRecOneTimer(Player *p);  /* 50B55 */
