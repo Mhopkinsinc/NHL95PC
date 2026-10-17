@@ -967,6 +967,7 @@ void assboxenter(Player *p);  /* 499D8 */
 void assscore(Player *p);  /* 4A90F */
 void asspsclear(Player *p);  /* 52DB0 */
 void RemoveFromLines(short side, short pnum);  /* 655CC */
+short FillDressedSlots(signed char *list, short side, short slot);  /* 64CA8 */
 void assleaveice(Player *p);  /* 4AB87 */
 void assleavebox(Player *p);  /* 5147D */
 void updateanim(Player *p);  /* 5CAEF */

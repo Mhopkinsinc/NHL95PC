@@ -514,7 +514,6 @@ extern void PenGoalStuff(); /* 63D69 */
 extern void lines_popx(); /* 64A04 */
 extern void CanFillLineSlot(); /* 64A0B */
 extern void lines_addesp10_x(); /* 64CA0 */
-extern void FillDressedSlots(); /* 64CA8 */
 extern void lines_popx2(); /* 652D0 */
 extern void PickExtraSkater(); /* 653BE */
 extern void checkwindow_popebp(); /* 66490 */

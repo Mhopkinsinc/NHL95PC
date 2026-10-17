@@ -102,3 +102,39 @@ zero:
 out:
     return result;
 }
+
+/* FillDressedSlots (64CA8, PC only; ends in lines_addesp10_x): find a player from a dressed list for line slot
+   slot of team side: the first entry (up to 19h, the list ends with a negative byte) that is dressed
+   (byte_E9E18 of the team) and fits the slot (CanFillLineSlot). A player still marked 2 (dressed but not on the
+   roster yet) is taken only while fewer than 18 are dressed (dword_E9F16) and, unless a defenceman, fewer than
+   12 forwards (word_E9F12): his roster status becomes 3, he leaves the extra slots 28h-2Fh of the line table, his
+   flag becomes 1 and the dressed / defence or forward counts go up. list: the dressed list; side: the team;
+   slot: the line slot. Result: the roster index, or -1.
+   DRAFT: 440 vs 440, same instructions; only the stack slots differ (original side +0, r +4, slot +8, i +0Ch;
+   here i +4, r +8, slot +0Ch). See docs/UNSURE.md. */
+short FillDressedSlots(signed char *list, short side, short slot)
+{
+    short r;
+    short i;
+    signed char *lt;
+    short k;
+
+    for (i = 0; i < 0x19 && (r = list[i]) >= 0; i++) {
+        if (!byte_E9E18[side * 0x19 + r]) continue;
+        if (!(short)CanFillLineSlot(side, slot, r)) continue;
+        if (byte_E9E18[side * 0x19 + r] == 2) {
+            if (*(short *)dword_E9F16 >= 0x12) continue;
+            if (byte_DB3AE[side * 0x444 + r * 0x27] != 'D' && word_E9F12 >= 0xC) continue;
+            hmroster[side * 0x444 + r * 0x27] = 3;
+            lt = (signed char *)(side ? awlinetab : hmlinetab);
+            for (k = 0x28; k < 0x30; k++)
+                if (lt[k] == r) lt[k] = 0x64;
+            byte_E9E18[side * 0x19 + r] = 1;
+            (*(short *)dword_E9F16)++;
+            if (byte_DB3AE[side * 0x444 + r * 0x27] == 'D') word_E9F14++;
+            else word_E9F12++;
+        }
+        return r;
+    }
+    return -1;
+}
