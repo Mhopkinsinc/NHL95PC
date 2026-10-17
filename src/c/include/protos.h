@@ -497,7 +497,7 @@ void SaveDialogBg(int x, int y, int w, int h);  /* 30E66 */
 void __cdecl sub_91400(int buf, int x, int y);  /* graphics library: grab screen rect */
 int SetupDemoGame(void);  /* 13FA7 */
 void BuildDefaultLines(void);
-void SetupTeamLines(int side);
+void SetupTeamLines(short side);
 void ResetGameVars(void);
 int StartPreGame(int mode);
 void assintrostand(Player *p);  /* 4842A */
