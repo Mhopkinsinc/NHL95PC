@@ -383,15 +383,20 @@ class TextTargets:
         own = [(n, o) for n, o in pubs if o <= t]
         if not own: raise SystemExit('%s: %s refers to _TEXT+%X before any function' % (self.src, func, t))
         g, go = own[-1]
-        # the tail: up to the next ret, or with no ret close by up to its first call / jmp out of the module (a rel32
+        # the tail: up to the next ret; with no ret close by, up to its first call / jmp out of the module (a rel32
         # fixup: assrefdrop's jumps into the draft assrefwhistle's SkateToSpot tail, which goes on with `jmp ass_popx`
-        # in the original and with the pops in the draft); relocated fields are wildcards
+        # in the original and with the pops in the draft) or to a jmp rel32 inside the module right after a relocated
+        # field (asscentero into the draft asswingo's `mov edx, EvadePC; jmp asswingd_skateto`). Relocated fields and
+        # that jmp's displacement are wildcards.
         text = self.r['text']; k = text.find(b'\xc3', t); tail = b''
         fx = [f for f in self.r['fixups'] if t <= f['off'] < t + 48]
         ends = [f['off'] + 4 for f in fx if f['kind'] == 'rel32']
-        e = k + 1 if 0 <= k - t < 16 else ends[0] if ends and ends[0] - t >= 8 else None
+        jmps = [f['off'] + 4 for f in fx if text[f['off'] + 4:f['off'] + 5] == b'\xe9']
+        jmps = [j for j in jmps if not any(x['off'] == j + 1 for x in self.r['fixups'])]
+        e = min(ends[:1] + [j + 5 for j in jmps[:1]]) if ends or jmps else None
+        e = k + 1 if 0 <= k - t < 16 else e if e is not None and e - t >= 8 else None
         if e:
-            masked = set()
+            masked = set(range(jmps[0] + 1, jmps[0] + 5)) if jmps and e == jmps[0] + 5 else set()
             for f in fx: masked.update(range(f['off'], f['off'] + 4))
             tail = b''.join(b'.' if i in masked else re.escape(text[i:i + 1]) for i in range(t, e))
         ga = label_addr(self.asm, g)
