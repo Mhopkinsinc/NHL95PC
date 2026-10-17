@@ -376,6 +376,10 @@ pop ebx	; 50F3D
 ret	; 50F3E
 ; asspassrec: (asstab 13h, catching a pass). skatetopuck toward the pass; PC adds the
 ; one-timer (PassRecOneTimer, OneTimerChk) and the pass statistics (PassCompleted).
+; C: src/c/038_4FCE8_engine_input/CanBlockShot.c (asspassrec)
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/CanBlockShot.asspassrec.inc"
+%else
 asspassrec:
 push dword 18h	; 50F3F
 call __CHK	; 50F44
@@ -491,6 +495,7 @@ cmp byte [eax], 0	; 51092
 jl near CanBlockShot_ret5	; 51095
 mov word [passplayer], 0FFFFh	; 5109B
 jmp near CanBlockShot_ret5	; 510A4
+%endif ; C
 ; SetPenaltyStrength: Each penalized roster player (tmpdst > 0) removes one skater slot (from slot 5
 ; down): position -1, temp5 -100; tmap = skaters left.
 ; C: src/c/039_50AFE_engine_assign_faceoff/SetPenaltyStrength.c

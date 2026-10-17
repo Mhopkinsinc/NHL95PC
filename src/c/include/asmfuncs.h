@@ -443,8 +443,6 @@ extern void CanBlockShot_ret6(); /* 50336 */
 extern void CanBlockShot_ret5(); /* 50337 */
 extern void doinput(); /* 504DA */
 extern void Readjoy_tail(); /* 50A59 */
-extern void PassRecOneTimer(); /* 50B55 */
-extern void asspassrec(); /* 50F3F */
 extern void TakePlayerFromBox_ret6(); /* 511AD */
 extern void TakePlayerFromBox_ret5(); /* 511AE */
 extern void puckfaceoff(); /* 516E1 */

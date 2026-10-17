@@ -149,3 +149,53 @@ void lineinput(Player *p)
     if (!(p->pflags & pfjoy) || dword_CCC9C || (p->pflags & pfalock) || (p->pflags2 & 1)) return;
     doplayeracc(p, regd0.w);
 }
+
+/* asspassrec (50F3F; 93G logic93 asspassrec, "assignment for catching pass", asstab 13h; segment 039, ends in
+   CanBlockShot_ret5): not while animation-locked; with the clock stopped leave the assignment (assexit,
+   StopIfFree, onetimerflag 0). Count the high byte of temp1 down. A joystick player waits for the one-timer
+   (PassRecOneTimer). On a new assignment (pfna): pflags bit 0 on, temp2 8, and when the puck is loose and p's team
+   (regd0 = pfteam + 1) has no human controller, OneTimerChk may arm the one-timer (onetimerflag). An armed
+   one-timer clears bits 4 and 6 of the new presses (regd1) and goes to PassRecOneTimer. Otherwise, while the puck
+   is loose, skate to it (skatetopuck) when it is slow (both velocities under 168h), and keep waiting until the
+   counter passes -5; then (or once someone has the puck) leave the assignment, and a pass to p's own number is
+   completed (PassCompleted), else passplayer is cleared. p: the receiver. No result. */
+void asspassrec(Player *p)
+{
+
+    if (p->pflags & pfalock) return;
+    if (gmode & 1) {
+        onetimerflag = 0;
+        assexit(p);
+        StopIfFree(p);
+        return;
+    }
+    ((signed char *)&p->temp1)[1]--;
+    if (p->pflags & pfjoy) {
+one:
+        PassRecOneTimer(p);
+        return;
+    }
+    if (p->pflags & pfna) {
+        p->pflags &= 0xFC;
+        p->pflags |= 1;
+        p->temp2 = 8;
+        regd0.w = ((p->pflags & pfteam) != 0) + 1;
+        if (*puckc < 0 && cont1team != regd0.w && regd0.w != cont2team && OneTimerChk(p)) onetimerflag = 1;
+    }
+    if (onetimerflag) {
+        *(unsigned char *)&regd1 &= 0xAF;
+        goto one;
+    }
+    if (*puckc < 0) {
+        if ((*puckvx < 0 ? -*puckvx : *puckvx) < 0x168 && (*puckvy < 0 ? -*puckvy : *puckvy) < 0x168) skatetopuck(p);
+        if (((signed char *)&p->temp1)[1] >= -5) return;
+    }
+    p->pflags &= ~1;
+    assexit(p);
+    onetimerflag = 0;
+    if (*puckc == p->SCnum) {
+        PassCompleted(p);
+        return;
+    }
+    if (*puckc >= 0) passplayer = -1;
+}
