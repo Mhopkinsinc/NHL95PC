@@ -117,6 +117,60 @@ void asswingo(Player *p)
     skateto(p, (void (*)(Player *))EvadePC);
 }
 
+/* asscentero (4A65C; 94G assign94 asscentero, PC version; ends in ass_popx / asswingo_evade): the centre's
+   offensive assignment, asswingo without the wing side. Not while locked (pflags bit 5), at the bench
+   (check4bench) or joystick controlled (bit 3); with the clock stopped (gmode bit 0) just stop (StopIfFree). A
+   new assignment (bit 1) sets the high byte of temp5 to -1, clears temp1 and sets temp2 8. Every aioff ticks (the
+   high byte of temp1) switch to the defensive centre (assignment 5) when the other team has the puck. The puck's
+   zone (its y toward the attacked end: 0 before the far blue line, 4 neutral, 8 in the zone, 0Ch below the goal
+   line; 4 while offside, tmflags bit 4) picks a spot from word_CCA38 (x, x range, y, y range per zone): a new
+   zone, or 1 in 80h ticks, picks a random spot into temp3 / temp4. Skate there (y mirrored for the other end,
+   pflags bit 7) with EvadePC. p: the centre. No result. */
+void asscentero(Player *p)
+{
+    short d;
+
+    if (p->pflags & 0x20) return;
+    if (check4bench(p)) return;
+    if (gmode & 1) {
+        StopIfFree(p);
+        return;
+    }
+    if (p->pflags & 8) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        ((signed char *)p)[0x2F] = -1;
+        p->temp1 = 0;
+        p->temp2 = 8;
+    }
+    if (--((signed char *)p)[0x27] < 0) {
+        ((signed char *)p)[0x27] = p->aioff;
+        if (*puckc >= 0 && (p->SCnum < 6) ^ (*puckc < 6)) {
+            assreplace(p, 5);
+            return;
+        }
+        regd0.w = *pucky;
+        if (!(p->pflags & 0x80)) regd0.w = -regd0.w;
+        d = 0;
+        if (regd0.w >= -0x4E) {
+            d = 4;
+            if (regd0.w >= 0x4E && !(p->tmptr->tmflags & 0x10)) {
+                d = 8;
+                if (regd0.w >= 0xE8) d = 0xC;
+            }
+        }
+        if (d != p->temp5 || !(regd0.w = randomd0(0x80))) {
+            p->temp5 = d;
+            p->temp3 = randomd0(word_CCA3A[d] * 2) - word_CCA3A[d] + word_CCA38[d];
+            p->temp4 = randomd0(word_CCA3E[d] * 2) - word_CCA3E[d] + word_CCA3C[d];
+        }
+    }
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    if (!(p->pflags & 0x80)) regd1.w = -regd1.w;
+    skateto(p, (void (*)(Player *))EvadePC);
+}
+
 /* asspenalty (4ADAB; 94G assign94 asspenalty "player a3 goes to the penalty box", PC version; ends in ass_popx /
    asswingd_skate0): not while locked (pflags bit 5). A new assignment (bit 1) marks him unavailable (pflags2 bit
    2), takes a human controller off him (changeplayer: controller 0 for c1playernum, else 2) and picks his seat in

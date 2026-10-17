@@ -2776,6 +2776,10 @@ pop edx	; 4A658
 pop ecx	; 4A659
 pop ebx	; 4A65A
 ret	; 4A65B
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asscentero)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asscentero.inc"
+%else
 asscentero:
 push dword 18h	; 4A65C
 call __CHK	; 4A661
@@ -2897,6 +2901,7 @@ mov edi, eax	; 4A7FE
 neg edi	; 4A800
 mov word [regd1], di	; 4A802
 jmp near asswingo_evade	; 4A809
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/StopIfFree.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/StopIfFree.inc"
