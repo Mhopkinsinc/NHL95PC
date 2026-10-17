@@ -293,3 +293,65 @@ reset:
     if ((p->Zvel < 0 ? -p->Zvel : p->Zvel) < 0x100 && !HIWORD(p->Zpos)) puckunflip(p);
     PuckCheckColl(p);
 }
+
+/* assrefdrop (4F5BF; 93G hockey93 assrefdrop?, PC version; ends in ass_popx / ass_skate_temp34): the referee
+   drops the puck. On a penalty shot (penshotmode) hand over to assignment 2Ch. Not while locked (pflags bit 5). A
+   new assignment (bit 1) picks the spot 15 beside the faceoff dot (fox, foy) into temp3 / temp4, gives him the
+   puck (puckc 10h, puck still, z -100) and SPA A5Bh. Away from the spot (8 or more) or still moving (10h) he
+   skates there (SkateToSpot); on it he turns every 8 ticks (temp1) toward the dot (facing 2 / 6 by the side of
+   fox) and, facing it, stops; when no play-by-play is talking (PaSpeechBusy) and no overlay runs (ovlseq -1) the
+   drop ends the stoppage (RefStep -1, assignment 1Eh). p: the referee. No result. */
+void assrefdrop(Player *p)
+{
+    int dx;
+    int dy;
+
+    if (penshotmode) {
+        assreplace(p, 0x2C);
+        return;
+    }
+    if (p->pflags & 0x20) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        p->temp2 = 8;
+        p->temp1 = 0;
+        p->temp3 = fox <= 0 ? fox - 15 : fox + 15;
+        p->temp4 = foy;
+        p->pflags2 |= 0x20;
+        p->Wallcos = 0;
+        p->Wallsin = 0;
+        *puckc = 0x10;
+        *puckvx = 0;
+        *puckvy = 0;
+        *(short *)puckvz = 0;
+        *(short *)puckz = -100;
+        SetSPA(p, 0xA5B);
+    }
+    dx = HIWORD(p->Xpos) - p->temp3;
+    dy = HIWORD(p->Ypos) - p->temp4;
+    if (dx * dx + dy * dy >= 0x40) goto skate;
+    if ((p->Xvel < 0 ? -p->Xvel : p->Xvel) >= 0x10) goto skate;
+    if ((p->Yvel < 0 ? -p->Yvel : p->Yvel) >= 0x10) goto skate;
+    HIWORD(p->Xpos) = p->temp3;
+    HIWORD(p->Ypos) = p->temp4;
+    if (--p->temp1 >= 0) return;
+    p->temp1 += 8;
+    SetSPA(p, 0xA5B);
+    regd2.l = fox <= 0 ? 2 : 6;
+    if (regd2.w != p->facedir) {
+        regd2.w = (regd2.w - p->facedir) & 7;
+        p->facedir = (regd2.w < 5 ? 1 : -1) + (*(int *)((char *)&p->facedir - 2) >> 16) & 7;
+        return;
+    }
+    p->Yvel = 0;
+    p->Xvel = p->Yvel;
+    if (PaSpeechBusy()) return;
+    if (ovlseq != -1) return;
+    RefStep[0] = -1;
+    assreplace(p, 0x1E);
+    return;
+skate:
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    SkateToSpot(p, 0);
+}

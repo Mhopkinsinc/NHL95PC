@@ -364,6 +364,7 @@ void CountPuckThreat(Player *p);  /* 4C632 */
 void asswingd(Player *p);  /* 4A1A6 */
 void Endfaceoff(Player *p);  /* 4DA7B */
 void pucknorm_body(Player *p);  /* 4D6B4 */
+void assrefdrop(Player *p);  /* 4F5BF */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */

@@ -9249,6 +9249,10 @@ call SkateToSpot	; 4F5B2
 .64:
 add esp, byte 8	; 4F5B7
 jmp near assgoalie_popebp	; 4F5BA
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assrefdrop)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assrefdrop.inc"
+%else
 assrefdrop:
 push dword 18h	; 4F5BF
 call __CHK	; 4F5C4
@@ -9405,6 +9409,7 @@ mov word [RefStep], 0FFFFh	; 4F7BB
 mov edx, 1Eh	; 4F7C4
 mov eax, ebx	; 4F7C9
 jmp near assrefdrop.1	; 4F7CB
+%endif ; C
 assrefgoalline:
 push dword 18h	; 4F7D0
 call __CHK	; 4F7D5
