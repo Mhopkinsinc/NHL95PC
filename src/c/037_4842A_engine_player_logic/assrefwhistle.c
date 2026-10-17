@@ -297,6 +297,47 @@ void Endfaceoff(Player *p)
     word_E0028 = HIWORD(SortCords[16].Xpos) > 0 ? 0x500 : -0x500;
 }
 
+/* assreffollow (4E0BD; 93G hockey93 assreffollow?, PC version; ends in ass_popx / asswingd_skateto): the
+   referee follows the play. Not while locked (pflags bit 5); with the clock at 0 he slows down (doplayeracc 8). A
+   new assignment (bit 1) sets SPA A5Bh. With the puck in the middle (x below 32h) between the top of the circles
+   and the goal line (y ACh-E8h) he stands at the goal line (x 46h toward his side, y EDh toward the puck's end);
+   deeper than 62h with the puck loose or attacking that end (the carrier's pflags bit 7 against the puck's side)
+   at x 78h, y E8h; else at x 90h, following the camera (camy) when more than 32h away from it. He skates there
+   with EvadePlayers. p: the referee. No result. */
+void assreffollow(Player *p)
+{
+    Player *c;
+    int d;
+
+    c = &SortCords[*puckc];
+    if (p->pflags & 0x20) return;
+    if (!gameclock && !clockticks[0]) {
+        doplayeracc(p, 8);
+        return;
+    }
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        SetSPA(p, 0xA5B);
+    }
+    if ((*puckx < 0 ? -*puckx : *puckx) < 0x32 && (*pucky < 0 ? -*pucky : *pucky) > 0xAC
+        && (*pucky < 0 ? -*pucky : *pucky) < 0xE8) {
+        p->temp3 = HIWORD(p->Xpos) > 0 ? 0x46 : -0x46;
+        p->temp4 = *pucky > 0 ? 0xED : -0xED;
+    } else if ((*pucky < 0 ? -*pucky : *pucky) > 0x62 && (*puckc < 0 || ((c->pflags & 0x80) != 0) != (*pucky < 0))) {
+        p->temp3 = HIWORD(p->Xpos) > 0 ? 0x78 : -0x78;
+        p->temp4 = *pucky > 0 ? 0xE8 : -0xE8;
+    } else {
+        p->temp3 = HIWORD(p->Xpos) > 0 ? 0x90 : -0x90;
+        d = HIWORD(p->Ypos);
+        d -= camy;
+        if (d < 0) d = -d;
+        if (d > 0x32) p->temp4 = camy;
+    }
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    skateto(p, EvadePlayers);
+}
+
 /* assrefwhistle (4E8EF; 93G hockey93 assrefwhistle?, PC version): referee p blows the whistle. Not while he is
    locked (pflags bit 5). A new assignment (pflags bit 1): when the play is over (word_CBEC6, the clock at 0, or a
    tied shootout-period game gsp 3 decided), end the stoppage (RefStep -1, overlay timer 100h -> 258h) and hand the
