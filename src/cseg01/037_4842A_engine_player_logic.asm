@@ -7110,6 +7110,10 @@ mov word [byte ebx+temp3], dx	; 4DA75
 pop ebx	; 4DA79
 ret	; 4DA7A
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (Endfaceoff)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.Endfaceoff.inc"
+%else
 Endfaceoff:
 push dword 18h	; 4DA7B
 call __CHK	; 4DA80
@@ -7270,6 +7274,7 @@ mov eax, 0FFFFFB00h	; 4DCCD
 .15:
 mov word [word_E0028], ax	; 4DCD2
 jmp near ass_popx	; 4DCD8
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/a2offsides.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/a2offsides.inc"

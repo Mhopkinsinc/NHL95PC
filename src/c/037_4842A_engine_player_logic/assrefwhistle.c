@@ -167,3 +167,70 @@ void asswingd(Player *p)
     if ((*puckx ^ regd0.w) >= 0) regd0.w = *puckx;
     skateto(p, 0);
 }
+
+/* Endfaceoff (4DA7B; 93G logic93 / 94G checks94 Endfaceoff "drop the puck: pick the faceoff winner and send the
+   puck off", PC version; ends in ass_popx): stop the sample, play sfx ABh, end the faceoff (gmode2 bits 0 and 2,
+   the clock bit of gmode, p's pflags2 bit 0; sflags3 bit 4). The odds (regd2) are 10h less the first centre's
+   faceoff stance (byte_CCA95 by fofdata2) plus the second's, plus the away centre's faceoff rating less the home
+   centre's (byte_DAEA7 / byte_DACB3 by pnum; the centres are the skaters with position 4): randomd0(21h) below
+   them gives the puck to the away centre (lasttouch, his input word_E0396), else to the home centre (word_E0392).
+   The winner's input bit 0Bh picks the direction (fodir2 with y speed -800h, else fodir1 / +800h); a held
+   direction (bit 3 clear) is used 3 times in 4, else a random one of the 5 around the y direction (mirrored by
+   the sign of the y speed). The puck p gets that velocity (dirtab * 20h, plus the y speed), a random z velocity
+   (below 800h), z 0, loses pflags bit 2 and takes assignment 18h (pucknorm); the referee (SortCords + 16) takes
+   1Fh and word_E0028 is set to 500h toward his side. p: the puck. No result. */
+void Endfaceoff(Player *p)
+{
+    short i;
+    short j;
+    short w;
+
+    StopDigiSample();
+    sfx(0xAB);
+    gmode2 &= 0xFA;
+    gmode &= 0xFE;
+    p->pflags2 &= 0xFE;
+    sflags3 |= 0x10;
+    regd2.w = 0x10 - byte_CCA95[fofdata2[0]] + byte_CCA95[word_E0394];
+    for (i = 0; i < 6; i++) {
+        if (SortCords[i].position == 4) break;
+    }
+    for (j = 6; j < 12; j++) {
+        if (SortCords[j].position == 4) break;
+    }
+    regd2.w += byte_DAEA7[SortCords[j].pnum * 20] - byte_DACB3[SortCords[i].pnum * 20];
+    if (randomd0(0x21) < regd2.w) {
+        w = word_E0396;
+        lasttouch = j;
+    } else {
+        w = word_E0392;
+        lasttouch = i;
+    }
+    if (w & 0x800) {
+        regd3.w = fodir2;
+        regd4.w = -0x800;
+    } else {
+        regd3.w = fodir1;
+        regd4.w = 0x800;
+    }
+    regd0.w = regd3.w;
+    if (!(regd0.w & 8)) {
+        regd0.w &= 7;
+        if (!randomd0(4)) {
+            regd0.w = (randomd0(5) - 2) & 7;
+            if (regd4.w < 0) *(unsigned char *)&regd0 ^= 4;
+        }
+    } else {
+        regd0.w = (randomd0(5) - 2) & 7;
+        if (regd4.w < 0) *(unsigned char *)&regd0 ^= 4;
+    }
+    regd0.w += regd0.w;
+    p->Xvel = dirtab[regd0.w] << 5;
+    p->Yvel = (dirtab_y[regd0.w] << 5) + regd4.w;
+    p->Zvel = randomd0(0x800);
+    *(short *)puckz = 0;
+    p->pflags &= 0xFB;
+    assreplace(p, 0x18);
+    assreplace(&SortCords[16], 0x1F);
+    word_E0028 = HIWORD(SortCords[16].Xpos) > 0 ? 0x500 : -0x500;
+}

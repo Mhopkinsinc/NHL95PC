@@ -362,6 +362,7 @@ void PassRecOneTimer(Player *p);  /* 50B55 */
 void RequestLineChange(Player *p);  /* 4D938 */
 void CountPuckThreat(Player *p);  /* 4C632 */
 void asswingd(Player *p);  /* 4A1A6 */
+void Endfaceoff(Player *p);  /* 4DA7B */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */
