@@ -199,3 +199,81 @@ one:
     }
     if (*puckc >= 0) passplayer = -1;
 }
+
+/* PassRecOneTimer (50B55, PC only; segment 039, ends in CanBlockShot_ret5): the one-timer of a pass receiver
+   (asspassrec). Once someone has the puck or the wait (the high byte of temp1) is past -19h: a pass to p is
+   completed (PassCompleted), passplayer cleared, the assignment left (pflags bit 0 off, assexit, onetimerflag 0).
+   Else, armed (onetimerflag): in the one-timer wind-up (SPA DD3h / E2Bh) a press of button 4 or 6 (regd1) early in
+   it locks the swing (SPA 1355h / 138Dh, sflags bit 3 off, onetimerflag 0); the stick blade (byte_CCBBA by facing,
+   mirrored by the x-flip attribute bit 3) is measured against the puck: close enough the swing steps on
+   (SPAcnt 0, updateanim), and within 64h (90h while the wait is under -10) the shot goes (passdir at most 8,
+   passspeed shotspd / 2 + 1Eh, frame 4, team one-timers +1 at +18h, crowd +64h, a2touchpuck, doshot,
+   PassCompleted, assexit). Not winding up yet, with the wait between -10 and 16h and p in the attacking zone
+   (y 46h toward the net, or joystick controlled): count a try at team +16h and start the wind-up toward the net
+   from where the puck will be (Findhittype: E2Bh, else DD3h). p: the receiver. No result. */
+void PassRecOneTimer(Player *p)
+{
+    int t;
+    int d;
+    short c;
+
+    if (*puckc >= 0 || (t = ((signed char *)&p->temp1)[1]) < -0x19) {
+        if (*puckc == p->SCnum) PassCompleted(p);
+        passplayer = -1;
+        p->pflags &= 0xFE;
+        assexit(p);
+        onetimerflag = 0;
+        return;
+    }
+    if (!onetimerflag) return;
+    if (p->SPA == 0xDD3 || p->SPA == 0xE2B) {
+        if (p->SPAnum <= 2 && (*(unsigned char *)&regd1 & 0x10 || *(unsigned char *)&regd1 & 0x40)) {
+            sflags &= 0xF7;
+            p->pflags |= 0x20;
+            if (p->SPA == 0xDD3) p->SPA = 0x1355;
+            else p->SPA = 0x138D;
+            onetimerflag = 0;
+        }
+        p->nopuck = 5;
+        regd0.w = p->facedir & 7;
+        if (p->attribute & 8) regd0.w = (8 - regd0.w) & 7;
+        regd1.w = byte_CCBBB[regd0.w * 2];
+        regd0.w = byte_CCBBA[regd0.w * 2];
+        if (p->attribute & 8) regd0.w = -regd0.w;
+        d = (short)(HIWORD(p->Xpos) + regd0.w - *puckx);
+        c = (short)(regd1.w + HIWORD(p->Ypos) - *pucky);
+        d = d * d + c * c;
+        if (p->SPAnum == 0 && (((signed char *)&p->temp1)[1] < -4 || d < 0x190) || p->SPAnum == 2 && d < 0x100) {
+            p->SPAcnt = 0;
+            updateanim(p);
+        }
+        if (d > 0x64 && (d > 0x90 || ((signed char *)&p->temp1)[1] >= -10)) return;
+        if (passdir > 8) passdir = 8;
+        passspeed = p->shotspd / 2 + 0x1E;
+        p->SPAnum = 4;
+        p->SPAcnt = 4;
+        ((signed char *)p)[0x46] = 0;
+        updateanim(p);
+        ((short *)p->tmptr)[0xC]++;
+        crowdlevel += 0x64;
+        a2touchpuck(p);
+        doshot(p);
+        PassCompleted(p);
+        p->pflags &= 0xFE;
+        assexit(p);
+        onetimerflag = 0;
+        return;
+    }
+    if (((signed char *)&p->temp1)[1] > 0x16 || t < -10) return;
+    if (!(p->pflags & 8)) {
+        if ((p->pflags & 0x80) && HIWORD(p->Ypos) < 0x46) return;
+        if (!(p->pflags & 0x80) && HIWORD(p->Ypos) > -0x46) return;
+    }
+    ((short *)p->tmptr)[0xB]++;
+    t = (short)((((signed char *)&p->temp1)[1] + 0xA) << 4);
+    d = -(short)((*puckvx * t >> 16) + *puckx);
+    t = (short)(t * *puckvy >> 16) + *pucky;
+    c = ((p->pflags & 0x80) ? 0xE8 : -0xE8) - t;
+    if (Findhittype(p, vtoa((short)d, c))) SetSPA(p, 0xE2B);
+    else SetSPA(p, 0xDD3);
+}
