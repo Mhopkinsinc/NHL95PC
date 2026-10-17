@@ -6,6 +6,9 @@ DrawSpriteNumber,11005,219,001_10010_main_startup,src/c/001_10010_main_startup/D
 FadePalette,11598,227,001_10010_main_startup,src/c/001_10010_main_startup/FadePalette.c,nonmatching,"draft: 224 vs 227. The clamp compares steps in ebx; the original reloads the stack home into ecx. A volatile parameter, a local copy, and an inlined mov ecx,[esp] rewrote the ternary. Do not retry those."
 GetMemListHead,10010,26,001_10010_main_startup,src/c/001_10010_main_startup/GetMemListHead.c,matched,
 GetMemStats,1002A,106,001_10010_main_startup,src/c/001_10010_main_startup/GetMemStats.c,matched,
+HandleHotKey,1118F,720,001_10010_main_startup,src/c/001_10010_main_startup/HandleHotKey.c,matched,
+SetFullPalette,11550,72,001_10010_main_startup,src/c/001_10010_main_startup/HandleHotKey.c,matched,
+PlayGame,11D09,747,001_10010_main_startup,src/c/001_10010_main_startup/HandleHotKey.c,matched,
 IntermissionPC,10F6D,152,001_10010_main_startup,src/c/001_10010_main_startup/IntermissionPC.c,matched,
 ResetInputSampling,1145F,59,001_10010_main_startup,src/c/001_10010_main_startup/ResetInputSampling.c,matched,
 RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunGameFrames.c,nonmatching,"extra ecx: n/i get ecx/ebx (asm ebx/edx), hot-key byte reuses eax in asm"
@@ -280,6 +283,8 @@ TradeHitTest,3ECAE,252,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/Tra
 TradeScreen,3FF52,561,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft (TradeHitTest.c): 561 vs 561, teams/result registers and two stack homes. See UNSURE."
 TradeRosterCmp,3FEF0,98,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeRosterCmp.c,matched,
 TradeShowStats,3DE05,592,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeShowStats.c,matched,
+AddHumanTeam,408F5,820,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,
+RemoveHumanTeam,40C29,805,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,
 BuildLeagueList,411C8,367,033_40183_trades,src/c/033_40183_trades/BuildLeagueList.c,nonmatching,"register allocation only: the findnext result is copied to edx before the test, and the list store indexes via edx/eax swapped; structure matches"
 CheckMasterPassword,40F4E,547,033_40183_trades,src/c/033_40183_trades/CheckMasterPassword.c,matched,
 FmtFromLeague,41171,87,033_40183_trades,src/c/033_40183_trades/FmtFromLeague.c,matched,
@@ -331,6 +336,7 @@ StopIfFree,4A80E,36,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_
 a2offsides,4DCDD,116,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/a2offsides.c,matched,
 a2touchpuck,4DE14,400,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/a2touchpuck.c,matched,
 ass_pc_slot20,49460,344,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ass_pc_slot20.c,nonmatching,"register allocation: side flag kept in ecx (EXE edx), so the first path lookup indexes differently; logic complete"
+assbench,4B12C,827,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbench.c,nonmatching,
 assbenchside,49BC2,283,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbenchside.c,nonmatching,
 assboxenter,499D8,490,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assboxenter.c,matched,
 asscenterd,4A53A,290,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asscenterd.c,nonmatching,
@@ -794,8 +800,11 @@ ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
 SaveScheduleDB,89223,69,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
 POCreateSchedule,8721F,769,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,
-POHiliteSlot,89B69,105,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POHiliteSlot.c,nonmatching,
-POInitSchedule,875A3,445,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POInitSchedule.c,nonmatching,
+POSimSeriesTeamWins,87D5A,285,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,
+POInitSchedule,875A3,445,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
+SeriesWinner,87760,137,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
+POSimSeries,87E77,270,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
+POHiliteSlot,89B69,105,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
 POPickConfTeams,870B6,361,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPickConfTeams.c,nonmatching,"361 vs 361. count stays in esi and the bitmask in edi (mov esi, ecx / xor edi, edi). The original is mov edi, ecx / xor esi, esi. The division compare then loads pick[1] into edx and pick[0] into eax. The pick swap uses ebx. The final loop hoists slots into ecx and uses edx as the write index. Declaring i before used, a cnt local before or after used, and used=0 before cnt=count did not swap esi and edi. Do not retry those."
 POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimConfFinals.c,matched,
 POPreSimRound1,87F85,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound1.c,matched,
@@ -805,7 +814,6 @@ POSeedRound2,87863,720,064_86696_season_playoffs,src/c/064_86696_season_playoffs
 POSeriesScore,877E9,122,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeriesScore.c,nonmatching,"registers/layout: asm returns through one exit (result in ecx), keeps *aw+1 in ebp on one arm and inc edi on the other; C merges the two arms"
 POSetSeriesTeams,87520,131,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSetSeriesTeams.c,nonmatching,original keeps s in eax and ORs the flags into ecx; this draft moves s to ecx. 10-min cap
 POSimSeriesTo,88625,279,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSimSeriesTo.c,matched,
-SeriesWinner,87760,137,064_86696_season_playoffs,src/c/064_86696_season_playoffs/SeriesWinner.c,nonmatching,
 SetSideControls,8B85B,212,064_86696_season_playoffs,src/c/064_86696_season_playoffs/SetSideControls.c,matched,
 WriteCurModeState,8B92F,62,064_86696_season_playoffs,src/c/064_86696_season_playoffs/WriteCurModeState.c,matched,
 CoachCutScene,8BC15,710,065_8BAAF_allfiles_coach,src/c/065_8BAAF_allfiles_coach/CoachCutScene.c,matched,
