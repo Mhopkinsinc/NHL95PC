@@ -809,6 +809,10 @@ dd DrawFileDlg_n3
 dd DrawFileDlg_n4
 dd DrawFileDlg_n5
 dd DrawFileDlg_n6
+; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlg)
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlg.inc"
+%else
 DrawFileDlg:
 push dword 54h	; 2C18F
 call __CHK	; 2C194
@@ -993,6 +997,7 @@ or byte [fdlgmask+1], 4	; 2C3F0
 DrawFileDlg_x:
 add esp, byte 24h	; 2C3F7
 jmp near LoadFileDlgShapes_x	; 2C3FA
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/FileDlgHitTest.inc"

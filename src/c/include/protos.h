@@ -369,6 +369,7 @@ void assrefgoalline(Player *p);  /* 4F7D0 */
 void asspenalty(Player *p);  /* 4ADAB */
 void asscentero(Player *p);  /* 4A65C */
 void assdefd(Player *p);  /* 49E3A */
+void DrawFileDlg(void);  /* 2C18F */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */

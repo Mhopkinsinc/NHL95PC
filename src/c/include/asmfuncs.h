@@ -286,7 +286,6 @@ extern void MenuOpenSaved(); /* 2B944 */
 extern void DrawFileDlgTabs(); /* 2BD16 */
 extern void ScanSavedGames(); /* 2BEFD */
 extern void DrawFileDlg_jt(); /* 2C177 */
-extern void DrawFileDlg(); /* 2C18F */
 extern void DrawFileDlg_n6(); /* 2C3CD */
 extern void DrawFileDlg_n5(); /* 2C3D4 */
 extern void DrawFileDlg_n4(); /* 2C3DB */
