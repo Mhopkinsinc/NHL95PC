@@ -2319,6 +2319,8 @@ extern short word_C6D24; /* C6D24 */
 extern int dword_C6D26; /* C6D26 */
 extern unsigned char treecolslots[]; /* C6D72 */
 extern unsigned char treecol_Wr2[]; /* C6D7A */
+extern unsigned char treecol_Wr3[]; /* C6D82 */
+extern unsigned char treecol_Er3[]; /* C6DA2 */
 extern unsigned char treecol_Er2[]; /* C6DAA */
 extern unsigned char treecol_Er1[]; /* C6DB2 */
 extern int dword_C6DBA[]; /* C6DBA */
