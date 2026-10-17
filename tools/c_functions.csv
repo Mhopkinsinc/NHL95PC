@@ -172,6 +172,7 @@ CmpTeamPK,232B7,384,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamS
 CmpTeamPP,2312D,394,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c): keys and record compares match; d = q8*pA - p8*qA spills the two products to [esp]/[esp+4], original [esp+4]/[esp]. See UNSURE."
 PlayerFromMouseY,24453,143,017_21CDE_player_stats,src/c/017_21CDE_player_stats/PlayerFromMouseY.c,matched,
 CountSeriesWins,27C34,872,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/CountSeriesWins.c,nonmatching,"draft: 904 vs 872, -od. Argument homes, i at ebp-10h and the 3Ch frame match. sched is at ebp-0Ch and the game pointer at ebp-8 (original ebp-8 and ebp-4). Do not drop the game-byte pointer; the frame shrinks to 38h."
+HighlightTreeSlot,2785F,868,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/HighlightTreeSlot.c,matched,
 MoveTreeHighlight,27BC3,113,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/MoveTreeHighlight.c,matched,
 PlayoffTreeHitTest ShowPlayoffTree,29681,137,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/PlayoffTreeHitTest.c,matched,
 DrawBevelBox,29D00,533,019_2970A_league_schedule,src/c/019_2970A_league_schedule/DrawBevelBox.c,nonmatching,stack slots of the corner coordinate temporaries differ (x1 + 2 / y1 + 2 ...); logic matches
@@ -284,6 +285,7 @@ LoadNhlCfg,3DB41,231,031_3DB41_config_cfg,src/c/031_3DB41_config_cfg/LoadNhlCfg.
 BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/BuildTradeRoster.c,nonmatching,draft: 473 vs 473. The fill loop keeps the index in ebx and stores it through al; the original keeps the index in eax and reloads the byte into dl. Do not retry: a separate unsigned char is the same ebx/al pair. Storing the index directly reloads eax (477 bytes). An aux that reloads dl parks list in edi; passing list in esi pushes the incoming args and shifts the frame.
 DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,matched,
 DrawTradeScreen,3E9CF,735,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeScreen.c,nonmatching,"draft: 736 vs 735 (best of 5). Cookie 0x60, sub esp 38h, ret 0Ch, art in ebp. The al/ah colour move into MakeJerseyShape matches. teams stays on the stack because t takes edi, the cols index is add eax,eax plus the pointer, and the roster base stays in ebp instead of being recomputed in ebx. The bank store is after add esp. Do not retry a named teams pointer or button = art once the roster loop is in the function; both spill art and grow the cookie to 0x64."
+ExecuteTrade,3E390,1059,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/ExecuteTrade.c,nonmatching,
 FindTradeSlot,3EF3C,77,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FindTradeSlot.c,matched,
 FixJerseyConflict,3E055,827,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FixJerseyConflict.c,nonmatching,
 LoadTradeTeamPals,3E835,410,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/LoadTradeTeamPals.c,matched,
@@ -745,6 +747,7 @@ HilightSaveToDlg,7F724,748,058_7F724_highlights,src/c/058_7F724_highlights/Hilig
 NudgeRinkScroll,7FC12,31,058_7F724_highlights,src/c/058_7F724_highlights/NudgeRinkScroll.c,matched,
 PlayHilight,8011C,559,058_7F724_highlights,src/c/058_7F724_highlights/PlayHilight.c,nonmatching,"559 vs 559. songdata is ecx and the zero is esi (original esi and edi), so s1font is edi instead of ebp and the four jctime loads are shifted one register. Do not retry naming that pointer or folding songdata = z = 0."
 SaveHilight,7FA10,514,058_7F724_highlights,src/c/058_7F724_highlights/SaveHilight.c,matched,
+SelectHilight,7FCF8,893,058_7F724_highlights,src/c/058_7F724_highlights/SelectHilight.c,nonmatching,
 TeamFromHiName,7FC5C,70,058_7F724_highlights,src/c/058_7F724_highlights/TeamFromHiName.c,matched,
 ViewHilights,80075,167,058_7F724_highlights,src/c/058_7F724_highlights/ViewHilights.c,matched,
 DrawPanel3D,80682,430,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawPanel3D.c,nonmatching,"draft: 430 vs 430. x1 stays in esi and y1 in edi. The original saves x1 in edi and y1 in esi. x2 stays in ebp and every edge and corner call matches once those two are swapped. Do not retry: copying y before x put y in ebp and x2 in esi; copying only y put x2 in edi; copying only x put x in ebp and x2 in edi; copying x then y put x in ebp, y in edi and x2 in esi."
