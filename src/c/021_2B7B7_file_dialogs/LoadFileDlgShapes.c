@@ -152,3 +152,98 @@ void DrawFileDlg(void)
     case 1: fdlgmask[1] |= 4;
     }
 }
+
+/* DrawFileDlgList (2C46B, PC only; ends in LoadFileDlgShapes_x): draw the file list l of the saved-games dialog.
+   Clear the six list rows (rects 0Ah-0Fh) in colour F9h. With no list clear the title (rect 9) and stop. Else
+   print the shown files (all of them up to six, else six from top), and with any files clear the title in F8h
+   and print the selected file's name there; the selected row, when shown, is cleared in F8h and reprinted. Clear
+   the scroll bar (rect 8) in F9h. Up to six files: enable one row per file in fdlgmask (bits 0Ah-0Fh, after
+   clearing them and the arrows: & 6FCh); more: enable all and the arrows (F903h) and draw the scroll bar thumb
+   (top * 50h / count to (bottom + 1) * 50h / count) in FAh / F8h. Then the arrow sprite by the current tab's
+   count (fdlg_noarrow / fdlg_arrow) and the tab sprite (exhibition, playoffs, league for tabs 0-2). l: the
+   list, or 0. Result: 0 with no list, else undefined (nothing is stored). */
+int DrawFileDlgList(FileList *l)
+{
+    int i;
+    int r;
+    int x;
+    int y;
+    int x2;
+    int y2;
+
+    sub_8E9C0(0xFA, 0xFF);
+    for (i = 0; i < 6; i++)
+        sub_90D20(((FRect *)fdlgrects)[0xA + i].x1 + 0xA, ((FRect *)fdlgrects)[0xA + i].y1 + 0x13,
+            ((FRect *)fdlgrects)[0xA + i].x2 - ((FRect *)fdlgrects)[0xA + i].x1 + 1,
+            ((FRect *)fdlgrects)[0xA + i].y2 - ((FRect *)fdlgrects)[0xA + i].y1 + 1, 0xF9);
+    if (!l) {
+        sub_90D20(((FRect *)fdlgrects)[9].x1 + 0xD, ((FRect *)fdlgrects)[9].y1 + 0x16,
+            ((FRect *)fdlgrects)[9].x2 - ((FRect *)fdlgrects)[9].x1 - 5,
+            ((FRect *)fdlgrects)[9].y2 - ((FRect *)fdlgrects)[9].y1 - 5, 0xF8);
+        r = 0;
+        goto done;
+    }
+    if (l->count <= 6) {
+        for (i = 0; i < l->count; i++)
+            PrintTextCopy(l->names[i], ((FRect *)fdlgrects)[0xA + i].x1 + 0xA, ((FRect *)fdlgrects)[0xA + i].y1 + 0x10);
+    } else {
+        for (i = 0; i < 6; i++)
+            PrintTextCopy(l->names[l->top + i], ((FRect *)fdlgrects)[0xA + i].x1 + 0xA,
+                ((FRect *)fdlgrects)[0xA + i].y1 + 0x10);
+    }
+    if (l->count > 0) {
+        sub_90D20(((FRect *)fdlgrects)[9].x1 + 0xD, ((FRect *)fdlgrects)[9].y1 + 0x16,
+            ((FRect *)fdlgrects)[9].x2 - ((FRect *)fdlgrects)[9].x1 - 5,
+            ((FRect *)fdlgrects)[9].y2 - ((FRect *)fdlgrects)[9].y1 - 5, 0xF8);
+        PrintTextCopy(l->names[l->sel], ((FRect *)fdlgrects)[9].x1 + 0xD, ((FRect *)fdlgrects)[9].y1 + 0x13);
+    }
+    if (l->sel >= l->top && l->sel <= l->bottom) {
+        i = l->sel - l->top;
+        sub_90D20(((FRect *)fdlgrects)[0xA + i].x1 + 0xA, ((FRect *)fdlgrects)[0xA + i].y1 + 0x13,
+            ((FRect *)fdlgrects)[0xA + i].x2 - ((FRect *)fdlgrects)[0xA + i].x1,
+            ((FRect *)fdlgrects)[0xA + i].y2 - ((FRect *)fdlgrects)[0xA + i].y1, 0xF8);
+        PrintTextCopy(l->names[l->top + i], ((FRect *)fdlgrects)[0xA + i].x1 + 0xA,
+            ((FRect *)fdlgrects)[0xA + i].y1 + 0x10);
+    }
+    sub_90D20(((FRect *)fdlgrects)[8].x1 + 0xA, ((FRect *)fdlgrects)[8].y1 + 0x13,
+        ((FRect *)fdlgrects)[8].x2 - ((FRect *)fdlgrects)[8].x1 + 1,
+        ((FRect *)fdlgrects)[8].y2 - ((FRect *)fdlgrects)[8].y1 + 1, 0xF9);
+    if (l->count <= 6) {
+        *(short *)fdlgmask &= 0x6FC;
+        switch (l->count) {
+        case 6: fdlgmask[1] |= 0x80;
+        case 5: fdlgmask[1] |= 0x40;
+        case 4: fdlgmask[1] |= 0x20;
+        case 3: fdlgmask[1] |= 0x10;
+        case 2: fdlgmask[1] |= 8;
+        case 1: fdlgmask[1] |= 4;
+        }
+    } else {
+        *(short *)fdlgmask |= 0xF903;
+        x = ((FRect *)fdlgrects)[8].x1 + 0xA;
+        y = ((FRect *)fdlgrects)[8].y1 + 0x13 + l->top * 0x50 / l->count;
+        x2 = ((FRect *)fdlgrects)[8].x2 + 0xA;
+        y2 = ((FRect *)fdlgrects)[8].y1 + 0x12 + (l->bottom + 1) * 0x50 / l->count;
+        sub_B4FAC(x, y, ((FRect *)fdlgrects)[8].x2 + 9, y, 0xFA);
+        sub_B4FAC(x, y, x, y2 - 1, 0xFA);
+        sub_B4FAC(x2, y + 1, x2, y2, 0xF8);
+        sub_B4FAC(x + 1, y2, x2, y2, 0xF8);
+    }
+    if (*(int *)off_C6F7C[fdlgtab] <= 6)
+        sub_91370(fdlg_noarrow, 0x18, 0x46);
+    else
+        sub_91370(fdlg_arrow, 0x18, 0x46);
+    switch (fdlgtab) {
+    case 0:
+        sub_91370(fdlg_tabexh, 0xA3, 0x4B);
+        break;
+    case 1:
+        sub_91370(fdlg_tabpo, 0xA3, 0x4B);
+        break;
+    case 2:
+        sub_91370(fdlg_tablp, 0xA3, 0x4B);
+        break;
+    }
+done:
+    return r;
+}

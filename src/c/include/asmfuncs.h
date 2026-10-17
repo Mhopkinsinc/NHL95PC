@@ -294,7 +294,6 @@ extern void DrawFileDlg_n2(); /* 2C3E9 */
 extern void DrawFileDlg_n1(); /* 2C3F0 */
 extern void DrawFileDlg_x(); /* 2C3F7 */
 extern void DrawFileDlgList_jt(); /* 2C453 */
-extern void DrawFileDlgList(); /* 2C46B */
 extern void DrawFileDlgList_n6(); /* 2C693 */
 extern void DrawFileDlgList_n5(); /* 2C69A */
 extern void DrawFileDlgList_n4(); /* 2C6A1 */
