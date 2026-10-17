@@ -344,6 +344,18 @@ assleaveice,4AB87,548,037_4842A_engine_player_logic,src/c/037_4842A_engine_playe
 asspenshooter,4FAE8,512,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspenshooter.c,nonmatching,register allocation only: EXE loads the puckc pointer into edx for the first test (C: eax); everything else matches
 asspuckc,4C6F3,458,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspuckc.c,matched,
 assrefatdot,4DFF7,198,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefatdot.c,matched,
+asswingd,4A1A6,413,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+asscentero,4A65C,434,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+asspenalty,4ADAB,592,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+CountPuckThreat,4C632,193,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+pucknorm_body,4D6B4,531,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+RequestLineChange,4D938,196,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+Endfaceoff,4DA7B,610,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+assrefwhistle,4E8EF,499,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+assrefdrop,4F5BF,529,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+assrefgoalline,4F7D0,448,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,
+asswingo,4A343,503,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,
+assreffollow,4E0BD,469,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,
 assscore,4A90F,435,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assscore.c,matched,
 assshoot,4D3F8,248,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assshoot.c,nonmatching,"draft: 242 vs 248. The pfna clear is and bl,0FDh; the original copies bl to ah first. The word at +4Ch is counted in ax (original di), so edi is not saved. A separate byte local moved the and into al. Do not retry that."
 assstanley,4A832,221,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assstanley.c,matched,
