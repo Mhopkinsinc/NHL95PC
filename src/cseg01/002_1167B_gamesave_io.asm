@@ -446,6 +446,10 @@ mov dword [gameresult], 1	; 11CF2
 call sub_1B982	; 11CFC
 add esp, byte 20h	; 11D01
 jmp near HandleHotKey_ret	; 11D04
+; C: src/c/001_10010_main_startup/HandleHotKey.c (PlayGame)
+%ifdef CBUILD
+%include "c/001_10010_main_startup/HandleHotKey.PlayGame.inc"
+%else
 PlayGame:
 push dword 64h	; 11D09
 call __CHK	; 11D0E
@@ -636,6 +640,7 @@ call SetScreenSize	; 11FE7
 .16:
 add esp, byte 40h	; 11FEC
 jmp near HandleHotKey_ret	; 11FEF
+%endif ; C
 ; C: src/c/002_1167B_gamesave_io/assreplace.c
 %ifdef CBUILD
 %include "c/002_1167B_gamesave_io/assreplace.inc"

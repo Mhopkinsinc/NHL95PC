@@ -16,7 +16,6 @@ extern void ReadSkipKeys(); /* 10C7F */
 extern void SampleInputTick(); /* 10DCD */
 extern void HandleHotKey_ret(); /* 113E9 */
 extern void GameLoop(); /* 1167B */
-extern void PlayGame(); /* 11D09 */
 extern void PickAwardWinners(); /* 1205D */
 extern void PickAwardWinners_x(); /* 12842 */
 extern void ShowAwardScreens(); /* 12849 */
