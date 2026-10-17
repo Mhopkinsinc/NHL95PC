@@ -912,6 +912,10 @@ pop ebp	; 8721B
 pop edi	; 8721C
 pop esi	; 8721D
 ret	; 8721E
+; C: src/c/064_86696_season_playoffs/POCreateSchedule.c
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POCreateSchedule.inc"
+%else
 POCreateSchedule:
 push dword 0A8h	; 8721F
 call __CHK	; 87224
@@ -1139,6 +1143,7 @@ pop esi	; 8751C
 pop ecx	; 8751D
 pop ebx	; 8751E
 ret	; 8751F
+%endif ; C
 POSetSeriesTeams:
 push dword 8	; 87520
 call __CHK	; 87525

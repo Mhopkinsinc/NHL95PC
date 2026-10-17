@@ -880,7 +880,6 @@ extern void savenamedefault(); /* 86616 */
 extern void CreatePlayoffs(); /* 86696 */
 extern void POSeedTeams(); /* 86E8B */
 extern void POPickConfTeams(); /* 870B6 */
-extern void POCreateSchedule(); /* 8721F */
 extern void POCreateSchedule_x(); /* 8751A */
 extern void POInitSchedule(); /* 875A3 */
 extern void POSeedRound2(); /* 87863 */
