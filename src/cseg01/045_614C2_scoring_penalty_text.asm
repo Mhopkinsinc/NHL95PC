@@ -3118,6 +3118,10 @@ pop ecx	; 63A34
 pop ebx	; 63A35
 ret	; 63A36
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/InProgress.c (ProcessPenaltyList)
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/InProgress.ProcessPenaltyList.inc"
+%else
 ProcessPenaltyList:
 push dword 1Ch	; 63A37
 call __CHK	; 63A3C
@@ -3212,6 +3216,7 @@ call CheckAndReleasePlayer	; 63B4A
 .10:
 add esp, byte 4	; 63B4F
 jmp near InProgress_popx	; 63B52
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/updatePPTeamTime.inc"

@@ -492,7 +492,6 @@ extern void InProgress_popebp(); /* 6346E */
 extern void InProgress_popx(); /* 6346F */
 extern void chkprogress_go(); /* 63475 */
 extern void chkprogress_x(); /* 6353E */
-extern void ProcessPenaltyList(); /* 63A37 */
 extern void updatepentime(); /* 63B85 */
 extern void chkprogress(); /* 63C0C */
 extern void PenGoalStuff(); /* 63D69 */
