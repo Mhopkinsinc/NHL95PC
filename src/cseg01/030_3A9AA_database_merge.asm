@@ -2906,6 +2906,10 @@ pop ecx	; 3D105
 pop ebx	; 3D106
 ret	; 3D107
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/ImportMasterLeague.c (ExportDbs)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ImportMasterLeague.ExportDbs.inc"
+%else
 ExportDbs:
 push dword 78h	; 3D108
 call __CHK	; 3D10D
@@ -3156,6 +3160,7 @@ mov eax, 2Ah	; 3D45B
 call SetDialogColors	; 3D460
 add esp, byte 48h	; 3D465
 jmp near ImportMasterLeague_ret	; 3D468
+%endif ; C
 SelectFloppyDrive:
 push dword 84h	; 3D46D
 call __CHK	; 3D472

@@ -352,7 +352,6 @@ extern void UpdateTeamDbs_ret(); /* 3B254 */
 extern void RebuildLeagueDbs(); /* 3B9CA */
 extern void ExportTeamToFloppy(); /* 3BB87 */
 extern void ImportMasterLeague_ret(); /* 3C6DB */
-extern void ExportDbs(); /* 3D108 */
 extern void LoadNhlCfg(); /* 3DB41 */
 extern void negone_3DC28(); /* 3DC28 */
 extern void TradeShowStats(); /* 3DE05 */
