@@ -2410,6 +2410,10 @@ call skateto	; 4A195
 mov eax, ebx	; 4A19A
 call check4check	; 4A19C
 jmp near ass_popx	; 4A1A1
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asswingd)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asswingd.inc"
+%else
 asswingd:
 push dword 18h	; 4A1A6
 call __CHK	; 4A1AB
@@ -2534,6 +2538,7 @@ asswingd_skateto:
 mov eax, ebx	; 4A337
 call skateto	; 4A339
 jmp near ass_popx	; 4A33E
+%endif ; C
 asswingo:
 push dword 18h	; 4A343
 call __CHK	; 4A348

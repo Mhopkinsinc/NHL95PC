@@ -113,3 +113,57 @@ void CountPuckThreat(Player *p)
         threat++;
     }
 }
+
+/* asswingd (4A1A6; 94G assign94 asswingd, PC version; ends in ass_popx, owner of asswingd_skate0 /
+   asswingd_skateto): the winger's defensive assignment. Not while locked (pflags bit 5), at the bench
+   (check4bench) or joystick controlled (bit 3); with the clock stopped (gmode bit 0) just stop (StopIfFree). A new
+   assignment (bit 1) clears temp1 and sets temp2 8. Every aioff ticks (the high byte of temp1) switch to the
+   offensive winger (assignment 4) when his own team has the puck. Else skate to the wing (x 78h, -78h for the
+   right wing, toward the puck's side when the puck is on it) between the blue line (8Eh) and the slot (44h,
+   following the puck down to the goal line E8h; offside, tmflags bit 4: stay at 44h); mirrored for the other
+   end (pflags bit 7). p: the winger. No result. */
+void asswingd(Player *p)
+{
+    if (p->pflags & 0x20) return;
+    if (check4bench(p)) return;
+    if (gmode & 1) {
+        StopIfFree(p);
+        return;
+    }
+    if (p->pflags & 8) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        p->temp1 = 0;
+        p->temp2 = 8;
+    }
+    if (--((signed char *)p)[0x27] < 0) {
+        ((signed char *)p)[0x27] = p->aioff;
+        if (*puckc >= 0 && (*puckc < 6) == (p->SCnum < 6)) {
+            assreplace(p, 4);
+            return;
+        }
+    }
+    regd0.l = p->position == 5 ? -0x78 : 0x78;
+    regd1.w = 0x8E;
+    regd2.w = 0x44;
+    if (p->pflags & 0x80) {
+        regd0.w = -regd0.w;
+        regd1.w = -0x8E;
+        regd2.w = -0x44;
+        if (p->tmptr->tmflags & 0x10) regd1.w = regd2.w;
+        else if (*pucky >= regd2.w) regd1.w = *pucky;
+        else {
+            regd2.w = -0xE8;
+            if (regd2.w >= *pucky) regd1.w = regd2.w;
+        }
+    } else {
+        if (p->tmptr->tmflags & 0x10) regd1.w = regd2.w;
+        else if (*pucky <= regd2.w) regd1.w = *pucky;
+        else {
+            regd2.w = 0xE8;
+            if (regd2.w <= *pucky) regd1.w = regd2.w;
+        }
+    }
+    if ((*puckx ^ regd0.w) >= 0) regd0.w = *puckx;
+    skateto(p, 0);
+}

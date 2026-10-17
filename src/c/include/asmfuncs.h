@@ -410,7 +410,6 @@ extern void PickThreeStars(); /* 48AC8 */
 extern void StartThreeStars(); /* 48F0B */
 extern void assthreestars(); /* 495B8 */
 extern void assdefd(); /* 49E3A */
-extern void asswingd(); /* 4A1A6 */
 extern void asswingd_skate0(); /* 4A335 */
 extern void asswingd_skateto(); /* 4A337 */
 extern void asswingo(); /* 4A343 */
