@@ -384,16 +384,26 @@ class TextTargets:
         if not own: raise SystemExit('%s: %s refers to _TEXT+%X before any function' % (self.src, func, t))
         g, go = own[-1]
         text = self.r['text']; k = text.find(b'\xc3', t)
-        tail = text[t:k + 1] if 0 <= k - t < 16 else b''
+        tail = re.escape(text[t:k + 1]) if 0 <= k - t < 16 else b''
+        if not tail:
+            # no ret close by: the tail up to its first call / jmp out of the module (a rel32 fixup), its relocated
+            # fields as wildcards (assrefdrop's jumps into the draft assrefwhistle's SkateToSpot tail, which goes on
+            # with `jmp ass_popx` in the original and with the pops in the draft)
+            fx = [f for f in self.r['fixups'] if t <= f['off'] < t + 48]
+            ends = [f['off'] + 4 for f in fx if f['kind'] == 'rel32']
+            if ends and ends[0] - t >= 8:
+                masked = set()
+                for f in fx: masked.update(range(f['off'], f['off'] + 4))
+                tail = b''.join(b'.' if i in masked else re.escape(text[i:i + 1]) for i in range(t, ends[0]))
         ga = label_addr(self.asm, g)
         if not tail or ga is None:
             raise SystemExit('%s: %s branches to %s+%X (_TEXT+%X), not a marked block nor a shared ret tail' % (self.src, func, g, t - go, t))
         later = [o for n, o in pubs if o > go]
         span = (later[0] - go if later else len(text) - go) + 0x100
         orig = original_bytes(ga, span)
-        hits = [m.start() for m in re.finditer(re.escape(tail), orig)]
+        hits = [m.start() for m in re.finditer(tail, orig, re.S)]
         if len(hits) != 1:
-            raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, tail.hex(), g, len(hits), g))
+            raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, text[t:t + 16].hex(), g, len(hits), g))
         ta = ga + hits[0]
         if func != '?' and c_paths(self.src, func)[2] != self.asm:
             # the branch is in a block marked in another asm file (FreeLeagueDbsMem in 051 ending in the draft
