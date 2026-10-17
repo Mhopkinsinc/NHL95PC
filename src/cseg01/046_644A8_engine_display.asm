@@ -2077,6 +2077,10 @@ pop edx	; 65B80
 pop ebx	; 65B81
 ret	; 65B82
 %endif ; C
+; C: src/c/046_644A8_engine_display/BuildDefaultLines.c (CanRemovePlayer)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/BuildDefaultLines.CanRemovePlayer.inc"
+%else
 CanRemovePlayer:
 push dword 24h	; 65B83
 call __CHK	; 65B88
@@ -2192,6 +2196,7 @@ setg al	; 65C98
 and eax, 0FFh	; 65C9B
 add esp, byte 8	; 65CA0
 jmp near lines_popx	; 65CA3
+%endif ; C
 ; C: src/c/046_644A8_engine_display/DitherRect.c
 %ifdef CBUILD
 %include "c/046_644A8_engine_display/DitherRect.inc"
