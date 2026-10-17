@@ -275,3 +275,75 @@ void ResetBench(void)
         tm = &awtmstruct;
     }
 }
+
+/* updateanim (5CAEF; 93G hockey93 updateanim, "frame switch control on struct a3"; ends in calcpuckcross_ret5):
+   step p's animation. No SPA: unlock (pfalock, pf2aip) and stop. The SPA's table (SPAtab + SPA; attribute word
+   first, bit 15 = loops) gives per facing (facedir; on the horizontal rink, sflags bit 7, 2 less for the skaters
+   and object 10h; mirrored when the x-flip attribute bit 3 is set) a list of frame / time pairs. When the time
+   (SPAcnt) runs out, step to the next pair; at the end of the list start over, unlock and (not looping) clear the
+   SPA; PC: SPAs 1027h-1055h then put the player at x -A0h facing 2, locked, in SPA 7A1h. The frame changes at most
+   every 4 ticks (glitch, +46h); PC: some new frames (skate strides) play sfx B3h. p: the object. No result. */
+void updateanim(Player *p)
+{
+    short d;
+    short *t;
+    short loop;
+    short fr;
+    short *e;
+    int c;
+
+    if (p->SPA == 0) {
+        p->pflags &= ~pfalock;
+        p->pflags2 &= ~pf2aip;
+        return;
+    }
+    d = p->facedir;
+    if ((sflags & 0x80) && (p->SCnum < 0xC || p->SCnum == 0x10)) d = d - 2 & 7;
+    if (p->attribute & 8) d = 8 - d & 7;
+    t = (short *)SPAtab + p->SPA;
+    loop = *t & 0x8000;
+    if (d) c = t[d];
+    else c = *t & 0x7FFF;
+    t = (short *)((char *)t + (c * 2 + 0x10));
+    d = p->SPAnum;
+    e = &t[d];
+    fr = *e;
+    if (p->SPAcnt >= 0) {
+        if (--p->SPAcnt >= 0) goto frame;
+        p->SPAnum += 2;
+        d += 2;
+        if (t[d - 1] < 0) {
+            p->SPAnum = 0;
+            d = p->SPAnum;
+            p->pflags &= ~pfalock;
+            p->pflags2 &= ~pf2aip;
+            if (p->SPA >= 0x1027 && p->SPA <= 0x1055) {
+                p->Yvel = 0;
+                p->Xvel = p->Yvel;
+                HIWORD(p->Xpos) = -0xA0;
+                p->facedir = 2;
+                p->pflags |= pfalock;
+                SetSPA(p, 0x7A1);
+                return;
+            }
+            if (!loop) p->SPA = loop;
+        }
+        d = t[d + 1];
+        if (d < 0) d = -d;
+        p->SPAcnt = d;
+    } else {
+        d = e[1];
+        if (d < 0) d = -d;
+        p->SPAcnt = d;
+    }
+frame:
+    if (--((signed char *)p)[0x46] >= 0) return;
+    ((signed char *)p)[0x46] = 0;
+    if (fr == p->frame) return;
+    p->frame = fr;
+    if ((fr >= 0x112 && fr <= 0x14E && !((fr - 0x112) & 3)) || (fr >= 0x207 && fr <= 0x215 && (fr & 1))
+        || (fr >= 0x315 && fr <= 0x32A && !(fr % 3)) || (fr >= 0x38A && fr <= 0x3AD && !((fr - 0x38A) % 5))
+        || fr == 0x36F || fr == 0x373 || fr == 0x377 || fr == 0x3BF || fr == 0x3C3 || fr == 0x3CE || fr == 0x3D1)
+        sfx(0xB3);
+    ((signed char *)p)[0x46] = 4;
+}

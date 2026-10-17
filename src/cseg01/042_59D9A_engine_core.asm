@@ -3745,6 +3745,10 @@ mov word [puckstruct+12h], 18Ah	; 5CADE
 .58:
 add esp, byte 0Ch	; 5CAE7
 jmp near calcpuckcross_ret6	; 5CAEA
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateanim)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.updateanim.inc"
+%else
 updateanim:
 push dword 18h	; 5CAEF
 call __CHK	; 5CAF4
@@ -3925,6 +3929,7 @@ call sfx	; 5CD17
 .17:
 mov byte [byte ebx+046h], 4	; 5CD1C
 jmp near calcpuckcross_ret5	; 5CD20
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/LockScroll.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/LockScroll.inc"
