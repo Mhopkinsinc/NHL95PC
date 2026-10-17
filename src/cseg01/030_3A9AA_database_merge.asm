@@ -308,6 +308,10 @@ pop ebp	; 3AE18
 pop edi	; 3AE19
 pop esi	; 3AE1A
 ret 8	; 3AE1B
+; C: src/c/030_3A9AA_database_merge/MergeTeamDbs.c (MergeScheduleDb)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/MergeTeamDbs.MergeScheduleDb.inc"
+%else
 MergeScheduleDb:
 push dword 48h	; 3AE1E
 call __CHK	; 3AE23
@@ -425,6 +429,7 @@ call FileClose	; 3AF61
 mov eax, edx	; 3AF66
 add esp, byte 38h	; 3AF68
 jmp near MergeTeamDbs_ret	; 3AF6B
+%endif ; C
 LocateTeamDbCopy:
 push dword 34h	; 3AF70
 call __CHK	; 3AF75
