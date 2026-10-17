@@ -163,7 +163,6 @@ extern void loc_1BB71(); /* 1BB71 */
 extern void loc_1BB86(); /* 1BB86 */
 extern void loc_1BBB3(); /* 1BBB3 */
 extern void loc_1BBB4(); /* 1BBB4 */
-extern void LoadGameTeams(); /* 1BBCC */
 extern void OpenPlayerDBs_x(); /* 1C3F0 */
 extern void LoadTeamRoster(); /* 1C3F6 */
 extern void SetupGoalieMenu(); /* 1C852 */

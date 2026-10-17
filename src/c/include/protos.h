@@ -376,6 +376,7 @@ void SetFullPalette(unsigned char *pal);  /* 11550 */
 void PlayGame(int *fh);  /* 11D09 */
 void ProcessPenaltyList(Team *tm);  /* 63A37 */
 void ExportDbs(void);  /* 3D108 */
+void LoadGameTeams(int mode);  /* 1BBCC */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */
