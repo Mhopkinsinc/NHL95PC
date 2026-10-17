@@ -186,6 +186,7 @@ LoadFileDlgShapes,2B7C3,385,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/
 DrawFileDlgTabs,2BD16,468,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
 DrawFileDlg,2C18F,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
 DrawFileDlgList,2C46B,918,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,
+MenuOpenSaved,2B944,978,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/MenuOpenSaved.c,matched,
 PrintTextCopy,2C135,63,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/PrintTextCopy.c,matched,
 ReadGameSettings,2D260,222,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/ReadGameSettings.c,matched,
 ScanSavedGames,2BEFD,568,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/ScanSavedGames.c,nonmatching,"draft: 568 vs 568 beside LoadFileDlgShapes. The scans match except four byte registers: the exhibition terminator is ah (original bl), the playoff name is dl (original bh) and its terminator dl (original ch), the league terminator is dh (original bl). Do not retry a second char or a named zero."
@@ -214,6 +215,7 @@ RunMessageBox,31250,589,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/RunM
 SaveDialogBg,30E66,172,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SaveDialogBg.c,matched,
 SetDialogColors,30A0C,45,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetDialogColors.c,matched,
 SetListItemColors,30209,53,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetListItemColors.c,matched,
+TextInputDialog,2FEDF,810,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TextInputDialog.c,nonmatching,
 TrackButtons,30A39,169,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackButtons.c,matched,
 TrackScrollBars,30D0E,344,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackScrollBars.c,nonmatching,"draft: 344 vs 344 beside TrackButtons. Prologue matches (cookie 20h, y in ebp, hit at esp+8). The item index multiplies after h-4 is stored; the original multiplies the thumb by total first. Do not retry a pointer local or dropping the volatile slot."
 CopyGameSettings,32C9E,267,024_31AB5_main_desk,src/c/024_31AB5_main_desk/CopyGameSettings.c,matched,
@@ -299,6 +301,7 @@ LoadHomePals,40792,355,033_40183_trades,src/c/033_40183_trades/LoadHomePals.c,ma
 MsgCopyingDatabases,414E0,54,033_40183_trades,src/c/033_40183_trades/MsgCopyingDatabases.c,matched,
 SaveLeagueGameRef,41978,520,033_40183_trades,src/c/033_40183_trades/SaveLeagueGameRef.c,nonmatching,"draft: 483 vs 520. Frame is 38h and the handle is at esp+30h. Each FileWriteAt result is tested in eax; the original copies it to edx first (mov edx, eax) and the next block tests edx. register, declaration order, and goto labels did not move it."
 WriteLeagueInfo,413CD,275,033_40183_trades,src/c/033_40183_trades/WriteLeagueInfo.c,matched,
+AdvancePlayoffs,44A41,910,034_41B80_schedule,src/c/034_41B80_schedule/AdvancePlayoffs.c,nonmatching,
 DateKey,41C79,34,034_41B80_schedule,src/c/034_41B80_schedule/DateKey.c,nonmatching,"original keeps day in edx and builds the month in ebx (lea ebx,[eax+0Ch] / mov ebx,eax); this draft moves day to ebx. 10-min cap"
 FinishPlayoffs,44899,424,034_41B80_schedule,src/c/034_41B80_schedule/FinishPlayoffs.c,matched,
 GetPlayoffSeeds,42BBA,496,034_41B80_schedule,src/c/034_41B80_schedule/GetPlayoffSeeds.c,matched,
