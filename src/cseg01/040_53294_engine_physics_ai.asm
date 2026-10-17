@@ -5150,6 +5150,10 @@ pop edx	; 57092
 pop ecx	; 57093
 pop ebx	; 57094
 ret	; 57095
+; C: src/c/040_53294_engine_physics_ai/puckgoalie.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/puckgoalie.inc"
+%else
 puckgoalie:
 push dword 18h	; 57096
 call __CHK	; 5709B
@@ -5458,6 +5462,7 @@ pop esi	; 5747F
 pop ecx	; 57480
 pop ebx	; 57481
 ret	; 57482
+%endif ; C
 puckstick:
 push dword 24h	; 57483
 call __CHK	; 57488
