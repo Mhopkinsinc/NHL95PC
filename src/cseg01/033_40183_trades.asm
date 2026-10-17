@@ -513,6 +513,10 @@ pop ecx	; 408F2
 pop ebx	; 408F3
 ret	; 408F4
 %endif ; C
+; C: src/c/033_40183_trades/AddHumanTeam.c
+%ifdef CBUILD
+%include "c/033_40183_trades/AddHumanTeam.inc"
+%else
 AddHumanTeam:
 push dword 74h	; 408F5
 call __CHK	; 408FA
@@ -759,6 +763,7 @@ pop edx	; 40C25
 pop ecx	; 40C26
 pop ebx	; 40C27
 ret	; 40C28
+%endif ; C
 RemoveHumanTeam:
 push dword 74h	; 40C29
 call __CHK	; 40C2E
