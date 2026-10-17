@@ -416,7 +416,6 @@ extern void asswingo(); /* 4A343 */
 extern void asswingo_evade(); /* 4A530 */
 extern void asscentero(); /* 4A65C */
 extern void asseben(); /* 4AAC2 */
-extern void asspenalty(); /* 4ADAB */
 extern void assbench(); /* 4B12C */
 extern void assgoalie(); /* 4B774 */
 extern void assgoalie_popebp(); /* 4C62C */

@@ -3364,6 +3364,10 @@ pop ecx	; 4ADA8
 pop ebx	; 4ADA9
 ret	; 4ADAA
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asspenalty)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asspenalty.inc"
+%else
 asspenalty:
 push dword 18h	; 4ADAB
 call __CHK	; 4ADB0
@@ -3522,6 +3526,7 @@ mov word [regd0], ax	; 4AFE6
 mov ax, word [byte ebx+temp4]	; 4AFEC
 mov word [regd1], ax	; 4AFF0
 jmp near asswingd_skate0	; 4AFF6
+%endif ; C
 ; assdopen: asstab 0Dh (player goes to the penalty box). Bumps PBnum (home) or PBnum+1 (away).
 ; C: src/c/037_4842A_engine_player_logic/assdopen.c
 %ifdef CBUILD

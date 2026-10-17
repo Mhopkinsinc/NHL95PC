@@ -117,6 +117,74 @@ void asswingo(Player *p)
     skateto(p, (void (*)(Player *))EvadePC);
 }
 
+/* asspenalty (4ADAB; 94G assign94 asspenalty "player a3 goes to the penalty box", PC version; ends in ass_popx /
+   asswingd_skate0): not while locked (pflags bit 5). A new assignment (bit 1) marks him unavailable (pflags2 bit
+   2), takes a human controller off him (changeplayer: controller 0 for c1playernum, else 2) and picks his seat in
+   his team's box (x A0h, y 3 + the number already there (PBnum, at most 2) times -11 / 11 by team, pflags bit 6).
+   Away from it (y more than 0Ch, x short of it by 18h) he skates there (skateto); in it, every 8 ticks (temp1) he
+   turns toward facing 4 (SPA 289h, pflags bit 2) gliding in (x speed 1000h); once past x -8 and facing it he
+   sits: locked, facing 2, SPA 7A1h, pflags2 bit 4 off, his team's tmap one less (down to 4), assignment 0Dh.
+   p: the player. No result. */
+void asspenalty(Player *p)
+{
+    if (p->pflags & 0x20) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        p->pflags2 |= 4;
+        if (p->pflags & 8) {
+            if (p->SCnum == c1playernum[0]) regd4.w = 0;
+            else regd4.w = 2;
+            changeplayer(p, regd4.w);
+        }
+        p->temp2 = 8;
+        if (!(p->pflags & 0x40)) {
+            regd1.w = PBnum[0];
+            regd0.l = -11;
+        } else {
+            regd1.w = PBnum[1];
+            regd0.l = 11;
+        }
+        regd1.w &= 0xF;
+        if (regd1.w > 2) regd1.l = 2;
+        regd1.w += 3;
+        p->temp4 = regd1.w * regd0.w;
+        p->temp3 = 0xA0;
+        p->temp1 = 0;
+        p->pflags2 |= 0x20;
+        p->Wallcos = 0;
+        p->Wallsin = 0;
+    }
+    regd0.w = HIWORD(p->Ypos) - p->temp4;
+    if ((regd0.w < 0 ? -regd0.w : regd0.w) > 0xC) goto skate;
+    regd0.w = HIWORD(p->Xpos) - p->temp3;
+    if (regd0.w < -0x18) goto skate;
+    if (--p->temp1 >= 0) return;
+    p->temp1 += 8;
+    p->pflags |= 4;
+    SetSPA(p, 0x289);
+    regd2.w = 4;
+    if (p->facedir != regd2.w) {
+        regd2.w = (regd2.w - p->facedir) & 7;
+        p->facedir = (regd2.w < 5 ? 1 : -1) + (*(int *)((char *)&p->facedir - 2) >> 16) & 7;
+    }
+    p->Yvel = 0;
+    p->Xvel = 0x1000;
+    if (regd0.w < -8) return;
+    p->Xvel = 0;
+    if (regd2.w != p->facedir) return;
+    p->pflags |= 0x20;
+    p->facedir = 2;
+    SetSPA(p, 0x7A1);
+    p->pflags2 &= 0xEF;
+    if (p->tmptr->tmap > 4) p->tmptr->tmap--;
+    assreplace(p, 0xD);
+    return;
+skate:
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    skateto(p, 0);
+}
+
 /* CountPuckThreat (4C632, PC only; ends in ass_popx): count into threat the opposing skaters within 14h (x and
    y) of where the puck goes next (the puck plus the goalie's velocity / 100h), each skater also taken one step
    ahead. p: the goalie (SCnum below 6 is the home side: look at the away skaters, SortCords + 6). No result. */
