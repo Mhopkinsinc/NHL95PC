@@ -157,3 +157,51 @@ void ProcessPenaltyList(Team *tm)
         CheckAndReleasePlayer(tm, out[1]);
     } else if (regd1.w == -1) CheckAndReleasePlayer(tm, out[1]);
 }
+
+/* ShotLaneOpen (64102, PC only; ends in InProgress_popebp): is the puck carrier's shooting lane open? Not when
+   nobody has the puck or he is in his own half. Else his distance to the net he attacks (y E8h, vecdist) must be
+   shorter than every opposing skater's (position above 0) who is nearer to that net than he is (4 behind him)
+   and not skating away from it, and no such skater may be beyond him. Sets shotontarget. No arguments.
+   Result: 1 when the lane is open, else 0. */
+int ShotLaneOpen(void)
+{
+    Player *p;
+    int y;
+    int ty;
+    int x;
+    volatile int d;
+    volatile int m;
+    int i;
+
+    shotontarget = 0;
+    if (*puckc < 0) return 0;
+    p = &SortCords[*puckc];
+    y = HIWORD(p->Ypos);
+    ty = y;
+    x = HIWORD(p->Xpos);
+    if (p->pflags & 0x80) {
+        if (y < 0) return 0;
+        y += 4;
+        d = vecdist(ty - 0xE8, x);
+        m = 0;
+        for (i = 0, p = &SortCords[p->SCnum < 6 ? 6 : 0]; i < 6; i++, p++) {
+            if (p->position <= 0) continue;
+            if (HIWORD(p->Ypos) > y) return 0;
+            if (p->Yvel < 0) continue;
+            if (vecdist(HIWORD(p->Ypos) - 0xE8, HIWORD(p->Xpos)) <= d - m) return 0;
+        }
+    } else {
+        if (y > 0) return 0;
+        y -= 4;
+        d = vecdist(ty + 0xE8, x);
+        m = 0;
+        for (i = 0, p = &SortCords[p->SCnum < 6 ? 6 : 0]; i < 6; i++, p++) {
+            if (p->position <= 0) continue;
+            if (HIWORD(p->Ypos) < y) return 0;
+            if (p->Yvel > 0) continue;
+            if (vecdist(HIWORD(p->Ypos) + 0xE8, HIWORD(p->Xpos)) <= d - m) return 0;
+        }
+    }
+    shotontarget = 1;
+    return 1;
+}

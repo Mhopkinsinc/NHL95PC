@@ -308,7 +308,7 @@ void DrawRosterTitle(int x, int y, int side);  /* 6CEFB */
 void DrawRosterList(int x, int y, int side);  /* 6CF6F */
 void DrawDatabaseName(void);  /* 6D256 */
 int CountShotOnGoal(void);  /* 64338 */
-void ShotLaneOpen(void);  /* 64102 */
+int ShotLaneOpen(void);  /* 64102 */
 void ClearPanelPenalties(void);  /* 1CBD8 */
 void LoadScoreboardGfx(void);  /* 1CC3D */
 int AnyInputPressed(void);  /* 1600C */
