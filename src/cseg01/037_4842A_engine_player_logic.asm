@@ -6988,6 +6988,10 @@ pop edx	; 4D936
 ret	; 4D937
 %endif ; C
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (RequestLineChange)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.RequestLineChange.inc"
+%else
 RequestLineChange:
 push dword 18h	; 4D938
 call __CHK	; 4D93D
@@ -7040,6 +7044,7 @@ jmp near ass_popx	; 4D9EA
 xor edx, edx	; 4D9EF
 mov dword [dword_C585C], edx	; 4D9F1
 jmp near ass_popx	; 4D9F7
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/SetLCmode.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/SetLCmode.inc"
