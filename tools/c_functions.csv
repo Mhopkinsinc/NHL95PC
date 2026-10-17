@@ -127,6 +127,7 @@ ResetGoalieMenu,1CB7F,89,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/Reset
 SetupGoalieMenu,1C852,813,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/SetupGoalieMenu.c,nonmatching,"draft: 797 vs 813 (best of 2). Cookie 0x38 and sub esp,20h match. The roster index is mov al / and eax,0ffh (original xor edx,edx / mov dl) and the tens-digit store is sunk to the join so the add stays in eax. An int dig pushes edi and grows the cookie to 0x3c. Do not retry a named int for that add."
 AddDirtyRect,1D02F,193,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/AddDirtyRect.c,matched,
 BuildSavedGameLabels,1D518,189,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/BuildSavedGameLabels.c,matched,
+DrawSprite,1CD73,678,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/DrawSprite.c,nonmatching,
 LoadScoreboardGfx,1CC3D,278,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/LoadScoreboardGfx.c,matched,
 NullBlit,1D019,11,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/NullBlit.c,matched,
 NullFunc_1D024,1D024,11,014_1CC3D_frontend_labels,src/c/014_1CC3D_frontend_labels/NullFunc_1D024.c,matched,
@@ -206,6 +207,7 @@ DrawEditCursor,314B4,229,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/Dra
 DrawEditText,31599,372,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft (DrawEditCursor.c): 369 vs 372, dot width in edi (original ebp). See UNSURE."
 DrawListItem,302B9,227,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"registers: y / w in ebp / edi (EXE edi / ebp); DrawListItems short-jumps into its exit, mark as one block"
 DrawListItems,3039C,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"compiles to the original 95 bytes, but it branches into DrawListItem+DEh, so it cannot be marked until DrawListItem is."
+EditTextField,3170D,936,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/EditTextField.c,nonmatching,
 GrowToButton,30F5F,85,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButton.c,nonmatching,same blocks; original keeps w in edx and v in ecx (then edx / eax in the second half); this draft moves w to ecx. 10-min cap
 GrowToButtons,30FB4,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButtons.c,nonmatching,registers: asm sums in edx and builds each width in esi; C swaps them
 ListHitTest,3023E,123,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/ListHitTest.c,nonmatching,"scheduling: asm loads w (stack arg) before top+2 and keeps x1 at [esp], x2 at [esp+4]; C swaps the slots"
@@ -283,6 +285,7 @@ BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey
 DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,matched,
 DrawTradeScreen,3E9CF,735,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeScreen.c,nonmatching,"draft: 736 vs 735 (best of 5). Cookie 0x60, sub esp 38h, ret 0Ch, art in ebp. The al/ah colour move into MakeJerseyShape matches. teams stays on the stack because t takes edi, the cols index is add eax,eax plus the pointer, and the roster base stays in ebp instead of being recomputed in ebx. The bank store is after add esp. Do not retry a named teams pointer or button = art once the roster loop is in the function; both spill art and grow the cookie to 0x64."
 FindTradeSlot,3EF3C,77,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FindTradeSlot.c,matched,
+FixJerseyConflict,3E055,827,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/FixJerseyConflict.c,nonmatching,
 LoadTradeTeamPals,3E835,410,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/LoadTradeTeamPals.c,matched,
 TradeCancel,3EF27,21,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeCancel.c,matched,
 TradeDone,3EDAA,381,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeDone.c,nonmatching,"register allocation only: sel / bad / the byte live in edx / ebx / cl in asm, ebx / ecx / dl in C"
@@ -294,6 +297,7 @@ AddHumanTeam,408F5,820,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,ma
 RemoveHumanTeam,40C29,805,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,
 BuildLeagueList,411C8,367,033_40183_trades,src/c/033_40183_trades/BuildLeagueList.c,nonmatching,"register allocation only: the findnext result is copied to edx before the test, and the list store indexes via edx/eax swapped; structure matches"
 CheckMasterPassword,40F4E,547,033_40183_trades,src/c/033_40183_trades/CheckMasterPassword.c,matched,
+CopyHumanTeamDBs,41516,1122,033_40183_trades,src/c/033_40183_trades/CopyHumanTeamDBs.c,nonmatching,
 FmtFromLeague,41171,87,033_40183_trades,src/c/033_40183_trades/FmtFromLeague.c,matched,
 GetLeagueId,41344,137,033_40183_trades,src/c/033_40183_trades/GetLeagueId.c,matched,
 LeagueCheckStub,41337,13,033_40183_trades,src/c/033_40183_trades/LeagueCheckStub.c,matched,
@@ -307,6 +311,7 @@ FinishPlayoffs,44899,424,034_41B80_schedule,src/c/034_41B80_schedule/FinishPlayo
 GetPlayoffSeeds,42BBA,496,034_41B80_schedule,src/c/034_41B80_schedule/GetPlayoffSeeds.c,matched,
 LoadLeagueGameRef,41B80,249,034_41B80_schedule,src/c/034_41B80_schedule/LoadLeagueGameRef.c,matched,
 NormalizeDate,41C9B,41,034_41B80_schedule,src/c/034_41B80_schedule/NormalizeDate.c,matched,
+RandomizeSchedule,42295,924,034_41B80_schedule,src/c/034_41B80_schedule/RandomizeSchedule.c,nonmatching,
 SeriesLength,42221,116,034_41B80_schedule,src/c/034_41B80_schedule/SeriesLength.c,nonmatching,"116 vs 116. Loop, jump table and case bodies match. The shared mov eax,esi / pop esi / pop edx / pop ecx / ret is after mov esi,5 (ja and the other returns jump forward to +57). The EXE falls out of mov esi,1 into that epilogue at +39 and later cases jump back. Do not retry: Watcom sinks this multi-predecessor return onto the first conditional fall-through (best-of-5); a return glued to case 0 folds to mov eax,1 or jumps to an epilogue at the end."
 SetSeriesTeams,42F42,171,034_41B80_schedule,src/c/034_41B80_schedule/SetSeriesTeams.c,matched,
 SimPlayoffRound1,43644,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,
@@ -644,6 +649,7 @@ EditRostersReturn,6D5BB,21,052_6D2F8_create_player,src/c/052_6D2F8_create_player
 ErrorScreenWait,6EAB5,480,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ErrorScreenWait.c,matched,
 LoadTempDatabases,710D8,388,052_6D2F8_create_player,src/c/052_6D2F8_create_player/LoadTempDatabases.c,matched,
 MoveToFreeAgents,70E8D,438,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToFreeAgents.c,nonmatching,"Hex-Rays draft (slot order fixed: ntried, moved, nsel, other); left: the asm computes side/other from one cmp in al (setne al; and eax,0FFh; mov esi,eax; sete al), C uses setne dl / movzx and a second cmp, 437 vs 438 bytes; msglines stores are address-immediate only"
+RandomizeNewRatings,6F6D4,926,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RandomizeNewRatings.c,nonmatching,
 RatingToFloat,6F6AD,39,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RatingToFloat.c,matched,
 RemovePlayerFromTeam,71043,149,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RemovePlayerFromTeam.c,matched,
 RosterPanelClick,6DAC3,507,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RosterPanelClick.c,nonmatching,"draft: 507 vs 507. The free-agent toggle folds falistsel into edi (add edi,eax / mov al,[edi]) where the original is mov dl,[edi+eax]. A named pointer and a split byte local still fold. Do not retry fa[row] = ~fa[row] or bit = ~fa[row]."
@@ -653,6 +659,7 @@ SetRosterTeamMenus,7183D,292,052_6D2F8_create_player,src/c/052_6D2F8_create_play
 ShellSortBytes,6D7ED,173,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShellSortBytes.c,matched,
 ShowDBError,6ED39,86,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShowDBError.c,matched,
 SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SplitPlayerName.c,nonmatching,"same 323. stop/first/last match at esp+0/+4/+8 as one struct. Name is in edi (original ecx), so the copy count stays in ebx (original edx). Do not retry an aux that forces ecx."
+SwapSelectedPlayers,71333,861,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SwapSelectedPlayers.c,nonmatching,
 DbDialogHitTest,72A5C,82,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DbDialogHitTest.c,matched,
 DrawDbDialogButtons,72605,464,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c,matched,
 LoadDbDialogShapes,7230B,385,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
