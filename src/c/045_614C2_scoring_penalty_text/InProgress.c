@@ -205,3 +205,59 @@ int ShotLaneOpen(void)
     shotontarget = 1;
     return 1;
 }
+
+/* PenGoalStuff (63D69, PC only; ends in InProgress_popebp): after a goal by side, settle the queued penalties
+   and the power play. Unless the goal ends a tied shootout-period game (gsp 3, scores not equal), the queued
+   penalties that still stand (a match penalty, minutes -1 / 5, or a minor 2 on the team that was not scored on,
+   by PenBuf_pl below 6) move to the front of PenBuf; the others are dropped (the player's box flag in scpflags2
+   cleared for the skaters). With nothing left the "penalty" banner (6) goes. When the scoring team had the
+   advantage (tmap above the other's), the first player in the other team's box serving a minor (tmpdst bit 14
+   clear) comes out: tmpdst 0, roster status 7, released (releasepl), off the panel (PanelRemovePenalty), the box
+   list shifted down; the scoring team counts a power-play goal (tmppg) and both teams' flags bit 0 are set.
+   side: 0 home, 1 away. No result. */
+void PenGoalStuff(short side)
+{
+    Team *st;
+    Team *ot;
+    short n;
+    short i;
+    short k;
+    short j;
+    signed char m;
+
+    st = side > 0 ? &awtmstruct : &hmtmstruct;
+    ot = side == 0 ? &awtmstruct : &hmtmstruct;
+    for (n = 0, i = 0; PenBuf[i * 2]; i++) {
+        if (gsp != 3 || hmscore[0] == awscore ? 1 : 0) {
+            m = penmintab[PenBuf[i * 2]];
+            if (m == -1 || penmintab[PenBuf[i * 2]] == 5
+                || penmintab[PenBuf[i * 2]] == 2 && (PenBuf_pl[i * 2] < 6) ^ side) {
+                if (n != i) {
+                    PenBuf[n * 2] = PenBuf[i * 2];
+                    PenBuf_pl[n * 2] = PenBuf_pl[i * 2];
+                    n++;
+                }
+                continue;
+            }
+        }
+        if (PenBuf_pl[i * 2] >= 0 && PenBuf_pl[i * 2] < 0xC) scpflags2[PenBuf_pl[i * 2] * 0x80] &= 0xEF;
+        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+    }
+    if (!PenBuf[0] && bannermsg == 6) bannermsg = -1;
+    if (st->tmap <= ot->tmap) return;
+    for (i = 0; i < 0x1C; i++) {
+        k = ot->tmpbox[i];
+        if (k < 0) return;
+        if (!(((unsigned char *)&ot->tmpdst[k])[1] & 0x40)) break;
+    }
+    ot->tmpdst[k] = 0;
+    ot->tmroster[k * 0x27] = 7;
+    releasepl(ot, k);
+    PanelRemovePenalty(side == 0, ot->tmroster[k * 0x27 + 5]);
+    for (j = 1;; j++) {
+        if ((((signed char *)ot)[0xB5 + j + i] = ot->tmpbox[j + i]) < 0) break;
+    }
+    st->tmppg++;
+    hmtmflags[0] |= 1;
+    awtmflags |= 1;
+}
