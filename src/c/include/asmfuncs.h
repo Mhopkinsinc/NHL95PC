@@ -432,7 +432,6 @@ extern void ass_popx(); /* 4E983 */
 extern void ass_skate_temp34(); /* 4EAE2 */
 extern void assrefsignal(); /* 4EB04 */
 extern void assrefgoalpa(); /* 4ED7C */
-extern void assrefgoalline(); /* 4F7D0 */
 extern void CanBlockShot_ret6(); /* 50336 */
 extern void CanBlockShot_ret5(); /* 50337 */
 extern void doinput(); /* 504DA */

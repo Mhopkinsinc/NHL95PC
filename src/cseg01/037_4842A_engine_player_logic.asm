@@ -8307,6 +8307,10 @@ pop edx	; 4E8EC
 pop ecx	; 4E8ED
 ret	; 4E8EE
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.inc"
+%else
 assrefwhistle:
 push dword 18h	; 4E8EF
 call __CHK	; 4E8F4
@@ -8441,6 +8445,7 @@ mov eax, ebx	; 4EAD1
 call SetSPA	; 4EAD3
 mov edx, 22h	; 4EAD8
 jmp near ass_replace_popx	; 4EADD
+%endif ; C
 ass_skate_temp34:
 mov ax, word [byte ebx+temp3]	; 4EAE2
 mov word [regd0], ax	; 4EAE6
@@ -9410,6 +9415,10 @@ mov edx, 1Eh	; 4F7C4
 mov eax, ebx	; 4F7C9
 jmp near assrefdrop.1	; 4F7CB
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assrefgoalline)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assrefgoalline.inc"
+%else
 assrefgoalline:
 push dword 18h	; 4F7D0
 call __CHK	; 4F7D5
@@ -9555,6 +9564,7 @@ mov eax, ebx	; 4F97F
 call SetSPA	; 4F981
 mov edx, 20h	; 4F986
 jmp near ass_replace_popx	; 4F98B
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/rtss.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/rtss.inc"

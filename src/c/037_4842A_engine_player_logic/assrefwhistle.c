@@ -1,119 +1,6 @@
 /* Engine player logic: referee whistles, signals and drops. */
 #include "nhl95.h"
 
-/* assrefwhistle (4E8EF; 93G hockey93 assrefwhistle?, PC version): referee p blows the whistle. Not while he is
-   locked (pflags bit 5). A new assignment (pflags bit 1): when the play is over (word_CBEC6, the clock at 0, or a
-   tied shootout-period game gsp 3 decided), end the stoppage (RefStep -1, overlay timer 100h -> 258h) and hand the
-   puck and p their next assignments (1Bh, 1Eh); else start the whistle (RefStep 1, PenShotAssign, spot A0h, 0 in
-   temp3 / temp4, SPA A5Bh) unless the crowd reacts (CrowdOnStoppage). Then skate to the spot (SkateToSpot) until
-   within 6 / -10 of it, turn toward facing 2 every 8 ticks (temp1) and, facing it, lock with SPA C1Bh and take
-   assignment 22h. p: the referee. No result. */
-void assrefwhistle(Player *p)
-{
-    short d;
-
-    if (p->pflags & 0x20) return;
-    if (p->pflags & 2) {
-        if (word_CBEC6 || (!gameclock && !clockticks[0]) || (gsp == 3 && hmscore[0] != awscore)) {
-            RefStep[0] = -1;
-            if (ovltimer == 0x100) ovltimer = 0x258;
-            assreplace((Player *)puckstruct, 0x1B);
-            assreplace(p, 0x1E);
-            return;
-        }
-        RefStep[0] = 1;
-        p->pflags &= 0xFD;
-        PenShotAssign();
-        p->temp2 = 8;
-        p->temp4 = 0;
-        p->temp3 = 0xA0;
-        p->temp1 = 0;
-        p->pflags2 |= 0x20;
-        p->Wallcos = 0;
-        p->Wallsin = 0;
-        SetSPA(p, 0xA5B);
-        if (CrowdOnStoppage()) return;
-        if (ovltimer == 0x100) ovltimer = 0x258;
-    }
-    regd0.w = HIWORD(p->Ypos) - p->temp4;
-    if ((regd0.w < 0 ? -regd0.w : regd0.w) > 6) goto skate;
-    regd0.w = HIWORD(p->Xpos) - p->temp3;
-    if (regd0.w < -10) goto skate;
-    if (--p->temp1 >= 0) return;
-    p->temp1 += 8;
-    SetSPA(p, 0xA5B);
-    regd2.l = 2;
-    if (regd2.w != p->facedir) {
-        regd2.w = (regd2.w - p->facedir) & 7;
-        p->facedir = (regd2.w < 5 ? 1 : -1) + (*(int *)((char *)&p->facedir - 2) >> 16) & 7;
-    }
-    p->Yvel = 0;
-    p->Xvel = 0;
-    if (regd2.w != p->facedir) return;
-    p->pflags |= 0x20;
-    SetSPA(p, 0xC1B);
-    assreplace(p, 0x22);
-    return;
-skate:
-    regd0.w = p->temp3;
-    regd1.w = p->temp4;
-    SkateToSpot(p, 0);
-}
-
-/* RequestLineChange (4D938, PC only; ends in ass_popx): open the line change box for p's team (pflags bit 6 =
-   away): the choice 1 through getlchoice gives the line (lcsel 1, lcline), or when there is none lcsel 0 and the
-   team's current line (tmline); then the box shows (lctimer 3Ch, lcblink 1, lcblinktime 0Ch, lcboxon 1) and that
-   side's dword_C585C / dword_C5860 is cleared. p: a player of the team. No result. */
-void RequestLineChange(Player *p)
-{
-    short side;
-    short s;
-    short one;
-
-    side = (p->pflags & 0x40) != 0;
-    s = side;
-    one = 1;
-    regd0.w = one;
-    getlchoice(p);
-    if (regd0.w < 0) {
-        lcsel[side] = 0;
-        lcline[s] = (side > 0 ? &awtmstruct : &hmtmstruct)->tmline;
-    } else {
-        lcsel[side] = one;
-        lcline[side] = regd0.w;
-    }
-    lctimer[s] = 0x3C;
-    lcblink[s] = 1;
-    lcblinktime[s] = 0xC;
-    lcboxon[s] = 1;
-    if (s) dword_C5860 = 0;
-    else dword_C585C = 0;
-}
-
-/* CountPuckThreat (4C632, PC only; ends in ass_popx): count into threat the opposing skaters within 14h (x and
-   y) of where the puck goes next (the puck plus the goalie's velocity / 100h), each skater also taken one step
-   ahead. p: the goalie (SCnum below 6 is the home side: look at the away skaters, SortCords + 6). No result. */
-void CountPuckThreat(Player *p)
-{
-    short y;
-    Player *q;
-    short x;
-    short i;
-    short d;
-
-    x = (p->Xvel >> 8) + *puckx;
-    y = (p->Yvel >> 8) + *pucky;
-    threat = 0;
-    q = &SortCords[p->SCnum < 6 ? 6 : 0];
-    for (i = 0; i < 6; q++, i++) {
-        d = (q->Xvel >> 8) + HIWORD(q->Xpos) - x;
-        if ((d < 0 ? -d : d) > 0x14) continue;
-        d = (q->Yvel >> 8) + HIWORD(q->Ypos) - y;
-        if ((d < 0 ? -d : d) > 0x14) continue;
-        threat++;
-    }
-}
-
 /* asswingd (4A1A6; 94G assign94 asswingd, PC version; ends in ass_popx, owner of asswingd_skate0 /
    asswingd_skateto): the winger's defensive assignment. Not while locked (pflags bit 5), at the bench
    (check4bench) or joystick controlled (bit 3); with the clock stopped (gmode bit 0) just stop (StopIfFree). A new
@@ -166,6 +53,181 @@ void asswingd(Player *p)
     }
     if ((*puckx ^ regd0.w) >= 0) regd0.w = *puckx;
     skateto(p, 0);
+}
+
+/* asswingo (4A343; 94G assign94 asswingo, PC version; ends in asswingd_skateto): the winger's offensive
+   assignment. Not while locked (pflags bit 5), at the bench (check4bench) or joystick controlled (bit 3); with the
+   clock stopped (gmode bit 0) just stop (StopIfFree). A new assignment (bit 1) sets the high byte of temp5 to -1,
+   clears temp1 and sets temp2 8. Every aioff ticks (the high byte of temp1) switch to the defensive winger
+   (assignment 3) when the other team has the puck. The puck's zone (its y plus the y velocity / 40h, toward the
+   attacked end: 0 before the far blue line, 4 neutral, 8 in the zone, 0Ch below the goal line; 4 while offside,
+   tmflags bit 4) picks a spot from word_CCA18 (x, x range, y, y range per zone): a new zone, or 1 in 80h ticks,
+   picks a random spot into temp3 (+ aioff) / temp4. Skate there (x mirrored for the right wing, both for the
+   other end, pflags bit 7) with EvadePC. p: the winger. No result. */
+void asswingo(Player *p)
+{
+    short d;
+
+    if (p->pflags & 0x20) return;
+    if (check4bench(p)) return;
+    if (gmode & 1) {
+        StopIfFree(p);
+        return;
+    }
+    if (p->pflags & 8) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        ((signed char *)p)[0x2F] = -1;
+        p->temp1 = 0;
+        p->temp2 = 8;
+    }
+    if (--((signed char *)p)[0x27] < 0) {
+        ((signed char *)p)[0x27] = p->aioff;
+        if (*puckc >= 0 && (p->SCnum < 6) ^ (*puckc < 6)) {
+            assreplace(p, 3);
+            return;
+        }
+        regd0.w = *pucky;
+        regd3.w = (*puckvy >> 6) + regd0.w;
+        if (!(p->pflags & 0x80)) {
+            regd0.w = -regd0.w;
+            regd3.w = -regd3.w;
+        }
+        d = 0;
+        if (regd3.w >= -0x4E) {
+            d = 4;
+            if (regd0.w >= 0x4E && !(p->tmptr->tmflags & 0x10)) {
+                d = 8;
+                if (regd3.w >= 0xE8) d = 0xC;
+            }
+        }
+        if (d != p->temp5 || !(regd0.w = randomd0(0x80))) {
+            p->temp5 = d;
+            p->temp3 = word_CCA18[d] + (randomd0(word_CCA1A[d] * 2) - word_CCA1A[d]) + p->aioff;
+            p->temp4 = randomd0(word_CCA1E[d] * 2) - word_CCA1E[d] + word_CCA1C[d];
+        }
+    }
+    regd0.w = p->temp3;
+    if (p->position != 5) regd0.w = -regd0.w;
+    regd1.w = p->temp4;
+    if (!(p->pflags & 0x80)) {
+        regd0.w = -regd0.w;
+        regd1.w = -regd1.w;
+    }
+    skateto(p, (void (*)(Player *))EvadePC);
+}
+
+/* CountPuckThreat (4C632, PC only; ends in ass_popx): count into threat the opposing skaters within 14h (x and
+   y) of where the puck goes next (the puck plus the goalie's velocity / 100h), each skater also taken one step
+   ahead. p: the goalie (SCnum below 6 is the home side: look at the away skaters, SortCords + 6). No result. */
+void CountPuckThreat(Player *p)
+{
+    short y;
+    Player *q;
+    short x;
+    short i;
+    short d;
+
+    x = (p->Xvel >> 8) + *puckx;
+    y = (p->Yvel >> 8) + *pucky;
+    threat = 0;
+    q = &SortCords[p->SCnum < 6 ? 6 : 0];
+    for (i = 0; i < 6; q++, i++) {
+        d = (q->Xvel >> 8) + HIWORD(q->Xpos) - x;
+        if ((d < 0 ? -d : d) > 0x14) continue;
+        d = (q->Yvel >> 8) + HIWORD(q->Ypos) - y;
+        if ((d < 0 ? -d : d) > 0x14) continue;
+        threat++;
+    }
+}
+
+#define OLDYPOS(p) (*(short *)((char *)(p) + 0x7A))  /* integer word of the 93G OldYpos (+78h, after OldXpos) */
+
+/* pucknorm_body (4D6B4; 93G logic93 / 94G pucknorm after the new-assignment part, PC version; ends in ass_popx):
+   the puck's normal assignment. Count down the two line-crossing timers (puckcross) and every 5 ticks
+   recompute them (temp1, calcpuckcross). A carried puck is pulled a quarter of the way toward its carrier's hot
+   spot (a2touchpuck, GetHot into regd0 / regd1) and takes his velocity. Then the ice / offside / two-line checks
+   (puckIChk, ChkOffsides, MarkTwoLinePlayers). While the clock runs: a carried puck resets temp2 (78h) and the
+   penalty-shot send count (psendcount); a loose one on a live penalty shot moving back toward the shooter's
+   own end (puckvy by penshotteam and the gmode bit 1 rink flip) for 1Eh ticks ends the shot (EndPenaltyShot). A
+   puck that has stopped (same position as last tick), outside the middle (x A3h, y 10Eh) or with dword_DF652 /
+   dword_DF752 at 14h or less, counts temp2 down and at 0 calls a delay of game (AddPenalty2 3); a moving one
+   resets temp2. A puck almost still on the ice (z speed below 100h, z 0) is put flat (puckunflip); then the
+   collisions (PuckCheckColl). p: the puck. No result. */
+void pucknorm_body(Player *p)
+{
+    Player *c;
+    int e;
+
+    puckcross[1]--;
+    puckcross[3]--;
+    if (--p->temp1 < 0) {
+        p->temp1 += 5;
+        ((void (*)(Player *))calcpuckcross)(p);
+    }
+    if (*puckc >= 0) {
+        c = &SortCords[*puckc];
+        a2touchpuck(c);
+        GetHot(c);
+        HIWORD(p->Xpos) += (regd0.w + (c->Xpos >> 16) - HIWORD(p->Xpos)) >> 2;
+        HIWORD(p->Ypos) += (regd1.w + (c->Ypos >> 16) - HIWORD(p->Ypos)) >> 2;
+        p->Xvel = c->Xvel;
+        p->Yvel = c->Yvel;
+    }
+    puckIChk();
+    ChkOffsides(p);
+    MarkTwoLinePlayers(p);
+    if (!(gmode & 1)) {
+        if (*puckc >= 0) {
+            psendcount = 0;
+reset:
+            p->temp2 = 0x78;
+        } else {
+            e = !(gmode & 2) ^ penshotteam;
+            if (penshotlive && (!e && *puckvy >= 0 || e && *puckvy <= 0)) {
+                if (++psendcount >= 0x1E) {
+                    EndPenaltyShot();
+                    psendcount = 0;
+                }
+            } else psendcount = 0;
+            if (HIWORD(p->Xpos) != HIWORD(p->OldXpos) || HIWORD(p->Ypos) != OLDYPOS(p)) goto reset;
+            if ((*puckx < 0 ? -*puckx : *puckx) < 0xA3 && (*pucky < 0 ? -*pucky : *pucky) < 0x10E
+                && dword_DF652 > 0x14 && dword_DF752 > 0x14) goto reset;
+            if (--p->temp2 < 0) AddPenalty2(p, 3);
+        }
+    }
+    if ((p->Zvel < 0 ? -p->Zvel : p->Zvel) < 0x100 && !HIWORD(p->Zpos)) puckunflip(p);
+    PuckCheckColl(p);
+}
+
+/* RequestLineChange (4D938, PC only; ends in ass_popx): open the line change box for p's team (pflags bit 6 =
+   away): the choice 1 through getlchoice gives the line (lcsel 1, lcline), or when there is none lcsel 0 and the
+   team's current line (tmline); then the box shows (lctimer 3Ch, lcblink 1, lcblinktime 0Ch, lcboxon 1) and that
+   side's dword_C585C / dword_C5860 is cleared. p: a player of the team. No result. */
+void RequestLineChange(Player *p)
+{
+    short side;
+    short s;
+    short one;
+
+    side = (p->pflags & 0x40) != 0;
+    s = side;
+    one = 1;
+    regd0.w = one;
+    getlchoice(p);
+    if (regd0.w < 0) {
+        lcsel[side] = 0;
+        lcline[s] = (side > 0 ? &awtmstruct : &hmtmstruct)->tmline;
+    } else {
+        lcsel[side] = one;
+        lcline[side] = regd0.w;
+    }
+    lctimer[s] = 0x3C;
+    lcblink[s] = 1;
+    lcblinktime[s] = 0xC;
+    lcboxon[s] = 1;
+    if (s) dword_C5860 = 0;
+    else dword_C585C = 0;
 }
 
 /* Endfaceoff (4DA7B; 93G logic93 / 94G checks94 Endfaceoff "drop the puck: pick the faceoff winner and send the
@@ -235,63 +297,63 @@ void Endfaceoff(Player *p)
     word_E0028 = HIWORD(SortCords[16].Xpos) > 0 ? 0x500 : -0x500;
 }
 
-#define OLDYPOS(p) (*(short *)((char *)(p) + 0x7A))  /* integer word of the 93G OldYpos (+78h, after OldXpos) */
-
-/* pucknorm_body (4D6B4; 93G logic93 / 94G pucknorm after the new-assignment part, PC version; ends in ass_popx):
-   the puck's normal assignment. Count down the two line-crossing timers (puckcross) and every 5 ticks
-   recompute them (temp1, calcpuckcross). A carried puck is pulled a quarter of the way toward its carrier's hot
-   spot (a2touchpuck, GetHot into regd0 / regd1) and takes his velocity. Then the ice / offside / two-line checks
-   (puckIChk, ChkOffsides, MarkTwoLinePlayers). While the clock runs: a carried puck resets temp2 (78h) and the
-   penalty-shot send count (psendcount); a loose one on a live penalty shot moving back toward the shooter's
-   own end (puckvy by penshotteam and the gmode bit 1 rink flip) for 1Eh ticks ends the shot (EndPenaltyShot). A
-   puck that has stopped (same position as last tick), outside the middle (x A3h, y 10Eh) or with dword_DF652 /
-   dword_DF752 at 14h or less, counts temp2 down and at 0 calls a delay of game (AddPenalty2 3); a moving one
-   resets temp2. A puck almost still on the ice (z speed below 100h, z 0) is put flat (puckunflip); then the
-   collisions (PuckCheckColl). p: the puck. No result. */
-void pucknorm_body(Player *p)
+/* assrefwhistle (4E8EF; 93G hockey93 assrefwhistle?, PC version): referee p blows the whistle. Not while he is
+   locked (pflags bit 5). A new assignment (pflags bit 1): when the play is over (word_CBEC6, the clock at 0, or a
+   tied shootout-period game gsp 3 decided), end the stoppage (RefStep -1, overlay timer 100h -> 258h) and hand the
+   puck and p their next assignments (1Bh, 1Eh); else start the whistle (RefStep 1, PenShotAssign, spot A0h, 0 in
+   temp3 / temp4, SPA A5Bh) unless the crowd reacts (CrowdOnStoppage). Then skate to the spot (SkateToSpot) until
+   within 6 / -10 of it, turn toward facing 2 every 8 ticks (temp1) and, facing it, lock with SPA C1Bh and take
+   assignment 22h. p: the referee. No result. */
+void assrefwhistle(Player *p)
 {
-    Player *c;
-    int e;
+    short d;
 
-    puckcross[1]--;
-    puckcross[3]--;
-    if (--p->temp1 < 0) {
-        p->temp1 += 5;
-        ((void (*)(Player *))calcpuckcross)(p);
-    }
-    if (*puckc >= 0) {
-        c = &SortCords[*puckc];
-        a2touchpuck(c);
-        GetHot(c);
-        HIWORD(p->Xpos) += (regd0.w + (c->Xpos >> 16) - HIWORD(p->Xpos)) >> 2;
-        HIWORD(p->Ypos) += (regd1.w + (c->Ypos >> 16) - HIWORD(p->Ypos)) >> 2;
-        p->Xvel = c->Xvel;
-        p->Yvel = c->Yvel;
-    }
-    puckIChk();
-    ChkOffsides(p);
-    MarkTwoLinePlayers(p);
-    if (!(gmode & 1)) {
-        if (*puckc >= 0) {
-            psendcount = 0;
-reset:
-            p->temp2 = 0x78;
-        } else {
-            e = !(gmode & 2) ^ penshotteam;
-            if (penshotlive && (!e && *puckvy >= 0 || e && *puckvy <= 0)) {
-                if (++psendcount >= 0x1E) {
-                    EndPenaltyShot();
-                    psendcount = 0;
-                }
-            } else psendcount = 0;
-            if (HIWORD(p->Xpos) != HIWORD(p->OldXpos) || HIWORD(p->Ypos) != OLDYPOS(p)) goto reset;
-            if ((*puckx < 0 ? -*puckx : *puckx) < 0xA3 && (*pucky < 0 ? -*pucky : *pucky) < 0x10E
-                && dword_DF652 > 0x14 && dword_DF752 > 0x14) goto reset;
-            if (--p->temp2 < 0) AddPenalty2(p, 3);
+    if (p->pflags & 0x20) return;
+    if (p->pflags & 2) {
+        if (word_CBEC6 || (!gameclock && !clockticks[0]) || (gsp == 3 && hmscore[0] != awscore)) {
+            RefStep[0] = -1;
+            if (ovltimer == 0x100) ovltimer = 0x258;
+            assreplace((Player *)puckstruct, 0x1B);
+            assreplace(p, 0x1E);
+            return;
         }
+        RefStep[0] = 1;
+        p->pflags &= 0xFD;
+        PenShotAssign();
+        p->temp2 = 8;
+        p->temp4 = 0;
+        p->temp3 = 0xA0;
+        p->temp1 = 0;
+        p->pflags2 |= 0x20;
+        p->Wallcos = 0;
+        p->Wallsin = 0;
+        SetSPA(p, 0xA5B);
+        if (CrowdOnStoppage()) return;
+        if (ovltimer == 0x100) ovltimer = 0x258;
     }
-    if ((p->Zvel < 0 ? -p->Zvel : p->Zvel) < 0x100 && !HIWORD(p->Zpos)) puckunflip(p);
-    PuckCheckColl(p);
+    regd0.w = HIWORD(p->Ypos) - p->temp4;
+    if ((regd0.w < 0 ? -regd0.w : regd0.w) > 6) goto skate;
+    regd0.w = HIWORD(p->Xpos) - p->temp3;
+    if (regd0.w < -10) goto skate;
+    if (--p->temp1 >= 0) return;
+    p->temp1 += 8;
+    SetSPA(p, 0xA5B);
+    regd2.l = 2;
+    if (regd2.w != p->facedir) {
+        regd2.w = (regd2.w - p->facedir) & 7;
+        p->facedir = (regd2.w < 5 ? 1 : -1) + (*(int *)((char *)&p->facedir - 2) >> 16) & 7;
+    }
+    p->Yvel = 0;
+    p->Xvel = 0;
+    if (regd2.w != p->facedir) return;
+    p->pflags |= 0x20;
+    SetSPA(p, 0xC1B);
+    assreplace(p, 0x22);
+    return;
+skate:
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    SkateToSpot(p, 0);
 }
 
 /* assrefdrop (4F5BF; 93G hockey93 assrefdrop?, PC version; ends in ass_popx / ass_skate_temp34): the referee
@@ -349,6 +411,51 @@ void assrefdrop(Player *p)
     if (ovlseq != -1) return;
     RefStep[0] = -1;
     assreplace(p, 0x1E);
+    return;
+skate:
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    SkateToSpot(p, 0);
+}
+
+/* assrefgoalline (4F7D0; 93G hockey93 assrefgoalline?, PC version; ends in ass_popx / ass_replace_popx /
+   ass_skate_temp34): the referee goes to the goal line. Not while locked (pflags bit 5). A new assignment
+   (bit 1) picks the spot on the goal line of the puck's end (y E6h / -E6h) on his side (x 32h / -32h) into
+   temp3 / temp4. More than 0Ch away (y, or x toward the middle) or farther out than the line, he skates there
+   (SkateToSpot); on it he turns every 8 ticks (temp1) toward the centre dot (vtoa) and, facing it, stops, locks
+   (SPA C1Bh) and takes assignment 20h. p: the referee. No result. */
+void assrefgoalline(Player *p)
+{
+    if (p->pflags & 0x20) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        p->temp2 = 8;
+        p->temp1 = 0;
+        p->temp4 = *pucky > 0 ? 0xE6 : -0xE6;
+        p->temp3 = HIWORD(p->Xpos) > 0 ? 0x32 : -0x32;
+        p->pflags2 |= 0x20;
+        p->Wallcos = 0;
+        p->Wallsin = 0;
+    }
+    regd0.w = HIWORD(p->Ypos) - p->temp4;
+    if ((regd0.w < 0 ? -regd0.w : regd0.w) > 0xC) goto skate;
+    if ((HIWORD(p->Ypos) < 0 ? -HIWORD(p->Ypos) : HIWORD(p->Ypos)) > (p->temp4 < 0 ? -p->temp4 : p->temp4)) goto skate;
+    regd0.w = HIWORD(p->Xpos) - p->temp3;
+    if ((regd0.w < 0 ? -regd0.w : regd0.w) > 0xC) goto skate;
+    if (--p->temp1 >= 0) return;
+    p->temp1 += 8;
+    SetSPA(p, 0xA5B);
+    regd2.l = (short)vtoa((short)-HIWORD(p->Xpos), (short)(p->temp4 - HIWORD(p->Ypos)));
+    if (regd2.w != p->facedir) {
+        regd2.w = (regd2.w - p->facedir) & 7;
+        p->facedir = (regd2.w < 5 ? 1 : -1) + (*(int *)((char *)&p->facedir - 2) >> 16) & 7;
+        return;
+    }
+    p->Yvel = 0;
+    p->Xvel = p->Yvel;
+    p->pflags |= 0x20;
+    SetSPA(p, 0xC1B);
+    assreplace(p, 0x20);
     return;
 skate:
     regd0.w = p->temp3;
