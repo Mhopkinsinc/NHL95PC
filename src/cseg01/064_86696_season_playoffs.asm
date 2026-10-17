@@ -1968,6 +1968,10 @@ jne short POSeedFinal.5	; 87D4D
 .7:
 lea ecx, [dword ebp+01BE4h]	; 87D4F
 jmp near POSeedConfFinals_pair	; 87D55
+; C: src/c/064_86696_season_playoffs/POCreateSchedule.c (POSimSeriesTeamWins)
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POCreateSchedule.POSimSeriesTeamWins.inc"
+%else
 POSimSeriesTeamWins:
 push dword 70h	; 87D5A
 call __CHK	; 87D5F
@@ -2071,6 +2075,7 @@ lea eax, [byte esp+040h]	; 87E66
 call FileClose	; 87E6A
 add esp, byte 4Ch	; 87E6F
 jmp near POCreateSchedule_x	; 87E72
+%endif ; C
 POSimSeries:
 push dword 74h	; 87E77
 call __CHK	; 87E7C

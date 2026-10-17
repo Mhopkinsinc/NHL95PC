@@ -73,3 +73,36 @@ int POCreateSchedule(int *teams, char *dir)
     FreeMemBlock((int)po);
     return r;
 }
+
+/* POSimSeriesTeamWins (87D5A, PC only; ends in POCreateSchedule_x): pre-simulate series s so that team wins it in
+   four straight wins after any losses: open the league's databases (leaguedbnames[4] read write, error "E1";
+   leaguedbnames[3] read, "E2") and simulate games (SimulateGame, game 44Ch) until team has 4 wins; each game is
+   forced for team (mode 0 at home, 1 away) unless team already leads (mode 2, a free result). s: the series
+   (6-byte games: +2 home, +4 / +5 scores); team: the team to win. No result. */
+void POSimSeriesTeamWins(unsigned char *s, int team)
+{
+    char path[0x40];
+    int rdfh;
+    int rwfh;
+    int l;
+    int w;
+
+    MakePath(path, (char *)&curleague, (char *)leaguedbnames[4], (char *)str_extDB);
+    if (FileOpenRW(path, &rwfh) != 0) FatalError((char *)str_E1);
+    MakePath(path, (char *)&curleague, (char *)leaguedbnames[3], (char *)str_extDB);
+    if (FileOpenRead(path, &rdfh) != 0) FatalError((char *)str_E2);
+    for (l = 0, w = 0; w < 4; s += 6) {
+        if (l < w) SimulateGame((char *)&curleague, (char *)str_extDB, 0x44C, s, rwfh, rdfh, 2);
+        else if (s[2] == team) SimulateGame((char *)&curleague, (char *)str_extDB, 0x44C, s, rwfh, rdfh, 0);
+        else SimulateGame((char *)&curleague, (char *)str_extDB, 0x44C, s, rwfh, rdfh, 1);
+        if (s[2] == team) {
+            if (s[4] > s[5]) w++;
+            else l++;
+        } else {
+            if (s[5] > s[4]) w++;
+            else l++;
+        }
+    }
+    FileClose(&rwfh);
+    FileClose(&rdfh);
+}
