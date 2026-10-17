@@ -151,6 +151,10 @@ pop ecx	; 2B941
 pop ebx	; 2B942
 ret	; 2B943
 %endif ; C
+; C: src/c/021_2B7B7_file_dialogs/MenuOpenSaved.c
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/MenuOpenSaved.inc"
+%else
 MenuOpenSaved:
 push dword 58h	; 2B944
 call __CHK	; 2B949
@@ -432,6 +436,7 @@ pop esi	; 2BD12
 pop ecx	; 2BD13
 pop ebx	; 2BD14
 ret	; 2BD15
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlgTabs)
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlgTabs.inc"
