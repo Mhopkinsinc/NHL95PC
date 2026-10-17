@@ -234,3 +234,62 @@ void Endfaceoff(Player *p)
     assreplace(&SortCords[16], 0x1F);
     word_E0028 = HIWORD(SortCords[16].Xpos) > 0 ? 0x500 : -0x500;
 }
+
+#define OLDYPOS(p) (*(short *)((char *)(p) + 0x7A))  /* integer word of the 93G OldYpos (+78h, after OldXpos) */
+
+/* pucknorm_body (4D6B4; 93G logic93 / 94G pucknorm after the new-assignment part, PC version; ends in ass_popx):
+   the puck's normal assignment. Count down the two line-crossing timers (puckcross) and every 5 ticks
+   recompute them (temp1, calcpuckcross). A carried puck is pulled a quarter of the way toward its carrier's hot
+   spot (a2touchpuck, GetHot into regd0 / regd1) and takes his velocity. Then the ice / offside / two-line checks
+   (puckIChk, ChkOffsides, MarkTwoLinePlayers). While the clock runs: a carried puck resets temp2 (78h) and the
+   penalty-shot send count (psendcount); a loose one on a live penalty shot moving back toward the shooter's
+   own end (puckvy by penshotteam and the gmode bit 1 rink flip) for 1Eh ticks ends the shot (EndPenaltyShot). A
+   puck that has stopped (same position as last tick), outside the middle (x A3h, y 10Eh) or with dword_DF652 /
+   dword_DF752 at 14h or less, counts temp2 down and at 0 calls a delay of game (AddPenalty2 3); a moving one
+   resets temp2. A puck almost still on the ice (z speed below 100h, z 0) is put flat (puckunflip); then the
+   collisions (PuckCheckColl). p: the puck. No result. */
+void pucknorm_body(Player *p)
+{
+    Player *c;
+    int e;
+
+    puckcross[1]--;
+    puckcross[3]--;
+    if (--p->temp1 < 0) {
+        p->temp1 += 5;
+        ((void (*)(Player *))calcpuckcross)(p);
+    }
+    if (*puckc >= 0) {
+        c = &SortCords[*puckc];
+        a2touchpuck(c);
+        GetHot(c);
+        HIWORD(p->Xpos) += (regd0.w + (c->Xpos >> 16) - HIWORD(p->Xpos)) >> 2;
+        HIWORD(p->Ypos) += (regd1.w + (c->Ypos >> 16) - HIWORD(p->Ypos)) >> 2;
+        p->Xvel = c->Xvel;
+        p->Yvel = c->Yvel;
+    }
+    puckIChk();
+    ChkOffsides(p);
+    MarkTwoLinePlayers(p);
+    if (!(gmode & 1)) {
+        if (*puckc >= 0) {
+            psendcount = 0;
+reset:
+            p->temp2 = 0x78;
+        } else {
+            e = !(gmode & 2) ^ penshotteam;
+            if (penshotlive && (!e && *puckvy >= 0 || e && *puckvy <= 0)) {
+                if (++psendcount >= 0x1E) {
+                    EndPenaltyShot();
+                    psendcount = 0;
+                }
+            } else psendcount = 0;
+            if (HIWORD(p->Xpos) != HIWORD(p->OldXpos) || HIWORD(p->Ypos) != OLDYPOS(p)) goto reset;
+            if ((*puckx < 0 ? -*puckx : *puckx) < 0xA3 && (*pucky < 0 ? -*pucky : *pucky) < 0x10E
+                && dword_DF652 > 0x14 && dword_DF752 > 0x14) goto reset;
+            if (--p->temp2 < 0) AddPenalty2(p, 3);
+        }
+    }
+    if ((p->Zvel < 0 ? -p->Zvel : p->Zvel) < 0x100 && !HIWORD(p->Zpos)) puckunflip(p);
+    PuckCheckColl(p);
+}

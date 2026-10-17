@@ -6773,6 +6773,10 @@ pop ecx	; 4D6B1
 pop ebx	; 4D6B2
 ret	; 4D6B3
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (pucknorm_body)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.pucknorm_body.inc"
+%else
 pucknorm_body:
 push dword 18h	; 4D6B4
 call __CHK	; 4D6B9
@@ -6946,6 +6950,7 @@ call puckunflip	; 4D8B6
 mov eax, ebx	; 4D8BB
 call PuckCheckColl	; 4D8BD
 jmp near ass_popx	; 4D8C2
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/pucknorm.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/pucknorm.inc"

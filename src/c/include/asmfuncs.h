@@ -425,7 +425,6 @@ extern void assnearest(); /* 4CD4B */
 extern void assshoot(); /* 4D3F8 */
 extern void assshoot_ret(); /* 4D4EF */
 extern void assfaceoff(); /* 4D4F0 */
-extern void pucknorm_body(); /* 4D6B4 */
 extern void assreffollow(); /* 4E0BD */
 extern void assrefwhistle(); /* 4E8EF */
 extern void ass_replace_popx(); /* 4E97C */
