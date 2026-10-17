@@ -267,7 +267,6 @@ extern void CmpConfStandings(); /* 269FE */
 extern void CmpConfStandings_m(); /* 26A0C */
 extern void TeamFromMouse(); /* 26B5A */
 extern void StandingsScreen(); /* 27080 */
-extern void HighlightTreeSlot(); /* 2785F */
 extern void CountSeriesWins(); /* 27C34 */
 extern void PreGameScreen_jt(); /* 29F18 */
 extern void PreGameScreen(); /* 29F28 */

@@ -114,6 +114,7 @@ unsigned char *CareerDbPtr(int ofs);
 unsigned char *CareerDbPtr2(int ofs);
 unsigned char *AttDbPtr(int ofs);
 unsigned char *AttDbPtr2(int ofs);
+void HighlightTreeSlot(int *slot);  /* 2785F */
 void MoveTreeHighlight(int *from, int *to);  /* 27BC3 */
 int PlayoffTreeHitTest(int a, int b, int c, int d, int e);  /* 29681 */
 int ShowPlayoffTree(int a, int b);  /* 296BA */

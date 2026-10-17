@@ -7,7 +7,7 @@ extern str_GF, str_GA2, str_P, str_Pct4, str_Embpal2, str_Pal9, str_PlayoffsHave
 extern str_Rst22, str_Scuparrw2, str_WesternConference2, str_EasternConference2, str_C3, str_Aup12, str_Aup22, str_Aup32
 extern str_Midl2, str_Adn32, str_Adn22, str_Adn12, str_fmt2d, str_fmt3d, str_fmtPct, str_fmtPct0
 extern str_Bkgd2, treecolslots, treecol_Wr2
-extern treecol_Er2
+extern treecol_Er2, treecol_Wr3, treecol_Er3
 extern treecol_Er1, teamconf, fileoncd
 extern dword_C65AC, statsplayoffs, statsfromleague, statspalvalid, dword_C6D26, dword_C6DBA, dword_C6E20, treerowy
 extern divx, divy, cddriveptr, kaufmfont, mainfont, playofftree, statspalshape, statsbgshapes
@@ -599,6 +599,10 @@ pop esi	; 2785B
 pop ecx	; 2785C
 pop ebx	; 2785D
 ret	; 2785E
+; C: src/c/018_27080_standings_playoffs/HighlightTreeSlot.c
+%ifdef CBUILD
+%include "c/018_27080_standings_playoffs/HighlightTreeSlot.inc"
+%else
 HighlightTreeSlot:
 push dword 4Ch	; 2785F
 call __CHK	; 27864
@@ -894,6 +898,7 @@ pop edx	; 27BBF
 pop ecx	; 27BC0
 pop ebx	; 27BC1
 ret	; 27BC2
+%endif ; C
 ; C: src/c/018_27080_standings_playoffs/MoveTreeHighlight.c
 %ifdef CBUILD
 %include "c/018_27080_standings_playoffs/MoveTreeHighlight.inc"
