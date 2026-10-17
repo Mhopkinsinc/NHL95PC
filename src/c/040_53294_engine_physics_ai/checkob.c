@@ -200,6 +200,62 @@ change:
 typedef struct SkStat { short g, a, pen, pm, ppg, shg, eng, sht; } SkStat;  /* tmplstats entry */
 typedef struct GlStat { short min, sht, sav; } GlStat;  /* tmglstats entry */
 
+/* chk4shot (55804; 93G logic93 chk4shot "see if computer should shoot", PC version; ends in checkob_ret5 /
+   chk4lc_shoot): should the computer puck carrier p shoot? Outside a penalty shot he shoots at once when his
+   team is short-handed on the gmode2 bit 6 side (gmode2 bit 5) with opponents near the puck (threat; 1 in 4), or
+   behind with under 4 seconds left. Else the odds start at 20h less his shooting sense (spodds): from farther
+   than 100 (10000 squared) they are 16 times longer; with the net empty 1; else they double for each opposing
+   skater in the shot line (vtoa from the puck, word_E03B8), and a pulled goalie (pflags2 bit 1) makes them 1. A
+   roll of 8 or less (randomd0) shoots when the puck is in front of the net he attacks (0 to E8h; on a penalty
+   shot from 74h in) and not while gmode2 bit 7. p: the carrier. Result: 1 when he shot (CompShoot), else 0. */
+short chk4shot(Player *p)
+{
+    Player *q;
+
+    if (!penshotlive) {
+        if ((gmode2 & 0x20) && ((unsigned char)(p->pflags & 0x40) ^ (*(short *)&gmode2 & 0x40)) && threat && !randomd0(4)) goto shoot;
+        if (gameclock < 4 && p->tmptr->tmscore < p->optmptr->tmscore) goto shoot;
+    }
+    regd4.w = 0x20 - (short)p->spodds;
+    regd1.w = (p->pflags & 0x80) ? 0xE8 : -0xE8;
+    regd1.w -= *pucky;
+    regd0.w = -*puckx;
+    if ((unsigned)(regd0.w * regd0.w + regd1.w * regd1.w) > 10000) goto distant;
+    if (p->optmptr->tmgoalie < 0) {
+one:
+        regd4.w = 1;
+        goto roll;
+    }
+    word_E03B8 = vtoa(regd0.w, regd1.w);
+    q = &SortCords[p->SCnum < 6 ? 6 : 0];
+    regd3.w = 6;
+    do {
+        if (q->position == 0) {
+            if (q->pflags2 & 2) goto one;
+        } else {
+            regd0.w = HIWORD(q->Xpos) - *puckx;
+            regd1.w = HIWORD(q->Ypos) - *pucky;
+            if (vtoa(regd0.w, regd1.w) == word_E03B8) regd4.w += regd4.w;
+        }
+        q++;
+    } while (--regd3.w);
+    goto roll;
+distant:
+    regd4.w <<= 4;
+roll:
+    if (randomd0(regd4.w) > 8) return 0;
+    regd0.w = *pucky;
+    if (!(p->pflags & 0x80)) regd0.w = -regd0.w;
+    if (regd0.w < 0) return 0;
+    regd1.w = 0xE8 - regd0.w;
+    if (regd1.w < 0) return 0;
+    if (penshotlive && regd0.w < 0x74) return 0;
+    if (gmode2 & 0x80) return 0;
+shoot:
+    CompShoot(p);
+    return 1;
+}
+
 /* ChkShotStat (55D28; 93G penalty93 ChkShotStat, "add to shot stat if a shot was taken"): when the shot flag
    (gmode2 bit 4, 93G sf2shot) is set, clear it; with the clock running and the shot going at the shooter's
    (shotplayer) attacking goal (pucky's side against pfgoal): the crowd level goes up by 100 (capped at 1000;
