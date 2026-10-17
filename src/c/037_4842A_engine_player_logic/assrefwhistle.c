@@ -1,6 +1,93 @@
 /* Engine player logic: referee whistles, signals and drops. */
 #include "nhl95.h"
 
+/* assdefd (49E3A; 94G assign94 assdefd, PC version; ends in ass_popx): the defenceman's defensive assignment.
+   Not while locked (pflags bit 5), at the bench (check4bench) or joystick controlled (bit 3); with the clock
+   stopped (gmode bit 0) just stop (StopIfFree). A new assignment (bit 1) clears temp1 and sets temp2 8. Every aidef
+   ticks (the high byte of temp1): when the puck (its y plus the forward part of its y velocity / 40h, toward
+   the attacked end) is past 4Eh, not offside (tmflags bit 4) and his own team has it (and, with gmode2 bit 5, he
+   is on the gmode2 bit 6 side) switch to the offensive defenceman (assignment 1). Else hold the blue line: x
+   50h (left, position 2) or -50h, y 32h beyond the deepest opposing skater (his y plus his velocity toward the
+   goal / 10h; not those in the box, pflags2 bit 2), at least C3h deep at the far end (AAh and beyond); mirrored
+   for the other end (pflags bit 7). With the puck on the other side of the ice go to the middle (x 0, B6h on the
+   goal line). Skate there with EvadePC, then check for a body check (check4check). p: the defenceman.
+   No result. */
+void assdefd(Player *p)
+{
+    Player *q;
+
+    if (p->pflags & 0x20) return;
+    if (check4bench(p)) return;
+    if (gmode & 1) {
+        StopIfFree(p);
+        return;
+    }
+    if (p->pflags & 8) return;
+    if (p->pflags & 2) {
+        p->pflags &= 0xFD;
+        p->temp1 = 0;
+        p->temp2 = 8;
+    }
+    if (--((signed char *)p)[0x27] < 0) {
+        ((signed char *)p)[0x27] = p->aidef;
+        regd1.w = *pucky;
+        regd3.w = *puckvy >> 6;
+        if (!(p->pflags & 0x80)) {
+            regd1.w = -regd1.w;
+            regd3.w = -regd3.w;
+        }
+        if (regd3.w < 0) regd3.w = 0;
+        regd3.w += regd1.w;
+        if (regd3.w >= 0x4E && !(p->tmptr->tmflags & 0x10) && *puckc >= 0
+            && (!(gmode2 & 0x20) || !(((unsigned char)p->pflags & 0x40) ^ (*(short *)&gmode2 & 0x40)) ? 1 : 0)
+            && *puckc >= 0 && (*puckc < 6) == (p->SCnum < 6)) {
+            assreplace(p, 1);
+            return;
+        }
+        p->temp3 = p->position == 2 ? 0x50 : -0x50;
+        q = &SortCords[p->SCnum < 6 ? 6 : 0];
+        regd2.w = 6;
+        if (p->pflags & 0x80) {
+            regd0.w = 0x3E8;
+            do {
+                if (!(q->pflags2 & 4) && q->position >= 0) {
+                    regd1.w = q->Yvel;
+                    if (regd1.w > 0) regd1.w = 0;
+                    regd1.w = (regd1.w >> 4) + HIWORD(q->Ypos);
+                    if (regd1.w <= regd0.w) regd0.w = regd1.w;
+                }
+                q++;
+            } while (--regd2.w);
+            regd0.w -= 0x32;
+            if (regd0.w <= -0xAA) regd0.w = -0xC3;
+            p->temp4 = regd0.w;
+        } else {
+            regd0.w = -0x3E8;
+            do {
+                if (!(q->pflags2 & 4) && q->position >= 0) {
+                    regd1.w = q->Yvel;
+                    if (regd1.w < 0) regd1.w = 0;
+                    regd1.w = (regd1.w >> 4) + HIWORD(q->Ypos);
+                    if (regd1.w >= regd0.w) regd0.w = regd1.w;
+                }
+                q++;
+            } while (--regd2.w);
+            regd0.w += 0x32;
+            if (regd0.w >= 0xAA) regd0.w = 0xC3;
+            p->temp4 = regd0.w;
+            p->temp3 = -p->temp3;
+        }
+        if ((p->temp3 ^ *puckx) < 0) {
+            p->temp3 = 0;
+            if ((regd0.w < 0 ? -regd0.w : regd0.w) == 0xC3) p->temp4 = regd0.w < 0 ? -0xB6 : 0xB6;
+        }
+    }
+    regd0.w = p->temp3;
+    regd1.w = p->temp4;
+    skateto(p, (void (*)(Player *))EvadePC);
+    check4check(p);
+}
+
 /* asswingd (4A1A6; 94G assign94 asswingd, PC version; ends in ass_popx, owner of asswingd_skate0 /
    asswingd_skateto): the winger's defensive assignment. Not while locked (pflags bit 5), at the bench
    (check4bench) or joystick controlled (bit 3); with the clock stopped (gmode bit 0) just stop (StopIfFree). A new

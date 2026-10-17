@@ -2165,6 +2165,10 @@ pop ecx	; 49E37
 pop ebx	; 49E38
 ret	; 49E39
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assdefd)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assdefd.inc"
+%else
 assdefd:
 push dword 18h	; 49E3A
 call __CHK	; 49E3F
@@ -2410,6 +2414,7 @@ call skateto	; 4A195
 mov eax, ebx	; 4A19A
 call check4check	; 4A19C
 jmp near ass_popx	; 4A1A1
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asswingd)
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/assrefwhistle.asswingd.inc"
