@@ -371,7 +371,7 @@ void asscentero(Player *p);  /* 4A65C */
 void assdefd(Player *p);  /* 49E3A */
 void DrawFileDlg(void);  /* 2C18F */
 int DrawFileDlgList(struct FileList *l);  /* 2C46B */
-int POCreateSchedule(int mode, char *dir);  /* 8721F */
+int POCreateSchedule(int *teams, char *dir);  /* 8721F */
 void SetPenaltyStrength(void);  /* 510A9 */
 void MakeSampleRoom(void);  /* 84205 */
 void LoadTransparentRinkEndOverlay(void);  /* 13A2F */

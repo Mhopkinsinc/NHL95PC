@@ -1,21 +1,21 @@
 /* Season playoffs: creating the playoff schedule. */
 #include "nhl95.h"
 
-void POInitSchedule(unsigned char *po, int mode);
+void POInitSchedule(unsigned char *po, int *teams);
 void POSeedRound2(unsigned char *po);
 void POSeedConfFinals(unsigned char *po);
 void POSeedFinal(unsigned char *po);
 
 /* POCreateSchedule (8721F, PC only; owner of POCreateSchedule_x): create the playoff schedule file of the league
-   in dir. Load the SCHEDULE.DB template (2-byte header) and fill the 15 round settings at +50h-+88h with 7
-   (best of seven), then set up the series (POInitSchedule by mode). When the two human teams (HomeTeam, VisTeam)
-   are in different conferences, load the league's season, career and key databases (leaguedbnames, .DB) and
-   pre-simulate the rounds before they can meet (POPreSimRound1 / 2 / ConfFinals with the seeding of each next
-   round), save the season database and free the three. Then find the series (7 games apart, 2Ah bytes each
+   in dir. Load the SCHEDULE.DB template (2-byte header), fill the 15 round settings at +50h-+88h with 7 (best of
+   seven) and set up the series from the 16 seeded teams (POInitSchedule). When the two human teams (HomeTeam,
+   VisTeam) are in different conferences, load the league's season, career and key databases (leaguedbnames,
+   .DB) and pre-simulate the rounds before they can meet (POPreSimRound1 / 2 / ConfFinals with the seeding of each
+   next round), save the season database and free the three. Then find the series (7 games apart, 2Ah bytes each
    from +1998h) that matches the two up, store its game number (+40h) and round (+44h), and write the schedule
-   back. mode: the playoff format; dir: the league directory. Result: 1 when the template cannot be loaded or the
+   back. teams: the 16 seeds; dir: the league directory. Result: 1 when the template cannot be loaded or the
    file cannot be opened, else FileWriteAt's result. */
-int POCreateSchedule(int mode, char *dir)
+int POCreateSchedule(int *teams, char *dir)
 {
     char path[0x40];
     char dbpath[0x40];
@@ -33,7 +33,7 @@ int POCreateSchedule(int mode, char *dir)
         = *(int *)(po + 0x64) = *(int *)(po + 0x68) = *(int *)(po + 0x6C) = *(int *)(po + 0x70) = *(int *)(po + 0x74)
         = *(int *)(po + 0x78) = *(int *)(po + 0x7C) = *(int *)(po + 0x80) = *(int *)(po + 0x84) = *(int *)(po + 0x88)
         = 7;
-    POInitSchedule(po, mode);
+    POInitSchedule(po, teams);
     if (teamconf[HomeTeam] != teamconf[VisTeam]) {
         MakePath(dbpath, dir, (char *)leaguedbnames[5], (char *)str_extDB);
         seasondb = (unsigned char *)sub_8E8A0(dbpath, 0x20);
