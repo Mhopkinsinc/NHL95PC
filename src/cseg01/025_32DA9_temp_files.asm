@@ -375,6 +375,10 @@ call SetupStatsSourceMenu	; 332E7
 call RemoveHumanTeam	; 332EC
 jmp near MenuAddTeam_common	; 332F1
 %endif ; C
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (MenuLeagueSettings)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.MenuLeagueSettings.inc"
+%else
 MenuLeagueSettings:
 push dword 24h	; 332F6
 call __CHK	; 332FB
@@ -426,6 +430,7 @@ mov eax, exhstate	; 3338C
 call LoadModeState	; 33391
 mov eax, esi	; 33396
 jmp near MainDeskLoop_x2	; 33398
+%endif ; C
 ; C: src/c/025_32DA9_temp_files/MenuAddTeam.c (MenuRebuildDbs)
 %ifdef CBUILD
 %include "c/025_32DA9_temp_files/MenuAddTeam.MenuRebuildDbs.inc"

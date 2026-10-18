@@ -1,4 +1,4 @@
-/* Main desk: the desk loop and the mode-state routines that end in its pops. */
+/* Main desk: the desk loop and the desk menu routines that end in its pops. */
 #define MainDeskLoop MainDeskLoop_decl
 #define LoadModeState LoadModeState_decl
 #define WriteModeState WriteModeState_decl
@@ -498,4 +498,33 @@ int MenuNewExhibition(int *fh)
     standingscb = (int)EasnStandingsScreen;
     standingsmenucb = (int)EasnStandingsMenu;
     return 2;
+}
+
+/* MenuLeagueSettings (332F6, PC only; segment 025, ends in MainDeskLoop_x2): desk menu "league settings". In the
+   league state (the exhibition state saved, lgstate loaded) ask the master password (CheckMasterPassword) and
+   run the league settings dialog only when it is right; after a finished season (byte_DE268) fade the menu
+   palette in first. Then save the league state and reload the exhibition state. No arguments. Result: 2 (redraw
+   the desk) after a season, else 0. */
+int MenuLeagueSettings(void)
+{
+    int ok;
+    int r;
+    unsigned char *pal;
+
+    ok = 0;
+    r = 0;
+    SaveModeState(exhstate);
+    LoadModeState(lgstate);
+    if (!((int (*)(void))CheckMasterPassword)()) ok = -1;
+    if (byte_DE268) {
+        pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
+        sub_8FFB0(0, 0x100, pal);
+        FadePalStep(1, pal, 0x10);
+        FreeMemBlock((int)pal);
+        r = 2;
+    }
+    if (ok) LeagueSettingsDlg();
+    SaveModeState((unsigned char *)lgstate);
+    LoadModeState(exhstate);
+    return r;
 }

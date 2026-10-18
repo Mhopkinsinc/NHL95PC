@@ -44,34 +44,6 @@ int MenuRemoveTeam(void)
     return 2;
 }
 
-/* MenuLeagueSettings: menu "league settings": in the league state, ask the master password
- (CheckMasterPassword; the dialog only when it is right); after a season (byte_DE268) fade the menu palette in
- first and return 2, else 0. DRAFT: not checked (stays asm); its exit is in the main desk. */
-int MenuLeagueSettings(void)
-{
-    int ok;
-    int r;
-    unsigned char *pal;
-
-    ok = 0;
-    r = 0;
-    SaveModeState(exhstate);
-    LoadModeState(lgstate);
-    if (!((int (*)(void))CheckMasterPassword)()) ok = -1;
-    if (byte_DE268) {
-        pal = (unsigned char *)sub_8CCA8((char *)str_Temp4, 0x300, 0x20);
-        sub_8FFB0(0, 0x100, pal);
-        FadePalStep(1, pal, 0x10);
-        FreeMemBlock((int)pal);
-        r = 2;
-    }
-    if (ok) LeagueSettingsDlg();
-    SaveModeState((unsigned char *)lgstate);
-    LoadModeState(exhstate);
-    return r;
-}
-
-
 /* MenuRebuildDbs: menu "rebuild databases": in the league state (exhibition state saved, lgstate loaded)
  rebuild the league databases (RebuildLeagueDbs), then save the league state and reload the exhibition state.
  Returns 0. */
