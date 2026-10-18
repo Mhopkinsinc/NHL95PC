@@ -162,7 +162,8 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   copies into a second slot and does not match.
 * **-od puts short locals above int locals**: the shorts take the slots from ebp-4 down in declaration order and
   the ints follow; unused locals still get slots. TeamFromMouse's loop counter is at ebp-0Ch, so it is the third
-  of six shorts (five unused); with int padding around it, it moved to ebp-4. Segment 017 is `-od` too.
+  of six shorts (five unused); with int padding around it, it moved to ebp-4. TeamFromMouse is the last function
+  of segment 017 and is `-od` like segment 018 after it; the rest of 017 is optimised.
 * **A volatile int through a pointer compares in memory**: `if (*(volatile int *)sel >= 0)` is `cmp dword [esi], 0` / `jl`. A plain `*sel >= 0` loads it (`mov eax,[esi]` / `test eax,eax`) and hoists the later `*sel * 27` into that register (MenuShowPlayerStats). `side * 0x2F4` is the shift chain (`shl` / `sub` / `shl`); `side * 0x2DC` is `imul`.
 * **A copied register argument and a stack pointer swap ebp and edi** when both a frame and a later loop are present. `button = art` after `DrawMenuBar` put art in ebp and the stack pointer in edi, and only while that pointer was not reused as the next loop counter. With DrawTradeScreen's roster loop the copy spilled (`push edx`, cookie 0x64). A named `int *` for the same stack pointer did the same. Leaving the register argument in its parameter kept art in ebp and cookie 0x60, and the half-index took edi, so the stack pointer was reloaded.
 * **A named cdecl argument is loaded into eax**: `song = songdata; sub_8D2F0(song)` is the 5-byte `mov eax,[songdata] / push eax`. `sub_8D2F0(songdata)` is `mov esi,[songdata] / push esi`, and `songdata = 0` after it is `xor edi,edi` (RunEditRosters).
