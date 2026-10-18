@@ -725,6 +725,7 @@ DeleteSelectedDb,735C3,320,053_71F0C_database_dialogs,src/c/053_71F0C_database_d
 MenuOpenDatabase,73703,167,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
 ScanDbFiles,7248C,377,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,
 DrawDbDialog,727EE,622,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,scroll-bar end: EXE adds 12h to rect 8 y1 before adding the quotient
+DbDialogLoop,72DE7,1501,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,
 LoadDbsFromDir,7345B,360,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbsFromDir.c,matched,
 OpenSelectedDb,733C4,151,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/OpenSelectedDb.c,matched,
 BlitClipRect,7668D,173,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/BlitClipRect.c,nonmatching,x in esi and y in edi (original x in edi and y in esi); in-place add matches. 5 attempts
