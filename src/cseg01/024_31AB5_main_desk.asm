@@ -962,6 +962,10 @@ pop edx	; 3279E
 pop ebx	; 3279F
 ret	; 327A0
 %endif ; C
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (LoadModeState)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.LoadModeState.inc"
+%else
 LoadModeState:
 push dword 1Ch	; 327A1
 call __CHK	; 327A6
@@ -1197,6 +1201,11 @@ mov eax, str_LAAtMTL	; 32B07
 call strncpy_	; 32B0C
 mov byte [str_LAAtMTL+2], 20h	; 32B11
 jmp near MainDeskLoop_x	; 32B18
+%endif ; C
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (WriteModeState)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.WriteModeState.inc"
+%else
 WriteModeState:
 push dword 5Ch	; 32B1D
 call __CHK	; 32B22
@@ -1314,6 +1323,7 @@ call MessageBox	; 32C91
 .7:
 add esp, byte 2Ch	; 32C96
 jmp near MainDeskLoop_x	; 32C99
+%endif ; C
 ; C: src/c/024_31AB5_main_desk/CopyGameSettings.c
 %ifdef CBUILD
 %include "c/024_31AB5_main_desk/CopyGameSettings.inc"

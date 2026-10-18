@@ -19,6 +19,10 @@ global MenuAddTeam_ret2, MenuRebuildDbs_x
 global nullsub_6, MenuNewExhibition, MenuNewLeague, MenuAddTeam, MenuRemoveTeam
 global MenuLeagueSettings, MenuRebuildDbs, MenuMergeUpdateDbs, MenuMergeLeagueFiles, MenuUpdateTeamDbs, MenuTradePlayers, MenuNextLeagueGame, MenuLeagueHilights
 global MenuImportDbs, MenuExportDbs, DemoSetupStub, FreeRinkGfx
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (MenuNewExhibition)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.MenuNewExhibition.inc"
+%else
 MenuNewExhibition:
 push dword 28h	; 32DA9
 call __CHK	; 32DAE
@@ -167,6 +171,7 @@ mov dword [standingscb], EasnStandingsScreen	; 32FD6
 mov dword [standingsmenucb], EasnStandingsMenu	; 32FE0
 mov eax, 2	; 32FEA
 jmp near MainDeskLoop_x	; 32FEF
+%endif ; C
 ; C: src/c/025_32DA9_temp_files/MenuAddTeam.c (MenuNewLeague)
 %ifdef CBUILD
 %include "c/025_32DA9_temp_files/MenuAddTeam.MenuNewLeague.inc"
