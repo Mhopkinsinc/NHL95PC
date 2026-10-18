@@ -176,7 +176,9 @@ CmpTeamScoring,22F2E,291,017_21CDE_player_stats,src/c/017_21CDE_player_stats/Cmp
 CmpTeamDefense,23051,220,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,matched,
 CmpTeamPK,232B7,384,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c, kept first so the shared epilogue stays in CmpTeamPK): same ratio slot swap as CmpTeamPP. See UNSURE."
 CmpTeamPP,2312D,394,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c): keys and record compares match; d = q8*pA - p8*qA spills the two products to [esp]/[esp+4], original [esp+4]/[esp]. See UNSURE."
+GoalieStatsCard,22581,2141,017_21CDE_player_stats,src/c/017_21CDE_player_stats/GoalieStatsCard.c,nonmatching,
 PlayerFromMouseY,24453,143,017_21CDE_player_stats,src/c/017_21CDE_player_stats/PlayerFromMouseY.c,matched,
+SkaterStatsCard,21CDE,2211,017_21CDE_player_stats,src/c/017_21CDE_player_stats/SkaterStatsCard.c,nonmatching,
 TeamFromMouse,26B5A,1318,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamFromMouse.c,matched,
 CountSeriesWins,27C34,872,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/CountSeriesWins.c,nonmatching,"draft: 904 vs 872, -od. Argument homes, i at ebp-10h and the 3Ch frame match. sched is at ebp-0Ch and the game pointer at ebp-8 (original ebp-8 and ebp-4). Do not drop the game-byte pointer; the frame shrinks to 38h."
 HighlightTreeSlot,2785F,868,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/HighlightTreeSlot.c,matched,
@@ -283,6 +285,7 @@ TeamSelCancel,38B3A,21,029_380E9_league_setup,src/c/029_380E9_league_setup/TeamS
 TeamSelDone,38B25,21,029_380E9_league_setup,src/c/029_380E9_league_setup/TeamSelDone.c,matched,
 WriteSeasonRec ReadGoalieSeasonRec WriteGoalieSeasonRec WriteSchedGame WriteTeamRec ReadDbRec4Ch ReadLeagueTeamEntry WriteLeagueTeamEntry ReadDbRec28h ReadDbRec2Ch,3A24F,326,029_380E9_league_setup,src/c/029_380E9_league_setup/WriteSeasonRec.c,matched,
 CopyLeagueFiles,3C310,159,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/CopyLeagueFiles.c,matched,
+ExportTeamToFloppy,3BB87,1929,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ExportTeamToFloppy.c,nonmatching,
 FindLeagueFloppy,3D694,443,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/FindLeagueFloppy.c,matched,
 ImportDbs,3CF5B,429,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportDbs.c,matched,
 ImportMasterLeague,3C3AF,819,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportMasterLeague.c,matched,
@@ -486,6 +489,8 @@ chk4shot,55804,561,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai
 checkplcoll,58CE2,229,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkplcoll.c,nonmatching,stack slots: asm spills x (word) at [esp] and y at [esp+4]; C swaps the two slots; rest matches
 checkwallcoll,582C9,481,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkwallcoll.c,nonmatching,"draft: 470 vs 481. xlim reloads in edx (original ecx). The x test negates that limit in ecx and compares dx with cx; the original negates it in edx, reloads x, and compares with regd4 in memory. Do not retry: non-volatile limits sign-extend the radii and spill y. Declaring ylim before xlim swaps the two stack slots."
 deflect,57A3E,90,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/deflect.c,matched,
+dopass,54DF4,858,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,
+shotdiradj,57A98,371,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,
 holdcheck,56B79,397,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/holdcheck.c,matched,
 newcheck,58084,113,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/newcheck.c,matched,
 passmode,5514E,97,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/passmode.c,matched,
@@ -574,6 +579,7 @@ dostop,5F745,229,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/dostop.
 goalieacc,5F8B2,216,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/goalieacc.c,matched,
 noturn0,5F98A,377,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/noturn0.c,matched,
 playeracc,5EDAD,673,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/playeracc.c,matched,
+skatetopuck,5EB17,662,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/skatetopuck.c,nonmatching,
 SaveGameState,5FB03,2831,044_5FB03_game_state_saveload,src/c/044_5FB03_game_state_saveload/SaveGameState.c,nonmatching,
 AddPenalty,62CF9,135,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty.c,matched,
 AddPenalty2,62D80,290,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty2.c,matched,
