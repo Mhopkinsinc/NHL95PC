@@ -241,6 +241,7 @@ MenuExportDbs,336E6,54,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTe
 MenuLeagueSettings,332F6,167,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,nonmatching,draft: body matches; exit is jmp MainDeskLoop_x2. A cast tail return is call plus inlined pops. Do not retry the cast.
 BlitTileMap,33C08,459,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/BlitTileMap.c,nonmatching,"draft: 423 vs 459. Height is stored at esp+14h and width at esp+18h; the original stores height at esp+18h and width at esp+14h. The tile index is masked in edx; the original masks it in eax, then adds the tile base. Do not retry: declaring height before width."
 LoadCrestsPalette,33F02,251,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/LoadCrestsPalette.c,matched,
+LoadRink,3377C,1164,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/LoadRink.c,nonmatching,
 SetRinkScroll,33DD3,151,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/SetRinkScroll.c,matched,
 WaitClickTimeout,33E6A,152,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/WaitClickTimeout.c,nonmatching,"registers/stack: asm keeps start and the ptrupdatefn result on the stack (10h locals), t1 in ebp; C keeps them in registers"
 ApplyShapePalette,34789,46,027_33FFD_calendar,src/c/027_33FFD_calendar/ApplyShapePalette.c,matched,
@@ -343,6 +344,7 @@ GoalieToPuckVec,4B467,130,037_4842A_engine_player_logic,src/c/037_4842A_engine_p
 MoveInDir,49260,153,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/MoveInDir.c,matched,
 NextPathPoint,4F99B,84,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/NextPathPoint.c,matched,
 SetLCmode,4D9FC,59,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/SetLCmode.c,matched,
+SkateToSpot,4E292,1160,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/SkateToSpot.c,nonmatching,
 StarCompare,4883B,653,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/StarCompare.c,nonmatching,"draft: 619 vs 653. The *a%25 remainder is stored at esp+4 and the second point total takes ebp (original keeps that index in ebp and the total at esp+8). Frame is 0Ch not 10h. Do not retry register, an inner block, or a one-element array for that total."
 StarEligible,487D9,98,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/StarEligible.c,nonmatching,registers: asm copies pl to ecx and builds side*256 in edx / pl in ebx for the tmpdst read; C uses ebx/edx swapped (2 bytes)
 StartFaceoffLineChange,4DA37,68,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/StartFaceoffLineChange.c,matched,
@@ -443,6 +445,7 @@ Sweepcheck,532A2,27,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 ToFixed,53294,14,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ToFixed.c,matched,
 TryBlockShot,534BB,124,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/TryBlockShot.c,nonmatching,"registers only: original p in ecx, n in ebx, gmode2 temp in edx; this draft p in ebx, n in edx. 10-min cap"
 checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkagr.c,matched,
+checkcheck,5382C,1209,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcheck.c,nonmatching,
 checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcoll.c,nonmatching,"draft: 479 vs 468. x is saved in edi and y in esi. The original saves x in esi and y in edi, so the swap needs a third mov. Do not retry: short parameters, or copying x then y into locals (saves ebp, cookie 18h)."
 checkcx,58DC7,1024,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcx.c,nonmatching,
 checkgoal,584AA,688,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoal.c,nonmatching,"draft: 809 vs 809, 192/203 instructions; bounce temp and zero registers. See UNSURE."
@@ -596,6 +599,7 @@ CloseTextOverlay,66DDA,44,046_644A8_engine_display,src/c/046_644A8_engine_displa
 DitherRect,65CA8,89,046_644A8_engine_display,src/c/046_644A8_engine_display/DitherRect.c,matched,
 LoadTeamPalette,673C5,415,046_644A8_engine_display,src/c/046_644A8_engine_display/LoadTeamPalette.c,matched,
 NormalizeDressFlags,65B48,59,046_644A8_engine_display,src/c/046_644A8_engine_display/NormalizeDressFlags.c,matched,
+PickForLineSlot,64E60,1142,046_644A8_engine_display,src/c/046_644A8_engine_display/PickForLineSlot.c,nonmatching,
 PickGoalie,652D6,232,046_644A8_engine_display,src/c/046_644A8_engine_display/PickGoalie.c,matched,
 RefillLineSlots,6552E,158,046_644A8_engine_display,src/c/046_644A8_engine_display/RefillLineSlots.c,nonmatching,registers: asm keeps from in edi and the side*25 base in ebx; C spills from to the stack (8-byte frame)
 RemoveFromLines,655CC,807,046_644A8_engine_display,src/c/046_644A8_engine_display/RemoveFromLines.c,nonmatching,"draft: 811 vs 807, register choices (r, zero temps, pnum cache). See UNSURE."
@@ -657,6 +661,7 @@ EditRostersReturn,6D5BB,21,052_6D2F8_create_player,src/c/052_6D2F8_create_player
 ErrorScreenWait,6EAB5,480,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ErrorScreenWait.c,matched,
 LoadTempDatabases,710D8,388,052_6D2F8_create_player,src/c/052_6D2F8_create_player/LoadTempDatabases.c,matched,
 MoveToFreeAgents,70E8D,438,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToFreeAgents.c,nonmatching,"Hex-Rays draft (slot order fixed: ntried, moved, nsel, other); left: the asm computes side/other from one cmp in al (setne al; and eax,0FFh; mov esi,eax; sete al), C uses setne dl / movzx and a second cmp, 437 vs 438 bytes; msglines stores are address-immediate only"
+MoveToOtherRoster,6F29C,1041,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToOtherRoster.c,nonmatching,
 RandomizeNewRatings,6F6D4,926,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RandomizeNewRatings.c,nonmatching,
 RatingToFloat,6F6AD,39,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RatingToFloat.c,matched,
 RemovePlayerFromTeam,71043,149,052_6D2F8_create_player,src/c/052_6D2F8_create_player/RemovePlayerFromTeam.c,matched,
@@ -670,6 +675,7 @@ SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/
 SwapSelectedPlayers,71333,861,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SwapSelectedPlayers.c,nonmatching,
 DbDialogHitTest,72A5C,82,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DbDialogHitTest.c,matched,
 DrawDbDialogButtons,72605,464,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c,matched,
+InputDialog,71F0C,1010,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/InputDialog.c,matched,
 LoadDbDialogShapes,7230B,385,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
 DrawDbList,72AC6,801,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
 DeleteSelectedDb,735C3,320,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,
@@ -771,6 +777,7 @@ SetModeMenuLabels,805C4,190,059_8034B_settings_lockerroom,src/c/059_8034B_settin
 SoundCardHitTest,827B3,82,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/SoundCardHitTest.c,matched,
 ClearSpeechSlot,833C5,53,060_8291E_sound_config,src/c/060_8291E_sound_config/ClearSpeechSlot.c,matched,
 ResetSpeechQueue,833FA,95,060_8291E_sound_config,src/c/060_8291E_sound_config/ResetSpeechQueue.c,nonmatching,memset(-1) compiles to memset_ with ebx count; asm calls __STOSD (ecx 14h dwords) - need the C form that emits __STOSD
+SoundCardDlgLoop,8291E,1116,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,matched,
 FindFreeSpeechSlot,83E6D,63,061_83459_speech,src/c/061_83459_speech/FindFreeSpeechSlot.c,nonmatching,"registers only: speechbank in ebx in the original, ecx here. 10-min cap"
 FindLoadedSpeechSlot,83EAC,63,061_83459_speech,src/c/061_83459_speech/FindLoadedSpeechSlot.c,nonmatching,"registers only: speechbank in ebx in the original, ecx here. 10-min cap"
 FindSpeechSlot,83EEB,74,061_83459_speech,src/c/061_83459_speech/FindSpeechSlot.c,matched,
@@ -828,6 +835,7 @@ SayScorePeriod,84657,93,062_842BA_announcer,src/c/062_842BA_announcer/SayScorePe
 SayTonightIntro,84B0D,299,062_842BA_announcer,src/c/062_842BA_announcer/SayTonightIntro.c,matched,
 MenuPlayNextGame,86627,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuPlayNextGame.c,matched,
 MenuReturnToSportsCentral,86637,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuReturnToSportsCentral.c,matched,
+MenuSaveGame,85924,1096,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuSaveGame.c,matched,
 ViewPlayoffHilights,86647,79,063_85924_demo_savegame,src/c/063_85924_demo_savegame/ViewPlayoffHilights.c,matched,
 ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_playoffs/ClearPlayerFromLines.c,matched,
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
