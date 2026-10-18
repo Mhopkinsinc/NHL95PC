@@ -900,6 +900,7 @@ SayTonightIntro,84B0D,299,062_842BA_announcer,src/c/062_842BA_announcer/SayTonig
 MenuPlayNextGame,86627,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuPlayNextGame.c,matched,
 MenuReturnToSportsCentral,86637,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuReturnToSportsCentral.c,matched,
 MenuSaveGame,85924,1096,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuSaveGame.c,matched,
+SaveGameNameDlg,85D6C,2218,063_85924_demo_savegame,src/c/063_85924_demo_savegame/SaveGameNameDlg.c,nonmatching,
 ViewPlayoffHilights,86647,79,063_85924_demo_savegame,src/c/063_85924_demo_savegame/ViewPlayoffHilights.c,matched,
 ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_playoffs/ClearPlayerFromLines.c,matched,
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
