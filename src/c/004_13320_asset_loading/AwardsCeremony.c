@@ -1,5 +1,5 @@
 /* Asset loading: the end-of-season awards ceremony. */
-/* DRAFT: 1349 vs 1347 bytes before the exit, 336 of 362 instructions, first pass; see docs/UNSURE.md. Its match
+/* DRAFT: 1349 vs 1346 bytes before the exit, 336 of 362 instructions, first pass; see docs/UNSURE.md. Its match
    belongs with PickAwardWinners (untouched), whose PickAwardWinners_x tail it uses. */
 #define sub_8F1FE sub_8F1FE_decl
 #define sub_8F13B sub_8F13B_decl
