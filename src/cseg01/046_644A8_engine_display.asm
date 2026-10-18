@@ -1359,6 +1359,10 @@ pop esi	; 653BB
 pop ecx	; 653BC
 ret	; 653BD
 %endif ; C
+; C: src/c/046_644A8_engine_display/PickForLineSlot.c (PickExtraSkater)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/PickForLineSlot.PickExtraSkater.inc"
+%else
 PickExtraSkater:
 push dword 20h	; 653BE
 call __CHK	; 653C3
@@ -1493,6 +1497,7 @@ jl short PickExtraSkater.8	; 65524
 .11:
 add esp, byte 8	; 65526
 jmp near lines_popx2	; 65529
+%endif ; C
 RefillLineSlots:
 push dword 18h	; 6552E
 call __CHK	; 65533

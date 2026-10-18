@@ -1,9 +1,11 @@
 /* Engine display: picking a player for a line slot. */
 #define PickForLineSlot PickForLineSlot_decl
 #define CanFillLineSlot CanFillLineSlot_decl
+#define PickExtraSkater PickExtraSkater_decl
 #include "nhl95.h"
 #undef PickForLineSlot
 #undef CanFillLineSlot
+#undef PickExtraSkater
 
 short CanFillLineSlot(int side, int slot, int player);
 
@@ -88,4 +90,45 @@ short PickForLineSlot(short side, short slot)
         if (CanFillLineSlot(side, slot, p)) return p;
     }
     return 0;
+}
+
+/* PickExtraSkater (653BE, PC only): fill the extra-skater slots 26h / 27h of team side's line table (home
+   hmlinetab, away awlinetab). A player counts when byte_CD418 of the status byte of that player's 27h-byte
+   roster record (hmroster, 444h per team) is 1. For slot 26h: the player in slot 27h if counted, else the first
+   counted one of the side's 25-byte byte_E9E4A list (up to a negative entry). Then slot 27h gets the first
+   counted player of that list who is not in slot 26h. side, slot: shorts. No result; the exit is
+   PickForLineSlot's (lines_popx2). */
+void PickExtraSkater(short side, short slot)
+{
+    signed char *tab;
+    signed char *list;
+    short i;
+    short p;
+
+    tab = (signed char *)(side ? awlinetab : hmlinetab);
+    list = byte_E9E4A + side * 25;
+    if (slot == 0x26) {
+        p = tab[0x27];
+        if (byte_CD418[hmroster[side * 0x444 + p * 39]] == 1) {
+            tab[0x26] = p;
+        } else {
+            for (i = 0; i < 0x19; i++) {
+                p = list[i];
+                if (p < 0) break;
+                if (byte_CD418[hmroster[side * 0x444 + p * 39]] == 1) {
+                    tab[0x26] = p;
+                    break;
+                }
+            }
+        }
+    }
+    list = byte_E9E4A + side * 25;
+    for (i = 0; i < 0x19; i++) {
+        p = list[i];
+        if (p < 0) break;
+        if (byte_CD418[hmroster[side * 0x444 + p * 39]] == 1 && p != tab[0x26]) {
+            tab[0x27] = p;
+            break;
+        }
+    }
 }
