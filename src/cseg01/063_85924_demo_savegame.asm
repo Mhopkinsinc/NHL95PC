@@ -16,6 +16,10 @@ extern sub_B4BA8, unk_C392C, unk_C392F, unk_C393B, unk_C393E, unk_C3941, unk_C39
 extern unk_C397B, exhstate, unknown_libname_1
 global MenuSaveGame, SaveGameStub, SaveGameNameDlg, MenuPlayNextGame, MenuReturnToSportsCentral, ViewPlayoffHilights
 global savenamedefault
+; C: src/c/063_85924_demo_savegame/MenuSaveGame.c
+%ifdef CBUILD
+%include "c/063_85924_demo_savegame/MenuSaveGame.inc"
+%else
 MenuSaveGame:
 push dword 0CCh	; 85924
 call __CHK	; 85929
@@ -317,6 +321,7 @@ pop edx	; 85D68
 pop ecx	; 85D69
 pop ebx	; 85D6A
 ret	; 85D6B
+%endif ; C
 SaveGameNameDlg:
 push dword 0C0h	; 85D6C
 call __CHK	; 85D71
