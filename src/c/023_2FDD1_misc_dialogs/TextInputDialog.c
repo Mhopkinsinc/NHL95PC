@@ -1,12 +1,31 @@
-/* Misc dialogs: the text input box. */
+/* Misc dialogs: the text input box and the message box that ends in its pops. */
 #define EditTextField EditTextField_decl
 #define unknown_libname_4 unknown_libname_4_decl
+#define MessageBox MessageBox_decl
+#define RunMessageBox RunMessageBox_decl
+#define GrowToButtons GrowToButtons_decl
+#define DrawButtons DrawButtons_decl
 #include "nhl95.h"
+#undef MessageBox
+#undef RunMessageBox
+#undef GrowToButtons
+#undef DrawButtons
 #undef EditTextField
 #undef unknown_libname_4
 
 int EditTextField(char *buf, int maxlen, int w, int x, int y, int (*cb)(void), int a, int b);
 int unknown_libname_4(char *s);  /* Watcom CRT atoi */
+
+typedef struct DlgBtn {
+    int x1, y1, x2, y2;
+    int pressed;
+    int flags;
+    int pad;
+} DlgBtn;
+
+int RunMessageBox(int *xptr, int *yptr, DlgBtn *b, int n);
+void GrowToButtons(DlgBtn *b, int n, int *w, int *h);
+void DrawButtons(DlgBtn *b, int n);
 
 /* TextInputDialog (2FEDF, PC only; owner of DlgNullCallback): ask for a line of text in a centred box: the prompt
    above a field wide enough for maxlen "M"s (at least minw), the box sized to fit both. Wait for Enter and Esc
@@ -72,5 +91,64 @@ int TextInputDialog(char *prompt, char *buf, int maxlen, int minw, int numeric, 
     ClearInputQueue();
     RestoreDialogBg();
     InputInstall();
+    return r;
+}
+
+/* MessageBox (31013, PC only; ends in DlgNullCallback): a message box with n text lines centred above nb buttons
+   b. The box fits the widest line and the lines (byte_D42C3 + 2 high each) plus 10h, grown for the buttons
+   (GrowToButtons), at x / y or centred on the screen when negative; the screen under it is saved first. Each
+   button is placed from the box's left edge (flags bit 0) or right edge and from its top (bit 2) or bottom.
+   With wait set, run the buttons (RunMessageBox from the mouse position *mx / *my) and restore the screen; the
+   button positions are put back before returning. Result: the chosen button (RunMessageBox), undefined without
+   wait. */
+int MessageBox(int x, int y, char **lines, int n, DlgBtn *b, int nb, int *mx, int *my, int wait)
+{
+    int r;
+    int lineh;
+    int ty;
+    int w;
+    int h;
+    int top;
+    int i;
+    int d;
+
+    sub_B4BA8();
+    RestoreDialogBg();
+    h = w = 0;
+    lineh = byte_D42C3 + 2;
+    for (i = 0; i < n; i++) MeasureTextLine(lines[i], &w, &h, lineh);
+    w += 0x10;
+    h += 0x10;
+    GrowToButtons(b, nb, &w, &h);
+    if (x < 0) x = (0x280 - w) / 2;
+    if (y < 0) top = (0x1E0 - h) / 2;
+    else top = y;
+    SaveDialogBg(x, top, w, h);
+    DrawBevelRect(x, top, w, h, boxfillcolor, boxlitecolor, boxshadecolor);
+    ty = top + 8;
+    SetTextColors(dlgtextfg, dlgtextbg);
+    for (i = 0; i < n; i++) {
+        d = (w - fputchar(lines[i])) / 2;
+        PrintShadowText(d + x, ty, lines[i]);
+        ty += lineh;
+    }
+    for (i = 0; i < nb; i++) {
+        if (b[i].flags & 1) b[i].x1 += x;
+        else b[i].x1 += w + x - b[i].x2;
+        if (b[i].flags & 4) b[i].y1 += top;
+        else b[i].y1 += top + h - b[i].y2;
+    }
+    DrawButtons(b, nb);
+    ClearInputQueue();
+    if (wait) {
+        r = RunMessageBox(mx, my, b, nb);
+        RestoreDialogBg();
+    }
+    for (i = 0; i < nb; i++) {
+        if (b[i].flags & 1) b[i].x1 -= x;
+        else b[i].x1 -= w + x - b[i].x2;
+        if (b[i].flags & 4) b[i].y1 -= top;
+        else b[i].y1 -= top + h - b[i].y2;
+    }
     return r;
 }
