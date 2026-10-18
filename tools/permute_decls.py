@@ -44,7 +44,8 @@ def decl_units(lines, start):
 def func_body(src_text, func):
     lines = src_text.split('\n')
     for k, l in enumerate(lines):
-        if re.match(r'^[A-Za-z_].*\b%s\s*\(' % re.escape(func), l) and not l.rstrip().endswith(';'):
+        # a prototype with a trailing comment (`short F(void);  /* addr */`) is not the definition
+        if re.match(r'^[A-Za-z_].*\b%s\s*\(' % re.escape(func), l) and not re.sub(r'/\*.*?\*/', '', l).rstrip().endswith(';'):
             j = k
             while j < len(lines) and lines[j].strip() != '{': j += 1
             if j < len(lines): return lines, j
