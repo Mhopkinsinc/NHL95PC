@@ -16,6 +16,7 @@ SetScreenSize,10E9F,206,001_10010_main_startup,src/c/001_10010_main_startup/SetS
 SetupControllers,10712,344,001_10010_main_startup,src/c/001_10010_main_startup/SetupControllers.c,matched,
 WaitKeyRelease,11161,46,001_10010_main_startup,src/c/001_10010_main_startup/WaitKeyRelease.c,matched,
 main_,10094,448,001_10010_main_startup,src/c/001_10010_main_startup/main_.c,nonmatching,
+GameLoop,1167B,1678,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/GameLoop.c,nonmatching,
 ReplayIsEmpty,12034,41,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/ReplayIsEmpty.c,matched,
 assinsert,12011,35,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assinsert.c,matched,
 assreplace,11FF4,29,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assreplace.c,matched,
@@ -277,6 +278,7 @@ CopyLeagueFiles,3C310,159,030_3A9AA_database_merge,src/c/030_3A9AA_database_merg
 FindLeagueFloppy,3D694,443,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/FindLeagueFloppy.c,matched,
 ImportDbs,3CF5B,429,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportDbs.c,matched,
 ImportMasterLeague,3C3AF,819,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportMasterLeague.c,matched,
+ImportPlayerTeam,3C6E2,2169,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportMasterLeague.c,matched,
 ExportDbs,3D108,869,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ImportMasterLeague.c,matched,
 LocateTeamDbCopy,3AF70,201,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/LocateTeamDbCopy.c,nonmatching,register allocation only: dir / id pointers swap between edi and ebp (partial declaration-order search found nothing)
 MergeScheduleDb,3AE1E,338,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeTeamDbs.c,matched,
@@ -865,6 +867,7 @@ POInitSchedule,875A3,445,064_86696_season_playoffs,src/c/064_86696_season_playof
 SeriesWinner,87760,137,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
 POSimSeries,87E77,270,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
 POHiliteSlot,89B69,105,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
+POHandleElimination,88096,1423,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POHandleElimination.c,nonmatching,
 POPickConfTeams,870B6,361,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPickConfTeams.c,nonmatching,"361 vs 361. count stays in esi and the bitmask in edi (mov esi, ecx / xor edi, edi). The original is mov edi, ecx / xor esi, esi. The division compare then loads pick[1] into edx and pick[0] into eax. The pick swap uses ebx. The final loop hoists slots into ecx and uses edx as the write index. Declaring i before used, a cnt local before or after used, and used=0 before cnt=count did not swap esi and edi. Do not retry those."
 POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimConfFinals.c,matched,
 POPreSimRound1,87F85,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound1.c,matched,
