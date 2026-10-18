@@ -680,6 +680,10 @@ pop ecx	; 3B257
 pop ebx	; 3B258
 ret	; 3B259
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/UpdateTeamDbs.c (MergeLeagueFiles)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/UpdateTeamDbs.MergeLeagueFiles.inc"
+%else
 MergeLeagueFiles:
 push dword 8Ch	; 3B25A
 call __CHK	; 3B25F
@@ -1165,6 +1169,7 @@ mov eax, dword [byte_DE268-3]	; 3B8A0
 sar eax, 18h	; 3B8A5
 add esp, byte 60h	; 3B8A8
 jmp near UpdateTeamDbs_ret	; 3B8AB
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/MergeUpdateDbs.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/MergeUpdateDbs.inc"
