@@ -22,7 +22,7 @@ void GameLoop(void);
 
 typedef struct ExhRec { unsigned char b[0x75]; } ExhRec;
 
-/* RunDemoGame: save the 75h-byte exhibition record, pick a demo matchup from dword_C5886
+/* RunDemoGame: save the 75h-byte exhibition record, pick a demo matchup from demoteammode
  (all-stars, a fixed pair, or two random teams), run a one-minute period at 320x200, then
  put the record and the 5-minute period length back. Returns 1 when the game result is 2. */
 int RunDemoGame(void)
@@ -40,8 +40,8 @@ int RunDemoGame(void)
     DemoSetupStub();
     demomode = 1;
     seed[0] = (rand() << 16) + rand();
-    which = (dword_C5886 + 1) % 3;
-    dword_C5886 = which;
+    which = (demoteammode + 1) % 3;
+    demoteammode = which;
     saved = *(ExhRec *)exhstate;
     if (which == 2) {
         *(int *)(exhstate + 0x51) = 0x1B;

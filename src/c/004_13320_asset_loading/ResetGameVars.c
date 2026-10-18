@@ -116,7 +116,7 @@ void ResetGameVars(void)
     inputframes = 0;
     exitgame = 0;
     gameover = 0;
-    dword_D8C78 = 0;
+    hudhundaccum = 0;
     frameaccum = 0;
     joysampling = 0;
     joysampling_save = 0;
