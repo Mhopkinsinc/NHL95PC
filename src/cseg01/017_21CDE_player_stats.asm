@@ -6192,6 +6192,10 @@ pop esi	; 26B56
 pop ecx	; 26B57
 pop ebx	; 26B58
 ret	; 26B59
+; C: src/c/017_21CDE_player_stats/TeamFromMouse.c
+%ifdef CBUILD
+%include "c/017_21CDE_player_stats/TeamFromMouse.inc"
+%else
 TeamFromMouse:
 push dword 3Ch	; 26B5A
 call __CHK	; 26B5F
@@ -6623,3 +6627,4 @@ pop edi	; 2707C
 pop esi	; 2707D
 pop ecx	; 2707E
 ret	; 2707F
+%endif ; C
