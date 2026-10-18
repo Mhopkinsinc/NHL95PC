@@ -1,9 +1,4 @@
 /* Scoreboard: line energy bars. */
-/* DRAFT: 472 vs 472. The group switch, the blink test, and the four bars match. color lives at
- esp+20h and color2 at esp+24h; the original has color at esp+24h and color2 at esp+20h. The saved
- x+20h and the 14h-width are swapped the same way. Do not retry: an if/else chain inverts the group
- tests, assigning the two temps before the calls is 475 bytes, and a struct of the slots shifts every
- home (468 bytes). Declaring color2 before color does not swap that pair. */
 #include "nhl95.h"
 
 /* DrawLineGroupBars: draw one group's energy bars for the line-change box.
@@ -11,7 +6,8 @@
  otherwise it follows line. Lines 0-3, 4-5 and 6-7 are the three groups. The first time
  through, the group's indicator shape is drawn and *drawn is set. Each bar is energy/200
  pixels, in the blink colour when this is the boxed line and it is blinking, in the selected
- colour when it is line, and in the plain colour otherwise. */
+ colour when it is line, and in the plain colour otherwise. The bar locals are declared in the loop body: at
+ the top of the function color / color2 and the two widths take swapped stack slots. */
 void DrawLineGroupBars(int *drawn, int *inds, int line, int *energy, int x)
 {
     int side;
@@ -19,12 +15,8 @@ void DrawLineGroupBars(int *drawn, int *inds, int line, int *energy, int x)
     int start;
     int end;
     int color2;
-    int color;
     int i;
     int row;
-    int w;
-    int x1;
-    int w2;
 
     side = x > 0xA0;
     if (lcboxon[side]) cur = lcline[side];
@@ -64,6 +56,11 @@ void DrawLineGroupBars(int *drawn, int *inds, int line, int *energy, int x)
         break;
     }
     for (i = start; i < end;) {
+        int w2;
+        int x1;
+        int w;
+        int color;
+
         if (i == cur && lcblink[side]) {
             color = 0x61;
             color2 = 7;

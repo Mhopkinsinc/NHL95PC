@@ -612,6 +612,10 @@ call sub_90D20	; 157AD
 add esp, byte 14h	; 157B2
 add esp, byte 0Ch	; 157B5
 jmp near DrawPanelLine_x	; 157B8
+; C: src/c/006_150C6_scoreboard_gfx/DrawLineGroupBars.c
+%ifdef CBUILD
+%include "c/006_150C6_scoreboard_gfx/DrawLineGroupBars.inc"
+%else
 DrawLineGroupBars:
 push dword 4Ch	; 157BD
 call __CHK	; 157C2
@@ -771,6 +775,7 @@ pop ebp	; 1598F
 pop edi	; 15990
 pop esi	; 15991
 ret 4	; 15992
+%endif ; C
 ; C: src/c/005_1431E_file_utils/DrawPanelLine.c (DrawPanelPenalties)
 %ifdef CBUILD
 %include "c/005_1431E_file_utils/DrawPanelLine.DrawPanelPenalties.inc"
