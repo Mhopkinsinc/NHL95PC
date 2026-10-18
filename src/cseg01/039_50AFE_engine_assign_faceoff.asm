@@ -618,9 +618,9 @@ pop ecx	; 511B1
 pop ebx	; 511B2
 ret	; 511B3
 %endif ; C
-; C: src/c/039_50AFE_engine_assign_faceoff/PenShotStart.c
+; C: src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c (PenShotStart)
 %ifdef CBUILD
-%include "c/039_50AFE_engine_assign_faceoff/PenShotStart.inc"
+%include "c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.PenShotStart.inc"
 %else
 PenShotStart:
 push dword 10h	; 511B4
@@ -2163,6 +2163,10 @@ mov word [byte edx+02Eh], 0	; 52718
 pop edx	; 5271E
 ret	; 5271F
 %endif ; C
+; C: src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c (asstakeposition)
+%ifdef CBUILD
+%include "c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.asstakeposition.inc"
+%else
 asstakeposition:
 push dword 18h	; 52720
 call __CHK	; 52725
@@ -2513,6 +2517,7 @@ xor edx, edx	; 52BA8
 mov eax, ebx	; 52BAA
 call SkateToSpot	; 52BAC
 jmp near TakePlayerFromBox_ret5	; 52BB1
+%endif ; C
 ; C: src/c/039_50AFE_engine_assign_faceoff/check4bench.c
 %ifdef CBUILD
 %include "c/039_50AFE_engine_assign_faceoff/check4bench.inc"
