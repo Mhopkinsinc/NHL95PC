@@ -389,6 +389,12 @@ class TextTargets:
         # field (asscentero into the draft asswingo's `mov edx, EvadePC; jmp asswingd_skateto`). Relocated fields and
         # that jmp's displacement are wildcards.
         text = self.r['text']; k = text.find(b'\xc3', t); tail = b''
+        # a `ret n` (C2 n16) ends the tail too (MessageBox into the draft TextInputDialog's `ret 14h`): decode for it
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        for i in Cs(CS_ARCH_X86, CS_MODE_32).disasm(text[t:t + 19], t):
+            if i.mnemonic == 'ret':
+                if i.size == 3 and (k < 0 or i.address < k): k = i.address + 2
+                break
         fx = [f for f in self.r['fixups'] if t <= f['off'] < t + 48]
         ends = [f['off'] + 4 for f in fx if f['kind'] == 'rel32']
         jmps = [f['off'] + 4 for f in fx if text[f['off'] + 4:f['off'] + 5] == b'\xe9']
