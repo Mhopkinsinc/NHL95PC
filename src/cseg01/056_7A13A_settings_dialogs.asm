@@ -1045,6 +1045,10 @@ call sub_91FE0	; 7AC24
 add esp, byte 0Ch	; 7AC29
 jmp near LeagueSettingsDlg_ret4	; 7AC2C
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (LeagueSetViewLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.LeagueSetViewLoop.inc"
+%else
 LeagueSetViewLoop:
 push dword 3Ch	; 7AC31
 call __CHK	; 7AC36
@@ -1189,6 +1193,7 @@ add esp, byte 4	; 7ADC6
 xor eax, eax	; 7ADC9
 add esp, byte 14h	; 7ADCB
 jmp near LeagueSettingsDlg_ret	; 7ADCE
+%endif ; C
 LeagueSetEditLoop:
 push dword 44h	; 7ADD3
 call __CHK	; 7ADD8

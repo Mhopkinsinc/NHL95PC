@@ -11,6 +11,7 @@ typedef struct Hdr17 { char c[17]; } Hdr17;
 
 void DrawLeagueSetDlg(int playoffs);  /* 7A6BD */
 void LeagueSetEditLoop(int mode);  /* 7ADD3 */
+short LeagueSetViewLoop(void);  /* 7AC31 */
 
 /* LeagueSettingsDlg (7A13A, PC only; owner of LeagueSettingsDlg_ret4 / _ret / _ret0): the league settings dialog: with the series game number cleared (restored after),
  load the settings shapes, save the screen under the 230 x 338 dialog at 10 13h into a BKGD bitmap (pointer
@@ -268,52 +269,53 @@ void DrawLeagueSetChecks(void)
     }
 }
 
-/* DRAFT: same size, one copy (as ModeSetViewLoop; see docs/UNSURE.md). */
-/* LeagueSetViewLoop (7AC31, PC only; ends in LeagueSettingsDlg_ret): view-only league settings. Grab the screen
-   under the pointer, follow the mouse until a button (bits 1 or 2) and put the screen back. Result: 0. */
-int LeagueSetViewLoop(void)
+/* LeagueSetViewLoop (7AC31, PC only; ends in LeagueSettingsDlg_ret): the view-only league settings dialog, as
+   ModeSetViewLoop: set four dialog colours, save the screen under the pointer into a POINTER block and draw the
+   pointer, follow the mouse until any button (moving the saved screen with the pointer), then put the screen back
+   and free the block. Result: 0, a short (an int result copies the ptrupdatefn result through edx). */
+short LeagueSetViewLoop(void)
 {
     struct {
         int btn;
-        int x;
         int y;
-        int ox;
+        int x;
         int oy;
+        int ox;
     } s;
     int bm;
     int n;
     unsigned char *ev;
 
     sub_B4B88(0xF7, 4, unk_D16A0);
-    sub_B2DCA(&s.btn, &s.oy, &s.ox);
-    s.y = s.oy;
+    sub_B2DCA(&s.btn, &s.ox, &s.oy);
     s.x = s.ox;
+    s.y = s.oy;
     sub_B4BA8();
     n = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
     bm = sub_8CCA8((char *)str_Pointer15, n, 0x20);
     *(Hdr17 *)bm = *(Hdr17 *)pointerspr;
     ((short *)bm)[2] = ((short *)pointerspr)[2] + 1;
     ((short *)bm)[3] = ((short *)pointerspr)[3] + 1;
-    sub_91400(bm, s.y - 4, s.x);
-    sub_91370(pointerspr, s.y - 4, s.x);
+    sub_91400(bm, s.x - 4, s.y);
+    sub_91370(pointerspr, s.x - 4, s.y);
     ClearInputQueue();
     for (;;) {
         s.btn = 0;
         for (;;) {
             ev = GetInputEvent();
             if (ev == 0) break;
-            s.btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &s.y, &s.x);
+            s.btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &s.x, &s.y);
             if (s.btn & 6) break;
         }
         if (s.btn != 0) break;
-        if (s.y == s.oy && s.x == s.ox) continue;
-        sub_903F0(bm, s.oy - 4, s.ox);
-        sub_91400(bm, s.y - 4, s.x);
-        sub_91370(pointerspr, s.y - 4, s.x);
-        s.oy = s.y;
+        if (s.x == s.ox && s.y == s.oy) continue;
+        sub_903F0(bm, s.ox - 4, s.oy);
+        sub_91400(bm, s.x - 4, s.y);
+        sub_91370(pointerspr, s.x - 4, s.y);
         s.ox = s.x;
+        s.oy = s.y;
     }
-    sub_903F0(bm, s.oy - 4, s.ox);
+    sub_903F0(bm, s.ox - 4, s.oy);
     FreeMemBlock(bm);
     return 0;
 }
