@@ -2171,6 +2171,10 @@ call __CHK	; 79DD6
 mov eax, 1	; 79DDB
 ret	; 79DE0
 %endif ; C
+; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (GameScratchPlayer)
+%ifdef CBUILD
+%include "c/055_78346_team_select/MenuSaveDefaultLines.GameScratchPlayer.inc"
+%else
 GameScratchPlayer:
 push dword 48h	; 79DE1
 call __CHK	; 79DE6
@@ -2285,6 +2289,7 @@ call PrintLineEdStatus	; 79F32
 xor eax, eax	; 79F37
 add esp, byte 24h	; 79F39
 jmp near MenuSaveDefaultLines_pop	; 79F3C
+%endif ; C
 ; C: src/c/055_78346_team_select/GameDressPlayer.c
 %ifdef CBUILD
 %include "c/055_78346_team_select/GameDressPlayer.inc"

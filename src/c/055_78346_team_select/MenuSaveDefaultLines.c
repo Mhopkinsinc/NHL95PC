@@ -1,10 +1,12 @@
-/* Team select: the game line editor's line menu actions and the default-lines save that ends them. */
+/* Team select: the game line editor's menu actions and callbacks that end in the default-lines save's pops. */
 #define MenuUseTheseLines MenuUseTheseLines_decl
 #define MenuUseOriginalLines MenuUseOriginalLines_decl
 #define MenuUseDefaultLines MenuUseDefaultLines_decl
 #define MenuSaveDefaultLines MenuSaveDefaultLines_decl
 #define MenuSaveTheseLines MenuSaveTheseLines_decl
 #define CheckGameRosterComplete CheckGameRosterComplete_decl
+#define GameScratchPlayer GameScratchPlayer_decl
+#define MenuGameShowPlayerStats MenuGameShowPlayerStats_decl
 #include "nhl95.h"
 #undef MenuUseTheseLines
 #undef MenuUseOriginalLines
@@ -12,6 +14,8 @@
 #undef MenuSaveDefaultLines
 #undef MenuSaveTheseLines
 #undef CheckGameRosterComplete
+#undef GameScratchPlayer
+#undef MenuGameShowPlayerStats
 
 int CheckGameRosterComplete(unsigned char side, int x, int y);
 int open(const char *path, int access, ...);  /* Watcom CRT open_ */
@@ -118,8 +122,9 @@ int MenuUseDefaultLines(unsigned char *nums, int a, unsigned char side, int *sel
     return 0;
 }
 
-/* DRAFT: first pass, kept for its pop / ret tail (MenuSaveDefaultLines_pop, which MenuUseOriginalLines uses; the
-   EXE starts it with a `db` push, so it is not in the C queue). */
+/* DRAFT: first pass, kept for its pop / ret tail (MenuSaveDefaultLines_pop, which MenuUseOriginalLines,
+   MenuGameShowPlayerStats and GameScratchPlayer use; the EXE starts it with a `db` push, so it is not in the C
+   queue). */
 /* MenuSaveDefaultLines (7947F, PC only; owner of MenuSaveDefaultLines_ret / _pop): game line editor menu "save
    default lines". When side's game roster is complete, read the team's record from its league file (leaguedbfmt,
    leaguedbfmt2 for side 1; any error is fatal, a missing file ends the program), store the lines as roster
@@ -224,4 +229,90 @@ int MenuSaveTheseLines(unsigned char *nums, unsigned char *dst, unsigned char si
     *(Lines48 *)(unk_DBD1C + side * 0x2E8) = *(Lines48 *)(rec + 0xEC);
     j___close(fh);
     return 1;
+}
+
+
+/* DRAFT: same size, one register (the selection in ebp, see docs/UNSURE.md). */
+/* MenuGameShowPlayerStats (79AC9, PC only; ends in MenuSaveDefaultLines_pop): game line editor menu "player
+   stats". Load the stats buffers (TSTAT, KEYS, PSTAT, GSTAT), fade out and show side's team roster screen
+   (TeamRosterScreen, also the stats screens' redraw callback) with its menu bar, fade in and run the menu; then
+   fade out, free the buffers, redraw the line editor (DrawLineEditorScreen with c / d, DrawGameLineJerseys with
+   art), reprint the selected player's line (colour FDh when scratched, else C0h, on C1h) and fade in. Result:
+   0. */
+int MenuGameShowPlayerStats(unsigned char *nums, int a, unsigned char side, int *sel, int art, int b, int c, int d,
+    int mx, int my)
+{
+    unsigned char pal[0x300];
+    char buf[0x20];
+    int i;
+    int s;
+
+    dword_DC734 = dword_DC738 = 1;
+    statsredrawcb = (int)TeamRosterScreen;
+    if (side) statscategory = VisTeam;
+    else statscategory = HomeTeam;
+    statsteambuf = sub_8CCA8((char *)str_Tstat2, 0x2A4, 0x20);
+    statsplayerbuf = sub_8CCA8((char *)str_Keys4, 0x5B0, 0x20);
+    statsskaterbuf = (unsigned char *)sub_8CCA8((char *)str_Pstat4, 0x497, 0x20);
+    statsgoaliebuf = (unsigned char *)sub_8CCA8((char *)str_Gstat4, 0x10E, 0x20);
+    sub_8FFB0(0, 0x100, byte_ECDF4);
+    for (i = 0; i < 0x300; i++) pal[i] = byte_ECDF4[i];
+    FadePalStep(1, pal, 0x10);
+    if (side) TeamRosterScreen(VisTeam);
+    else TeamRosterScreen(HomeTeam);
+    DrawMenuBar(unk_CF48F, 2, 0xC0, 0xC1, 0xC2);
+    for (i = 0; i < 0x300; i++) pal[i] = byte_ECDF4[i];
+    FadePalStep(0, pal, 0x10);
+    RunMenu(unk_CF48F, 2, 0xC0, 0xC1, 0xC2);
+    FadePalStep(1, pal, 0x10);
+    for (i = 0; i < 0x300; i++) pal[i] = byte_ECDF4[i];
+    dword_DC738 = 0;
+    statsredrawcb = 0;
+    FreeMemBlock(statsteambuf);
+    FreeMemBlock((int)statsgoaliebuf);
+    FreeMemBlock((int)statsskaterbuf);
+    FreeMemBlock(statsplayerbuf);
+    statsskaterbuf = statsgoaliebuf = (unsigned char *)(statsteambuf = statsplayerbuf = 0);
+    DrawLineEditorScreen(side, art, 0, c, d);
+    DrawGameLineJerseys(nums, art, side);
+    s = *sel;
+    if (s >= 0) {
+        if (hmroster[gmrosterslot[s * 22] * 39 + side * 0x444] == 2) sub_8E9C0(0xFD, 0xC1);
+        else sub_8E9C0(0xC0, 0xC1);
+        sprintf(buf, (char *)str_C2dS3, gmroster[*sel * 22], gmrosterjersey[*sel * 22], gmroster + *sel * 22 + 3);
+        PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
+    }
+    FadePalStep(0, pal, 0x10);
+    return 0;
+}
+
+/* GameScratchPlayer (79DE1, PC only; ends in MenuSaveDefaultLines_pop): game line editor callback "scratch": take
+   the selected player *sel (of the gmroster list, 16h bytes each) out of the 40 line slots of nums (64h); turn
+   the save / use line menu items on, or off when a slot is now empty; set the player's roster status (side's
+   roster, 27h bytes per player, 444h per team) to 2 (scratched), redraw the line jerseys with art and reprint
+   the player's "<num> <name>" line in colour FCh on C1h. Result: 0. */
+int GameScratchPlayer(unsigned char *nums, int a, unsigned char side, int *sel, int art, int b, int c, int d, int mx,
+    int my)
+{
+    char buf[32];
+    int i;
+
+    for (i = 0; i < 0x28; i++) {
+        if (nums[i] == gmrosterjersey[*sel * 22]) nums[i] = 0x64;
+    }
+    menuact_savelines = (int)MenuSaveTheseLines;
+    menuact_uselines2 = menuact_uselines = (int)MenuUseTheseLines;
+    menuact_savedeflines2 = menuact_savedeflines = (int)MenuSaveDefaultLines;
+    for (i = 0; i < 0x28; i++) {
+        if (nums[i] == 0x64) {
+            menuact_savedeflines2 = menuact_savedeflines = menuact_uselines2 = menuact_uselines = menuact_savelines = 0;
+            break;
+        }
+    }
+    hmroster[gmrosterslot[*sel * 22] * 39 + side * 0x444] = 2;
+    DrawGameLineJerseys(nums, art, side);
+    sub_8E9C0(0xFC, 0xC1);
+    sprintf(buf, (char *)str_C2dS3, gmroster[*sel * 22], gmrosterjersey[*sel * 22], gmroster + *sel * 22 + 3);
+    PrintLineEdStatus(0x1FA, *sel * 13 + 0x16, buf);
+    return 0;
 }
