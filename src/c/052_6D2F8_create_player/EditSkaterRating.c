@@ -1,0 +1,81 @@
+/* Create player: editing a skater rating. */
+#include "nhl95.h"
+
+typedef struct { char c[0x14]; } Msg20;
+
+/* DRAFT: 789 vs 777, 159 of 235 instructions; see docs/UNSURE.md. Owner of the EditSkaterRating_tail return
+   that EditGoalieRating jumps into. */
+/* EditSkaterRating (6FC60, PC only): a click at *x / *y on the create-player screen's skater ratings (15 rows of
+   0Dh pixels from y 12Ah, rows 8-14 in a second column 136h to the right; the value cell spans C8h-E4h). Row 0
+   (shoots) asks left or right; another row asks for a new value (shown as (r + 5) * 5) between its minimum
+   and maximum (unk_D0FA8 / unk_D0FBC, the range with its name from off_D0880). Lowering a rating gives the
+   points back to *field, raising one takes them from it (or says there are not enough units); rows 3 and 0Dh
+   are free. Result: 1 when a row was hit, else 0. */
+int EditSkaterRating(int *x, int *y, int *field)
+{
+    struct {
+        char range[0x34];
+        char msg[0x38];
+        char ans[0x1C];
+        unsigned char *base;
+        int done;
+        int colx;
+        unsigned char *minp;
+        int old;
+        int rowy;
+    } s;
+    int i;
+    unsigned char *maxp;
+    unsigned char *p;
+    int v;
+    int nv;
+    int d;
+
+    s.done = 0;
+    s.colx = 0;
+    s.rowy = 0x12A;
+    for (i = 0; i < 0xF && !s.done; i++, s.rowy += 0xD) {
+        if (i == 8) {
+            s.colx = 0x136;
+            s.rowy -= 0x68;
+        }
+        if (s.colx + 0xC8 <= *x && s.colx + 0xE4 > *x && *y >= s.rowy && s.rowy + 0xD > *y) {
+            s.done = 1;
+            s.base = &byte_D0F94;
+            *(Msg20 *)s.msg = *(Msg20 *)str_EnterANewRating;
+            msglines[0] = (int)s.msg;
+            maxp = unk_D0FBC + i;
+            sprintf(s.range, (char *)str_RatingRange, (*(s.minp = unk_D0FA8 + i) + 5) * 5, off_D0880[i], (*maxp + 5) * 5);
+            msglines[1] = (int)s.range;
+            p = &byte_D0F94 + i;
+            if (i == 0) {
+                AskLeftRight(p, (char *)str_ShootsLeftOrRight);
+            } else {
+                sprintf(s.ans, (char *)str_fmtpd, (*p + 5) * 5);
+                s.old = (*p + 5) * 5;
+                v = (unsigned char)InputDialog(msglines, 2, s.ans, 2, 0x1C, -1, (*s.minp + 5) * 5, (*maxp + 5) * 5, 0);
+                if (v != 0xFF && v >= (*s.minp + 5) * 5 && v <= (*maxp + 5) * 5) {
+                    nv = v / 5 - 5;
+                    if (v < s.old) {
+                        *p = nv;
+                        if (i != 0 && i != 3 && i != 0xD) *field += s.old - (*p + 5) * 5;
+                    } else {
+                        d = v - s.old;
+                        if (i != 0 && i != 3 && i != 0xD) {
+                            if (d > *field) {
+                                msglines[0] = (int)str_NotEnoughRatingUnits;
+                                MessageBox(-1, -1, (char *)msglines, 1, 0, 0, (int)x, (int)y, -1);
+                            } else {
+                                *p = nv;
+                                *field -= (*p + 5) * 5 - s.old;
+                            }
+                        } else {
+                            s.base[i] = v / 5 - 5;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return s.done;
+}
