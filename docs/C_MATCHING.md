@@ -178,6 +178,9 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   `je` / `lea eax, [edx-2]` (the load is reused and the table index built in eax). `while ((d = deskexit) != 1)
   switch (d)` loads into eax and indexes in place (`sub eax, 2`), which also moves the registers of every case
   (CalStandingsMenu, GameStandingsMenu).
+* **Zero arguments after an error test**: right after `err = f(...); if (!err)`, five zero MessageBox arguments
+  written as `0` are `push eax` x5 (the call result known to be 0). Written as `err` they go through a copy
+  (`mov edx, eax` / `push edx`); the EXE's `push esi` x5 elsewhere is `err` itself (MergeLeagueFiles).
 * **Tails are merged across the whole file**: identical function tails (the pops, or longer runs before them) in one
   C file become jumps into one surviving copy, in either direction, and which copy survives depends on every
   function in the file. POSeedFinal jumps into POSeedConfFinals' pairing code as in the EXE, but with POSeedRound2
