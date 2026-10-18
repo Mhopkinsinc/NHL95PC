@@ -396,6 +396,10 @@ dd GameStandingsMenu_standings
 dd GameStandingsMenu_roster
 dd GameStandingsMenu_player
 dd GameStandingsMenu_player2
+; C: src/c/016_20016_easn_stats/GameSkaterStatsScreen.c (GameStandingsMenu)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameSkaterStatsScreen.GameStandingsMenu.inc"
+%else
 GameStandingsMenu:
 push dword 338h	; 2051A
 call __CHK	; 2051F
@@ -637,6 +641,7 @@ mov eax, 2	; 208DE
 add esp, 310h	; 208E3
 pop ebp	; 208E9
 jmp near GameSkaterStatsScreen_x	; 208EA
+%endif ; C
 ; C: src/c/016_20016_easn_stats/EasnTeamStatsScreen.c
 %ifdef CBUILD
 %include "c/016_20016_easn_stats/EasnTeamStatsScreen.inc"
