@@ -536,6 +536,10 @@ call __CHK	; 7A6B2
 mov dword [leaguesetimg], eax	; 7A6B7
 ret	; 7A6BC
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (DrawLeagueSetDlg)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.DrawLeagueSetDlg.inc"
+%else
 DrawLeagueSetDlg:
 push dword 144h	; 7A6BD
 call __CHK	; 7A6C2
@@ -669,6 +673,7 @@ mov eax, 0Ah	; 7A85A
 call DrawSettingsHeading	; 7A85F
 add esp, 120h	; 7A864
 jmp near LeagueSettingsDlg_ret0	; 7A86A
+%endif ; C
 db 08Dh,040h,00h
 LeagueOptsToBits_jt:
 dd LeagueOptsToBits_n1

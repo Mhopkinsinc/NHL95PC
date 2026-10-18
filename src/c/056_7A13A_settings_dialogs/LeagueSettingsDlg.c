@@ -176,6 +176,49 @@ int MenuShowLeagueSettings2(void)
     return 0;
 }
 
+
+/* DrawLeagueSetDlg (7A6BD, PC only; ends in LeagueSettingsDlg_ret0): draw the league settings dialog: an identity
+   colour remap (for the playoffs FAh-F7h become 40h-43h), the SETTING bank's DBOX art at 10 13h (from the CD when
+   fileoncd says so), the labels in F8h (42h for the playoffs) on FFh: "Music" "Sound" with sound device 10h and
+   "Digitized speech" with music off; in the playoffs (gamemode 1) the series length sprite by the game number
+   (5 or more, 3, 1); then the heading (colour FAh, 40h for the playoffs). playoffs: nonzero for the playoff
+   settings. No result. */
+void DrawLeagueSetDlg(int playoffs)
+{
+    unsigned char remap[0x100];
+    char path[0x20];
+    int i;
+    int bank;
+
+    sub_B4BA8();
+    for (i = 0; i < 0x100; i++) remap[i] = i;
+    if (playoffs) {
+        remap[0xFA] = 0x40;
+        remap[0xF9] = 0x41;
+        remap[0xF8] = 0x42;
+        remap[0xF7] = 0x43;
+    }
+    sub_B4DD4(remap);
+    MakePath(path, fileoncd[0x173] == 1 ? (char *)cddriveptr : 0, (char *)str_Setting3, 0);
+    bank = sub_8E83C(path, 0);
+    sub_931FC(sub_B30B4(bank, (char *)str_Dbox2), 0xA, 0x13);
+    FreeMemBlock(bank);
+    if (playoffs) sub_8E9C0(0x42, 0xFF);
+    else sub_8E9C0(0xF8, 0xFF);
+    if (sounddev == 0x10) {
+        sub_91964((char *)str_Music, 0x68, 0xAA);
+        sub_91964((char *)str_Sound, 0x68, 0xC0);
+    }
+    if (!musicon) sub_91964((char *)str_DigitizedSpeech, 0x68, 0xD6);
+    if (gamemode == 1) {
+        if (seriesgameno >= 5) sub_91FE0(na05spr, 0x85, 0x125);
+        else if (seriesgameno >= 3) sub_91FE0(na03spr, 0x85, 0x125);
+        else if (seriesgameno >= 1) sub_91FE0(na01spr, 0x85, 0x125);
+    }
+    if (playoffs) DrawSettingsHeading(0xA, 0x13, 3, gamemode, 0x40);
+    else DrawSettingsHeading(0xA, 0x13, 3, gamemode, 0xFA);
+}
+
 /* DrawLeagueSetChecks (7AAAA, PC only; ends in LeagueSettingsDlg_ret4): draw the league settings dialog's 9
    check boxes (on or off sprite by setbits bit i) at their rects (2 rects per item; item 5 is skipped), then the
    period length choice (setbits 200h / 400h / 800h: the 20, 10 or 5 minute sprite) and the playoff series length
