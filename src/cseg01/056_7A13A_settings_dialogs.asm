@@ -3050,6 +3050,10 @@ pop esi	; 7C314
 pop ecx	; 7C315
 ret	; 7C316
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c (ExhSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuExhibitionSettings.ExhSetEditLoop.inc"
+%else
 ExhSetEditLoop:
 push dword 40h	; 7C317
 call __CHK	; 7C31C
@@ -3464,6 +3468,7 @@ push eax	; 7C845
 mov edi, dword [pointerspr]	; 7C846
 push edi	; 7C84C
 jmp near ExhSetEditLoop.5	; 7C84D
+%endif ; C
 DrawCtlBoxOn:
 push dword 30h	; 7C852
 call __CHK	; 7C857
