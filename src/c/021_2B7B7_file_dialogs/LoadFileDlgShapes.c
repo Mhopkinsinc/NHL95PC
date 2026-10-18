@@ -1,7 +1,9 @@
 /* LoadFileDlgShapes - unless loaded, load the file dialog button bank OPENBUT (from the CD when listed there) into fdlgshapes and look up its
    shapes: none, delete, open, cancel, no arrow, up, down, arrow and the four game-type tabs (none, exhibition, league, playoffs). */
 #define DrawFileDlgTabs DrawFileDlgTabs_decl
+#define RunFileDlg RunFileDlg_decl
 #include "nhl95.h"
+#undef RunFileDlg
 #undef DrawFileDlgTabs
 
 void LoadFileDlgShapes(void)
@@ -246,4 +248,209 @@ int DrawFileDlgList(FileList *l)
     }
 done:
     return r;
+}
+
+typedef struct { char c[17]; } Hdr17;
+
+/* DRAFT (RunFileDlg): same size; the scroll step and later registers differ (see docs/UNSURE.md). */
+/* RunFileDlg (2C801, PC only; ends in DrawFileDlg_x): run the saved-games dialog with the mouse pointer (a
+   POINTER block holds the screen under it) on the list of the shown tab (off_C6F7C[fdlgtab]). Button 1 held on the
+   scroll bar (box 8, when fdlgmask enables it) drags the shown rows with the pointer (the first event only starts
+   the drag); a move too small to scroll a row is kept (from dragy) until it adds up. A click (event bit 2) on an
+   enabled box: the arrows scroll one row, the bar brings the clicked position into view, the three tabs switch the
+   list, Delete deletes the selected saved game (DeleteSavedGame) and puts the mouse back, a row selects it
+   (FileDlgHitTest); Open frees the block and returns SelectSavedFile's result; Cancel or event bit 4 return 0. */
+int RunFileDlg(void)
+{
+    int dragy;
+    int bm;
+    int drag;
+    int ox;
+    int oy;
+    int x;
+    int y;
+    int btn;
+    int hit;
+    int n;
+    int slow;
+    int pos;
+    int last;
+    int d;
+    FileList *l;
+    unsigned char *ev;
+
+    drag = 0;
+    slow = 0;
+    sub_B2DCA(&btn, &ox, &oy);
+    x = ox;
+    y = oy;
+    sub_B4BA8();
+    n = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    bm = sub_8CCA8((char *)str_Pointer5, n, 0x20);
+    *(Hdr17 *)bm = *(Hdr17 *)pointerspr;
+    ((short *)bm)[2] = ((short *)pointerspr)[2] + 1;
+    ((short *)bm)[3] = ((short *)pointerspr)[3] + 1;
+    sub_91400(bm, x - 4, y);
+    sub_91370(pointerspr, x - 4, y);
+    l = (FileList *)off_C6F7C[fdlgtab];
+    ClearInputQueue();
+    for (;;) {
+        btn = 0;
+        for (;;) {
+            ev = GetInputEvent();
+            if (ev == 0) break;
+            btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &x, &y);
+            if (btn) break;
+        }
+        if (btn == 0) {
+            if (x != ox || y != oy) {
+                sub_B4BA8();
+                sub_903F0(bm, ox - 4, oy);
+                sub_91400(bm, x - 4, y);
+                sub_91370(pointerspr, x - 4, y);
+                ox = x;
+                oy = y;
+            }
+            continue;
+        }
+        sub_910E0(bm, ox - 4, oy);
+        if ((btn & 1) && (fdlgmask[1] & 1)) {
+            if (ox != x || oy != y) {
+                if (FileDlgHitTest(x, y, &hit) && hit == 8) {
+                    if (drag) {
+                        pos = l->count * (oy - 0x13 - ((FRect *)fdlgrects)[8].y1) / 0x50;
+                        last = l->bottom;
+                        if (oy != y && pos >= l->top && pos <= last) {
+                            if ((slow ? dragy : oy) < y) {
+                                d = (y - (slow ? dragy : oy)) * l->count / 0x50;
+                                if (d == 0) {
+                                    if (!slow) dragy = oy;
+                                    slow = 1;
+                                } else {
+                                    slow = 0;
+                                }
+                                if (l->bottom + d < l->count) {
+                                    l->top += d;
+                                    l->bottom += d;
+                                } else {
+                                    l->bottom = l->count - 1;
+                                    l->top = l->count - 6;
+                                }
+                            } else if ((slow ? dragy : oy) > y) {
+                                d = ((slow ? dragy : oy) - y) * l->count / 0x50;
+                                if (d == 0) {
+                                    if (!slow) dragy = oy;
+                                    slow = 1;
+                                } else {
+                                    slow = 0;
+                                }
+                                if (l->top - d >= 0) {
+                                    l->top -= d;
+                                    l->bottom -= d;
+                                } else {
+                                    l->top = 0;
+                                    l->bottom = 5;
+                                }
+                            }
+                            if (last != l->bottom) DrawFileDlgList(l);
+                        }
+                    } else {
+                        drag = 1;
+                    }
+                } else {
+                    drag = 0;
+                }
+            }
+        } else if (btn & 2) {
+            drag = slow = 0;
+            if (FileDlgHitTest(x, y, &hit)) {
+                hit = 1 << hit;
+                if (hit & *(int *)fdlgmask) {
+                    switch (hit) {
+                    case 0x10:
+                        sub_91370(fdlg_cancel, 0x20, 0xBF);
+                        FreeMemBlock(bm);
+                        return 0;
+                    case 1:
+                        sub_91370(fdlg_up, 0x18, 0x46);
+                        if (l->top != 0) {
+                            l->top--;
+                            l->bottom--;
+                            DrawFileDlgList(l);
+                        }
+                        break;
+                    case 2:
+                        sub_91370(fdlg_down, 0x18, 0x46);
+                        if (l->bottom + 1 < l->count) {
+                            l->top++;
+                            l->bottom++;
+                            DrawFileDlgList(l);
+                        }
+                        break;
+                    case 0x100:
+                        pos = (y - 0x13 - ((FRect *)fdlgrects)[8].y1) * l->count / 0x50;
+                        if (pos < l->top) {
+                            if (pos < 3) {
+                                l->top = 0;
+                                l->bottom = 5;
+                            } else {
+                                l->top = pos - 3;
+                                l->bottom = pos + 2;
+                            }
+                        } else {
+                            if (pos <= l->bottom) break;
+                            if (pos + 3 > l->count) {
+                                l->top = l->count - 6;
+                                l->bottom = l->count - 1;
+                            } else {
+                                l->top = pos - 3;
+                                l->bottom = pos + 2;
+                            }
+                        }
+                        DrawFileDlgList(l);
+                        break;
+                    case 0x20:
+                        fdlgtab = 0;
+                        l = (FileList *)off_C6F7C[0];
+                        DrawFileDlgList(l);
+                        break;
+                    case 0x40:
+                        fdlgtab = 1;
+                        l = (FileList *)off_C6F7C[1];
+                        DrawFileDlgList(l);
+                        break;
+                    case 0x80:
+                        fdlgtab = 2;
+                        l = (FileList *)off_C6F7C[2];
+                        DrawFileDlgList(l);
+                        break;
+                    case 4:
+                        sub_91370(fdlg_open, 0x20, 0xBF);
+                        FreeMemBlock(bm);
+                        return SelectSavedFile();
+                    case 8:
+                        sub_91370(fdlg_del, 0x20, 0xBF);
+                        DeleteSavedGame(off_C6F7C[fdlgtab]);
+                        MouseSetPos(x, y);
+                        l = fdlgtab < 0 ? 0 : (FileList *)off_C6F7C[fdlgtab];
+                        DrawFileDlgList(l);
+                        sub_91370(fdlg_none, 0x20, 0xBF);
+                        break;
+                    default:
+                        FileDlgHitTest(x, y, &hit);
+                        if (hit > 9) l->sel = l->top + hit - 10;
+                        DrawFileDlgList(l);
+                        break;
+                    }
+                }
+            }
+        } else if (btn & 4) {
+            FreeMemBlock(bm);
+            return 0;
+        }
+        sub_91400(bm, x - 4, y);
+        sub_91370(pointerspr, x - 4, y);
+        ox = x;
+        oy = y;
+    }
 }
