@@ -2014,6 +2014,10 @@ mov word [ovltimer], 0FFFFh	; 62C26
 .17:
 add esp, byte 4	; 62C2F
 jmp near fileio_popebpx	; 62C32
+; C: src/c/045_614C2_scoring_penalty_text/QueueGoalieNote.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/QueueGoalieNote.inc"
+%else
 QueueGoalieNote:
 push dword 24h	; 62C37
 call __CHK	; 62C3C
@@ -2074,6 +2078,7 @@ pop edx	; 62CD3
 pop ecx	; 62CD4
 pop ebx	; 62CD5
 ret	; 62CD6
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/GameTimeStamp.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/GameTimeStamp.inc"

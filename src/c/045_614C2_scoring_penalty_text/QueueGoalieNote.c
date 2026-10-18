@@ -3,8 +3,8 @@
 
 /* QueueGoalieNote: once per goalie (bit tmgoalie, +3 for the visitors, in dword_CC0AC; all 6 done = 3Fh): when
  object word_C90D8 is set, queue the deferred note for its side and roster number (deferpending). Returns 1
- when queued. */
-int QueueGoalieNote(void)
+ when queued, as a short (the caller tests ax). */
+short QueueGoalieNote(void)
 {
     Player *p;
     int side;

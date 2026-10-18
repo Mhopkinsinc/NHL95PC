@@ -37,7 +37,7 @@ void Setplass(struct Player *p);                          /* 5B298 */
 void Acheck(struct Player *p, struct Player *q);           /* 4FFAE */
 void SetLCmode(struct Player *p);                         /* 4D9FC */
 void assdopen(struct Player *p);                          /* 4AFFB */
-int TryAddPlayerToList(struct Team *t, short pl, short slot); /* 5BB9E */
+short TryAddPlayerToList(struct Team *t, short pl, short slot); /* 5BB9E */
 void defaultsprites2(void);                                 /* 5BA89 */
 void ResetBench(void);                                     /* 5DF86 */
 void setpersonel(struct Team *t);                          /* 5BEF4 */
@@ -478,7 +478,7 @@ void __cdecl sub_B3AA1(void *save);  /* graphics library: restore draw state */
 void __cdecl sub_91370(int art, int x, int y);  /* graphics library: draw art */
 void __cdecl sub_9132C(int bmp);  /* graphics library: free bitmap */
 int FacingBoards(Player *p);  /* 5378D */
-int QueueGoalieNote(void);  /* 62C37 */
+short QueueGoalieNote(void);  /* 62C37 */
 void QueueDeferredCall(void *fn, int a, int b, int c, int d, int e, int f, int g);
 void faceoffinput(Player *p);  /* 4FF0D */
 void StartPenaltyShot(void);  /* 64398 */

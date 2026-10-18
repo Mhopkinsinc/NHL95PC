@@ -2547,6 +2547,10 @@ mov word [RefStep], bx	; 5BB8D
 call SprSort	; 5BB94
 jmp near calcpuckcross_ret5	; 5BB99
 %endif ; C
+; C: src/c/042_59D9A_engine_core/TryAddPlayerToList.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/TryAddPlayerToList.inc"
+%else
 TryAddPlayerToList:
 push dword 8	; 5BB9E
 call __CHK	; 5BBA3
@@ -2585,6 +2589,7 @@ mov byte [dword edx+PlList], cl	; 5BBED
 mov eax, 1	; 5BBF3
 pop ecx	; 5BBF8
 ret	; 5BBF9
+%endif ; C
 SetPlList:
 push dword 30h	; 5BBFA
 call __CHK	; 5BBFF
