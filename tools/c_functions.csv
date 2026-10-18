@@ -15,6 +15,7 @@ RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunG
 SetScreenSize,10E9F,206,001_10010_main_startup,src/c/001_10010_main_startup/SetScreenSize.c,matched,
 SetupControllers,10712,344,001_10010_main_startup,src/c/001_10010_main_startup/SetupControllers.c,matched,
 WaitKeyRelease,11161,46,001_10010_main_startup,src/c/001_10010_main_startup/WaitKeyRelease.c,matched,
+main_,10094,448,001_10010_main_startup,src/c/001_10010_main_startup/main_.c,nonmatching,
 ReplayIsEmpty,12034,41,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/ReplayIsEmpty.c,matched,
 assinsert,12011,35,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assinsert.c,matched,
 assreplace,11FF4,29,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assreplace.c,matched,
@@ -263,6 +264,7 @@ AskExportToFloppy,38386,306,029_380E9_league_setup,src/c/029_380E9_league_setup/
 AskTeamPassword,3A395,265,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,
 AskMasterPassword,3A49E,249,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,
 EncryptPassword,3A597,101,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,
+BuildStandingsGrid,384B8,1645,029_380E9_league_setup,src/c/029_380E9_league_setup/BuildStandingsGrid.c,nonmatching,
 ChooseLeagueController,380E9,669,029_380E9_league_setup,src/c/029_380E9_league_setup/ChooseLeagueController.c,nonmatching,"draft: 669 vs 669. The body matches. jctime loads list into ecx and names into esi; the original uses edi and ebp. Parm [eax][edx][ecx][ebx] and copying x before y places those homes. The verify buffer is declared first so the password slots stay put. Do not retry an inner block for y, a local team pointer, or an aux body for the frees."
 MergeGoalieRecDelta,3A826,388,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeGoalieRecDelta.c,matched,
 MergeSeasonRecDelta,3A71C,266,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeSeasonRecDelta.c,matched,
@@ -310,6 +312,7 @@ LeagueCheckStub,41337,13,033_40183_trades,src/c/033_40183_trades/LeagueCheckStub
 LoadHomePals,40792,355,033_40183_trades,src/c/033_40183_trades/LoadHomePals.c,matched,
 MsgCopyingDatabases,414E0,54,033_40183_trades,src/c/033_40183_trades/MsgCopyingDatabases.c,matched,
 SaveLeagueGameRef,41978,520,033_40183_trades,src/c/033_40183_trades/SaveLeagueGameRef.c,nonmatching,"draft: 483 vs 520. Frame is 38h and the handle is at esp+30h. Each FileWriteAt result is tested in eax; the original copies it to edx first (mov edx, eax) and the next block tests edx. register, declaration order, and goto labels did not move it."
+TradePlayers,40183,1551,033_40183_trades,src/c/033_40183_trades/TradePlayers.c,nonmatching,
 WriteLeagueInfo,413CD,275,033_40183_trades,src/c/033_40183_trades/WriteLeagueInfo.c,matched,
 AdvancePlayoffs,44A41,910,034_41B80_schedule,src/c/034_41B80_schedule/AdvancePlayoffs.c,nonmatching,
 CreateNewLeague,44DCF,1203,034_41B80_schedule,src/c/034_41B80_schedule/CreateNewLeague.c,nonmatching,
