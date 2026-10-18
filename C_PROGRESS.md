@@ -650,7 +650,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | skateto | 5E93B | 476 | nonmatching | [EvadePlayers.c](src/c/043_5E16D_engine_skating/EvadePlayers.c) | 1 instruction off: the original loads the pucky pointer into eax and Xvel|Yvel as eax=Xvel/edx=Yvel; wcc picks edx in both (register cache of regd0 in eax?) |
 | skatetopuck | 5EB17 | 662 | nonmatching | [skatetopuck.c](src/c/043_5E16D_engine_skating/skatetopuck.c) |  |
 | playeracc | 5EDAD | 673 | matched | [playeracc.c](src/c/043_5E16D_engine_skating/playeracc.c) |  |
-| avdgoal_box | 5F04E | 205 | nonmatching | [avdgoal_box.c](src/c/043_5E16D_engine_skating/avdgoal_box.c) | return register: asm returns 0/1 straight in eax (pt lives in eax too); C builds it in ecx + mov eax,ecx; rest matches |
+| avdgoal_box | 5F04E | 205 | nonmatching | [avdgoal_box.c](src/c/043_5E16D_engine_skating/avdgoal_box.c) | return register: asm returns 0/1 straight in eax (pt lives in eax too); C builds it in ecx + mov eax,ecx; rest matches. Declared short it matches exactly, but avdgoal tests eax, so the original is int. Tried: a result local with gotos, unsigned side pointers, short locals, a char result. |
 | dostop | 5F745 | 229 | matched | [dostop.c](src/c/043_5E16D_engine_skating/dostop.c) |  |
 | StopNA | 5F82A | 136 | matched | [EvadePlayers.c](src/c/043_5E16D_engine_skating/EvadePlayers.c) |  |
 | goalieacc | 5F8B2 | 216 | matched | [goalieacc.c](src/c/043_5E16D_engine_skating/goalieacc.c) |  |
