@@ -1,7 +1,7 @@
 /* Skating: skate to the puck. */
-/* DRAFT: in EvadePlayers.c it comes out the same size with two register picks left; see docs/UNSURE.md. Its match
-   EvadePlayers.c (it ends in EvadePC_x), but there it moves the shared pops (StopNA then branches into EvadePC),
-   so it stays in its own file for now. */
+/* DRAFT: in EvadePlayers.c it comes out the same size with two register picks left; see docs/UNSURE.md.
+   Its match belongs in EvadePlayers.c (it ends in EvadePC_x), but there it moves the shared pops (StopNA
+   then branches into EvadePC), so it stays in its own file for now. */
 #define skatetopuck skatetopuck_decl
 #define imul32 imul32_decl
 #include "nhl95.h"
