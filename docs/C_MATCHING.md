@@ -174,6 +174,14 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **A second local keeps the return constant in eax**: `if (gamemode == 0) r = 2; else r = picked; return r` is `mov eax, 2` / `jmp` / `mov eax, esi` (LockerRoomScreen). `picked = 2; return picked` writes the 2 into the register that already holds the other result (`mov esi, 2`, 626 vs 628).
 * **The same-day arm falls through**: `if (DateKey(game[0], game[1]) <= date)` is `jg` to the later-day arm (SimScheduleDay). Writing the later-day test first is `jle` and puts that arm ahead of the same-day body. Copy the teams pointer before clearing the stop flag; the other way round zeros the flag first. The club index is `((id << 4) - id) * 2` so the `* 2` stays in the address.
 * **A zero return right after a compare falls through**: `if (diff <= 0) return 0;` with `diff` just copied (`mov eax, ecx`) is `jg` over `xor eax, ecx` / `pop` / `ret` (ChkPullGoalieLate). `if (diff > 0) { ... } return 0;` puts the body first and jumps to the zero return. A later `return 0` that is the same `xor eax, eax` epilogue is a jump to the first one; inverting the last compare so the zero return sits at the bottom pulls every earlier return there too (ChkDelayedOffside, 208 vs 192).
+* **A switch on a re-read global**: `while (deskexit != 1) switch (deskexit)` is `mov edx, [deskexit]` / `cmp edx, 1` /
+  `je` / `lea eax, [edx-2]` (the load is reused and the table index built in eax). `while ((d = deskexit) != 1)
+  switch (d)` loads into eax and indexes in place (`sub eax, 2`), which also moves the registers of every case
+  (CalStandingsMenu, GameStandingsMenu).
+* **Tails are merged across the whole file**: identical function tails (the pops, or longer runs before them) in one
+  C file become jumps into one surviving copy, in either direction, and which copy survives depends on every
+  function in the file. POSeedFinal jumps into POSeedConfFinals' pairing code as in the EXE, but with POSeedRound2
+  in the same file POSeedRound2's exit then jumps into POSeedConfFinals' pops, the reverse of the EXE.
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.
