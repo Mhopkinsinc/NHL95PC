@@ -829,6 +829,7 @@ DrawSoundCardDlg,8261C,116,059_8034B_settings_lockerroom,src/c/059_8034B_setting
 DrawSoundCardOpts,82690,291,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawSoundCardOpts.c,matched,
 LoadSettingsShapes,8034B,434,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/LoadSettingsShapes.c,matched,
 LockerHitTest,81520,79,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/LockerHitTest.c,matched,
+LockerRoomLoop,81C4E,2060,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/LockerRoomLoop.c,nonmatching,
 LockerRoomScreen,80830,628,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/LockerRoomScreen.c,matched,
 MenuSoundSettings,82579,163,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/MenuSoundSettings.c,nonmatching,the EXE does not save edx (only ebx/ecx/esi/edi/ebp) though cdecl calls clobber it; C pushes edx too - some callee pragma differs
 RedrawSoundCardOpts,82805,281,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/RedrawSoundCardOpts.c,matched,
