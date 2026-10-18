@@ -187,6 +187,10 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   then one `FileClose`), put the shared call at the end of each branch: with one copy after the `if / else`
   Watcom merges the two last calls instead (ImportPlayerTeam). The same move did not keep POHandleElimination's
   two `RestoreDialogBg` calls apart.
+* **Plain locals rather than a frame struct** when the EXE spills: a struct whose members have their address taken (`&s.w`) makes every member look clobbered by calls, so a pointer kept there is reloaded after each call and its sums are not kept, and the register pressure moves (a stack argument went into ebp). Plain locals let Watcom choose the spill slots itself; their declaration order sets the slots (MessageBox: `r, lineh, ty, w, h, top` gives h at +0, w at +4 as in the EXE, found by trying all orders).
+* **One `+=` per branch merges**: `if (c) a += x; else a += y - z;` becomes one shared `add [a], edx` with a `jmp` from the first branch, as the EXE often has; `a += c ? x : y - z` computes the address first (MessageBox).
+* **Distance decides short or near jumps into a shared tail**: a function that ends in another function's pops jumps there `near` in the EXE when other code lies between them. In a C file holding only the two, Watcom uses short jumps and the block comes out smaller; put the functions that lie between them in the EXE into the file, in address order (asstakeposition after PenShotStart in TakePlayerFromBox.c). Putting the user first instead moves the surviving tail into it.
+* **Check symbols with cdiff**: the scoring diffs normalise absolute addresses, so two globals loaded in swapped order look equal there; `tools/cdiff.py FILE --func F` names them (asstakeposition: `apl[regd4.w + regd1.w]`, `(fox ^ regd0.w) < 0`).
 * **Tails are merged across the whole file**: identical function tails (the pops, or longer runs before them) in one
   C file become jumps into one surviving copy, in either direction, and which copy survives depends on every
   function in the file. POSeedFinal jumps into POSeedConfFinals' pairing code as in the EXE, but with POSeedRound2
