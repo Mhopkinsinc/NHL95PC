@@ -3,14 +3,19 @@
    DrawLeagueSetChecks after them (it ends in LeagueSettingsDlg_ret4) they stay in LeagueSettingsDlg, as in the EXE. */
 #define MenuShowLeagueSettings2 MenuShowLeagueSettings2_decl
 #define LeagueSetViewLoop LeagueSetViewLoop_decl
+#define LeagueSetEditLoop LeagueSetEditLoop_decl
+#define sub_96440 sub_96440_decl
 #include "nhl95.h"
 #undef LeagueSetViewLoop
+#undef LeagueSetEditLoop
+#undef sub_96440
 #undef MenuShowLeagueSettings2
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
 void DrawLeagueSetDlg(int playoffs);  /* 7A6BD */
-void LeagueSetEditLoop(int mode);  /* 7ADD3 */
+short LeagueSetEditLoop(int mode);  /* 7ADD3 */
+void __cdecl sub_96440(int buf, int x, int y);  /* graphics library: save a screen block, clipped */
 short LeagueSetViewLoop(void);  /* 7AC31 */
 
 /* LeagueSettingsDlg (7A13A, PC only; owner of LeagueSettingsDlg_ret4 / _ret / _ret0): the league settings dialog: with the series game number cleared (restored after),
@@ -318,4 +323,150 @@ short LeagueSetViewLoop(void)
     sub_903F0(bm, s.ox - 4, s.oy);
     FreeMemBlock(bm);
     return 0;
+}
+
+/* LeagueSetEditLoop (7ADD3, PC only; ends in LeagueSettingsDlg_ret): the league settings dialog, as
+   ModeSetEditLoop (mode nonzero: set the dialog colours first) with two option groups: boxes 18-20 pick one of
+   setbits bits 9-11 (pertime 2, 1, 0) and boxes 21-24 one of bits 12-15 (optbits12 1, 3, 5, 7); OK is box 25 and
+   Cancel box 26 (their buttons drawn with sub_91FE0). Speech follows its box with a 22h sound device and there is
+   no crowd noise. After a click the screen under the pointer is saved clipped (sub_96440). Result: 0, a short. */
+short LeagueSetEditLoop(int mode)
+{
+    int oldmusic;
+    int ox;
+    int oy;
+    int x;
+    int y;
+    int btn;
+    int hit;
+    int bm;
+    int n;
+    unsigned char *ev;
+
+    if (mode) sub_B4B88(0xF7, 4, unk_D16A0);
+    sub_B2DCA(&btn, &ox, &oy);
+    x = ox;
+    y = oy;
+    oldmusic = gameopts.music;
+    sub_B4BA8();
+    n = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    bm = sub_8CCA8((char *)str_Pointer15, n, 0x20);
+    *(Hdr17 *)bm = *(Hdr17 *)pointerspr;
+    ((short *)bm)[2] = ((short *)pointerspr)[2] + 1;
+    ((short *)bm)[3] = ((short *)pointerspr)[3] + 1;
+    sub_91400(bm, x - 4, y);
+    sub_91370(pointerspr, x - 4, y);
+    ClearInputQueue();
+    for (;;) {
+        btn = 0;
+        for (;;) {
+            ev = GetInputEvent();
+            if (ev == 0) break;
+            btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &x, &y);
+            if (btn & 6) break;
+        }
+        if (!(btn & 6)) {
+            if (x != ox || y != oy) {
+                sub_903F0(bm, ox - 4, oy);
+                sub_91400(bm, x - 4, y);
+                sub_91370(pointerspr, x - 4, y);
+                ox = x;
+                oy = y;
+            }
+        } else if (btn & 2) {
+            sub_903F0(bm, ox - 4, oy);
+            if (LeagueSetHitTest(x, y, &hit)) {
+                if (hit < 0x12) {
+                    if (hit % 2) {
+                        if (musicon || hit != 0x11) {
+                            hit /= 2;
+                            setbits[0] &= ~(1 << hit);
+                        }
+                    } else {
+                        if (musicon || hit != 0x10) {
+                            hit /= 2;
+                            setbits[0] |= 1 << hit;
+                        }
+                    }
+                } else if (hit < 0x15) {
+                    hit -= 9;
+                    setbits[0] = (setbits[0] & 0xF1FF) | 1 << hit;
+                } else if (hit < 0x19) {
+                    hit -= 9;
+                    setbits[0] = (setbits[0] & 0xFFF) | 1 << hit;
+                } else if (hit == 0x19) {
+                    sub_91FE0(acptspr, 0x3F, 0x148);
+                    gameopts.optbit0 = (setbits[0] & 1) != 0;
+                    gameopts.offsides = (setbits[0] & 2) != 0;
+                    gameopts.linechanges = (setbits[0] & 4) != 0;
+                    gameopts.twolinepass = (setbits[0] & 8) != 0;
+                    gameopts.optbit4 = (setbits[0] & 0x10) != 0;
+                    gameopts.optbit5 = (setbits[0] & 0x20) != 0;
+                    if (sounddev != 0x10) {
+                        gameopts.music = (setbits[0] & 0x40) != 0;
+                        gameopts.sfx = (setbits[0] & 0x80) != 0;
+                    }
+                    if (sounddev & 0x22) gameopts.speech = (setbits[0] & 0x100) != 0;
+                    switch (setbits[0] & 0xE00) {
+                    case 0x200:
+                        gameopts.pertime = 2;
+                        break;
+                    case 0x400:
+                        gameopts.pertime = 1;
+                        break;
+                    case 0x800:
+                        gameopts.pertime = 0;
+                        break;
+                    }
+                    switch (setbits[0] & 0xF000) {
+                    case 0x1000:
+                        gameopts.optbits12 = 1;
+                        break;
+                    case 0x2000:
+                        gameopts.optbits12 = 3;
+                        break;
+                    case 0x4000:
+                        gameopts.optbits12 = 5;
+                        break;
+                    case 0x8000:
+                        gameopts.optbits12 = 7;
+                        break;
+                    }
+                    if (gameopts.music) {
+                        if (musicon && songdata && !oldmusic && sub_8FC8A(musicslot, 3))
+                            sub_8FB8E(songdata, musichandle, 3, 0x7F);
+                        sub_8F979();
+                    } else {
+                        if (musicon && songdata && !sub_8FC8A(musicslot, 3))
+                            sub_8FCDF(musichandle, 3, 0x64);
+                        sub_8F984();
+                    }
+                    if (gameopts.sfx) sub_8F963();
+                    else sub_8F96E();
+                    WriteCurModeState();
+                    FreeMemBlock(bm);
+                    return 0;
+                } else {
+                    sub_91FE0(fdlg_cancel, 0x89, 0x148);
+                    FreeMemBlock(bm);
+                    return 0;
+                }
+                DrawLeagueSetChecks();
+            }
+            sub_96440(bm, x - 4, y);
+            sub_91370(pointerspr, x - 4, y);
+            ox = x;
+            oy = y;
+        } else if (btn & 4) {
+            sub_903F0(bm, ox - 4, oy);
+            FreeMemBlock(bm);
+            return 0;
+        } else {
+            sub_903F0(bm, ox - 4, oy);
+            sub_91400(bm, x - 4, y);
+            sub_91370(pointerspr, x - 4, y);
+            ox = x;
+            oy = y;
+        }
+    }
 }

@@ -1194,6 +1194,10 @@ xor eax, eax	; 7ADC9
 add esp, byte 14h	; 7ADCB
 jmp near LeagueSettingsDlg_ret	; 7ADCE
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (LeagueSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.LeagueSetEditLoop.inc"
+%else
 LeagueSetEditLoop:
 push dword 44h	; 7ADD3
 call __CHK	; 7ADD8
@@ -1653,6 +1657,7 @@ push eax	; 7B38F
 mov ebx, dword [pointerspr]	; 7B390
 push ebx	; 7B396
 jmp near LeagueSetEditLoop.6	; 7B397
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/SettingsStub.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/SettingsStub.inc"
