@@ -301,6 +301,10 @@ call LeagueOptsToBits	; 7A3F5
 call LeagueSetViewLoop	; 7A3FA
 jmp near SettingsDlgClose	; 7A3FF
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (MenuShowLeagueSettings2)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.MenuShowLeagueSettings2.inc"
+%else
 MenuShowLeagueSettings2:
 push dword 50h	; 7A404
 call __CHK	; 7A409
@@ -420,6 +424,7 @@ xor eax, eax	; 7A56F
 mov dword [settingsfile], eax	; 7A571
 add esp, byte 28h	; 7A576
 jmp near LeagueSettingsDlg_ret	; 7A579
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.inc"

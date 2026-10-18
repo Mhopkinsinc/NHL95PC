@@ -1,7 +1,9 @@
 /* Settings dialogs: the league and playoff settings dialogs and the functions that end in their shared exit (one
    source block). With only the five dialogs in the file Watcom keeps the pops in MenuPlayoffSettings; with
    DrawLeagueSetChecks after them (it ends in LeagueSettingsDlg_ret4) they stay in LeagueSettingsDlg, as in the EXE. */
+#define MenuShowLeagueSettings2 MenuShowLeagueSettings2_decl
 #include "nhl95.h"
+#undef MenuShowLeagueSettings2
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
@@ -124,6 +126,47 @@ int MenuShowLeagueSettings(void)
     ((short *)bm)[3] = 0x152;
     sub_91400(bm, 0xA, 0x13);
     DrawLeagueSetDlgSel();
+    LeagueOptsToBits();
+    LeagueSetViewLoop();
+    sub_903F0(bm, 0xA, 0x13);
+    FreeMemBlock(bm);
+    FreeMemBlock(settingsfile);
+    settingsfile = 0;
+    return 0;
+}
+
+
+/* MenuShowLeagueSettings2 (7A404, PC only; ends in LeagueSettingsDlg_ret): show the league settings (view only)
+   in the box art: load the SETTING bank (from the CD when fileoncd says so), save the screen under its DBOX at 10
+   13h into a BKGD bitmap and draw the box, label the music / sound rows for sound device 10h and the speech row
+   without music, draw the heading for the game mode, load the options into the check bits and view them
+   (LeagueSetViewLoop); then restore the screen and free the bitmap and the settings file. Result: 0. */
+int MenuShowLeagueSettings2(void)
+{
+    char path[0x20];
+    int bank;
+    int bm;
+    int box;
+    int sz;
+
+    LoadSettingsShapes();
+    sub_B4BA8();
+    MakePath(path, fileoncd[0x175] == 1 ? (char *)cddriveptr : 0, (char *)str_Setting5, 0);
+    bank = sub_8E83C(path, 0);
+    box = sub_B30B4(bank, (char *)str_Dbox2);
+    sz = (((short *)box)[2] + 1) * (((short *)box)[3] + 1) + 0x11;
+    bm = sub_8CCA8((char *)str_BKGD, sz, 0x20);
+    *(Hdr17 *)bm = *(Hdr17 *)box;
+    sub_91400(bm, 0xA, 0x13);
+    sub_91370(box, 0xA, 0x13);
+    FreeMemBlock(bank);
+    sub_8E9C0(0xF8, 0xFF);
+    if (sounddev == 0x10) {
+        sub_91964((char *)str_Music, 0x68, 0xAA);
+        sub_91964((char *)str_Sound, 0x68, 0xC0);
+    }
+    if (!musicon) sub_91964((char *)str_DigitizedSpeech, 0x68, 0xD6);
+    DrawSettingsHeading(0xA, 0x13, 5, gamemode, 0xFA);
     LeagueOptsToBits();
     LeagueSetViewLoop();
     sub_903F0(bm, 0xA, 0x13);
