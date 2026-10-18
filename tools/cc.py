@@ -338,9 +338,14 @@ def label_addr(asm, name):
     L = open(asm).read().split('\n')
     for k, l in enumerate(L):
         if l.startswith(name + ':'):
+            # db / dd lines carry no address comment (MenuSaveDefaultLines starts with a db push): count their bytes
+            skip = 0
             for l2 in L[k + 1:]:
                 a = ADDR.search(l2)
-                if a: return int(a.group(1), 16)
+                if a: return int(a.group(1), 16) - skip
+                w = l2.split(';')[0].split()
+                if w[:1] == ['db']: skip += len(' '.join(w[1:]).split(','))
+                elif w[:1] == ['dd']: skip += 4 * len(' '.join(w[1:]).split(','))
     return None
 
 def original_bytes(addr, n):
