@@ -2090,6 +2090,10 @@ pop ecx	; 7B843
 pop ebx	; 7B844
 ret	; 7B845
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuModeSettings.c (ModeSetViewLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuModeSettings.ModeSetViewLoop.inc"
+%else
 ModeSetViewLoop:
 push dword 3Ch	; 7B846
 call __CHK	; 7B84B
@@ -2234,6 +2238,7 @@ add esp, byte 4	; 7B9DB
 xor eax, eax	; 7B9DE
 add esp, byte 14h	; 7B9E0
 jmp near ModeSettings_epilogue	; 7B9E3
+%endif ; C
 ModeSetEditLoop:
 push dword 44h	; 7B9E8
 call __CHK	; 7B9ED
