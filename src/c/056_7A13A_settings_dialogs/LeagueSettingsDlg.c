@@ -1,5 +1,6 @@
-/* Settings dialogs: league playoff settings dialogs (one source block: they share the closing code). */
-/* DRAFT: all five bodies match; Watcom merges the shared exit the other way round (LeagueSettingsDlg jumps into MenuPlayoffSettings' pops, the EXE has MenuPlayoffSettings jump to LeagueSettingsDlg_ret). */
+/* Settings dialogs: the league and playoff settings dialogs and the functions that end in their shared exit (one
+   source block). With only the five dialogs in the file Watcom keeps the pops in MenuPlayoffSettings; with
+   DrawLeagueSetChecks after them (it ends in LeagueSettingsDlg_ret4) they stay in LeagueSettingsDlg, as in the EXE. */
 #include "nhl95.h"
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
@@ -7,7 +8,7 @@ typedef struct Hdr17 { char c[17]; } Hdr17;
 void DrawLeagueSetDlg(int playoffs);  /* 7A6BD */
 void LeagueSetEditLoop(int mode);  /* 7ADD3 */
 
-/* LeagueSettingsDlg: the league settings dialog: with the series game number cleared (restored after),
+/* LeagueSettingsDlg (7A13A, PC only; owner of LeagueSettingsDlg_ret4 / _ret / _ret0): the league settings dialog: with the series game number cleared (restored after),
  load the settings shapes, save the screen under the 230 x 338 dialog at 10 13h into a BKGD bitmap (pointer
  sprite header), draw the dialog (DrawLeagueSetDlg 0), load the options into the check bits and run it (edit mode
  1); then restore the screen and free the bitmap and the settings file. Returns 0. */
@@ -36,7 +37,7 @@ int LeagueSettingsDlg(void)
     return 0;
 }
 
-/* MenuPlayoffSettings: menu "playoff settings": the same dialog for the playoffs (DrawLeagueSetDlg 1,
+/* MenuPlayoffSettings (7A1FC, PC only; ends in LeagueSettingsDlg_ret): menu "playoff settings": the same dialog for the playoffs (DrawLeagueSetDlg 1,
  edit mode 0). Returns 0. */
 int MenuPlayoffSettings(void)
 {
@@ -59,7 +60,7 @@ int MenuPlayoffSettings(void)
     return 0;
 }
 
-/* EditPlayoffSettings: edit the playoff settings: the league dialog (DrawLeagueSetDlg 0, edit mode 1)
+/* EditPlayoffSettings (7A29C, PC only; ends in MenuPlayoffSettings' close): edit the playoff settings: the league dialog (DrawLeagueSetDlg 0, edit mode 1)
  run on the playoff state (exhibition state saved, postate loaded, then written back and the exhibition state
  reloaded). Returns 0. */
 int EditPlayoffSettings(void)
@@ -87,7 +88,7 @@ int EditPlayoffSettings(void)
     return 0;
 }
 
-/* MenuLeagueSettingsEdit: menu "edit league settings": the dialog with the selection drawn
+/* MenuLeagueSettingsEdit (7A335, PC only; ends in MenuPlayoffSettings' edit): menu "edit league settings": the dialog with the selection drawn
  (DrawLeagueSetDlgSel), edit mode 1. Returns 0. */
 int MenuLeagueSettingsEdit(void)
 {
@@ -110,7 +111,7 @@ int MenuLeagueSettingsEdit(void)
     return 0;
 }
 
-/* MenuShowLeagueSettings: menu "show league settings": the dialog with the selection drawn, view only
+/* MenuShowLeagueSettings (7A39F, PC only; ends in MenuPlayoffSettings' close): menu "show league settings": the dialog with the selection drawn, view only
  (LeagueSetViewLoop). Returns 0. */
 int MenuShowLeagueSettings(void)
 {
@@ -130,4 +131,50 @@ int MenuShowLeagueSettings(void)
     FreeMemBlock(settingsfile);
     settingsfile = 0;
     return 0;
+}
+
+/* DrawLeagueSetChecks (7AAAA, PC only; ends in LeagueSettingsDlg_ret4): draw the league settings dialog's 9
+   check boxes (on or off sprite by setbits bit i) at their rects (2 rects per item; item 5 is skipped), then the
+   period length choice (setbits 200h / 400h / 800h: the 20, 10 or 5 minute sprite) and the playoff series length
+   (1000h-8000h: best of 1, 3, 5 or 7) at the next rects. No arguments, no result. */
+void DrawLeagueSetChecks(void)
+{
+    Rect4 *r;
+    int i;
+
+    r = (Rect4 *)leaguesetrects;
+    for (i = 0; i < 9; i++, r += 2) {
+        if (i == 5) {
+            i++;
+            r += 2;
+        }
+        if (setbits[0] & (1 << i)) sub_91FE0(chkonspr, r->l + 10, r->t + 0x13);
+        else sub_91FE0(chkoffspr, r->l + 10, r->t + 0x13);
+    }
+    switch (setbits[0] & 0xE00) {
+    case 0x200:
+        sub_91FE0(pl20spr, r->l + 10, r->t + 0x13);
+        break;
+    case 0x400:
+        sub_91FE0(pl10spr, r->l + 10, r->t + 0x13);
+        break;
+    case 0x800:
+        sub_91FE0(pl05spr, r->l + 10, r->t + 0x13);
+        break;
+    }
+    r += 3;
+    switch (setbits[0] & 0xF000) {
+    case 0x1000:
+        sub_91FE0(pg01spr, r->l + 10, r->t + 0x13);
+        break;
+    case 0x2000:
+        sub_91FE0(pg03spr, r->l + 10, r->t + 0x13);
+        break;
+    case 0x4000:
+        sub_91FE0(pg05spr, r->l + 10, r->t + 0x13);
+        break;
+    case 0x8000:
+        sub_91FE0(pg07spr, r->l + 10, r->t + 0x13);
+        break;
+    }
 }
