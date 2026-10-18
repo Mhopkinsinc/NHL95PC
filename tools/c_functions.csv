@@ -227,6 +227,7 @@ RunMessageBox,31250,589,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/RunM
 SaveDialogBg,30E66,172,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SaveDialogBg.c,matched,
 SetDialogColors,30A0C,45,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetDialogColors.c,matched,
 SetListItemColors,30209,53,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/SetListItemColors.c,matched,
+MessageBox,31013,573,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TextInputDialog.c,matched,
 TextInputDialog,2FEDF,810,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TextInputDialog.c,nonmatching,
 TrackButtons,30A39,169,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackButtons.c,matched,
 TrackScrollBars,30D0E,344,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/TrackScrollBars.c,nonmatching,"draft: 344 vs 344 beside TrackButtons. Prologue matches (cookie 20h, y in ebp, hit at esp+8). The item index multiplies after h-4 is stored; the original multiplies the thumb by total first. Do not retry a pointer local or dropping the volatile slot."
@@ -234,6 +235,7 @@ CopyGameSettings,32C9E,267,024_31AB5_main_desk,src/c/024_31AB5_main_desk/CopyGam
 LoadModeState,327A1,892,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
 WriteModeState,32B1D,385,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
 MenuNewExhibition,32DA9,587,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
+MenuLeagueSettings,332F6,167,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
 MainDeskLoop,31AB5,153,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,nonmatching,
 MenuExit,3270B,16,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MenuExit.c,matched,
 SaveModeState,3271B,134,024_31AB5_main_desk,src/c/024_31AB5_main_desk/SaveModeState.c,matched,
@@ -250,7 +252,6 @@ MenuNextLeagueGame,33559,278,025_32DA9_temp_files,src/c/025_32DA9_temp_files/Men
 MenuLeagueHilights,3366F,79,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuImportDbs,336BE,40,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
 MenuExportDbs,336E6,54,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,matched,
-MenuLeagueSettings,332F6,167,025_32DA9_temp_files,src/c/025_32DA9_temp_files/MenuAddTeam.c,nonmatching,draft: body matches; exit is jmp MainDeskLoop_x2. A cast tail return is call plus inlined pops. Do not retry the cast.
 BlitTileMap,33C08,459,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/BlitTileMap.c,nonmatching,"draft: 423 vs 459. Height is stored at esp+14h and width at esp+18h; the original stores height at esp+18h and width at esp+14h. The tile index is masked in edx; the original masks it in eax, then adds the tile base. Do not retry: declaring height before width."
 LoadCrestsPalette,33F02,251,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/LoadCrestsPalette.c,matched,
 LoadRink,3377C,1164,026_3377C_rink_tiles,src/c/026_3377C_rink_tiles/LoadRink.c,nonmatching,
@@ -434,14 +435,16 @@ ForceStartLineup,5125F,72,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine
 OneTimerChk,50E5C,227,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/OneTimerChk.c,nonmatching,draft: y-sign stays in eax and the flag is setne dl. Swapping the xor tested the flag first. Do not retry that.
 PassCompleted,50AFE,87,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PassCompleted.c,matched,
 PenShotAssign,512A7,409,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PenShotAssign.c,nonmatching,"register allocation: the loop index lands in esi (EXE ecx, no esi saved); logic complete"
-PenShotStart,511B4,171,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/PenShotStart.c,matched,
 SetPenaltyStrength,510A9,108,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/SetPenaltyStrength.c,matched,
 TakePlayerFromBox,51115,159,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c,matched,
+PenShotStart,511B4,171,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c,matched,
+asstakeposition,52720,1174,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/TakePlayerFromBox.c,matched,
 assbenchwait,526ED,51,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assbenchwait.c,matched,
 assleavebox,5147D,612,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assleavebox.c,matched,
 asspsclear,52DB0,512,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/asspsclear.c,matched,
 assrefpenshot,52FB0,740,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assrefpenshot.c,nonmatching,"draft: 737 vs 740. Prologue matches and the pfna clear is mov dh, dl. The hidden puck reloads the zero into ax (original dx), so the five stores address through edx. The countdown is add al, 8 (original mov ah, ch; add ah, 8). Do not retry a function-level int, an unnamed reload, or a second pflags shape."
 check4bench,52BB6,506,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/check4bench.c,matched,
+puckfaceoff,516E1,1274,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/puckfaceoff.c,nonmatching,
 Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Bcheck.c,matched,
 BlockShotDive,53387,308,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/BlockShotDive.c,matched,
 CPgoalie,591C7,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CPgoalie.c,matched,
@@ -619,6 +622,7 @@ CanFillLineSlot,64A0B,669,046_644A8_engine_display,src/c/046_644A8_engine_displa
 FillDressedSlots,64CA8,440,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,"draft (CanFillLineSlot.c): 440 vs 440, stack slot order only. See UNSURE."
 CloseTextOverlay,66DDA,44,046_644A8_engine_display,src/c/046_644A8_engine_display/CloseTextOverlay.c,matched,
 DitherRect,65CA8,89,046_644A8_engine_display,src/c/046_644A8_engine_display/DitherRect.c,matched,
+DrawCallBanner,66FE2,518,046_644A8_engine_display,src/c/046_644A8_engine_display/DrawCallBanner.c,nonmatching,
 LoadTeamPalette,673C5,415,046_644A8_engine_display,src/c/046_644A8_engine_display/LoadTeamPalette.c,matched,
 NormalizeDressFlags,65B48,59,046_644A8_engine_display,src/c/046_644A8_engine_display/NormalizeDressFlags.c,matched,
 PickExtraSkater,653BE,368,046_644A8_engine_display,src/c/046_644A8_engine_display/PickForLineSlot.c,matched,
@@ -745,6 +749,13 @@ LoadJerseyColours,78A87,352,055_78346_team_select,src/c/055_78346_team_select/Lo
 MakeJerseyShape,7A099,161,055_78346_team_select,src/c/055_78346_team_select/MakeJerseyShape.c,matched,
 MenuLineEdCancel,7928A,18,055_78346_team_select,src/c/055_78346_team_select/MenuLineEdCancel.c,matched,
 MenuReturnToLineEditor,79DD1,16,055_78346_team_select,src/c/055_78346_team_select/MenuReturnToLineEditor.c,matched,
+MenuUseTheseLines,79188,258,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,matched,
+MenuUseOriginalLines,7929C,264,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,matched,
+MenuUseDefaultLines,793A4,219,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,matched,
+GameScratchPlayer,79DE1,352,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,matched,
+MenuSaveDefaultLines,79484,816,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,nonmatching,
+MenuSaveTheseLines,797FE,715,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,nonmatching,
+MenuGameShowPlayerStats,79AC9,776,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,nonmatching,
 PruneGameLines,79090,248,055_78346_team_select,src/c/055_78346_team_select/PruneGameLines.c,nonmatching,C folds the side * 444h * 4 step into the hmroster address ([edi+edx*4]); the EXE adds it first and reads the status into ch
 StubRet4b,78E29,13,055_78346_team_select,src/c/055_78346_team_select/StubRet4b.c,nonmatching,
 CtlDlgHitTest,7D61F,82,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlDlgHitTest.c,matched,
