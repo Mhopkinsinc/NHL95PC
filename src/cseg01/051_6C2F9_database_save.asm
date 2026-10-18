@@ -174,6 +174,10 @@ pop edi	; 6C4B6
 pop esi	; 6C4B7
 pop ecx	; 6C4B8
 ret	; 6C4B9
+; C: src/c/051_6C2F9_database_save/SaveDbsToDir.c
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/SaveDbsToDir.inc"
+%else
 SaveDbsToDir:
 push dword 0CCh	; 6C4BA
 call __CHK	; 6C4BF
@@ -529,6 +533,7 @@ pop esi	; 6C968
 pop ecx	; 6C969
 pop ebx	; 6C96A
 ret	; 6C96B
+%endif ; C
 ; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (WriteLeagueDbsMem)
 %ifdef CBUILD
 %include "c/050_6B093_joystick_calibration/BuildFreeAgentList.WriteLeagueDbsMem.inc"
