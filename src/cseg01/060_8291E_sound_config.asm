@@ -19,6 +19,10 @@ global SoundCardDlgLoop_poll
 global SoundCardDlgLoop_next, SoundCardDlgLoop_x
 global SoundCardDlgLoop, SoundCardDlg_epilogue, SetSoundDevice
 global SpeechTimerTick, ClearSpeechSlot, ResetSpeechQueue
+; C: src/c/060_8291E_sound_config/SoundCardDlgLoop.c
+%ifdef CBUILD
+%include "c/060_8291E_sound_config/SoundCardDlgLoop.inc"
+%else
 SoundCardDlgLoop:
 push dword 60h	; 8291E
 call __CHK	; 82923
@@ -371,6 +375,7 @@ jmp short SoundCardDlgLoop_next	; 82D6E
 mov ebx, dword [byte esp+030h]	; 82D70
 push ebx	; 82D74
 jmp near SoundCardDlgLoop_poll	; 82D75
+%endif ; C
 SetSoundDevice:
 push dword 74h	; 82D7A
 call __CHK	; 82D7F
