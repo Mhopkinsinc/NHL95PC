@@ -2775,6 +2775,10 @@ pop edx	; 66493
 pop ecx	; 66494
 pop ebx	; 66495
 ret	; 66496
+; C: src/c/046_644A8_engine_display/checkwindow.c (LoadTeamPPV)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.LoadTeamPPV.inc"
+%else
 LoadTeamPPV:
 push dword 38h	; 66497
 call __CHK	; 6649C
@@ -2853,6 +2857,7 @@ mov word [ovlstep], ax	; 6659F
 .5:
 add esp, byte 10h	; 665A5
 jmp near checkwindow_popebp	; 665A8
+%endif ; C
 DrawTextOverlay:
 push dword 60h	; 665AD
 call __CHK	; 665B2
@@ -3498,6 +3503,10 @@ mov word [ovltimer], bx	; 66DFD
 pop ebx	; 66E04
 ret	; 66E05
 %endif ; C
+; C: src/c/046_644A8_engine_display/checkwindow.c (UpdateTextOverlay)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.UpdateTextOverlay.inc"
+%else
 UpdateTextOverlay:
 push dword 1Ch	; 66E06
 call __CHK	; 66E0B
@@ -3611,6 +3620,7 @@ mov byte [textline2], dl	; 66FCB
 mov byte [textline1], dl	; 66FD1
 mov byte [textline3], dl	; 66FD7
 jmp near checkwindow_popx	; 66FDD
+%endif ; C
 DrawCallBanner:
 push dword 54h	; 66FE2
 call __CHK	; 66FE7
