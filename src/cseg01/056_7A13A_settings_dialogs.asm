@@ -2244,6 +2244,10 @@ xor eax, eax	; 7B9DE
 add esp, byte 14h	; 7B9E0
 jmp near ModeSettings_epilogue	; 7B9E3
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuModeSettings.c (ModeSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuModeSettings.ModeSetEditLoop.inc"
+%else
 ModeSetEditLoop:
 push dword 44h	; 7B9E8
 call __CHK	; 7B9ED
@@ -2619,6 +2623,7 @@ jmp short ModeSetEditLoop.25	; 7BEAF
 mov edi, dword [byte esp+010h]	; 7BEB1
 push edi	; 7BEB5
 jmp near ModeSetEditLoop.5	; 7BEB6
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuExhibitionSettings.inc"
