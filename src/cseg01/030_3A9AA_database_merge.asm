@@ -2218,6 +2218,10 @@ pop ecx	; 3C6DF
 pop ebx	; 3C6E0
 ret	; 3C6E1
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/ImportMasterLeague.c (ImportPlayerTeam)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ImportMasterLeague.ImportPlayerTeam.inc"
+%else
 ImportPlayerTeam:
 push dword 0E8h	; 3C6E2
 call __CHK	; 3C6E7
@@ -2787,6 +2791,7 @@ call MessageBox	; 3CF49
 mov eax, esi	; 3CF4E
 add esp, 0B8h	; 3CF50
 jmp near ImportMasterLeague_ret	; 3CF56
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/ImportDbs.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/ImportDbs.inc"
