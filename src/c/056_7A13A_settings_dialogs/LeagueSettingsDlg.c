@@ -2,7 +2,9 @@
    source block). With only the five dialogs in the file Watcom keeps the pops in MenuPlayoffSettings; with
    DrawLeagueSetChecks after them (it ends in LeagueSettingsDlg_ret4) they stay in LeagueSettingsDlg, as in the EXE. */
 #define MenuShowLeagueSettings2 MenuShowLeagueSettings2_decl
+#define LeagueSetViewLoop LeagueSetViewLoop_decl
 #include "nhl95.h"
+#undef LeagueSetViewLoop
 #undef MenuShowLeagueSettings2
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
@@ -219,6 +221,7 @@ void DrawLeagueSetDlg(int playoffs)
     else DrawSettingsHeading(0xA, 0x13, 3, gamemode, 0xFA);
 }
 
+
 /* DrawLeagueSetChecks (7AAAA, PC only; ends in LeagueSettingsDlg_ret4): draw the league settings dialog's 9
    check boxes (on or off sprite by setbits bit i) at their rects (2 rects per item; item 5 is skipped), then the
    period length choice (setbits 200h / 400h / 800h: the 20, 10 or 5 minute sprite) and the playoff series length
@@ -263,4 +266,54 @@ void DrawLeagueSetChecks(void)
         sub_91FE0(pg07spr, r->l + 10, r->t + 0x13);
         break;
     }
+}
+
+/* DRAFT: same size, one copy (as ModeSetViewLoop; see docs/UNSURE.md). */
+/* LeagueSetViewLoop (7AC31, PC only; ends in LeagueSettingsDlg_ret): view-only league settings. Grab the screen
+   under the pointer, follow the mouse until a button (bits 1 or 2) and put the screen back. Result: 0. */
+int LeagueSetViewLoop(void)
+{
+    struct {
+        int btn;
+        int x;
+        int y;
+        int ox;
+        int oy;
+    } s;
+    int bm;
+    int n;
+    unsigned char *ev;
+
+    sub_B4B88(0xF7, 4, unk_D16A0);
+    sub_B2DCA(&s.btn, &s.oy, &s.ox);
+    s.y = s.oy;
+    s.x = s.ox;
+    sub_B4BA8();
+    n = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    bm = sub_8CCA8((char *)str_Pointer15, n, 0x20);
+    *(Hdr17 *)bm = *(Hdr17 *)pointerspr;
+    ((short *)bm)[2] = ((short *)pointerspr)[2] + 1;
+    ((short *)bm)[3] = ((short *)pointerspr)[3] + 1;
+    sub_91400(bm, s.y - 4, s.x);
+    sub_91370(pointerspr, s.y - 4, s.x);
+    ClearInputQueue();
+    for (;;) {
+        s.btn = 0;
+        for (;;) {
+            ev = GetInputEvent();
+            if (ev == 0) break;
+            s.btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &s.y, &s.x);
+            if (s.btn & 6) break;
+        }
+        if (s.btn != 0) break;
+        if (s.y == s.oy && s.x == s.ox) continue;
+        sub_903F0(bm, s.oy - 4, s.ox);
+        sub_91400(bm, s.y - 4, s.x);
+        sub_91370(pointerspr, s.y - 4, s.x);
+        s.oy = s.y;
+        s.ox = s.x;
+    }
+    sub_903F0(bm, s.oy - 4, s.ox);
+    FreeMemBlock(bm);
+    return 0;
 }
