@@ -461,6 +461,8 @@ CompShoot,55A35,106,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 FacingBoards,5378D,159,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/FacingBoards.c,matched,
 Findhittype,579FF,63,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Findhittype.c,matched,
 MarkTwoLinePlayers,55C6F,185,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/MarkTwoLinePlayers.c,matched,
+puckstick,57483,1003,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,matched,
+checkpuckcoll,5428A,1570,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 1570 vs 1570 in PassLaneChk.c, every statement in place. The EXE keeps reach / half size / box size in edi and speed / |dy| / box limit in esi; the draft swaps them (the variable with more uses gets esi). See docs/UNSURE.md."
 PassLaneChk,54C09,346,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate y stays in edx. The other gap is inc esi versus lea eax,[esi+1]. Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx."
 NetCollide,5601D,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft (PassLaneChk.c): 714 vs 700, first pass. See UNSURE."
 PuckCheckColl,548AC,228,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PuckCheckColl.c,matched,
