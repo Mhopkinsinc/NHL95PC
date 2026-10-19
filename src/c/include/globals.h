@@ -5180,7 +5180,6 @@ extern unsigned char byte_EAF99[]; /* EAF99 */
 extern unsigned char byte_EAFB5[]; /* EAFB5 */
 extern unsigned char unk_EAFB8[]; /* EAFB8 */
 extern int dbdirty; /* EBC68 */
-extern int rosterpstat; /* EBC70 */
 extern int msglines[]; /* EBC74 */
 extern int dword_EBCA4; /* EBCA4 */
 extern int editptrspr; /* EBE9C */
