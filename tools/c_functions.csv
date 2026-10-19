@@ -712,7 +712,8 @@ DrawShootsField,6FA7D,184,052_6D2F8_create_player,src/c/052_6D2F8_create_player/
 DrawGloveField,6FB35,179,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,matched,
 CreatePlayerLoop,704A6,572,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,nonmatching,"draft (DrawShootsField.c): 590 vs 572, p spilled / event in two registers. See UNSURE."
 EditRostersReturn,6D5BB,21,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditRostersReturn.c,matched,
-EditSkaterRating,6FC60,777,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditSkaterRating.c,nonmatching,
+EditSkaterRating,6FC60,777,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditSkaterRating.c,nonmatching,"draft: same size (777), every statement in place; the (r + 5) * 5 temporaries take other registers. See docs/UNSURE.md."
+EditGoalieRating,6FF69,754,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditSkaterRating.c,nonmatching,"draft (EditSkaterRating.c, ends in EditSkaterRating_tail): same size (754); the skater twin's register picks. See docs/UNSURE.md."
 ErrorScreenWait,6EAB5,480,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ErrorScreenWait.c,matched,
 FindPlayer,71961,1451,052_6D2F8_create_player,src/c/052_6D2F8_create_player/FindPlayer.c,nonmatching,
 LoadTempDatabases,710D8,388,052_6D2F8_create_player,src/c/052_6D2F8_create_player/LoadTempDatabases.c,matched,
