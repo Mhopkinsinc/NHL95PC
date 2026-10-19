@@ -1359,6 +1359,10 @@ pop esi	; 653BB
 pop ecx	; 653BC
 ret	; 653BD
 %endif ; C
+; C: src/c/046_644A8_engine_display/PickForLineSlot.c (PickExtraSkater)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/PickForLineSlot.PickExtraSkater.inc"
+%else
 PickExtraSkater:
 push dword 20h	; 653BE
 call __CHK	; 653C3
@@ -1493,6 +1497,7 @@ jl short PickExtraSkater.8	; 65524
 .11:
 add esp, byte 8	; 65526
 jmp near lines_popx2	; 65529
+%endif ; C
 RefillLineSlots:
 push dword 18h	; 6552E
 call __CHK	; 65533
@@ -2077,6 +2082,10 @@ pop edx	; 65B80
 pop ebx	; 65B81
 ret	; 65B82
 %endif ; C
+; C: src/c/046_644A8_engine_display/BuildDefaultLines.c (CanRemovePlayer)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/BuildDefaultLines.CanRemovePlayer.inc"
+%else
 CanRemovePlayer:
 push dword 24h	; 65B83
 call __CHK	; 65B88
@@ -2192,6 +2201,7 @@ setg al	; 65C98
 and eax, 0FFh	; 65C9B
 add esp, byte 8	; 65CA0
 jmp near lines_popx	; 65CA3
+%endif ; C
 ; C: src/c/046_644A8_engine_display/DitherRect.c
 %ifdef CBUILD
 %include "c/046_644A8_engine_display/DitherRect.inc"
@@ -2765,6 +2775,10 @@ pop edx	; 66493
 pop ecx	; 66494
 pop ebx	; 66495
 ret	; 66496
+; C: src/c/046_644A8_engine_display/checkwindow.c (LoadTeamPPV)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.LoadTeamPPV.inc"
+%else
 LoadTeamPPV:
 push dword 38h	; 66497
 call __CHK	; 6649C
@@ -2843,6 +2857,7 @@ mov word [ovlstep], ax	; 6659F
 .5:
 add esp, byte 10h	; 665A5
 jmp near checkwindow_popebp	; 665A8
+%endif ; C
 DrawTextOverlay:
 push dword 60h	; 665AD
 call __CHK	; 665B2
@@ -3488,6 +3503,10 @@ mov word [ovltimer], bx	; 66DFD
 pop ebx	; 66E04
 ret	; 66E05
 %endif ; C
+; C: src/c/046_644A8_engine_display/checkwindow.c (UpdateTextOverlay)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.UpdateTextOverlay.inc"
+%else
 UpdateTextOverlay:
 push dword 1Ch	; 66E06
 call __CHK	; 66E0B
@@ -3601,6 +3620,7 @@ mov byte [textline2], dl	; 66FCB
 mov byte [textline1], dl	; 66FD1
 mov byte [textline3], dl	; 66FD7
 jmp near checkwindow_popx	; 66FDD
+%endif ; C
 DrawCallBanner:
 push dword 54h	; 66FE2
 call __CHK	; 66FE7

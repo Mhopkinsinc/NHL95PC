@@ -28,18 +28,18 @@ int MenuShowPlayerStats(unsigned char *nums, int ignored, unsigned char side, in
     char buf[32];
     int z;
 
-    statsplayerbuf = sub_8CCA8((char *)str_Keys3, 0x5B0, 0);
-    rosterpstat = sub_8CCA8((char *)str_Pstat3, 0x497, 0);
+    statsplayerbuf = (unsigned char *)sub_8CCA8((char *)str_Keys3, 0x5B0, 0);
+    rosterpstat = (unsigned char *)sub_8CCA8((char *)str_Pstat3, 0x497, 0);
     rostergstat = (unsigned char *)sub_8CCA8((char *)str_Gstat3, 0x10E, 0);
     ShowRosterStats(0xC0, 0xC1, 0xC2, 0xC3);
     RunMenu(unk_D075E, 2, 0xC0, 0xC1, 0xC2);
     FreeMemBlock((int)rostergstat);
-    FreeMemBlock(rosterpstat);
-    FreeMemBlock(statsplayerbuf);
+    FreeMemBlock((int)rosterpstat);
+    FreeMemBlock((int)statsplayerbuf);
     z = 0;
-    statsplayerbuf = z;
+    statsplayerbuf = (unsigned char *)z;
     rostergstat = (unsigned char *)z;
-    rosterpstat = z;
+    rosterpstat = (unsigned char *)z;
     SetDrawBitmap(fullscrbmp);
     sub_B392C(z);
     DrawLineEditorScreen(side, art, zero, buttons, extra);

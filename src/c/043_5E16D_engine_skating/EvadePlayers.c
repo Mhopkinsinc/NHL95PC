@@ -70,6 +70,38 @@ void EvadePlayers(Player *p)
     }
 }
 
+/* EvadePC (5E7FE, PC only; ends in EvadePlayers_popedi, owner of EvadePC_x): skateto collision routine for the
+   offensive wingers and centre: steer round the puck carrier. When the predicted x and y gaps to him (position plus
+   the high byte of the velocity, regd2 / regd1) are both within 28h, regd0.w is the direction away from him
+   (vtoa of the gap); with offsides on (gameopts bit 1) and p just outside the blue line he attacks (y 4Eh, from
+   -32h to +0Ah of it) he skates along the line instead (direction 2 or 6, away from the carrier's x). p: the
+   player. No result (regd0.w). */
+void EvadePC(Player *p)
+{
+    Player *c;
+    short dx;
+    short dy;
+
+    if (*puckc < 0) return;
+    c = &SortCords[*puckc];
+    dx = HIWORD(p->Xpos) - HIWORD(c->Xpos);
+    regd2.w = (HIBYTE(p->Xvel) - HIBYTE(c->Xvel)) + dx;
+    if (ABS(regd2.w) > 0x28) return;
+    dy = HIWORD(p->Ypos) - HIWORD(c->Ypos);
+    regd1.w = (HIBYTE(p->Yvel) - HIBYTE(c->Yvel)) + dy;
+    if (ABS(regd1.w) > 0x28) return;
+    regd0.w = dx;
+    regd1.w = dy;
+    regd0.w = vtoa(dx, dy);
+    if (!gameopts.offsides) return;
+    regd1.w = (!(p->pflags & 0x80) ? -HIWORD(p->Ypos) : HIWORD(p->Ypos)) - 0x4E;
+    if (regd1.w > 10) return;
+    if (regd1.w < -0x32) return;
+    regd1.w = HIWORD(p->Xpos);
+    if (regd1.w > HIWORD(c->Xpos)) regd0.w = 2;
+    else regd0.w = 6;
+}
+
 /* skateto: player p skates to the point regd0/regd1 (a0 = extra routine for
  collision avoidance, d0/d1 = x/y cord to skate to). evade = that routine (NULL = none).
  Only every 12/60 sec. (temp2 high byte countdown): avdgoal, aim with the velocity lead (position + high byte of

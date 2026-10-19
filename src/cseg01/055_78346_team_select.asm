@@ -1176,6 +1176,10 @@ pop esi	; 79184
 pop ecx	; 79185
 pop ebx	; 79186
 ret	; 79187
+; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (MenuUseTheseLines)
+%ifdef CBUILD
+%include "c/055_78346_team_select/MenuSaveDefaultLines.MenuUseTheseLines.inc"
+%else
 MenuUseTheseLines:
 push dword 18h	; 79188
 call __CHK	; 7918D
@@ -1277,6 +1281,7 @@ jl short MenuUseTheseLines.6	; 7927E
 .9:
 mov eax, 1	; 79280
 jmp near MenuUseOriginalLines_ret	; 79285
+%endif ; C
 ; C: src/c/055_78346_team_select/MenuLineEdCancel.c
 %ifdef CBUILD
 %include "c/055_78346_team_select/MenuLineEdCancel.inc"
@@ -1287,6 +1292,10 @@ call __CHK	; 7928F
 mov eax, 1	; 79294
 ret 18h	; 79299
 %endif ; C
+; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (MenuUseOriginalLines)
+%ifdef CBUILD
+%include "c/055_78346_team_select/MenuSaveDefaultLines.MenuUseOriginalLines.inc"
+%else
 MenuUseOriginalLines:
 push dword 18h	; 7929C
 call __CHK	; 792A1
@@ -1371,6 +1380,11 @@ xor eax, eax	; 7939A
 MenuUseOriginalLines_ret:
 add esp, byte 8	; 7939C
 jmp near MenuSaveDefaultLines_pop	; 7939F
+%endif ; C
+; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (MenuUseDefaultLines)
+%ifdef CBUILD
+%include "c/055_78346_team_select/MenuSaveDefaultLines.MenuUseDefaultLines.inc"
+%else
 MenuUseDefaultLines:
 push dword 18h	; 793A4
 call __CHK	; 793A9
@@ -1440,6 +1454,7 @@ inc edx	; 79474
 cmp edx, byte 28h	; 79475
 jl short MenuUseDefaultLines.1	; 79478
 jmp near MenuUseOriginalLines_redraw	; 7947A
+%endif ; C
 MenuSaveDefaultLines:
 db 068h,02Ch,03h,00h,00h
 call __CHK	; 79484
@@ -2156,6 +2171,10 @@ call __CHK	; 79DD6
 mov eax, 1	; 79DDB
 ret	; 79DE0
 %endif ; C
+; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (GameScratchPlayer)
+%ifdef CBUILD
+%include "c/055_78346_team_select/MenuSaveDefaultLines.GameScratchPlayer.inc"
+%else
 GameScratchPlayer:
 push dword 48h	; 79DE1
 call __CHK	; 79DE6
@@ -2270,6 +2289,7 @@ call PrintLineEdStatus	; 79F32
 xor eax, eax	; 79F37
 add esp, byte 24h	; 79F39
 jmp near MenuSaveDefaultLines_pop	; 79F3C
+%endif ; C
 ; C: src/c/055_78346_team_select/GameDressPlayer.c
 %ifdef CBUILD
 %include "c/055_78346_team_select/GameDressPlayer.inc"

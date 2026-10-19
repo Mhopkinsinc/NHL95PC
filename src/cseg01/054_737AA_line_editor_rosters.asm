@@ -3008,6 +3008,10 @@ xor eax, eax	; 75927
 add esp, byte 20h	; 75929
 jmp near MenuShowPlayerStats_ret	; 7592C
 %endif ; C
+; C: src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/CmpRosterSkaters.inc"
+%else
 CmpRosterSkaters:
 push dword 14h	; 75931
 call __CHK	; 75936
@@ -3116,6 +3120,7 @@ pop esi	; 75A33
 pop ecx	; 75A34
 pop ebx	; 75A35
 ret	; 75A36
+%endif ; C
 ; C: src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c
 %ifdef CBUILD
 %include "c/054_737AA_line_editor_rosters/CmpRosterGoalies.inc"

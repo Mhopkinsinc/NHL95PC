@@ -2014,6 +2014,10 @@ mov word [ovltimer], 0FFFFh	; 62C26
 .17:
 add esp, byte 4	; 62C2F
 jmp near fileio_popebpx	; 62C32
+; C: src/c/045_614C2_scoring_penalty_text/QueueGoalieNote.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/QueueGoalieNote.inc"
+%else
 QueueGoalieNote:
 push dword 24h	; 62C37
 call __CHK	; 62C3C
@@ -2074,6 +2078,7 @@ pop edx	; 62CD3
 pop ecx	; 62CD4
 pop ebx	; 62CD5
 ret	; 62CD6
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/GameTimeStamp.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/GameTimeStamp.inc"
@@ -3118,6 +3123,10 @@ pop ecx	; 63A34
 pop ebx	; 63A35
 ret	; 63A36
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/InProgress.c (ProcessPenaltyList)
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/InProgress.ProcessPenaltyList.inc"
+%else
 ProcessPenaltyList:
 push dword 1Ch	; 63A37
 call __CHK	; 63A3C
@@ -3212,6 +3221,7 @@ call CheckAndReleasePlayer	; 63B4A
 .10:
 add esp, byte 4	; 63B4F
 jmp near InProgress_popx	; 63B52
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/updatePPTeamTime.inc"

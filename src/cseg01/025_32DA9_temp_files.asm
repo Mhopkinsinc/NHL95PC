@@ -19,6 +19,10 @@ global MenuAddTeam_ret2, MenuRebuildDbs_x
 global nullsub_6, MenuNewExhibition, MenuNewLeague, MenuAddTeam, MenuRemoveTeam
 global MenuLeagueSettings, MenuRebuildDbs, MenuMergeUpdateDbs, MenuMergeLeagueFiles, MenuUpdateTeamDbs, MenuTradePlayers, MenuNextLeagueGame, MenuLeagueHilights
 global MenuImportDbs, MenuExportDbs, DemoSetupStub, FreeRinkGfx
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (MenuNewExhibition)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.MenuNewExhibition.inc"
+%else
 MenuNewExhibition:
 push dword 28h	; 32DA9
 call __CHK	; 32DAE
@@ -167,6 +171,7 @@ mov dword [standingscb], EasnStandingsScreen	; 32FD6
 mov dword [standingsmenucb], EasnStandingsMenu	; 32FE0
 mov eax, 2	; 32FEA
 jmp near MainDeskLoop_x	; 32FEF
+%endif ; C
 ; C: src/c/025_32DA9_temp_files/MenuAddTeam.c (MenuNewLeague)
 %ifdef CBUILD
 %include "c/025_32DA9_temp_files/MenuAddTeam.MenuNewLeague.inc"
@@ -370,6 +375,10 @@ call SetupStatsSourceMenu	; 332E7
 call RemoveHumanTeam	; 332EC
 jmp near MenuAddTeam_common	; 332F1
 %endif ; C
+; C: src/c/024_31AB5_main_desk/MainDeskLoop.c (MenuLeagueSettings)
+%ifdef CBUILD
+%include "c/024_31AB5_main_desk/MainDeskLoop.MenuLeagueSettings.inc"
+%else
 MenuLeagueSettings:
 push dword 24h	; 332F6
 call __CHK	; 332FB
@@ -421,6 +430,7 @@ mov eax, exhstate	; 3338C
 call LoadModeState	; 33391
 mov eax, esi	; 33396
 jmp near MainDeskLoop_x2	; 33398
+%endif ; C
 ; C: src/c/025_32DA9_temp_files/MenuAddTeam.c (MenuRebuildDbs)
 %ifdef CBUILD
 %include "c/025_32DA9_temp_files/MenuAddTeam.MenuRebuildDbs.inc"

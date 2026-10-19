@@ -2319,6 +2319,8 @@ extern short word_C6D24; /* C6D24 */
 extern int dword_C6D26; /* C6D26 */
 extern unsigned char treecolslots[]; /* C6D72 */
 extern unsigned char treecol_Wr2[]; /* C6D7A */
+extern unsigned char treecol_Wr3[]; /* C6D82 */
+extern unsigned char treecol_Er3[]; /* C6DA2 */
 extern unsigned char treecol_Er2[]; /* C6DAA */
 extern unsigned char treecol_Er1[]; /* C6DB2 */
 extern int dword_C6DBA[]; /* C6DBA */
@@ -4735,7 +4737,6 @@ extern unsigned char printfbuf[]; /* DD0D8 */
 extern int statspalshape; /* DD100 */
 extern int statsbgshapes; /* DD104 */
 extern int statsteambuf; /* DD10C */
-extern int statsplayerbuf; /* DD11C */
 extern int statspal; /* DD120 */
 extern int exhfiles[]; /* DD124 */
 extern int exhfilenames[]; /* DD134 */
@@ -4765,7 +4766,6 @@ extern int dlgsavey; /* DD688 */
 extern int editcurw; /* DD68C */
 extern int editpos; /* DD690 */
 extern int editmaxw; /* DD694 */
-extern int editbuf; /* DD698 */
 extern int editcuron; /* DD69C */
 extern int edity; /* DD6A0 */
 extern int editx; /* DD6A4 */
@@ -5178,7 +5178,6 @@ extern unsigned char byte_EAF99[]; /* EAF99 */
 extern unsigned char byte_EAFB5[]; /* EAFB5 */
 extern unsigned char unk_EAFB8[]; /* EAFB8 */
 extern int dbdirty; /* EBC68 */
-extern int rosterpstat; /* EBC70 */
 extern int msglines[]; /* EBC74 */
 extern int dword_EBCA4; /* EBCA4 */
 extern int editptrspr; /* EBE9C */

@@ -174,6 +174,10 @@ pop edi	; 6C4B6
 pop esi	; 6C4B7
 pop ecx	; 6C4B8
 ret	; 6C4B9
+; C: src/c/051_6C2F9_database_save/SaveDbsToDir.c
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/SaveDbsToDir.inc"
+%else
 SaveDbsToDir:
 push dword 0CCh	; 6C4BA
 call __CHK	; 6C4BF
@@ -529,6 +533,11 @@ pop esi	; 6C968
 pop ecx	; 6C969
 pop ebx	; 6C96A
 ret	; 6C96B
+%endif ; C
+; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (WriteLeagueDbsMem)
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/BuildFreeAgentList.WriteLeagueDbsMem.inc"
+%else
 WriteLeagueDbsMem:
 push dword 48h	; 6C96C
 call __CHK	; 6C971
@@ -620,6 +629,11 @@ call sub_932D0	; 6CA7F
 add esp, byte 0Ch	; 6CA84
 add esp, byte 20h	; 6CA87
 jmp near BuildFreeAgentList_ret	; 6CA8A
+%endif ; C
+; C: src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c (FreeLeagueDbsMem)
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/BuildFreeAgentList.FreeLeagueDbsMem.inc"
+%else
 FreeLeagueDbsMem:
 push dword 20h	; 6CA8F
 call __CHK	; 6CA94
@@ -689,6 +703,7 @@ xor ebx, ebx	; 6CB58
 mov dword [seasondb], ebx	; 6CB5A
 mov dword [seasondb_size], ebx	; 6CB60
 jmp near BuildFreeAgentList_ret	; 6CB66
+%endif ; C
 ; C: src/c/051_6C2F9_database_save/CarTeamRecPtr.c
 %ifdef CBUILD
 %include "c/051_6C2F9_database_save/CarTeamRecPtr.inc"

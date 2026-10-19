@@ -1240,6 +1240,10 @@ pop edx	; 22DDA
 pop ecx	; 22DDB
 pop ebx	; 22DDC
 ret	; 22DDD
+; C: src/c/017_21CDE_player_stats/CmpTeamStandings.c
+%ifdef CBUILD
+%include "c/017_21CDE_player_stats/CmpTeamStandings.inc"
+%else
 CmpTeamStandings:
 push dword 24h	; 22DDE
 call __CHK	; 22DE3
@@ -1372,6 +1376,11 @@ sub eax, dword [esi]	; 22F24
 .11:
 add esp, byte 0Ch	; 22F26
 jmp near CmpTeamPK_x	; 22F29
+%endif ; C
+; C: src/c/017_21CDE_player_stats/CmpTeamStandings.c (CmpTeamScoring)
+%ifdef CBUILD
+%include "c/017_21CDE_player_stats/CmpTeamStandings.CmpTeamScoring.inc"
+%else
 CmpTeamScoring:
 push dword 20h	; 22F2E
 call __CHK	; 22F33
@@ -1489,6 +1498,11 @@ jmp short CmpTeamScoring_ret8	; 23049
 mov eax, dword [esi]	; 2304B
 sub eax, dword [ebx]	; 2304D
 jmp short CmpTeamScoring_ret8	; 2304F
+%endif ; C
+; C: src/c/017_21CDE_player_stats/CmpTeamStandings.c (CmpTeamDefense)
+%ifdef CBUILD
+%include "c/017_21CDE_player_stats/CmpTeamStandings.CmpTeamDefense.inc"
+%else
 CmpTeamDefense:
 push dword 20h	; 23051
 call __CHK	; 23056
@@ -1572,6 +1586,7 @@ mov bl, cl	; 23122
 xor eax, eax	; 23124
 mov al, ch	; 23126
 jmp near CmpTeamScoring_sub	; 23128
+%endif ; C
 CmpTeamPP:
 push dword 28h	; 2312D
 call __CHK	; 23132
@@ -6177,6 +6192,10 @@ pop esi	; 26B56
 pop ecx	; 26B57
 pop ebx	; 26B58
 ret	; 26B59
+; C: src/c/017_21CDE_player_stats/TeamFromMouse.c
+%ifdef CBUILD
+%include "c/017_21CDE_player_stats/TeamFromMouse.inc"
+%else
 TeamFromMouse:
 push dword 3Ch	; 26B5A
 call __CHK	; 26B5F
@@ -6608,3 +6627,4 @@ pop edi	; 2707C
 pop esi	; 2707D
 pop ecx	; 2707E
 ret	; 2707F
+%endif ; C

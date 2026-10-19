@@ -51,6 +51,10 @@ global DrawDBErrorsScreen, ShowDBError, CheckTeamLines, CheckDatabases, SplitPla
 global CreatePlayerNop, DrawShootsField, DrawGloveField, AskLeftRight, EditSkaterRating, EditGoalieRating, DrawCreatePlayer, CreatePlayerLoop
 global CreateFreeAgent, MoveToFreeAgents, RemovePlayerFromTeam, LoadTempDatabases, DeleteTempDatabases, SwapSelectedPlayers, SelectMatchingPlayers, SetRosterTeamMenus
 global FindPlayer
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (DrawEditRosters)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.DrawEditRosters.inc"
+%else
 DrawEditRosters:
 push dword 80h	; 6D2F8
 call __CHK	; 6D2FD
@@ -241,6 +245,7 @@ call sub_9121C	; 6D5AB
 add esp, byte 4	; 6D5B0
 add esp, byte 54h	; 6D5B3
 jmp near RunEditRosters_ret5	; 6D5B6
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/EditRostersReturn.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/EditRostersReturn.inc"
@@ -331,6 +336,10 @@ call LoadRosterList	; 6D6C9
 call DrawEditRosters	; 6D6CE
 add esp, byte 4	; 6D6D3
 jmp near RunEditRosters_ret6	; 6D6D6
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (ShowFreeAgents)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.ShowFreeAgents.inc"
+%else
 ShowFreeAgents:
 push dword 18h	; 6D6DB
 call __CHK	; 6D6E0
@@ -385,6 +394,7 @@ mov eax, edi	; 6D77A
 call LoadRosterList	; 6D77C
 call DrawEditRosters	; 6D781
 jmp near RunEditRosters_ret5	; 6D786
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/ComparePlayerEntry.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/ComparePlayerEntry.inc"
@@ -1058,6 +1068,10 @@ xor edx, edx	; 6DEF7
 mov dword [facount], edx	; 6DEF9
 xor eax, eax	; 6DEFF
 jmp near LoadRosterList_faloop	; 6DF01
+; C: src/c/051_6C2F9_database_save/RunEditRosters.c (EditTeamLines)
+%ifdef CBUILD
+%include "c/051_6C2F9_database_save/RunEditRosters.EditTeamLines.inc"
+%else
 EditTeamLines:
 push dword 30Ch	; 6DF06
 call __CHK	; 6DF0B
@@ -1162,6 +1176,7 @@ xor eax, eax	; 6E077
 call FadePalStep	; 6E079
 add esp, 2F0h	; 6E07E
 jmp near RunEditRosters_ret5	; 6E084
+%endif ; C
 EditRosters:
 push dword 0A0h	; 6E089
 call __CHK	; 6E08E

@@ -160,6 +160,10 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   LoadPlayoffModeTree's unused 64 bytes, the 32-byte path and the 8-byte schedule record are one `unsigned char buf[104]`
   (`buf + 64` is the path, `buf + 96` is the record). `return 0;` is the hidden temporary. An explicit `int ret = 0; return ret;`
   copies into a second slot and does not match.
+* **-od puts short locals above int locals**: the shorts take the slots from ebp-4 down in declaration order and
+  the ints follow; unused locals still get slots. TeamFromMouse's loop counter is at ebp-0Ch, so it is the third
+  of six shorts (five unused); with int padding around it, it moved to ebp-4. TeamFromMouse is the last function
+  of segment 017 and is `-od` like segment 018 after it; the rest of 017 is optimised.
 * **A volatile int through a pointer compares in memory**: `if (*(volatile int *)sel >= 0)` is `cmp dword [esi], 0` / `jl`. A plain `*sel >= 0` loads it (`mov eax,[esi]` / `test eax,eax`) and hoists the later `*sel * 27` into that register (MenuShowPlayerStats). `side * 0x2F4` is the shift chain (`shl` / `sub` / `shl`); `side * 0x2DC` is `imul`.
 * **A copied register argument and a stack pointer swap ebp and edi** when both a frame and a later loop are present. `button = art` after `DrawMenuBar` put art in ebp and the stack pointer in edi, and only while that pointer was not reused as the next loop counter. With DrawTradeScreen's roster loop the copy spilled (`push edx`, cookie 0x64). A named `int *` for the same stack pointer did the same. Leaving the register argument in its parameter kept art in ebp and cookie 0x60, and the half-index took edi, so the stack pointer was reloaded.
 * **A named cdecl argument is loaded into eax**: `song = songdata; sub_8D2F0(song)` is the 5-byte `mov eax,[songdata] / push eax`. `sub_8D2F0(songdata)` is `mov esi,[songdata] / push esi`, and `songdata = 0` after it is `xor edi,edi` (RunEditRosters).
@@ -170,6 +174,70 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **A second local keeps the return constant in eax**: `if (gamemode == 0) r = 2; else r = picked; return r` is `mov eax, 2` / `jmp` / `mov eax, esi` (LockerRoomScreen). `picked = 2; return picked` writes the 2 into the register that already holds the other result (`mov esi, 2`, 626 vs 628).
 * **The same-day arm falls through**: `if (DateKey(game[0], game[1]) <= date)` is `jg` to the later-day arm (SimScheduleDay). Writing the later-day test first is `jle` and puts that arm ahead of the same-day body. Copy the teams pointer before clearing the stop flag; the other way round zeros the flag first. The club index is `((id << 4) - id) * 2` so the `* 2` stays in the address.
 * **A zero return right after a compare falls through**: `if (diff <= 0) return 0;` with `diff` just copied (`mov eax, ecx`) is `jg` over `xor eax, ecx` / `pop` / `ret` (ChkPullGoalieLate). `if (diff > 0) { ... } return 0;` puts the body first and jumps to the zero return. A later `return 0` that is the same `xor eax, eax` epilogue is a jump to the first one; inverting the last compare so the zero return sits at the bottom pulls every earlier return there too (ChkDelayedOffside, 208 vs 192).
+* **A switch on a re-read global**: `while (deskexit != 1) switch (deskexit)` is `mov edx, [deskexit]` / `cmp edx, 1` /
+  `je` / `lea eax, [edx-2]` (the load is reused and the table index built in eax). `while ((d = deskexit) != 1)
+  switch (d)` loads into eax and indexes in place (`sub eax, 2`), which also moves the registers of every case
+  (CalStandingsMenu, GameStandingsMenu).
+* **Zero arguments after an error test**: right after `err = f(...); if (!err)`, five zero MessageBox arguments
+  written as `0` are `push eax` x5 (the call result known to be 0). Written as `err` they go through a copy
+  (`mov edx, eax` / `push edx`); the EXE's `push esi` x5 elsewhere is `err` itself (MergeLeagueFiles).
+* **Shared chains come from repeated source**: when one branch of the EXE jumps into the middle of another branch's
+  `if (!err) err = ...` chain, write the chain in both branches; Watcom cross-jumps the second copy into the first.
+  When the EXE keeps the last call of two branches separate before one shared call (two `WriteLeagueTeamEntry`
+  then one `FileClose`), put the shared call at the end of each branch: with one copy after the `if / else`
+  Watcom merges the two last calls instead (ImportPlayerTeam). The same move did not keep POHandleElimination's
+  two `RestoreDialogBg` calls apart.
+* **Plain locals rather than a frame struct** when the EXE spills: a struct whose members have their address taken (`&s.w`) makes every member look clobbered by calls, so a pointer kept there is reloaded after each call and its sums are not kept, and the register pressure moves (a stack argument went into ebp). Plain locals let Watcom choose the spill slots itself; their declaration order sets the slots (MessageBox: `r, lineh, ty, w, h, top` gives h at +0, w at +4 as in the EXE, found by trying all orders).
+* **One `+=` per branch merges**: `if (c) a += x; else a += y - z;` becomes one shared `add [a], edx` with a `jmp` from the first branch, as the EXE often has; `a += c ? x : y - z` computes the address first (MessageBox).
+* **Distance decides short or near jumps into a shared tail**: a function that ends in another function's pops jumps there `near` in the EXE when other code lies between them. In a C file holding only the two, Watcom uses short jumps and the block comes out smaller; put the functions that lie between them in the EXE into the file, in address order (asstakeposition after PenShotStart in TakePlayerFromBox.c). Putting the user first instead moves the surviving tail into it.
+* **Check symbols with cdiff**: the scoring diffs normalise absolute addresses, so two globals loaded in swapped order look equal there; `tools/cdiff.py FILE --func F` names them (asstakeposition: `apl[regd4.w + regd1.w]`, `(fox ^ regd0.w) < 0`).
+* **Which copy of a shared exit survives**: the copy that shares the longest run with another function keeps it. When the owner's pops land in the wrong function, add the later functions that end in the owner's longer exit (`add esp, n` plus the pops): LeagueSettingsDlg kept its pops once DrawLeagueSetChecks (ending in LeagueSettingsDlg_ret4) followed it, and MenuSaveDefaultLines once MenuSaveTheseLines (ending in its `add esp, 310h`) did.
+* **A product in an int local**: `v = (r + 5) * 5` compiles to `mov esi, eax; shl esi, 2; add esi, eax` (the EXE's shape); passed straight to a call as `(short)((r + 5) * 5)` it is `imul eax, eax, 5`. A pushed `(r + 5) * 5` is shl / add too, but with the sum in the load register (SkaterStatsCard).
+* **Frame order and cross-call reuse**: Watcom lays the frame out by size, the larger aggregates first and plain spilled scalars after them. A scalar that must sit below other scalars can go in a struct with them; a struct whose address is never taken still lets Watcom keep `(short)s.y` in a register across calls, where a member of an address-taken struct is reloaded after every call (SkaterStatsCard).
+* **`(short)(cond ? 0x99 : 0x98)`** is `setge al; and eax, 0FFh; add eax, 98h; cwde` (dopass's pass sound); `(short)(cond + 0x98)` narrows to `xor ah, ah`.
+* **A materialized `setne` before a branch** (`test eax, eax; setne al; and eax, 0FFh; jne`) comes from a doubled comparison: `while (((c != 'C' && c != 'L') != 0) != 0)` keeps the EXE's `je`-to-zero layout and the setne; `(... ? 0 : 1) != 0` is optimized to a plain test (CreateFreeAgent).
+* **Declaration order moves frame slots, not register picks**: tools/permute_decls.py found slot orders (MessageBox) but no register change across this round's drafts; register picks follow register pressure and statement shape instead (CreateFreeAgent: two pointer locals in a loop push the arguments into memory).
+* **The result type changes register picks in the whole function**: ModeSetViewLoop and LeagueSetViewLoop return a `short`. Declared `int`, Watcom copies the ptrupdatefn result through edx (`mov edx, eax; mov [esp], eax; test dl, 6`); as `short` (still `xor eax, eax` at the end) the result stays in eax (`mov [esp], eax; test al, 6`), and every other instruction is unchanged. A `char` result ends in `xor al, al`. Any byte or word temporary that lands in al / ax elsewhere in the function (a setcc, a byte copy, a narrowing store) has the same effect, which is why SoundCardDlgLoop matched as `int`; one that lands in dl / dx does not. So when a draft differs only in a register copy and ends in `xor eax, eax`, try a short result. Check the callers first: a short result is real when a caller tests `ax` (TryAddPlayerToList, QueueGoalieNote matched that way). When the callers use eax (avdgoal_box, FixJerseyConflict, CopyHumanTeamDBs, WaitClickTimeout also lose most of their differences as short), the original is int and something else in it made the same register choice.
+* **One call after an if / else-if chain merges more than a call in each arm**: LeagueSetEditLoop's two radio groups end in the same `or eax, edx; mov [setbits], eax`; with `DrawLeagueSetChecks()` in every arm Watcom cross-jumps only the call, with one call after the chain the first group jumps into the second group's `or` (the EXE). In ExhSetEditLoop the order `else if (hit < 0x15) radio; else if (hit == 0x15) OK; else cancel` (radio placed last by Watcom) gave the EXE's registers; `else if (hit >= 0x15) { OK / cancel } else radio` did not.
+* **A local declared in the block that uses it** can change register picks elsewhere: ModeSetEditLoop's `sfx` (the new sound effects bit, OK branch only) declared at the top of the function copied it into eax before the bitfield store; declared inside the OK block it is updated in edx, as in the EXE. DrawLineGroupBars matched with its four bar locals declared in the loop body (at the top the colour and width slots swap). tools/scope_decls.py tries every such move (and their combinations) for a draft; a sweep over the drafts found only that one match but cut the differences of HighlightGridCell, DumpStatsLog, ReassignCtlPlayer and TeamGridHitTest.
+* **Tails are merged across the whole file**: identical function tails (the pops, or longer runs before them) in one
+  C file become jumps into one surviving copy, in either direction, and which copy survives depends on every
+  function in the file. POSeedFinal jumps into POSeedConfFinals' pairing code as in the EXE, but with POSeedRound2
+  in the same file POSeedRound2's exit then jumps into POSeedConfFinals' pops, the reverse of the EXE.
+* **A table address plus an index**: `list + side * 25` (pointer first, or as `&list[side * 25]`, a 2-D array or
+  `side * 25 + list`) loads the offset into a second register and adds the product (`mov eax, list` / `add eax, edx`).
+  The EXE's `add edx, list` came from an int sum written product first, `(signed char *)(side * 25 + (int)list)`
+  (SetPlList). In the same way `PUCK->asslist[PUCK->assnum]` folds into `[eax+puckstruct+1Eh]`; the EXE's
+  `add eax, puckstruct` / `[eax+1Eh]` is the address held in an int local first (clockcont_0 reuses its distance
+  variable: `d = (int)PUCK + PUCK->assnum; ((signed char *)d)[0x1E]`).
+* **Condition spelling changes registers**: SetPlList's `else if (!(line >= 4 || pos > 2))` (same layout as
+  `line < 4 && pos <= 2`) with `line + sublist[pos]` in the last branch gave the EXE's registers; either change
+  alone did not, and the plain inverted chain put the branches in the other order.
+* **A chained assignment stores right to left**: `a = b = -1` stores b first (clockcont_0: c1playernum /
+  c2playernum). tools/cdiff.py shows the swapped symbols; a register-only comparison would not.
+* **Squares**: `d = dx * dx + dy * dy` evaluated dx into edx; `dx *= dx; d = dx + dy * dy` gave the EXE's
+  `imul eax, eax` / `imul edx, edx` / `add eax, edx` (clockcont_0).
+* **A loop counter in its own block**: FallDown's PenBuf loop matched once its counter was declared in a block
+  around the loop (`{ short k; for (k = 0; ...) }`): the index temp then took eax, as in the EXE.
+* **An array element read twice**: `if (a[k] == -1) continue; f(a[k]);` computes `k * 4` into a register first;
+  reading it once into a local (`v = a[k]; if (v == -1) continue; f(v);`) gives the EXE's `mov eax, [esp+ebp*4+4Ch]`
+  (PickAwardWinners).
+* **`__STOSB`**: the EXE's `mov ecx, n / xor edx, edx / lea eax, buf / call __STOSB` is the Watcom memset helper;
+  declare it with `#pragma aux __STOSB "__STOSB" parm [eax] [edx] [ecx]` and call it (FadePalStep, PickAwardWinners).
+* **Three-term sums**: Watcom picks the load order and registers of `a + b + c` by the written shape;
+  `c + (a + b)` and the five other orders all compile differently, so try all twelve forms per sum.
+* **A switch case that falls into another**: ReplaySaveHilight's save switch, laid out 0, 2, 1, 3 in the EXE with
+  case 0 jumping into case 1's call, came from cases written 0, 1, 2, 3 with case 2 as
+  `if ((r = SaveHilight(0)) == 0) r = SaveHilight(1)`; writing them in the layout order with a fall-through did not.
+* **A global's declared type decides `add reg, [g]`**: an `int` global that holds a pointer is folded into the add
+  (`add eax, [rosterpstat]`); declared `unsigned char *` (vars.h), Watcom loads it and adds the index product
+  (`mov eax, [rosterpstat]` / `add eax, ebx`), as the EXE does. CmpRosterSkaters matched that way, and ShowRosterStats's
+  record addresses needed the same for statsplayerbuf. When the EXE never folds a pointer global into an add, check its type.
+* **The jump to a for loop's test**: `for (i = 0; i < 0x19; i++)` loses the `jmp` to the test (Watcom knows the first
+  test passes); `for (i = n = 0; ...)`, with n a stack count, keeps it (ShowRosterStats).
+* **Frame struct members are reloaded**: a value stored in a frame struct member is read back from the stack at every
+  use; a plain local left on the stack is read through the register that computed it until the next join (ShowRosterStats's
+  goalie stats pointer in edi). Keep only the arrays in the frame struct when the EXE reuses such a register.
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.

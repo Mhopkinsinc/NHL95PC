@@ -75,3 +75,35 @@ int LoadShapeByTag(char *path, char *tag)
     FileClose(&s.handle);
     return s.shape;
 }
+
+/* MakeStatsTitle (1FF86, PC only; ends in LoadShapeByTag_x): build a stats screen title in dst: the label of the
+   selected stats source (menu items mi_9394Season, mi_9394Playoffs, mi_LeagueSeason, mi_LeaguePlayoffs,
+   mi_PlayoffMode; the playoff labels lose their last character), then suffix. dst: the title buffer; suffix: the
+   screen's name. No result. */
+void MakeStatsTitle(char *dst, char *suffix)
+{
+    char *s;
+    int cut;
+    int n;
+
+    if (mi_9394Season == 1) {
+        s = (char *)str_9394Season;
+        cut = 0;
+    } else if (mi_9394Playoffs == 1) {
+        s = (char *)str_9394PlayOffs;
+        cut = 1;
+    } else if (mi_LeagueSeason == 1) {
+        s = (char *)str_LgSeasonTitle;
+        cut = 0;
+    } else if (mi_LeaguePlayoffs == 1) {
+        s = (char *)str_LgPlayoffsTitle;
+        cut = 1;
+    } else if (mi_PlayoffMode == 1) {
+        s = (char *)str_POTitle;
+        cut = 1;
+    }
+    n = strlen(s) - cut;
+    strncpy(dst, s, n);
+    dst[n] = 0;
+    strcat(dst, suffix);
+}

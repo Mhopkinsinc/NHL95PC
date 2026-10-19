@@ -2,6 +2,8 @@ genesis_field,genesis_offset,pc_offset,evidence
 Xpos,$00,00h;02h,seed: SetSPA/asseben hand alignment
 Ypos,$14,04h;06h,seed: SetSPA/asseben hand alignment
 OldXpos,$1C,74h,"aligned 2/3 accesses in puckfaceoff2, updateplayers"
+OldYpos,$20,78h,"updateplayers: mov [x+78h], Ypos after OldXpos, as 93G move.l Ypos(a3),OldYpos(a3)"
+OldZpos,$24,7Ch,"updateplayers: mov [x+7Ch], Zpos, as 93G move.l Zpos(a3),OldZpos(a3)"
 Xvel,$28,0Ch,seed: SetSPA/asseben hand alignment
 Yvel,$2A,0Eh,seed: SetSPA/asseben hand alignment
 position,$34,1Ah,"aligned 9/13 accesses in assbench, assdefd, assdefo, assnearest, asswingd, asswingo"
@@ -34,10 +36,12 @@ endurance,$72,61h,"playeracc .sube: added to the energy level, as 93G move.b end
 frame,$06,12h,"GetHot reads word [x+12h] as the hot spot frame (94G GetHot frame(a0)); assdopen sets it to -1 (94G clr.w frame(a3))"
 impactp,$2E,14h,"holdplayer: Acheck target SortCords[impactp] when impact != 0, as 93G move.w impactp(a3),d0 / asl #7"
 impact,$32,18h,"holdplayer and Acheck: cmp word [x+18h],0 where 93G does tst.w impact(a3)"
+limpact,$30,16h,"updateplayers: mov word [x+16h], impact after the impact countdown, as 93G move.w impact(a3),limpact(a3)"
 tmptr,none,6Ch,"pointer to own team struct: lineinput/lcselect/getlchoice read tmflags/tmline/tmap through it (93G loadTeamStruct)"
 optmptr,none,70h,"pointer to the other team struct: lcselect/getlchoice compare its tmap with the own team's"
 tmline,$16 (team),2Ah (team),"getlchoice adds tmline*4 to the choice index (93G tmline*3); lcfound stores the new line then setpersonel; player_logic reads [DF614/DF714+2Ah]"
 tmlcnt,none (team),2Ch (team),"lcfound/lcselect: incremented and wrapped at 3 when the new line is < 4"
+tmextra,none (team),2Eh (team),"SetPlList stores PlList[i] of the position-6 slot (the extra attacker) and -1 when the goalie is not pulled"
 tmap,$24 (team),36h (team),"getlchoice/lcselect: other tmap - own tmap picks the even / PK / PP choices, as 93G getlchoice"
 tmflags,$30 (team),44h (team),"lineinput: bit 0 cleared before opening the box; lcfound clears bit 1, as 93G lineinput/lcfound"
 tmscore,$C (team),10h (team),"Goal does inc word [scoring team+10h]; PeriodOver/clockcont_0 compare DF624 with DF724, as 93G Goal addq #1,tmscore(a2)"

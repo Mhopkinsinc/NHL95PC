@@ -2165,6 +2165,10 @@ pop ecx	; 49E37
 pop ebx	; 49E38
 ret	; 49E39
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assdefd)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assdefd.inc"
+%else
 assdefd:
 push dword 18h	; 49E3A
 call __CHK	; 49E3F
@@ -2410,6 +2414,11 @@ call skateto	; 4A195
 mov eax, ebx	; 4A19A
 call check4check	; 4A19C
 jmp near ass_popx	; 4A1A1
+%endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asswingd)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asswingd.inc"
+%else
 asswingd:
 push dword 18h	; 4A1A6
 call __CHK	; 4A1AB
@@ -2534,6 +2543,7 @@ asswingd_skateto:
 mov eax, ebx	; 4A337
 call skateto	; 4A339
 jmp near ass_popx	; 4A33E
+%endif ; C
 asswingo:
 push dword 18h	; 4A343
 call __CHK	; 4A348
@@ -2771,6 +2781,10 @@ pop edx	; 4A658
 pop ecx	; 4A659
 pop ebx	; 4A65A
 ret	; 4A65B
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asscentero)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asscentero.inc"
+%else
 asscentero:
 push dword 18h	; 4A65C
 call __CHK	; 4A661
@@ -2892,6 +2906,7 @@ mov edi, eax	; 4A7FE
 neg edi	; 4A800
 mov word [regd1], di	; 4A802
 jmp near asswingo_evade	; 4A809
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/StopIfFree.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/StopIfFree.inc"
@@ -3359,6 +3374,10 @@ pop ecx	; 4ADA8
 pop ebx	; 4ADA9
 ret	; 4ADAA
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asspenalty)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asspenalty.inc"
+%else
 asspenalty:
 push dword 18h	; 4ADAB
 call __CHK	; 4ADB0
@@ -3517,6 +3536,7 @@ mov word [regd0], ax	; 4AFE6
 mov ax, word [byte ebx+temp4]	; 4AFEC
 mov word [regd1], ax	; 4AFF0
 jmp near asswingd_skate0	; 4AFF6
+%endif ; C
 ; assdopen: asstab 0Dh (player goes to the penalty box). Bumps PBnum (home) or PBnum+1 (away).
 ; C: src/c/037_4842A_engine_player_logic/assdopen.c
 %ifdef CBUILD
@@ -5357,6 +5377,10 @@ call playeracc	; 4C627
 assgoalie_popebp:
 pop ebp	; 4C62C
 jmp near ass_popx	; 4C62D
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (CountPuckThreat)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.CountPuckThreat.inc"
+%else
 CountPuckThreat:
 push dword 18h	; 4C632
 call __CHK	; 4C637
@@ -5434,6 +5458,7 @@ inc ebx	; 4C6E7
 cmp bx, byte 6	; 4C6E8
 jl short CountPuckThreat.3	; 4C6EC
 jmp near ass_popx	; 4C6EE
+%endif ; C
 ; asspuckc: asstab 10h (player has the puck): checkob, chk4lc, chk4shot, chk4pass, then
 ; skateto with asspuckc_chkdir as the collision routine.
 ; C: src/c/037_4842A_engine_player_logic/asspuckc.c
@@ -6763,6 +6788,10 @@ pop ecx	; 4D6B1
 pop ebx	; 4D6B2
 ret	; 4D6B3
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (pucknorm_body)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.pucknorm_body.inc"
+%else
 pucknorm_body:
 push dword 18h	; 4D6B4
 call __CHK	; 4D6B9
@@ -6936,6 +6965,7 @@ call puckunflip	; 4D8B6
 mov eax, ebx	; 4D8BB
 call PuckCheckColl	; 4D8BD
 jmp near ass_popx	; 4D8C2
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/pucknorm.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/pucknorm.inc"
@@ -6988,6 +7018,10 @@ pop edx	; 4D936
 ret	; 4D937
 %endif ; C
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (RequestLineChange)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.RequestLineChange.inc"
+%else
 RequestLineChange:
 push dword 18h	; 4D938
 call __CHK	; 4D93D
@@ -7040,6 +7074,7 @@ jmp near ass_popx	; 4D9EA
 xor edx, edx	; 4D9EF
 mov dword [dword_C585C], edx	; 4D9F1
 jmp near ass_popx	; 4D9F7
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/SetLCmode.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/SetLCmode.inc"
@@ -7095,6 +7130,10 @@ mov word [byte ebx+temp3], dx	; 4DA75
 pop ebx	; 4DA79
 ret	; 4DA7A
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (Endfaceoff)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.Endfaceoff.inc"
+%else
 Endfaceoff:
 push dword 18h	; 4DA7B
 call __CHK	; 4DA80
@@ -7255,6 +7294,7 @@ mov eax, 0FFFFFB00h	; 4DCCD
 .15:
 mov word [word_E0028], ax	; 4DCD2
 jmp near ass_popx	; 4DCD8
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/a2offsides.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/a2offsides.inc"
@@ -8282,6 +8322,10 @@ pop edx	; 4E8EC
 pop ecx	; 4E8ED
 ret	; 4E8EE
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.inc"
+%else
 assrefwhistle:
 push dword 18h	; 4E8EF
 call __CHK	; 4E8F4
@@ -8416,6 +8460,7 @@ mov eax, ebx	; 4EAD1
 call SetSPA	; 4EAD3
 mov edx, 22h	; 4EAD8
 jmp near ass_replace_popx	; 4EADD
+%endif ; C
 ass_skate_temp34:
 mov ax, word [byte ebx+temp3]	; 4EAE2
 mov word [regd0], ax	; 4EAE6
@@ -9224,6 +9269,10 @@ call SkateToSpot	; 4F5B2
 .64:
 add esp, byte 8	; 4F5B7
 jmp near assgoalie_popebp	; 4F5BA
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assrefdrop)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assrefdrop.inc"
+%else
 assrefdrop:
 push dword 18h	; 4F5BF
 call __CHK	; 4F5C4
@@ -9380,6 +9429,11 @@ mov word [RefStep], 0FFFFh	; 4F7BB
 mov edx, 1Eh	; 4F7C4
 mov eax, ebx	; 4F7C9
 jmp near assrefdrop.1	; 4F7CB
+%endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (assrefgoalline)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.assrefgoalline.inc"
+%else
 assrefgoalline:
 push dword 18h	; 4F7D0
 call __CHK	; 4F7D5
@@ -9525,6 +9579,7 @@ mov eax, ebx	; 4F97F
 call SetSPA	; 4F981
 mov edx, 20h	; 4F986
 jmp near ass_replace_popx	; 4F98B
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/rtss.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/rtss.inc"

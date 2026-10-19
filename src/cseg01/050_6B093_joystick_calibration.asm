@@ -835,6 +835,10 @@ push eax	; 6B946
 call sub_92CD0	; 6B947
 jmp short PrintMenuTextGrey_common	; 6B94C
 %endif ; C
+; C: src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/DrawMenuItemSel.inc"
+%else
 DrawMenuItemSel:
 push dword 28h	; 6B94E
 call __CHK	; 6B953
@@ -898,6 +902,11 @@ pop ebp	; 6B9E5
 pop edi	; 6B9E6
 pop esi	; 6B9E7
 ret 8	; 6B9E8
+%endif ; C
+; C: src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c (DrawMenuItemNorm)
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/DrawMenuItemSel.DrawMenuItemNorm.inc"
+%else
 DrawMenuItemNorm:
 push dword 28h	; 6B9EB
 call __CHK	; 6B9F0
@@ -936,6 +945,7 @@ and eax, 0FFh	; 6BA3D
 add ebp, eax	; 6BA42
 mov eax, dword [byte esp+018h]	; 6BA44
 jmp near DrawMenuItemSel_common	; 6BA48
+%endif ; C
 MenuHitTest:
 push dword 14h	; 6BA4D
 call __CHK	; 6BA52

@@ -151,6 +151,10 @@ pop ecx	; 2B941
 pop ebx	; 2B942
 ret	; 2B943
 %endif ; C
+; C: src/c/021_2B7B7_file_dialogs/MenuOpenSaved.c
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/MenuOpenSaved.inc"
+%else
 MenuOpenSaved:
 push dword 58h	; 2B944
 call __CHK	; 2B949
@@ -432,6 +436,7 @@ pop esi	; 2BD12
 pop ecx	; 2BD13
 pop ebx	; 2BD14
 ret	; 2BD15
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlgTabs)
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlgTabs.inc"
@@ -809,6 +814,10 @@ dd DrawFileDlg_n3
 dd DrawFileDlg_n4
 dd DrawFileDlg_n5
 dd DrawFileDlg_n6
+; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlg)
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlg.inc"
+%else
 DrawFileDlg:
 push dword 54h	; 2C18F
 call __CHK	; 2C194
@@ -993,6 +1002,7 @@ or byte [fdlgmask+1], 4	; 2C3F0
 DrawFileDlg_x:
 add esp, byte 24h	; 2C3F7
 jmp near LoadFileDlgShapes_x	; 2C3FA
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/FileDlgHitTest.inc"
@@ -1040,6 +1050,10 @@ dd DrawFileDlgList_n3
 dd DrawFileDlgList_n4
 dd DrawFileDlgList_n5
 dd DrawFileDlgList_n6
+; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (DrawFileDlgList)
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.DrawFileDlgList.inc"
+%else
 DrawFileDlgList:
 push dword 38h	; 2C46B
 call __CHK	; 2C470
@@ -1354,6 +1368,7 @@ add esp, byte 0Ch	; 2C7F2
 mov eax, dword [byte esp+04h]	; 2C7F5
 add esp, byte 8	; 2C7F9
 jmp near LoadFileDlgShapes_x	; 2C7FC
+%endif ; C
 RunFileDlg:
 push dword 4Ch	; 2C801
 call __CHK	; 2C806

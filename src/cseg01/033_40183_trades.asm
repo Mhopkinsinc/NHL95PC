@@ -513,6 +513,10 @@ pop ecx	; 408F2
 pop ebx	; 408F3
 ret	; 408F4
 %endif ; C
+; C: src/c/033_40183_trades/AddHumanTeam.c
+%ifdef CBUILD
+%include "c/033_40183_trades/AddHumanTeam.inc"
+%else
 AddHumanTeam:
 push dword 74h	; 408F5
 call __CHK	; 408FA
@@ -759,6 +763,11 @@ pop edx	; 40C25
 pop ecx	; 40C26
 pop ebx	; 40C27
 ret	; 40C28
+%endif ; C
+; C: src/c/033_40183_trades/AddHumanTeam.c (RemoveHumanTeam)
+%ifdef CBUILD
+%include "c/033_40183_trades/AddHumanTeam.RemoveHumanTeam.inc"
+%else
 RemoveHumanTeam:
 push dword 74h	; 40C29
 call __CHK	; 40C2E
@@ -993,6 +1002,7 @@ push esi	; 40F3E
 mov ecx, 2	; 40F3F
 mov ebx, msg_OneHuman	; 40F44
 jmp near AddHumanTeam_msgbox	; 40F49
+%endif ; C
 ; C: src/c/033_40183_trades/CheckMasterPassword.c
 %ifdef CBUILD
 %include "c/033_40183_trades/CheckMasterPassword.inc"

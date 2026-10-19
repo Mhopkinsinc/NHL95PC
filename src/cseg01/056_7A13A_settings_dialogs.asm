@@ -39,6 +39,10 @@ global ExhSetHitTest, ExhSetEditLoop, DrawCtlBoxOn, DrawCtlBoxOff, MenuP1Control
 global MenuP2ControlsLeague, ControlsDlgLeague, MenuP1ControlsInGame, ControlsDlgInGame, MenuP2ControlsInGame, CtlSwapScoreFix, CtlSwapTeamFlag, ReassignCtlPlayer
 global ClearCtlBlink, ControlsDlgInGame_side, MenuP1ControlsPlayoff, MenuP2ControlsPlayoff, ControlsDlgPlayoff, DrawControlsDlg, DrawControlsOpts, CtlDlgHitTest
 global DrawCtlBoxes, ControlsDlgLoop, SetCtlTeams
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.inc"
+%else
 LeagueSettingsDlg:
 push dword 2Ch	; 7A13A
 call __CHK	; 7A13F
@@ -108,6 +112,11 @@ pop edx	; 7A1F8
 pop ecx	; 7A1F9
 pop ebx	; 7A1FA
 ret	; 7A1FB
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (MenuPlayoffSettings)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.MenuPlayoffSettings.inc"
+%else
 MenuPlayoffSettings:
 push dword 28h	; 7A1FC
 call __CHK	; 7A201
@@ -162,6 +171,11 @@ xor ebx, ebx	; 7A28D
 mov dword [settingsfile], ebx	; 7A28F
 xor eax, eax	; 7A295
 jmp near LeagueSettingsDlg_ret	; 7A297
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (EditPlayoffSettings)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.EditPlayoffSettings.inc"
+%else
 EditPlayoffSettings:
 push dword 28h	; 7A29C
 call __CHK	; 7A2A1
@@ -207,6 +221,11 @@ call WriteModeState	; 7A321
 mov eax, exhstate	; 7A326
 call LoadModeState	; 7A32B
 jmp near SettingsDlgClose	; 7A330
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (MenuLeagueSettingsEdit)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.MenuLeagueSettingsEdit.inc"
+%else
 MenuLeagueSettingsEdit:
 push dword 28h	; 7A335
 call __CHK	; 7A33A
@@ -242,6 +261,11 @@ call DrawLeagueSetDlgSel	; 7A38B
 call LeagueOptsToBits	; 7A390
 mov eax, 1	; 7A395
 jmp near MenuPlayoffSettings_edit	; 7A39A
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (MenuShowLeagueSettings)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.MenuShowLeagueSettings.inc"
+%else
 MenuShowLeagueSettings:
 push dword 28h	; 7A39F
 call __CHK	; 7A3A4
@@ -276,6 +300,11 @@ call DrawLeagueSetDlgSel	; 7A3F0
 call LeagueOptsToBits	; 7A3F5
 call LeagueSetViewLoop	; 7A3FA
 jmp near SettingsDlgClose	; 7A3FF
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (MenuShowLeagueSettings2)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.MenuShowLeagueSettings2.inc"
+%else
 MenuShowLeagueSettings2:
 push dword 50h	; 7A404
 call __CHK	; 7A409
@@ -395,6 +424,7 @@ xor eax, eax	; 7A56F
 mov dword [settingsfile], eax	; 7A571
 add esp, byte 28h	; 7A576
 jmp near LeagueSettingsDlg_ret	; 7A579
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.inc"
@@ -506,6 +536,10 @@ call __CHK	; 7A6B2
 mov dword [leaguesetimg], eax	; 7A6B7
 ret	; 7A6BC
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (DrawLeagueSetDlg)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.DrawLeagueSetDlg.inc"
+%else
 DrawLeagueSetDlg:
 push dword 144h	; 7A6BD
 call __CHK	; 7A6C2
@@ -639,6 +673,7 @@ mov eax, 0Ah	; 7A85A
 call DrawSettingsHeading	; 7A85F
 add esp, 120h	; 7A864
 jmp near LeagueSettingsDlg_ret0	; 7A86A
+%endif ; C
 db 08Dh,040h,00h
 LeagueOptsToBits_jt:
 dd LeagueOptsToBits_n1
@@ -852,6 +887,10 @@ pop esi	; 7AAA7
 pop ecx	; 7AAA8
 ret	; 7AAA9
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (DrawLeagueSetChecks)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.DrawLeagueSetChecks.inc"
+%else
 DrawLeagueSetChecks:
 push dword 2Ch	; 7AAAA
 call __CHK	; 7AAAF
@@ -1005,6 +1044,11 @@ push eax	; 7AC23
 call sub_91FE0	; 7AC24
 add esp, byte 0Ch	; 7AC29
 jmp near LeagueSettingsDlg_ret4	; 7AC2C
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (LeagueSetViewLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.LeagueSetViewLoop.inc"
+%else
 LeagueSetViewLoop:
 push dword 3Ch	; 7AC31
 call __CHK	; 7AC36
@@ -1149,6 +1193,11 @@ add esp, byte 4	; 7ADC6
 xor eax, eax	; 7ADC9
 add esp, byte 14h	; 7ADCB
 jmp near LeagueSettingsDlg_ret	; 7ADCE
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/LeagueSettingsDlg.c (LeagueSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/LeagueSettingsDlg.LeagueSetEditLoop.inc"
+%else
 LeagueSetEditLoop:
 push dword 44h	; 7ADD3
 call __CHK	; 7ADD8
@@ -1608,6 +1657,7 @@ push eax	; 7B38F
 mov ebx, dword [pointerspr]	; 7B390
 push ebx	; 7B396
 jmp near LeagueSetEditLoop.6	; 7B397
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/SettingsStub.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/SettingsStub.inc"
@@ -2050,6 +2100,10 @@ pop ecx	; 7B843
 pop ebx	; 7B844
 ret	; 7B845
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuModeSettings.c (ModeSetViewLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuModeSettings.ModeSetViewLoop.inc"
+%else
 ModeSetViewLoop:
 push dword 3Ch	; 7B846
 call __CHK	; 7B84B
@@ -2194,6 +2248,11 @@ add esp, byte 4	; 7B9DB
 xor eax, eax	; 7B9DE
 add esp, byte 14h	; 7B9E0
 jmp near ModeSettings_epilogue	; 7B9E3
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuModeSettings.c (ModeSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuModeSettings.ModeSetEditLoop.inc"
+%else
 ModeSetEditLoop:
 push dword 44h	; 7B9E8
 call __CHK	; 7B9ED
@@ -2569,6 +2628,7 @@ jmp short ModeSetEditLoop.25	; 7BEAF
 mov edi, dword [byte esp+010h]	; 7BEB1
 push edi	; 7BEB5
 jmp near ModeSetEditLoop.5	; 7BEB6
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuExhibitionSettings.inc"
@@ -2995,6 +3055,10 @@ pop esi	; 7C314
 pop ecx	; 7C315
 ret	; 7C316
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuExhibitionSettings.c (ExhSetEditLoop)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuExhibitionSettings.ExhSetEditLoop.inc"
+%else
 ExhSetEditLoop:
 push dword 40h	; 7C317
 call __CHK	; 7C31C
@@ -3409,6 +3473,7 @@ push eax	; 7C845
 mov edi, dword [pointerspr]	; 7C846
 push edi	; 7C84C
 jmp near ExhSetEditLoop.5	; 7C84D
+%endif ; C
 DrawCtlBoxOn:
 push dword 30h	; 7C852
 call __CHK	; 7C857

@@ -21,8 +21,8 @@ void UpdateHudPanel(void)
     dword_C583C = n;
     hudhundstep = 0;
     if (TickPanelClock(n) && (gmode & 0x10) == 0) {
-        TickPanelPenalties(hudpenhome, dword_C583C);
-        TickPanelPenalties(hudpenaway, dword_C583C);
+        TickPanelPenalties((struct PenSlot *)hudpenhome, dword_C583C);
+        TickPanelPenalties((struct PenSlot *)hudpenaway, dword_C583C);
     }
     GetLineEnergies(0, dword_C56E4);
     GetLineEnergies(1, dword_C56C4);
@@ -41,7 +41,7 @@ void UpdateHudPanel(void)
             sub_B4CF2(hmpanelspr);
             dword_C5854 = 1;
         }
-        DrawPanelPenalties(hudpenhome, 0x48);
+        DrawPanelPenalties((struct PenSlot *)hudpenhome, 0x48);
         dword_C585C = 0;
     }
     if (lcboxon[1] || dword_C5848 || (gmode & 0x10)) {
@@ -56,7 +56,7 @@ void UpdateHudPanel(void)
             sub_B4CF2(awpanelspr);
             dword_C5858 = 1;
         }
-        DrawPanelPenalties(hudpenaway, 0xBF);
+        DrawPanelPenalties((struct PenSlot *)hudpenaway, 0xBF);
         dword_C5860 = 0;
     }
 }
@@ -86,4 +86,40 @@ void DrawPanelClock(void)
     dword_C5710 = hudclockmin;
     dword_C5714 = hudclocksec;
     dword_C5718 = hudclockhund;
+}
+
+/* DrawPanelClockDigits (1540A, PC only; segment 006, the same source file: it ends in UpdateHudPanel_x): redraw
+   only the clock digits that changed since the last frame (previous minutes, seconds, hundredths in dword_C5710,
+   C5714, C5718), with DrawPanelClock's layout: with no minutes left the colon slot (when the minutes just ran
+   out), the tens and units of the seconds and the tens of the hundredths; otherwise the minutes and the seconds
+   as two digits each. A value under 10 uses the colon sprite as a blank tens digit. No arguments, no result. */
+void DrawPanelClockDigits(void)
+{
+    if (hudclockmin == 0) {
+        if (hudclockmin != dword_C5710) PUTDIGIT(clockcolon, 0xAA, 3);
+        if (dword_C5714 != hudclocksec) {
+            if (dword_C5714 / 10 != hudclocksec / 10) {
+                if (hudclocksec < 10)
+                    PUTDIGIT(clockcolon, 0x8C, 3);
+                else
+                    PUTDIGIT(clockdigits[hudclocksec / 10], 0x8C, 3);
+            }
+            if (dword_C5714 % 10 != hudclocksec % 10) PUTDIGIT(clockdigits[hudclocksec % 10], 0x95, 3);
+        }
+        if (dword_C5718 / 10 != hudclockhund / 10) PUTDIGIT(clockdigits[hudclockhund / 10], 0xA1, 3);
+    } else {
+        if (dword_C5710 != hudclockmin) {
+            if (dword_C5710 / 10 != hudclockmin / 10) {
+                if (hudclockmin < 10)
+                    PUTDIGIT(clockcolon, 0x8C, 3);
+                else
+                    PUTDIGIT(clockdigits[hudclockmin / 10], 0x8C, 3);
+            }
+            if (dword_C5710 % 10 != hudclockmin % 10) PUTDIGIT(clockdigits[hudclockmin % 10], 0x95, 3);
+        }
+        if (dword_C5714 != hudclocksec) {
+            if (dword_C5714 / 10 != hudclocksec / 10) PUTDIGIT(clockdigits[hudclocksec / 10], 0xA1, 3);
+            if (dword_C5714 % 10 != hudclocksec % 10) PUTDIGIT(clockdigits[hudclocksec % 10], 0xAA, 3);
+        }
+    }
 }

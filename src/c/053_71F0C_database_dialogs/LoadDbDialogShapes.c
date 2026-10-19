@@ -225,6 +225,207 @@ int DrawDbList(int *list)
     }
 }
 
+typedef struct Hdr17 { char c[17]; } Hdr17;
+
+/* DRAFT (DbDialogLoop): same size; register picks differ from the move branch on (see docs/UNSURE.md). */
+/* DbDialogLoop (72DE7, PC only; ends in DbDialog_epilogue): run the database dialog with the mouse pointer (a
+   POINTER block holds the screen under it) on the list of the shown tab (dbtablists[fdlgtab]). Button 1 held on
+   the scroll bar (box 8, when fdlgmask enables it) drags the visible rows with the pointer (the first event only
+   starts the drag); the original compares ox with y to see whether the pointer moved. A click (event bit 2) on
+   an enabled box: the arrows scroll one row, the bar brings the clicked position into view, the three tabs switch
+   the list (the third enables Delete), Delete removes the selected database, a row selects it (FileDlgHitTest);
+   Open opens it and redraws the roster editor; Cancel or event bit 4 leave. Result: 1 when a database was
+   opened, else 0. */
+int DbDialogLoop(void)
+{
+    int drag;
+    int ox;
+    int oy;
+    int x;
+    int y;
+    int btn;
+    int hit;
+    int bm;
+    int n;
+    int *list;
+    int pos;
+    int last;
+    int d;
+    unsigned char *ev;
+
+    drag = 0;
+    sub_B2DCA(&btn, &ox, &oy);
+    x = ox;
+    y = oy;
+    sub_B4BA8();
+    n = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    bm = sub_8CCA8((char *)str_Pointer12, n, 0x20);
+    *(Hdr17 *)bm = *(Hdr17 *)pointerspr;
+    ((short *)bm)[2] = ((short *)pointerspr)[2] + 1;
+    ((short *)bm)[3] = ((short *)pointerspr)[3] + 1;
+    sub_91400(bm, x - 4, y);
+    sub_91370(pointerspr, x - 4, y);
+    list = (int *)dbtablists[fdlgtab];
+    ClearInputQueue();
+    for (;;) {
+        btn = 0;
+        for (;;) {
+            ev = GetInputEvent();
+            if (ev == 0) break;
+            btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &x, &y);
+            if (btn) break;
+        }
+        if (btn == 0) {
+            if (x != ox || y != oy) {
+                sub_B4BA8();
+                sub_903F0(bm, ox - 4, oy);
+                sub_91400(bm, x - 4, y);
+                sub_91370(pointerspr, x - 4, y);
+                ox = x;
+                oy = y;
+            }
+            continue;
+        }
+        sub_910E0(bm, ox - 4, oy);
+        if ((btn & 1) && (fdlgmask[1] & 1)) {
+            if (ox != y || y != oy) {
+                if (DbDialogHitTest(x, y, &hit) && hit == 8) {
+                    if (drag) {
+                        pos = list[0] * (oy - 0x13 - DBRECT[8].y1) / 0x20;
+                        last = list[3];
+                        if (oy != y && pos >= list[2] && pos <= last) {
+                            if (oy < y) {
+                                d = (y - oy) * list[0] / 0x20;
+                                if (d + last < list[0]) {
+                                    list[2] += d;
+                                    list[3] += d;
+                                } else {
+                                    list[3] = list[0] - 1;
+                                    list[2] = list[0] - 6;
+                                }
+                            } else if (oy > y) {
+                                d = (oy - y) * list[0] / 0x20;
+                                if (list[2] - d >= 0) {
+                                    list[2] -= d;
+                                    list[3] -= d;
+                                } else {
+                                    list[2] = 0;
+                                    list[3] = 5;
+                                }
+                            }
+                            if (last != list[3]) DrawDbList(list);
+                        }
+                    } else {
+                        drag = 1;
+                    }
+                } else {
+                    drag = 0;
+                }
+            }
+        } else if (btn & 2) {
+            drag = 0;
+            if (DbDialogHitTest(x, y, &hit)) {
+                hit = 1 << hit;
+                if (hit & FDLGMASKD) {
+                    switch (hit) {
+                    case 0x10:
+                        sub_91370(fdlg_cancel, 0x23, 0xBF);
+                        FreeMemBlock(bm);
+                        return 0;
+                    case 1:
+                        sub_91370(fdlg_up, 0x18, 0x46);
+                        if (list[2] != 0) {
+                            list[2]--;
+                            list[3]--;
+                            DrawDbList(list);
+                        }
+                        sub_91370(fdlg_noarrow, 0x18, 0x46);
+                        break;
+                    case 2:
+                        sub_91370(fdlg_down, 0x18, 0x46);
+                        if (list[3] + 1 < list[0]) {
+                            list[2]++;
+                            list[3]++;
+                            DrawDbList(list);
+                        }
+                        sub_91370(fdlg_noarrow, 0x18, 0x46);
+                        break;
+                    case 0x100:
+                        pos = (y - 0x13 - DBRECT[8].y1) * list[0] / 0x20;
+                        if (pos < list[2]) {
+                            if (pos < 3) {
+                                list[2] = 0;
+                                list[3] = 5;
+                            } else {
+                                list[2] = pos - 3;
+                                list[3] = pos + 2;
+                            }
+                        } else {
+                            if (pos <= list[3]) break;
+                            if (pos + 3 > list[0]) {
+                                list[2] = list[0] - 6;
+                                list[3] = list[0] - 1;
+                            } else {
+                                list[2] = pos - 3;
+                                list[3] = pos + 2;
+                            }
+                        }
+                        DrawDbList(list);
+                        break;
+                    case 0x20:
+                        fdlgtab = 0;
+                        FDLGMASKD &= ~8;
+                        DrawDbDialogButtons();
+                        list = (int *)dbtablists[fdlgtab];
+                        DrawDbList(list);
+                        break;
+                    case 0x40:
+                        fdlgtab = 1;
+                        FDLGMASKD &= ~8;
+                        DrawDbDialogButtons();
+                        list = (int *)dbtablists[fdlgtab];
+                        DrawDbList(list);
+                        break;
+                    case 0x80:
+                        fdlgtab = 2;
+                        fdlgmask[0] |= 8;
+                        DrawDbDialogButtons();
+                        list = (int *)dbtablists[fdlgtab];
+                        DrawDbList(list);
+                        break;
+                    case 4:
+                        sub_91370(fdlg_open, 0x23, 0xBF);
+                        FreeMemBlock(bm);
+                        OpenSelectedDb();
+                        LoadBothRosterLists();
+                        DrawEditRosters();
+                        return 1;
+                    case 8:
+                        sub_91370(fdlg_del, 0x23, 0xBF);
+                        DeleteSelectedDb((int *)dbtablists[fdlgtab]);
+                        list = fdlgtab < 0 ? 0 : (int *)dbtablists[fdlgtab];
+                        DrawDbList(list);
+                        sub_91370(fdlg_none, 0x23, 0xBF);
+                        break;
+                    default:
+                        FileDlgHitTest(x, y, &hit);
+                        if (hit > 9) list[1] = list[2] + hit - 10;
+                        DrawDbList(list);
+                        break;
+                    }
+                }
+            }
+        } else if (btn & 4) {
+            FreeMemBlock(bm);
+            return 0;
+        }
+        sub_91400(bm, x - 4, y);
+        sub_91370(pointerspr, x - 4, y);
+        ox = x;
+        oy = y;
+    }
+}
+
 /* DeleteSelectedDb: delete the selected database of list (ints: count, selection, top, last visible,
  then the names): ask first (deldbmsg with the name, at 140h F0h); when its DBX directory exists remove it and
  drop the name from the list, fixing the scroll range and selection; when the list is now empty switch the dialog
@@ -268,8 +469,6 @@ int DeleteSelectedDb(int *list)
     }
     return 0;
 }
-
-typedef struct Hdr17 { char c[17]; } Hdr17;
 
 /* MenuOpenDatabase: menu "open database": scan the database files, save the screen under the 243 x 198
  dialog at 10 13h into a BUF bitmap (pointer sprite header), load the dialog shapes, draw the dialog and its

@@ -308,6 +308,10 @@ pop ebp	; 3AE18
 pop edi	; 3AE19
 pop esi	; 3AE1A
 ret 8	; 3AE1B
+; C: src/c/030_3A9AA_database_merge/MergeTeamDbs.c (MergeScheduleDb)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/MergeTeamDbs.MergeScheduleDb.inc"
+%else
 MergeScheduleDb:
 push dword 48h	; 3AE1E
 call __CHK	; 3AE23
@@ -425,6 +429,7 @@ call FileClose	; 3AF61
 mov eax, edx	; 3AF66
 add esp, byte 38h	; 3AF68
 jmp near MergeTeamDbs_ret	; 3AF6B
+%endif ; C
 LocateTeamDbCopy:
 push dword 34h	; 3AF70
 call __CHK	; 3AF75
@@ -675,6 +680,10 @@ pop ecx	; 3B257
 pop ebx	; 3B258
 ret	; 3B259
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/UpdateTeamDbs.c (MergeLeagueFiles)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/UpdateTeamDbs.MergeLeagueFiles.inc"
+%else
 MergeLeagueFiles:
 push dword 8Ch	; 3B25A
 call __CHK	; 3B25F
@@ -1160,6 +1169,7 @@ mov eax, dword [byte_DE268-3]	; 3B8A0
 sar eax, 18h	; 3B8A5
 add esp, byte 60h	; 3B8A8
 jmp near UpdateTeamDbs_ret	; 3B8AB
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/MergeUpdateDbs.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/MergeUpdateDbs.inc"
@@ -1951,6 +1961,10 @@ pop ecx	; 3C3AC
 pop ebx	; 3C3AD
 ret	; 3C3AE
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/ImportMasterLeague.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ImportMasterLeague.inc"
+%else
 ImportMasterLeague:
 push dword 0A4h	; 3C3AF
 call __CHK	; 3C3B4
@@ -2203,6 +2217,11 @@ pop edx	; 3C6DE
 pop ecx	; 3C6DF
 pop ebx	; 3C6E0
 ret	; 3C6E1
+%endif ; C
+; C: src/c/030_3A9AA_database_merge/ImportMasterLeague.c (ImportPlayerTeam)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ImportMasterLeague.ImportPlayerTeam.inc"
+%else
 ImportPlayerTeam:
 push dword 0E8h	; 3C6E2
 call __CHK	; 3C6E7
@@ -2772,6 +2791,7 @@ call MessageBox	; 3CF49
 mov eax, esi	; 3CF4E
 add esp, 0B8h	; 3CF50
 jmp near ImportMasterLeague_ret	; 3CF56
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/ImportDbs.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/ImportDbs.inc"
@@ -2901,6 +2921,10 @@ pop ecx	; 3D105
 pop ebx	; 3D106
 ret	; 3D107
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/ImportMasterLeague.c (ExportDbs)
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ImportMasterLeague.ExportDbs.inc"
+%else
 ExportDbs:
 push dword 78h	; 3D108
 call __CHK	; 3D10D
@@ -3151,6 +3175,7 @@ mov eax, 2Ah	; 3D45B
 call SetDialogColors	; 3D460
 add esp, byte 48h	; 3D465
 jmp near ImportMasterLeague_ret	; 3D468
+%endif ; C
 SelectFloppyDrive:
 push dword 84h	; 3D46D
 call __CHK	; 3D472

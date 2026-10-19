@@ -291,6 +291,10 @@ pop edx	; 53533
 pop ecx	; 53534
 pop ebx	; 53535
 ret	; 53536
+; C: src/c/040_53294_engine_physics_ai/checkob.c (check4check)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.check4check.inc"
+%else
 check4check:
 push dword 18h	; 53537
 call __CHK	; 5353C
@@ -398,6 +402,7 @@ jne near check4check.4	; 5368D
 mov eax, ecx	; 53693
 call TryBlockShot	; 53695
 jmp near checkob_ret5	; 5369A
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/checkagr.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/checkagr.inc"
@@ -3415,6 +3420,10 @@ ret	; 55A9E
 %endif ; C
 ; ChkOffsides: ClearOffsidesIfAllPlayers. Offsides option (gameopts bit 1): a team's
 ; offsides flag (tmflags bit 4) is cleared once none of its skaters is past the blue line (4Eh).
+; C: src/c/040_53294_engine_physics_ai/checkob.c (ChkOffsides)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.ChkOffsides.inc"
+%else
 ChkOffsides:
 push dword 18h	; 55A9F
 call __CHK	; 55AA4
@@ -3549,6 +3558,7 @@ add eax, 80h	; 55C61
 dec si	; 55C66
 jne short ChkOffsides.18	; 55C68
 jmp near checkob_ret5	; 55C6A
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/MarkTwoLinePlayers.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/MarkTwoLinePlayers.inc"
@@ -3619,6 +3629,10 @@ ret	; 55D27
 %endif ; C
 ; ChkShotStat: If the shot flag (gmode2 bit 4) was set: clear it, crowdlevel +100,
 ; shot counts for the shooter and the goalie.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (ChkShotStat)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.ChkShotStat.inc"
+%else
 ChkShotStat:
 push dword 18h	; 55D28
 call __CHK	; 55D2D
@@ -3706,8 +3720,13 @@ sub eax, edx	; 55E60
 mov edx, dword [dword ebx+0EAh]	; 55E62
 inc word [byte edx+eax*2+02h]	; 55E68
 jmp near checkob_ret5	; 55E6D
+%endif ; C
 ; setInjuryType: Player unavailable (pflags2 bit 2), crowd up, sfx A1h, camera locked
 ; on him (xc1/yc1, sfslock).
+; C: src/c/040_53294_engine_physics_ai/checkob.c (setInjuryType)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.setInjuryType.inc"
+%else
 setInjuryType:
 push dword 24h	; 55E72
 call __CHK	; 55E77
@@ -3833,6 +3852,7 @@ xor ah, ah	; 56010
 cwde	; 56012
 call RemoveFromLines	; 56013
 jmp near checkob_ret5	; 56018
+%endif ; C
 NetCollide:
 push dword 2Ch	; 5601D
 call __CHK	; 56022
@@ -4060,6 +4080,10 @@ add esp, byte 0Ch	; 562D3
 jmp near PassLaneChk_ret5	; 562D6
 ; FallDown: A player falls after a hit: fall animation, newcheck, injury (setInjuryType),
 ; penalty roll (checkagr AddPenalty2).
+; C: src/c/040_53294_engine_physics_ai/FallDown.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/FallDown.inc"
+%else
 FallDown:
 push dword 14h	; 562DB
 call __CHK	; 562E0
@@ -4612,6 +4636,7 @@ pop esi	; 56A50
 pop ecx	; 56A51
 pop ebx	; 56A52
 ret	; 56A53
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/Bcheck.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/Bcheck.inc"
@@ -5130,6 +5155,10 @@ pop edx	; 57092
 pop ecx	; 57093
 pop ebx	; 57094
 ret	; 57095
+; C: src/c/040_53294_engine_physics_ai/puckgoalie.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/puckgoalie.inc"
+%else
 puckgoalie:
 push dword 18h	; 57096
 call __CHK	; 5709B
@@ -5438,6 +5467,11 @@ pop esi	; 5747F
 pop ecx	; 57480
 pop ebx	; 57481
 ret	; 57482
+%endif ; C
+; C: src/c/040_53294_engine_physics_ai/PassLaneChk.c (puckstick)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/PassLaneChk.puckstick.inc"
+%else
 puckstick:
 push dword 24h	; 57483
 call __CHK	; 57488
@@ -5724,6 +5758,7 @@ call a2touchpuck	; 5785D
 mov eax, ebp	; 57862
 call deflect	; 57864
 jmp near PassLaneChk_ret5a	; 57869
+%endif ; C
 SetShotMode:
 push dword 10h	; 5786E
 call __CHK	; 57873

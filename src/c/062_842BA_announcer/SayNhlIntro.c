@@ -80,3 +80,65 @@ int SayElseNhl(void)
 {
     return SayClip((char *)str_ElsenhlInt);
 }
+
+/* SayTheGame (84A6C, PC only): say "the game" (thegame.bar). Result: as SayClip.
+   DRAFT (kept for the layout: it sits between FreeClip and CompactSpeechMem's near jump to FreeClip_ret). */
+int SayTheGame(void)
+{
+    return SayClip((char *)str_ThegameBar);
+}
+
+/* SayScoringPeriod (84A7D, PC only): say the scoring summary clip for a period: "the game" when over is set; in
+   overtime (ot) the 1st, 2nd, 3rd or later overtime clip; else the 1st-3rd period clip (other periods: nothing).
+   period: 1-based; ot, over: flags. Result: as SayClip, 0 when nothing is said.
+   DRAFT: the original's pieces are interleaved with SayClip (SayScoringPeriod_ot2 .. _reg after SayClip's ret),
+   which a C file cannot reproduce yet; kept for the layout. */
+int SayScoringPeriod(int period, int ot, int over)
+{
+    if (over) return SayClip((char *)str_ThegameBar);
+    if (ot) {
+        switch (period) {
+        case 1: return SayClip((char *)str_Scor1otpBar);
+        case 2: return SayClip((char *)str_Scor2otpBar);
+        case 3: return SayClip((char *)str_Scor3otpBar);
+        default: return SayClip((char *)str_ScortotpBar);
+        }
+    }
+    switch (period) {
+    case 1: return SayClip((char *)str_Scor1perBar);
+    case 2: return SayClip((char *)str_Scor2perBar);
+    case 3: return SayClip((char *)str_Scor3perBar);
+    }
+    return 0;
+}
+
+/* EnsureSampleRoom (8426F, PC only; speech segment 061, the same source file): make room in the sample memory
+   (MakeSampleRoom) and pack it (CompactSpeechMem, which follows: the tail call falls through). No arguments,
+   no result. */
+void EnsureSampleRoom(void)
+{
+    MakeSampleRoom();
+    CompactSpeechMem();
+}
+
+/* CompactSpeechMem (8427E, PC only; segment 061, ends in FreeClip_ret): pack the loaded samples down: while a free
+   slot (FindFreeSpeechSlot, from slot 0) has a loaded slot after it (FindLoadedSpeechSlot), move that one into it
+   (CompactSpeechSlot) and continue from the next free slot. When no slot is free at all, the loaded-slot test uses
+   whatever free was left in edx (as in the original). FindLoadedSpeechSlot is called without an argument: the
+   original loads no eax there and relies on f still being in eax from the FindFreeSpeechSlot call. No arguments,
+   no result. */
+void CompactSpeechMem(void)
+{
+    int f;
+    int l;
+
+    f = FindFreeSpeechSlot(0);
+    if (f == -1) goto test;
+again:
+    l = ((int (*)(void))FindLoadedSpeechSlot)();
+test:
+    if (l == -1) return;
+    CompactSpeechSlot(f, l);
+    f = FindFreeSpeechSlot(f);
+    goto again;
+}

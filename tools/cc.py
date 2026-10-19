@@ -338,9 +338,14 @@ def label_addr(asm, name):
     L = open(asm).read().split('\n')
     for k, l in enumerate(L):
         if l.startswith(name + ':'):
+            # db / dd lines carry no address comment (MenuSaveDefaultLines starts with a db push): count their bytes
+            skip = 0
             for l2 in L[k + 1:]:
                 a = ADDR.search(l2)
-                if a: return int(a.group(1), 16)
+                if a: return int(a.group(1), 16) - skip
+                w = l2.split(';')[0].split()
+                if w[:1] == ['db']: skip += len(' '.join(w[1:]).split(','))
+                elif w[:1] == ['dd']: skip += 4 * len(' '.join(w[1:]).split(','))
     return None
 
 def original_bytes(addr, n):
@@ -365,26 +370,79 @@ class TextTargets:
         for g in file_blocks(src):
             gs, ge, gl, _ = block(src, g)
             if g not in r['pubs']: raise SystemExit('%s: no public %s in the object' % (src, g))
-            self.where.append((r['pubs'][g], r['pubs'][g] + ge - gs, gl[0][0], gs))
+            self.where.append((r['pubs'][g], r['pubs'][g] + ge - gs, gl[0][0], gs, gl, c_paths(src, g)[2]))
     def resolve(self, t, func='?'):
-        for a, e, lab, gs in self.where:
-            if a <= t < e or (t == e and a < e): return '%s+0%Xh' % (lab, t - a), gs + t - a
+        for a, e, lab, gs, gl, gasm in self.where:
+            if a <= t < e or (t == e and a < e):
+                ta = gs + t - a
+                if func != '?' and gasm != c_paths(self.src, func)[2]:
+                    # a block in another asm file (one source file across a segment split, e.g. TickPanelPenalties
+                    # in 006 ending in DrawPanelLine_x of 005): only that segment's global labels are visible
+                    # there, so name the target by the nearest global label at or before it
+                    g = [(n, x) for n, x in gl if '.' not in n and x <= ta]
+                    if g:
+                        n, x = max(g, key=lambda v: v[1])
+                        return ('%s+0%Xh' % (n, ta - x) if ta != x else n), ta
+                return '%s+0%Xh' % (lab, t - a), ta
         pubs = sorted(self.r['pubs'].items(), key=lambda x: x[1])
         own = [(n, o) for n, o in pubs if o <= t]
         if not own: raise SystemExit('%s: %s refers to _TEXT+%X before any function' % (self.src, func, t))
         g, go = own[-1]
-        text = self.r['text']; k = text.find(b'\xc3', t)
-        tail = text[t:k + 1] if 0 <= k - t < 16 else b''
+        # the tail: up to the next ret; with no ret close by, up to its first call / jmp out of the module (a rel32
+        # fixup: assrefdrop's jumps into the draft assrefwhistle's SkateToSpot tail, which goes on with `jmp ass_popx`
+        # in the original and with the pops in the draft) or to a jmp rel32 inside the module right after a relocated
+        # field (asscentero into the draft asswingo's `mov edx, EvadePC; jmp asswingd_skateto`). Relocated fields and
+        # that jmp's displacement are wildcards.
+        text = self.r['text']; k = text.find(b'\xc3', t); tail = b''
+        # a `ret n` (C2 n16) ends the tail too (MessageBox into the draft TextInputDialog's `ret 14h`): decode for it
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+        for i in Cs(CS_ARCH_X86, CS_MODE_32).disasm(text[t:t + 19], t):
+            if i.mnemonic == 'ret':
+                if i.size == 3 and (k < 0 or i.address < k): k = i.address + 2
+                break
+        fx = [f for f in self.r['fixups'] if t <= f['off'] < t + 48]
+        ends = [f['off'] + 4 for f in fx if f['kind'] == 'rel32']
+        jmps = [f['off'] + 4 for f in fx if text[f['off'] + 4:f['off'] + 5] == b'\xe9']
+        jmps = [j for j in jmps if not any(x['off'] == j + 1 for x in self.r['fixups'])]
+        e = min(ends[:1] + [j + 5 for j in jmps[:1]]) if ends or jmps else None
+        e = k + 1 if 0 <= k - t < 16 else e if e is not None and e - t >= 8 else None
+        if e:
+            masked = set(range(jmps[0] + 1, jmps[0] + 5)) if jmps and e == jmps[0] + 5 else set()
+            for f in fx: masked.update(range(f['off'], f['off'] + 4))
+            tail = b''.join(b'.' if i in masked else re.escape(text[i:i + 1]) for i in range(t, e))
         ga = label_addr(self.asm, g)
         if not tail or ga is None:
             raise SystemExit('%s: %s branches to %s+%X (_TEXT+%X), not a marked block nor a shared ret tail' % (self.src, func, g, t - go, t))
         later = [o for n, o in pubs if o > go]
         span = (later[0] - go if later else len(text) - go) + 0x100
         orig = original_bytes(ga, span)
-        hits = [m.start() for m in re.finditer(re.escape(tail), orig)]
+        hits = [m.start() for m in re.finditer(tail, orig, re.S)]
         if len(hits) != 1:
-            raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, tail.hex(), g, len(hits), g))
-        return '%s+0%Xh' % (g, hits[0]), ga + hits[0]
+            raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, text[t:t + 16].hex(), g, len(hits), g))
+        ta = ga + hits[0]
+        if func != '?' and c_paths(self.src, func)[2] != self.asm:
+            # the branch is in a block marked in another asm file (FreeLeagueDbsMem in 051 ending in the draft
+            # BuildFreeAgentList's tail in 050): name the tail by the nearest global label of the draft's segment
+            gl = [(n, x) for n, x in global_labels(self.asm).items() if x <= ta]
+            if gl:
+                n, x = max(gl, key=lambda v: v[1])
+                return ('%s+0%Xh' % (n, ta - x) if ta != x else n), ta
+        return '%s+0%Xh' % (g, hits[0]), ta
+
+def global_labels(asm):
+    """{label: address} of the labels an asm segment exports (its `global` lines)"""
+    L = open(asm).read().split('\n')
+    names = set()
+    for l in L:
+        if l.startswith('global '): names.update(x.strip() for x in l[7:].split(','))
+    out = {}
+    for k, l in enumerate(L):
+        m = LABEL.match(l)
+        if m and m.group(1) in names and m.group(1) not in out:
+            for l2 in L[k + 1:]:
+                a = ADDR.search(l2)
+                if a: out[m.group(1)] = int(a.group(1), 16); break
+    return out
 
 _syms = None
 def symbols():

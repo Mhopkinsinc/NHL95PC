@@ -31,6 +31,7 @@ extern short *pucky;          /* C9084: points at the puck's y word (puckstruct+
 extern short *puckvx;         /* C9080: points at the puck's x velocity word (puckstruct+0Ch) */
 extern short *puckvy;         /* C9088: points at the puck's y velocity word (puckstruct+0Eh) */
 extern signed char Setplass_alist[]; /* CCCA1: alist, initial assignment per position 0-6 (signed: loaded as dword [x-3] sar 18h) */
+extern short sublist[];     /* CCCBA: 93G sublist, word offsets into unk_CCCC8 of the substitute list per position 0-6 */
 extern signed char *puckc;   /* C9094: points at the puck's controller byte (SortCords number of the carrier) */
 /* regd0-regd4: the 68k data registers of the Genesis code, kept as 4-byte statics. The PC code reads and writes
  them as words (.w, the 68k.w ops) and as whole longs (.l /.ul, the.l ops and unsigned compares). */
@@ -52,9 +53,13 @@ extern unsigned char *teamsdb;      /* D07CB: team database buffer (2E8h bytes p
 extern unsigned char *attdb;        /* D07CF: attribute database buffer */
 /* speech bank slots, 26h bytes each (SpeechSlotLoaded SpeechSlotSize) */
 typedef struct SpeechSlot {
-    unsigned char pad0[0x16];
+    unsigned char pad0[0xD];
+    unsigned char kind;         /* 0Dh: 'G' plays through sub_8FBE5, else sub_8FC37 (SpeechTimerTick) */
+    int data;                   /* 0Eh: sample data in speech memory */
+    unsigned char pad12[4];
     int size;                   /* 16h: sample size */
-    unsigned char pad1[8];
+    unsigned char pad1A[4];
+    int delay;                  /* 1Eh: ticks to wait after the sample starts (SpeechTimerTick) */
     int loaded;                 /* 22h: 1 = sample in memory */
 } SpeechSlot;
 extern SpeechSlot *speechbank;  /* ED7B0: the speech bank slot array */
@@ -71,7 +76,10 @@ typedef struct Rect4 {
 extern unsigned char *samplereq;  /* ED7B4: sample request block (20 names of 13 bytes, counters at +104h..+10Ch) */
 extern unsigned char *statsskaterbuf;  /* DD110: skater stats records, 2Fh bytes each (season, playoffs at +12h) */
 extern unsigned char *statsgoaliebuf;  /* DD114: goalie stats records, 36h bytes each (season, playoffs at +16h) */
+extern unsigned char *statsplayerbuf;  /* DD11C: copies of the shown players' key records, 34h bytes each */
 extern unsigned char *rostergstat;  /* EBC6C: roster goalie stats records, 2Ch bytes each (season, playoffs at +16h) */
+extern unsigned char *rosterpstat;  /* EBC70: roster skater stats records, 28h bytes each (season, playoffs at +12h) */
+extern char *editbuf;  /* DD698: the text being edited by EditTextField */
 extern unsigned char *falist;  /* D07AA: free-agent list, 1Bh bytes per player (name at +8) */
 extern unsigned char *statsteamrecs;  /* DD108: team stats records, 4Ch bytes each (season standings at +28h, playoffs at +3Ah) */
 extern int *statssortkeys;  /* DD118: per-player sort keys for the stats leaders (CmpShootPct compares them first) */

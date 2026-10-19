@@ -31,7 +31,7 @@ global str_DoYouWishToExit, str_9394Season, str_9394PlayOffs, str_LgSeasonTitle,
 global str_SeasonSfx, str_SeasonPlayOffsSfx, str_PlayOffsSfx, str_AttDb, str_fmt2d, str_fmt3d, str_fmt4d
 global str_fmt5d, str_fmtTenths, str_fmtPct, str_fmtPct0, str_fmtMinSec, str_fmtEmb, str_Bkgd2, str_EASNvfn
 global str_ExhibitionGameCalled, str_LeagueCalled, str_PlayOffSeriesCalled, str_NoScoring, str_NoPenalties, rinkarenas, byte_C66B4, mi_9394Season
-global mi_9394Playoffs, mi_LeagueSeason, mi_LeaguePlayoffs, mi_PlayoffMode, byte_C67A9, treecolslots, treecol_Wr2
+global mi_9394Playoffs, mi_LeagueSeason, mi_LeaguePlayoffs, mi_PlayoffMode, byte_C67A9, treecolslots, treecol_Wr2, treecol_Wr3, treecol_Er3
 global treecol_Er2, treecol_Er1
 global scoutcatidx, desksongalt, dword_C56C4, dword_C56E4, hudclockmin, hudclocksec, hudclockhund, dword_C5710
 global dword_C5714, dword_C5718, dword_C583C, deferpending, dword_C5844, dword_C5848, hudhomeline, hudawayline
@@ -1213,11 +1213,13 @@ db 010h
 db 011h
 db 012h
 db 013h,0FFh,0FFh,0FFh,0FFh
+treecol_Wr3:
 db 018h
 db 019h,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
 db 01Ch,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
 db 01Eh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
 db 01Dh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
+treecol_Er3:
 db 01Ah
 db 01Bh,0FFh,0FFh,0FFh,0FFh,0FFh,0FFh
 treecol_Er2:

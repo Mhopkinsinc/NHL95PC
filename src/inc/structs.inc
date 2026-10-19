@@ -10,6 +10,8 @@
 Xpos       equ 00h   ; size d
 Ypos       equ 04h   ; size d
 OldXpos    equ 74h   ; size d
+OldYpos    equ 78h   ; size d; 93G OldYpos: updateplayers saves Ypos here
+OldZpos    equ 7Ch   ; size d; 93G OldZpos: updateplayers saves Zpos here
 Zpos       equ 08h   ; size d; defaultsprites2 writes the integer word at +0Ah from the zcord column, as it writes Xpos+2 Ypos+2 from xcord ycord
 Xvel       equ 0Ch   ; size w
 Yvel       equ 0Eh   ; size w
@@ -47,6 +49,7 @@ endurance  equ 61h   ; size b; playeracc.sube: added to the energy level.b endur
 frame      equ 12h   ; size w; (alice frame number); GetHot reads word [x+12h] as the hot spot frame; assdopen sets it to -1
 impactp    equ 14h   ; size w; holdplayer: Acheck target SortCords[impactp] when impact != 0 (dword [x+12h] sar 10h).w impactp(a3),d0 asl #7
 impact     equ 18h   ; size w; holdplayer and Acheck: cmp word [x+18h],0
+limpact    equ 16h   ; size w; 93G limpact (last impact value): updateplayers copies impact here
 tmptr      equ 6Ch   ; size d; none (loadTeamStruct by pfteam); pointer to the player's own team structure: lineinput, lcselect, getlchoice read tmflags/tmline/tmap through it
 optmptr    equ 70h   ; size d; none; pointer to the other team's structure: lcselect and getlchoice compare its tmap with tmptr's
 nopuck     equ 3Eh   ; size w; after SPA/SPAnum/SPAcnt; ScatterPass dopass set it (28h 10h) after a pass.b #$14,nopuck(a3) ('no puck coll until zero')
@@ -69,6 +72,7 @@ handed     equ 65h   ; size b; inc offset - 11h, the shift of the whole weight..
 ; (mov REG, hmtmstruct awtmstruct, or mov REG, [x+tmptr] [x+optmptr]) in straight-line code.
 tmline     equ 2Ah   ; tsize w; getlchoice adds tmline*4 to the choice index; lcfound/lcselect store the new line, then setpersonel
 tmlcnt     equ 2Ch   ; tsize w; none; lcfound/lcselect: when the new line is < 4 it is incremented and wrapped at 3 (even-strength line rotation count)
+tmextra    equ 2Eh   ; tsize w; none; SetPlList: pnum of the extra attacker (position 6) it lists, -1 with the goalie in
 tmap       equ 36h   ; tsize w; getlchoice/lcselect: other tmap - own tmap selects the even short-handed power-play choices
 tmscore    equ 10h   ; tsize w; Goal adds 1 (inc word [esi+10h]); PeriodOver/clockcont_0 compare hmscore with awscore
 tmpde      equ 46h   ; tsize w array; (energy word per roster player, 1000h = full); burst subtracts 0CCh from [tmptr+pnum*2+46h]; reenergizeteam refills 1000h

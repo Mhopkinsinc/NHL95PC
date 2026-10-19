@@ -12,7 +12,7 @@ extern byte_E0074, PlList, byte_E038A, PenBuf, byte_E9AD3, OOlist, byte_E9DB4, b
 extern checkcoll, checkwindow, collflag, doinput, joysampling, gameopts, rinkscrollx, rinkscrolly
 extern yleader, sflags3, cont2team, shownumbers, bannertimer, dword_CC0B4, lastsfx, onetimerflag
 extern shotongoal, penshotplayer, penshotteam, penshotfox, penshotfoy, penshotmode, penshotstart, penshottimer
-extern Setplass_alist, shotontarget, penshotlive, dword_CCC9C, dword_CCC9E, dword_CCCB8, dword_CCCC5, dword_CCD4F, mousex
+extern Setplass_alist, shotontarget, penshotlive, dword_CCC9C, dword_CCC9E, dword_CCCB8, dword_CCCC5, dword_CCD4F, mousex, sublist, priolist
 extern mousey, cliprect_y0, cliprect_y1, dword_D30BC, dword_D30C0, curperiod, dword_DB088, hmtmstruct
 extern dword_DF642, dword_DF652, dword_DF6EA, dword_DF6F2, dword_DF6F6, hmtmplstats
 extern hmtmglstats, hmtmroster, hmtmlines, hmtmptrF2, hmtmsort, awtmstruct, dword_DF752, dword_DF7EA
@@ -2547,6 +2547,10 @@ mov word [RefStep], bx	; 5BB8D
 call SprSort	; 5BB94
 jmp near calcpuckcross_ret5	; 5BB99
 %endif ; C
+; C: src/c/042_59D9A_engine_core/TryAddPlayerToList.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/TryAddPlayerToList.inc"
+%else
 TryAddPlayerToList:
 push dword 8	; 5BB9E
 call __CHK	; 5BBA3
@@ -2585,6 +2589,11 @@ mov byte [dword edx+PlList], cl	; 5BBED
 mov eax, 1	; 5BBF3
 pop ecx	; 5BBF8
 ret	; 5BBF9
+%endif ; C
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (SetPlList)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.SetPlList.inc"
+%else
 SetPlList:
 push dword 30h	; 5BBFA
 call __CHK	; 5BBFF
@@ -2837,6 +2846,7 @@ test di, di	; 5BEE3
 jge near SetPlList.14	; 5BEE6
 add esp, byte 14h	; 5BEEC
 jmp near calcpuckcross_ret6	; 5BEEF
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/calcpuckcross.c (setpersonel)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/calcpuckcross.setpersonel.inc"
@@ -3227,6 +3237,10 @@ jl short periodicevents.3	; 5C40A
 pop edx	; 5C40C
 pop ebx	; 5C40D
 ret	; 5C40E
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateplayers)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.updateplayers.inc"
+%else
 updateplayers:
 push dword 30h	; 5C40F
 call __CHK	; 5C414
@@ -3745,6 +3759,11 @@ mov word [puckstruct+12h], 18Ah	; 5CADE
 .58:
 add esp, byte 0Ch	; 5CAE7
 jmp near calcpuckcross_ret6	; 5CAEA
+%endif ; C
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateanim)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.updateanim.inc"
+%else
 updateanim:
 push dword 18h	; 5CAEF
 call __CHK	; 5CAF4
@@ -3925,6 +3944,7 @@ call sfx	; 5CD17
 .17:
 mov byte [byte ebx+046h], 4	; 5CD1C
 jmp near calcpuckcross_ret5	; 5CD20
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/LockScroll.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/LockScroll.inc"
@@ -4848,6 +4868,10 @@ ret	; 5D851
 %endif ; C
 ; clockcont_0: (end of period). Puck assinsert 18h; periods 1-2 -> PeriodOver path
 ; later periods compare hmscore/awscore for overtime shootout game over. Also called from puckfaceoff.
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (clockcont_0)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.clockcont_0.inc"
+%else
 clockcont_0:
 push dword 18h	; 5D852
 call __CHK	; 5D857
@@ -5095,6 +5119,7 @@ mov eax, ecx	; 5DC04
 .31:
 call AddPenalty2	; 5DC06
 jmp near calcpuckcross_ret5	; 5DC0B
+%endif ; C
 ; ClockTick: run from the main loop. Counts clockticks (18h per second) and gameclock down; horn sfx 97h at
 ; 60 s (unless music plays), UpdateCoachModes each second. Debug playback (penshotlive) ends via EndPenaltyShot.
 ClockTick:

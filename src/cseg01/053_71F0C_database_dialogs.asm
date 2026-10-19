@@ -28,6 +28,10 @@ global DrawDbList_n6, DrawDbList_n5, DrawDbList_n4, DrawDbList_n3, DrawDbList_n2
 global DrawDbList_n1
 global InputDialog, LoadDbDialogShapes, DbDialog_epilogue, ScanDbFiles, DrawDbDialogButtons, DrawDbDialog
 global DbDialogHitTest, DrawDbList, DbDialogLoop, OpenSelectedDb, LoadDbsFromDir, DeleteSelectedDb, MenuOpenDatabase, unk13_722FE
+; C: src/c/053_71F0C_database_dialogs/InputDialog.c
+%ifdef CBUILD
+%include "c/053_71F0C_database_dialogs/InputDialog.inc"
+%else
 InputDialog:
 push dword 90h	; 71F0C
 call __CHK	; 71F11
@@ -365,6 +369,7 @@ pop ebp	; 722F8
 pop edi	; 722F9
 pop esi	; 722FA
 ret 14h	; 722FB
+%endif ; C
 unk13_722FE:
 db 00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h,00h
 ; C: src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c

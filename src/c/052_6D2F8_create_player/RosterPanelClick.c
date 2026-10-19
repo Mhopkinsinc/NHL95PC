@@ -66,3 +66,43 @@ void RosterPanelClick(int x, int y)
         menu_r2_toroster1 = 0;
     }
 }
+
+/* FixJerseyNumber (6DCBE, PC only; ends in RosterPanelClick_ret): a player moved onto a team (roster side, entry
+   slot; roster entries are 1Bh bytes, 2F4h per side: jersey byte, then the KEY slot byte) whose jersey number is
+   already used by another of the 28 entries is asked for a new one ("The jersey number %2d is already used!" /
+   "Please enter a new jersey number for" / his name, InputDialog), until it is free; the number goes into his KEY
+   record (+1) and the roster entry. side: the roster side; slot: the entry. No result.
+   DRAFT: 399 vs 398. In the duplicate loop side * 2F4h is in ecx and the slot entry in esi (original esi, ecx),
+   and the compare loads through al (original bl). See docs/UNSURE.md. */
+void FixJerseyNumber(int side, int slot)
+{
+    int k;
+    int *tr;
+    char msg[0x54];
+    char name[0x20];
+    char answer[4];
+    unsigned char *rec;
+    int dup;
+    int i;
+
+    k = rosterslot[side * 0x2F4 + slot * 0x1B];
+    tr = (int *)rosterteamrec[side];
+    rec = KeyDbPtr(tr[k + 0x13]);
+    do {
+        dup = 0;
+        for (i = 0; i < 0x1C && !dup; i++)
+            if (i != slot && rosterjersey[side * 0x2F4 + slot * 0x1B] == rosterjersey[side * 0x2F4 + i * 0x1B]) dup = -1;
+        if (dup) {
+            strcpy(name, (char *)rec + 3);
+            strcat(name, (char *)&str_space);
+            strcat(name, (char *)rec + 0x13);
+            sprintf(msg, (char *)str_TheJerseyNumber2d, rec[1]);
+            msglines[0] = (int)msg;
+            msglines[1] = (int)str_PleaseEnterANew;
+            msglines[2] = (int)name;
+            answer[0] = 0;
+            rec[1] = InputDialog(msglines, 3, answer, 2, 0x16, -1, 0, 0x63, -1);
+            rosterjersey[side * 0x2F4 + slot * 0x1B] = rec[1];
+        }
+    } while (dup);
+}

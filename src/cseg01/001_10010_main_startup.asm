@@ -1582,6 +1582,10 @@ pop ecx	; 1118C
 pop ebx	; 1118D
 ret	; 1118E
 %endif ; C
+; C: src/c/001_10010_main_startup/HandleHotKey.c
+%ifdef CBUILD
+%include "c/001_10010_main_startup/HandleHotKey.inc"
+%else
 HandleHotKey:
 push dword 2Ch	; 1118F
 call __CHK	; 11194
@@ -1783,6 +1787,7 @@ mov esi, 1	; 11450
 mov dword [escrequest], esi	; 11455
 mov eax, esi	; 1145B
 jmp short HandleHotKey_ret	; 1145D
+%endif ; C
 ; C: src/c/001_10010_main_startup/ResetInputSampling.c
 %ifdef CBUILD
 %include "c/001_10010_main_startup/ResetInputSampling.inc"
@@ -1861,6 +1866,10 @@ jl near RunGameFrames.1	; 11547
 pop edx	; 1154D
 pop ebx	; 1154E
 ret	; 1154F
+; C: src/c/001_10010_main_startup/HandleHotKey.c (SetFullPalette)
+%ifdef CBUILD
+%include "c/001_10010_main_startup/HandleHotKey.SetFullPalette.inc"
+%else
 SetFullPalette:
 push dword 28h	; 11550
 call __CHK	; 11555
@@ -1888,6 +1897,7 @@ add edi, 180h	; 11585
 cmp esi, 100h	; 1158B
 jl short SetFullPalette.1	; 11591
 jmp near HandleHotKey_ret	; 11593
+%endif ; C
 FadePalette:
 push dword 18h	; 11598
 call __CHK	; 1159D

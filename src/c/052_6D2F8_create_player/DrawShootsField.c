@@ -58,3 +58,80 @@ void DrawGloveField(void)
         i++;
     } while (i < 11);
 }
+
+typedef struct { char c[16]; } Hdr16;
+typedef struct { char c[20]; } Hdr20;
+
+/* CreatePlayerLoop (704A6, PC only; ends in DrawShootsField_pop): the create-player screen. Fades in through a
+   black "Temp" palette, copies the default ratings into the player being created (goalie: unk_D0FD0 to
+   byte_D0FE0, field 104h; skater: unk_D0F80 to byte_D0F94, field 118h), draws it (DrawCreatePlayer) and puts the
+   pointer at 140h, F0h. Then the mouse loop: moves redraw the pointer; a click (bits & 2) goes to the rating
+   editor (EditGoalieRating / EditSkaterRating with the pointer and the field), redraws the screen when a rating
+   changed, else tests the two buttons (TrackButtons, str_Two) and ends on a hit. p: the new player's record (byte
+   +2 is the position, 'G' for a goalie). Result: the button hit.
+   DRAFT: 590 vs 572. The original keeps p in ebp, the old pointer x / y in edi / esi and the event in ecx across
+   ptrupdatefn; here oy takes ebp, the event is copied to ecx and esi and p is spilled (one more stack slot). The
+   original also tests the move path first (`if (!(bits & 2))`). See docs/UNSURE.md. */
+int CreatePlayerLoop(unsigned char *p)
+{
+    int r;
+    int y;
+    int x;
+    int field;
+    int pal;
+    int result;
+    int done;
+    int bits;
+    int ox;
+    int oy;
+    unsigned char *ev;
+
+    field = 0x118;
+    done = 0;
+    pal = sub_8CCA8((char *)str_Temp, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)pal);
+    FadePalStep(1, (unsigned char *)pal, 0x10);
+    if (p[2] == 'G') {
+        field = 0x104;
+        *(Hdr16 *)&byte_D0FE0 = *(Hdr16 *)unk_D0FD0;
+    } else {
+        *(Hdr20 *)&byte_D0F94 = *(Hdr20 *)unk_D0F80;
+    }
+    DrawCreatePlayer(p, field);
+    oy = 0xF0;
+    ox = 0x140;
+    sub_91400(editptrspr, ox, oy);
+    sub_91370(pointerspr, ox, oy);
+    FadePalStep(0, (unsigned char *)pal, 0x10);
+    FreeMemBlock(pal);
+    MouseSetPos(x = ox, y = oy);
+    ((void (*)(void))mousepollfn)();
+    ClearInputQueue();
+    do {
+        bits = 0;
+        do {
+            ev = GetInputEvent();
+            if (ev) bits = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &x, &y);
+        } while (ev && !(bits & 2));
+        if (bits & 2) {
+            sub_903F0(editptrspr, ox, oy);
+            if (p[2] == 'G') r = EditGoalieRating(&x, &y, &field);
+            else r = EditSkaterRating(&x, &y, &field);
+            if (r)
+                DrawCreatePlayer(p, field);
+            else if ((result = TrackButtons((int *)str_Two, 2, x, y, bits)) >= 0)
+                done = 1;
+            sub_91400(editptrspr, x, y);
+            sub_91370(pointerspr, x, y);
+            ox = x;
+            oy = y;
+        } else if (ox != x || oy != y) {
+            sub_903F0(editptrspr, ox, oy);
+            sub_91400(editptrspr, x, y);
+            sub_91370(pointerspr, x, y);
+            ox = x;
+            oy = y;
+        }
+    } while (!done);
+    return result;
+}

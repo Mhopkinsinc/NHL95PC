@@ -22,6 +22,10 @@ extern hmtmap, hmtmgoalie, awtmap, awtmgoalie
 global OpenPlayerDBs_x
 global LoadGameTeams, InitGameSummary, ReadPlayerRecs, OpenPlayerDBs, LoadTeamRoster
 global MakeGSummaryPath, SetupGoalieMenu, ResetGoalieMenu, ClearPanelPenalties
+; C: src/c/013_1BBCC_key_team_db/LoadGameTeams.c
+%ifdef CBUILD
+%include "c/013_1BBCC_key_team_db/LoadGameTeams.inc"
+%else
 LoadGameTeams:
 push dword 88h	; 1BBCC
 call __CHK	; 1BBD1
@@ -279,6 +283,7 @@ pop edx	; 1BEF9
 pop ecx	; 1BEFA
 pop ebx	; 1BEFB
 ret	; 1BEFC
+%endif ; C
 ; C: src/c/013_1BBCC_key_team_db/InitGameSummary.c
 %ifdef CBUILD
 %include "c/013_1BBCC_key_team_db/InitGameSummary.inc"

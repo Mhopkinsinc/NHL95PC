@@ -396,6 +396,10 @@ dd GameStandingsMenu_standings
 dd GameStandingsMenu_roster
 dd GameStandingsMenu_player
 dd GameStandingsMenu_player2
+; C: src/c/016_20016_easn_stats/GameSkaterStatsScreen.c (GameStandingsMenu)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameSkaterStatsScreen.GameStandingsMenu.inc"
+%else
 GameStandingsMenu:
 push dword 338h	; 2051A
 call __CHK	; 2051F
@@ -637,6 +641,7 @@ mov eax, 2	; 208DE
 add esp, 310h	; 208E3
 pop ebp	; 208E9
 jmp near GameSkaterStatsScreen_x	; 208EA
+%endif ; C
 ; C: src/c/016_20016_easn_stats/EasnTeamStatsScreen.c
 %ifdef CBUILD
 %include "c/016_20016_easn_stats/EasnTeamStatsScreen.inc"
@@ -1711,6 +1716,10 @@ dd CalStandingsMenu_standings
 dd CalStandingsMenu_roster
 dd CalStandingsMenu_player
 dd CalStandingsMenu_player2
+; C: src/c/016_20016_easn_stats/CalTeamStatsScreen.c (CalStandingsMenu)
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/CalTeamStatsScreen.CalStandingsMenu.inc"
+%else
 CalStandingsMenu:
 push dword 3B4h	; 217FE
 call __CHK	; 21803
@@ -1964,6 +1973,7 @@ xor eax, eax	; 21BF6
 add esp, 38Ch	; 21BF8
 pop ebp	; 21BFE
 jmp near CalTeamStatsScreen_x	; 21BFF
+%endif ; C
 DrawPhotoWithPal:
 push dword 320h	; 21C04
 call __CHK	; 21C09

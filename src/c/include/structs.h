@@ -14,7 +14,7 @@ typedef struct Player {
     short Zvel;                  /* 010h; puckbody clears the puck's word at +10h */
     short frame;                 /* 012h (alice frame number); GetHot reads word [x+12h] as the hot spot frame; assdopen sets it to -1 */
     short impactp;               /* 014h; holdplayer: Acheck target SortCords[impactp] when impact != 0 (dword [x+12h] sar 10h).w impactp(a3),d0 asl #7 */
-    unsigned char pad_16[0x2];
+    short limpact;               /* 016h 93G limpact (last impact value): updateplayers copies impact here each frame */
     short impact;                /* 018h; holdplayer and Acheck: cmp word [x+18h],0 */
     short position;              /* 01Ah */
     short assnum;                /* 01Ch */
@@ -68,7 +68,8 @@ typedef struct Player {
     struct Team * tmptr;         /* 06Ch none (loadTeamStruct by pfteam); pointer to the player's own team structure: lineinput, lcselect, getlchoice read tmflags/tmline/tmap through it */
     struct Team * optmptr;       /* 070h none; pointer to the other team's structure: lcselect and getlchoice compare its tmap with tmptr's */
     int OldXpos;                 /* 074h */
-    unsigned char pad_78[0x8];
+    int OldYpos;                 /* 078h 93G OldYpos: updateplayers saves Ypos here before moving the object */
+    int OldZpos;                 /* 07Ch 93G OldZpos: updateplayers saves Zpos here */
 } Player;
 
 #define OFS_Player_Xpos 0x00
@@ -79,6 +80,7 @@ typedef struct Player {
 #define OFS_Player_Zvel 0x10
 #define OFS_Player_frame 0x12
 #define OFS_Player_impactp 0x14
+#define OFS_Player_limpact 0x16
 #define OFS_Player_impact 0x18
 #define OFS_Player_position 0x1A
 #define OFS_Player_assnum 0x1C
@@ -126,6 +128,8 @@ typedef struct Player {
 #define OFS_Player_tmptr 0x6C
 #define OFS_Player_optmptr 0x70
 #define OFS_Player_OldXpos 0x74
+#define OFS_Player_OldYpos 0x78
+#define OFS_Player_OldZpos 0x7C
 
 /* team structure (away DF714), 100h bytes */
 typedef struct Team {
@@ -145,7 +149,7 @@ typedef struct Team {
     short tmpasscomp;            /* 028h completed passes: DumpStatsLog 'passcomp' column */
     short tmline;                /* 02Ah; getlchoice adds tmline*4 to the choice index; lcfound/lcselect store the new line, then setpersonel */
     short tmlcnt;                /* 02Ch none; lcfound/lcselect: when the new line is < 4 it is incremented and wrapped at 3 (even-strength line rotation count) */
-    unsigned char pad_2E[0x2];
+    short tmextra;               /* 02Eh none; SetPlList: pnum of the extra attacker (position 6) it lists, -1 with the goalie in */
     short tmpsplayer;            /* 030h puckglue ends a live penalty shot when the player with this roster index (pnum) takes the puck */
     unsigned char pad_32[0x1];
     signed char tmast1;          /* 033h (assist 1, st): puckglue sets it to -1 in the other team's structure */
@@ -183,6 +187,7 @@ typedef struct Team {
 #define OFS_Team_tmpasscomp 0x28
 #define OFS_Team_tmline 0x2A
 #define OFS_Team_tmlcnt 0x2C
+#define OFS_Team_tmextra 0x2E
 #define OFS_Team_tmpsplayer 0x30
 #define OFS_Team_tmast1 0x33
 #define OFS_Team_tmast2 0x35
