@@ -5,6 +5,7 @@ Standing rules for work on this repo. Details: [HANDOFF.md](HANDOFF.md), [SEGMEN
 * **`main` only takes byte-identical changes.** Every commit must build `MATCH` with `make` and with `make CBUILD=0`.
 * **Small, verified commits** per function or per batch. Tool and doc changes go in their own commits.
 * **Never force-push.**
+* **One agent at a time.** Do not run agents or workers in parallel.
 * **Timebox** each stubborn function (~8–10 minutes; see HANDOFF). Leave a draft and record what was tried.
 * **Batch renames** with `tools/rename_symbol.py --batch`.
 * **Keep the Unsure list** ([docs/UNSURE.md](docs/UNSURE.md)) with what was tried; follow the Unsure plan in HANDOFF. Never retry a listed shape.
