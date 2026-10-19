@@ -5463,6 +5463,10 @@ pop ecx	; 57480
 pop ebx	; 57481
 ret	; 57482
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/PassLaneChk.c (puckstick)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/PassLaneChk.puckstick.inc"
+%else
 puckstick:
 push dword 24h	; 57483
 call __CHK	; 57488
@@ -5749,6 +5753,7 @@ call a2touchpuck	; 5785D
 mov eax, ebp	; 57862
 call deflect	; 57864
 jmp near PassLaneChk_ret5a	; 57869
+%endif ; C
 SetShotMode:
 push dword 10h	; 5786E
 call __CHK	; 57873

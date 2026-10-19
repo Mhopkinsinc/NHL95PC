@@ -1,10 +1,13 @@
-/* Engine physics AI: is the pass lane to a team-mate open. */
+/* Engine physics AI: is the pass lane to a team-mate open; NetCollide and puckstick (matched) end in its pops. */
 /* DRAFT: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate's
  y stays in edx. The other gap is inc esi where the original does lea eax,[esi+1].
  Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx. */
 #define PassLaneChk PassLaneChk_decl
+#define imul32 imul32_decl
 #include "nhl95.h"
 #undef PassLaneChk
+#undef imul32
+int __cdecl imul32(int a, int b);  /* 933F0: the library multiply, arguments on the stack */
 
 #define W(v) (*(int *)((char *)&(v) - 2) >> 16)
 
@@ -131,4 +134,79 @@ int NetCollide(Player *p, int dir)
     return 0xFE1;
 keep:
     return p->SPA;
+}
+
+/* puckstick (57483, 93G puckstick; ends in PassLaneChk_ret5a): the puck touches player p's stick (regd0 = the
+   squared distance from checkpuckcoll). A goalie does nothing during a highlight (gmode bit 4); otherwise his
+   save flag (byte 63h) is cleared and set again when the puck comes from a shot of the other team's shotplayer
+   from beyond 58h, from the far side (by pflags bit 7) and fast (|vy| over 2EE0h, or over 1770h with SPA
+   119Dh-121Dh), then ChkShotStat. Then pflags bit 0 is cleared. With a carrier (puckc) on the other team, in range
+   (regd0 up to 24h) and p not in SPA 13C5h-14ADh: a skater steals only from a skater and on randomd0(carrier pde
+   + 20h - p's pde, an eighth more against a carrier with pflags bit 3 and p without) up to 2, a goalie always;
+   both get nopuck pde + 14h, lastplayer = the carrier, sflags bits 2-3 cleared, and the stick deflect. Without a
+   carrier (a goalie only within 40h): regd0 = puck speed squared, regd1 = (13000 + 700 * stickhand, no stickhand
+   bonus with gmode2 bit 4) squared; outside SPA 13C5h-14ADh p catches the puck when it is slow enough, or as the
+   pass receiver (passplayer) on randomd0(2): vz cleared, puckglue, and a goalie keeps it below z 8 with vx vy
+   quartered and his save flag set. Else nopuck 8 and the stick deflect: sfx 99h, a2touchpuck, deflect(puck). */
+void puckstick(Player *puck, Player *p)
+{
+    Player *q;
+    int pde;
+    int flag;
+
+    flag = 0;
+    if (p->position == 0) {
+        if (gmode & 0x10) return;
+        ((unsigned char *)p)[0x63] = 0;
+        if (!dword_E9A9E && !(p->pflags & 0x40) && (gmode2 & 0x10)
+            && ((p->SCnum < 6) ^ (shotplayer < 6))
+            && ABS(HIWORD(SortCords[shotplayer].Ypos)) > 0x58
+            && ((HIWORD(SortCords[shotplayer].Ypos) > 0) ^ ((p->pflags & 0x80) != 0))) {
+            if (ABS(*puckvy) > 0x2EE0) flag = 1;
+            else if (ABS(*puckvy) > 0x1770 && p->SPA >= 0x119D && p->SPA <= 0x121D) flag = 1;
+        }
+        ChkShotStat();
+    }
+    p->pflags &= ~1;
+    if (*puckc >= 0) {
+        if (p->SPA >= 0x13C5 && p->SPA <= 0x14AD) return;
+        q = &SortCords[*puckc];
+        if (!(((unsigned char)p->pflags ^ (unsigned char)q->pflags) & 0x40)) return;
+        if (regd0.ul > 0x24) return;
+        if (p->position != 0) {
+            if (q->position == 0) return;
+            pde = (short)(imul32(q->tmptr->tmpde[q->pnum], q->stickhand) >> 12);
+            regd0.w = pde + 0x20 - (short)(imul32(p->tmptr->tmpde[p->pnum], p->stickhand) >> 12);
+            if ((q->pflags & 8) && !(p->pflags & 8)) regd0.w += regd0.w / 8;
+            if (randomd0(regd0.w) > 2) return;
+        }
+        q->nopuck = (short)(imul32(q->tmptr->tmpde[q->pnum], q->stickhand) >> 12) + 0x14;
+        p->nopuck = (short)(imul32(p->tmptr->tmpde[p->pnum], p->stickhand) >> 12) + 0x14;
+        lastplayer = q->SCnum;
+        sflags &= 0xF3;
+    } else {
+        if (p->position == 0 && regd0.ul > 0x40) return;
+        regd0.w = *puckvx;
+        regd1.w = *puckvy;
+        regd0.l = regd0.w * regd0.w + regd1.w * regd1.w;
+        regd1.w = 0;
+        if (!(gmode2 & 0x10)) regd1.w = p->stickhand * 0x2BC;
+        regd1.w += 0x32C8;
+        regd1.l = regd1.w * regd1.w;
+        if ((p->SPA < 0x13C5 || p->SPA > 0x14AD)
+            && (regd0.ul <= regd1.ul || p->SCnum == passplayer && randomd0(2))) {
+            *(short *)puckvz = 0;
+            puckglue(p);
+            if (p->position != 0) return;
+            if (*(short *)puckz > 8) *(short *)puckz = 8;
+            *puckvx >>= 2;
+            *puckvy >>= 2;
+            ((unsigned char *)p)[0x63] = flag;
+            return;
+        }
+        p->nopuck = 8;
+    }
+    sfx(0x99);
+    a2touchpuck(p);
+    deflect(puck);
 }
