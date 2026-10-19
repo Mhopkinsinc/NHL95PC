@@ -3237,6 +3237,10 @@ jl short periodicevents.3	; 5C40A
 pop edx	; 5C40C
 pop ebx	; 5C40D
 ret	; 5C40E
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateplayers)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.updateplayers.inc"
+%else
 updateplayers:
 push dword 30h	; 5C40F
 call __CHK	; 5C414
@@ -3755,6 +3759,7 @@ mov word [puckstruct+12h], 18Ah	; 5CADE
 .58:
 add esp, byte 0Ch	; 5CAE7
 jmp near calcpuckcross_ret6	; 5CAEA
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateanim)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/calcpuckcross.updateanim.inc"

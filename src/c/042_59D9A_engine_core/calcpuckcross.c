@@ -6,6 +6,9 @@ int IsCupClinched(short home, short away);  /* 15C30: clockcont_0 passes the sco
 #define PUCK ((Player *)puckstruct)
 #define TW(t, o) (*(short *)((char *)(t) + (o)))  /* team word at offset o (Goal: 1Ah 1Eh 22h 30h 32h 34h) */
 typedef struct SkStat { short g, a, pen, pm, ppg, shg, eng, sht; } SkStat;  /* tmplstats entry */
+typedef struct GlStat { short min, sht, sav; } GlStat;  /* tmglstats entry */
+#define PW(p, o) (*(short *)((char *)(p) + (o)))  /* player word at offset o (updateplayers: 40h 50h) */
+void doinput(Player *p, int pad);  /* 504DA: pad 0 for controller 1, 2 for controller 2 */
 
 /* calcpuckcross: find puck crossing lines: when (if at all) the puck will cross each goal line
 . For the goal lines y = +E8h and -E8h: puckcross[0] = x where the puck crosses (bounced
@@ -498,6 +501,150 @@ void StartPer(void)
     fadeinpending = 1;
     rinkscrollx += 1000;
     rinkscrolly += 1000;
+}
+
+/* updateplayers (5C40F, 93G updateplayers; ends in calcpuckcross_ret6): run every sort object for a frame.
+   PC first: dword_CCC9C = 1 while the clock is stopped for a highlight (gmode bit 7), or with no replay (gmode2
+   bit 0), no penalty countdown or queued penalty, overlay state byte_E003A[...] not 20h / 23h and the overlay idle
+   (ovlseq 0 or 2, ovltimer outside 0-FFh); else 0. Then for the 12 players: the puck distance (vecdist, word 4Eh),
+   direction (vtoa, byte 52h) and the quarter vector squared (word 50h); per team the goalie's SCnum (word FAh) and
+   the nearest available skater (dword 3Eh, word 42h; reset to FFFFh / -1 first). Then for objects 0-10h
+   (players off the ice skipped, object 10h kept): the old position, updateanim, nopuck and word 40h counted
+   down, a goalie's frames on ice (tmglstats word 0) in line change mode; outside the injury / fight anims the
+   velocity: friction (>> 6, >> 9 with pflags bit 0) on the ice, players capped at 3E80h, the move by 10h * v,
+   and gravity on z with a bounce (sfx ABh for slow ones); the controlled players' joypads and doinput, the
+   current assignment's routine (asstab), a goalie without the puck kept out of the posts (x 2Ch-30h, y C1h-C5h on
+   either side), the wall values cleared, checkcoll when it moved (always for the puck), impact counted down by 2
+   into limpact. Last the puck is kept inside the boards (|x| <= A0h low, y -104h..108h on the ice) while
+   carried, frame 18Ah. No result. */
+void updateplayers(void)
+{
+    Player *p;
+    Team *t;
+    int dx;
+    int dy;
+    short i;
+    int a;
+
+    i = byte_E003A[((short *)&word_E0036)[1]];
+    dword_CCC9C = (gmode & 1) && ((gmode & 0x80) || !(gmode2 & 1) && Pencntdwn < 0 && !PenBuf[0] && i != 0x20 && i != 0x23
+        && (ovlseq == 2 || !ovlseq || ovltimer < 0 || ovltimer >= 0x100) != 0);
+    p = SortCords;
+    word_DF70E = -1;
+    dword_DF652 = 0xFFFF;
+    word_DF656 = -1;
+    word_DF80E = -1;
+    dword_DF752 = 0xFFFF;
+    word_DF756 = -1;
+    for (i = 0; i < 12; i++, p++) {
+        t = p->tmptr;
+        dx = *puckx - HIWORD(p->Xpos);
+        dy = *pucky - HIWORD(p->Ypos);
+        p->puckdist = vecdist(dx, dy);
+        p->puckdir = vtoa((short)dx, (short)dy);
+        dx >>= 2;
+        dy >>= 2;
+        PW(p, 0x50) = dx * dx + dy * dy;
+        if (p->position == 0) {
+            TW(t, 0xFA) = i;
+        } else if (p->position > 0 && !(p->pflags2 & 4) && !(p->pflags & 0x20) && PW(p, 0x50) < *(int *)((char *)t + 0x3E)) {
+            *(int *)((char *)t + 0x3E) = PW(p, 0x50);
+            TW(t, 0x42) = i;
+        }
+    }
+    p = SortCords;
+    for (i = 0; i < 0x11; i++, p++) {
+        p->OldXpos = p->Xpos;
+        p->OldYpos = p->Ypos;
+        p->OldZpos = p->Zpos;
+        if (p->position < 0 && p->SCnum != 0x10) goto next;
+        updateanim(p);
+        if (--p->nopuck < 0) p->nopuck = 0;
+        if (--PW(p, 0x40) < 0) PW(p, 0x40) = 0;
+        if (p->SCnum != 0x10 && (sflags3 & 0x40) && p->pnum >= 0) {
+            t = p->tmptr;
+            if (p->position == 0 && p->pnum >= 0x19 && !(gmode & 0x10)) ((GlStat *)t->tmglstats)[p->pnum - 0x19].min++;
+        }
+        if (p->SPA != 0xA0B && (p->SPA < 0xF0F || p->SPA > 0x1055)) {
+            regd4.w = 0x10;
+            if (HIWORD(p->Zpos) == 0) {
+                if (p->pflags & 1) regd2.l = 9;
+                else regd2.l = 6;
+                if (regd0.w = p->Xvel) {
+                    regd0.w >>= regd2.w;
+                    if (regd0.w == 0) regd0.l = 1;
+                    p->Xvel -= regd0.w;
+                    if (p->SCnum < 12 && ABS(p->Xvel) > 0x3E80) p->Xvel = p->Xvel > 0 ? 0x3E80 : -0x3E80;
+                }
+                if (regd0.w = p->Yvel) {
+                    regd0.w >>= regd2.w;
+                    if (regd0.w == 0) regd0.l = 1;
+                    p->Yvel -= regd0.w;
+                    if (p->SCnum < 12 && ABS(p->Yvel) > 0x3E80) p->Yvel = p->Yvel > 0 ? 0x3E80 : -0x3E80;
+                }
+            }
+            if (regd0.w = p->Xvel) p->Xpos += regd0.w * regd4.w;
+            if (regd0.w = p->Yvel) p->Ypos += regd0.w * regd4.w;
+            if (HIWORD(p->Zpos) >= 0 && (HIWORD(p->Zpos) != 0 || p->Zvel != 0)) {
+                p->Zvel -= regd4.w * 6;
+                regd0.l = regd4.w * p->Zvel;
+                if ((p->Zpos += regd0.l) < 0) {
+                    p->Zpos = 0;
+                    p->Zvel = -p->Zvel;
+                    p->Zvel >>= 1;
+                    regd0.w = 5 - ((signed char *)p)[0x11];
+                    if (regd0.w < 0) regd0.w = 0;
+                    if (regd0.w <= 3) sfx(0xAB);
+                }
+            }
+        }
+        word_E03A0 = p->SCnum;
+        if (p->SCnum == c1playernum[0]) {
+            Readjoy1();
+            doinput(p, 0);
+        } else if (p->SCnum == c2playernum[0]) {
+            Readjoy2();
+            doinput(p, 2);
+        }
+        a = p->asslist[p->assnum];
+        if (a) ((void (*)(Player *))asstab[a])(p);
+        if (p->SCnum < 12 && !(gmode & 1) && p->position == 0 && *puckc != p->SCnum && !(((unsigned char *)p)[0x48] & 1)) {
+            if (HIWORD(p->Xpos) >= -0x2B) {
+                if (HIWORD(p->Xpos) >= 0x2C && HIWORD(p->Xpos) < 0x31) {
+                    HIWORD(p->Xpos) = 0x2B;
+                    p->Xvel = 0;
+                }
+            } else if (HIWORD(p->Xpos) >= -0x31) {
+                HIWORD(p->Xpos) = -0x2B;
+                p->Xvel = 0;
+            }
+            if (HIWORD(p->Ypos) >= 0) {
+                if (HIWORD(p->Ypos) >= 0xC1 && HIWORD(p->Ypos) < 0xC6) {
+                    HIWORD(p->Ypos) = 0xC6;
+                    p->Yvel = 0;
+                }
+            } else if (HIWORD(p->Ypos) >= -0xC5 && HIWORD(p->Ypos) < -0xC0) {
+                HIWORD(p->Ypos) = -0xC6;
+                p->Yvel = 0;
+            }
+        }
+        p->Wallcos = 0;
+        p->Wallsin = 0;
+        regd2.w = HIWORD(p->Xpos);
+        regd3.w = HIWORD(p->Ypos);
+        if (HIWORD(p->OldXpos) != regd2.w || HIWORD(p->OldYpos) != regd3.w || p->SCnum == 0xE) checkcoll(p, regd2.w, regd3.w);
+        if ((p->impact -= 2) < 0) p->impact = 0;
+next:
+        p->limpact = p->impact;
+    }
+    if (*(short *)puckz < 0x18 && ABS(*puckx) > 0xA0 && *puckc >= 0) {
+        *puckx = *puckx < 0 ? -0xA0 : 0xA0;
+        PUCK->frame = 0x18A;
+    }
+    if (*(short *)puckz <= 0 && *puckc >= 0 && (*pucky < -0x104 || *pucky > 0x108)) {
+        *pucky = *pucky < 0 ? -0x104 : 0x108;
+        PUCK->frame = 0x18A;
+    }
 }
 
 /* ResetBench: Per team (home, then visitors): PBnum[team] = the players
