@@ -35,7 +35,7 @@ int EditTextField(char *buf, int maxlen, int w, int x, int y, void (*idle)(void)
     sub_B4BA8();
     editx = x;
     edity = y;
-    editbuf = (int)buf;
+    editbuf = buf;
     editmaxw = w;
     editpos = 0;
     DrawEditText(flags);

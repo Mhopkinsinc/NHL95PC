@@ -4766,7 +4766,6 @@ extern int dlgsavey; /* DD688 */
 extern int editcurw; /* DD68C */
 extern int editpos; /* DD690 */
 extern int editmaxw; /* DD694 */
-extern int editbuf; /* DD698 */
 extern int editcuron; /* DD69C */
 extern int edity; /* DD6A0 */
 extern int editx; /* DD6A4 */
