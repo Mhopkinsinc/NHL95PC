@@ -204,6 +204,19 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   C file become jumps into one surviving copy, in either direction, and which copy survives depends on every
   function in the file. POSeedFinal jumps into POSeedConfFinals' pairing code as in the EXE, but with POSeedRound2
   in the same file POSeedRound2's exit then jumps into POSeedConfFinals' pops, the reverse of the EXE.
+* **A table address plus an index**: `list + side * 25` (pointer first, or as `&list[side * 25]`, a 2-D array or
+  `side * 25 + list`) loads the offset into a second register and adds the product (`mov eax, list` / `add eax, edx`).
+  The EXE's `add edx, list` came from an int sum written product first, `(signed char *)(side * 25 + (int)list)`
+  (SetPlList). In the same way `PUCK->asslist[PUCK->assnum]` folds into `[eax+puckstruct+1Eh]`; the EXE's
+  `add eax, puckstruct` / `[eax+1Eh]` is the address held in an int local first (clockcont_0 reuses its distance
+  variable: `d = (int)PUCK + PUCK->assnum; ((signed char *)d)[0x1E]`).
+* **Condition spelling changes registers**: SetPlList's `else if (!(line >= 4 || pos > 2))` (same layout as
+  `line < 4 && pos <= 2`) with `line + sublist[pos]` in the last branch gave the EXE's registers; either change
+  alone did not, and the plain inverted chain put the branches in the other order.
+* **A chained assignment stores right to left**: `a = b = -1` stores b first (clockcont_0: c1playernum /
+  c2playernum). tools/cdiff.py shows the swapped symbols; a register-only comparison would not.
+* **Squares**: `d = dx * dx + dy * dy` evaluated dx into edx; `dx *= dx; d = dx + dy * dy` gave the EXE's
+  `imul eax, eax` / `imul edx, edx` / `add eax, edx` (clockcont_0).
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.
