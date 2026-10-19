@@ -3,8 +3,12 @@
  cmp esi,ecx / jl. Do not retry: writing the limit on the left of < hoists that lea
  out of the loop. */
 #define GetLowestPen GetLowestPen_decl
+#define PassLaneChk PassLaneChk_decl
 #include "nhl95.h"
 #undef GetLowestPen
+#undef PassLaneChk
+int PassLaneChk(Player *p, Player *o);  /* 54C09: 1 when the lane to o is open */
+#define PW(p, o) (*(short *)((char *)(p) + (o)))  /* player word at offset o (chk4pass: 48h the pass target) */
 
 /* checkob: with offsides on, and not during a penalty shot, watch the six opponents.
  When one is past the puck on p's attacking side (4 bytes deeper once p has crossed
@@ -199,6 +203,84 @@ change:
 
 typedef struct SkStat { short g, a, pen, pm, ppg, shg, eng, sht; } SkStat;  /* tmplstats entry */
 typedef struct GlStat { short min, sht, sav; } GlStat;  /* tmglstats entry */
+
+/* DRAFT (chk4pass): first pass, register picks only (edx and eax swapped for the puck pointer temps and the
+   opponent loop). See docs/UNSURE.md. */
+/* chk4pass (55493, 93G chk4pass; ends in checkob_ret5): the computer player p looks for a pass. Clears p's pass
+   lane flag (byte 53h). Without a threat only on randomd0(spodds + 10h) up to 9. A random team-mate (randomd0(6),
+   +6 for the away team), not p himself, a skater on the ice, available and not in pflags bit 5. From the attacking
+   side's end zone a skater only passes across the slot (puck |x| up to 32h, |y| over ACh): with |y| at least EBh,
+   the mate at least 3Ch from the middle, and not across the goal line from the puck on the other wing. Then with
+   offsides on, a pass across the blue line (4Eh) needs PassLaneChk; else a mate ahead of the blue line and more
+   than 0Fh ahead of p needs it too, and becomes the target (word 48h). With the two-line pass on, no pass back
+   over the red line to a mate with pflags2 bit 7. passdir = the mate's puck direction reversed; any opponent at
+   most as far from the puck with nearly the same direction (within one step) blocks it, and for a goalie also any
+   opponent within 1Eh, within 3Ch in the two nearest directions, within 28h at the side ones. Then dopass; a
+   skater leaves his assignment (assexit). Result 1 when a skater passed, else 0. */
+short chk4pass(Player *p)
+{
+    Player *q;
+    Player *o;
+    int c;
+    short d;
+    short r;
+
+    p->passlane = 0;
+    if (!(r = threat) && randomd0(p->spodds + 0x10) > 9) goto done;
+    regd0.w = randomd0(6);
+    if (p->SCnum >= 6) regd0.w += 6;
+    if (regd0.w == p->SCnum) { r = 0; goto done; }
+    q = (Player *)((regd0.w << 7) + (int)SortCords);
+    if (q->position <= 0 || (q->pflags2 & 4) || (q->pflags & 0x20)) { r = 0; goto done; }
+    if (p->position != 0 && (((p->pflags & 0x80) != 0) ^ (*pucky > 0)) && ABS(*puckx) <= 0x32 && ABS(*pucky) > 0xAC) {
+        if (ABS(*pucky) < 0xEB) { r = 0; goto done; }
+        regd0.w = HIWORD(q->Xpos);
+        regd1.w = HIWORD(q->Ypos);
+        if (ABS(regd0.w) < 0x3C) { r = 0; goto done; }
+        if ((regd0.w ^ *puckx) < 0 && ((ABS(regd1.w) - 0xE8) ^ (ABS(*pucky) - 0xE8)) < 0) { r = 0; goto done; }
+    }
+    regd0.w = HIWORD(q->Ypos);
+    regd1.w = HIWORD(p->Ypos);
+    if (!(p->pflags & 0x80)) {
+        regd0.w = -regd0.w;
+        regd1.w = -regd1.w;
+    }
+    if (gameopts.offsides && ((regd1.w - 0x4E) ^ (regd0.w - 0x4E)) < 0) {
+        if (!(p->passlane = PassLaneChk(p, q))) { r = 0; goto done; }
+        PW(p, 0x48) = q->SCnum;
+    } else if (regd0.w <= 0x4E) {
+        regd0.w = regd0.w - regd1.w;
+        if (regd0.w < -0xF) {
+            if (!(p->passlane = PassLaneChk(p, q))) { r = 0; goto done; }
+            PW(p, 0x48) = q->SCnum;
+        }
+    }
+    if (gameopts.twolinepass && (q->pflags2 & 0x80) && regd1.w < -0x4E && regd0.w > 0) { r = 0; goto done; }
+    passdir = (signed char)(q->puckdir ^ 4);
+    regd2.l = q->puckdist;
+    o = &SortCords[p->SCnum < 6 ? 6 : 0];
+    regd3.w = 6;
+    do {
+        c = o->puckdist;
+        if (c <= regd2.l) {
+            d = (passdir - (signed char)(o->puckdir ^ 4) + 1) & 7;
+            if (d == 1) { r = 0; goto done; }
+            if (p->position == 0) {
+                if (c < 0x1E) { r = 0; goto done; }
+                if (d <= 2 && c < 0x3C) { r = 0; goto done; }
+                if ((d == 3 || d == 7) && c < 0x28) { r = 0; goto done; }
+            }
+        }
+        o++;
+    } while (--regd3.w != 0);
+    dopass(p);
+    if ((r = p->position) != 0) {
+        assexit(p);
+        r = 1;
+    }
+done:
+    return r;
+}
 
 /* chk4shot (55804; 93G logic93 chk4shot "see if computer should shoot", PC version; ends in checkob_ret5 /
    chk4lc_shoot): should the computer puck carrier p shoot? Outside a penalty shot he shoots at once when his
