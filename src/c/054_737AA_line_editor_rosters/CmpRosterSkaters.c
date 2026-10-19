@@ -1,5 +1,7 @@
 /* Line editor rosters: skater sorting. */
-/* DRAFT: the non-playoff record address is built in the other register order (EXE ebx = n*28h then rosterpstat + ebx). */
+/* DRAFT: same size (262) with the playoff address written rosterpstat + 0x12 + *a * 0x28 (rosterpstat then comes
+   into ebx). Left: the non-playoff product is built in eax and adds rosterpstat as a memory operand (EXE: product
+   in ebx, mov eax, [rosterpstat] / add eax, ebx), and the playoff +12h is added before the product (EXE after). */
 #include "nhl95.h"
 
 typedef struct { char c[0x28]; } PStat;  /* a roster skater stats record */
@@ -12,9 +14,9 @@ int CmpRosterSkaters(int *a, int *b)
     unsigned short *q;
 
     p = !statsplayoffs ? (unsigned short *)&((PStat *)rosterpstat)[*a]
-                       : (unsigned short *)(*a * 0x28 + rosterpstat + 0x12);
+                       : (unsigned short *)(rosterpstat + 0x12 + *a * 0x28);
     q = !statsplayoffs ? (unsigned short *)&((PStat *)rosterpstat)[*b]
-                       : (unsigned short *)(*b * 0x28 + rosterpstat + 0x12);
+                       : (unsigned short *)(rosterpstat + 0x12 + *b * 0x28);
     if ((q[0] == 0) ^ (p[0] == 0)) return q[0] - p[0];
     if (q[3] != p[3]) return q[3] - p[3];
     if (p[0] != q[0]) return p[0] - q[0];
