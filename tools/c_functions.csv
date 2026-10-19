@@ -217,8 +217,8 @@ DrawButton,30B16,221,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawBut
 InitScrollBar,30BF3,74,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,matched,
 DrawScrollBar,30C3D,209,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,nonmatching,draft: x in ebp y in edi (207); EXE x in edi y in ebp (209). Declaring x before y did not swap them.
 DrawButtons,30AE2,52,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButtons.c,matched,
-DrawEditCursor,314B4,229,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft: y is movzx edi,[byte_D42C5] (229). C zero-extends into edx (230). Computing y before h, or reusing cw, did not select edi."
-DrawEditText,31599,372,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft (DrawEditCursor.c): 369 vs 372, dot width in edi (original ebp). See UNSURE."
+DrawEditCursor,314B4,229,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft: same size (229); only the FILLRECT push registers differ (editcurw ecx / fontcolor ebp, EXE ebp / edx). See docs/UNSURE.md."
+DrawEditText,31599,372,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft (DrawEditCursor.c): same size (372), dot width in edi (original ebp). See docs/UNSURE.md."
 DrawListItem,302B9,227,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"registers: y / w in ebp / edi (EXE edi / ebp); DrawListItems short-jumps into its exit, mark as one block"
 DrawListItems,3039C,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"compiles to the original 95 bytes, but it branches into DrawListItem+DEh, so it cannot be marked until DrawListItem is."
 EditTextField,3170D,936,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/EditTextField.c,nonmatching,
