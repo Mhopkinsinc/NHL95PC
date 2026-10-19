@@ -208,7 +208,7 @@ A few comments still say `PC:` where that describes behaviour (the referee's own
   marked block that uses it (announcer segment, tail in ShutdownSpeech).
 * Still open: OpenSpeechBank, DrawDbDialog/DbDialogLoop, ControlsDlg split, cross-asm-file tails.
 
-Use the "C matching prompt" in [PROMPT.md](PROMPT.md) for each session, with the rules in SEGMENT_AGENT.md.
+Use the prompt in [PROMPT.md](PROMPT.md) for each session, with the rules in SEGMENT_AGENT.md.
 
 **Picking the next function:**
 0. Keep the breadth pass going (it gave ~47/hour): `python3 tools/c_candidates.py 100 330` across all segments,
