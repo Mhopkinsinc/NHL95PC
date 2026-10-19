@@ -4,6 +4,8 @@
 #undef IsCupClinched
 int IsCupClinched(short home, short away);  /* 15C30: clockcont_0 passes the scores as shorts */
 #define PUCK ((Player *)puckstruct)
+#define TW(t, o) (*(short *)((char *)(t) + (o)))  /* team word at offset o (Goal: 1Ah 1Eh 22h 30h 32h 34h) */
+typedef struct SkStat { short g, a, pen, pm, ppg, shg, eng, sht; } SkStat;  /* tmplstats entry */
 
 /* calcpuckcross: find puck crossing lines: when (if at all) the puck will cross each goal line
 . For the goal lines y = +E8h and -E8h: puckcross[0] = x where the puck crosses (bounced
@@ -66,6 +68,165 @@ void GetHot(Player *p)
     regd1.w = HotList_y[f];
     if (p->attribute & 8)                       /* X flip */
         regd0.w = -regd0.w;
+}
+
+/* DRAFT (Goal): every statement in place; two register orders differ: the power-play goal stat computes the
+   index in edx (EXE eax), and the goalie lookup loads tmgoalie before tmlines (EXE after). See docs/UNSURE.md. */
+/* Goal (5AB36, 93G Goal; ends in calcpuckcross_ret6): the puck went into the goal of net. side = the scoring side
+   (puck y below 0, flipped by gmode bit 1): t the scoring team, o the other. With the clock stopped (gmode bit 0),
+   a delayed penalty on the scoring team (PenTeamScored) or the team offside (tmflags bit 4) there is no goal: the
+   puck stops in the net (6 left or right of its x, 4 into it), and while the clock runs it gets assignment 1Ah,
+   an offside AddPenalty 8 and AddPenalty2 1Bh. During a penalty shot a goal by the other side only ends the shot.
+   Else tmscore + 1; the last toucher (lasttouch) becomes shotplayer when on the other side's team (gmode2 bit 4);
+   ChkShotStat, sfx 9Ch, LockScroll; the crowd (home goal +320h, kept in 708h-7D0h; else at least 320h), the box
+   door, crowd sample 3 for a home goal unless speech and music are on, excitement +0Ah (away) or +1Eh. word_E9AB0
+   = 2 short-handed / 4 power play / 1 even, bit 3 for an empty net. Outside a highlight (gmode bit 4) the
+   stats: the scorer (team byte 30h) a goal and the PP / SH / empty-net goal, team words 22h (penalty shot) or
+   1Eh (a shot on goal) and 1Ah (one-timer), the assists (words 32h 34h), the goalie's goals against
+   (tmglstats word 2), and outside a penalty shot the plus / minus of both teams' skaters at even or short
+   strength and PenGoalStuff (in a penalty shot the face-off spot is cleared); shotongoal and onetimerflag
+   cleared. Then DrawPanelScore, the scoring skaters celebrate (7; one waiting at the door, 2Dh, gets 28h 7 9
+   and the puck's temp5 cleared), the puck goes into the net (6, F0h), assignment 1Ah, the goal light (the next
+   object) SPA 7FDh, AddPenalty2 7 on the other team; outside a highlight EndPenaltyShot, object 16 assignment
+   1Fh, the penalty shot spot cleared, and the coach modes moved by the score difference (pulling a goalie when
+   down by 4, unless a human controls that team), then UpdateCoachModes. No result. */
+void Goal(Player *net)
+{
+    Player *pk;
+    Team *t;
+    Team *o;
+    Player *q;
+    Player *r;
+    short side;
+    short i;
+
+    pk = PUCK;
+    side = (HIWORD(PUCK->Ypos) < 0) ^ ((gmode & 2) != 0);
+    t = side > 0 ? &awtmstruct : &hmtmstruct;
+    o = (side == 0) != 0 ? &awtmstruct : &hmtmstruct;
+    if ((gmode & 1) || PenTeamScored() || (t->tmflags & 0x10)) {
+        collflag = 0;
+        pk->Xvel = 0;
+        HIWORD(pk->Xpos) = (HIWORD(pk->Xpos) < HIWORD(net->Xpos) ? -6 : 6) + HIWORD(net->Xpos);
+        pk->Yvel = 0;
+        HIWORD(pk->Ypos) = (HIWORD(net->Ypos) < 0 ? -4 : 4) + HIWORD(net->Ypos);
+        pk->Zvel = 0x600;
+        HIWORD(pk->Zpos) = 0;
+        ((signed char *)puckcross)[7] = ((signed char *)puckcross)[3] = -1;
+        pk->pflags |= 4;
+        if (gmode & 1) return;
+        assreplace(pk, 0x1A);
+        if (t->tmflags & 0x10) AddPenalty(t->tmsort, 8);
+        AddPenalty2(o->tmsort, 0x1B);
+        return;
+    }
+    if (penshotlive && side != penshotteam) {
+        EndPenaltyShot();
+        return;
+    }
+    t->tmscore++;
+    if ((lasttouch < 6) ^ side) {
+        gmode2 |= 0x10;
+        shotplayer = lasttouch;
+    }
+    ChkShotStat();
+    sfx(0x9C);
+    LockScroll();
+    if (side == 0) {
+        crowdlevel += 0x320;
+        if (crowdlevel > 0x7D0) crowdlevel = 0x7D0;
+        if (crowdlevel < 0x708) crowdlevel = 0x708;
+    } else if (crowdlevel < 0x320) {
+        crowdlevel = 0x320;
+    }
+    SetBoxDoorObject(side);
+    if (side == 0 && (!gameopts.speech || !musicon) != 0) PlayCrowdSample(3);
+    if (side == 1) CwdExciteLvl += 0xA;
+    else CwdExciteLvl += 0x1E;
+    if (t->tmap < o->tmap) word_E9AB0 = 2;
+    else if (t->tmap > o->tmap) word_E9AB0 = 4;
+    else word_E9AB0 = 1;
+    if (o->tmgoalie < 0) *(unsigned char *)&word_E9AB0 |= 8;
+    if (!(gmode & 0x10)) {
+        i = TW(t, 0x30);
+        i &= 0xFF;
+        if (i < 0x19) ((SkStat *)t->tmplstats)[i].g++;
+        if (t->tmap > o->tmap) ((SkStat *)t->tmplstats)[i].ppg++;
+        else if (t->tmap < o->tmap) ((SkStat *)t->tmplstats)[i].shg++;
+        if (o->tmgoalie < 0) ((SkStat *)t->tmplstats)[i].eng++;
+        if (penshotmode) TW(t, 0x22)++;
+        else if (shotongoal) TW(t, 0x1E)++;
+        if (onetimerflag & (1 << side)) TW(t, 0x1A)++;
+        i = TW(t, 0x32);
+        if (i >= 0) {
+            if (i < 0x19) t->tmplstats[i * 8 + 1]++;
+            i = TW(t, 0x34);
+            if (i >= 0 && i < 0x19) t->tmplstats[i * 8 + 1]++;
+        }
+        if (o->tmgoalie >= 0) {
+            i = o->tmlines[o->tmgoalie + 0x24] - 0x19;
+            if (i >= 0 && i < 3) o->tmglstats[i * 3 + 2]++;
+        }
+        if (!penshotlive) {
+            if (o->tmap >= t->tmap) {
+                q = t->tmsort;
+                r = o->tmsort;
+                for (i = 0; i < 6; i++, q++, r++) {
+                    if (q->position > 0) t->tmplstats[q->pnum * 8 + 3]++;
+                    if (r->position > 0) o->tmplstats[r->pnum * 8 + 3]--;
+                }
+            }
+            PenGoalStuff(side);
+        } else {
+            fox = foy = ltx = lty = 0;
+        }
+        onetimerflag = shotongoal = 0;
+    }
+    DrawPanelScore(side, t->tmscore);
+    q = t->tmsort;
+    i = 6;
+    do {
+        if (q->position > 0 && !(q->pflags2 & 1)) {
+            q->pflags &= ~4;
+            if (q->asslist[q->assnum] == 0x2D) {
+                pk->temp5 = 0;
+                assinsert(q, 0x28);
+                assinsert(q, 7);
+                assinsert(q, 9);
+            } else {
+                assinsert(q, 7);
+            }
+        }
+        q++;
+    } while (--i);
+    collflag = 0;
+    pk->Xvel = i;
+    HIWORD(pk->Xpos) = HIWORD(pk->Xpos) < 0 ? -6 : 6;
+    pk->Yvel = 0;
+    HIWORD(pk->Ypos) = HIWORD(pk->Ypos) < 0 ? -0xF0 : 0xF0;
+    pk->Zvel = 0x600;
+    HIWORD(pk->Zpos) = 0;
+    ((signed char *)puckcross)[7] = ((signed char *)puckcross)[3] = -1;
+    pk->pflags |= 4;
+    assreplace(pk, 0x1A);
+    SetSPA(pk + 1, 0x7FD);
+    AddPenalty2(o->tmsort, 7);
+    if (!(gmode & 0x10)) {
+        EndPenaltyShot();
+        assreplace(&SortCords[16], 0x1F);
+        *(int *)&penshotfox = *(int *)&penshotfoy = 0;
+    }
+    if (gmode & 0x10) return;
+    i = hmscore[0] - awscore;
+    if (i < -3 && byte_DF6E6 > 1 && cont1team != 1 && cont2team != 1 && !(*(unsigned char *)hmtmgoalie & 1))
+        *(unsigned char *)hmtmgoalie ^= 1;
+    if (i < -1 && byte_DF6E6 > 1) byte_DF6E6--;
+    if (i < 1 && byte_DF6E7 > 1) byte_DF6E7--;
+    if (i > 3 && byte_DF7E6 > 1 && cont1team != 2 && cont2team != 2 && !(*(unsigned char *)&awtmgoalie & 1))
+        *(unsigned char *)&awtmgoalie ^= 1;
+    if (i > 1 && byte_DF7E6 > 1) byte_DF7E6--;
+    if (i > -1 && byte_DF7E7 > 1) byte_DF7E7--;
+    UpdateCoachModes();
 }
 
 /* reenergizeteam: refill the energy of team t's whole roster:
