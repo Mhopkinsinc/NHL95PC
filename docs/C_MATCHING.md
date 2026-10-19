@@ -217,6 +217,15 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   c2playernum). tools/cdiff.py shows the swapped symbols; a register-only comparison would not.
 * **Squares**: `d = dx * dx + dy * dy` evaluated dx into edx; `dx *= dx; d = dx + dy * dy` gave the EXE's
   `imul eax, eax` / `imul edx, edx` / `add eax, edx` (clockcont_0).
+* **A loop counter in its own block**: FallDown's PenBuf loop matched once its counter was declared in a block
+  around the loop (`{ short k; for (k = 0; ...) }`): the index temp then took eax, as in the EXE.
+* **An array element read twice**: `if (a[k] == -1) continue; f(a[k]);` computes `k * 4` into a register first;
+  reading it once into a local (`v = a[k]; if (v == -1) continue; f(v);`) gives the EXE's `mov eax, [esp+ebp*4+4Ch]`
+  (PickAwardWinners).
+* **`__STOSB`**: the EXE's `mov ecx, n / xor edx, edx / lea eax, buf / call __STOSB` is the Watcom memset helper;
+  declare it with `#pragma aux __STOSB "__STOSB" parm [eax] [edx] [ecx]` and call it (FadePalStep, PickAwardWinners).
+* **Three-term sums**: Watcom picks the load order and registers of `a + b + c` by the written shape;
+  `c + (a + b)` and the five other orders all compile differently, so try all twelve forms per sum.
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.
