@@ -226,6 +226,9 @@ or callback pieces of a C function reached through a pointer table, and a few ar
   declare it with `#pragma aux __STOSB "__STOSB" parm [eax] [edx] [ecx]` and call it (FadePalStep, PickAwardWinners).
 * **Three-term sums**: Watcom picks the load order and registers of `a + b + c` by the written shape;
   `c + (a + b)` and the five other orders all compile differently, so try all twelve forms per sum.
+* **A switch case that falls into another**: ReplaySaveHilight's save switch, laid out 0, 2, 1, 3 in the EXE with
+  case 0 jumping into case 1's call, came from cases written 0, 1, 2, 3 with case 2 as
+  `if ((r = SaveHilight(0)) == 0) r = SaveHilight(1)`; writing them in the layout order with a fall-through did not.
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.
