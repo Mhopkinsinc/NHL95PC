@@ -822,7 +822,7 @@ Library segments stay asm and are not counted: 109 more `__CHK` functions in `01
 | MenuShowPlayerStats | 7556E | 514 | matched | [MenuShowPlayerStats.c](src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c) |  |
 | ScratchPlayer | 75770 | 248 | matched | [MenuShowPlayerStats.c](src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c) |  |
 | DressPlayer | 75868 | 201 | matched | [MenuShowPlayerStats.c](src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c) |  |
-| CmpRosterSkaters | 75931 | 262 | nonmatching | [CmpRosterSkaters.c](src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c) | draft: season *a*28h is add ebx,eax / shl ebx,3 / mov eax,[rosterpstat] / add eax,ebx (262). C puts the product in eax and folds add eax,[rosterpstat] (260). n += (n<<2), declaration order, and a comma expression did not put *a in ebx. Do not retry those. |
+| CmpRosterSkaters | 75931 | 262 | nonmatching | [CmpRosterSkaters.c](src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c) | draft: same size (262). The playoff address (rosterpstat + 0x12 + *a*28h) loads rosterpstat into ebx as the EXE does; the season address still folds add eax,[rosterpstat]. See docs/UNSURE.md. |
 | CmpRosterGoalies MenuRegSeasonStats MenuPlayoffStats | 75A37 | 448 | matched | [CmpRosterGoalies.c](src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c) |  |
 | FadePalStep | 76429 | 242 | nonmatching | [FadePalStep.c](src/c/054_737AA_line_editor_rosters/FadePalStep.c) |  |
 | FadePalStepSlow | 7651B | 249 | nonmatching | [FadePalStep.c](src/c/054_737AA_line_editor_rosters/FadePalStep.c) |  |
