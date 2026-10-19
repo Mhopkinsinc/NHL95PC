@@ -229,6 +229,15 @@ or callback pieces of a C function reached through a pointer table, and a few ar
 * **A switch case that falls into another**: ReplaySaveHilight's save switch, laid out 0, 2, 1, 3 in the EXE with
   case 0 jumping into case 1's call, came from cases written 0, 1, 2, 3 with case 2 as
   `if ((r = SaveHilight(0)) == 0) r = SaveHilight(1)`; writing them in the layout order with a fall-through did not.
+* **A global's declared type decides `add reg, [g]`**: an `int` global that holds a pointer is folded into the add
+  (`add eax, [rosterpstat]`); declared `unsigned char *` (vars.h), Watcom loads it and adds the index product
+  (`mov eax, [rosterpstat]` / `add eax, ebx`), as the EXE does. CmpRosterSkaters matched that way, and ShowRosterStats's
+  record addresses needed the same for statsplayerbuf. When the EXE never folds a pointer global into an add, check its type.
+* **The jump to a for loop's test**: `for (i = 0; i < 0x19; i++)` loses the `jmp` to the test (Watcom knows the first
+  test passes); `for (i = n = 0; ...)`, with n a stack count, keeps it (ShowRosterStats).
+* **Frame struct members are reloaded**: a value stored in a frame struct member is read back from the stack at every
+  use; a plain local left on the stack is read through the register that computed it until the next join (ShowRosterStats's
+  goalie stats pointer in edi). Keep only the arrays in the frame struct when the EXE reuses such a register.
 * **A sum kept in the incoming register**: `x2 = x; x2 += w` is `add eax, ebx` (the sum stays in the register x arrived in).
   `x2 = x + w` is a `lea` into a different register. BlitClipRect still saves x in esi and y in edi where the original
   saves x in edi and y in esi; copying y before x did not swap those.

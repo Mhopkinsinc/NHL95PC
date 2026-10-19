@@ -743,7 +743,7 @@ OpenSelectedDb,733C4,151,053_71F0C_database_dialogs,src/c/053_71F0C_database_dia
 BlitClipRect,7668D,173,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/BlitClipRect.c,nonmatching,x in esi and y in edi (original x in edi and y in esi); in-place add matches. 5 attempts
 CheckRosterComplete,751FC,602,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CheckRosterComplete.c,matched,
 CmpRosterGoalies MenuRegSeasonStats MenuPlayoffStats,75A37,448,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c,matched,
-CmpRosterSkaters,75931,262,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c,nonmatching,"draft: same size (262). The playoff address (rosterpstat + 0x12 + *a*28h) loads rosterpstat into ebx as the EXE does; the season address still folds add eax,[rosterpstat]. See docs/UNSURE.md."
+CmpRosterSkaters,75931,262,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c,matched,
 DbLineEditor,737E1,469,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditor.c,matched,
 DrawLineJerseys,75046,438,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DrawLineJerseys.c,nonmatching,stack slots of the spilled side / c1 / c2 bytes rotate (+24h/+28h/+2Ch); independent of declaration order
 FadePalStep,76429,242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,
@@ -760,6 +760,7 @@ LineEdDone,75456,280,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_r
 PrintLineEdStatus,76771,95,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/PrintLineEdStatus.c,matched,
 RandLfsrByte,7665E,47,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/RandLfsrByte.c,nonmatching,"original does byte ops (dl = bit, dh = *s shr 1, bl = dh ^ B8h, push ebx too); this draft widens to 32 bits. 10-min cap"
 SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/SetPalette768.c,matched,
+ShowRosterStats,75BF7,2098,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/ShowRosterStats.c,nonmatching,"draft: 2097 vs 2098, every statement in place; three register picks (goalie copy team record eax / edx, playoff skater add, goalie row 34h product). See docs/UNSURE.md."
 BlitJerseyDigit,7A017,130,055_78346_team_select,src/c/055_78346_team_select/BlitJerseyDigit.c,nonmatching,order only: asm stores the colour byte before loading the 5th (stack) arg; C loads the arg first. Rest matches
 CheckGameRosterComplete,78E36,602,055_78346_team_select,src/c/055_78346_team_select/CheckGameRosterComplete.c,matched,
 DrawDlgFrame,78BE7,578,055_78346_team_select,src/c/055_78346_team_select/DrawDlgFrame.c,nonmatching,
