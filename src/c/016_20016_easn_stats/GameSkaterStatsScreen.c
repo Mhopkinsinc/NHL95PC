@@ -81,7 +81,7 @@ int GameStandingsMenu(void)
     dword_C6D26 = 0;
     InitMenuRemap(1);
     statsteambuf = sub_8CCA8((char *)str_tstat, 0x2A4, 0x20);
-    statsplayerbuf = sub_8CCA8((char *)str_keys, 0x5B0, 0x20);
+    statsplayerbuf = (unsigned char *)sub_8CCA8((char *)str_keys, 0x5B0, 0x20);
     statsskaterbuf = (unsigned char *)sub_8CCA8((char *)str_pstat, 0x497, 0x20);
     statsgoaliebuf = (unsigned char *)sub_8CCA8((char *)str_gstat, 0x10E, 0x20);
     ((void (*)(int))standingscb)(0);
@@ -139,8 +139,8 @@ int GameStandingsMenu(void)
     FreeMemBlock(statsteambuf);
     FreeMemBlock((int)statsgoaliebuf);
     FreeMemBlock((int)statsskaterbuf);
-    FreeMemBlock(statsplayerbuf);
-    statsplayerbuf = z;
+    FreeMemBlock((int)statsplayerbuf);
+    statsplayerbuf = (unsigned char *)z;
     statsteambuf = z;
     statsgoaliebuf = (unsigned char *)z;
     statsskaterbuf = (unsigned char *)z;

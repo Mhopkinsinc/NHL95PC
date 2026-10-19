@@ -76,6 +76,7 @@ typedef struct Rect4 {
 extern unsigned char *samplereq;  /* ED7B4: sample request block (20 names of 13 bytes, counters at +104h..+10Ch) */
 extern unsigned char *statsskaterbuf;  /* DD110: skater stats records, 2Fh bytes each (season, playoffs at +12h) */
 extern unsigned char *statsgoaliebuf;  /* DD114: goalie stats records, 36h bytes each (season, playoffs at +16h) */
+extern unsigned char *statsplayerbuf;  /* DD11C: copies of the shown players' key records, 34h bytes each */
 extern unsigned char *rostergstat;  /* EBC6C: roster goalie stats records, 2Ch bytes each (season, playoffs at +16h) */
 extern unsigned char *rosterpstat;  /* EBC70: roster skater stats records, 28h bytes each (season, playoffs at +12h) */
 extern unsigned char *falist;  /* D07AA: free-agent list, 1Bh bytes per player (name at +8) */

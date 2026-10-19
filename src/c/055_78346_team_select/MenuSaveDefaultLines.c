@@ -252,7 +252,7 @@ int MenuGameShowPlayerStats(unsigned char *nums, int a, unsigned char side, int 
     if (side) statscategory = VisTeam;
     else statscategory = HomeTeam;
     statsteambuf = sub_8CCA8((char *)str_Tstat2, 0x2A4, 0x20);
-    statsplayerbuf = sub_8CCA8((char *)str_Keys4, 0x5B0, 0x20);
+    statsplayerbuf = (unsigned char *)sub_8CCA8((char *)str_Keys4, 0x5B0, 0x20);
     statsskaterbuf = (unsigned char *)sub_8CCA8((char *)str_Pstat4, 0x497, 0x20);
     statsgoaliebuf = (unsigned char *)sub_8CCA8((char *)str_Gstat4, 0x10E, 0x20);
     sub_8FFB0(0, 0x100, byte_ECDF4);
@@ -271,8 +271,8 @@ int MenuGameShowPlayerStats(unsigned char *nums, int a, unsigned char side, int 
     FreeMemBlock(statsteambuf);
     FreeMemBlock((int)statsgoaliebuf);
     FreeMemBlock((int)statsskaterbuf);
-    FreeMemBlock(statsplayerbuf);
-    statsskaterbuf = statsgoaliebuf = (unsigned char *)(statsteambuf = statsplayerbuf = 0);
+    FreeMemBlock((int)statsplayerbuf);
+    statsskaterbuf = statsgoaliebuf = (unsigned char *)(statsteambuf = (int)(statsplayerbuf = 0));
     DrawLineEditorScreen(side, art, 0, c, d);
     DrawGameLineJerseys(nums, art, side);
     s = *sel;

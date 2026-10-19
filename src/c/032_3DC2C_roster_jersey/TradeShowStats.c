@@ -38,7 +38,7 @@ void TradeShowStats(int list, unsigned char cat, int b2, int b3,
     statsredrawcb = (int)TeamRosterScreen;
     statscategory = cat;
     statsteambuf = sub_8CCA8((char *)str_Tstat, 0x2A4, 0x20);
-    statsplayerbuf = sub_8CCA8((char *)str_Keys2, 0x5B0, 0x20);
+    statsplayerbuf = (unsigned char *)sub_8CCA8((char *)str_Keys2, 0x5B0, 0x20);
     statsskaterbuf = (unsigned char *)sub_8CCA8((char *)str_Pstat2, 0x497, 0x20);
     statsgoaliebuf = (unsigned char *)sub_8CCA8((char *)str_Gstat2, 0x10E, 0x20);
     ext = 0;
@@ -63,9 +63,9 @@ void TradeShowStats(int list, unsigned char cat, int b2, int b3,
     FreeMemBlock(statsteambuf);
     FreeMemBlock((int)statsgoaliebuf);
     FreeMemBlock((int)statsskaterbuf);
-    FreeMemBlock(statsplayerbuf);
+    FreeMemBlock((int)statsplayerbuf);
     z = 0;
-    statsplayerbuf = z;
+    statsplayerbuf = (unsigned char *)z;
     statsteambuf = z;
     statsgoaliebuf = (unsigned char *)z;
     statsskaterbuf = (unsigned char *)z;

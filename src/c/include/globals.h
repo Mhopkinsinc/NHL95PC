@@ -4737,7 +4737,6 @@ extern unsigned char printfbuf[]; /* DD0D8 */
 extern int statspalshape; /* DD100 */
 extern int statsbgshapes; /* DD104 */
 extern int statsteambuf; /* DD10C */
-extern int statsplayerbuf; /* DD11C */
 extern int statspal; /* DD120 */
 extern int exhfiles[]; /* DD124 */
 extern int exhfilenames[]; /* DD134 */
