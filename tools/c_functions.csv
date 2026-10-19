@@ -931,6 +931,7 @@ POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_pla
 POPreSimRound1,87F85,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound1.c,matched,
 POPreSimRound2,87FE0,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound2.c,matched,
 POReturnZero,89B5C,13,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POReturnZero.c,matched,
+POSeedTeams,86E8B,555,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedConfFinals.c,nonmatching,"draft (POSeedConfFinals.c, ends in POSeedConfFinals_x): same size (555); the conference compare loads VisTeam first and the first swap step slots[i] first. See docs/UNSURE.md."
 POSeedConfFinals,87B33,363,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedConfFinals.c,nonmatching,
 POSeedFinal,87C9E,188,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedConfFinals.c,nonmatching,
 POSeedRound2,87863,720,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 736 vs 720 (best of 5). The frame, the eight-score scan, both date fills and __STOSD match. Each SeriesWinner result is copied mov edx, eax before the home byte, so the byte lands in eax and the compare is swapped (16 bytes). Do not retry named unsigned chars for the scan, one int for both the day remainder and the home byte (spills to sub esp, 34h), or assigning the home byte to k, the filter counter that lives in edx."
