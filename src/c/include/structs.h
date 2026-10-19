@@ -145,7 +145,7 @@ typedef struct Team {
     short tmpasscomp;            /* 028h completed passes: DumpStatsLog 'passcomp' column */
     short tmline;                /* 02Ah; getlchoice adds tmline*4 to the choice index; lcfound/lcselect store the new line, then setpersonel */
     short tmlcnt;                /* 02Ch none; lcfound/lcselect: when the new line is < 4 it is incremented and wrapped at 3 (even-strength line rotation count) */
-    unsigned char pad_2E[0x2];
+    short tmextra;               /* 02Eh none; SetPlList: pnum of the extra attacker (position 6) it lists, -1 with the goalie in */
     short tmpsplayer;            /* 030h puckglue ends a live penalty shot when the player with this roster index (pnum) takes the puck */
     unsigned char pad_32[0x1];
     signed char tmast1;          /* 033h (assist 1, st): puckglue sets it to -1 in the other team's structure */
@@ -183,6 +183,7 @@ typedef struct Team {
 #define OFS_Team_tmpasscomp 0x28
 #define OFS_Team_tmline 0x2A
 #define OFS_Team_tmlcnt 0x2C
+#define OFS_Team_tmextra 0x2E
 #define OFS_Team_tmpsplayer 0x30
 #define OFS_Team_tmast1 0x33
 #define OFS_Team_tmast2 0x35

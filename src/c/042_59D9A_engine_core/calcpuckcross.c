@@ -1,5 +1,9 @@
 /* Engine core: calcpuckcross and the functions that end in its pop/ret tail (multi-block file, see cc.py). */
+#define IsCupClinched IsCupClinched_decl
 #include "nhl95.h"
+#undef IsCupClinched
+int IsCupClinched(short home, short away);  /* 15C30: clockcont_0 passes the scores as shorts */
+#define PUCK ((Player *)puckstruct)
 
 /* calcpuckcross: find puck crossing lines: when (if at all) the puck will cross each goal line
 . For the goal lines y = +E8h and -E8h: puckcross[0] = x where the puck crosses (bounced
@@ -131,6 +135,91 @@ void defaultsprites2(void)
     SortCords[SCref].legspd = SortCords[SCref].legstr = 0x0F;
     RefStep[0] = -1;
     SprSort();
+}
+
+/* SetPlList (5BBFA, 93G SetPlList; ends in calcpuckcross_ret6): build PlList, the roster indexes (pnum) of the
+   players team t wants on the ice now, -1 for none, with their positions at PlList+6 (byte_E038A). The tmap
+   positions come from priolist, past the goalie when he is pulled (tmgoalie < 0; not while the other team takes
+   a penalty shot). Each player comes from the team's line table through the sublist of that position: the
+   goalie by tmgoalie, the defence by tmlcnt while the line is below 4, the rest by the line; the extra attacker
+   (position 6) is slot 26h. Then, from the last slot down, a listed player in the penalty box or held out
+   (tmpdst > 0 or <= -3), or in one of the last two slots one that TryAddPlayerToList refuses (already listed),
+   is replaced by the first one TryAddPlayerToList takes from his position's sublist, then from the side's
+   25-byte list for defence or forwards (unk_E9D50 / byte_E9E4A, from line 6 on byte_E9DB4 / unk_E9EE0, always
+   the first pair for position 6), then any roster index from 18h down to 1. tmextra gets the pnum listed for
+   position 6 (-1 with the goalie in). No result. */
+void SetPlList(Team *t)
+{
+    signed char *q;
+    short g;
+    short pos;
+    short line;
+    signed char c;
+    unsigned char *lines;
+    signed char *p;
+    short side;
+    short i;
+    short k;
+
+    g = 0;
+    line = t->tmline;
+    lines = t->tmlines;
+    for (side = 0; side < 6; side++) PlList[side] = -1;  /* side as the counter: the EXE's eax */
+    if ((!penshotmode || (t == &awtmstruct) == penshotteam) && t->tmgoalie < 0)
+        g = 1;                                  /* goalie pulled: skip position 0 */
+    else
+        t->tmextra = -1;
+    i = t->tmap;
+    while (--i >= 0) {
+        pos = priolist[i + g + 1];
+        byte_E038A[i] = priolist[i + g + 1];
+        if (pos == 0)
+            PlList[i] = lines[((signed char *)unk_CCCC8)[sublist[pos] + t->tmgoalie]];
+        else if (pos == 6)
+            PlList[i] = lines[0x26];
+        else if (!(line >= 4 || pos > 2))       /* this form and line + sublist below give the EXE's registers */
+            PlList[i] = lines[((signed char *)unk_CCCC8)[sublist[pos] + t->tmlcnt]];
+        else
+            PlList[i] = lines[((signed char *)unk_CCCC8)[line + sublist[pos]]];
+    }
+    for (i = 5; i >= 0; i--) {
+        k = PlList[i];
+        if (k < 0) continue;
+        pos = byte_E038A[i];
+        if (t->tmpdst[k] <= -3 || t->tmpdst[k] > 0 || i >= t->tmap - 2 && !TryAddPlayerToList(t, k, i)) {
+            p = (signed char *)unk_CCCC8 + sublist[pos];
+            do {
+                c = *p++;
+                if (c < 0) {                    /* sublist used up: the side's list */
+                    side = (t == &awtmstruct);
+                    /* an int sum (multiple first) is add reg, offset as in the EXE; list + side * 25 loads the offset */
+                    if (pos == 6 || line < 6) {
+                        if (pos == 1 || pos == 2) q = (signed char *)(side * 25 + (int)unk_E9D50);
+                        else q = (signed char *)(side * 25 + (int)byte_E9E4A);
+                    } else {
+                        if (pos == 1 || pos == 2) q = (signed char *)(side * 25 + (int)byte_E9DB4);
+                        else q = (signed char *)(side * 25 + (int)unk_E9EE0);
+                    }
+                    k = 0;
+                    do {
+                        c = q[k];
+                        k++;
+                        if (c < 0) {            /* list used up: any roster index from 18h down */
+                            k = 0x18;
+                            do {
+                                c = k;
+                                if (--k < 0) goto next;
+                            } while (!TryAddPlayerToList(t, c, i));
+                        }
+                    } while (!TryAddPlayerToList(t, c, i));
+                    break;
+                }
+                c = lines[c];
+            } while (!TryAddPlayerToList(t, c, i));
+        }
+next:
+        if (pos == 6) t->tmextra = PlList[i];
+    }
 }
 
 /* setpersonel: set the personnel of team t: clear newpos /
@@ -346,4 +435,119 @@ frame:
         || fr == 0x36F || fr == 0x373 || fr == 0x377 || fr == 0x3BF || fr == 0x3C3 || fr == 0x3CE || fr == 0x3D1)
         sfx(0xB3);
     ((signed char *)p)[0x46] = 4;
+}
+
+/* clockcont_0 (5D852, 93G clockcont_0; ends in calcpuckcross_ret5): end of a period, also entered from
+   puckfaceoff. The puck gets assignment 18h. Periods 1-2 (gsp < 2) just end the period (AddPenalty2 type 1 on the
+   puck). Later: regd0 = 7 (score), 8 when the result clinches the cup (IsCupClinched); regd1 = hmscore - awscore.
+   A tie in overtime (gsp 3) with fullot on ends the game: clear the penalty buffer, crowd up 384h (to at most
+   4B0h), gmode bits 0 and 6, excitement +28h, all 12 players off the joysticks, AddPenalty2 type 2; any other tie
+   ends the period (type 1). A decided game: both controlled players and the puck carrier cleared, a puck still in
+   assignment 18h gets 1Ah, all players off the joysticks, SetBoxDoorObject(away team leads). For the cup:
+   byte_CCCA0 = 1, gmode bit 7, sortobj15 gets assignment 2Bh and the winning team's skater nearest (-91h, 6) is
+   picked. Then the winning team's six: skaters celebrate (7; the picked one 8 then 2Ah), the goalie stays, an empty
+   slot takes the first player of the team's penalty box list (position 5, 3 for the next ones; assignment 7,
+   setplayer, the list shifted down). Then the penalty buffer is cleared, the crowd raised (home win: +3E8h to at
+   most 5DCh, +320h more for the cup; else at least 320h), gmode bits 0 and 6, excitement +28h, and AddPenalty2
+   type 2 (p past the six). No result. */
+void clockcont_0(void)
+{
+    Player *p;
+    Team *t;
+    short c;
+    short best;
+    int d;
+    int dmin;
+    int dx;
+    int dy;
+
+    assinsert(PUCK, 0x18);
+    if (gsp < 2) {
+        AddPenalty2(PUCK, 1);
+        return;
+    }
+    regd0.w = 7;
+    if (IsCupClinched(hmscore[0], awscore)) regd0.w = 8;
+    p = SortCords;
+    if ((regd1.w = hmscore[0] - awscore) == 0) {
+        if (gsp == 3 && gameopts.fullot) {
+            ClearPenaltyBuffer();
+            if (crowdlevel <= 0x4B0) {
+                crowdlevel += 0x384;
+                if (crowdlevel > 0x4B0) crowdlevel = 0x4B0;
+            }
+            gmode |= 0x41;
+            regd2.w = 0;
+            CwdExciteLvl += 0x28;
+            for (; regd2.w < 12; regd2.w++) SortCords[regd2.w].pflags &= ~pfjoy;
+            AddPenalty2(p, 2);
+        } else {
+            AddPenalty2(p, 1);
+        }
+        return;
+    }
+    c1playernum[0] = c2playernum[0] = -1;
+    *puckc = -1;
+    d = (int)PUCK + PUCK->assnum;               /* the address through d: add eax, puckstruct as in the EXE */
+    if (((signed char *)d)[0x1E] == 0x18) assreplace(PUCK, 0x1A);   /* asslist[assnum] */
+    for (regd2.w = 0; regd2.w < 12; regd2.w++) SortCords[regd2.w].pflags &= ~pfjoy;
+    p = &SortCords[regd1.w < 0 ? 6 : 0];
+    SetBoxDoorObject(regd1.w < 0);
+    if (regd0.w == 8) {
+        byte_CCCA0 = 1;
+        gmode |= 0x80;
+        assinsert((Player *)sortobj15, 0x2B);
+        dmin = 40000;
+        best = p->SCnum;
+        for (regd2.w = 0; regd2.w < 6; regd2.w++, p++) {
+            if (p->position > 0) {
+                dx = HIWORD(p->Xpos) + 0x91;
+                dy = HIWORD(p->Ypos) - 6;
+                dx *= dx;                           /* squared first: the EXE's register order */
+                d = dx + dy * dy;
+                if (d <= dmin) {
+                    dmin = d;
+                    best = p->SCnum;
+                }
+            }
+        }
+    }
+    p = &SortCords[regd1.w < 0 ? 6 : 0];
+    shotplayer = -1;
+    regd1.w = 0;
+    regd2.w = 6;
+    do {
+        if (p->position > 0) {
+            if (regd0.w == 8 && best == p->SCnum) {
+                assinsert(p, 8);
+                assinsert(p, 0x2A);
+            } else {
+                assinsert(p, 7);
+            }
+        } else if (p->position < 0) {
+            t = p->tmptr;
+            c = t->tmpbox[0];
+            if (c >= 0) {
+                p->position = regd1.w ? 3 : 5;
+                regd1.w++;
+                assinsert(p, 7);
+                setplayer(p, c);
+                for (c = 1; ; c++) if ((t->tmpbox[c - 1] = t->tmpbox[c]) < 0) break;
+            }
+        }
+        p++;
+    } while (--regd2.w != 0);
+    ClearPenaltyBuffer();
+    if (hmscore[0] > awscore) {
+        if (crowdlevel <= 0x5DC) {
+            crowdlevel += 0x3E8;
+            if (crowdlevel > 0x5DC) crowdlevel = 0x5DC;
+        }
+        if (regd0.w == 8) crowdlevel += 0x320;
+    } else if (crowdlevel < 0x320) {
+        crowdlevel = 0x320;
+    }
+    gmode |= 0x41;
+    CwdExciteLvl += 0x28;
+    AddPenalty2(p, 2);
 }

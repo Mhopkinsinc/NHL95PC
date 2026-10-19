@@ -12,7 +12,7 @@ global penshotfox, penshotfoy, penshotmode, penshotstart, penshottimer, shotonta
 global sopathx, sopathy, sopathend, sopathpoint, pspathside, pspathdir, dword_CC9AD, dword_CC9CE
 global dword_CCA58, dword_CCA5A, dword_CCAD8, dword_CCB18, dword_CCB1C, dword_CCB20, dword_CCC2C, dword_CCC4E
 global digihandle, crowdsmooth, crowdvol8, crowdvol7, dword_CCC94, dword_CCC98, dword_CCC9C, dword_CCC9D
-global dword_CCC9E, dword_CCCB8, dword_CCCC5, dword_CCD4F, doplayeracc_ftab, MaxSpeed, dword_CCEF6, dword_CD2F8
+global dword_CCC9E, dword_CCCB8, sublist, dword_CCCC5, dword_CCD4F, doplayeracc_ftab, MaxSpeed, dword_CCEF6, dword_CD2F8
 global off_CC01D, starordtab, shotsets, unk_CCCC8, word_CC054, word_CC0B0, lldispodd, ltack
 global crowdlevel, word_CC10C, word_CC9CC, word_CC9EA, word_CC9EC, word_CCA18, word_CCA1A, word_CCA1C
 global word_CCA1E, word_CCA38, word_CCA3A, word_CCA3C, word_CCA3E, word_CCA6E, word_CCA70, word_CCA9C
@@ -391,7 +391,9 @@ db 0Eh,02h,02h,03h,05h,03h,05h
 word_CCCA8:
 db 0F9h,0FFh,0FCh,0FFh,0FAh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh,0FEh,0FFh
 dword_CCCB8:
-db 0FEh,0FFh,00h,00h,03h,00h,014h,00h,025h,00h,057h,00h,03Eh
+db 0FEh,0FFh
+sublist:	; 93G sublist: word offsets into unk_CCCC8 of the substitute list per position 0-6 (SetPlList)
+db 00h,00h,03h,00h,014h,00h,025h,00h,057h,00h,03Eh
 dword_CCCC5:
 db 00h,070h,00h
 unk_CCCC8:

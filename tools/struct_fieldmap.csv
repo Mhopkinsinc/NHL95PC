@@ -38,6 +38,7 @@ tmptr,none,6Ch,"pointer to own team struct: lineinput/lcselect/getlchoice read t
 optmptr,none,70h,"pointer to the other team struct: lcselect/getlchoice compare its tmap with the own team's"
 tmline,$16 (team),2Ah (team),"getlchoice adds tmline*4 to the choice index (93G tmline*3); lcfound stores the new line then setpersonel; player_logic reads [DF614/DF714+2Ah]"
 tmlcnt,none (team),2Ch (team),"lcfound/lcselect: incremented and wrapped at 3 when the new line is < 4"
+tmextra,none (team),2Eh (team),"SetPlList stores PlList[i] of the position-6 slot (the extra attacker) and -1 when the goalie is not pulled"
 tmap,$24 (team),36h (team),"getlchoice/lcselect: other tmap - own tmap picks the even / PK / PP choices, as 93G getlchoice"
 tmflags,$30 (team),44h (team),"lineinput: bit 0 cleared before opening the box; lcfound clears bit 1, as 93G lineinput/lcfound"
 tmscore,$C (team),10h (team),"Goal does inc word [scoring team+10h]; PeriodOver/clockcont_0 compare DF624 with DF724, as 93G Goal addq #1,tmscore(a2)"
