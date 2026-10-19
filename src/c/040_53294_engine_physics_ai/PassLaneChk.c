@@ -3,9 +3,12 @@
  y stays in edx. The other gap is inc esi where the original does lea eax,[esi+1].
  Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx. */
 #define PassLaneChk PassLaneChk_decl
+#define checkpuckcoll checkpuckcoll_decl
 #define imul32 imul32_decl
 #include "nhl95.h"
 #undef PassLaneChk
+#undef checkpuckcoll
+void checkpuckcoll(Player *pk, short n);  /* 5428A: n compared as a short */
 #undef imul32
 int __cdecl imul32(int a, int b);  /* 933F0: the library multiply, arguments on the stack */
 
@@ -15,6 +18,123 @@ int __cdecl imul32(int a, int b);  /* 933F0: the library multiply, arguments on 
  lets the caller test eax and keep edx. */
 int LaneOpen(void);
 #pragma aux LaneOpen "ShotLaneOpen" value [eax] modify [eax];
+
+/* DRAFT (checkpuckcoll): same size (1,570 bytes; its exits jump to PassLaneChk_ret5 as in the EXE). Every
+   statement lines up; the EXE keeps the reach / half size / box size in edi and the speed / |dy| / box limit in
+   esi, this draft the other way round. See docs/UNSURE.md. */
+/* checkpuckcoll (5428A, 93G checkpuckcoll .ccx; ends in PassLaneChk_ret5): check the puck pk against sort object
+   n (from the OOlist walk). Not the carrier, players 0-0Bh and object 10h only, not with pflags bit 2 (no
+   collisions) or nopuck. A goalie's stick (available, position 0): reach s from SkillForAnim (s * 800h - FA0h over
+   the puck speed |vx| + |vy|, 0-4) on the GetHotOrStick offsets: regd2 = |dx| + s, regd4 = |dx| * 4 / 3,
+   regd3 = |dy| * 4 / 3; with the GetHot spot within regd2 in x and y, the puck height between the stick's low
+   and high ends and the distance within regd2 (a quarter of the square while the puck has nopuck), the
+   delayed offside check and puckstick. Another available skater's stick (not object 10h; puck z up to 5 and vz
+   up to 200h): the GetHot spot within 0Eh, the distance squared within C4h (31h while nopuck), and within 24h
+   during frames 430h-44Fh: puckstick, done. Then the body: a goalie within 0Ah, distance squared up to 64h:
+   delayed offside check and puckgoalie. A skater in an odd frame 431h-44Fh with the puck below z 8 first tries
+   the GetHotStick spot (half the offsets, within their size); else within 8 (10h from frame 450h on) and the
+   distance squared up to 40h (100h): puckbody. No result. */
+void checkpuckcoll(Player *pk, short n)
+{
+    Player *p;
+    short s;
+    short v;
+    short h;
+    short fr;
+
+    if (n == *puckc) return;
+    if (n > 0xB && n != 0x10) return;
+    p = &SortCords[n];
+    if (p->pflags & 4) return;
+    if (p->nopuck) return;
+    if (!(p->pflags2 & 4) && p->position == 0) {
+        s = SkillForAnim(p);
+        v = ABS(*puckvx) + ABS(*puckvy);
+        if (v == 0) v = 1;
+        s = ((s << 11) - 0xFA0) / v;
+        if (s < 0) s ^= s;
+        if (s > 4) s = 4;
+        GetHotOrStick(p);
+        regd2.w = ABS(regd0.w);
+        regd4.w = (regd2.w << 2) / 3;
+        v = ABS(regd1.w);
+        regd3.w = (v << 2) / 3;
+        regd2.w += s;
+        GetHot(p);
+        regd0.w += HIWORD(p->Xpos) - *puckx;
+        regd0.w = ABS(regd0.w);
+        if (regd0.w >= regd2.w) goto body;
+        regd1.w += HIWORD(p->Ypos) - *pucky;
+        regd1.w = ABS(regd1.w);
+        if (regd1.w >= regd2.w) goto body;
+        h = regd4.w + v;
+        h = (h > 5 ? h : 5);
+        h += s;
+        if (h < *(short *)puckz) goto body;
+        v -= regd4.w;
+        h = v - s;
+        if (h >= 0 && h >= *(short *)puckz) goto body;
+        regd0.l = regd0.w * regd0.w + regd1.w * regd1.w;
+        regd1.l = regd2.w * regd2.w;
+        if (pk->nopuck > 0) regd1.l >>= 2;
+        if (regd1.w < regd0.w) goto body;
+        ChkDelayedOffside(p);
+        puckstick(pk, p);
+    } else if (!(p->pflags2 & 4) && p->position >= 0 && n != 0x10 && HIWORD(pk->Zpos) <= 5 && pk->Zvel <= 0x200) {
+        GetHot(p);
+        regd0.w += HIWORD(p->Xpos) - HIWORD(pk->Xpos);
+        if (ABS(regd0.w) > 0xE) goto body;
+        regd1.w += HIWORD(p->Ypos) - HIWORD(pk->Ypos);
+        if (ABS(regd1.w) > 0xE) goto body;
+        regd0.l = regd0.w * regd0.w + regd1.w * regd1.w;
+        regd1.l = 0xC4;
+        if (pk->nopuck > 0) regd1.w >>= 2;
+        if (regd0.ul > regd1.ul) goto body;
+        if (p->frame >= 0x430 && p->frame <= 0x44F && regd0.ul > 0x24) goto body;
+        puckstick(pk, p);
+        return;
+    }
+body:
+    if (p->position == 0) {
+        regd0.w = HIWORD(p->Xpos) - HIWORD(pk->Xpos);
+        if (ABS(regd0.w) > 0xA) return;
+        regd1.w = HIWORD(p->Ypos) - HIWORD(pk->Ypos);
+        if (ABS(regd1.w) > 0xA) return;
+        if ((unsigned)(regd0.w * regd0.w + regd1.w * regd1.w) > 0x64) return;
+        ChkDelayedOffside(p);
+        puckgoalie(pk, p);
+        return;
+    }
+    fr = p->frame;
+    if (fr >= 0x431 && fr <= 0x44F && (fr & 1) && *(short *)puckz < 8) {
+        GetHotStick(p);
+        regd0.w >>= 1;
+        regd1.w >>= 1;
+        s = ABS(regd0.w);
+        regd0.w += HIWORD(p->Xpos) - HIWORD(pk->Xpos);
+        if (ABS(regd0.w) <= s) {
+            regd1.w += HIWORD(p->Ypos) - HIWORD(pk->Ypos);
+            if (ABS(regd1.w) <= s) {
+                regd0.l = regd0.w * regd0.w + regd1.w * regd1.w;
+                if ((unsigned)(s * s) >= regd0.ul) goto hit;
+            }
+        }
+    }
+    s = 8;
+    v = 0x40;
+    if (fr > 0x44F) {
+        s = 0x10;
+        v = 0x100;
+    }
+    regd0.w = HIWORD(p->Xpos) - HIWORD(pk->Xpos);
+    if (ABS(regd0.w) > s) return;
+    regd1.w = HIWORD(p->Ypos) - HIWORD(pk->Ypos);
+    if (ABS(regd1.w) > s) return;
+    regd0.l = regd0.w * regd0.w + regd1.w * regd1.w;
+    if ((unsigned)v < regd0.ul) return;
+hit:
+    puckbody(pk, p);
+}
 
 /* PassLaneChk: 1 when team-mate o is ahead of p toward p's goal. p's position must be set and
  ShotLaneOpen must report the lane clear. o is deeper than p, inside the 4Eh line, within 3Ch in
