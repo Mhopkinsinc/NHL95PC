@@ -55,7 +55,7 @@ MakePath,1431E,74,005_1431E_file_utils,src/c/005_1431E_file_utils/MakePath.c,mat
 PanelAddPenalty,14C22,126,005_1431E_file_utils,src/c/005_1431E_file_utils/PanelAddPenalty.c,matched,
 PanelRemovePenalty,14CA0,81,005_1431E_file_utils,src/c/005_1431E_file_utils/PanelRemovePenalty.c,matched,
 ReadKeyRec WriteKeyRec,1463D,46,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,
-CopyFile,1466B,288,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,"draft: same size; srcext is parked in eax (original parks srcdir with mov eax,ecx). A local for srcdir did not change the shuffle. Do not retry that."
+CopyFile,1466B,288,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,matched in ReadKeyRec.c: found by tools/permute.py (the declaration order of the locals).
 ReadSeasonRec,1478B,21,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadKeyRec.c,matched,
 ReadSchedGame,147A0,41,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadSchedGame.c,matched,
 ReadTeamRec ReadGSummaryRec,147C9,92,005_1431E_file_utils,src/c/005_1431E_file_utils/ReadTeamRec.c,matched,
@@ -124,7 +124,7 @@ MenuCallbackTrue MenuCallbackTrue2,18F74,25,010_18D7F_frontend_desk,src/c/010_18
 OutputCurrentData,18D7F,196,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/OutputCurrentData.c,matched,
 PlayRandomHighlight,18F8D,305,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PlayRandomHighlight.c,matched,
 PostGameDesk,1920F,334,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PostGameDesk.c,nonmatching,
-ClearPanelPenalties,1CBD8,101,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ClearPanelPenalties.c,matched,"draft: zero kept in esi (asm ecx), saves esi instead of ecx"
+ClearPanelPenalties,1CBD8,101,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ClearPanelPenalties.c,matched,matched: found by tools/permute.py (the two -1 stores as one chained assignment).
 InitGameSummary,1BEFD,434,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/InitGameSummary.c,matched,
 LoadGameTeams,1BBCC,817,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/LoadGameTeams.c,matched,
 LoadTeamRoster,1C3F6,1041,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/LoadTeamRoster.c,nonmatching,"926 vs 1041. Frame is sub esp,0F4h (cookie 134h); the team index is eax at esp+11Ch. team*186 is add esi,esi where the original shifts the *744 byte offset with shl eax,3. Do not retry explicit shift statements for that index."
