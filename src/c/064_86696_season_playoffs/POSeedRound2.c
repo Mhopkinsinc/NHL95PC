@@ -6,6 +6,10 @@
 #define POSeedTeams POSeedTeams_decl
 #define LockerRoomScreen LockerRoomScreen_decl
 #define savenamedefault savenamedefault_decl
+#define POAfterGame POAfterGame_decl
+#define PostGameToTeamDb PostGameToTeamDb_decl
+#define POSeedConfFinals POSeedConfFinals_decl
+#define POSeedFinal POSeedFinal_decl
 #include "nhl95.h"
 #undef POSeedRound2
 #undef SeriesWinner
@@ -14,6 +18,10 @@
 #undef POSeedTeams
 #undef LockerRoomScreen
 #undef savenamedefault
+#undef POAfterGame
+#undef PostGameToTeamDb
+#undef POSeedConfFinals
+#undef POSeedFinal
 
 typedef struct { char c[13]; } PlayoffName;
 
@@ -21,6 +29,10 @@ int CreatePlayoffs(void);
 void POSeedTeams(int *seeds);
 int LockerRoomScreen(void);
 int mkdir(const char *path);  /* Watcom CRT mkdir_ */
+int POAfterGame(unsigned char *p);
+void PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *dir2);  /* 3626D */
+void POSeedConfFinals(unsigned char *p);
+void POSeedFinal(unsigned char *p);
 extern PlayoffName savenamedefault;  /* 86616: "." and zeros, the default name */
 
 /* DRAFT: 2,037 bytes as in the EXE, 34 differing lines (register picks, the bank store, the epilogue);
@@ -348,4 +360,249 @@ void POSeedRound2(unsigned char *p)
     ser = p + 0x1B3C;
     POSetSeriesTeams(ser, s.out[0], s.out[3]);
     POSetSeriesTeams(ser + 0x2A, s.out[1], s.out[2]);
+}
+
+/* DRAFT: 2,668 vs 2,678 bytes, 100 differing lines (register picks after SeriesWinner and in the controller
+   side code); see docs/UNSURE.md. */
+/* POAfterGame (8873C, PC only; ends in POSeedRound2_x): after a playoff game. Post both teams' game to their team
+   databases (game 444h + the game index), store the score in the game record, load the season, career and key
+   databases and simulate the other series of the round up to this game (POSimSeriesTo). When the series is decided
+   (SeriesWinner): set the round's series length options, simulate the rest of the round (POSimSeries) and mark the
+   games a shorter series no longer needs (FFh) in every series of the round, seed the next round (POSeedRound2,
+   POSeedConfFinals, POSeedFinal), refresh the tree slots (playofftree, FFh shown as 1Ah) and the champion, move on
+   to the winner's next series (the cup final ends the playoff: game 69h, SaveScheduleDB) and write the mode state.
+   Otherwise move to the next game and build the series score line ("tied" or the leader's abbreviation). Write the
+   season database back and free the three. Then set the next game's teams and the controller sides: one human
+   side out of the playoff ends it (result 1); with two humans, the loser's name goes into the "team out" message,
+   its controller drops out (result 2). p: the playoff schedule. Result: 0, 1 when the playoff is over for the
+   player, 2 when one of two players is out. */
+int POAfterGame(unsigned char *p)
+{
+    struct {
+        char path[0x40];
+        int homewon;
+        int ret;
+        int away;
+        int home;
+        int aw;
+        int hw;
+    } f;
+    int idx;
+    unsigned char *s;
+    unsigned char *g;
+    int w;
+    int gn;
+    int j;
+    int k;
+    int m;
+    int n;
+
+    f.ret = 0;
+    idx = *(int *)(p + 0x40);
+    PostGameToTeamDb((char *)&curleague, (char *)str_Db, HomeTeam, 0, idx + 0x444, (char *)&curleague);
+    PostGameToTeamDb((char *)&curleague, (char *)str_Db, VisTeam, 1, idx + 0x444, (char *)&curleague);
+    s = p + (idx + 0x444) * 6;
+    gn = idx % 7 + 1;
+    idx /= 7;
+    s[4] = hmscore[0];
+    s[5] = awscore;
+    MakePath(f.path, (char *)&curleague, (char *)leaguedbnames[5], (char *)str_extDB);
+    seasondb = (unsigned char *)sub_8E8A0(f.path, 0x20);
+    seasondb_size = sub_92DE0(f.path);
+    MakePath(f.path, (char *)&curleague, (char *)leaguedbnames[1], (char *)str_extDB);
+    careerdb = (unsigned char *)sub_8E8A0(f.path, 0x20);
+    careerdb_size = sub_92DE0(f.path);
+    MakePath(f.path, (char *)&curleague, (char *)leaguedbnames[0], (char *)str_extDB);
+    keydb = (unsigned char *)sub_8E8A0(f.path, 0x20);
+    keydb_size = sub_92DE0(f.path);
+    if (idx < 8) {
+        for (w = 0; w < 8; w++)
+            if (w != idx) POSimSeriesTo(p, w, gn);
+    } else if (idx < 0xC) {
+        for (w = 8; w < 0xC; w++)
+            if (w != idx) POSimSeriesTo(p, w, gn);
+    } else if (idx < 0xE) {
+        for (w = 0xC; w < 0xE; w++)
+            if (w != idx) POSimSeriesTo(p, w, gn);
+    }
+    g = p + (idx * 7 + 0x444) * 6;
+    w = SeriesWinner(g, gameopts.optbits12);
+    if (w >= 0) {
+        f.homewon = w == HomeTeam;
+        if (idx < 8) {
+            *(int *)(p + 0x50) = *(int *)(p + 0x54) = *(int *)(p + 0x58) = *(int *)(p + 0x5C) =
+                *(int *)(p + 0x60) = *(int *)(p + 0x64) = *(int *)(p + 0x68) = *(int *)(p + 0x6C) = gameopts.optbits12;
+            s = p + 0x1998;
+            for (j = 0; j < 8; j++, s += 0x2A) {
+                if (j != idx) POSimSeries(s, gameopts.optbits12);
+                for (k = 0; k < 7 && s[k * 6 + 4] != 0xFF; k++);
+                for (m = gameopts.optbits12 / 2 + 1, k -= m; m < 4; m++) {
+                    n = k + m;
+                    s[n * 6] = s[n * 6 + 1] = s[n * 6 + 2] = s[n * 6 + 3] = s[n * 6 + 4] = s[n * 6 + 5] = 0xFF;
+                }
+            }
+            POSeedRound2(p);
+        } else if (idx < 0xC) {
+            *(int *)(p + 0x70) = *(int *)(p + 0x74) = *(int *)(p + 0x78) = *(int *)(p + 0x7C) = gameopts.optbits12;
+            s = p + 0x1AE8;
+            for (j = 8; j < 0xC; j++, s += 0x2A) {
+                if (j != idx) POSimSeries(s, gameopts.optbits12);
+                for (k = 0; k < 7 && s[k * 6 + 4] != 0xFF; k++);
+                for (m = gameopts.optbits12 / 2 + 1, k -= m; m < 4; m++) {
+                    n = k + m;
+                    s[n * 6] = s[n * 6 + 1] = s[n * 6 + 2] = s[n * 6 + 3] = s[n * 6 + 4] = s[n * 6 + 5] = 0xFF;
+                }
+            }
+            POSeedConfFinals(p);
+        } else if (idx < 0xE) {
+            *(int *)(p + 0x80) = *(int *)(p + 0x84) = gameopts.optbits12;
+            s = p + 0x1B90;
+            for (j = 0xC; j < 0xE; j++, s += 0x2A) {
+                if (j != idx) POSimSeries(s, gameopts.optbits12);
+                for (k = 0; k < 7 && s[k * 6 + 4] != 0xFF; k++);
+                for (m = gameopts.optbits12 / 2 + 1, k -= m; m < 4; m++) {
+                    n = k + m;
+                    s[n * 6] = s[n * 6 + 1] = s[n * 6 + 2] = s[n * 6 + 3] = s[n * 6 + 4] = s[n * 6 + 5] = 0xFF;
+                }
+            }
+            POSeedFinal(p);
+        } else {
+            *(int *)(p + 0x88) = gameopts.optbits12;
+            s = p + 0x1BE4;
+            for (k = 0; k < 7 && s[k * 6 + 4] != 0xFF; k++);
+            for (m = gameopts.optbits12 / 2 + 1, k -= m; m < 4; m++) {
+                n = k + m;
+                s[n * 6] = s[n * 6 + 1] = s[n * 6 + 2] = s[n * 6 + 3] = s[n * 6 + 4] = s[n * 6 + 5] = 0xFF;
+            }
+        }
+        s = p + 0x1AE8;
+        for (j = 0x10; j < 0x1E; j += 2, s += 0x2A) {
+            playofftree[j] = s[2];
+            playofftree_p1[j] = s[3];
+            if (playofftree[j] == 0xFF) playofftree[j] = 0x1A;
+            if (playofftree_p1[j] == 0xFF) playofftree_p1[j] = 0x1A;
+        }
+        s = p + 0x1BE4;
+        pochampion = SeriesWinner(s, *(int *)(p + 0x88));
+        if (pochampion == -1) pochampion = 0x1A;
+        switch (idx) {
+        case 0: case 1: case 2: case 3:
+            if (p[0x1AEA] == w || p[0x1AEB] == w) {
+                idx = 8;
+                s = p + 0x1AE8;
+            } else {
+                idx = 9;
+                s = p + 0x1B12;
+            }
+            break;
+        case 4: case 5: case 6: case 7:
+            if (p[0x1B3E] == w || p[0x1B3F] == w) {
+                idx = 0xA;
+                s = p + 0x1B3C;
+            } else {
+                idx = 0xB;
+                s = p + 0x1B66;
+            }
+            break;
+        case 8: case 9:
+            idx = 0xC;
+            s = p + 0x1B90;
+            break;
+        case 0xA: case 0xB:
+            idx = 0xD;
+            s = p + 0x1BBA;
+            break;
+        case 0xC: case 0xD:
+            idx = 0xE;
+            s = p + 0x1BE4;
+            break;
+        case 0xE:
+            idx = 0xF;
+            off_CF983 = 0;
+            *(int *)(p + 0x40) = 0x69;
+            SaveScheduleDB((char *)p);
+            break;
+        }
+        *(int *)(p + 0x40) = idx * 7;
+        WriteModeState(postate);
+    } else {
+        f.aw = f.hw = 0;
+        s = p + (++*(int *)(p + 0x40) + 0x444) * 6;
+        POSeriesScore(g, &f.hw, &f.aw, &f.home, &f.away);
+        if (f.hw == f.aw)
+            sprintf((char *)unk_ED7BC, (char *)dword_D288C, (char *)str_Tied, f.hw, f.aw);
+        else if (f.hw > f.aw)
+            sprintf((char *)unk_ED7BC, (char *)dword_D288C, (char *)teamabbrevs[f.home], f.hw, f.aw);
+        else
+            sprintf((char *)unk_ED7BC, (char *)dword_D288C, (char *)teamabbrevs[f.away], f.aw, f.hw);
+        strcpy((char *)unk_DDCFB, (char *)unk_ED7BC);
+    }
+    MakePath(f.path, (char *)&curleague, (char *)leaguedbnames[5], (char *)str_extDB);
+    sub_932D0(f.path, seasondb, seasondb_size);
+    if (seasondb) FreeMemBlock((int)seasondb);
+    if (careerdb) FreeMemBlock((int)careerdb);
+    if (keydb) FreeMemBlock((int)keydb);
+    keydb_size = careerdb_size = seasondb_size = (int)(keydb = careerdb = seasondb = 0);
+    if (idx < 0xF) {
+        if (w >= 0) {
+            if (ctl1side[0] == ctl2side || (ctl2team < 0) ^ (ctl1team[0] < 0)) n = 1;
+            else if (ctl1team[0] >= 0 || ctl2team >= 0) n = 2;
+            else n = 0;
+            if (n == 1) {
+                if (w != ctl1team[0] && w != ctl2team) {
+                    *(int *)(p + 0x40) = 0x69;
+                    off_CF983 = 0;
+                    SaveScheduleDB((char *)p);
+                    return 1;
+                }
+            } else if (n == 2) {
+                strcpy((char *)msg_POTeamOut_arg, (char *)hmteamrec + f.homewon * 0x2E8 + 5);
+                strcpy((char *)msg_POTeamOut_arg2, (char *)hmteamrec + (f.homewon == 0) * 0x2E8 + 5);
+                if (w != ctl1team[0]) ctl1team[0] = (ctl1side[0] == 0) - 2;
+                else ctl2team = (ctl2side == 0) - 2;
+                f.ret = 2;
+            }
+            *(int *)(p + 0x44) = idx;
+            HomeTeam = s[2];
+            VisTeam = s[3];
+            if (w == ctl1team[0] && ctl1team[0] == ctl2team) {
+                if (s[2] == ctl1team[0]) {
+                    ctl2side = 0;
+                    ctl1side[0] = 0;
+                } else {
+                    ctl1side[0] = ctl2side = 1;
+                }
+            } else if (w == ctl1team[0]) {
+                if (s[2] == w) {
+                    ctl1side[0] = 0;
+                    ctl2team = -2;
+                    ctl2side = 1;
+                } else {
+                    ctl1side[0] = 1;
+                    ctl2team = -1;
+                    ctl2side = 0;
+                }
+            } else if (w == ctl2team) {
+                if (s[2] == ctl2team) {
+                    ctl2side = 0;
+                    ctl1team[0] = -2;
+                    ctl1side[0] = 1;
+                } else {
+                    ctl2side = 1;
+                    ctl1team[0] = -1;
+                    ctl1side[0] = 0;
+                }
+            }
+        } else {
+            HomeTeam = s[2];
+            VisTeam = s[3];
+            if (ctl1team[0] == -1) ctl1side[0] = 0;
+            else if (ctl1team[0] != -2 && HomeTeam == ctl1team[0]) ctl1side[0] = 0;
+            else ctl1side[0] = 1;
+            if (ctl2team == -1) ctl2side = 0;
+            else if (ctl2team != -2 && HomeTeam == ctl2team) ctl2side = 0;
+            else ctl2side = 1;
+        }
+    }
+    return f.ret;
 }
