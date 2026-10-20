@@ -19,7 +19,6 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * BlitJerseyDigit: colour store and the right-edge load are swapped. `volatile` and a goto did not.
 * StubRet4b: `push 10h; call __CHK; ret 4`. An unused array is dropped; `-od` spills the frame.
 * LoadCupFinalSeries: `db = db + 2` is `add [esp], 2`. The original loads, adds, and stores.
-* ClearPanelPenalties: the zero is hoisted into si. An inner `short z = 0` was still hoisted.
 * MenuP1ControlsInGame: ControlsDlgInGame is split in the EXE (it begins in the middle of MenuP1ControlsInGame), so those two cannot be marked. MenuP2ControlsInGame is marked on its own.
 * SetGameSides: `g * 6` is shifted in eax (`mov eax, ebx`) and the original shifts edx. Declaring `o` first did not change it. `games += g * 6` kept the pointer in edx but widened the byte with `movzx edi` and an extra `push edi` (103 vs 106). Do not retry those.
 * CmpShootPct: the season record is `mov edx, [statsskaterbuf]; add eax, edx` (277). C copies the index first (`mov edx, eax; mov eax, [buf]; add eax, edx`, 278). Operand order and an if/else did not flip that add.
