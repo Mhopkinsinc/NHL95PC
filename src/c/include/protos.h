@@ -722,6 +722,7 @@ void cleargamevars(void);  /* 5CD4F */
 int IsCupClinched(unsigned char home, unsigned char away);  /* 15C30 */
 int SeriesLength(unsigned char *s);  /* 42221 */
 void SetSeriesTeams(unsigned char *s, int a, int b, int games);  /* 42F42 */
+int SeedPlayoffRound1(int *seeds, unsigned char *sched, int fh, int games, unsigned char *teams);  /* 42FED */
 void UpdatePowerPlayFlags(void);  /* 63C73 */
 int CheckBump(Player *p, Player *c);  /* 54990 */
 int ChkDelayedOffside(Player *p);  /* 541CA */

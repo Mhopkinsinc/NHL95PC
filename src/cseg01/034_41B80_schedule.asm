@@ -1712,6 +1712,10 @@ mov byte [byte eax+03h], bl	; 42FE8
 pop esi	; 42FEB
 ret	; 42FEC
 %endif ; C
+; C: src/c/034_41B80_schedule/SimPlayoffRound1.c (SeedPlayoffRound1)
+%ifdef CBUILD
+%include "c/034_41B80_schedule/SimPlayoffRound1.SeedPlayoffRound1.inc"
+%else
 SeedPlayoffRound1:
 push dword 5FCh	; 42FED
 call __CHK	; 42FF2
@@ -2171,6 +2175,7 @@ xor eax, eax	; 43637
 .23:
 add esp, 5ECh	; 43639
 jmp near SimPlayoffRound1_pop3	; 4363F
+%endif ; C
 SimPlayoffRound1:
 push dword 94h	; 43644
 call __CHK	; 43649

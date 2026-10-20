@@ -379,7 +379,6 @@ extern void SeriesLength_bo7(); /* 4228E */
 extern void RandomizeSchedule(); /* 42295 */
 extern void SimScheduleDay(); /* 42631 */
 extern void BuildPlayoffs(); /* 428AB */
-extern void SeedPlayoffRound1(); /* 42FED */
 extern void SimPlayoffRound1_ok(); /* 4374C */
 extern void SimPlayoffRound1_pop3(); /* 43751 */
 extern void FinishPlayoffs_jt(); /* 44889 */
