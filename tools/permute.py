@@ -19,6 +19,8 @@ Each candidate is the current best text with one transform applied (once those a
   temp      a local used once inlined into its use (and the declaration dropped)
   rettype   the function's return type (int, short, unsigned short, unsigned char, char)
   paramtype an integer parameter's type (the prototypes in the file and the definition together)
+  tempadd   a call-free subexpression a op b (or a whole right-hand side) computed into a new int temporary
+  ifswap    if (c) A; else B; -> if (!(c)) B; else A;
 Candidates are compiled in batched DOSBox runs (cc.compile_parallel), compared with tools/cdiff.py's compare(),
 and scored by the aligned count of differing instructions (relocations compared by target, jumps by mnemonic;
 ties broken by the size difference). Every attempt is appended to the log CSV (date, function, file, transform,
@@ -37,7 +39,7 @@ import cc, cdiff, scope_decls
 
 LOG = os.path.join(HERE, 'permute_log.csv')
 SKIP = os.path.join(ROOT, 'docs', 'unsure_tried.csv')
-LOGF = ['date', 'func', 'file', 'transform', 'sha1', 'score', 'sizediff', 'match']
+LOGF = ['date', 'func', 'file', 'transform', 'sha1', 'score', 'sizediff', 'match', 'first']
 INT_TYPES = ['int', 'short', 'unsigned', 'unsigned short', 'char', 'unsigned char', 'signed char']
 TYPE_RE = r'(?:(?:unsigned|signed)\s+)?(?:char|short|int|long)|unsigned|signed'
 DECL1 = re.compile(r'^(\s+)(%s)(\s+)(\w+)\s*;(\s*/\*.*?\*/)?\s*$' % TYPE_RE)
@@ -326,6 +328,64 @@ def t_temp(text, func, lines, b0, b1):
         yield 'temp:%s:inline' % name, '\n'.join(L)
 
 
+def t_tempadd(text, func, lines, b0, b1):
+    """a call-free binary subexpression `a op b` (or a whole right-hand side) of a simple statement computed into a
+    new int temporary just before the statement"""
+    u = decl_units(lines, b0, b1)
+    if not u: return
+    last = u[-1][1]
+    used = set(re.findall(r'\b_t\d+\b', text)); n = 0
+    while '_t%d' % n in used: n += 1
+    tmp = '_t%d' % n
+    ptrs = set()   # locals declared as pointers or arrays: no int temporary for their arithmetic
+    for a0, a1, name in u:
+        if '*' in strip(lines[a0]) or '[' in strip(lines[a0]) or a0 != a1: ptrs.add(name)
+    pat = re.compile(r'(?=(%s)(\s*)(\+|-|\*|&|\||\^|<<|>>)(\s*)(%s))' % (ATOM, ATOM))
+    for k in range(last + 1, b1):
+        l = lines[k]
+        if not simple_stmt(l) or k > 0 and header_without_brace(lines[k - 1]): continue
+        ind = l[:len(l) - len(l.lstrip())]
+        seen = set()
+        for m in pat.finditer(l):
+            a, op, b = m.group(1), m.group(3), m.group(5)
+            i = m.start(); j = i + len(a) + len(m.group(2)) + len(op) + len(m.group(4)) + len(b)
+            if l[j:j + 1] in ('[', '(', '.', '-', '=') or (i > 0 and (l[i - 1].isalnum() or l[i - 1] in '_.>')): continue
+            o0 = i + len(a) + len(m.group(2))
+            if op in '+-&|' and (l[o0 + 1:o0 + 2] in ('+', '-', '&', '|', '=') or l[o0 - 1:o0] in ('+', '-', '&', '|')): continue
+            if not _context_ok(l, i, j): continue
+            if re.match(r'[A-Za-z_]\w*', a).group(0) in ptrs if re.match(r'[A-Za-z_]', a) else False: continue
+            if re.match(r'[A-Za-z_]\w*', b).group(0) in ptrs if re.match(r'[A-Za-z_]', b) else False: continue
+            e = l[i:j]
+            if e in seen: continue
+            seen.add(e)
+            L = list(lines)
+            L[k] = l[:i] + tmp + l[j:]
+            L.insert(k, '%s%s = %s;' % (ind, tmp, e))
+            L.insert(last + 1, '    int %s;' % tmp)
+            yield 'tempadd:%d:%s' % (k - b0, op), '\n'.join(L)
+        m = re.match(r'^(\s+)(%s) = ([^;]+);(\s*/\*.*\*/)?$' % LV, l)
+        if m and not re.search(r'\w\s*\(', m.group(3)) and re.search(r'[-+*&|^<>]', m.group(3)) \
+                and not re.match(r'^[A-Za-z_]\w*$', m.group(2)):
+            L = list(lines)
+            L[k] = '%s%s = %s;' % (m.group(1), m.group(2), tmp)
+            L.insert(k, '%s%s = %s;' % (m.group(1), tmp, m.group(3).strip()))
+            L.insert(last + 1, '    int %s;' % tmp)
+            yield 'tempadd:%d:rhs' % (k - b0), '\n'.join(L)
+
+
+def t_ifswap(text, func, lines, b0, b1):
+    """`if (c) A; else B;` (one line each) -> `if (!(c)) B; else A;`"""
+    for k in range(b0 + 1, b1 - 1):
+        m1 = re.match(r'^(\s+)if \((.+)\) ([^{};]+;)$', lines[k])
+        m2 = re.match(r'^(\s+)else ([^{};]+;)$', lines[k + 1])
+        if not (m1 and m2 and m1.group(1) == m2.group(1)) or m2.group(2).startswith('if '): continue
+        c = m1.group(2)
+        nc = c[1:] if re.match(r'^!%s$' % ATOM, c) else '!(%s)' % c
+        L = list(lines)
+        L[k] = '%sif (%s) %s' % (m1.group(1), nc, m2.group(2)); L[k + 1] = '%selse %s' % (m1.group(1), m1.group(3))
+        yield 'ifswap:%d' % (k - b0), '\n'.join(L)
+
+
 RET_TYPES = ['int', 'short', 'unsigned short', 'unsigned char', 'char', 'void']
 
 
@@ -379,7 +439,7 @@ def t_paramtype(text, func, lines, b0, b1):
 TRANSFORMS = [('type', t_type), ('swapdecl', t_swapdecl), ('movedecl', t_movedecl), ('scope', t_scope), ('swapstmt', t_swapstmt),
               ('commute', t_commute), ('cmpflip', t_cmpflip), ('incdec', t_incdec), ('zero', t_zero),
               ('chain', t_chain), ('ternary', t_ternary), ('temp', t_temp), ('rettype', t_rettype),
-              ('paramtype', t_paramtype)]
+              ('paramtype', t_paramtype), ('tempadd', t_tempadd), ('ifswap', t_ifswap)]
 
 
 def neighbours(text, func, only=None):
@@ -407,6 +467,11 @@ def norm(t):
     return ins
 
 
+def key(r):
+    """the search order of two scores: fewer differing instructions, then the size, then a later first difference"""
+    return (r[0], r[1], -r[3])
+
+
 def score(cand_src, obj, func, src):
     c = cdiff.compare(cand_src, obj, func, asm_src=src)
     C = [norm(t) for t in c['ctexts']]; O = [norm(t) for t in c['otexts']]
@@ -414,7 +479,8 @@ def score(cand_src, obj, func, src):
     nd = sum(max(i2 - i1, j2 - j1) for tag, i1, i2, j1, j2 in sm.get_opcodes() if tag != 'equal')
     if not c['ok']: nd = max(nd, 1)
     else: nd = 0
-    return nd, abs(c['n'] - (c['olen'] or 0)), c['ok']
+    first = c['rows'][c['first']][1] if c['first'] is not None else c['n']
+    return nd, abs(c['n'] - (c['olen'] or 0)), c['ok'], first
 
 
 # ---- log ---------------------------------------------------------------------------------------------------------
@@ -424,7 +490,8 @@ def load_log(path, func):
     if os.path.exists(path):
         for r in csv.DictReader(open(path, newline='')):
             if r['func'] == func:
-                seen[r['sha1']] = (int(r['score']), int(r['sizediff']), r['match'] == '1') if r['score'] != '' else None
+                seen[r['sha1']] = None if r['score'] == '' else \
+                    (int(r['score']), int(r['sizediff']), r['match'] == '1', int(r.get('first') or 0))
     return seen
 
 
@@ -491,7 +558,7 @@ def main():
                 except (SystemExit, Exception) as e: r = None
             logged[h] = r
             rows.append([datetime.date.today().isoformat(), func, src, desc, h, '' if r is None else r[0],
-                         '' if r is None else r[1], '' if r is None else int(r[2])])
+                         '' if r is None else r[1], '' if r is None else int(r[2]), '' if r is None else r[3]])
             out.append((desc, text, r, True))
             for x in (f, o):
                 if os.path.exists(x): os.remove(x)
@@ -526,12 +593,12 @@ def main():
             for d, t in nb: tried.add(fsha(t, func))
             improved = False; plateau = []
             for desc, text, r, new in evaluate([((cur_desc + ' > ' + d) if cur_desc != 'base' else d, t) for d, t in nb]):
-                if new: stall += 1
+                stall += 1   # logged candidates count too: a rerun over a logged neighbourhood ends
                 if r is None: continue
-                if (r[0], r[1]) < (best[0], best[1]) or r[2]:
+                if key(r) < key(best) or r[2]:
                     best, best_desc, best_text = r, desc, text; improved = True; stall = 0
                     if r[2]: break
-                elif (r[0], r[1]) == (best[0], best[1]): plateau.append((desc, text))
+                elif key(r) == key(best): plateau.append((desc, text))
             if improved: cur_desc, cur_text = best_desc, best_text
             elif plateau and rnd.random() < 0.5: cur_desc, cur_text = rnd.choice(plateau)
             else: cur_desc, cur_text = best_desc, best_text
