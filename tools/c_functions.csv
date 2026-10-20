@@ -188,6 +188,8 @@ GoalieStatsCard,22581,2141,017_21CDE_player_stats,src/c/017_21CDE_player_stats/G
 PlayerFromMouseY,24453,143,017_21CDE_player_stats,src/c/017_21CDE_player_stats/PlayerFromMouseY.c,matched,
 SkaterStatsCard,21CDE,2211,017_21CDE_player_stats,src/c/017_21CDE_player_stats/SkaterStatsCard.c,nonmatching,
 TeamFromMouse,26B5A,1318,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamFromMouse.c,matched,
+TeamRosterScreen,244E2,3170,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamRosterScreen.c,nonmatching,"draft (own file): 3169 vs 3170, 37 lines (spilled scalar slot order, one copy register pick). See docs/UNSURE.md."
+TeamStatsScreen,235BE,3733,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamStatsScreen.c,nonmatching,"draft (own file): 3742 vs 3733, 172 lines (scalar slots, shared key tails). See docs/UNSURE.md."
 CountSeriesWins,27C34,872,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/CountSeriesWins.c,nonmatching,"draft: 904 vs 872, -od. Argument homes, i at ebp-10h and the 3Ch frame match. sched is at ebp-0Ch and the game pointer at ebp-8 (original ebp-8 and ebp-4). Do not drop the game-byte pointer; the frame shrinks to 38h."
 HighlightTreeSlot,2785F,868,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/HighlightTreeSlot.c,matched,
 MoveTreeHighlight,27BC3,113,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/MoveTreeHighlight.c,matched,
@@ -200,6 +202,8 @@ LoadLeagueTree,29B07,366,019_2970A_league_schedule,src/c/019_2970A_league_schedu
 LoadPlayoffModeTree,2970A,530,019_2970A_league_schedule,src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c,matched,
 OpenStatsSchedule,29A97,112,019_2970A_league_schedule,src/c/019_2970A_league_schedule/OpenStatsSchedule.c,matched,
 TreeSeriesWinner,2991C,379,019_2970A_league_schedule,src/c/019_2970A_league_schedule/TreeSeriesWinner.c,nonmatching,"draft: 379 vs 379, instructions match, stack slots do not. Win counters match. The series pointer, same and round are reversed against the original homes, and the return sits at ebp-10h (original ebp-4). Do not retry: reversing local order, or putting every local in one block."
+PreGameScreen,29F28,3255,020_29F18_arena_logos,src/c/020_29F18_arena_logos/PreGameScreen.c,nonmatching,"draft (own file): 3240 vs 3255, 165 lines (team loop zero extension, slots, input loop registers). See docs/UNSURE.md."
+TonightsGameScreen,2ABDF,3032,020_29F18_arena_logos,src/c/020_29F18_arena_logos/TonightsGameScreen.c,nonmatching,"draft (own file): 3043 vs 3032, 140 lines (spilled scalar slots, second crest size). See docs/UNSURE.md."
 CmpFileNames,2BEEA,19,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/CmpFileNames.c,matched,
 DeleteSavedGame,2CE29,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/DeleteSavedGame.c,nonmatching,"draft: 623 vs 624 beside LoadFileDlgShapes. The pack loop, both result zeros, the count decrement and the empty-list switch match. strcpy's cursor and the strcat extension index are eax (original edx); mov eax,[fdlgtab] is 5 bytes and mov edx,[fdlgtab] is 6. Do not retry naming that index or an inner block for it."
 FileDlgHitTest,2C3FF,82,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c,matched,
@@ -689,6 +693,7 @@ DrawTextOverlay,665AD,2093,046_644A8_engine_display,src/c/046_644A8_engine_displ
 updatereplay,675D6,810,046_644A8_engine_display,src/c/046_644A8_engine_display/updatereplay.c,nonmatching,"draft: 810 vs 812, 198/216 instructions; register choices. See UNSURE."
 DebugMonitor,688A4,1495,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DebugMonitor.c,nonmatching,
 DumpStatsLog,68E7B,1211,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DumpStatsLog.c,nonmatching,
+StartHL2,69336,3325,048_69336_game_frame,src/c/048_69336_game_frame/StartHL2.c,nonmatching,"draft (own file): 3322 vs 3325, 145 lines (parameter homing, SortCords loop registers). See docs/UNSURE.md."
 WriteLeagueDbsMem,6C96C,291,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,
 FreeLeagueDbsMem,6CA8F,220,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,
 BuildFreeAgentList,6BF4A,249,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,nonmatching,"draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those."
