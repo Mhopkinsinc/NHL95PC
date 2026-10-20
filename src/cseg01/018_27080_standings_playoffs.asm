@@ -1313,6 +1313,10 @@ pop edi	; 27F98
 pop esi	; 27F99
 pop ecx	; 27F9A
 ret	; 27F9B
+; C: src/c/018_27080_standings_playoffs/PlayoffTreeScreen.c
+%ifdef CBUILD
+%include "c/018_27080_standings_playoffs/PlayoffTreeScreen.inc"
+%else
 PlayoffTreeScreen:
 push dword 224h	; 27F9C
 call __CHK	; 27FA1
@@ -2936,6 +2940,7 @@ pop edx	; 2967D
 pop ecx	; 2967E
 pop ebx	; 2967F
 ret	; 29680
+%endif ; C
 ; C: src/c/018_27080_standings_playoffs/PlayoffTreeHitTest.c
 %ifdef CBUILD
 %include "c/018_27080_standings_playoffs/PlayoffTreeHitTest.inc"
