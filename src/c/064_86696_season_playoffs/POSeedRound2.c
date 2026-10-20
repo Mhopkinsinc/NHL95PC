@@ -14,6 +14,8 @@
 #define PlayoffTreeMenu PlayoffTreeMenu_decl
 #define PreGameScreen PreGameScreen_decl
 #define sub_910B0 sub_910B0_decl
+#define DrawPlayoffTree DrawPlayoffTree_decl
+#define CountSeriesWins CountSeriesWins_decl
 #include "nhl95.h"
 #undef POSeedRound2
 #undef SeriesWinner
@@ -30,8 +32,13 @@
 #undef PlayoffTreeMenu
 #undef PreGameScreen
 #undef sub_910B0
+#undef DrawPlayoffTree
+#undef CountSeriesWins
 
 typedef struct { char c[13]; } PlayoffName;
+typedef struct { char c[34]; } TreeStr34;
+typedef struct { char c[19]; } TreeStr19;
+typedef struct { char c[3]; } TreeStr3;
 
 int CreatePlayoffs(void);
 void POSeedTeams(int *seeds);
@@ -45,6 +52,8 @@ void POHandleElimination(int mode, unsigned char *po);
 int PlayoffTreeMenu(void *bar, int n, int col1, int col2, int col3, int sel);
 int PreGameScreen(int home, int vis);
 void __cdecl sub_910B0(int a);  /* graphics library */
+void DrawPlayoffTree(void);
+void CountSeriesWins(int *tree, int *wins, int mode);  /* 27C34 */
 extern PlayoffName savenamedefault;  /* 86616: "." and zeros, the default name */
 
 /* DRAFT: 2,037 bytes as in the EXE, 34 differing lines (register picks, the bank store, the epilogue);
@@ -838,4 +847,283 @@ int PlayoffModeLoop(int *fh)
     WriteModeState(postate);
     LoadModeState(exhstate);
     return 2;
+}
+
+#define TX(i) (((int *)treecolx)[i])
+
+/* DRAFT: 4,616 vs 4,617 bytes; only the first seed loop differs (i and the playofftree read swap eax / edx);
+   see docs/UNSURE.md. */
+/* DrawPlayoffTree (8A652, PC only; ends in POSeedRound2_x): draw the playoff tree. The BKGD2 background (rows 13h
+   down), the BangPal palette when dword_C6D26 asks for it, the series wins (CountSeriesWins). Before the first
+   round is seeded say so ("Playoffs have not been...", Kaufman font, centred). Otherwise the PSTATBAR2 bars, the
+   SCUPARRW arrows bank, the title and the two conference captions; then number the first-round teams (seeds in
+   dword_C6DBA) and draw each round from the top: the West first round (8 lines in two columns), the West second
+   round, the West final, the cup final, the East final, the East second round (mirrored) and the East first round,
+   each team as seed letter, city and wins, its wins lit (44h West, C4h East) when it reached the next round, with
+   the arrows between rounds once every team of the next round is known. No arguments, no result. */
+void DrawPlayoffTree(void)
+{
+    struct {
+        int wins[0x1E];
+        char state[0x40];
+        char buf[0x20];
+        char path[0x10];
+    } f;
+    int midl;
+    int arrows;
+    short y;
+    int mf;
+    int kf;
+    int bank;
+    int art;
+    short i;
+    short x;
+    short slot;
+
+    midl = 0;
+    mf = mainfont;
+    kf = kaufmfont;
+    sub_B4BC4(0, 0x280, 0x13, 0x1E0);
+    sub_913B4(sub_B30B4(dword_C65AC, (char *)str_Bkgd2));
+    sub_B4BC4(0, 0x280, 0, 0x1E0);
+    if (dword_C6D26 == 1) {
+        MakePath(f.path, fileoncd[0x8E] == 1 ? (char *)cddriveptr : 0, (char *)str_Embpal, 0);
+        bank = sub_8E83C(f.path, 0);
+        sub_B4B88(0, 0x100, (unsigned char *)sub_B30B4(bank, (char *)str_BangPal) + 0x10);
+        FreeMemBlock(bank);
+        dword_C6D26 = 0;
+    }
+    CountSeriesWins(playofftree, f.wins, 1);
+    SetTextColors(0x40, 0x43);
+    if (playofftree[treecolslots[0]] > 0x19) {
+        sub_8EA18(kf);
+        *(TreeStr34 *)f.buf = *(TreeStr34 *)str_PlayoffsHaveNotBeen;
+        PrintOutlinedText(0x140 - (fputchar(f.buf) >> 1), 0xF0, f.buf);
+        sub_8EA18(mf);
+        return;
+    }
+    MakePath(f.path, fileoncd[0x13C] == 1 ? (char *)cddriveptr : 0, (char *)str_Pstatbar2, 0);
+    bank = sub_8E83C(f.path, 0);
+    art = sub_B30B4(bank, (char *)str_Rst1);
+    sub_91370(art, 0, 0x1A);
+    art = sub_B30B4(bank, (char *)str_Rst2);
+    sub_91370(art, 0xF, 0x192);
+    FreeMemBlock(bank);
+    MakePath(f.path, fileoncd[0x16E] == 1 ? (char *)cddriveptr : 0, (char *)str_Scuparrw, 0);
+    arrows = sub_8E83C(f.path, 0);
+    TextGridOpen();
+    sub_8E9E8(f.state);
+    sub_8EA18(mf);
+    SetTextColors(0x40, 0x43);
+    strcpy(f.buf, (char *)str_POTitle);
+    PrintCenteredText(0x16, f.buf);
+    sub_8EA18(kf);
+    *(TreeStr19 *)f.buf = *(TreeStr19 *)str_WesternConference;
+    PrintOutlinedText(0x140 - (fputchar(f.buf) >> 1), 0x2F, f.buf);
+    *(TreeStr19 *)f.buf = *(TreeStr19 *)str_EasternConference;
+    PrintOutlinedText(0x140 - (fputchar(f.buf) >> 1), 0x1A7, f.buf);
+    sub_8EA18(mf);
+    for (i = 0; i < 8; i++) {
+        if (i < 4) slot = treecolslots[i * 2];
+        else slot = treecolslots[7 - (i * 2 - 8)];
+        dword_C6DBA[playofftree[slot]] = i;
+        if (i < 4) slot = treecol_Er1[i * 2];
+        else slot = treecol_Er1[7 - (i * 2 - 8)];
+        dword_C6DBA[playofftree[slot]] = i;
+    }
+    y = 0x48;
+    for (i = 0; i < 8; i++) {
+        if (i < 4) {
+            x = i;
+            slot = treecolslots[i * 2];
+        } else {
+            x = 7 - i;
+            slot = treecolslots[7 - (i * 2 - 8)];
+        }
+        SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+        strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+        PrintShadowText(TX(x), y, f.buf);
+        x = TX(x) + 0x6A;
+        if (playofftree[treecol_Wr2[0]] == playofftree[slot] || playofftree[treecol_Wr2[1]] == playofftree[slot]
+            || playofftree[treecol_Wr2[2]] == playofftree[slot] || playofftree[treecol_Wr2[3]] == playofftree[slot])
+            SetTextColors(0x44, 0x43);
+        else
+            SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        PrintShadowText(x, y, f.buf);
+        if (i == 3) y += 0x10;
+    }
+    y += 0x3F;
+    if (playofftree[treecol_Wr2[0]] < 0x1A && playofftree[treecol_Wr2[1]] < 0x1A && playofftree[treecol_Wr2[2]] < 0x1A
+        && playofftree[treecol_Wr2[3]] < 0x1A) {
+        sub_913B4(sub_B30B4(arrows, (char *)str_Aup1));
+        for (i = 0; i < 4; i++) {
+            if (i < 2) {
+                x = i + 4;
+                slot = treecol_Wr2[i * 2];
+            } else {
+                x = 7 - i;
+                slot = treecol_Wr2[3 - (i * 2 - 4)];
+            }
+            SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+            strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+            PrintShadowText(TX(x), y, f.buf);
+            x = TX(x) + 0x6A;
+            if (playofftree[treecolslots[0x10]] == playofftree[slot] || playofftree[treecolslots[0x11]] == playofftree[slot])
+                SetTextColors(0x44, 0x43);
+            else
+                SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_D, f.wins[slot]);
+            PrintShadowText(x, y, f.buf);
+            if (i == 1) y += 0x10;
+        }
+        y += 0x3D;
+        if (playofftree[treecolslots[0x10]] < 0x1A && playofftree[treecolslots[0x11]] < 0x1A) {
+            sub_913B4(sub_B30B4(arrows, (char *)str_Aup2));
+            slot = treecolslots[0x10];
+            SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+            strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+            PrintShadowText(0x48, y - 1, f.buf);
+            if (playofftree[treecolslots[0x18]] == playofftree[slot] || playofftree[treecolslots[0x28]] == playofftree[slot])
+                SetTextColors(0x44, 0x43);
+            else
+                SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_D, f.wins[slot]);
+            PrintShadowText(0xB2, y - 1, f.buf);
+            slot = treecolslots[0x11];
+            y += 0x10;
+            SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+            strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+            PrintShadowText(0x48, y - 1, f.buf);
+            if (playofftree[treecolslots[0x18]] == playofftree[slot] || playofftree[treecolslots[0x28]] == playofftree[slot])
+                SetTextColors(0x44, 0x43);
+            else
+                SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_D, f.wins[slot]);
+            PrintShadowText(0xB2, y - 1, f.buf);
+            y -= 0x10;
+        }
+    } else {
+        y += 0x4D;
+    }
+    if (playofftree[treecolslots[0x18]] < 0x1A) {
+        sub_913B4(sub_B30B4(arrows, (char *)str_Aup3));
+        midl = 1;
+        sub_913B4(sub_B30B4(arrows, (char *)str_Midl));
+        SetTextColors(0x40, 0x43);
+        *(TreeStr3 *)f.buf = *(TreeStr3 *)unk_C3AF8;
+        slot = treecolslots[0x18];
+        strcat(f.buf, (char *)treeteamnames + playofftree[treecolslots[0x18]] * 21);
+        PrintShadowText(0x102, y - 4, f.buf);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        if (playofftree[treecolslots[0x20]] == playofftree[slot]) {
+            if (teamconf[slot] == 3) SetTextColors(0x44, 0x43);
+            else SetTextColors(0xC4, 0x43);
+        } else {
+            SetTextColors(0x40, 0x43);
+        }
+        PrintShadowText(0x16C, y - 4, f.buf);
+    }
+    if (playofftree[treecolslots[0x28]] < 0x1A) {
+        sub_913B4(sub_B30B4(arrows, (char *)str_Adn3));
+        if (!midl) sub_913B4(sub_B30B4(arrows, (char *)str_Midl));
+        y += 0x10;
+        SetTextColors(0x40, 0x43);
+        *(TreeStr3 *)f.buf = *(TreeStr3 *)unk_C3AF8;
+        slot = treecolslots[0x28];
+        strcat(f.buf, (char *)treeteamnames + playofftree[treecolslots[0x28]] * 21);
+        PrintShadowText(0x102, y - 4, f.buf);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        if (playofftree[treecolslots[0x20]] == playofftree[slot]) {
+            if (teamconf[slot] == 3) SetTextColors(0x44, 0x43);
+            else SetTextColors(0xC4, 0x43);
+        } else {
+            SetTextColors(0x40, 0x43);
+        }
+        PrintShadowText(0x16C, y - 4, f.buf);
+        y -= 0x10;
+    }
+    if (playofftree[treecolslots[0x30]] < 0x1A && playofftree[treecolslots[0x31]] < 0x1A) {
+        slot = treecolslots[0x30];
+        SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+        strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+        PrintShadowText(0x1C6, y - 1, f.buf);
+        if (playofftree[treecolslots[0x18]] == playofftree[slot] || playofftree[treecolslots[0x28]] == playofftree[slot])
+            SetTextColors(0xC4, 0x43);
+        else
+            SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        PrintShadowText(0x230, y - 1, f.buf);
+        slot = treecolslots[0x31];
+        y += 0x10;
+        SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+        strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+        PrintShadowText(0x1C6, y - 1, f.buf);
+        if (playofftree[treecolslots[0x18]] == playofftree[slot] || playofftree[treecolslots[0x28]] == playofftree[slot])
+            SetTextColors(0xC4, 0x43);
+        else
+            SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        PrintShadowText(0x230, y - 1, f.buf);
+        y += 0x3D;
+        sub_913B4(sub_B30B4(arrows, (char *)str_Adn2));
+    } else {
+        y += 0x4D;
+    }
+    if (playofftree[treecol_Er2[0]] < 0x1A && playofftree[treecol_Er2[1]] < 0x1A && playofftree[treecol_Er2[2]] < 0x1A
+        && playofftree[treecol_Er2[3]] < 0x1A) {
+        for (i = 0; i < 4; i++) {
+            if (i < 2) x = i;
+            else x = 3 - i;
+            if (i < 2) slot = treecol_Er2[i * 2];
+            else slot = treecol_Er2[3 - (i * 2 - 4)];
+            SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+            strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+            PrintShadowText(0x280 - (TX(5 - x) + 0x64), y, f.buf);
+            x = 0x286 - TX(5 - x);
+            if (playofftree[treecolslots[0x30]] == playofftree[slot] || playofftree[treecolslots[0x31]] == playofftree[slot])
+                SetTextColors(0xC4, 0x43);
+            else
+                SetTextColors(0x40, 0x43);
+            sprintf(f.buf, (char *)str_D, f.wins[slot]);
+            PrintShadowText(x, y, f.buf);
+            if (i == 1) y += 0x10;
+        }
+        y += 0x3D;
+        sub_913B4(sub_B30B4(arrows, (char *)str_Adn1));
+    } else {
+        y += 0x4D;
+    }
+    for (i = 0; i < 8; i++) {
+        if (i < 4) {
+            x = i;
+            slot = treecol_Er1[i * 2];
+        } else {
+            x = 7 - i;
+            slot = treecol_Er1[7 - (i * 2 - 8)];
+        }
+        SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_fmtcsp, dword_C6DBA[playofftree[slot]] + 0x91);
+        strcat(f.buf, (char *)treeteamnames + playofftree[slot] * 21);
+        PrintShadowText(TX(x), y, f.buf);
+        x = TX(x) + 0x6A;
+        if (playofftree[treecol_Er2[0]] == playofftree[slot] || playofftree[treecol_Er2[1]] == playofftree[slot]
+            || playofftree[treecol_Er2[2]] == playofftree[slot] || playofftree[treecol_Er2[3]] == playofftree[slot])
+            SetTextColors(0xC4, 0x43);
+        else
+            SetTextColors(0x40, 0x43);
+        sprintf(f.buf, (char *)str_D, f.wins[slot]);
+        PrintShadowText(x, y, f.buf);
+        if (i == 3) y += 0x10;
+    }
+    TextGridOff();
+    FreeMemBlock(arrows);
+    sub_8EA00(f.state);
 }
