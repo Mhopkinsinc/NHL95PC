@@ -456,6 +456,7 @@ asspsclear,52DB0,512,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assi
 assrefpenshot,52FB0,740,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/assrefpenshot.c,nonmatching,"draft: 737 vs 740. Prologue matches and the pfna clear is mov dh, dl. The hidden puck reloads the zero into ax (original dx), so the five stores address through edx. The countdown is add al, 8 (original mov ah, ch; add ah, 8). Do not retry a function-level int, an unnamed reload, or a second pflags shape."
 check4bench,52BB6,506,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/check4bench.c,matched,
 puckfaceoff,516E1,1274,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/puckfaceoff.c,nonmatching,
+puckfaceoff2,51BDB,2834,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/puckfaceoff.c,nonmatching,"49 bytes short, 114 differing lines; see docs/UNSURE.md"
 Bcheck,56A54,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Bcheck.c,matched,
 BlockShotDive,53387,308,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/BlockShotDive.c,matched,
 CPgoalie,591C7,158,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/CPgoalie.c,matched,
@@ -602,6 +603,7 @@ noturn0,5F98A,377,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/noturn
 playeracc,5EDAD,673,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/playeracc.c,matched,
 skatetopuck,5EB17,662,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/skatetopuck.c,nonmatching,
 SaveGameState,5FB03,2831,044_5FB03_game_state_saveload,src/c/044_5FB03_game_state_saveload/SaveGameState.c,nonmatching,
+LoadGameState,60612,3760,044_5FB03_game_state_saveload,src/c/044_5FB03_game_state_saveload/SaveGameState.c,nonmatching,same size; fh in memory and the unpack pointer in esi (EXE ebp / ebx): 527 lines of one swap; see docs/UNSURE.md
 AddPenalty,62CF9,135,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty.c,matched,
 AddPenalty2,62D80,290,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty2.c,matched,
 AppendGSumRecord,61A8A,251,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AppendGSumRecord.c,matched,
@@ -835,9 +837,11 @@ DrawGadgetButton,7E067,147,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_repl
 DrawGadgetByType,7DF4E,228,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/DrawGadgetByType.c,matched,
 GadgetHitTest,7E8E5,89,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/GadgetHitTest.c,matched,
 GadgetStub0,7E032,13,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/GadgetStub0.c,matched,
+InstantReplay,7E0FA,2027,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/InstantReplay.c,nonmatching,"own file, 20 differing lines; match belongs in DrawGadgetButton.c; see docs/UNSURE.md"
 LoadRockMusic,7DC8B,573,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/LoadRockMusic.c,nonmatching,"draft: 577 vs 573. The cue loops, the random retry, and the tune banks match. The zero cue is xor ebp instead of xor esi, so ebp is pushed and the cookie is 3Ch. team*3 reloads the stack slot instead of copying it through edx, and the accepted cue id stays in eax instead of edx."
 FreeRockMusic,7DEC8,134,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/LoadRockMusic.c,nonmatching,draft: 133 vs 134. The three free loops match. The exit jumps to LoadRockMusic's pop ebp; the original pops ebp and then jumps to LoadRockMusic_ret. Do not retry until the LoadRockMusic draft stops pushing ebp.
 PickNearestPlayer,7E93E,110,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/PickNearestPlayer.c,nonmatching,"register allocation only: asm spills y to the stack and reloads it into ebp (x in edi, best in esi)"
+ReplayControlLoop,7E9AC,1777,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/ReplayControlLoop.c,nonmatching,"own file (4 bytes over: own epilogue), 37 differing lines; match belongs in DrawGadgetButton.c; see docs/UNSURE.md"
 ReplaySaveHilight,7F0AF,1653,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/ReplaySaveHilight.c,nonmatching,"draft: 1649 vs 1653, every statement in place; register picks (old pointer x / y in esi / ecx, EXE ecx / esi). See docs/UNSURE.md."
 sub_7E03F,7E03F,32,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/sub_7E03F.c,matched,
 CmpInt,7FC31,43,058_7F724_highlights,src/c/058_7F724_highlights/CmpInt.c,matched,
@@ -849,6 +853,7 @@ SaveHilight,7FA10,514,058_7F724_highlights,src/c/058_7F724_highlights/SaveHiligh
 SelectHilight,7FCF8,893,058_7F724_highlights,src/c/058_7F724_highlights/SelectHilight.c,nonmatching,
 TeamFromHiName,7FC5C,70,058_7F724_highlights,src/c/058_7F724_highlights/TeamFromHiName.c,matched,
 ViewHilights,80075,167,058_7F724_highlights,src/c/058_7F724_highlights/ViewHilights.c,matched,
+DrawLockerRoom,80AA4,2684,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawLockerRoom.c,nonmatching,"own file (6 bytes over: own epilogue), 40 differing lines; match belongs in LockerRoomScreen.c; see docs/UNSURE.md"
 DrawPanel3D,80682,430,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawPanel3D.c,nonmatching,"draft: 430 vs 430. x1 stays in esi and y1 in edi. The original saves x1 in edi and y1 in esi. x2 stays in ebp and every edge and corner call matches once those two are swapped. Do not retry: copying y before x put y in ebp and x2 in esi; copying only y put x2 in edi; copying only x put x in ebp and x2 in edi; copying x then y put x in ebp, y in edi and x2 in esi."
 DrawLockerJersey,8156F,1726,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawPanel3D.c,nonmatching,15 bytes short (palette loop lea / byte copy); see docs/UNSURE.md
 DrawSelBoxOn,8245A,158,059_8034B_settings_lockerroom,src/c/059_8034B_settings_lockerroom/DrawSelBoxOn.c,matched,
