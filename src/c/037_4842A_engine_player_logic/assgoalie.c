@@ -1,8 +1,8 @@
 /* Engine player logic: the goalie's assignment and the assignments that end in its exit (assnearest,
    assrefsignal, assrefgoalpa). */
 /* DRAFT: 3,718 vs 3,774 bytes, 230 differing lines; see docs/UNSURE.md. assgoalie ends in ass_popx
-   (assrefwhistle.c), so its match belongs in assrefwhistle.c between asspenalty and CountPuckThreat; the draft sits in its own file so the matched blocks
-   there stay as they are. */
+   (assrefwhistle.c), so its match belongs in assrefwhistle.c between asspenalty and CountPuckThreat; the draft
+   sits in its own file so the matched blocks there stay as they are. */
 #define imul32 imul32_decl
 #define PostGoalEvent PostGoalEvent_decl
 #define ChkScorerMilestone ChkScorerMilestone_decl
