@@ -21,6 +21,7 @@ Each candidate is the current best text with one transform applied (once those a
   paramtype an integer parameter's type (the prototypes in the file and the definition together)
   tempadd   a call-free subexpression a op b (or a whole right-hand side) computed into a new int temporary
   ifswap    if (c) A; else B; -> if (!(c)) B; else A;
+  forchain  b = e; for (a = e; ...) <-> for (a = b = e; ...) (decides the jump to the loop test)
 Candidates are compiled in batched DOSBox runs (cc.compile_parallel), compared with tools/cdiff.py's compare(),
 and scored by the aligned count of differing instructions (relocations compared by target, jumps by mnemonic;
 ties broken by the size difference). Every attempt is appended to the log CSV (date, function, file, transform,
@@ -373,6 +374,28 @@ def t_tempadd(text, func, lines, b0, b1):
             yield 'tempadd:%d:rhs' % (k - b0), '\n'.join(L)
 
 
+def t_forchain(text, func, lines, b0, b1):
+    """`b = e;` before `for (a = e; ...` merged into `for (a = b = e; ...` (or `b = a = e`), and split back; the
+    chained init decides whether Watcom emits the jump to the loop test (ShowRosterStats)"""
+    for k in range(b0 + 1, b1):
+        l = lines[k]
+        m = re.match(r'^(\s+)for \((%s) = (%s) = (-?%s); (.*)$' % (LV, LV, ATOM), l)
+        if m:
+            ind, a, b, e, rest = m.groups()
+            L = lines[:k] + ['%s%s = %s;' % (ind, b, e), '%sfor (%s = %s; %s' % (ind, a, e, rest)] + lines[k + 1:]
+            yield 'forchain:%d:split' % (k - b0), '\n'.join(L)
+        m = re.match(r'^(\s+)for \((%s) = (-?%s); (.*)$' % (LV, ATOM), l)
+        if m and k > b0 + 1:
+            ind, a, e, rest = m.groups()
+            mp = re.match(r'^(\s+)(%s) = (-?%s);$' % (LV, ATOM), lines[k - 1])
+            if mp and mp.group(1) == ind and mp.group(3) == e and mp.group(2) != a:
+                b = mp.group(2)
+                for x, y, d in ((a, b, 'ab'), (b, a, 'ba')):
+                    if d == 'ba': continue   # the loop variable must stay first
+                    L = lines[:k - 1] + ['%sfor (%s = %s = %s; %s' % (ind, x, y, e, rest)] + lines[k + 1:]
+                    yield 'forchain:%d:merge' % (k - b0), '\n'.join(L)
+
+
 def t_ifswap(text, func, lines, b0, b1):
     """`if (c) A; else B;` (one line each) -> `if (!(c)) B; else A;`"""
     for k in range(b0 + 1, b1 - 1):
@@ -439,7 +462,8 @@ def t_paramtype(text, func, lines, b0, b1):
 TRANSFORMS = [('type', t_type), ('swapdecl', t_swapdecl), ('movedecl', t_movedecl), ('scope', t_scope), ('swapstmt', t_swapstmt),
               ('commute', t_commute), ('cmpflip', t_cmpflip), ('incdec', t_incdec), ('zero', t_zero),
               ('chain', t_chain), ('ternary', t_ternary), ('temp', t_temp), ('rettype', t_rettype),
-              ('paramtype', t_paramtype), ('tempadd', t_tempadd), ('ifswap', t_ifswap)]
+              ('paramtype', t_paramtype), ('tempadd', t_tempadd), ('ifswap', t_ifswap),
+              ('forchain', t_forchain)]
 
 
 def neighbours(text, func, only=None):
