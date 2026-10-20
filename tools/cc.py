@@ -144,6 +144,17 @@ def file_blocks(src):
 
 LABEL = re.compile(r'^([A-Za-z_.][\w.$?@]*):')
 ADDR = re.compile(r';\s*([0-9A-F]{5})\s*$')
+# an instruction kept as db because NASM would encode it differently ('db 081h,0E8h,...  ; 6827D sub eax,0B4h'):
+# code inside the function, not data after it
+INSN_DB = re.compile(r'^\s*db\s[^;]*;\s*[0-9A-F]{5}\s+\S')
+
+def insn_data(L, k):
+    """L[k] is part of an instruction kept as data: an INSN_DB line, or a db / dd line (its relocated operand,
+    'db 068h ; push imm32' then 'dd Label') right after one"""
+    if INSN_DB.match(L[k]): return True
+    j = k - 1
+    while j >= 0 and data_size(L[j]) and not ADDR.search(L[j]) and not INSN_DB.match(L[j]): j -= 1
+    return j >= 0 and j < k and INSN_DB.match(L[j]) is not None and data_size(L[k]) is not None
 
 DATA = re.compile(r'^\s*(db|dw|dd)\s+(.*)$')
 
@@ -159,6 +170,7 @@ def falls_through(L, k):
     (e.g. sndcb_addesp8_x in SndLoadFile, a tail other functions jump into), not the start of the next one"""
     for l in reversed(L[:k]):
         if LABEL.match(l) or not l.strip() or l.startswith(';'): continue
+        if INSN_DB.match(l): return l.split(';', 1)[1].split()[1] not in ('ret', 'retn', 'jmp', 'iret')
         if data_size(l) and not ADDR.search(l): return False
         op = l.split()[0] if l.split() else ''
         return ADDR.search(l) is not None and op not in ('ret', 'retn', 'jmp', 'iret')
@@ -242,7 +254,7 @@ def asm_range(src, func=None):
         a = ADDR.search(l)
         if start == -1 and a: start = int(a.group(1), 16); continue
         if m and not m.group(1).startswith('.') and not own_label(func, m.group(1)) and not falls_through(L, k) and start != -1: break
-        if start != -1 and data_size(l) and not a: break
+        if start != -1 and data_size(l) and not a and not insn_data(L, k): break
     for l in L[k:]:
         a = ADDR.search(l)
         if a: return start, int(a.group(1), 16) - trailing_data(L, k)
@@ -467,7 +479,7 @@ def mark(src, endlabel=None, func=None):
             if m and m.group(1) == endlabel: break
         elif m and not m.group(1).startswith('.') and not own_label(func, m.group(1)) and not falls_through(L, j): break
         if L[j].startswith('%'): break
-        if data_size(L[j]) and not ADDR.search(L[j]) and not endlabel: break
+        if data_size(L[j]) and not ADDR.search(L[j]) and not insn_data(L, j) and not endlabel: break
         j += 1
     while j > i + 1 and (not L[j - 1].strip() or L[j - 1].startswith(';')): j -= 1   # the next function's comment block
     rel = os.path.relpath(os.path.abspath(src), ROOT) + ('' if inc.endswith('/%s.inc' % func) else ' (%s)' % func)
