@@ -1,11 +1,215 @@
-/* Season playoffs: seed the second round from the first-round winners. */
+/* Season playoffs: creating the playoffs, and seeding the second round from the first-round winners. */
 #define POSeedRound2 POSeedRound2_decl
 #define SeriesWinner SeriesWinner_decl
 #define POSetSeriesTeams POSetSeriesTeams_decl
+#define CreatePlayoffs CreatePlayoffs_decl
+#define POSeedTeams POSeedTeams_decl
+#define LockerRoomScreen LockerRoomScreen_decl
+#define savenamedefault savenamedefault_decl
 #include "nhl95.h"
 #undef POSeedRound2
 #undef SeriesWinner
 #undef POSetSeriesTeams
+#undef CreatePlayoffs
+#undef POSeedTeams
+#undef LockerRoomScreen
+#undef savenamedefault
+
+typedef struct { char c[13]; } PlayoffName;
+
+int CreatePlayoffs(void);
+void POSeedTeams(int *seeds);
+int LockerRoomScreen(void);
+int mkdir(const char *path);  /* Watcom CRT mkdir_ */
+extern PlayoffName savenamedefault;  /* 86616: "." and zeros, the default name */
+
+/* DRAFT: 2,037 bytes as in the EXE, 34 differing lines (register picks, the bank store, the epilogue);
+   see docs/UNSURE.md. */
+/* CreatePlayoffs (86696, PC only; ends in POSeedRound2_x): start a new playoff. Keep and set the dialog colours,
+   keep the exhibition mode state, fade the palette out and draw the EMBSCUP background (dword_C65AC when loaded),
+   fade the EMBPAL palette in and ask for the playoff name (up to 8 characters, colour 3 white meanwhile). With a
+   name: set the playoff mode state (postate: 12 and 21 for two counts, the option word, the first controller in
+   ctlavailmask order 2, 4, 8, 1 else 10h), add .PO, offer to replace an existing playoff of that name (no: give
+   up), make it the current league (curleague, the database paths) and its directory, ask which database, check
+   GAMESET and the disk space, then show the locker room (3 gives up and removes the directory). Then redraw the
+   background, seed the teams (POSeedTeams), copy the seven databases, make the schedule (POCreateSchedule), write
+   the mode state, rebuild the saved game labels and stats menu and point the menu actions at the playoff screens.
+   On an error say so and remove the directory. At the end fade the TEMP2 palette in, restore the exhibition mode
+   state and the dialog colours. No arguments; result 2. */
+int CreatePlayoffs(void)
+{
+    struct {
+        int seeds[16];
+        char ft[0x2C];
+        char path[0x20];
+        PlayoffName name;
+        char pad[3];
+        int btn;
+        int y;
+        int x;
+        int bank2;
+        int fill;
+        int lite;
+        int bg;
+        int shade;
+        int fg;
+        unsigned char rgb[4];
+        unsigned char orgb[4];
+    } s;
+    int p;
+    int pal;
+    int bank;
+    int r;
+    int i;
+
+    s.name = savenamedefault;
+    s.fill = boxfillcolor;
+    s.lite = boxlitecolor;
+    s.shade = boxshadecolor;
+    s.fg = dlgtextfg;
+    s.bg = dlgtextbg;
+    boxfillcolor = 0x41;
+    boxlitecolor = 0x40;
+    boxshadecolor = 0x42;
+    dlgtextfg = 0x40;
+    dlgtextbg = 0x43;
+    SaveModeState(exhstate);
+    pal = p = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)p);
+    FadePalStep(1, (unsigned char *)p, 0x10);
+    sub_B4BA8();
+    if (!dword_C65AC) {
+        MakePath(s.path, fileoncd[0x8D] == 1 ? (char *)cddriveptr : 0, (char *)str_Embscup, 0);
+        p = sub_8E83C(s.path, 0);
+        sub_B4BC4(0, 0x280, 0, 0x1E0);
+        sub_913B4(sub_B30B4(p, (char *)str_Bkgd));
+        FreeMemBlock(p);
+    } else {
+        sub_9121C(sub_B30B4(dword_C65AC, (char *)str_Bkgd));
+    }
+    MakePath(s.path, fileoncd[0x8E] == 1 ? (char *)cddriveptr : 0, (char *)str_Embpal, 0);
+    bank = sub_8E83C(s.path, 0);
+    FadePalStep(0, (unsigned char *)sub_B30B4(bank, (char *)str_BangPal) + 0x10, 0x10);
+    sub_8E9C0(0x40, 0x41);
+    SetDialogColors(0x41, 0x40, 0x42, 0x40, 0x43);
+    s.rgb[0] = s.rgb[1] = s.rgb[2] = 0x3F;
+    sub_8FFB0(3, 1, s.orgb);
+    sub_B4B88(3, 1, s.rgb);
+    r = TextInputDialog((char *)str_PleaseEnterNewPlay, s.name.c, 8, 0x36, 0, 0, 0, 0, 5);
+    sub_B4B88(3, 1, s.orgb);
+    sub_B2DCA(&s.btn, &s.x, &s.y);
+    if (r == 0x1B || !s.name.c[0]) goto cancel;
+    postate[0] = 1;
+    *(int *)((char *)postate + 0x51) = 0xC;
+    *(int *)((char *)postate + 0x55) = 0x15;
+    *(unsigned short *)((char *)postate + 0x59) &= 0x8000;
+    *(unsigned short *)((char *)postate + 0x59) |= 0x79FF;
+    if (ctlavailmask & 2) *(int *)((char *)postate + 0x65) = 2;
+    else if (ctlavailmask & 4) *(int *)((char *)postate + 0x65) = 4;
+    else if (ctlavailmask & 8) *(int *)((char *)postate + 0x65) = 8;
+    else if (ctlavailmask & 1) *(int *)((char *)postate + 0x65) = 1;
+    else *(int *)((char *)postate + 0x65) = 0x10;
+    if (*(int *)((char *)postate + 0x65) != 0x10) *(int *)((char *)postate + 0x5D) = 0xC;
+    else *(int *)((char *)postate + 0x5D) = -1;
+    *(int *)((char *)postate + 0x69) = 0x10;
+    *(int *)((char *)postate + 0x61) = -2;
+    *(int *)((char *)postate + 0x6D) = r = 0;
+    *(int *)((char *)postate + 0x71) = 1;
+    LoadModeState(postate);
+    strcat(s.name.c, (char *)str_PO);
+    if (!unknown_libname_1(s.name.c, 0x10, s.ft)) {
+        if ((r = !MessageBox(-1, -1, (char *)msg_POExists, 2, (int)btn_LeagueExists, 2, (int)&s.x, (int)&s.y, -1)) != 0)
+            goto cancel;
+        DeleteDir(s.name.c);
+    }
+    goto named;
+cancel:
+    FreeMemBlock(bank);
+    FreeMemBlock(pal);
+    r = 1;
+named:
+    if (!r) {
+        strcpy((char *)&curleague, s.name.c);
+        strcpy((char *)&leaguedbfmt, s.name.c);
+        strcat((char *)&leaguedbfmt, (char *)str_fmtSlashDb);
+        strcpy((char *)&leaguedbfmt2, (char *)&leaguedbfmt);
+        if (mkdir(s.name.c)) {
+            MessageBox(-1, -1, (char *)msg_POSetupError, 4, 0, 0, (int)&s.x, (int)&s.y, 0x190);
+            r = 1;
+        }
+        if (!r) {
+            if ((r = AskDatabaseChoice()) >= 0) {
+                GetLeagueDBSizes(0, (int *)unk_D2864, (char *)dbextension);
+                MakePath(s.path, (char *)&curleague, (char *)str_GameSet, 0);
+                if (FileExists(s.path)) dword_D2884 = 0;
+                if ((r = DiskSpaceShort(0, (int *)unk_D2864)) != 0) {
+                    sprintf((char *)msg_PODiskSpace_arg, (char *)str_4dKbytesOfFree, r);
+                    MessageBox(-1, -1, (char *)msg_PODiskSpace, 3, 0, 0, (int)&s.x, (int)&s.y, 0x258);
+                    r = 1;
+                }
+            }
+            if (!r && LockerRoomScreen() != 3) {
+                sub_8FFB0(0, 0x100, (unsigned char *)pal);
+                FadePalStep(1, (unsigned char *)pal, 0x10);
+                if (!dword_C65AC) {
+                    MakePath(s.path, fileoncd[0x8D] == 1 ? (char *)cddriveptr : 0, (char *)str_Embscup, 0);
+                    s.bank2 = sub_8E83C(s.path, 0);
+                    sub_9121C(sub_B30B4(s.bank2, (char *)str_Bkgd));
+                    FreeMemBlock(s.bank2);
+                } else {
+                    sub_9121C(sub_B30B4(dword_C65AC, (char *)str_Bkgd));
+                }
+                FadePalStep(0, (unsigned char *)sub_B30B4(bank, (char *)str_BangPal) + 0x10, 0x10);
+                FreeMemBlock(bank);
+                FreeMemBlock(pal);
+                POSeedTeams(s.seeds);
+                MessageBox(-1, -1, (char *)msg_POSettingUp, 2, 0, 0, (int)&s.x, (int)&s.y, 0);
+                for (i = 0; i < 7; i++) {
+                    if (CopyFile((char *)leaguedbnames[i], (char *)dbextension, (char *)str_extDB, (char *)&str_dot,
+                            (char *)&curleague)) {
+                        SetTickDeadline(0x190);
+                        DeleteDir(s.name.c);
+                        r = 1;
+                        WaitTickDeadline();
+                        break;
+                    }
+                }
+                if (!r) {
+                    if (POCreateSchedule(s.seeds, s.name.c)) {
+                        SetTickDeadline(0x190);
+                        MessageBox(-1, -1, (char *)msg_POSetupError, 4, 0, 0, (int)&s.x, (int)&s.y, 0);
+                        DeleteDir(s.name.c);
+                        WaitTickDeadline();
+                        RestoreDialogBg();
+                    }
+                    WriteModeState(postate);
+                    BuildSavedGameLabels();
+                    SetupStatsSourceMenu(0);
+                    menuact_nextpo = (int)PlayoffModeLoop;
+                    menuact_posettings = (int)EditPlayoffSettings;
+                    menuact_pohilights = (int)ViewPlayoffHilights;
+                    seriesgameno = r = 0;
+                }
+                RestoreDialogBg();
+            } else {
+                rmdir(s.name.c);
+                FreeMemBlock(bank);
+                FreeMemBlock(pal);
+            }
+        }
+    }
+    pal = sub_8CCA8((char *)str_Temp2, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)pal);
+    FadePalStep(1, (unsigned char *)pal, 0x10);
+    FreeMemBlock(pal);
+    LoadModeState(exhstate);
+    boxfillcolor = s.fill;
+    boxlitecolor = s.lite;
+    boxshadecolor = s.shade;
+    dlgtextfg = s.fg;
+    dlgtextbg = s.bg;
+    return 2;
+}
 
 int SeriesWinner(unsigned char *s, unsigned games);
 #pragma aux SeriesWinner parm [eax] [edx] value [eax] modify [eax edx];
