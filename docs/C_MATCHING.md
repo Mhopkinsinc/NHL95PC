@@ -86,6 +86,14 @@ types: `size b` is `signed char`, `size w` `short`, `size d` `int`; overrides in
 
 `tools/cc.py unmark` removes a marker (for example to merge a function into a multi-function file).
 
+**Compile speed.** Objects are cached by a sha1 of the compiler, the flags, the .c file (with its name) and the
+headers it includes (`~/.cache/nhl95pc-cc`; `NHL95_NOCACHE=1` recompiles). DOSBox runs the compiler on the
+dynamic core at a fixed 2,000,000 cycles (`NHL95_CC_CPU` overrides the `[cpu]` lines; `cycles=max` ramps up over
+the first seconds of each run and takes twice as long). A tool that compiles many candidates should call
+`cc.compile_many(items)` (one DOSBox run per 16 sources, `NHL95_CC_BATCH`) or `cc.compile_parallel(items, jobs)`
+(that, on several DOSBox processes at once) instead of `compile_c` per candidate: tools/permute_decls.py and
+tools/scope_decls.py do. `cc.py compile A.c B.c ...` does the same from the shell.
+
 ## Multi-block files (shared exits)
 
 Watcom merges identical function tails (`pop edi / pop esi / ... / ret`) across one source file: a later function
