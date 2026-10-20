@@ -70,6 +70,8 @@ IsCupClinched,15C30,177,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/
 LoadCupFinalSeries,15B76,186,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/LoadCupFinalSeries.c,nonmatching,"db+=2 compiles to add [esp],2; asm does load/add/store before xor edx"
 ReadBE32,16072,45,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/ReadBE32.c,matched,
 RunDemoGame,15D6B,673,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"draft: 673 vs 673. Setup, matchup switch, option bytes and the restore copy match. 0x10 and the later 1 stay in esi (original ebp, so no push ebp) and the zeros stay in edi (original xor eax, and demomode is xor ecx). The fixed-pair index is cwde with eax*2 (original movsx edx, ax and edx*2). Do not retry declaring that constant first, holding 0x10 across the copy, or using the team local as the pair index."
+TitleScreen,1609F,1675,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"same size, 52 differing lines: frame slots; waits for RunDemoGame (RunDemoGame_x); see docs/UNSURE.md"
+RunIntro,1672A,2160,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"same size, 44 differing lines: three slots, two copies; see docs/UNSURE.md"
 ShowCredits,16F9A,1320,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"draft: 1320 vs 1320, every statement in place. The exit keeps its own pop ebp until RunDemoGame pushes ebp (EXE jumps to RunDemoGame_x). The first rand() % 8 loads 8 into ecx before the sar, and the y multiply loads the line count before byte_D42C3 (EXE: both after). See docs/UNSURE.md."
 TickPanelClock,15374,150,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/TickPanelClock.c,matched,
 PrintCenteredText,17573,111,007_1609F_title_intro,src/c/007_1609F_title_intro/PrintCenteredText.c,matched,
@@ -500,6 +502,8 @@ checkwallcoll,582C9,481,040_53294_engine_physics_ai,src/c/040_53294_engine_physi
 deflect,57A3E,90,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/deflect.c,matched,
 dopass,54DF4,858,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,
 shotdiradj,57A98,371,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,
+doshot,57C0B,1145,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,"same size, 58 differing lines: EXE spills the divisor 3 (frame one dword larger); see docs/UNSURE.md"
+wallcoll,587D3,940,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/dopass.c,nonmatching,"same size, 8 differing lines (two are the owner-tail jumps); see docs/UNSURE.md"
 holdcheck,56B79,397,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/holdcheck.c,matched,
 newcheck,58084,113,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/newcheck.c,matched,
 passmode,5514E,97,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/passmode.c,matched,
@@ -588,6 +592,7 @@ StopNA,5F82A,136,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePl
 EvadePlayers,5E4C4,826,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,"body matches to +1A7 (of 333h); the original frame has one more dword (sub esp,14h): a swap spill at [esp] for the vtoa args because ebp is busy there; this draft keeps ebp free (frame 10h)"
 EvadePC,5E7FE,317,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,
 skateto,5E93B,476,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,1 instruction off: the original loads the pucky pointer into eax and Xvel|Yvel as eax=Xvel/edx=Yvel; wcc picks edx in both (register cache of regd0 in eax?)
+avdgoal,5F151,1524,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/avdgoal.c,nonmatching,"1504 vs 1524: p homed, margin in esi in the EXE; match belongs in EvadePlayers.c; see docs/UNSURE.md"
 avdgoal_box,5F04E,205,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/avdgoal_box.c,nonmatching,"return register: asm returns 0/1 straight in eax (pt lives in eax too); C builds it in ecx + mov eax,ecx; rest matches. Declared short it matches exactly, but avdgoal tests eax, so the original is int. Tried: a result local with gotos, unsigned side pointers, short locals, a char result."
 doplayeracc,5E16D,855,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/doplayeracc.c,nonmatching,
 dostop,5F745,229,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/dostop.c,matched,
