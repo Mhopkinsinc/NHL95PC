@@ -1,4 +1,5 @@
-/* Engine physics AI: passing (dopass) and the shot aim at the open side (shotdiradj). */
+/* Engine physics AI: passing (dopass), the shot aim at the open side (shotdiradj), shooting (doshot) and the wall
+   bounce (wallcoll); doshot and wallcoll end in dopass_ret6. */
 /* DRAFT: both are first passes; see docs/UNSURE.md. Their match belongs in checkob.c: dopass ends in
    checkob_ret5 and shotdiradj in dopass_ret6. Appended to checkob.c as they are, they move the shared pops
    (burst then branches into dopass), so they stay in their own file for now. */
@@ -8,6 +9,7 @@
 #define passtoa0 passtoa0_decl
 #define puckvz puckvz_decl
 #define sfx sfx_decl
+#define imul32 imul32_decl
 #include "nhl95.h"
 #undef dopass
 #undef shotdiradj
@@ -15,6 +17,7 @@
 #undef passtoa0
 #undef puckvz
 #undef sfx
+#undef imul32
 
 int PassLaneChk(Player *p, Player *to);
 void passtoa0(Player *to);
@@ -164,4 +167,188 @@ void shotdiradj(Player *p)
     if (p->pflags & 0x80) a = -a;
     if (a >= 0) passdir = 2;
     else passdir = 6;
+}
+
+int __cdecl imul32(int a, int b);  /* library: 32-bit product */
+
+/* doshot (57C0B, 93G doshot; ends in dopass_ret6): p shoots. The aim is set (shotdiradj), p becomes the shooter
+   (shotplayer, sflags bit 3 off, pflags bit 5). Without the puck, and not in a deflection animation (SPA DD3h /
+   E2Bh), it only plays the miss sound 99h. Else (gmode2 bit 4) the shot speed: a slapshot (SPA 491h / E2Bh) loses
+   a quarter; the shot power (shotspd, +2 within 1F4h of centre ice, +1 over 0Ah, 0Dh and 0Eh) times the
+   player's energy (tmpde) scales passspeed, then * 5249h >> 16; a shot on goal checks the lane (ShotLaneOpen ->
+   shotongoal). The target is the shot set of passdir (shotsets x / shotsetz height) at the goal line of p's side
+   (E8h); unless gmode bit 4, a far shot (over C8h) or a missed accuracy roll (shotacc +1 over 0Dh and 0Eh)
+   scatters it by the distance, speed and accuracy, in x, y and height. The puck takes the aim at the shot speed
+   (* 59 / distance; during a penalty shot at least the shooter's speed + 1F4h on each axis) and a lift from the
+   height and distance (at most 1800h). Then the shot sound (AAh, 9Ah when slow) and, in a penalty shot, the
+   shooter's next assignment (11h). p: the shooter. No result. */
+void doshot(Player *p)
+{
+    short sp;
+    short r;
+    short dist;
+    short z;
+    short q;
+    int e;
+    short w;
+    short dx;
+    short snd;
+    short dy;
+    short gy;
+
+    shotdiradj(p);
+    shotplayer = p->SCnum;
+    sflags &= 0xF7;
+    p->pflags |= 0x20;
+    if (*puckc != p->SCnum && p->SPA != 0xDD3 && p->SPA != 0xE2B) {
+        sfx(0x99);
+        return;
+    }
+    gmode2 |= 0x10;
+    if (p->SPA == 0x491 || p->SPA == 0xE2B) {
+        snd = 0xAA;
+        passspeed -= passspeed >> 2;
+    } else {
+        snd = 0xAA;
+    }
+    sp = p->shotspd;
+    if (sp > 0xC && ABS(HIWORD(p->Xpos)) + ABS(HIWORD(p->Ypos)) < 0x1F4) sp += 2;
+    if (sp > 0xE) sp++;
+    if (sp > 0xD) sp++;
+    if (sp > 0xA) sp++;
+    passspeed *= (short)(imul32(p->tmptr->tmpde[p->pnum], sp) >> 12) + 0x14;
+    passspeed = (unsigned)(passspeed * 0x5249) >> 16;
+    if (shotongoal) {
+        ShotLaneOpen();
+        shotongoal = shotontarget;
+    }
+    if ((short)(3 - (passspeed >> 4)) > 0) snd = 0x9A;
+    *puckc = -1;
+    p->nopuck = 0x10;
+    lastplayer = p->SCnum;
+    gy = 0xE8;
+    if (!(p->pflags & 0x80)) gy = -0xE8;
+    dx = shotsets[passdir * 2] - *puckx;
+    dy = gy - *pucky;
+    z = shotsetz[passdir * 2];
+    dist = vecdist(dx, dy);
+    if (!dist) dist = 1;
+    if (!(gmode & 0x10)) {
+        sp = p->shotacc;
+        if (sp > 0xE) sp++;
+        if (sp > 0xD) sp++;
+        if (dist > 0xC8 || randomd0(p->shotacc + 0x10) <= 0xE) {
+            r = (unsigned short)(dist * ((passspeed >> 4) - sp + 0x10)) >> 6;
+            if (dist < 0xFA) r >>= 1;
+            if (r > 0xA0) r = 0xA0;
+            dx += randomd0(r + r) - r;
+            if (r > 0x3C) r = 0x3C;
+            e = dy < 0 ? r >> 1 : r;
+            w = e + e;
+            dy += randomd0(w) - e;
+            e = r;
+            q = e >> 1;
+            if (dist < 0xA0) q = e / 3;
+            if (dist < 0x50) q = r >> 2;
+            z += randomd0(q);
+        }
+    }
+    *puckvx = dx * (passspeed * 59) / dist;
+    *puckvy = dy * (passspeed * 59) / dist;
+    if (penshotlive) {
+        if ((*puckvx ^ p->Xvel) >= 0 && ABS(*puckvx) < ABS(p->Xvel)) *puckvx = p->Xvel + 0x1F4;
+        if ((*puckvy ^ p->Yvel) >= 0 && ABS(*puckvy) < ABS(p->Yvel)) *puckvy = p->Yvel + 0x1F4;
+    }
+    if (z) {
+        z = (unsigned)(passspeed * 68 * z) / (unsigned)dist + (unsigned)(dist * 0xB33) / (unsigned)passspeed;
+        if ((unsigned short)z > 0x1800) z = 0x1800;
+        *(short *)puckvz = z;
+    }
+    sfx(snd);
+    if (penshotlive) assreplace(p, 0x11);
+}
+
+/* wallcoll (587D3, 93G wallcoll; ends in dopass_ret6): bounce p off the wall whose normal is (regd0, regd1) =
+   (cos, sin), kept in Wallcos / Wallsin. The velocity is turned into the wall frame (regd2 across, regd3 along).
+   The puck (SCnum 0Eh) clears the pass (gmode2 bit 4, passplayer); moving into the wall it loses three quarters
+   of its speed across, a hard hit (regd2 -400h or less) pops it up (Zvel, puckflip) with a board sound (95h / 7Bh
+   / ADh by speed when loose and low, else AFh / A5h / A7h at random); the speed along the wall loses 3/128, the
+   velocity is turned back, a carried or far (|y| > E8h) puck ends a penalty shot, and the one-timer and shot
+   flags clear. A player bounces only when moving into the wall (regd2 up to 3E8h): a hard hit (-1000h or less,
+   impact 0Ah or more, not dword_CCC2C) plays B1h, the speed across is quartered and at least 3E8h back; with
+   dword_CCC2C set (a goal-net hit) a player stopped at the side posts (|old x| 18h) or past the net's back keeps
+   its old position on that axis. Then dword_CCC2C and an upward Zvel clear. No result. */
+void wallcoll(Player *p)
+{
+    short t;
+    short s;
+    short v;
+    short lim;
+
+    p->Wallcos = regd0.w;
+    p->Wallsin = regd1.w;
+    regd2.w = -(short)((regd0.w * p->Yvel - p->Xvel * regd1.w) >> 8);
+    regd3.w = (regd0.w * p->Xvel + regd1.w * p->Yvel) >> 8;
+    if (p->SCnum == 0xE) {
+        gmode2 &= 0xEF;
+        passplayer = -1;
+        if (regd2.w >= 0) {
+            dword_CCC2C = 0;
+            return;
+        }
+        regd2.w >>= 2;
+        if (regd2.w <= -0x400) {
+            p->Zvel = -randomd0(0x800);
+            puckflip(p);
+            if (!dword_CCC2C) {
+                t = (regd2.w >> 10) + 4;
+                if (t < 0) t = 0;
+                if ((unsigned short)HIWORD(p->Zpos) <= 0xA) {
+                    if (*puckc >= 0) goto slow;
+                    s = t % 3;
+                    if (s == 2) s = 0x95;
+                    else if (s == 1) s = 0x7B;
+                    else s = 0xAD;
+                } else {
+                    s = randomd0(3);
+                    if (s == 0) s = 0xAF;
+                    else if (s == 1) s = 0xA5;
+                    else s = 0xA7;
+                }
+                sfx(s);
+            }
+        }
+slow:
+        v = regd3.w >> 6;
+        regd3.w -= v;
+        v >>= 1;
+        regd3.w -= v;
+        p->Xvel = (regd0.w * regd3.w - regd1.w * regd2.w) >> 8;
+        p->Yvel = (regd3.w * regd1.w + regd0.w * regd2.w) >> 8;
+        if (*puckc < 0 || ABS(*pucky) > 0xE8) EndPenaltyShot();
+        shotongoal = onetimerflag = 0;
+    } else {
+        if (regd2.w > 0x3E8) {
+            dword_CCC2C = 0;
+            return;
+        }
+        if (regd2.w <= -0x1000 && p->impact >= 0xA && !dword_CCC2C) sfx(0xB1);
+        regd2.w >>= 2;
+        if (regd2.w >= -0x384) regd2.w = -0x3E8;
+        p->Xvel = (regd0.w * regd3.w - regd1.w * regd2.w) >> 8;
+        p->Yvel = (regd1.w * regd3.w + regd0.w * regd2.w) >> 8;
+        if (dword_CCC2C) {
+            if (HIWORD(p->OldXpos) <= -0x18 && p->Xvel > 0 || HIWORD(p->OldXpos) >= 0x18 && p->Xvel < 0) {
+                p->Xvel = 0;
+                HIWORD(p->Xpos) = HIWORD(p->OldXpos);
+            }
+            lim = HIWORD(p->OldYpos) < 0 ? -0xEC : 0xEC;
+            if (HIWORD(p->OldYpos) > lim + 0xA && p->Yvel < 0 || HIWORD(p->OldYpos) < lim - 6 && p->Yvel > 0) {
+                p->Yvel = 0;
+                HIWORD(p->Ypos) = HIWORD(p->OldYpos);
+            }
+        }
+    }
+    dword_CCC2C = 0;
+    if (p->Zvel > 0) p->Zvel = 0;
 }
