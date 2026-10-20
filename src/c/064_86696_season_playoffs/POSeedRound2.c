@@ -10,6 +10,10 @@
 #define PostGameToTeamDb PostGameToTeamDb_decl
 #define POSeedConfFinals POSeedConfFinals_decl
 #define POSeedFinal POSeedFinal_decl
+#define POHandleElimination POHandleElimination_decl
+#define PlayoffTreeMenu PlayoffTreeMenu_decl
+#define PreGameScreen PreGameScreen_decl
+#define sub_910B0 sub_910B0_decl
 #include "nhl95.h"
 #undef POSeedRound2
 #undef SeriesWinner
@@ -22,6 +26,10 @@
 #undef PostGameToTeamDb
 #undef POSeedConfFinals
 #undef POSeedFinal
+#undef POHandleElimination
+#undef PlayoffTreeMenu
+#undef PreGameScreen
+#undef sub_910B0
 
 typedef struct { char c[13]; } PlayoffName;
 
@@ -33,6 +41,10 @@ int POAfterGame(unsigned char *p);
 void PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *dir2);  /* 3626D */
 void POSeedConfFinals(unsigned char *p);
 void POSeedFinal(unsigned char *p);
+void POHandleElimination(int mode, unsigned char *po);
+int PlayoffTreeMenu(void *bar, int n, int col1, int col2, int col3, int sel);
+int PreGameScreen(int home, int vis);
+void __cdecl sub_910B0(int a);  /* graphics library */
 extern PlayoffName savenamedefault;  /* 86616: "." and zeros, the default name */
 
 /* DRAFT: 2,037 bytes as in the EXE, 34 differing lines (register picks, the bank store, the epilogue);
@@ -605,4 +617,225 @@ int POAfterGame(unsigned char *p)
         }
     }
     return f.ret;
+}
+
+/* PlayoffModeLoop (89268, PC only; ends in POSeedRound2_x30): the playoff mode screen. Switch to the playoff mode
+   state and stats menu; with a saved game in progress (GAMESAV, *fh open) and the disk space for a game, resume it:
+   the next game index (schedgameidx), the music faded out and stopped, the game played with the game stats
+   callbacks, then the saved game removed (postate and gameopts bit 15 cleared) and the result posted (POAfterGame)
+   when it ended. Then refresh the tree slots and champion, the 26 city names (and "TBA") for the tree, the EMBSCUP
+   background and the music, handle an elimination (POHandleElimination) and run the tree menu
+   (PlayoffTreeMenu with the human series). Each pass of the menu plays the next game: fade out, check the disk
+   space, write the state, open or start GAMESAV (a new game shows the pregame screen; bit 2 of its result skips
+   the game), play it, post the result, redraw and handle an elimination. On leaving: free the schedule and
+   background, fade out, back to the exhibition mode state. fh: the saved game file handle (-1 for none). Result:
+   2. */
+int PlayoffModeLoop(int *fh)
+{
+    struct {
+        char path[0x20];
+        int sched;
+        int stopped;
+        int r;
+        int pg;
+    } f;
+    unsigned char *g;
+    int pal;
+    int i;
+    int k;
+    int r;
+
+    f.sched = f.stopped = f.r = 0;
+    SaveModeState(exhstate);
+    LoadModeState(postate);
+    SetupStatsSourceMenu(2);
+    SetScreenTitle(1);
+    if (*fh < 0) {
+        MakePath(f.path, (char *)&curleague, (char *)str_GameSav, 0);
+        if (FileOpenRead(f.path, fh)) *fh = -1;
+    }
+    SetDialogColors(0xF9, 0xFA, 0xF8, 0xFA, 0);
+    if (*fh >= 0 && !CheckGameDiskSpace()) {
+        LoadScheduleDB(&f.sched);
+        f.sched += 2;
+        schedgameidx = *(int *)(f.sched + 0x40) + 0x444;
+        FreeMemBlock(f.sched - 2);
+        f.sched = 0;
+        if (musicon && songdata) sub_8FCDF(musichandle, 3, 0x64);
+        pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+        sub_8FFB0(0, 0x100, (unsigned char *)pal);
+        FadePalStep(1, (unsigned char *)pal, 0x10);
+        FreeMemBlock(pal);
+        if (musicon && songdata) {
+            while (!sub_8FC8A(musicslot, 3));
+            sub_8D2F0(songdata);
+            songdata = 0;
+            f.stopped = 1;
+        }
+        ShowLoadingScreen();
+        SetSideControls();
+        SetupControllers();
+        teamstatscb = (int)GameTeamStatsScreen;
+        skaterstatscb = (int)GameSkaterStatsScreen;
+        goaliestatscb = (int)GameGoalieStatsScreen;
+        standingscb = (int)GameStandingsScreen;
+        standingsmenucb = (int)GameStandingsMenu;
+        PlayGame(fh);
+        teamstatscb = (int)EasnTeamStatsScreen;
+        skaterstatscb = (int)EasnSkaterStatsScreen;
+        goaliestatscb = (int)EasnGoalieStatsScreen;
+        standingscb = (int)EasnStandingsScreen;
+        standingsmenucb = (int)EasnStandingsMenu;
+        scrpitch = 0x50;
+        if (!f.sched) {
+            LoadScheduleDB(&f.sched);
+            f.sched += 2;
+        }
+        if (gameresult == 1) {
+            MakePath(f.path, (char *)&curleague, (char *)str_GameSav, 0);
+            if (!FileOpenRead(f.path, fh)) {
+                j_unlink(f.path);
+                ((unsigned char *)postate)[0x5A] &= 0x7F;
+                ((unsigned char *)&gameopts)[1] &= 0x7F;
+            }
+            f.r = POAfterGame((unsigned char *)f.sched);
+            SaveScheduleDB((char *)f.sched);
+        }
+        pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+        sub_8FFB0(0, 0x100, (unsigned char *)pal);
+        FadePalStep(1, (unsigned char *)pal, 0x10);
+        FreeMemBlock(pal);
+        InputInstall();
+    }
+    if (*fh >= 0) FileClose(fh);
+    if (!f.sched) {
+        LoadScheduleDB(&f.sched);
+        f.sched += 2;
+    }
+    g = (unsigned char *)f.sched + 0x1998;
+    for (i = 0; i < 0x1E; i += 2, g += 0x2A) {
+        playofftree[i] = g[2];
+        playofftree_p1[i] = g[3];
+        if (playofftree[i] == 0xFF) playofftree[i] = 0x1A;
+        if (playofftree_p1[i] == 0xFF) playofftree_p1[i] = 0x1A;
+    }
+    g = (unsigned char *)f.sched + 0x1BE4;
+    pochampion = SeriesWinner(g, *(int *)(f.sched + 0x88));
+    if (pochampion == -1) pochampion = 0x1A;
+    for (i = 0; i < 0x1A; i++) strcpy((char *)treeteamnames + i * 21, (char *)teamcitynames[i]);
+    strcpy((char *)treeteamnames + 0x222, (char *)unk_C3A66);
+    if (!dword_C65AC) {
+        MakePath(f.path, fileoncd[0x8D] == 1 ? (char *)cddriveptr : 0, (char *)str_Embscup, 0);
+        dword_C65AC = sub_8E83C(f.path, 0x20);
+    }
+    if (!f.stopped && musicon) sub_8FCDF(musichandle, 3, 0x64);
+    pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)pal);
+    FadePalStep(1, (unsigned char *)pal, 0x10);
+    FreeMemBlock(pal);
+    if (!f.stopped && musicon) {
+        while (!sub_8FC8A(musicslot, 3));
+        if (songdata) sub_8D2F0(songdata);
+        songdata = 0;
+    }
+    POHandleElimination(f.r, (unsigned char *)f.sched);
+    SaveScheduleDB((char *)f.sched);
+    k = *(int *)(f.sched + 0x40);
+    g = (unsigned char *)f.sched + (k + 0x444) * 6;
+    seriesgameno = k % 7;
+    if (k / 7 < 0xF) off_CF983 = (int)MenuPlayNextGame;
+    else off_CF983 = 0;
+    dword_C6D26 = 0;
+    DrawMenuBar(unk_CF90F, 3, 0x40, 0x41, 0x42);
+    r = PlayoffTreeMenu(unk_CF90F, 3, 0x40, 0x41, 0x42, *(int *)(f.sched + 0x44));
+    while (!r) {
+        if (dword_C65AC) {
+            FreeMemBlock(dword_C65AC);
+            dword_C65AC = 0;
+        }
+        pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+        sub_8FFB0(0, 0x100, (unsigned char *)pal);
+        FadePalStep(1, (unsigned char *)pal, 0x10);
+        SetDialogColors(0x41, 0x40, 0x42, 0x40, 0x43);
+        sub_910B0(0);
+        sub_B4B88(0, 0x100, (unsigned char *)pal);
+        if (!CheckGameDiskSpace()) {
+            FadePalStep(1, (unsigned char *)pal, 1);
+            FreeMemBlock(pal);
+            SetupControllers();
+            WriteModeState(postate);
+            SaveScheduleDB((char *)f.sched);
+            schedgameidx = *(int *)(f.sched + 0x40) + 0x444;
+            SetSideControls();
+            MakePath(f.path, (char *)&curleague, (char *)str_GameSav, 0);
+            if (FileOpenRead(f.path, fh)) {
+                *fh = -1;
+                InitGameSummary(g[0], g[1]);
+                f.pg = PreGameScreen(HomeTeam, VisTeam);
+                InputRemove();
+            } else {
+                f.pg = 0;
+                ShowLoadingScreen();
+            }
+            FreeMemBlock(f.sched - 2);
+            f.sched = 0;
+            if (!(f.pg & 4)) {
+                teamstatscb = (int)GameTeamStatsScreen;
+                skaterstatscb = (int)GameSkaterStatsScreen;
+                goaliestatscb = (int)GameGoalieStatsScreen;
+                standingscb = (int)GameStandingsScreen;
+                standingsmenucb = (int)GameStandingsMenu;
+                PlayGame(fh);
+                teamstatscb = (int)EasnTeamStatsScreen;
+                skaterstatscb = (int)EasnSkaterStatsScreen;
+                goaliestatscb = (int)EasnGoalieStatsScreen;
+                standingscb = (int)EasnStandingsScreen;
+                standingsmenucb = (int)EasnStandingsMenu;
+            }
+            scrpitch = 0x50;
+        } else {
+            FadePalStep(1, (unsigned char *)pal, 1);
+            FreeMemBlock(pal);
+            f.pg = 4;
+        }
+        if (!f.sched) {
+            LoadScheduleDB(&f.sched);
+            f.sched += 2;
+        }
+        if (gameresult == 1 && !(f.pg & 4)) {
+            f.r = POAfterGame((unsigned char *)f.sched);
+            SaveScheduleDB((char *)f.sched);
+        } else {
+            f.r = 0;
+        }
+        g = (unsigned char *)f.sched + (*(int *)(f.sched + 0x40) + 0x444) * 6;
+        if (!dword_C65AC) {
+            MakePath(f.path, fileoncd[0x8D] == 1 ? (char *)cddriveptr : 0, (char *)str_Embscup, 0);
+            dword_C65AC = sub_8E83C(f.path, 0x20);
+        }
+        pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+        sub_8FFB0(0, 0x100, (unsigned char *)pal);
+        FadePalStep(1, (unsigned char *)pal, 0x10);
+        FreeMemBlock(pal);
+        dword_C6D26 = 0;
+        DrawMenuBar(unk_CF90F, 3, 0x40, 0x41, 0x42);
+        InputInstall();
+        POHandleElimination(f.r, (unsigned char *)f.sched);
+        SaveScheduleDB((char *)f.sched);
+        seriesgameno = *(int *)(f.sched + 0x40) % 7;
+        r = PlayoffTreeMenu(unk_CF90F, 3, 0x40, 0x41, 0x42, *(int *)(f.sched + 0x44));
+    }
+    FreeMemBlock(f.sched - 2);
+    if (dword_C65AC) {
+        FreeMemBlock(dword_C65AC);
+        dword_C65AC = 0;
+    }
+    pal = sub_8CCA8((char *)str_Palette, 0x300, 0x20);
+    sub_8FFB0(0, 0x100, (unsigned char *)pal);
+    FadePalStep(1, (unsigned char *)pal, 0x10);
+    FreeMemBlock(pal);
+    SetupStatsSourceMenu(0);
+    WriteModeState(postate);
+    LoadModeState(exhstate);
+    return 2;
 }

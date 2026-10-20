@@ -3761,6 +3761,10 @@ call sub_932D0	; 8925E
 add esp, byte 0Ch	; 89263
 jmp short LoadScheduleDB_x	; 89266
 %endif ; C
+; C: src/c/064_86696_season_playoffs/POSeedRound2.c (PlayoffModeLoop)
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeedRound2.PlayoffModeLoop.inc"
+%else
 PlayoffModeLoop:
 push dword 58h	; 89268
 call __CHK	; 8926D
@@ -4374,6 +4378,7 @@ mov eax, exhstate	; 89B48
 call LoadModeState	; 89B4D
 mov eax, 2	; 89B52
 jmp near POSeedRound2_x30	; 89B57
+%endif ; C
 ; C: src/c/064_86696_season_playoffs/POReturnZero.c
 %ifdef CBUILD
 %include "c/064_86696_season_playoffs/POReturnZero.inc"
