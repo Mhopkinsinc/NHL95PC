@@ -15,9 +15,10 @@ RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunG
 SetScreenSize,10E9F,206,001_10010_main_startup,src/c/001_10010_main_startup/SetScreenSize.c,matched,
 SetupControllers,10712,344,001_10010_main_startup,src/c/001_10010_main_startup/SetupControllers.c,matched,
 WaitKeyRelease,11161,46,001_10010_main_startup,src/c/001_10010_main_startup/WaitKeyRelease.c,matched,
-main_,10094,448,001_10010_main_startup,src/c/001_10010_main_startup/main_.c,nonmatching,
+main_,10094,1588,001_10010_main_startup,src/c/001_10010_main_startup/main_.c,nonmatching,
 GameLoop,1167B,1678,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/GameLoop.c,nonmatching,
 PickAwardWinners,1205D,2028,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/PickAwardWinners.c,nonmatching,draft: 2028 vs 2028; three of the six award-9 sums load their first two words in the other order. Owner of PickAwardWinners_x. See docs/UNSURE.md.
+ShowAwardScreens,12849,2367,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/PickAwardWinners.c,nonmatching,"same size, 67 differing lines; marked with --seg 003 when it matches; see docs/UNSURE.md"
 ReplayIsEmpty,12034,41,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/ReplayIsEmpty.c,matched,
 assinsert,12011,35,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assinsert.c,matched,
 assreplace,11FF4,29,002_1167B_gamesave_io,src/c/002_1167B_gamesave_io/assreplace.c,matched,
@@ -243,7 +244,7 @@ LoadModeState,327A1,892,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLo
 WriteModeState,32B1D,385,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
 MenuNewExhibition,32DA9,587,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
 MenuLeagueSettings,332F6,167,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,matched,
-MainDeskLoop,31AB5,153,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,nonmatching,
+MainDeskLoop,31AB5,3158,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MainDeskLoop.c,nonmatching,
 MenuExit,3270B,16,024_31AB5_main_desk,src/c/024_31AB5_main_desk/MenuExit.c,matched,
 SaveModeState,3271B,134,024_31AB5_main_desk,src/c/024_31AB5_main_desk/SaveModeState.c,matched,
 DemoSetupStub,3371C,11,025_32DA9_temp_files,src/c/025_32DA9_temp_files/DemoSetupStub.c,matched,
@@ -470,7 +471,7 @@ MarkTwoLinePlayers,55C6F,185,040_53294_engine_physics_ai,src/c/040_53294_engine_
 puckstick,57483,1003,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,matched,
 checkpuckcoll,5428A,1570,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 1570 vs 1570 in PassLaneChk.c, every statement in place. The EXE keeps reach / half size / box size in edi and speed / |dy| / box limit in esi; the draft swaps them (the variable with more uses gets esi). See docs/UNSURE.md."
 PassLaneChk,54C09,346,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate y stays in edx. The other gap is inc esi versus lea eax,[esi+1]. Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx."
-NetCollide,5601D,293,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft (PassLaneChk.c): 714 vs 700, first pass. See UNSURE."
+NetCollide,5601D,702,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PassLaneChk.c,nonmatching,"draft (PassLaneChk.c): 714 vs 700, first pass. See UNSURE."
 PuckCheckColl,548AC,228,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/PuckCheckColl.c,matched,
 ScatterPass,54D63,145,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ScatterPass.c,matched,
 SetShotMode,5786E,140,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/SetShotMode.c,nonmatching,"draft: vtoa result copied to edx before the regd0 store; asm stores ax then movsx edx,ax after word_C90A6"
@@ -482,7 +483,7 @@ checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai
 checkcheck,5382C,1209,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcheck.c,nonmatching,
 checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcoll.c,nonmatching,"draft: 479 vs 468. x is saved in edi and y in esi. The original saves x in esi and y in edi, so the swap needs a third mov. Do not retry: short parameters, or copying x then y into locals (saves ebp, cookie 18h)."
 checkcx,58DC7,1024,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcx.c,nonmatching,
-checkgoal,584AA,688,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoal.c,nonmatching,"draft: 809 vs 809, 192/203 instructions; bounce temp and zero registers. See UNSURE."
+checkgoal,584AA,809,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoal.c,nonmatching,"draft: 809 vs 809, 192/203 instructions; bounce temp and zero registers. See UNSURE."
 checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoalp.c,nonmatching,C hoists the wcradiusy load above the SCnum 12 test and swaps esi / edi for p / SCnum; rest of the logic matches
 checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkint.c,matched,
 burst,532BD,202,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
@@ -544,7 +545,7 @@ CompLine,5A0A3,485,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,
 DoGameFrame,5C1C4,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/DoGameFrame.c,matched,
 GameOver,5DD9E,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GameOver.c,matched,
 GetHotOrStick,5A534,77,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotOrStick.c,matched,
-GetHotStick,5A4AD,70,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotStick.c,nonmatching,"1 register: the X-flip negate goes through a fresh esi (mov esi,ebx / neg esi), same open issue as GetHot; rest matches"
+GetHotStick,5A4AD,135,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotStick.c,nonmatching,"1 register: the X-flip negate goes through a fresh esi (mov esi,ebx / neg esi), same open issue as GetHot; rest matches"
 GetPeriodTime,5B9D1,54,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetPeriodTime.c,matched,
 GiveControl,5B1CE,202,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GiveControl.c,nonmatching,"3 bytes short, same branch layout: the original loads regd1 into cx on the pad-1-first path and into si on the pad-2-first path (push esi, __CHK 14h) and keeps c2playernum in bx; this draft uses one register for both. Without the c2 local the layout breaks (no cross-jump into the pad 2 tail)"
 InitCoachModes,5A669,275,042_59D9A_engine_core,src/c/042_59D9A_engine_core/InitCoachModes.c,matched,
@@ -572,12 +573,12 @@ updateanim,5CAEF,566,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckc
 clockcont_0,5D852,958,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 ResetBench,5DF86,148,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 calcpuckcross,5A341,228,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"body 2 bytes short: the original keeps x in ebx and side in ecx and stores x with 16-bit mov bx,dx; this draft swaps the two registers and uses mov ebx,edx (declaration order did not change it). Its pop/ret tail (calcpuckcross_ret5/6) is shared by ~14 engine_core functions (Goal, SetPlList ...): they belong in this file; reenergizeteam already matches here because frag resolves the jump to the unique tail bytes of the draft"
-GetHot,5A425,52,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"same size; the original saves esi and negates the hot spot x through it (mov esi,ebx / neg esi); tried -x, 0-x, -(int)x, ~x+1, -regd0.w, int x, a zero local: all negate ebx in place. regd0 = regd1 = 0 order fixed. Also the filler that makes reenergizeteam's exit a near jump"
+GetHot,5A425,136,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"same size; the original saves esi and negates the hot spot x through it (mov esi,ebx / neg esi); tried -x, 0-x, -(int)x, ~x+1, -regd0.w, int x, a zero local: all negate ebx in place. regd0 = regd1 = 0 order fixed. Also the filler that makes reenergizeteam's exit a near jump"
 Goal,5AB36,1688,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,draft: 1688 vs 1688 in calcpuckcross.c. Left: the PP goal stat index in edx (EXE eax) and the goalie lookup loading tmgoalie before tmlines. See docs/UNSURE.md.
 StartPer,5C010,436,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"3 bytes short: the original keeps cont1team in si and cont2team in bx (push ebx), then reuses ebx for -1, ecx for 0 (bannertimer, crowdlevel) and builds fox with xor edi,edi / xor edi,edx; this draft reloads the globals into ax. Locals for the two teams did not change it"
 changeplayer,59E69,376,042_59D9A_engine_core,src/c/042_59D9A_engine_core/changeplayer.c,nonmatching,"Same instructions and branch layout (370 bytes), only allocation differs: the original spills cont at [esp+4] (px [esp], py [esp+8]) and uses edx for the 6-player counter, ebx/ecx for dx/dy, si for SCnum, cx for c1/c2playernum; this draft puts cont at [esp+8] and the counter in ecx. Declaration order (120 permutations) does not change it. File also hosts setplayer / DrawRinkOverlays (share changeplayer_ret5)"
 setplayer,5B2C5,1377,042_59D9A_engine_core,src/c/042_59D9A_engine_core/changeplayer.c,nonmatching,"same size, 106 differing lines: team pointer in esi (EXE ecx); see docs/UNSURE.md"
-DrawRinkOverlays,5CE12,2383,042_59D9A_engine_core,src/c/042_59D9A_engine_core/changeplayer.c,nonmatching,"same size, 90 differing lines: y1 / clip temp slots, arrow index hoisted; see docs/UNSURE.md"
+DrawRinkOverlays,5CE12,2533,042_59D9A_engine_core,src/c/042_59D9A_engine_core/changeplayer.c,nonmatching,"4 bytes short, 105 differing lines: y1 / clip temp slots, arrow index hoisted; see docs/UNSURE.md"
 cleargamevars,5CD4F,195,042_59D9A_engine_core,src/c/042_59D9A_engine_core/cleargamevars.c,matched,
 clearteams,5B881,249,042_59D9A_engine_core,src/c/042_59D9A_engine_core/clearteams.c,matched,
 forcepldata,5E0DD,144,042_59D9A_engine_core,src/c/042_59D9A_engine_core/forcepldata.c,matched,
@@ -661,6 +662,7 @@ ReplayFirstFrame,67581,31,046_644A8_engine_display,src/c/046_644A8_engine_displa
 ReplayPrevFrame,675A0,54,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayPrevFrame.c,matched,
 ReplayRecordReset,67564,29,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayRecordReset.c,matched,
 ReplayStep,67900,1228,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayStep.c,nonmatching,
+DrawRinkSideObjects,67DCC,2776,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayStep.c,nonmatching,"same size, 135 differing lines: f / x / y1 slots; see docs/UNSURE.md"
 SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/SetTeamGoalie.c,nonmatching,draft: side+1 is same size; widened side stays in ecx (original ebx) and the address copy is ebx (original ecx). int s=side; s++ saved g in ebx (206). A team pointer was 167. Do not retry those.
 ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,nonmatching,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only"
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,
@@ -668,6 +670,7 @@ SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_displ
 LoadTeamPPV,66497,278,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,
 UpdateTextOverlay,66E06,476,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,
 checkwindow,65D01,1942,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,nonmatching,
+DrawTextOverlay,665AD,2093,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,nonmatching,"same size, 132 differing lines: stack short slots; see docs/UNSURE.md"
 updatereplay,675D6,810,046_644A8_engine_display,src/c/046_644A8_engine_display/updatereplay.c,nonmatching,"draft: 810 vs 812, 198/216 instructions; register choices. See UNSURE."
 DebugMonitor,688A4,1495,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DebugMonitor.c,nonmatching,
 DumpStatsLog,68E7B,1211,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DumpStatsLog.c,nonmatching,
