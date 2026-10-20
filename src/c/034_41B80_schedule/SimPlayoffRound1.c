@@ -103,10 +103,156 @@ int SimPlayoffRound1(int sched, int rwfh, int rdfh, char *dir, char *ext)
     return 0;
 }
 
-/* SeedPlayoffRound2: not decompiled yet (stays asm); this stub only keeps the file's layout so the
- rounds after it reach SimPlayoffRound1's exit with a near jump as in the EXE. */
-int SeedPlayoffRound2(int buf, int series, int a, int c, int *out)
+/* SeedPlayoffRound2 (43757, PC only; ends in SimPlayoffRound1_pop3): set up the second round (series 8-11) of the
+   playoff schedule sched. The date goes on from the last played first-round game (a day later in the first
+   conference, NormalizeDate), two days per game, series 10 / 11 first. Per conference the four first-round winners
+   (SeriesWinner: the higher seed stays at the front of the list, an upset goes to the back) meet 1 v 4 and 2 v 3
+   (SetSeriesTeams), and a human team (byte +17h of its 1Eh-byte entry in teams) gets its round-2 game slots in its
+   team record of the league file fh (games 7-13: (s * 7 + 47Ch / 48Ah + k) * 6 + 2); *human is set when there is
+   one. games: the series length. Returns 0, or the error of a record read / write. */
+#define SCHED ((unsigned char *)buf)
+#define TEAMS ((unsigned char *)tm)
+
+int SeedPlayoffRound2(int buf, int games, int fh, int tm, int *human)
 {
+    POTeamRec r0;
+    POTeamRec r1;
+    int w[8];
+    int len;
+    unsigned char day;
+    unsigned char month;
+    unsigned char *g;
+    unsigned char *s;
+    int i;
+    int k;
+    int t;
+    int err;
+
+    s = (unsigned char *)buf;
+    len = SeriesLength(s);
+    for (i = len - 1; i >= 0; i--) {
+        g = s + i * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 7) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 0xE) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 0x15) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 0x1C) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+        g = s + (i + 0x23) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+        g = s + (i + 0x2A) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+        g = s + (i + 0x31) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+    }
+    for (i = 0; i < games; i++) {
+        NormalizeDate(&month, &day);
+        s[(i + 0x46) * 6] = s[(i + 0x4D) * 6] = month;
+        s[(i + 0x46) * 6 + 1] = s[(i + 0x4D) * 6 + 1] = day;
+        day++;
+        NormalizeDate(&month, &day);
+        s[(i + 0x38) * 6] = s[(i + 0x3F) * 6] = month;
+        s[(i + 0x38) * 6 + 1] = s[(i + 0x3F) * 6 + 1] = day;
+        day++;
+    }
+    __STOSD(w, -1, 8);
+    t = SeriesWinner(s, len);
+    if (t == s[2]) w[0] = t;
+    else w[7] = t;
+    t = SeriesWinner(s + 0x2A, len);
+    if (t == s[0x2C]) w[1] = t;
+    else w[6] = t;
+    t = SeriesWinner(s + 0x54, len);
+    if (t == s[0x56]) w[2] = t;
+    else w[5] = t;
+    t = SeriesWinner(s + 0x7E, len);
+    if (t == s[0x80]) w[3] = t;
+    else w[4] = t;
+    for (i = 0, k = 0; i < 8; i++) {
+        if (w[i] >= 0 && w[i] < 0x1A) w[k++] = w[i];
+    }
+    SetSeriesTeams((unsigned char *)buf + 0x150, w[0], w[3], games);
+    SetSeriesTeams((unsigned char *)buf + 0x17A, w[1], w[2], games);
+    *human = 0;
+    for (i = 0; i < 2; i++) {
+        if (TEAMS[w[i] * 30 + 0x17] == 1) {
+            *human = 1;
+            if ((err = ReadTeamRec(fh, &r0, w[i])) != 0) return err;
+        }
+        if (TEAMS[w[3 - i] * 30 + 0x17] == 1) {
+            *human = 1;
+            if ((err = ReadTeamRec(fh, &r1, w[3 - i])) != 0) return err;
+        }
+        for (k = 0; k < games; k++) r0.games[k + 7] = r1.games[k + 7] = (i * 7 + 0x47C + k) * 6 + 2;
+        if (TEAMS[w[i] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r0, w[i])) != 0) return err;
+        if (TEAMS[w[3 - i] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r1, w[3 - i])) != 0) return err;
+    }
+    __STOSD(w, -1, 8);
+    t = SeriesWinner(s + 0xA8, len);
+    if (t == s[0xAA]) w[0] = t;
+    else w[7] = t;
+    t = SeriesWinner(s + 0xD2, len);
+    if (t == s[0xD4]) w[1] = t;
+    else w[6] = t;
+    t = SeriesWinner(s + 0xFC, len);
+    if (t == s[0xFE]) w[2] = t;
+    else w[5] = t;
+    t = SeriesWinner(s + 0x126, len);
+    if (t == s[0x128]) w[3] = t;
+    else w[4] = t;
+    for (i = 0, k = 0; i < 8; i++) {
+        if (w[i] >= 0 && w[i] < 0x1A) w[k++] = w[i];
+    }
+    SetSeriesTeams((unsigned char *)buf + 0x1A4, w[0], w[3], games);
+    SetSeriesTeams((unsigned char *)buf + 0x1CE, w[1], w[2], games);
+    for (i = 0; i < 2; i++) {
+        if (TEAMS[w[i] * 30 + 0x17] == 1) {
+            *human = 1;
+            if ((err = ReadTeamRec(fh, &r0, w[i])) != 0) return err;
+        }
+        if (TEAMS[w[3 - i] * 30 + 0x17] == 1) {
+            *human = 1;
+            if ((err = ReadTeamRec(fh, &r1, w[3 - i])) != 0) return err;
+        }
+        for (k = 0; k < games; k++) r0.games[k + 7] = r1.games[k + 7] = (i * 7 + 0x48A + k) * 6 + 2;
+        if (TEAMS[w[i] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r0, w[i])) != 0) return err;
+        if (TEAMS[w[3 - i] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r1, w[3 - i])) != 0) return err;
+    }
     return 0;
 }
 
@@ -139,10 +285,98 @@ int SimPlayoffRound2(int sched, int rwfh, int rdfh, char *dir, char *ext)
     return 0;
 }
 
-/* SeedPlayoffRound3: not decompiled yet (stays asm); this stub only keeps the file's layout so the
- rounds after it reach SimPlayoffRound1's exit with a near jump as in the EXE. */
-int SeedPlayoffRound3(int buf, int series, int a, int c, int *out)
+/* SeedPlayoffRound3 (43F4B, PC only; ends in SimPlayoffRound1_pop3): set up the conference finals (series 12 / 13)
+   from the second round (series 8-11) of the playoff schedule at buf. The date goes on from the last played
+   second-round game as in SeedPlayoffRound2, series 13 first. In each conference the two winners meet, the winner of
+   the series with the higher seed at home (SetSeriesTeams), and a human team gets its game slots 14-20 in its team
+   record ((k + 498h / 49Fh) * 6 + 2); *human is set when there is one. games: the series length. Returns 0, or the
+   error of a record read / write. */
+int SeedPlayoffRound3(int buf, int games, int fh, int tm, int *human)
 {
+    POTeamRec r0;
+    POTeamRec r1;
+    int len;
+    int c1;
+    int c2;
+    int a;
+    int b;
+    unsigned char day;
+    unsigned char month;
+    unsigned char *s;
+    unsigned char *g;
+    int i;
+    int k;
+    int err;
+
+    s = (unsigned char *)buf + 0x150;
+    len = SeriesLength(s);
+    for (i = len - 1; i >= 0; i--) {
+        g = s + i * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 7) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+        g = s + (i + 0xE) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+        g = s + (i + 0x15) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+    }
+    for (i = 0; i < games; i++) {
+        NormalizeDate(&month, &day);
+        s[(i + 0x23) * 6] = month;
+        s[(i + 0x23) * 6 + 1] = day;
+        day++;
+        NormalizeDate(&month, &day);
+        s[(i + 0x1C) * 6] = month;
+        s[(i + 0x1C) * 6 + 1] = day;
+        day++;
+    }
+    a = c1 = SeriesWinner(s, len);
+    b = SeriesWinner(s + 0x2A, len);
+    if (s[2] == c1) SetSeriesTeams((unsigned char *)buf + 0x1F8, c1, b, games);
+    else SetSeriesTeams((unsigned char *)buf + 0x1F8, b, c1, games);
+    *human = 0;
+    if (TEAMS[a * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r1, a)) != 0) return err;
+    }
+    if (TEAMS[b * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r0, b)) != 0) return err;
+    }
+    for (k = 0; k < games; k++) r1.games[k + 14] = r0.games[k + 14] = (k + 0x498) * 6 + 2;
+    if (TEAMS[a * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r1, a)) != 0) return err;
+    if (TEAMS[b * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r0, b)) != 0) return err;
+    a = c2 = SeriesWinner(s + 0x54, len);
+    b = SeriesWinner(s + 0x7E, len);
+    if (s[0x56] == c2) SetSeriesTeams((unsigned char *)buf + 0x222, c2, b, games);
+    else SetSeriesTeams((unsigned char *)buf + 0x222, b, c2, games);
+    if (TEAMS[a * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r1, a)) != 0) return err;
+    }
+    if (TEAMS[b * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r0, b)) != 0) return err;
+    }
+    for (k = 0; k < games; k++) r1.games[k + 14] = r0.games[k + 14] = (k + 0x49F) * 6 + 2;
+    if (TEAMS[a * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r1, a)) != 0) return err;
+    if (TEAMS[b * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r0, b)) != 0) return err;
     return 0;
 }
 
@@ -175,10 +409,76 @@ int SimPlayoffRound3(int sched, int rwfh, int rdfh, char *dir, char *ext)
     return 0;
 }
 
-/* SeedPlayoffFinal: not decompiled yet (stays asm); this stub only keeps the file's layout so the
- rounds after it reach SimPlayoffRound1's exit with a near jump as in the EXE. */
-int SeedPlayoffFinal(int buf, int series, int a, int c, int fh, int *out)
+/* SeedPlayoffFinal (444C9, PC only; ends in UpdateSeasonSchedule_pop3, here in SimPlayoffRound1's pops): set up the
+   final (series 14) from the conference finals (series 12 / 13) of the playoff schedule at buf. The date goes on
+   from the last played conference final game (a day later after series 13), two days per game. The two winners'
+   team records of the league file fh get their game slots 21-27 ((k + 4A6h) * 6 + 2) when they are human teams
+   (*human is set), and the two are ordered by their season standings (SortStandings: points, wins, goals for and
+   against from the records) for home ice. games: the series length; the fifth argument is not used. Returns 0, or
+   the error of a record read / write. */
+int SeedPlayoffFinal(int buf, int games, int fh, int tm, int unused, int *human)
 {
+    POTeamRec r[2];
+    int w[8];
+    int gf[2];
+    int pts[2];
+    int ga[2];
+    int wins[2];
+    int len;
+    unsigned char day;
+    unsigned char month;
+    unsigned char *s;
+    unsigned char *g;
+    int i;
+    int k;
+    int err;
+
+    s = (unsigned char *)buf + 0x1F8;
+    len = SeriesLength(s);
+    for (i = len - 1; i >= 0; i--) {
+        g = s + i * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1];
+            break;
+        }
+        g = s + (i + 7) * 6;
+        if (g[4] != 0xFF) {
+            month = g[0];
+            day = g[1] + 1;
+            break;
+        }
+    }
+    for (i = 0; i < games; i++) {
+        day += 2;
+        NormalizeDate(&month, &day);
+        s[(i + 0xE) * 6] = month;
+        s[(i + 0xE) * 6 + 1] = day;
+    }
+    w[0] = SeriesWinner(s, len);
+    w[1] = SeriesWinner(s + 0x2A, len);
+    *human = 0;
+    if (TEAMS[w[0] * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r[0], w[0])) != 0) return err;
+    }
+    if (TEAMS[w[1] * 30 + 0x17] == 1) {
+        *human = 1;
+        if ((err = ReadTeamRec(fh, &r[1], w[1])) != 0) return err;
+    }
+    for (k = 0; k < games; k++) r[0].games[k + 21] = r[1].games[k + 21] = (k + 0x4A6) * 6 + 2;
+    if (TEAMS[w[0] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r[0], w[0])) != 0) return err;
+    if (TEAMS[w[1] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r[1], w[1])) != 0) return err;
+    pts[0] = r[0].pad[0x29] * 2 + r[0].pad[0x2B];
+    wins[0] = r[0].pad[0x29];
+    gf[0] = *(unsigned short *)&r[0].pad[0x2C];
+    ga[0] = *(unsigned short *)&r[0].pad[0x2E];
+    pts[1] = r[1].pad[0x29] * 2 + r[1].pad[0x2B];
+    wins[1] = r[1].pad[0x29];
+    gf[1] = *(unsigned short *)&r[1].pad[0x2C];
+    ga[1] = *(unsigned short *)&r[1].pad[0x2E];
+    SortStandings(w, pts, wins, gf, ga, 2);
+    SetSeriesTeams((unsigned char *)buf + 0x24C, w[0], w[1], games);
     return 0;
 }
 
