@@ -3547,6 +3547,10 @@ push eax	; 7C8F3
 call sub_B4FAC	; 7C8F4
 add esp, byte 14h	; 7C8F9
 jmp near ControlsDlg_ret	; 7C8FC
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (DrawCtlBoxOff)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.DrawCtlBoxOff.inc"
+%else
 DrawCtlBoxOff:
 push dword 30h	; 7C901
 call __CHK	; 7C906
@@ -3607,11 +3611,17 @@ call sub_B4FAC	; 7C985
 add esp, byte 14h	; 7C98A
 push ebp	; 7C98D
 jmp near DrawCtlBox_common	; 7C98E
+%endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP1ControlsExh)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP1ControlsExh.inc"
+%else
 MenuP1ControlsExh:
 push dword 4	; 7C993
 call __CHK	; 7C998
 xor eax, eax	; 7C99D
 jmp short ControlsDlgExh	; 7C99F
+%endif ; C
 MenuP2ControlsExh:
 push dword 4	; 7C9A1
 call __CHK	; 7C9A6
@@ -3671,11 +3681,16 @@ ControlsDlg_done:
 xor eax, eax	; 7CA49
 add esp, byte 4	; 7CA4B
 jmp near ControlsDlg_ret	; 7CA4E
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP1ControlsLeague)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP1ControlsLeague.inc"
+%else
 MenuP1ControlsLeague:
 push dword 4	; 7CA53
 call __CHK	; 7CA58
 xor eax, eax	; 7CA5D
 jmp short ControlsDlgLeague	; 7CA5F
+%endif ; C
 MenuP2ControlsLeague:
 push dword 4	; 7CA61
 call __CHK	; 7CA66
@@ -4273,11 +4288,16 @@ pop edx	; 7D133
 pop ecx	; 7D134
 pop ebx	; 7D135
 ret	; 7D136
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP1ControlsPlayoff)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP1ControlsPlayoff.inc"
+%else
 MenuP1ControlsPlayoff:
 push dword 4	; 7D137
 call __CHK	; 7D13C
 xor eax, eax	; 7D141
 jmp short ControlsDlgPlayoff	; 7D143
+%endif ; C
 MenuP2ControlsPlayoff:
 push dword 4	; 7D145
 call __CHK	; 7D14A
