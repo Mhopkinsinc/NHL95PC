@@ -288,6 +288,7 @@ DrawTeamGrid,37FBA,303,028_35FB9_import_export,src/c/028_35FB9_import_export/Dra
 DrawTeamGridName,37C53,279,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGridName.c,nonmatching,register allocation: asm keeps the row in a stack slot and the column in edi (no order of the 5 locals matches),register 23/27
 HighlightGridCell,37EA6,276,028_35FB9_import_export,src/c/028_35FB9_import_export/HighlightGridCell.c,nonmatching,register / stack slots of the 8 frame corner temporaries differ; logic matches,register 23/33
 MakeTeamDbFmt,36207,102,028_35FB9_import_export,src/c/028_35FB9_import_export/MakeTeamDbFmt.c,matched,,
+PlayLeagueGame,36B93,4095,028_35FB9_import_export,src/c/028_35FB9_import_export/PlayLeagueGame.c,nonmatching,,
 PostGameToTeamDb,3626D,2342,028_35FB9_import_export,src/c/028_35FB9_import_export/PostGameToTeamDb.c,nonmatching,"draft (own file): 2421 vs 2342, 291 lines (one more spill slot, the result in edx). See docs/UNSURE.md.",register 130/246
 RestoreGridCellBg,37E5B,75,028_35FB9_import_export,src/c/028_35FB9_import_export/RestoreGridCellBg.c,matched,,
 SaveGridCellBg,37D6A,241,028_35FB9_import_export,src/c/028_35FB9_import_export/SaveGridCellBg.c,matched,,
@@ -336,6 +337,7 @@ TradeDone,3EDAA,381,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeD
 TradeHitTest,3ECAE,252,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that.",register 25/34
 TradeScreen,3FF52,561,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft (TradeHitTest.c): 561 vs 561, teams/result registers and two stack homes. See UNSURE.",register 14/18
 TradeRosterCmp,3FEF0,98,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeRosterCmp.c,matched,,
+TradeScreenLoop,3EF89,3943,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeScreenLoop.c,nonmatching,,
 TradeShowStats,3DE05,592,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeShowStats.c,matched,,
 AddHumanTeam,408F5,820,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,,
 RemoveHumanTeam,40C29,805,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,,
