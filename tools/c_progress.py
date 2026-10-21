@@ -61,7 +61,7 @@ def main():
             grp = [d for d in defs if addr[d] is not None and s <= addr[d] < e]
             left = [d for d in left if d not in grp]
             key = rel if g == fil else '%s:%s' % (rel, g)
-            rows.append(dict(function=' '.join(grp), address='%05X' % s, size=e - s, segment=stem, c_file=rel,
+            rows.append(dict(function=' '.join(grp) or g, address='%05X' % s, size=e - s, segment=stem, c_file=rel,
                              status='matched', notes=notes.get(key, notes.get(rel, '') if g == fil else '')))
         for d in left:                          # not marked: drafts
             try: s, e = cc.asm_range(src, d)

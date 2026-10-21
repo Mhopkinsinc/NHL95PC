@@ -325,8 +325,8 @@ def frag(src, obj, out):
     text = r['text']; pubs = r['pubs']
     blocks = file_blocks(src)
     multi = len(blocks) > 1 or func != fil
-    s0 = pubs.get(func, 0) if multi else 0
-    if func not in pubs and multi: raise SystemExit('%s: no public %s in the object' % (src, func))
+    s0 = anchor(src, r, func, start, end) if multi else 0
+    if s0 < 0: raise SystemExit('%s: block %s would start before the object' % (src, func))
     n = end - start
     lead = {}
     if not multi and pubs.get(func, 0) > 0 and len(text) - pubs[func] == n:
@@ -401,6 +401,24 @@ def frag(src, obj, out):
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     open(out, 'w').write('\n'.join(lines) + '\n')
 
+def anchor(src, r, func, start, end):
+    """the object offset of the asm block [start, end) of func (a C function, or a label inside one: a piece of a
+    split function, e.g. getlinee_pp before TeamLineEnergy): func's public, else from a public of the file by the
+    address difference - a public inside the block first, else the nearest one before or after it (the code in
+    between must then match too). The object must have the EXE's layout between the two (frag checks the publics
+    inside the block; make's sha1 the bytes)."""
+    if func in r['pubs']: return r['pubs'][func]
+    asm = c_paths(src, func)[2]
+    at = [(n, label_addr(asm, n)) for n in r['pubs']]
+    at = [(n, a) for n, a in at if a is not None]
+    inside = [(a - start, n, a) for n, a in at if start <= a < end]
+    before = [(start - a, n, a) for n, a in at if a < start]
+    after = [(a - end, n, a) for n, a in at if a >= end]
+    pick = min(inside) if inside else min(before + after) if before or after else None
+    if pick is None: raise SystemExit('%s: no public of the object to place %s by (asm %s)' % (src, func, os.path.relpath(asm, ROOT)))
+    _, n, a = pick
+    return r['pubs'][n] - (a - start)
+
 def label_addr(asm, name):
     L = open(asm).read().split('\n')
     for k, l in enumerate(L):
@@ -436,8 +454,8 @@ class TextTargets:
         self.where = []
         for g in file_blocks(src):
             gs, ge, gl, _ = block(src, g)
-            if g not in r['pubs']: raise SystemExit('%s: no public %s in the object' % (src, g))
-            self.where.append((r['pubs'][g], r['pubs'][g] + ge - gs, gl[0][0], gs, gl, c_paths(src, g)[2]))
+            a = anchor(src, r, g, gs, ge)
+            self.where.append((a, a + ge - gs, gl[0][0], gs, gl, c_paths(src, g)[2]))
     def resolve(self, t, func='?'):
         for a, e, lab, gs, gl, gasm in self.where:
             if a <= t < e or (t == e and a < e):
