@@ -449,6 +449,7 @@ OppInReach,5033D,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBloc
 PassRecOneTimer,50B55,775,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,
 CenterMouse,50ADE,32,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CenterMouse.c,matched,
 Readjoy1,50A05,127,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,registers: asm keeps the held buttons in eax and does regd1 = held & changed in ecx (saves ecx); C reuses eax/ebx; Readjoy2 is the clone (shared tail)
+Readjoy2,50A84,90,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,
 doinput,504DA,1070,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/doinput.c,matched,c1playernum[0] == p->SCnum and passplayer == p->SCnum operand order (found by tools/permute.py)
 faceoffinput,4FF0D,161,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/faceoffinput.c,nonmatching,draft: pflags2 kept in al (ours) vs cl then copied to al
 getlchoice,50908,109,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/getlchoice.c,nonmatching,draft: asm loads tmptr into edx first and computes the tmap difference in ax; ours keeps p in eax
@@ -579,6 +580,8 @@ RestBench,5C1E2,102,042_59D9A_engine_core,src/c/042_59D9A_engine_core/RestBench.
 SetCoachMode,5A581,232,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetCoachMode.c,nonmatching,1 spot: away side compares d with cwde/eax (asm) where C copies it to ebx (movsx); rest matches. Returns d (short)
 SetExitGame,5DDBC,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetExitGame.c,matched,
 SetSPA,59D9A,33,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetSPA.c,matched,
+SprSort,5DD7C,34,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetSPA.c,nonmatching,
+SprSortVert,5DD6B,51,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetSPA.c,nonmatching,
 Setplass,5B298,45,042_59D9A_engine_core,src/c/042_59D9A_engine_core/Setplass.c,matched,
 SetupTeamForIntermission,5DDDA,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/SetupTeamForIntermission.c,matched,
 StartGame,5E086,42,042_59D9A_engine_core,src/c/042_59D9A_engine_core/StartGame.c,matched,
@@ -639,6 +642,8 @@ FormatPlayerName,61D48,337,045_614C2_scoring_penalty_text,src/c/045_614C2_scorin
 GameTimeStamp,62CD7,34,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/GameTimeStamp.c,matched,
 ProcessPenaltyList,63A37,288,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,matched,
 InProgress,62EE9,1420,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
+chkprogress,63C0C,103,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
+PenaltyManager,63BF8,123,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
 ShotLaneOpen,64102,381,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
 PenGoalStuff,63D69,521,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
 PostGoalEvent,62343,374,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostGoalEvent.c,matched,
@@ -933,6 +938,7 @@ PlaceSpeechSlot,83D78,186,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech
 SpeechTimerTick,832BC,265,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 LoadClipSlot,84539,214,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,
 QueueSpeechClip,84418,289,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,nonmatching,"draft (ShutdownSpeech.c): 293 vs 289, slot/free/pointer registers and two stack slots. See UNSURE."
+SayClip,84AAE,30,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,nonmatching,
 SpeechBusy,836E4,45,061_83459_speech,src/c/061_83459_speech/SpeechBusy.c,matched,
 SpeechIdle,83711,45,061_83459_speech,src/c/061_83459_speech/SpeechIdle.c,matched,
 SpeechIsInit,836CA,26,061_83459_speech,src/c/061_83459_speech/SpeechIsInit.c,matched,

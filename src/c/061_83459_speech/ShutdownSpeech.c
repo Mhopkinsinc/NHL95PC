@@ -223,3 +223,23 @@ int LoadClipSlot(char *name)
         PlaceSpeechSlot(free);
     return 1;
 }
+
+/* DRAFT (first pass from Ghidra): the EXE splits it: its entry (84AAE) sits in SayScoringPeriod, which
+   tail-calls it, and the rest (SayClip_body) here after LoadClipSlot; that needs SayScoringPeriod in this file. */
+/* SayClip (84AAE, PC only): say the speech clip name now: when the speech system is up (speechinit) and idle
+   (SpeechIdle), clear the queue and the sample requests, reset the bank's loaded count (+3B70h), request and
+   make room for the clip and queue it, then mark the queue busy (speechq +60h). Result: 1 when it was queued,
+   else 0. */
+int SayClip(char *name)
+{
+    if (!speechinit) return 0;
+    if (!SpeechIdle()) return 0;
+    ResetSpeechQueue();
+    ResetSampleReq();
+    BANKD(0x3B70) = 0;
+    RequestSample(name);
+    EnsureSampleRoom();
+    QueueSpeechClip(name);
+    *(int *)((char *)speechq + 0x60) = 1;
+    return 1;
+}
