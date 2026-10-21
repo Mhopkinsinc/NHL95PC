@@ -440,3 +440,12 @@ TeamRosterScreen,,the copy as `*(PRec *)(statsskaterplr[idx] * 0x34 + statsplaye
 PreGameScreen,,`oldmx = mx = 0; oldmy = 0; my = 0;` (the init still differs),
 StartHL2,,"`(gsp == 3 && gameopts.fullot ? 0 : 1)` (branches the other way round), separate acc / n locals (esi / edi swapped)",
 TeamStatsScreen,,"the scalars in the frame struct as well (287 lines: every member is reloaded after each call, since &sched is taken)","287 lines: every member is reloaded after each call, since &sched is taken"
+SayTheGame,,SayClip defined first in SayNhlIntro.c (Watcom keeps it whole at the top,
+SayTheGame,,SayTheGame still 1 off,
+SayTheGame,,the matched SayNhlIntro block 2 off),
+StubRet4b,,"(2026-10-21, none changes the 4): three unused ints, three initialised ints",
+StubRet4b,,a dead self-call (`if (0) StubRet4b(...)`),
+StubRet4b,,an initialised array,
+StubRet4b,,"a struct filled from the parameters, dead stores to one local",
+StubRet4b,,a chained store to the parameters,
+StubRet4b,,an empty body,

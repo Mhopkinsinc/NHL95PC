@@ -7,6 +7,7 @@ Moved verbatim from HANDOFF.md. Triage plan: [HANDOFF.md](../HANDOFF.md) (Unsure
 Left unnamed or capped. Do not retry the listed C shapes.
 
 * DrawBevelBox (draft in its own file, 29D00): the draft compiles to the EXE bytes when wcc386 runs after most other files in the same DOSBox session, but not fresh (95 differing), which is what `make` uses (HANDOFF step 3, the compiler state). The C needs no change. It also matches fresh with FitPlayerName (029C75, the function before it) compiled before it in the same file (tools/module_try.py 019_2970A_league_schedule --only FitPlayerName,DrawBevelBox; FitPlayerName still matches there): the compiler state comes from an earlier function of the same file too. Moving it into FitPlayerName.c is waiting on a decision (kept here as asked).
+* SayTheGame (draft in SayNhlIntro.c, 84A6C): only its `jmp short SayClip` differs (C: a rel32 jump to an external SayClip). In the EXE SayClip's entry sits after SayScoringPeriod and its body (SayClip_body) after LoadClipSlot (ShutdownSpeech.c, segment 061): SayClip was defined in the same module, before its tail callers. Tried: SayClip defined first in SayNhlIntro.c (Watcom keeps it whole at the top; SayTheGame still 1 off, the matched SayNhlIntro block 2 off). Do not retry that; the next try is the whole module (ShutdownSpeech.c through SayNhlIntro.c) in one file.
 * DrawPanel3D (draft in its own file, 80682): compiler-state sensitive too (35 differing fresh, 53 after another file in the same DOSBox session). Score it fresh only.
 
 * `byte_D42C3` is the line height `DrawTradeRow` multiplies by the cursor row (`y = byte_D42C3 * row + 0x1D`). SEGMENT_AGENT calls it font height. No Genesis store was confirmed this pass, so the auto name stays.
@@ -20,7 +21,7 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * faceoffinput: `pflags2` in al vs cl.
 * SetShotMode: tail copies `vtoa` into edx before the `regd0` store. A short local did not stop it.
 * BlitJerseyDigit: colour store and the right-edge load are swapped. `volatile` and a goto did not.
-* StubRet4b: `push 10h; call __CHK; ret 4`. An unused array is dropped; `-od` spills the frame.
+* StubRet4b: `push 10h; call __CHK; ret 4`. An unused array is dropped; `-od` spills the frame. Tried (2026-10-21, none changes the 4): three unused ints, three initialised ints, a dead self-call (`if (0) StubRet4b(...)`), an initialised array, a struct filled from the parameters, dead stores to one local, a chained store to the parameters, an empty body. Do not retry those.
 * LoadCupFinalSeries: `db = db + 2` is `add [esp], 2`. The original loads, adds, and stores.
 * MenuP1ControlsInGame: ControlsDlgInGame is split in the EXE (it begins in the middle of MenuP1ControlsInGame), so those two cannot be marked. MenuP2ControlsInGame is marked on its own.
 * SetGameSides: `g * 6` is shifted in eax (`mov eax, ebx`) and the original shifts edx. Declaring `o` first did not change it. `games += g * 6` kept the pointer in edx but widened the byte with `movzx edi` and an extra `push edi` (103 vs 106). Do not retry those.
