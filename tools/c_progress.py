@@ -8,7 +8,8 @@ Status of each src/c/<seg>/<Func>.c:
                sha1 check proves it byte-identical
   nonmatching  a C file without the marker (work in progress or does not match yet); say why in the notes column
 Library segments (is_lib) are not counted. Rows with status asm come from tools/handasm.csv (run tools/find_handasm.py first): hand-written asm, skipped by
-the C queue, not counted. The notes column of tools/c_functions.csv is kept across runs (edit it by hand). The denominator is the number of
+the C queue, not counted. The notes column of tools/c_functions.csv is kept across runs (edit it by hand), and so is the cause column of
+the drafts (tools/draft_causes.py). The denominator is the number of
 compiled-C functions in each segment: labels whose code starts with the wcc386 stack-check prologue
 (push N / call __CHK). Hand-written asm (no __CHK) is not counted. The matched count is the number of those
 labels whose address lies inside a marked block (a function defined in two C files counts once; a matched helper
@@ -39,13 +40,13 @@ def c_functions(asm):
     return out
 
 def main():
-    notes = {}
+    notes = {}; causes = {}
     if os.path.exists(CSV):
         for r in csv.DictReader(open(CSV)):
             if r['status'] == 'asm': continue
             f0 = r['function'].split()[0] if r['function'] else ''
             key = r['c_file'] if os.path.splitext(os.path.basename(r['c_file']))[0] == f0 else '%s:%s' % (r['c_file'], f0)
-            notes[key] = r['notes']
+            notes[key] = r['notes']; causes[key] = r.get('cause') or ''
     rows = []
     for src in sorted(glob.glob(os.path.join(ROOT, 'src/c/*/*.c'))):
         stem, fil, asm, inc = cc.c_paths(src)
@@ -62,13 +63,14 @@ def main():
             left = [d for d in left if d not in grp]
             key = rel if g == fil else '%s:%s' % (rel, g)
             rows.append(dict(function=' '.join(grp) or g, address='%05X' % s, size=e - s, segment=stem, c_file=rel,
-                             status='matched', notes=notes.get(key, notes.get(rel, '') if g == fil else '')))
+                             status='matched', notes=notes.get(key, notes.get(rel, '') if g == fil else ''), cause=''))
         for d in left:                          # not marked: drafts
             try: s, e = cc.asm_range(src, d)
             except Exception: s, e = 0, 0
             key = rel if d == fil else '%s:%s' % (rel, d)
             rows.append(dict(function=d, address='%05X' % s, size=e - s, segment=stem, c_file=rel,
-                             status='nonmatching', notes=notes.get(key, notes.get(rel, '') if d == fil else '')))
+                             status='nonmatching', notes=notes.get(key, notes.get(rel, '') if d == fil else ''),
+                             cause=causes.get(key, '')))
     work = [r for r in rows]
     asmrows = []                                # hand-written asm (tools/find_handasm.py): the C queue skips these
     HA = os.path.join(ROOT, 'tools/handasm.csv')
@@ -76,10 +78,10 @@ def main():
         for r in csv.DictReader(open(HA)):
             if r['status'] == 'asm':
                 asmrows.append(dict(function=r['function'], address=r['address'], size=int(r['size']), segment=r['segment'],
-                                    c_file='', status='asm', notes='find_handasm %s: %s' % (r['confidence'], r['signals'])))
+                                    c_file='', status='asm', notes='find_handasm %s: %s' % (r['confidence'], r['signals']), cause=''))
     rows = work + asmrows
     with open(CSV, 'w', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=['function', 'address', 'size', 'segment', 'c_file', 'status', 'notes'])
+        w = csv.DictWriter(f, fieldnames=['function', 'address', 'size', 'segment', 'c_file', 'status', 'notes', 'cause'])
         w.writeheader(); w.writerows(rows)
     segs = {}; libs = {}; chk = {}              # segment -> __CHK function count; game segment -> {label: address}
     for asm in sorted(glob.glob(os.path.join(ROOT, 'src/cseg01/*.asm'))):
