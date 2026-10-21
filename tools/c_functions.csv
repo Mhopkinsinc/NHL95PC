@@ -448,7 +448,7 @@ OppInReach,5033D,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBloc
 PassRecOneTimer,50B55,775,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,
 CenterMouse,50ADE,32,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CenterMouse.c,matched,
 Readjoy1,50A05,127,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,registers: asm keeps the held buttons in eax and does regd1 = held & changed in ecx (saves ecx); C reuses eax/ebx; Readjoy2 is the clone (shared tail)
-doinput,504DA,1070,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/doinput.c,nonmatching,
+doinput,504DA,1070,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/doinput.c,matched,c1playernum[0] == p->SCnum and passplayer == p->SCnum operand order (found by tools/permute.py)
 faceoffinput,4FF0D,161,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/faceoffinput.c,nonmatching,draft: pflags2 kept in al (ours) vs cl then copied to al
 getlchoice,50908,109,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/getlchoice.c,nonmatching,draft: asm loads tmptr into edx first and computes the tmap difference in ax; ours keeps p in eax
 holdplayer,503CD,103,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/holdplayer.c,matched,
@@ -632,7 +632,7 @@ DecayCrowdLevel,615A2,704,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring
 DrawRinkObjects,61862,358,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/DrawRinkObjects.c,nonmatching,
 EndPenaltyShot,64439,111,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/EndPenaltyShot.c,matched,
 FlushGSumQueue,61B85,58,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/FlushGSumQueue.c,matched,
-FormatPlayerName,61D48,337,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/FormatPlayerName.c,nonmatching,register allocation only: out / first swapped between edi and ebp
+FormatPlayerName,61D48,337,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/FormatPlayerName.c,matched,len declared before room (found by tools/permute.py)
 GameTimeStamp,62CD7,34,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/GameTimeStamp.c,matched,
 ProcessPenaltyList,63A37,288,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,matched,
 InProgress,62EE9,1420,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,
@@ -866,7 +866,7 @@ CmpInt,7FC31,43,058_7F724_highlights,src/c/058_7F724_highlights/CmpInt.c,matched
 FormatHilightDesc,7FCA2,86,058_7F724_highlights,src/c/058_7F724_highlights/FormatHilightDesc.c,matched,
 HilightSaveToDlg,7F724,748,058_7F724_highlights,src/c/058_7F724_highlights/HilightSaveToDlg.c,nonmatching,"draft (own file; belongs with DrawGadgetButton.c): 749 vs 748, loop counter in a register (original on the stack). See UNSURE."
 NudgeRinkScroll,7FC12,31,058_7F724_highlights,src/c/058_7F724_highlights/NudgeRinkScroll.c,matched,
-PlayHilight,8011C,559,058_7F724_highlights,src/c/058_7F724_highlights/PlayHilight.c,nonmatching,"559 vs 559. songdata is ecx and the zero is esi (original esi and edi), so s1font is edi instead of ebp and the four jctime loads are shifted one register. Do not retry naming that pointer or folding songdata = z = 0."
+PlayHilight,8011C,559,058_7F724_highlights,src/c/058_7F724_highlights/PlayHilight.c,matched,the replay offset added with no temporary (found by tools/permute.py)
 SaveHilight,7FA10,514,058_7F724_highlights,src/c/058_7F724_highlights/SaveHilight.c,matched,
 SelectHilight,7FCF8,893,058_7F724_highlights,src/c/058_7F724_highlights/SelectHilight.c,nonmatching,
 TeamFromHiName,7FC5C,70,058_7F724_highlights,src/c/058_7F724_highlights/TeamFromHiName.c,matched,
@@ -902,10 +902,10 @@ MakeSampleRoom,84205,106,061_83459_speech,src/c/061_83459_speech/MakeSampleRoom.
 MusicChanCmd3,8378C,28,061_83459_speech,src/c/061_83459_speech/MusicChanCmd3.c,matched,
 MusicChanReset,837A8,49,061_83459_speech,src/c/061_83459_speech/MusicChanReset.c,matched,
 MusicChanReset2 SpeechStopQueue,8373E,78,061_83459_speech,src/c/061_83459_speech/MusicChanReset2.c,matched,
+OpenSpeechBank,83897,816,061_83459_speech,src/c/061_83459_speech/OpenSpeechBank.c,matched,"unsigned fh, short type, size after got (found by tools/permute.py)"
 ReadSpeechSample,83BF3,187,061_83459_speech,src/c/061_83459_speech/OpenSpeechBank.c,matched,
 MoveSampleMem,840A9,124,061_83459_speech,src/c/061_83459_speech/OpenSpeechBank.c,matched,
 CompactSpeechSlot,84125,224,061_83459_speech,src/c/061_83459_speech/OpenSpeechBank.c,matched,
-OpenSpeechBank,83897,816,061_83459_speech,src/c/061_83459_speech/OpenSpeechBank.c,nonmatching,two header word stack slots + first ReadBE24 store register + type byte dx/ax
 ReadCString,8385F,56,061_83459_speech,src/c/061_83459_speech/ReadCString.c,matched,
 RequestSample,83FAF,135,061_83459_speech,src/c/061_83459_speech/RequestSample.c,matched,
 ResetSampleReq,83520,90,061_83459_speech,src/c/061_83459_speech/ResetSampleReq.c,matched,
