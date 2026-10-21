@@ -557,6 +557,10 @@ pop esi	; 5A2EA
 pop ecx	; 5A2EB
 pop ebx	; 5A2EC
 ret	; 5A2ED
+; C: src/c/042_59D9A_engine_core/CompLine.c (TeamLineEnergy)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/CompLine.TeamLineEnergy.inc"
+%else
 TeamLineEnergy:
 push dword 4	; 5A2EE
 call __CHK	; 5A2F3
@@ -568,6 +572,7 @@ jmp short .2	; 5A302
 mov eax, hmtmstruct	; 5A304
 .2:
 movsx edx, dx	; 5A309
+%endif ; C
 getlinee:
 push dword 14h	; 5A30C
 call __CHK	; 5A311

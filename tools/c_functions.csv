@@ -558,7 +558,9 @@ sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sf
 AvgCline,5A03B,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/AvgCline.c,matched,
 ClearSortCords,5BA4E,59,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClearSortCords.c,matched,
 ClockTick,5DC10,347,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClockTick.c,nonmatching,register allocation: C needs esi as well (asm gets by with ebx/ecx/edx/edi); the gameclock check order also differs
+TeamLineEnergy,5A2EE,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,"in CompLine.c before getlinee, marked --end getlinee: it falls through into getlinee's entry (a tail call to the next function)"
 CompLine,5A0A3,485,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,nonmatching,"draft: 482 vs 485. other is in esi and the line is in ecx when the pointer copy is declared first. diff stays in ax, not di. The flag byte is in al, not ah. The first getlinee widens with movsx esi,cx / mov edx,esi. line+1 is lea edx,[esi+1] then inc ecx, not a copy incremented in edi. The saved line is at esp+4 and the best energy at esp+0. The side bool is and eax,0xff, not xor ah,ah / cwde. tmlcnt is incremented in eax. Do not retry a stack struct for those two slots (it pushes ebp)."
+getlinee,5A30C,53,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,nonmatching,"draft (CompLine.c; split as in the EXE: entry after TeamLineEnergy, getlinee_pp / getlinee_sum before it): register picks (the EXE keeps line in ecx and loads the line table into edx in the 6-and-up arm)"
 DoGameFrame,5C1C4,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/DoGameFrame.c,matched,
 GameOver,5DD9E,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GameOver.c,matched,
 GetHotOrStick,5A534,77,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotOrStick.c,matched,
