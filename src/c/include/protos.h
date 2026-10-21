@@ -860,7 +860,7 @@ void DrawBevelRect(int x, int y, int w, int h, int fill, int light, int dark);  
 void DrawGadgetButton(int n);  /* 7E067 */
 int ReadTeamNames(char *path, char *out, int full);  /* 3DAB9 */
 void TakePlayerFromBox(Player *p);  /* 51115 */
-signed char PickForLineSlot(int side, int slot);  /* 64E60 */
+short PickForLineSlot(short side, short slot);  /* 64E60 */
 void RefillLineSlots(short side, short slot, short from, short to, short step);  /* 6552E */
 void __cdecl sub_B4BC4(int x1, int x2, int y1, int y2);  /* video library: clip window */
 void __cdecl sub_B4C33(void);  /* video library */
