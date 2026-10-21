@@ -819,8 +819,8 @@ SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor
 ShowRosterStats,75BF7,2098,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/ShowRosterStats.c,nonmatching,"draft: 2097 vs 2098, every statement in place; three register picks (goalie copy team record eax / edx, playoff skater add, goalie row 34h product). See docs/UNSURE.md.",register 8/8
 BlitJerseyDigit,7A017,130,055_78346_team_select,src/c/055_78346_team_select/BlitJerseyDigit.c,nonmatching,order only: asm stores the colour byte before loading the 5th (stack) arg; C loads the arg first. Rest matches,size 2/2
 CheckGameRosterComplete,78E36,602,055_78346_team_select,src/c/055_78346_team_select/CheckGameRosterComplete.c,matched,,
-DrawDlgFrame,78BE7,578,055_78346_team_select,src/c/055_78346_team_select/DrawDlgFrame.c,nonmatching,,register 66/95
 DrawGameLineJerseys,78366,410,055_78346_team_select,src/c/055_78346_team_select/DrawGameLineJerseys.c,nonmatching,"draft: structure matches (jump table, colours); side/c2 stack slots +24h/+28h swapped, nums[i] read via eax with xor edx first, hmroster index (side*444h + slot*39) folded differently; 401 vs 410 bytes",size 7/15
+DrawDlgFrame,78BE7,578,055_78346_team_select,src/c/055_78346_team_select/DrawLineEditorScreen.c,matched,"in DrawLineEditorScreen.c after DrawLineEditorScreen (draft), whose exit StubRet4a it ends in; compiled in one file with it the bevel registers come out as in the EXE (found by tools/module_try.py)",
 DrawLineEditorScreen,78500,1415,055_78346_team_select,src/c/055_78346_team_select/DrawLineEditorScreen.c,nonmatching,,slot 15/30
 GameDressPlayer,79F41,214,055_78346_team_select,src/c/055_78346_team_select/GameDressPlayer.c,matched,,
 LoadJerseyColours,78A87,352,055_78346_team_select,src/c/055_78346_team_select/LoadJerseyColours.c,nonmatching,"348 vs 352. Palette pointer is in ebx and both copy loops match. Remap load is mov dl,[ebx+eax]; original is lea edx,[ebx+eax] / mov cl,[edx]. Do not retry a named team, volatile p, or pragma aux loads.",size 3/5
@@ -875,9 +875,9 @@ ControlsDlgExh,7C9B0,163,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dia
 MenuP2ControlsLeague,7CA61,150,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
 ControlsDlgLeague,7CA70,135,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
 MenuP1ControlsInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
-ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 11/17
 ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
+ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 MenuP2ControlsPlayoff,7D145,271,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
 ControlsDlgPlayoff,7D154,256,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
 DrawControlsDlg,7D254,412,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 43/61
@@ -950,10 +950,20 @@ ShutdownSpeech,8363C,142,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.
 ReadBE24,837FB,100,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
 LoadSpeechSlot,83CAE,202,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
 PlaceSpeechSlot,83D78,186,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+EnsureSampleRoom,8426F,15,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+CompactSpeechMem,8427E,60,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
 SpeechTimerTick,832BC,265,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
 LoadClipSlot,84539,214,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayClip_body,8460F,72,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayScorePeriod,84657,93,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayNhlIntro SayGoodnight SayLineups SayNowBack FreeNowBack SayBackMoment FreeBackMoment SayCoachClip FreeCoachClip FreeClip SayElseNhl,846B4,282,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayHighlightIntro,847CE,319,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayPlayoffResult,8490D,351,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
+SayTheGame,84A6C,17,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,in ShutdownSpeech.c after SayClip's definition; its jmp short reaches SayClip's moved entry (found by tools/module_try.py),
+SayScoringPeriod,84A7D,49,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,in ShutdownSpeech.c; its pieces SayScoringPeriod_ot2 .. _reg (a block of their own) follow SayClip's entry (found by tools/module_try.py),
+SayClip,84AAE,30,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,"in ShutdownSpeech.c (the speech / announcer module, segments 060-062) right after LoadClipSlot; Watcom splits it as the EXE does: entry 84AAE after SayScoringPeriod, body SayClip_body after LoadClipSlot (found by tools/module_try.py)",
+SayScoringPeriod_ot2,84ACC,65,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,matched,,
 QueueSpeechClip,84418,289,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,nonmatching,"draft (ShutdownSpeech.c): 293 vs 289, slot/free/pointer registers and two stack slots. See UNSURE.",register 20/33
-SayClip,84AAE,30,061_83459_speech,src/c/061_83459_speech/ShutdownSpeech.c,nonmatching,,size 1/1
 SpeechBusy,836E4,45,061_83459_speech,src/c/061_83459_speech/SpeechBusy.c,matched,,
 SpeechIdle,83711,45,061_83459_speech,src/c/061_83459_speech/SpeechIdle.c,matched,,
 SpeechIsInit,836CA,26,061_83459_speech,src/c/061_83459_speech/SpeechIsInit.c,matched,,
@@ -970,19 +980,11 @@ QueuePenaltyType,85570,558,062_842BA_announcer,src/c/062_842BA_announcer/QueuePe
 QueueTimeClips,84EAC,207,062_842BA_announcer,src/c/062_842BA_announcer/QueueTimeClips.c,matched,,
 RequestTimeClips,84DDD,207,062_842BA_announcer,src/c/062_842BA_announcer/RequestTimeClips.c,matched,,
 SayGoal,8531F,397,062_842BA_announcer,src/c/062_842BA_announcer/SayGoal.c,matched,,
-SayHighlightIntro,847CE,319,062_842BA_announcer,src/c/062_842BA_announcer/SayHighlightIntro.c,matched,,
-SayNhlIntro SayGoodnight SayLineups SayNowBack FreeNowBack SayBackMoment FreeBackMoment SayCoachClip FreeCoachClip FreeClip SayElseNhl,846B4,282,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,,
-EnsureSampleRoom,8426F,15,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,,
-CompactSpeechMem,8427E,60,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,matched,,
-SayTheGame,84A6C,17,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,nonmatching,draft (SayNhlIntro.c): kept for the layout (distance to FreeClip_ret); jumps to SayClip.,tail 0/0
-SayScoringPeriod,84A7D,144,062_842BA_announcer,src/c/062_842BA_announcer/SayNhlIntro.c,nonmatching,draft (SayNhlIntro.c): pieces interleaved with SayClip in the EXE; kept for the layout.,size 8/10
 SayOneMinuteLeft,854AC,91,062_842BA_announcer,src/c/062_842BA_announcer/SayOneMinuteLeft.c,matched,,
 SayPenalty,84F7B,419,062_842BA_announcer,src/c/062_842BA_announcer/SayPenalty.c,nonmatching,,register 6/12
 SayPenaltyShot,8511E,245,062_842BA_announcer,src/c/062_842BA_announcer/SayPenaltyShot.c,matched,,
 SayPlayerNumber,85213,268,062_842BA_announcer,src/c/062_842BA_announcer/SayPlayerNumber.c,matched,,
-SayPlayoffResult,8490D,351,062_842BA_announcer,src/c/062_842BA_announcer/SayPlayoffResult.c,matched,,
 SayPlayoffTonight,84C38,421,062_842BA_announcer,src/c/062_842BA_announcer/SayPlayoffTonight.c,matched,,
-SayScorePeriod,84657,93,062_842BA_announcer,src/c/062_842BA_announcer/SayScorePeriod.c,matched,,
 SayTonightIntro,84B0D,299,062_842BA_announcer,src/c/062_842BA_announcer/SayTonightIntro.c,matched,,
 MenuPlayNextGame,86627,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuPlayNextGame.c,matched,,
 MenuReturnToSportsCentral,86637,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuReturnToSportsCentral.c,matched,,
