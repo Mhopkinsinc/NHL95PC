@@ -11,8 +11,8 @@
 2. Solves the order: starting from the file, it tries the declaration orders that sort the misplaced locals by
    their EXE slot (both directions), every move and swap of a misplaced local's declaration, moving one into the
    block that uses it (tools/scope_decls.py), and swapping two adjacent independent statements that assign one
-   (Watcom tends to lay the slots out in the order of first assignment). It climbs on (slot mismatches, permute.py
-   score) with parallel compiles, for --rounds rounds or until nothing improves.
+   (Watcom tends to lay the slots out in the order of first assignment). It climbs on (permute.py score, size,
+   slot mismatches) with parallel compiles, for --rounds rounds or until nothing improves.
 3. Prints the locals' slots before and after; --write writes the best text back when it lowers the permute.py
    score (confirmed with a fresh compile). A local whose slot no order fixes is a hint for a source difference
    (its scope, its first assignment, or a missing / extra local)."""
@@ -179,7 +179,7 @@ def main():
         bad0, sc0, st0 = r0
         print('%s %s: %d slot mismatches, permute score %d (size %+d)' % (src, func, bad0, sc0[0], sc0[1]))
         show('locals stored to the stack (most common slot at the stores):', table(st0))
-        best = (bad0, sc0[0], sc0[1]); best_text, best_info, best_desc = text0, table(st0), 'base'
+        best = (sc0[0], sc0[1], bad0); best_text, best_info, best_desc = text0, table(st0), 'base'
         cur_text, cur_info, cur_desc = text0, best_info, ''
         seen = {text0}; n = 1
         for rnd in range(a.rounds):
@@ -190,18 +190,18 @@ def main():
             improved = False
             for (d, t), r in zip(cands, res):
                 if r is None: continue
-                k = (r[0], r[1][0], r[1][1])
+                k = (r[1][0], r[1][1], r[0])
                 if k < best:
                     best, best_text, best_info, best_desc = k, t, table(r[2]), cur_desc + d
                     improved = True
-            print('  round %d: %d candidates, best %d slot mismatches, score %d  %s' % (rnd + 1, len(cands), best[0], best[1], best_desc[:100]))
+            print('  round %d: %d candidates, score %d, %d slot mismatches  %s' % (rnd + 1, len(cands), best[0], best[2], best_desc[:100]))
             sys.stdout.flush()
             if not improved: break
             cur_text, cur_info, cur_desc = best_text, best_info, best_desc + ' > '
         if best_text != text0:
             show('after (%s):' % best_desc, best_info)
-        print('%s %s: %d -> %d slot mismatches, score %d -> %d' % (src, func, bad0, best[0], sc0[0], best[1]))
-        if a.write and best_text != text0 and (best[1], best[2]) < (sc0[0], sc0[1]):
+        print('%s %s: %d -> %d slot mismatches, score %d -> %d' % (src, func, bad0, best[2], sc0[0], best[0]))
+        if a.write and best_text != text0 and (best[0], best[1]) < (sc0[0], sc0[1]):
             f = os.path.join(work, 'fresh_' + os.path.basename(src)); open(f, 'w').write(best_text)
             if cc.compile_c_raw(f, f[:-2] + '.obj', cc.src_flags(f)):
                 r = permute.score(f, f[:-2] + '.obj', func, src)
