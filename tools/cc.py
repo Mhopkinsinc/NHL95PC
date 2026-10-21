@@ -473,6 +473,10 @@ class TextTargets:
         own = [(n, o) for n, o in pubs if o <= t]
         if not own: raise SystemExit('%s: %s refers to _TEXT+%X before any function' % (self.src, func, t))
         g, go = own[-1]
+        if t == go and label_addr(self.asm, g) is not None:
+            # the entry of another function of the file (a tail call into a draft: MenuP1ControlsExh's
+            # `jmp short ControlsDlgExh`): its own label
+            return g, label_addr(self.asm, g)
         # the tail: up to the next ret; with no ret close by, up to its first call / jmp out of the module (a rel32
         # fixup: assrefdrop's jumps into the draft assrefwhistle's SkateToSpot tail, which goes on with `jmp ass_popx`
         # in the original and with the pops in the draft) or to a jmp rel32 inside the module right after a relocated
