@@ -41,8 +41,8 @@ DeleteFiles,14368,218,005_1431E_file_utils,src/c/005_1431E_file_utils/DeleteFile
 DiskSpaceShort,14825,128,005_1431E_file_utils,src/c/005_1431E_file_utils/DiskSpaceShort.c,matched,
 DrawPanelLine,14AFE,241,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,
 TickPanelPenalties,15655,178,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,
+DrawEnergyBar,15707,182,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,"in DrawPanelLine.c (segment 006); declaration order w2, c2, x2, c1 found by tools/permute.py"
 DrawPanelPenalties,15995,481,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,
-DrawEnergyBar,15707,182,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,nonmatching,"draft (in DrawPanelLine.c, segment 006): x2 / w2 swap stack slots (original x2 [esp], w2 [esp+4]). See UNSURE."
 DrawPanelScore,14A20,222,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelScore.c,nonmatching,register allocation: asm keeps score in esi / side in ebx and divides with 16-bit idiv cx; C uses ecx/esi/edi
 FileClose,1457C,38,005_1431E_file_utils,src/c/005_1431E_file_utils/FileClose.c,matched,
 FileCreate,14566,22,005_1431E_file_utils,src/c/005_1431E_file_utils/FileCreate.c,matched,
