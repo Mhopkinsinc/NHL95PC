@@ -44,3 +44,19 @@ void assshoot(Player *p)
     } else *(unsigned char *)&regd1 &= 0xAF;
     ShotMode(p);
 }
+
+/* assfaceoff (4D4F0; 93G logic93 assfaceoff): the faceoff assignment of player p: unless p is out of the play
+   (pflags bit 20h) or the game is in its faceoff wait (gmode2 bit 0), finish it (assexit). No result. */
+void assfaceoff(Player *p)
+{
+    if (!(p->pflags & 0x20) && !(gmode2 & 1)) assexit(p);
+}
+
+/* assexit (4D509; 93G logic93 assexit): finish the current assignment of player p. Steps to the next entry of the
+ player's 8-deep assignment stack (assnum + 1, wrapped to 0-7) and sets pflags bit 1 ('new
+ assignment') so the assignment dispatcher starts it on the next pass. p: the player. No result. */
+void assexit(Player *p)
+{
+    p->assnum = (p->assnum + 1) & 7;    /* add 1 to the assignment index, keep the first 3 bits */
+    p->pflags |= 2;                     /* pfna: signal next assignment */
+}

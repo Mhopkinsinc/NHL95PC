@@ -6631,6 +6631,10 @@ pop ecx	; 4D4ED
 pop ebx	; 4D4EE
 assshoot_ret:
 ret	; 4D4EF
+; C: src/c/037_4842A_engine_player_logic/assshoot.c (assfaceoff)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assshoot.assfaceoff.inc"
+%else
 assfaceoff:
 push dword 4	; 4D4F0
 call __CHK	; 4D4F5
@@ -6638,9 +6642,10 @@ test byte [byte eax+pflags], 20h	; 4D4FA
 jne short assshoot_ret	; 4D4FE
 test byte [gmode2], 1	; 4D500
 jne short assshoot_ret	; 4D507
-; C: src/c/037_4842A_engine_player_logic/assexit.c
+%endif ; C
+; C: src/c/037_4842A_engine_player_logic/assshoot.c (assexit)
 %ifdef CBUILD
-%include "c/037_4842A_engine_player_logic/assexit.inc"
+%include "c/037_4842A_engine_player_logic/assshoot.assexit.inc"
 %else
 assexit:
 push dword 8	; 4D509

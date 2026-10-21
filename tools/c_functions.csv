@@ -404,7 +404,6 @@ assdefo,49CDD,349,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_lo
 assdopen,4AFFB,50,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assdopen.c,matched,
 asseben,4AAC2,197,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asseben.c,matched,"1 register: slot+2 goes through ebx in the asm (mov ebx,edx / add ebx,2), C adds in edx; rest matches"
 assepen,4B02D,255,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assepen.c,nonmatching,"draft: pflags update is mov cl,dl / or cl,4 / mov ch,cl / and ch,0EDh (255). C ors dl in place (239). A signed char g = f|4 then g&0xED still ors dl in place. Do not retry that."
-assexit,4D509,31,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assexit.c,matched,
 assfaceoffpl,4D528,396,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assfaceoffpl.c,matched,
 assgoalie,4B774,3774,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assgoalie.c,nonmatching,"draft in its own file (ends in ass_popx; a match belongs in assrefwhistle.c): 3718 vs 3774, 230 lines: the regd1 stores around the facing turn, register picks, the epilogue. See docs/UNSURE.md."
 assnearest,4CD4B,1709,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assgoalie.c,nonmatching,"draft in assgoalie.c: same size, 7 lines (the |regd1 - pucky| test negates a copy, the EXE in place). See docs/UNSURE.md."
@@ -432,6 +431,8 @@ assrefgoalline,4F7D0,448,037_4842A_engine_player_logic,src/c/037_4842A_engine_pl
 asswingo,4A343,503,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,
 assreffollow,4E0BD,469,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,
 assscore,4A90F,435,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assscore.c,matched,
+assfaceoff,4D4F0,25,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assshoot.c,matched,"first pass from Ghidra (assshoot.c): falls through into assexit (a tail call to the next function) and returns through assshoot_ret, so assshoot, assfaceoff and assexit are one file; marked --end assexit"
+assexit,4D509,31,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assshoot.c,matched,"moved from its own file into assshoot.c after assfaceoff, which falls into it"
 assshoot,4D3F8,248,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assshoot.c,nonmatching,"draft: 242 vs 248. The pfna clear is and bl,0FDh; the original copies bl to ah first. The word at +4Ch is counted in ax (original di), so edi is not saved. A separate byte local moved the and into al. Do not retry that."
 assstanley,4A832,221,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assstanley.c,matched,
 puckflip,4DFA4,83,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/puckflip.c,matched,
