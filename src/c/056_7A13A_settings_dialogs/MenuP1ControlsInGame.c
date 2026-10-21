@@ -362,7 +362,8 @@ int ControlsDlgPlayoff(int side)
     return 0;
 }
 
-/* DRAFT (first pass from Ghidra). */
+/* DRAFT: the body as the EXE; only the exit differs (the EXE jumps to ControlsDlg_ret0, the shared exit in
+   ControlsDlgInGame's body). */
 /* DrawControlsDlg (7D254, PC only): draw the controls dialog: an identity colour remap (with alt, the
    alternate palette: F7h-FAh to 43h-40h; alt is kept in ctldlgalt), the DBOX5 art of the PLAYIMG bank (from the
    CD when fileoncd+138h is 1) at 0Ah, 13h, then in the light colour (40h alt, else FAh) the home and away team
@@ -370,12 +371,14 @@ int ControlsDlgPlayoff(int side)
    the alternate colours. No result. */
 void DrawControlsDlg(int alt)
 {
-    unsigned char remap[0x100];
+    signed char remap[0x100];
     char path[0x20];
     int i;
     int bank;
     int x;
     int y;
+    int w;
+    int h;
 
     sub_B4BA8();
     for (i = 0; i < 0x100; i++) remap[i] = i;
@@ -386,20 +389,25 @@ void DrawControlsDlg(int alt)
         remap[0xF8] = 0x42;
         remap[0xF7] = 0x43;
     }
-    sub_B4DD4(remap);
+    sub_B4DD4((unsigned char *)remap);
     MakePath(path, fileoncd[0x138] == 1 ? (char *)cddriveptr : 0, (char *)str_PlayerImg, 0);
     bank = sub_8E83C(path, 0);
     sub_931FC(sub_B30B4(bank, (char *)str_Dbox5), 0xA, 0x13);
     FreeMemBlock(bank);
-    sub_8E9C0(alt ? 0x40 : 0xFA, 0xFF);
-    x = ctldlgrects[0];
+    if (alt) sub_8E9C0(0x40, 0xFF);
+    else sub_8E9C0(0xFA, 0xFF);
+    x = ctldlgrects[0] + 0xB;
     y = ctldlgrects[1] + 0x14;
-    sub_90D20(x + 0xB, y, ctldlgrects[2] + 0xA - (x + 0xB), ctldlgrects[3] + 0x13 - y, remap[0xF9]);
-    sub_91964((char *)teamcitynames[HomeTeam], x + 0xE, y);
-    x = ctldlgrects[4];
+    w = ctldlgrects[2] + 0xA - x;
+    h = ctldlgrects[3] + 0x13 - y;
+    sub_90D20(x, y, w, h, remap[0xF9]);
+    sub_91964((char *)teamcitynames[HomeTeam], x + 3, y);
+    x = ctldlgrects[4] + 0xB;
     y = ctldlgrects[5] + 0x14;
-    sub_90D20(x + 0xB, y, ctldlgrects[6] + 0xA - (x + 0xB), ctldlgrects[7] + 0x13 - y, remap[0xF9]);
-    sub_91964((char *)teamcitynames[VisTeam], x + 0xE, y);
+    w = ctldlgrects[6] + 0xA - x;
+    h = ctldlgrects[7] + 0x13 - y;
+    sub_90D20(x, y, w, h, remap[0xF9]);
+    sub_91964((char *)teamcitynames[VisTeam], x + 3, y);
 }
 
 /* DRAFT (first pass from Ghidra). */
@@ -445,7 +453,11 @@ void DrawControlsOpts(int side)
     if (!(setbits[1] & 0x20)) sub_91964((char *)str_TheKeyboard, ctldlgrects[0x14] + 0xF, ctldlgrects[0x15] + 0x14);
 }
 
-/* DRAFT (first pass from Ghidra): the EXE's shared exits (ControlsDlg_ret) and the bit switch are not shaped yet. */
+/* DRAFT: the EXE's block order (the redraw at draw: right after the no-button restore, the clicks after it, the
+   case order with Cancel before OK, their FreeMemBlock / return merged). Left: register choices only (the restore
+   pushes, setbits in edi for the switch, the OK case's constants and side copies; the EXE reloads side after
+   HomeTeam in the 42h branch, 3 bytes). Not changed by: a local for ox - 4, !side for side == 0, while / for
+   loop forms, functions compiled before it in the file. */
 /* ControlsDlgLoop (7D6B1, PC only): run the controls dialog for controller side with the mouse pointer (its
    background saved in a POINTER18 block). A click on an available box not already chosen (CtlDlgHitTest)
    moves the choice: the side bits 1 / 2 and none 40h replace each other, as do the device bits 4-20h, and the
@@ -455,103 +467,112 @@ void DrawControlsOpts(int side)
    unchanged. Result 0. */
 int ControlsDlgLoop(int side)
 {
-    int btn;
-    int x;
-    int y;
     int ox;
     int oy;
+    int mx;
+    int my;
+    int btn;
     int hit;
-    unsigned bit;
+    int sz;
     int save;
     unsigned char *ev;
-    int other;
 
-    sub_B2DCA(&btn, &oy, &ox);
-    x = ox;
-    y = oy;
-    save = sub_8CCA8((char *)str_Pointer18, (*(short *)(pointerspr + 4) + 1) * (*(short *)(pointerspr + 6) + 1) + 0x11, 0x20);
+    sub_B2DCA(&btn, &ox, &oy);
+    mx = ox;
+    my = oy;
+    sz = ((*(int *)(pointerspr + 2) >> 16) + 1) * ((*(int *)(pointerspr + 4) >> 16) + 1) + 0x11;
+    save = sub_8CCA8((char *)str_Pointer18, sz, 0x20);
     *(Hdr17 *)save = *(Hdr17 *)pointerspr;
     *(short *)(save + 4) = *(short *)(pointerspr + 4) + 1;
     *(short *)(save + 6) = *(short *)(pointerspr + 6) + 1;
-    sub_91400(save, x - 4, y);
-    sub_91370(pointerspr, x - 4, y);
+    sub_91400(save, mx - 4, my);
+    sub_91370(pointerspr, mx - 4, my);
     ClearInputQueue();
-    other = side == 0;
     for (;;) {
         btn = 0;
         while ((ev = GetInputEvent()) != 0) {
-            btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &x, &y);
+            btn = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(ev, &mx, &my);
             if (btn & 6) break;
         }
-        if (btn & 4) {
+        if (!(btn & 2) && !(btn & 4)) {
+            if (mx == ox && my == oy) continue;
             sub_903F0(save, ox - 4, oy);
-            break;
+draw:
+            sub_91400(save, mx - 4, my);
+            sub_91370(pointerspr, mx - 4, my);
+            ox = mx;
+            oy = my;
+            continue;
         }
         if (btn & 2) {
             sub_903F0(save, ox - 4, oy);
-            if (CtlDlgHitTest(x, y, &hit)) {
-                bit = 1 << hit;
-                if (!(bit & setbits[0]) && (bit & setbits[1])) {
-                    if (bit == 0x80) {
-                        DrawCtlBoxOn(&ctldlgrects[7 * 4]);
-                        ctl1dev[side] = setbits[0] >> 2;
-                        if (setbits[0] == 0x41) {
-                            ctl1team[side] = -1;
-                            ctl1side[side] = 0;
-                            if (ctl1team[other] == -1) {
-                                ctl1team[other] = -2;
-                                ctl1side[other] = 1;
-                            } else if (ctl1side[other] == 0) {
-                                ctl1team[other] = VisTeam;
-                                ctl1side[other] = 1;
-                            }
-                        } else if (setbits[0] == 0x42) {
-                            ctl1team[side] = -2;
-                            ctl1side[side] = 1;
-                            if (ctl1team[other] == -2) {
-                                ctl1team[other] = -1;
-                                ctl1side[other] = 0;
-                            } else if (ctl1side[other] == 1) {
-                                ctl1team[other] = HomeTeam;
-                                ctl1side[other] = 0;
-                            }
-                        } else if (setbits[0] & 1) {
-                            ctl1team[side] = HomeTeam;
-                            ctl1side[side] = 0;
-                            if (ctl1team[other] == -1) {
-                                ctl1team[other] = -2;
-                                ctl1side[other] = 1;
-                            }
-                        } else {
-                            ctl1team[side] = VisTeam;
-                            ctl1side[side] = 1;
-                            if (ctl1team[other] == -2) {
-                                ctl1team[other] = -1;
-                                ctl1side[other] = 0;
-                            }
-                        }
-                        SetSideControls();
-                        WriteCurModeState();
-                        break;
+            if (!CtlDlgHitTest(mx, my, &hit)) goto draw;
+            hit = 1 << hit;
+            if (hit & setbits[0] || !(hit & setbits[1])) goto draw;
+            switch (hit) {
+            case 1: setbits[0] = setbits[0] & ~3 | 1; break;
+            case 2: setbits[0] = setbits[0] & ~3 | 2; break;
+            case 4: setbits[0] = setbits[0] & ~0x7C | 4; break;
+            case 8: setbits[0] = setbits[0] & ~0x7C | 8; break;
+            case 0x10: setbits[0] = setbits[0] & ~0x7C | 0x10; break;
+            case 0x20: setbits[0] = setbits[0] & ~0x7C | 0x20; break;
+            case 0x40: setbits[0] = setbits[0] & ~0x7C | 0x40; break;
+            case 0x100:
+                DrawCtlBoxOn((int *)unk_D19DC);
+                FreeMemBlock(save);
+                return 0;
+            case 0x80:
+                DrawCtlBoxOn((int *)unk_D19CC);
+                ctl1dev[side] = setbits[0] >> 2;
+                if (setbits[0] == 0x41) {
+                    ctl1team[side] = -1;
+                    ctl1side[side] = 0;
+                    if (ctl1team[side == 0] == -1) {
+                        ctl1team[side == 0] = -2;
+                        ctl1side[side == 0] = 1;
+                    } else if (ctl1side[side == 0] == 0) {
+                        ctl1team[side == 0] = VisTeam;
+                        ctl1side[side == 0] = 1;
                     }
-                    if (bit == 0x100) {
-                        DrawCtlBoxOn(&ctldlgrects[8 * 4]);
-                        break;
+                } else if (setbits[0] == 0x42) {
+                    ctl1team[side] = -2;
+                    ctl1side[side] = 1;
+                    if (ctl1team[side == 0] == -2) {
+                        ctl1team[side == 0] = -1;
+                        ctl1side[side == 0] = 0;
+                    } else if (ctl1side[side == 0] == 1) {
+                        ctl1team[side == 0] = HomeTeam;
+                        ctl1side[side == 0] = 0;
                     }
-                    if (bit == 1 || bit == 2) setbits[0] = (setbits[0] & ~3) | bit;
-                    else if (bit >= 4 && bit <= 0x40) setbits[0] = (setbits[0] & ~0x7C) | bit;
-                    DrawCtlBoxes();
+                } else if (setbits[0] & 1) {
+                    ctl1team[side] = HomeTeam;
+                    ctl1side[side] = 0;
+                    if (ctl1team[side == 0] == -1) {
+                        ctl1team[side == 0] = -2;
+                        ctl1side[side == 0] = 1;
+                    }
+                } else {
+                    ctl1team[side] = VisTeam;
+                    ctl1side[side] = 1;
+                    if (ctl1team[side == 0] == -2) {
+                        ctl1team[side == 0] = -1;
+                        ctl1side[side == 0] = 0;
+                    }
                 }
+                SetSideControls();
+                WriteCurModeState();
+                FreeMemBlock(save);
+                return 0;
             }
-        } else {
-            if (x == ox && y == oy) continue;
+            DrawCtlBoxes();
+            goto draw;
+        } else if (btn & 4) {
             sub_903F0(save, ox - 4, oy);
+            FreeMemBlock(save);
+            return 0;
+        } else {
+            sub_903F0(save, ox - 4, oy);
+            goto draw;
         }
-        sub_91400(save, x - 4, y);
-        sub_91370(pointerspr, x - 4, y);
-        ox = x;
-        oy = y;
     }
-    FreeMemBlock(save);
-    return 0;
 }
