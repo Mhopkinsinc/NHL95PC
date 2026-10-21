@@ -174,7 +174,12 @@ void MenuP2ControlsInGame(void)
     ControlsDlgInGame(1);
 }
 
-/* ReassignCtlPlayer:: after the controls changed, give controller
+/* DRAFT (tools/permute.py, 18 -> 6): the (short) cast and n as signed char give the EXE's stack slots (px 4,
+   best 8) and registers, but cost an extra movsx and a byte counter (the EXE: mov ebx, 6 / dec bx, as a short n).
+   Without them px and best swap slots: Watcom hands out the spilled locals' slots in the order of an unstable
+   Shell sort by size over all of the function's temporaries, so other temporaries decide it. Unused locals do
+   not change it (dropped before the code generator). */
+/* ReassignCtlPlayer: after the controls changed, give controller
  side the player of its team nearest the puck's next position (puck + velocity 256): skaters on the ice
  (position >= 0, not pflags2 bit 2 or pflags bit 20h), the puck carrier counting as nearest, not the player the
  other controller has. A controller without a team gives its player up (-1); one whose player is already on its
@@ -187,7 +192,7 @@ void ReassignCtlPlayer(int side)
     short best;
     short px;
     struct Player *p;
-    short n;
+    signed char n;
     int dx;
     int d;
     int bestd;
@@ -206,7 +211,7 @@ void ReassignCtlPlayer(int side)
     } else {
         if (*team == 1 && *pnum >= 0 && *pnum <= 5) return;
         if (*team == 2 && *pnum >= 6 && *pnum <= 11) return;
-        px = (*puckvx >> 8) + *puckx;
+        px = (short)(*puckvx >> 8) + *puckx;
         py = *pucky + (*puckvy >> 8);
         bestd = 0x10000000;
         if (*team == 1) p = SortCords;
