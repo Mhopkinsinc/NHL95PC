@@ -185,6 +185,7 @@ CmpTeamDefense,23051,220,017_21CDE_player_stats,src/c/017_21CDE_player_stats/Cmp
 CmpTeamPK,232B7,384,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c, kept first so the shared epilogue stays in CmpTeamPK): same ratio slot swap as CmpTeamPP. See UNSURE.",size 9/14
 CmpTeamPP,2312D,394,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c): keys and record compares match; d = q8*pA - p8*qA spills the two products to [esp]/[esp+4], original [esp+4]/[esp]. See UNSURE.",slot 4/7
 GoalieStatsCard,22581,2141,017_21CDE_player_stats,src/c/017_21CDE_player_stats/GoalieStatsCard.c,nonmatching,,size 21/36
+LeadersScreen,25B24,3782,017_21CDE_player_stats,src/c/017_21CDE_player_stats/LeadersScreen.c,nonmatching,,
 PlayerFromMouseY,24453,143,017_21CDE_player_stats,src/c/017_21CDE_player_stats/PlayerFromMouseY.c,matched,,
 SkaterStatsCard,21CDE,2211,017_21CDE_player_stats,src/c/017_21CDE_player_stats/SkaterStatsCard.c,nonmatching,,size 19/26
 TeamFromMouse,26B5A,1318,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamFromMouse.c,matched,,
