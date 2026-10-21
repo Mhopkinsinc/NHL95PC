@@ -1747,6 +1747,10 @@ pop edx	; 87B2F
 pop ecx	; 87B30
 pop ebx	; 87B31
 ret	; 87B32
+; C: src/c/064_86696_season_playoffs/POSeedRound2.c (POSeedConfFinals)
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeedRound2.POSeedConfFinals.inc"
+%else
 POSeedConfFinals:
 push dword 20h	; 87B33
 call __CHK	; 87B38
@@ -1899,6 +1903,11 @@ jmp near POSeedRound2_x	; 87C93
 mov ebx, edi	; 87C98
 mov edx, esi	; 87C9A
 jmp short POSeedConfFinals_pair.16	; 87C9C
+%endif ; C
+; C: src/c/064_86696_season_playoffs/POSeedRound2.c (POSeedFinal)
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeedRound2.POSeedFinal.inc"
+%else
 POSeedFinal:
 push dword 20h	; 87C9E
 call __CHK	; 87CA3
@@ -1973,6 +1982,7 @@ jne short POSeedFinal.5	; 87D4D
 .7:
 lea ecx, [dword ebp+01BE4h]	; 87D4F
 jmp near POSeedConfFinals_pair	; 87D55
+%endif ; C
 ; C: src/c/064_86696_season_playoffs/POCreateSchedule.c (POSimSeriesTeamWins)
 %ifdef CBUILD
 %include "c/064_86696_season_playoffs/POCreateSchedule.POSimSeriesTeamWins.inc"
