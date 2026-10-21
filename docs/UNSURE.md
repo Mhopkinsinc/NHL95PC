@@ -6,7 +6,7 @@ Moved verbatim from HANDOFF.md. Triage plan: [HANDOFF.md](../HANDOFF.md) (Unsure
 
 Left unnamed or capped. Do not retry the listed C shapes.
 
-* DrawBevelBox (draft in its own file, 29D00): the draft compiles to the EXE bytes when wcc386 runs after most other files in the same DOSBox session, but not fresh (95 differing), which is what `make` uses (HANDOFF step 3, the compiler state). The C needs no change; it waits for a way to build it in that state, or a source shape that matches fresh.
+* DrawBevelBox (draft in its own file, 29D00): the draft compiles to the EXE bytes when wcc386 runs after most other files in the same DOSBox session, but not fresh (95 differing), which is what `make` uses (HANDOFF step 3, the compiler state). The C needs no change. It also matches fresh with FitPlayerName (029C75, the function before it) compiled before it in the same file (tools/module_try.py 019_2970A_league_schedule --only FitPlayerName,DrawBevelBox; FitPlayerName still matches there): the compiler state comes from an earlier function of the same file too. Moving it into FitPlayerName.c is waiting on a decision (kept here as asked).
 * DrawPanel3D (draft in its own file, 80682): compiler-state sensitive too (35 differing fresh, 53 after another file in the same DOSBox session). Score it fresh only.
 
 * `byte_D42C3` is the line height `DrawTradeRow` multiplies by the cursor row (`y = byte_D42C3 * row + 0x1D`). SEGMENT_AGENT calls it font height. No Genesis store was confirmed this pass, so the auto name stays.
