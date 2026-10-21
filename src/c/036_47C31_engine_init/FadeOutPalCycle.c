@@ -165,7 +165,8 @@ void PreGameIntro(void)
 }
 
 /* DRAFT (first pass from Ghidra): the EXE places its entry and frame start (to ThreeStarsLoop_tick) after
-   StartPreGame, which falls into it, and its frame loop and exit after PreGameIntro. */
+   StartPreGame, which falls into it, and its frame loop and exit after PreGameIntro (pieces of ThreeStarsLoop:
+   PreGameIntro_scroll PreGameIntro_end). */
 /* ThreeStarsLoop (48333, PC only): run the pre-game skate until the sequence timer (seqtimer) runs out, Escape
    (escrequest) or a button (fire 10h / 20h on either pad: skip, with a palette fade): each 4-tick frame run the
    game frames due (6 per 10 input samples), follow the camera with the view (clamped to 0-40h, 0-1A8h), draw
