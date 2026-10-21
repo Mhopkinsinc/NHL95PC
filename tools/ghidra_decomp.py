@@ -18,10 +18,11 @@ import cc, c_progress
 
 
 def objects():
-    """[(base, bytes)] of the LE objects, from build/parts"""
+    """[(base, bytes)] of the LE objects, from build/parts, with the LE fixups applied (each a 32-bit address:
+    target object base + offset), so the decompiler sees the real data and code addresses"""
     le = json.load(open(os.path.join(ROOT, 'build/parts/le.json')))
     man = json.load(open(os.path.join(ROOT, 'build/parts/manifest.json')))
-    out = []
+    bufs = []
     for k, o in enumerate(le['objects']):
         buf = bytearray(o['virtual_size'])
         for m in man['segments']:
@@ -29,8 +30,14 @@ def objects():
             s = int(m['start'], 16) - o['base']
             d = open(os.path.join(ROOT, 'build/parts', m['file']), 'rb').read()
             buf[s:s + len(d)] = d
-        out.append((o['base'], bytes(buf)))
-    return out
+        bufs.append((o['base'], buf))
+    for ln in open(os.path.join(ROOT, 'build/parts/le_fixups.tsv')):
+        if ln.startswith('#'): continue
+        _, src, tobj, toff = ln.split()
+        src = int(src, 16); val = le['objects'][int(tobj) - 1]['base'] + int(toff, 16)
+        for base, buf in bufs:
+            if base <= src < base + len(buf) - 3: buf[src - base:src - base + 4] = val.to_bytes(4, 'little')
+    return [(b, bytes(buf)) for b, buf in bufs]
 
 
 def labels():
