@@ -9,8 +9,8 @@ shared exits). The original source files were about one per segment, but a funct
 of its segment, so a shared exit can land in another owner than in the EXE (POSeedRound2_x, RunDemoGame,
 PickAwardWinners). This takes every C function defined in the segment's files (src/c/<stem>/*.c; several stems
 comma-separated; --files adds C files from anywhere, e.g. for a module that spans a segment split; --only keeps just
-the named functions and the files that define them), in address order (a split function at its first piece, where
-it was defined: SayClip at SayClip_body), compiles them as one file and compares each function with the EXE. It
+the named functions and the files that define them), in address order (a split function where its non-entry piece
+is, where it was defined: SayClip at SayClip_body, ControlsDlgInGame at ControlsDlgInGame_side), compiles them as one file and compares each function with the EXE. It
 prints, per function, the result in its own file and in the module file, then the functions that match only in the
 module file (they need the functions between them and their exit's owner together in one C file, in address order)
 and the ones the module file breaks.
@@ -430,8 +430,11 @@ def build(files, only=None):
         asm = cc.c_paths(cf.path, name)[2]
         addr = cc.label_addr(asm, name)
         if addr is None: sys.stderr.write('%s (%s): no asm label, left out\n' % (name, cf.path)); continue
-        # a split function (permute.pieces) was defined where its first piece is (SayClip_body before SayClip)
-        at = min([addr] + [a for a in (cc.label_addr(asm, p) for p in permute.pieces(cf.path, name)) if a is not None])
+        # a split function (permute.pieces) was defined where its other piece is, not its entry: Watcom moves the entry
+        # next to the function that falls into it and leaves the rest in place (SayClip_body before SayClip, and
+        # ControlsDlgInGame_side after ClearCtlBlink, with the entry back after MenuP1ControlsInGame)
+        ps = [a for a in (cc.label_addr(asm, p) for p in permute.pieces(cf.path, name)) if a is not None]
+        at = min(ps) if ps else addr
         funcs.append((at, addr, name, cf, it))
     funcs.sort(key=lambda x: x[:2])
     funcs = [(addr, name, cf, it) for at, addr, name, cf, it in funcs]
