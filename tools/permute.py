@@ -26,7 +26,9 @@ Candidates are compiled in batched DOSBox runs (cc.compile_parallel), compared w
 and scored by the aligned count of differing instructions (relocations compared by target, jumps by mnemonic;
 ties broken by the size difference). Every attempt is appended to the log CSV (date, function, file, transform,
 sha1 of the function's text, score, size difference, match); a candidate already in the log for that function is
-not compiled again (its logged score is used). docs/unsure_tried.csv rows (function, transform, result) name
+not compiled again (its logged score is used). A match is compiled again alone, in a fresh DOSBox run without the
+cache, and only counts when it still matches there (a batched run can leave wcc386 in another state; HANDOFF
+step 3); a logged match is confirmed the same way. docs/unsure_tried.csv rows (function, transform, result) name
 transforms not to try for a function (step 4 of the HANDOFF plan). The search stops at a match, after --max
 compiled candidates, --minutes, or --stall compiled candidates in a row without an improvement. --write writes
 the best text back to the C file when it improves on the original, --write-match only when it matches; the best
@@ -507,6 +509,18 @@ def score(cand_src, obj, func, src):
     return nd, abs(c['n'] - (c['olen'] or 0)), c['ok'], first
 
 
+def confirm(cand_src, obj, func, src):
+    """score a candidate that matched in a batched DOSBox run again, compiled alone in a fresh run without the cache
+    (as make compiles it): wcc386's code can depend on what the same run compiled before (HANDOFF step 3, the
+    compiler state). None when the fresh compile fails."""
+    fresh = obj[:-4] + '_fresh.obj'
+    try:
+        if not cc.compile_c_raw(cand_src, fresh, cc.src_flags(cand_src)): return None
+        return score(cand_src, fresh, func, src)
+    finally:
+        if os.path.exists(fresh): os.remove(fresh)
+
+
 # ---- log ---------------------------------------------------------------------------------------------------------
 
 def load_log(path, func):
@@ -562,12 +576,13 @@ def main():
     base_text = open(src).read()
 
     def evaluate(cands):
-        """[(desc, text)] -> [(desc, text, score tuple or None)]; logged ones are not compiled again"""
+        """[(desc, text)] -> [(desc, text, score tuple or None)]; logged ones are not compiled again, except a logged
+        match (it is confirmed fresh again)"""
         nonlocal compiled, nlog
         out, todo = [], []
         for desc, text in cands:
             h = fsha(text, func)
-            if h in logged: out.append((desc, text, logged[h], False))
+            if h in logged and not (logged[h] and logged[h][2]): out.append((desc, text, logged[h], False))
             else: todo.append((desc, text, h))
         items = []
         for k, (desc, text, h) in enumerate(todo):
@@ -578,7 +593,9 @@ def main():
         for (desc, text, h), (f, o, _), ok in zip(todo, items, oks):
             r = None
             if ok:
-                try: r = score(f, o, func, src)
+                try:
+                    r = score(f, o, func, src)
+                    if r[2]: r = confirm(f, o, func, src)
                 except (SystemExit, Exception) as e: r = None
             logged[h] = r
             rows.append([datetime.date.today().isoformat(), func, src, desc, h, '' if r is None else r[0],
