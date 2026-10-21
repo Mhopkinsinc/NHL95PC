@@ -65,9 +65,10 @@ def included(src):
     return sorted(seen)
 
 def cache_key(src, flags):
-    """sha1 of the compiler, flags, the .c and every header it includes: same key -> same object"""
+    """sha1 of the compiler, flags, the .c and every header it includes: same key -> same object. 'fresh': only
+    objects compiled first in their DOSBox run are cached (compile_many); older caches may hold others."""
     import hashlib
-    h = hashlib.sha1(('%s|%s|' % (os.path.getsize(CC), flags)).encode())
+    h = hashlib.sha1(('fresh|%s|%s|' % (os.path.getsize(CC), flags)).encode())
     for p in [src] + included(src):
         h.update(os.path.basename(p).encode()); h.update(open(p, 'rb').read())
     return h.hexdigest()
@@ -81,7 +82,9 @@ def compile_c(src, obj, extra=''):
 
 def compile_many(items, batch=None):
     """compile [(src, obj, extra_flags)]; returns a list of bools. Cache hits are copied; the misses are compiled in
-    one DOSBox run per `batch` sources (NHL95_CC_BATCH, default 16): one DOSBox boot serves the whole batch."""
+    one DOSBox run per `batch` sources (NHL95_CC_BATCH, default 16): one DOSBox boot serves the whole batch. Only
+    the first object of each run goes into the cache: wcc386 can compile a source differently after other files in
+    the same run (HANDOFF step 3, the compiler state), and make compiles each file in a fresh run."""
     batch = batch or int(os.environ.get('NHL95_CC_BATCH', '16'))
     nocache = os.environ.get('NHL95_NOCACHE') == '1'
     res = [False] * len(items); todo = {}   # cache key -> [(index, src, obj, flags)]
@@ -94,12 +97,13 @@ def compile_many(items, batch=None):
     for c in range(0, len(keys), batch):
         chunk = keys[c:c + batch]
         oks = compile_batch_raw([todo[key][0][1:] for key in chunk])
-        for key, ok in zip(chunk, oks):
+        for pos, (key, ok) in enumerate(zip(chunk, oks)):
             k0, src0, obj0, _ = todo[key][0]
             if not ok: continue
-            os.makedirs(CACHE, exist_ok=True); cobj_ = os.path.join(CACHE, key + '.obj')
-            tmp = cobj_ + '.%d.%d' % (os.getpid(), threading.get_ident())
-            shutil.copy(obj0, tmp); os.replace(tmp, cobj_)
+            if pos == 0:   # the fresh compiler state
+                os.makedirs(CACHE, exist_ok=True); cobj_ = os.path.join(CACHE, key + '.obj')
+                tmp = cobj_ + '.%d.%d' % (os.getpid(), threading.get_ident())
+                shutil.copy(obj0, tmp); os.replace(tmp, cobj_)
             for k, src, obj, _ in todo[key]:
                 if obj != obj0:
                     os.makedirs(os.path.dirname(os.path.abspath(obj)), exist_ok=True); shutil.copy(obj0, obj)
