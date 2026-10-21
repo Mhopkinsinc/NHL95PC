@@ -19,12 +19,12 @@ typedef struct MenuItem {
 typedef struct Hdr17 { char c[17]; } Hdr17;
 
 int MenuHitTest(int x, int y, MenuItem **menus, int i, int *counts, int *origin, int *hitMenu, int *hitItem);
-int __cdecl sub_8F98F(char *path);  /* music library: load a song */
-void __cdecl sub_8FB8E(int song, int handle, int chan, int vol);  /* music library: play a song */
+int sub_8F98F(char *path);  /* music library: load a song (register arguments) */
+void sub_8FB8E(int song, int handle, int chan, int vol);  /* music library: play a song (register arguments) */
 int __cdecl TicksSinceLastCall(void);  /* timer library: ticks since the last call */
 
 /* DRAFT (first pass from Ghidra, tools/ghidra_decomp.py; the menu loop follows MainDeskLoop's draft): 3,461 of
-   4,567 bytes, so code is still missing. */
+   4,567 bytes (3,422 now), so code is still missing. */
 /* SportsDesk (1935D, PC only): the sports desk of a game (mode 0: paused in the game, 1: intermission, 2: after
    the game): the menu labels and title of the mode, the replay item only when a replay is recorded; fade in the
    EADESK<mode> art and palette, the pause music (when music is on and none plays), and the desk menu bar (six
