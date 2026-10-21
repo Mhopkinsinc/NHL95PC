@@ -565,7 +565,7 @@ PaTonightIntro PaScoringPeriod PaNhlIntro PaGoodnight PaLineups PaElseNhl,59BB5,
 PlayCrowdSample PaOneMinuteLeft,59A11,156,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/PlayCrowdSample.c,matched,,
 PlayDigiSample,599B9,53,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/PlayDigiSample.c,matched,,
 SndLoadFile SndLoadFile2,59493,58,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/SndLoadFile.c,matched,,
-StopDigiSample,59981,56,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/StopDigiSample.c,nonmatching,"original copies digihandle to edx (push edx) and passes it with mov eax,edx; this draft loads eax directly. Maybe sub_8F80E's real prototype differs. 10-min cap",size 4/6
+StopDigiSample,59981,56,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/StopDigiSample.c,matched,"original copies digihandle to edx (push edx) and passes it with mov eax,edx; this draft loads eax directly. Maybe sub_8F80E's real prototype differs. 10-min cap",
 WaitDigiSample,599EE,35,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/WaitDigiSample.c,matched,,
 sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sfx.c,matched,,
 AvgCline,5A03B,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/AvgCline.c,matched,,
