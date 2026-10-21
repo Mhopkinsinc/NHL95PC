@@ -36,6 +36,10 @@ void DrawControlsDlg(int alt);
 void DrawControlsOpts(int side);
 int ControlsDlgLoop(int side);
 
+/* ctlavailmask as the EXE reads it: a dword of one-bit fields (the devices found: mouse, joysticks, keyboard) */
+typedef struct { unsigned mouse:1, joy1:1, joy2:1, keys:1; } CtlAvail;
+#define AVAIL ((CtlAvail *)&ctlavailmask)
+
 /* DRAFT (whole file): every function's body matches on its own (ClearCtlBlink and MenuP2ControlsInGame byte for byte,
  ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots the px register). The EXE has ControlsDlgInGame
  split: its code from the ctl1team test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after ClearCtlBlink. With
@@ -408,25 +412,33 @@ void DrawControlsDlg(int alt)
 void DrawControlsOpts(int side)
 {
     int i;
+    int team;
+    int bit;
+    int *r;
 
-    sub_8E9C0(ctldlgalt ? 0x40 : 0xFA, 0xFF);
-    sub_91964(side ? (char *)str_TwoS : (char *)str_OneS, 0x4A, 0x20);
+    if (ctldlgalt) sub_8E9C0(0x40, 0xFF);
+    else sub_8E9C0(0xFA, 0xFF);
+    if (!side) sub_91964((char *)str_OneS, 0x4A, 0x20);
+    else sub_91964((char *)str_TwoS, 0x4A, 0x20);
     setbits[0] = 0;
-    setbits[1] = 0x1C3 | (ctlavailmask & 1) << 2 | ((ctlavailmask & 3) >> 1) << 3 | ((ctlavailmask & 7) >> 2) << 4
-                 | ((ctlavailmask & 0xF) >> 3) << 5;
+    setbits[1] = AVAIL->joy1 << 3 | (AVAIL->mouse << 2 | 0x1C3) | AVAIL->joy2 << 4 | AVAIL->keys << 5;
     if (ctl1dev[side == 0] != 0x10) setbits[1] &= ~(ctl1dev[side == 0] << 2);
-    if (ctl1team[side] < 0) {
-        if (ctl1team[side] == -1) setbits[0] = 0x41;
-        else if (ctl1team[side] == -2) setbits[0] = 0x42;
+    team = ctl1team[side];
+    if (team < 0) {
+        if (team == -1) setbits[0] = 0x41;
+        else if (team == -2) setbits[0] = 0x42;
     } else {
         setbits[0] = (ctl1side[side] != 0) + 1;
         if (setbits[1] & ctl1dev[side] << 2) setbits[0] |= ctl1dev[side] << 2;
     }
     for (i = 0; i < 9; i++) {
-        if (setbits[0] & 1 << i) DrawCtlBoxOn(&ctldlgrects[i * 4]);
-        else DrawCtlBoxOff(&ctldlgrects[i * 4]);
+        bit = 1 << i;
+        r = &ctldlgrects[i * 4];
+        if (setbits[0] & bit) DrawCtlBoxOn(r);
+        else DrawCtlBoxOff(r);
     }
-    sub_8E9C0(ctldlgalt ? 0x42 : 0xF8, 0xFF);
+    if (ctldlgalt) sub_8E9C0(0x42, 0xFF);
+    else sub_8E9C0(0xF8, 0xFF);
     if (!(setbits[1] & 4)) sub_91964((char *)str_TheMouse, ctldlgrects[8] + 0x19, ctldlgrects[9] + 0x14);
     if (!(setbits[1] & 8)) sub_91964((char *)str_JoystickOne, ctldlgrects[0xC] + 0x12, ctldlgrects[0xD] + 0x14);
     if (!(setbits[1] & 0x10)) sub_91964((char *)str_JoystickTwo, ctldlgrects[0x10] + 0x11, ctldlgrects[0x11] + 0x14);
