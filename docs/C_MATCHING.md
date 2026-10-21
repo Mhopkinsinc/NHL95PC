@@ -94,6 +94,12 @@ the first seconds of each run and takes twice as long). A tool that compiles man
 (that, on several DOSBox processes at once) instead of `compile_c` per candidate: tools/permute_decls.py and
 tools/scope_decls.py do. `cc.py compile A.c B.c ...` does the same from the shell.
 
+**The compiler state.** wcc386 can compile the same source differently after other files in the same DOSBox run
+(DrawBevelBox matches after most files but not fresh; HANDOFF step 3). `make` compiles each file in its own run, so
+only the fresh result counts. So `compile_many` caches only the first object of each run, and permute.py
+compiles a match again alone before it counts it. A score from a batched run can be off for the few
+state-sensitive drafts (DrawBevelBox, DrawPanel3D): check one with tools/state_probe.py.
+
 ## Multi-block files (shared exits)
 
 Watcom merges identical function tails (`pop edi / pop esi / ... / ret`) across one source file: a later function
