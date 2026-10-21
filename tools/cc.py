@@ -506,6 +506,12 @@ class TextTargets:
         span = (later[0] - go if later else len(text) - go) + 0x100
         orig = original_bytes(ga, span)
         hits = [m.start() for m in re.finditer(tail, orig, re.S)]
+        if len(hits) > 1:
+            # a short tail (a bare ret: assfaceoff's `jne short assshoot_ret`) occurs more than once: keep the hits
+            # that carry a label in the asm (code elsewhere jumps there too)
+            at = set(global_labels(self.asm).values())
+            lab = [h for h in hits if ga + h in at]
+            if len(lab) == 1: hits = lab
         if len(hits) != 1:
             raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, text[t:t + 16].hex(), g, len(hits), g))
         ta = ga + hits[0]
