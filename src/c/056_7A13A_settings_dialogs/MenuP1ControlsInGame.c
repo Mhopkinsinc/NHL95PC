@@ -37,9 +37,10 @@ void DrawControlsOpts(int side);
 int ControlsDlgLoop(int side);
 
 /* DRAFT (whole file): every function's body matches on its own (ClearCtlBlink and MenuP2ControlsInGame byte for byte,
- ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots the px register), but the EXE has
- ControlsDlgInGame split: its code from the ctl1team test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after
- ClearCtlBlink, where this compiles it in one piece. Neither cc.py nor cdiff can splice a split function yet. */
+ ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots the px register). The EXE has ControlsDlgInGame
+ split: its code from the ctl1team test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after ClearCtlBlink. With
+ ControlsDlgInGame defined after ClearCtlBlink (as here), Watcom splits it the same way: MenuP1ControlsInGame falls
+ into its entry, the rest stays after ClearCtlBlink (156 -> 3 differing). */
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 #define TEAM(t) ((&hmtmstruct)[t])
@@ -163,61 +164,6 @@ void MenuP1ControlsInGame(void)
     ControlsDlgInGame(0);
 }
 
-/* ControlsDlgInGame: the controls dialog during a game for controller side: load the BKGD4
- background, save the screen under it (at 98h, 0ECh in its header), run the dialog (DrawControlsDlg /
- DrawControlsOpts ControlsDlgLoop) and restore the screen. Then apply the choice: the controller's team
- (cont1team cont2team: 0 none, 1 home, 2 away from ctl1team ctl1side), samesideflag when both controllers
- are on one side, the pad device bit (pad1dev) from ctl1dev, the controlled player (ReassignCtlPlayer) and the
- line change blink (ClearCtlBlink); a team that gets or loses its controllers swaps its score flags
- (CtlSwapScoreFix CtlSwapTeamFlag). */
-int ControlsDlgInGame(int side)
-{
-    int bkgd;
-    int buf;
-    int result;
-    int team;
-    int old1;
-    int old2;
-
-    result = 0;
-    buf = bkgd = sub_8CCA8((char *)str_BKGD4, 0x8C31, 0x20);
-    *(Hdr17 *)buf = *(Hdr17 *)pointerspr;
-    *(short *)(buf + 4) = 0x98;
-    *(short *)(buf + 6) = 0xEC;
-    sub_91400(buf, 0xA, 0x13);
-    DrawControlsDlg(0);
-    DrawControlsOpts(side);
-    ControlsDlgLoop(side);
-    sub_903F0(buf, 0xA, 0x13);
-    if (ctl1team[side] < 0) team = 0;
-    else if (ctl1side[side] == 0) team = 1;
-    else team = 2;
-    old1 = cont1team;
-    old2 = cont2team;
-    if (side) cont2team = team;
-    else cont1team = team;
-    if (ctl1team[0] >= 0 && ctl2team >= 0 && ctl1side[0] == ctl2side) samesideflag = 1;
-    else samesideflag = 0;
-    switch (ctl1dev[side]) {
-    case 1: pad1dev[side] = 1; break;
-    case 2: pad1dev[side] = 2; break;
-    case 4: pad1dev[side] = 4; break;
-    case 8: pad1dev[side] = 8; break;
-    case 0x10: pad1dev[side] = 0; break;
-    }
-    ReassignCtlPlayer(side);
-    ClearCtlBlink();
-    if (puckasslist[puckstruct[6] >> 16] == 0x1B && team == 1 && old1 != team && old2 != team) pucktemp1 = 0;
-    for (team = 1; team <= 2; team++) {
-        if ((old1 == team || old2 == team) && cont1team != team && cont2team != team)
-            CtlSwapScoreFix(team == 2);
-        else if (old1 != team && old2 != team && (cont1team == team || cont2team == team))
-            CtlSwapTeamFlag(team == 2);
-    }
-    FreeMemBlock(buf);
-    return result;
-}
-
 /* MenuP2ControlsInGame: the in-game controls dialog for controller 2. */
 void MenuP2ControlsInGame(void)
 {
@@ -314,6 +260,61 @@ void ClearCtlBlink(void)
         if (diff < 0 && (line > 5 || line < 4)) TEAM(t).tmline = 4;
         if (diff == 0 && line >= 3) TEAM(t).tmline = 0;
     }
+}
+
+/* ControlsDlgInGame: the controls dialog during a game for controller side: load the BKGD4
+ background, save the screen under it (at 98h, 0ECh in its header), run the dialog (DrawControlsDlg /
+ DrawControlsOpts ControlsDlgLoop) and restore the screen. Then apply the choice: the controller's team
+ (cont1team cont2team: 0 none, 1 home, 2 away from ctl1team ctl1side), samesideflag when both controllers
+ are on one side, the pad device bit (pad1dev) from ctl1dev, the controlled player (ReassignCtlPlayer) and the
+ line change blink (ClearCtlBlink); a team that gets or loses its controllers swaps its score flags
+ (CtlSwapScoreFix CtlSwapTeamFlag). */
+int ControlsDlgInGame(int side)
+{
+    int bkgd;
+    int buf;
+    int result;
+    int team;
+    int old1;
+    int old2;
+
+    result = 0;
+    buf = bkgd = sub_8CCA8((char *)str_BKGD4, 0x8C31, 0x20);
+    *(Hdr17 *)buf = *(Hdr17 *)pointerspr;
+    *(short *)(buf + 4) = 0x98;
+    *(short *)(buf + 6) = 0xEC;
+    sub_91400(buf, 0xA, 0x13);
+    DrawControlsDlg(0);
+    DrawControlsOpts(side);
+    ControlsDlgLoop(side);
+    sub_903F0(buf, 0xA, 0x13);
+    if (ctl1team[side] < 0) team = 0;
+    else if (ctl1side[side] == 0) team = 1;
+    else team = 2;
+    old1 = cont1team;
+    old2 = cont2team;
+    if (side) cont2team = team;
+    else cont1team = team;
+    if (ctl1team[0] >= 0 && ctl2team >= 0 && ctl1side[0] == ctl2side) samesideflag = 1;
+    else samesideflag = 0;
+    switch (ctl1dev[side]) {
+    case 1: pad1dev[side] = 1; break;
+    case 2: pad1dev[side] = 2; break;
+    case 4: pad1dev[side] = 4; break;
+    case 8: pad1dev[side] = 8; break;
+    case 0x10: pad1dev[side] = 0; break;
+    }
+    ReassignCtlPlayer(side);
+    ClearCtlBlink();
+    if (puckasslist[puckstruct[6] >> 16] == 0x1B && team == 1 && old1 != team && old2 != team) pucktemp1 = 0;
+    for (team = 1; team <= 2; team++) {
+        if ((old1 == team || old2 == team) && cont1team != team && cont2team != team)
+            CtlSwapScoreFix(team == 2);
+        else if (old1 != team && old2 != team && (cont1team == team || cont2team == team))
+            CtlSwapTeamFlag(team == 2);
+    }
+    FreeMemBlock(buf);
+    return result;
 }
 
 /* MenuP1ControlsPlayoff (7D137, PC only): the playoff controls dialog for controller 1. Result 0. */
