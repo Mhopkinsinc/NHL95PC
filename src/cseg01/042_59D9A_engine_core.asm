@@ -731,6 +731,10 @@ pop edx	; 5A4AA
 pop ebx	; 5A4AB
 ret	; 5A4AC
 %endif ; C
+; C: src/c/042_59D9A_engine_core/GetHotStick.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/GetHotStick.inc"
+%else
 GetHotStick:
 push dword 10h	; 5A4AD
 call __CHK	; 5A4B2
@@ -775,6 +779,7 @@ pop esi	; 5A530
 pop edx	; 5A531
 pop ebx	; 5A532
 ret	; 5A533
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/GetHotOrStick.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/GetHotOrStick.inc"

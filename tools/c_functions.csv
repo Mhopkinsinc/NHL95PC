@@ -577,7 +577,7 @@ getlinee,5A30C,53,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,n
 DoGameFrame,5C1C4,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/DoGameFrame.c,matched,,
 GameOver,5DD9E,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GameOver.c,matched,,
 GetHotOrStick,5A534,77,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotOrStick.c,matched,,
-GetHotStick,5A4AD,135,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotStick.c,nonmatching,"1 register: the X-flip negate goes through a fresh esi (mov esi,ebx / neg esi), same open issue as GetHot; rest matches",register 4/10
+GetHotStick,5A4AD,135,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotStick.c,matched,"1 register: the X-flip negate goes through a fresh esi (mov esi,ebx / neg esi), same open issue as GetHot; rest matches",
 GetPeriodTime,5B9D1,54,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetPeriodTime.c,matched,,
 GiveControl,5B1CE,202,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GiveControl.c,nonmatching,"3 bytes short, same branch layout: the original loads regd1 into cx on the pad-1-first path and into si on the pad-2-first path (push esi, __CHK 14h) and keeps c2playernum in bx; this draft uses one register for both. Without the c2 local the layout breaks (no cross-jump into the pad 2 tail)",register 20/27
 InitCoachModes,5A669,275,042_59D9A_engine_core,src/c/042_59D9A_engine_core/InitCoachModes.c,matched,,
