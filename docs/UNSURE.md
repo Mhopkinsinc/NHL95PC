@@ -20,7 +20,6 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * faceoffinput: `pflags2` in al vs cl.
 * SetShotMode: tail copies `vtoa` into edx before the `regd0` store. A short local did not stop it.
 * BlitJerseyDigit: colour store and the right-edge load are swapped. `volatile` and a goto did not.
-* StubRet4b: `push 10h; call __CHK; ret 4`. An unused array is dropped; `-od` spills the frame. Tried (2026-10-21, none changes the 4): three unused ints, three initialised ints, a dead self-call (`if (0) StubRet4b(...)`), an initialised array, a struct filled from the parameters, dead stores to one local, a chained store to the parameters, an empty body. Do not retry those.
 * LoadCupFinalSeries: `db = db + 2` is `add [esp], 2`. The original loads, adds, and stores.
 * MenuP1ControlsInGame: ControlsDlgInGame is split in the EXE (it begins in the middle of MenuP1ControlsInGame), so those two cannot be marked. MenuP2ControlsInGame is marked on its own.
 * SetGameSides: `g * 6` is shifted in eax (`mov eax, ebx`) and the original shifts edx. Declaring `o` first did not change it. `games += g * 6` kept the pointer in edx but widened the byte with `movzx edi` and an extra `push edi` (103 vs 106). Do not retry those.

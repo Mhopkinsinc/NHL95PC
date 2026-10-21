@@ -860,10 +860,15 @@ add esp, byte 0Ch	; 78E1E
 add esp, byte 14h	; 78E21
 jmp near StubRet4a	; 78E24
 %endif ; C
+; C: src/c/055_78346_team_select/StubRet4b.c
+%ifdef CBUILD
+%include "c/055_78346_team_select/StubRet4b.inc"
+%else
 StubRet4b:
 push dword 10h	; 78E29
 call __CHK	; 78E2E
 ret 4	; 78E33
+%endif ; C
 ; C: src/c/055_78346_team_select/CheckGameRosterComplete.c
 %ifdef CBUILD
 %include "c/055_78346_team_select/CheckGameRosterComplete.inc"

@@ -835,7 +835,7 @@ MenuSaveDefaultLines,79484,816,055_78346_team_select,src/c/055_78346_team_select
 MenuSaveTheseLines,797FE,715,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,nonmatching,,size 40/49
 MenuGameShowPlayerStats,79AC9,776,055_78346_team_select,src/c/055_78346_team_select/MenuSaveDefaultLines.c,nonmatching,,register 6/9
 PruneGameLines,79090,248,055_78346_team_select,src/c/055_78346_team_select/PruneGameLines.c,nonmatching,C folds the side * 444h * 4 step into the hmroster address ([edi+edx*4]); the EXE adds it first and reads the status into ch,size 3/5
-StubRet4b,78E29,13,055_78346_team_select,src/c/055_78346_team_select/StubRet4b.c,nonmatching,,size 1/1
+StubRet4b,78E29,13,055_78346_team_select,src/c/055_78346_team_select/StubRet4b.c,matched,,
 CtlDlgHitTest,7D61F,82,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlDlgHitTest.c,matched,,
 CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapScoreFix.c,nonmatching,"draft: same size; puck byte is mov ch,[ebx] with gmode in cl. Adjacent chars stayed bl. A short high byte and c=f paired bh/bl and moved gmode. Do not retry those.",register 3/3
 CtlSwapTeamFlag,7CC8A,91,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.c,matched,,
