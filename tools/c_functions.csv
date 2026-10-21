@@ -280,6 +280,7 @@ ApplyShapePalette,34789,46,027_33FFD_calendar,src/c/027_33FFD_calendar/ApplyShap
 CalNextMonth,34691,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalNextMonth.c,matched,,
 CalPrevMonth,346FE,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalPrevMonth.c,matched,,
 CalReturn,3476B,30,027_33FFD_calendar,src/c/027_33FFD_calendar/CalReturn.c,matched,,
+CalendarScreen,34821,6040,027_33FFD_calendar,src/c/027_33FFD_calendar/CalendarScreen.c,nonmatching,,
 DrawCalendarDay,33FFD,1684,027_33FFD_calendar,src/c/027_33FFD_calendar/DrawCalendarDay.c,nonmatching,"draft: 1675 vs 1684, every statement in place; register picks (Home / Away position, the day divisor, the game day index) and one add order. See docs/UNSURE.md.",register 21/24
 SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,nonmatching,"draft: g*6 shifted in eax (mov eax,ebx) vs edx. Declaration order unchanged. games += g*6 kept the pointer in edx but widened the byte with movzx edi and push edi (103). Do not retry those.",register 12/16
 CheckLeagueDiskSync,35FB9,590,028_35FB9_import_export,src/c/028_35FB9_import_export/CheckLeagueDiskSync.c,nonmatching,"draft: 598 vs 590. team*30 reloads the stack slot. dir is in ebp and the error in edi (original edi and ebp), so the league id is copied to edx and the team byte is read into al. Do not retry declaration order, a separate file pointer, or dropping volatile on the team index.",register 21/31
@@ -297,6 +298,7 @@ AskMasterPassword,3A49E,249,029_380E9_league_setup,src/c/029_380E9_league_setup/
 EncryptPassword,3A597,101,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,,
 BuildStandingsGrid,384B8,1645,029_380E9_league_setup,src/c/029_380E9_league_setup/BuildStandingsGrid.c,nonmatching,,register 53/55
 ChooseLeagueController,380E9,669,029_380E9_league_setup,src/c/029_380E9_league_setup/ChooseLeagueController.c,nonmatching,"draft: 669 vs 669. The body matches. jctime loads list into ecx and names into esi; the original uses edi and ebp. Parm [eax][edx][ecx][ebx] and copying x before y places those homes. The verify buffer is declared first so the password slots stay put. Do not retry an inner block for y, a local team pointer, or an aux body for the frees.",register 4/4
+LeagueTeamSelect,38B4F,5888,029_380E9_league_setup,src/c/029_380E9_league_setup/LeagueTeamSelect.c,nonmatching,,
 MergeGoalieRecDelta,3A826,388,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeGoalieRecDelta.c,matched,,
 MergeSeasonRecDelta,3A71C,266,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeSeasonRecDelta.c,matched,,
 MergeTeamRecDelta,3A5FC,288,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeTeamRecDelta.c,matched,,
@@ -376,6 +378,7 @@ LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_s
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,,
 ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_settings/ShowLoadingScreen.c,nonmatching,,register 27/37
 SimAddPair,452A6,31,035_45282_options_settings,src/c/035_45282_options_settings/SimAddPair.c,nonmatching,original keeps pairs in edx and the count in esi; this draft swaps them (with or without a count local). 10-min cap,register 5/6
+SimulateGame,452C5,9868,035_45282_options_settings,src/c/035_45282_options_settings/SimulateGame.c,nonmatching,,
 FadeOutPalCycle,47C31,165,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,draft: asm keeps the byte in bl and writes bl-1 from bh; ours decrements bl in place,register 2/4
 PreGameIntro,47CD6,1592,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 60/123
 ThreeStarsLoop,48333,247,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 13/21
