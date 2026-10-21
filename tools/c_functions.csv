@@ -679,7 +679,7 @@ checkfornewpen,637B5,373,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_
 chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/chkatop.c,nonmatching,original reads the puck y into dx (push edx) and t into ax; this draft uses ax for y. 10-min cap,size 9/12
 releasepl,6392A,122,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/releasepl.c,matched,,
 updatePPTeamTime,63B57,46,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c,matched,,
-updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,nonmatching,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add,size 7/12
+updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,matched,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add,
 CanRemovePlayer,65B83,293,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
 BuildDefaultLines,64614,1015,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,nonmatching,,register 88/139
 SetupTeamLines,658F3,597,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,nonmatching,,size 9/15
@@ -814,7 +814,7 @@ ScratchPlayer,75770,248,054_737AA_line_editor_rosters,src/c/054_737AA_line_edito
 DressPlayer,75868,201,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,,
 LineEdDone,75456,280,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,nonmatching,"draft: 280 vs 280 (best of 5). The jersey pointer is lea ebx where the original is lea ecx, the inner counter is ebx and the side stride is ecx, and the scratch status byte is dl where the original is bl. Do not retry a named row (lea ecx,[ebx+eax]) or n++ inside the subscript (copies n to edx before the inc).",register 15/15
 PrintLineEdStatus,76771,95,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/PrintLineEdStatus.c,matched,,
-RandLfsrByte,7665E,47,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/RandLfsrByte.c,nonmatching,"original does byte ops (dl = bit, dh = *s shr 1, bl = dh ^ B8h, push ebx too); this draft widens to 32 bits. 10-min cap",register 8/12
+RandLfsrByte,7665E,47,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/RandLfsrByte.c,matched,"original does byte ops (dl = bit, dh = *s shr 1, bl = dh ^ B8h, push ebx too); this draft widens to 32 bits. 10-min cap",
 SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/SetPalette768.c,matched,,
 ShowRosterStats,75BF7,2098,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/ShowRosterStats.c,nonmatching,"draft: 2097 vs 2098, every statement in place; three register picks (goalie copy team record eax / edx, playoff skater add, goalie row 34h product). See docs/UNSURE.md.",register 8/8
 BlitJerseyDigit,7A017,130,055_78346_team_select,src/c/055_78346_team_select/BlitJerseyDigit.c,nonmatching,order only: asm stores the colour byte before loading the 5th (stack) arg; C loads the arg first. Rest matches,size 2/2

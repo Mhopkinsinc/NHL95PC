@@ -4086,6 +4086,10 @@ pop ecx	; 7665B
 pop ebx	; 7665C
 ret	; 7665D
 %endif ; C
+; C: src/c/054_737AA_line_editor_rosters/RandLfsrByte.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/RandLfsrByte.inc"
+%else
 RandLfsrByte:
 push dword 0Ch	; 7665E
 call __CHK	; 76663
@@ -4110,6 +4114,7 @@ mov al, byte [eax]	; 76688
 pop edx	; 7668A
 pop ebx	; 7668B
 ret	; 7668C
+%endif ; C
 BlitClipRect:
 push dword 30h	; 7668D
 call __CHK	; 76692
