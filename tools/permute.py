@@ -820,10 +820,17 @@ def pieces(src, func):
         for m in re.finditer(r'pieces of (\w+):\s*([\w ]+)', open(src).read()):
             for n in m.group(2).split(): claimed[n] = m.group(1)
         names = [n for n in names if claimed.get(n, func) == func] + [n for n, f in claimed.items() if f == func]
+        L = open(asm).read().split('\n')
+        def is_code(n):   # the label starts code (not a jump table or other data: GameSummaryScreen_jt)
+            k = next((i for i, l in enumerate(L) if l.startswith(n + ':')), None)
+            for l in L[k + 1:k + 4] if k is not None else []:
+                if cc.LABEL.match(l) or not l.strip() or l.startswith(';'): continue
+                return bool(cc.ADDR.search(l)) and not cc.data_size(l)
+            return False
         got = []
         for n in sorted(set(names), key=lambda n: cc.label_addr(asm, n) or 0):
             a = cc.label_addr(asm, n)
-            if a is None or s <= a < e or any(p0 <= a < p1 for p0, p1 in got): continue
+            if a is None or s <= a < e or any(p0 <= a < p1 for p0, p1 in got) or not is_code(n): continue
             p0, p1 = cc.asm_range(src, n)
             got.append((p0, p1)); out.append(n)
     except (SystemExit, Exception):
