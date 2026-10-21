@@ -124,7 +124,7 @@ MenuCallbackTrue MenuCallbackTrue2,18F74,25,010_18D7F_frontend_desk,src/c/010_18
 OutputCurrentData,18D7F,196,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/OutputCurrentData.c,matched,,
 PlayRandomHighlight,18F8D,305,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PlayRandomHighlight.c,matched,,
 PostGameDesk,1920F,334,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/PostGameDesk.c,nonmatching,,size 2/3
-SportsDesk,1935D,4567,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/SportsDesk.c,nonmatching,,
+SportsDesk,1935D,4567,010_18D7F_frontend_desk,src/c/010_18D7F_frontend_desk/SportsDesk.c,nonmatching,"first pass (Ghidra, MainDeskLoop menu loop): 3,422 of 4,567 bytes, code still missing",
 ClearPanelPenalties,1CBD8,101,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/ClearPanelPenalties.c,matched,matched: found by tools/permute.py (the two -1 stores as one chained assignment).,
 InitGameSummary,1BEFD,434,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/InitGameSummary.c,matched,,
 LoadGameTeams,1BBCC,817,013_1BBCC_key_team_db,src/c/013_1BBCC_key_team_db/LoadGameTeams.c,matched,,
@@ -185,7 +185,7 @@ CmpTeamDefense,23051,220,017_21CDE_player_stats,src/c/017_21CDE_player_stats/Cmp
 CmpTeamPK,232B7,384,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c, kept first so the shared epilogue stays in CmpTeamPK): same ratio slot swap as CmpTeamPP. See UNSURE.",size 9/14
 CmpTeamPP,2312D,394,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,nonmatching,"draft (in CmpTeamStandings.c): keys and record compares match; d = q8*pA - p8*qA spills the two products to [esp]/[esp+4], original [esp+4]/[esp]. See UNSURE.",slot 4/7
 GoalieStatsCard,22581,2141,017_21CDE_player_stats,src/c/017_21CDE_player_stats/GoalieStatsCard.c,nonmatching,,size 21/36
-LeadersScreen,25B24,3782,017_21CDE_player_stats,src/c/017_21CDE_player_stats/LeadersScreen.c,nonmatching,,
+LeadersScreen,25B24,3782,017_21CDE_player_stats,src/c/017_21CDE_player_stats/LeadersScreen.c,nonmatching,"first pass (Ghidra): 3,561 of 3,782 bytes",
 PlayerFromMouseY,24453,143,017_21CDE_player_stats,src/c/017_21CDE_player_stats/PlayerFromMouseY.c,matched,,
 SkaterStatsCard,21CDE,2211,017_21CDE_player_stats,src/c/017_21CDE_player_stats/SkaterStatsCard.c,nonmatching,,size 19/26
 TeamFromMouse,26B5A,1318,017_21CDE_player_stats,src/c/017_21CDE_player_stats/TeamFromMouse.c,matched,,
@@ -219,7 +219,7 @@ ReadGameSettings,2D260,222,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/R
 ScanSavedGames,2BEFD,568,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/ScanSavedGames.c,nonmatching,"draft: 568 vs 568 beside LoadFileDlgShapes. The scans match except four byte registers: the exhibition terminator is ah (original bl), the playoff name is dl (original bh) and its terminator dl (original ch), the league terminator is dh (original bl). Do not retry a second char or a named zero.",register 10/17
 SelectSavedFile,2D099,455,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/SelectSavedFile.c,nonmatching,,size 15/22
 GameStatsScreen,2F5EE,2019,022_2D346_game_setup,src/c/022_2D346_game_setup/GameStatsScreen.c,nonmatching,,register 40/69
-GameSummaryScreen,2D35A,8023,022_2D346_game_setup,src/c/022_2D346_game_setup/GameSummaryScreen.c,nonmatching,,
+GameSummaryScreen,2D35A,8023,022_2D346_game_setup,src/c/022_2D346_game_setup/GameSummaryScreen.c,nonmatching,"first pass (Ghidra): 7,755 of 8,023 bytes; mark from 2D33E (gsuminitff, the seasonfh initializer, comes before the jump table)",
 PickOtherGames,2F2B1,294,022_2D346_game_setup,src/c/022_2D346_game_setup/PickOtherGames.c,nonmatching,,size 9/15
 PrintClampedText,2F580,110,022_2D346_game_setup,src/c/022_2D346_game_setup/PrintClampedText.c,matched,,
 UpdateOtherScores,2F3D7,425,022_2D346_game_setup,src/c/022_2D346_game_setup/UpdateOtherScores.c,matched,,
@@ -280,7 +280,7 @@ ApplyShapePalette,34789,46,027_33FFD_calendar,src/c/027_33FFD_calendar/ApplyShap
 CalNextMonth,34691,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalNextMonth.c,matched,,
 CalPrevMonth,346FE,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalPrevMonth.c,matched,,
 CalReturn,3476B,30,027_33FFD_calendar,src/c/027_33FFD_calendar/CalReturn.c,matched,,
-CalendarScreen,34821,6040,027_33FFD_calendar,src/c/027_33FFD_calendar/CalendarScreen.c,nonmatching,,
+CalendarScreen,34821,6040,027_33FFD_calendar,src/c/027_33FFD_calendar/CalendarScreen.c,nonmatching,"first pass (Ghidra): 6,036 of 6,040 bytes, 505 differing (parameter homing: the EXE pushes dir, keeps ext in edi)",
 DrawCalendarDay,33FFD,1684,027_33FFD_calendar,src/c/027_33FFD_calendar/DrawCalendarDay.c,nonmatching,"draft: 1675 vs 1684, every statement in place; register picks (Home / Away position, the day divisor, the game day index) and one add order. See docs/UNSURE.md.",register 21/24
 SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,nonmatching,"draft: g*6 shifted in eax (mov eax,ebx) vs edx. Declaration order unchanged. games += g*6 kept the pointer in edx but widened the byte with movzx edi and push edi (103). Do not retry those.",register 12/16
 CheckLeagueDiskSync,35FB9,590,028_35FB9_import_export,src/c/028_35FB9_import_export/CheckLeagueDiskSync.c,nonmatching,"draft: 598 vs 590. team*30 reloads the stack slot. dir is in ebp and the error in edi (original edi and ebp), so the league id is copied to edx and the team byte is read into al. Do not retry declaration order, a separate file pointer, or dropping volatile on the team index.",register 21/31
@@ -288,7 +288,7 @@ DrawTeamGrid,37FBA,303,028_35FB9_import_export,src/c/028_35FB9_import_export/Dra
 DrawTeamGridName,37C53,279,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGridName.c,nonmatching,register allocation: asm keeps the row in a stack slot and the column in edi (no order of the 5 locals matches),register 23/27
 HighlightGridCell,37EA6,276,028_35FB9_import_export,src/c/028_35FB9_import_export/HighlightGridCell.c,nonmatching,register / stack slots of the 8 frame corner temporaries differ; logic matches,register 23/33
 MakeTeamDbFmt,36207,102,028_35FB9_import_export,src/c/028_35FB9_import_export/MakeTeamDbFmt.c,matched,,
-PlayLeagueGame,36B93,4095,028_35FB9_import_export,src/c/028_35FB9_import_export/PlayLeagueGame.c,nonmatching,,
+PlayLeagueGame,36B93,4095,028_35FB9_import_export,src/c/028_35FB9_import_export/PlayLeagueGame.c,nonmatching,"first pass (Ghidra): 4,095 of 4,095 bytes, 28 differing (an extra mov edx, eax after FileOpenRW; the opponent pick register)",
 PostGameToTeamDb,3626D,2342,028_35FB9_import_export,src/c/028_35FB9_import_export/PostGameToTeamDb.c,nonmatching,"draft (own file): 2421 vs 2342, 291 lines (one more spill slot, the result in edx). See docs/UNSURE.md.",register 130/246
 RestoreGridCellBg,37E5B,75,028_35FB9_import_export,src/c/028_35FB9_import_export/RestoreGridCellBg.c,matched,,
 SaveGridCellBg,37D6A,241,028_35FB9_import_export,src/c/028_35FB9_import_export/SaveGridCellBg.c,matched,,
@@ -299,7 +299,7 @@ AskMasterPassword,3A49E,249,029_380E9_league_setup,src/c/029_380E9_league_setup/
 EncryptPassword,3A597,101,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,,
 BuildStandingsGrid,384B8,1645,029_380E9_league_setup,src/c/029_380E9_league_setup/BuildStandingsGrid.c,nonmatching,,register 53/55
 ChooseLeagueController,380E9,669,029_380E9_league_setup,src/c/029_380E9_league_setup/ChooseLeagueController.c,nonmatching,"draft: 669 vs 669. The body matches. jctime loads list into ecx and names into esi; the original uses edi and ebp. Parm [eax][edx][ecx][ebx] and copying x before y places those homes. The verify buffer is declared first so the password slots stay put. Do not retry an inner block for y, a local team pointer, or an aux body for the frees.",register 4/4
-LeagueTeamSelect,38B4F,5888,029_380E9_league_setup,src/c/029_380E9_league_setup/LeagueTeamSelect.c,nonmatching,,
+LeagueTeamSelect,38B4F,5888,029_380E9_league_setup,src/c/029_380E9_league_setup/LeagueTeamSelect.c,nonmatching,"first pass (Ghidra): 5,882 of 5,888 bytes, 339 differing",
 MergeGoalieRecDelta,3A826,388,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeGoalieRecDelta.c,matched,,
 MergeSeasonRecDelta,3A71C,266,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeSeasonRecDelta.c,matched,,
 MergeTeamRecDelta,3A5FC,288,029_380E9_league_setup,src/c/029_380E9_league_setup/MergeTeamRecDelta.c,matched,,
@@ -337,7 +337,7 @@ TradeDone,3EDAA,381,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeD
 TradeHitTest,3ECAE,252,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft: 247 vs 252. out is spilled. x is in edi and y in ebp (original esi, edi), so the button edge is in esi and y+28h is an add. Declaring the edge first or last did not swap x and y. Do not retry that.",register 25/34
 TradeScreen,3FF52,561,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeHitTest.c,nonmatching,"draft (TradeHitTest.c): 561 vs 561, teams/result registers and two stack homes. See UNSURE.",register 14/18
 TradeRosterCmp,3FEF0,98,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeRosterCmp.c,matched,,
-TradeScreenLoop,3EF89,3943,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeScreenLoop.c,nonmatching,,
+TradeScreenLoop,3EF89,3943,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeScreenLoop.c,nonmatching,"first pass (Ghidra): 3,940 of 3,943 bytes, 265 differing (stack slots)",
 TradeShowStats,3DE05,592,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/TradeShowStats.c,matched,,
 AddHumanTeam,408F5,820,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,,
 RemoveHumanTeam,40C29,805,033_40183_trades,src/c/033_40183_trades/AddHumanTeam.c,matched,,
@@ -380,7 +380,7 @@ LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_s
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,,
 ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_settings/ShowLoadingScreen.c,nonmatching,,register 27/37
 SimAddPair,452A6,31,035_45282_options_settings,src/c/035_45282_options_settings/SimAddPair.c,nonmatching,original keeps pairs in edx and the count in esi; this draft swaps them (with or without a count local). 10-min cap,register 5/6
-SimulateGame,452C5,9868,035_45282_options_settings,src/c/035_45282_options_settings/SimulateGame.c,nonmatching,,
+SimulateGame,452C5,9868,035_45282_options_settings,src/c/035_45282_options_settings/SimulateGame.c,nonmatching,"first pass (Ghidra): 9,902 of 9,868 bytes, 721 differing (scalar slots, register picks)",
 FadeOutPalCycle,47C31,165,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,draft: asm keeps the byte in bl and writes bl-1 from bh; ours decrements bl in place,register 2/4
 PreGameIntro,47CD6,1592,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 60/123
 ThreeStarsLoop,48333,247,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 13/21
@@ -799,11 +799,13 @@ CheckRosterComplete,751FC,602,054_737AA_line_editor_rosters,src/c/054_737AA_line
 CmpRosterGoalies MenuRegSeasonStats MenuPlayoffStats,75A37,448,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterGoalies.c,matched,,
 CmpRosterSkaters,75931,262,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/CmpRosterSkaters.c,matched,,
 DbLineEditor,737E1,469,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditor.c,matched,,
+DbLineEditorLoop,73A18,5678,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditorLoop.c,nonmatching,"first pass (Ghidra): 5,673 of 5,678 bytes, 376 differing (64 with frame offsets masked)",
 DrawLineJerseys,75046,438,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DrawLineJerseys.c,nonmatching,stack slots of the spilled side / c1 / c2 bytes rotate (+24h/+28h/+2Ch); independent of declaration order,size 20/42
 FadePalStep,76429,242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,,register 2/4
 FadePalStepSlow,7651B,249,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,,register 2/4
 FindRosterSlot,739B6,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FindRosterSlot.c,matched,,
 GameLineEditor,767D0,707,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameLineEditor.c,matched,,
+GameLineEditorLoop,76AF5,5242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameLineEditorLoop.c,nonmatching,"first pass (Ghidra): 5,243 of 5,242 bytes, 384 differing (49 with frame offsets masked: item*20h spilled in the EXE)",
 GameRosterCmp,76A93,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameRosterCmp.c,matched,,
 LineEdHitTest,77F6F,134,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/LineEdHitTest.c,nonmatching,"registers: asm keeps the slot y in ebp (4 saved regs, 14h frame); C uses eax and saves 3",register 5/13
 LoadGameRoster,77FF5,847,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/LoadGameRoster.c,nonmatching,,size 7/13
