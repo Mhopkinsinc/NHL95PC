@@ -7339,6 +7339,10 @@ mov eax, 1	; 4DD4A
 pop edx	; 4DD4F
 ret	; 4DD50
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/ChkTwoLinePass.inc"
+%else
 ChkTwoLinePass:
 push dword 10h	; 4DD51
 call __CHK	; 4DD56
@@ -7402,6 +7406,7 @@ pop esi	; 4DE10
 pop edx	; 4DE11
 pop ebx	; 4DE12
 ret	; 4DE13
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/a2touchpuck.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/a2touchpuck.inc"
