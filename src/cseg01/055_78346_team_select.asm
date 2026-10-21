@@ -649,6 +649,10 @@ pop edi	; 78BE3
 pop esi	; 78BE4
 pop ecx	; 78BE5
 ret	; 78BE6
+; C: src/c/055_78346_team_select/DrawLineEditorScreen.c (DrawDlgFrame)
+%ifdef CBUILD
+%include "c/055_78346_team_select/DrawLineEditorScreen.DrawDlgFrame.inc"
+%else
 DrawDlgFrame:
 push dword 38h	; 78BE7
 call __CHK	; 78BEC
@@ -855,6 +859,7 @@ add esp, byte 0Ch	; 78E1E
 .1:
 add esp, byte 14h	; 78E21
 jmp near StubRet4a	; 78E24
+%endif ; C
 StubRet4b:
 push dword 10h	; 78E29
 call __CHK	; 78E2E
