@@ -324,7 +324,9 @@ def frag(src, obj, out):
     r = cobj.parse(obj, known)
     text = r['text']; pubs = r['pubs']
     blocks = file_blocks(src)
-    multi = len(blocks) > 1 or func != fil
+    # several functions in the object (a single marked block with drafts beside it, as for a block among others):
+    # cut the block at its public
+    multi = len(blocks) > 1 or func != fil or len(pubs) > 1
     s0 = anchor(src, r, func, start, end) if multi else 0
     if s0 < 0: raise SystemExit('%s: block %s would start before the object' % (src, func))
     n = end - start
