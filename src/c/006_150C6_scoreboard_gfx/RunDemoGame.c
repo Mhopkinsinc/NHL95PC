@@ -214,22 +214,22 @@ int TitleScreen(void)
     signed char pal[0x300];
     char path[0x20];
     int key;
-    int n;
+    int chunk;
     int due;
     unsigned char *mask;
     int first;
     unsigned char *m;
-    int bank;
+    int bmp;
     int delay;
     signed char c;
     int i;
-    int chunk;
+    int bank;
     int frame;
     int ends;
     int dec;
     int stream;
     int t0;
-    int bmp;
+    int n;
     unsigned id;
 
     bmp = 0;
