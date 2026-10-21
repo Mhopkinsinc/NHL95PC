@@ -3,12 +3,15 @@
 
   python3 tools/unsure_rows.py [--check]
 
-One row per tried shape: func, transform, shape, result. `shape` is the UNSURE wording, `result` the outcome given
-with it (a line count, "no change", "worse", ...). `transform` is a tools/permute.py transform prefix when the shape
-is one the permuter would generate (a short or int result, a local or parameter type, a local declared in an inner
-block, a declaration order): permute.py skips candidates whose transform starts with it. Rows whose transform is
-filled in by hand (or kept from an earlier run) survive a rerun: the CSV is merged, never overwritten. --check only
-prints what would be added."""
+Two kinds of rows (func, transform, shape, result):
+* one per shape of a bullet's "Tried:" list, with an empty transform: `shape` is the UNSURE wording, `result` the
+  outcome given with it (a line count, "no change", "worse", ...). A record only.
+* one per shape anywhere in the bullet that tools/permute.py would generate, with `transform` its transform prefix:
+  declaration orders of named locals (movedecl / swapdecl), a named local's integer type, the result type, a local
+  moved into its block, a temporary inlined. Only prefixes that name one of the draft's current permute.py
+  candidates are kept. permute.py skips every candidate whose transform starts with one of its function's prefixes.
+Rows filled in by hand (or kept from an earlier run) survive a rerun: the CSV is merged, never overwritten. --check
+only prints what would be added."""
 import os, re, csv, sys, argparse
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 SRC = os.path.join(ROOT, 'docs', 'UNSURE.md'); OUT = os.path.join(ROOT, 'docs', 'unsure_tried.csv')
@@ -55,26 +58,64 @@ def shapes(body):
     return out
 
 
-def transform_of(func, shape):
-    s = shape.lower()
-    if re.search(r'\bshort result\b|result `?short`?|declared `short`', s): return 'rettype:short'
-    if re.search(r'\bint result\b|result `?int`?', s): return 'rettype:int'
-    m = re.search(r'`?(\w+)`? declared in the (?:loop|block|inner)', shape)
-    if m: return 'scope:%s' % m.group(1)
-    return ''
+TYPES = r'unsigned short|unsigned char|signed char|unsigned|short|int|char|long'
+
+
+def skip_prefixes(body):
+    """[(phrase, permute.py transform prefix)] for the shapes anywhere in a bullet that the permuter would generate:
+    declaration orders of named locals, a named local's integer type, the result type, a local moved into its
+    block, a temporary inlined. Candidates only: main() keeps those that name one of the draft's transforms."""
+    out = []
+    for m in re.finditer(r'declaration orders?(?: of| for)? ((?:`?[A-Za-z_]\w*`?(?:,? and |, | / |,? or )?)+)', body):
+        for v in re.findall(r'[A-Za-z_]\w*', m.group(1)):
+            if v not in ('and', 'or'): out += [(m.group(0), 'movedecl:%s:' % v), (m.group(0), 'swapdecl:%s:' % v)]
+    for m in re.finditer(r'((?:`?[A-Za-z_]\w*`?\s*(?:/|,|and|or)\s*)*`?[A-Za-z_]\w*`?) (?:as|declared) (?:an? )?`?'
+                         r'((?:(?:%s)`?(?:\s*(?:/|,|or|and)\s*`?)?)+)' % TYPES, body):
+        for v in re.findall(r'[A-Za-z_]\w*', m.group(1)):
+            for t in re.findall(TYPES, m.group(2)):
+                out.append((m.group(0), 'type:%s:%s' % (v, t.replace(' ', '_'))))
+    for m in re.finditer(r'`(%s) ([A-Za-z_]\w*)`' % TYPES, body):
+        out.append((m.group(0), 'type:%s:%s' % (m.group(2), m.group(1).replace(' ', '_'))))
+    for m in re.finditer(r'\b(?:an? |the )?(%s) (?:local|temporary|temp) for (?:the )?`?([A-Za-z_]\w*)`?' % TYPES, body):
+        out.append((m.group(0), 'type:%s:%s' % (m.group(2), m.group(1).replace(' ', '_'))))
+    for m in re.finditer(r'\b(?:an? )?`?(%s)`? result\b' % TYPES, body):
+        out.append((m.group(0), 'rettype:%s' % m.group(1).replace(' ', '_')))
+    for m in re.finditer(r'`?([A-Za-z_]\w*)`? declared in (?:the|its) (?:loop|block|inner block)', body):
+        out.append((m.group(0), 'scope:%s@' % m.group(1)))
+    for m in re.finditer(r'`?([A-Za-z_]\w*)`? inlined', body):
+        out.append((m.group(0), 'temp:%s:inline' % m.group(1)))
+    return out
+
+
+def draft_transforms(func):
+    """the names of permute.py's current candidates for a nonmatching draft (empty for anything else)"""
+    sys.path.insert(0, HERE)
+    import permute
+    rows = [r for r in csv.DictReader(open(os.path.join(HERE, 'c_functions.csv'), newline=''))
+            if r['function'] == func and r['status'] == 'nonmatching']
+    if not rows: return []
+    try: return [d for d, _ in permute.neighbours(open(os.path.join(ROOT, rows[0]['c_file'])).read(), func)]
+    except (SystemExit, Exception): return []
 
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--check', action='store_true'); a = ap.parse_args()
     old = []
     if os.path.exists(OUT): old = list(csv.DictReader(open(OUT, newline='')))
-    have = {(r['func'], r['shape']) for r in old}
+    have = {(r['func'], r['transform'], r['shape']) for r in old}
     new = []
     for func, body in bullets(open(SRC).read()):
         for shape, result in shapes(body):
-            if (func, shape) in have: continue
-            have.add((func, shape))
-            new.append(dict(func=func, transform=transform_of(func, shape), shape=shape, result=result))
+            if (func, '', shape) in have: continue
+            have.add((func, '', shape))
+            new.append(dict(func=func, transform='', shape=shape, result=result))
+        cands = skip_prefixes(body)
+        if not cands: continue
+        names = draft_transforms(func)
+        for phrase, pre in cands:
+            if (func, pre, phrase) in have or not any(n.startswith(pre) for n in names): continue
+            have.add((func, pre, phrase))
+            new.append(dict(func=func, transform=pre, shape=phrase, result='tried (docs/UNSURE.md)'))
     if a.check:
         for r in new: print('%s | %s | %s | %s' % (r['func'], r['transform'], r['shape'][:90], r['result']))
         print('%d new rows (%d kept)' % (len(new), len(old)))
