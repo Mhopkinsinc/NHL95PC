@@ -6,6 +6,9 @@ Moved verbatim from HANDOFF.md. Triage plan: [HANDOFF.md](../HANDOFF.md) (Unsure
 
 Left unnamed or capped. Do not retry the listed C shapes.
 
+* DrawBevelBox (draft in its own file, 29D00): the draft compiles to the EXE bytes when wcc386 runs after most other files in the same DOSBox session, but not fresh (95 differing), which is what `make` uses (HANDOFF step 3, the compiler state). The C needs no change; it waits for a way to build it in that state, or a source shape that matches fresh.
+* DrawPanel3D (draft in its own file, 80682): compiler-state sensitive too (35 differing fresh, 53 after another file in the same DOSBox session). Score it fresh only.
+
 * `byte_D42C3` is the line height `DrawTradeRow` multiplies by the cursor row (`y = byte_D42C3 * row + 0x1D`). SEGMENT_AGENT calls it font height. No Genesis store was confirmed this pass, so the auto name stays.
 * LoadShapeByTag: 392 vs 392. The index, the directory byte count, and the shape pointer stay in edi; the file position stays in esi. The original uses esi for the index and the shape pointer, and edi for the file position. The width*height size is `imul ebp, eax` / `add ebp, 11h`. The original is `imul eax, edx` / `lea ebp, [eax+11h]`. Declaring pos before bytes, declaring i first, naming the product, and adding 11h through a char pointer did not change either. A memcpy/memcmp pragma that clobbers edi spilled dir (407 bytes). Do not retry those.
 * POPickConfTeams: 361 vs 361. count stays in esi and the bitmask in edi (`mov esi, ecx` / `xor edi, edi`). The original is `mov edi, ecx` / `xor esi, esi`. The division compare then loads pick[1] into edx and pick[0] into eax. The pick swap uses ebx. The final loop hoists slots into ecx and uses edx as the write index. Declaring i before used, a cnt local before or after used, and `used = 0` before `cnt = count` did not swap esi and edi. Do not retry those.

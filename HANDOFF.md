@@ -89,7 +89,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 
 **Step 2 (2026-10-20): faster compiles, done.** tools/cc.py runs DOSBox on the dynamic core at a fixed 2,000,000 cycles (`cycles=max` ramps up over the first seconds of every run) and compiles many sources per DOSBox run (`compile_many`, batches of 16; `compile_parallel`, several runs at once; `cc.py compile A.c B.c ...`); permute_decls.py and scope_decls.py use it. The objects are the same (all 534 built C files compared: code, fixups, publics). Measured on 8 cores: one uncached compile 3.2 s -> 2.0 s; 96 files on 8 processes 30.3 s -> 8.1 s (3.7x); permute_decls with 64 orders 46.6 s -> 18.9 s (0.73 -> 0.30 s per candidate, 2.5x); `NHL95_NOCACHE=1 make fullcheck` 212 s -> 150 s (make still compiles one file per run). See C_MATCHING (Compile speed).
 
-**Step 3 (2026-10-20): tools/permute.py, in progress (stopped for a reboot; resume here).**
+**Step 3 (2026-10-20 to 21): tools/permute.py, done.**
 
 * What it does, per function: it applies one transform to the current best text, or two at random once the single ones are used up. The transforms: an integer local's type, swapdecl, movedecl, scope (tools/scope_decls.py), swapstmt, commute, cmpflip, incdec, zero, chain, ternary, temp (inline a one-use local), rettype, paramtype, tempadd (a subexpression into a new int temporary), ifswap and forchain.
 * It compiles the candidates in batched DOSBox runs (`cc.compile_parallel`) and scores each with `cdiff.compare()`: the aligned count of differing instructions, then the size difference, then a later first difference. It climbs from the best, with plateau moves.
@@ -97,7 +97,7 @@ reassembles everything. Run `make fullcheck` once per commit batch; every pushed
 * It stops at a match, 2000 candidates, 30 minutes or 300 candidates without improvement. One search runs at a time (build/permute.lock).
 * `--write-match` writes the C file back only on a match; `--write` writes on any improvement. The best variant always goes to build/permute/ under the C file's path.
 
-Results so far (74,770 logged attempts over 226 functions):
+Results (135,402 logged attempts over 340 functions):
 
 * TeamRosterScreen went from 43 to 24 differing instructions with adjacent declaration swaps, and to 19 with movedecl. The rest are spilled-scalar slots that the declaration order cannot reach (C_MATCHING).
 * Group 1 batch (the 59 parked near-misses, run with `--write-match`) is done: 3 matches, all committed.
@@ -111,8 +111,15 @@ Results so far (74,770 logged attempts over 226 functions):
 * Phase 3 (~/tmp/u/phase3.txt, the 80 drafts never run that scored under 30) is done: 4 matches, all committed.
   * doinput (== operand order, three places), FormatPlayerName and OpenSpeechBank (declaration order and types), PlayHilight (no temporary).
   * DrawListItems also compiles to the EXE bytes but still waits for DrawListItem (it branches into it).
-* In all, step 3 has matched 13 functions over 225 drafts searched. The 107 drafts that score 30 or more were not run.
-* Per-function results: ~/tmp/u/perm/summary_g1a.txt, summary_g1b.txt, summary_g1c.txt (Group 1), summary_p2a.txt and summary_p2b.txt (phase 2), summary_p3.txt (phase 3). Full outputs: ~/tmp/u/perm/FUNC.txt.
+* Phase 4 (~/tmp/u/phase4.txt, the 115 drafts that score 30 or more) is done: no match. Most stay 30 to 140 instructions off.
+  * Aligned against the EXE (25 of them, 7,954 instructions), 84% of the instructions are the same. Of the rest, 64% differ only in the register, 13% only in the stack slot, 14% are missing or extra, 6% are another opcode and 4% another constant. So the counts are mostly a few register and slot choices repeated in every instruction that touches the variable, plus some real source differences (assthreestars reads `startm` as 16-bit, the EXE as 32-bit from 2 bytes before; BlitTileMap is 36 bytes short).
+* In all, step 3 has matched 13 functions over 340 drafts searched.
+* **The compiler state.** wcc386 does not always compile the same source to the same code: the result can depend on what ran before it in the same DOSBox session (probably memory the compiler reads without setting first).
+  * DrawBevelBox (unchanged) compiles to the EXE bytes after most other files, but not fresh (95 differing) or after CmpPoints (144). Repeated runs give the same results.
+  * Over 32 drafts compiled fresh and after four different files, only DrawPanel3D also moves (35 fresh, 53 after any of the four). The others give the same code in every state, so the far-off drafts are not a compiler-state problem.
+  * `make` compiles one file per DOSBox run, so it always uses the fresh state. `NHL95_CC_CACHE=/tmp/freshcache make fullcheck` (an empty cache, every file compiled fresh) gives MATCH in both builds, so every committed match reproduces without the cache.
+  * The weak spots this leaves: permute.py compiles candidates in batches of 16 per DOSBox run, so a candidate can score in another state. Its DrawBevelBox run logged 20 false matches (those rows are left out of tools/permute_log.csv). And `compile_many` caches batch-compiled objects, which `make` then reuses, so a draft could match here and fail on a fresh checkout. Always confirm a match with `NHL95_NOCACHE=1` before marking it.
+* Per-function results: ~/tmp/u/perm/summary_g1a.txt, summary_g1b.txt, summary_g1c.txt (Group 1), summary_p2a.txt and summary_p2b.txt (phase 2), summary_p3.txt (phase 3), summary_p4.txt (phase 4). Full outputs: ~/tmp/u/perm/FUNC.txt. ~/tmp/u/classify.py FILE:FUNC sorts a draft's differences by kind; ~/tmp/u/state_probe.py FILE:FUNC compiles it in five compiler states.
 
 Batch driver and lists (in the WSL home, not in the repo):
 
@@ -124,11 +131,12 @@ Batch driver and lists (in the WSL home, not in the repo):
   * group1c.txt: the last 19 (done).
   * phase2a.txt: phase 2, the 86 other drafts with an aligned score of 1 to 12, smallest first (done; phase2b.txt was its last 71).
   * phase3.txt: phase 3 (see above). It comes from ~/tmp/u/ranked.txt (all 342 drafts scored like permute.py, by ~/tmp/u/rank2.py).
+  * phase4.txt: phase 4, the 115 drafts that score 30 or more (done).
 * Helpers: ~/tmp/u/ptest.py lists a function's candidates; papply.py replays a logged transform chain; variants.py scores hand-written variants.
 
 To resume:
 
-1. Phases 1 to 3 are done. To go on, run `~/tmp/u/prun.sh` on a list of the drafts scoring 30 or more (from ~/tmp/u/ranked.txt), in the background (detached with setsid nohup; about 1 to 4 minutes per function).
+1. All four phases are done. Proposed next (not started, waiting on a decision): permute.py confirms a match with a fresh uncached compile before it reports or writes it, and cc.py caches only objects compiled first in their DOSBox run. Then step 4.
 2. After each match: `cc.py mark`, `make` and `make CBUILD=0`, then commit the C file and the marker (plus c_progress), and remove the function's UNSURE line.
 3. At each batch end, commit tools/permute_log.csv as a tools-only commit.
 
