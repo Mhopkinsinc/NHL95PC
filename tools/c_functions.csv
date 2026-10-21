@@ -467,7 +467,7 @@ getlchoice,50908,109,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/getlcho
 holdplayer,503CD,103,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/holdplayer.c,matched,,
 joyq_flush,4FD47,27,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/joyq_flush.c,matched,,
 joyq_peek,4FD62,44,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/joyq_peek.c,matched,,
-joyq_pop,4FCE8,95,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/joyq_pop.c,nonmatching,draft: asm saves ebx/ecx/edx/esi and keeps count in edx (eax untouched until end; maybe returns joysampling),register 13/22
+joyq_pop,4FCE8,95,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/joyq_pop.c,matched,draft: asm saves ebx/ecx/edx/esi and keeps count in edx (eax untouched until end; maybe returns joysampling),
 lcfound,50975,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/lcfound.c,matched,,
 lcselect,50434,166,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/lcselect.c,matched,,
 AllInPlace,51440,61,039_50AFE_engine_assign_faceoff,src/c/039_50AFE_engine_assign_faceoff/AllInPlace.c,matched,,

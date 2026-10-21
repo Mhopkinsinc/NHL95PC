@@ -21,6 +21,10 @@ global Readjoy2, CenterMouse
 ; Input queue. The timer ISR (main_startup SampleInputTick) samples both pads every 5 ticks
 ; into joyqueue (50 records of 3 bytes) while joysampling is set. The main loop takes the
 ; frame's record with joyq_peek (-> joyrec, read by Readjoy1/Readjoy2) and drops it with joyq_pop.
+; C: src/c/038_4FCE8_engine_input/joyq_pop.c
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/joyq_pop.inc"
+%else
 joyq_pop:
 push dword 14h	; 4FCE8
 call __CHK	; 4FCED
@@ -53,6 +57,7 @@ pop edx	; 4FD43
 pop ecx	; 4FD44
 pop ebx	; 4FD45
 ret	; 4FD46
+%endif ; C
 ; C: src/c/038_4FCE8_engine_input/joyq_flush.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/joyq_flush.inc"
