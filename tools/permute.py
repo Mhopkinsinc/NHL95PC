@@ -798,7 +798,41 @@ def key(r):
     return (r[0], r[1], -r[3])
 
 
-def score(cand_src, obj, func, src):
+_PIECES = {}
+
+
+def pieces(src, func):
+    """the other pieces of a split function (its code outside its own asm block, e.g. SprSort_loop of SprSort, the
+    body Watcom leaves where the function was defined when it moves the entry after a tail caller): the asm labels
+    FUNC_x outside FUNC's range (one per piece), plus the labels a `pieces of FUNC: L1 L2` comment in the C file
+    names (pieces labelled after another function: ThreeStarsLoop's PreGameIntro_scroll)"""
+    k = (src, func)
+    if k in _PIECES: return _PIECES[k]
+    out = []
+    try:
+        asm = cc.c_paths(src, func)[2]
+        s, e = cc.asm_range(src, func)
+        names = []
+        for l in open(asm):
+            m = cc.LABEL.match(l)
+            if m and m.group(1).startswith(func + '_'): names.append(m.group(1))
+        claimed = {}
+        for m in re.finditer(r'pieces of (\w+):\s*([\w ]+)', open(src).read()):
+            for n in m.group(2).split(): claimed[n] = m.group(1)
+        names = [n for n in names if claimed.get(n, func) == func] + [n for n, f in claimed.items() if f == func]
+        got = []
+        for n in sorted(set(names), key=lambda n: cc.label_addr(asm, n) or 0):
+            a = cc.label_addr(asm, n)
+            if a is None or s <= a < e or any(p0 <= a < p1 for p0, p1 in got): continue
+            p0, p1 = cc.asm_range(src, n)
+            got.append((p0, p1)); out.append(n)
+    except (SystemExit, Exception):
+        out = []
+    _PIECES[k] = out
+    return out
+
+
+def score1(cand_src, obj, func, src):
     c = cdiff.compare(cand_src, obj, func, asm_src=src)
     C = [norm(t) for t in c['ctexts']]; O = [norm(t) for t in c['otexts']]
     sm = difflib.SequenceMatcher(None, C, O, autojunk=False)
@@ -807,6 +841,15 @@ def score(cand_src, obj, func, src):
     else: nd = 0
     first = c['rows'][c['first']][1] if c['first'] is not None else c['n']
     return nd, abs(c['n'] - (c['olen'] or 0)), c['ok'], first
+
+
+def score(cand_src, obj, func, src):
+    """(differing instructions, size difference, match, first difference) of func, its split pieces added in"""
+    nd, sz, ok, first = score1(cand_src, obj, func, src)
+    for p in pieces(src, func):
+        r = score1(cand_src, obj, p, src)
+        nd += r[0]; sz += r[1]; ok = ok and r[2]; first = min(first, r[3])
+    return nd, sz, ok, first
 
 
 def confirm(cand_src, obj, func, src):
