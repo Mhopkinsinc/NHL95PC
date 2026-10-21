@@ -22,6 +22,18 @@ Each candidate is the current best text with one transform applied (once those a
   tempadd   a call-free subexpression a op b (or a whole right-hand side) computed into a new int temporary
   ifswap    if (c) A; else B; -> if (!(c)) B; else A;
   forchain  b = e; for (a = e; ...) <-> for (a = b = e; ...) (decides the jump to the loop test)
+The expression transforms parse each line with tools/cexpr.py:
+  swap      any operands of + * & | ^ == != swapped, of < > <= >= flipped (parenthesized where needed)
+  opassign  x = x op e <-> x op= e
+  cast      an integer cast added on one subexpression (variable, member, element, call, sum), or an existing
+            integer cast dropped or changed
+  mulshift  x * 2^n <-> x << n, x * 3 / 5 / 9 <-> (x << k) + x, x * 2 <-> x + x
+  shiftstmt v << n inside a statement -> v <<= n; as its own statement before it, and back
+  loop      for / while as do / while (with and without the entry test) and as goto loops; do / while as while
+  temps     split (a local's later assignment starts a new local) and reuse (a local takes the place of another
+            of the same type whose uses all come before it)
+Each round takes the transform families in turn (each shuffled), so a family with many candidates (cast) does not
+crowd out the others.
 Candidates are compiled in batched DOSBox runs (cc.compile_parallel), compared with tools/cdiff.py's compare(),
 and scored by the aligned count of differing instructions (relocations compared by target, jumps by mnemonic;
 ties broken by the size difference). Every attempt is appended to the log CSV (date, function, file, transform,
@@ -38,7 +50,7 @@ variant is always saved under build/permute/ (same path as the C file). One sear
 import os, re, sys, csv, time, random, hashlib, difflib, argparse, tempfile, shutil, fcntl, datetime
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-import cc, cdiff, scope_decls
+import cc, cdiff, scope_decls, cexpr
 
 LOG = os.path.join(HERE, 'permute_log.csv')
 SKIP = os.path.join(ROOT, 'docs', 'unsure_tried.csv')
@@ -461,11 +473,299 @@ def t_paramtype(text, func, lines, b0, b1):
             if ok: yield 'paramtype:%d:%s' % (i, t.replace(' ', '_')), '\n'.join(L)
 
 
+# ---- expression transforms (tools/cexpr.py parses the lines) ----------------------------------------------------
+
+COMMUTATIVE = ('+', '*', '&', '|', '^', '==', '!=')
+CAST_TYPES = ['short', 'int', 'unsigned short', 'unsigned char', 'char']
+ARITH = ('+', '-', '*', '/', '%', '&', '|', '^', '<<', '>>')
+
+
+def _expr_lines(text, lines, b0, b1):
+    """(k, line, root, toks) for each parsed expression of the body's statement lines"""
+    types = cexpr.file_types(text)
+    for k in range(b0 + 1, b1):
+        l = lines[k]
+        if is_decl(l) or l.strip().startswith(('/*', '*', '#')): continue
+        for root, toks in cexpr.regions(l, types):
+            yield k, l, root, toks
+
+
+def _put(lines, k, l, n, toks, new):
+    a, b = cexpr.span(n, toks)
+    L = list(lines); L[k] = l[:a] + new + l[b:]
+    return '\n'.join(L)
+
+
+def _operand(t, n, prec):
+    """t (the text of node n) as an operand of an operator of precedence prec"""
+    if n.k in ('assign', 'tern', 'comma') or (n.k == 'bin' and cexpr.BIN[n.op] < prec): return '(%s)' % t
+    return t
+
+
+def _const(n):
+    if n.k != 'atom': return None
+    m = re.match(r'^(0[xX][0-9A-Fa-f]+|\d+)[uUlL]*$', n.op)
+    return int(m.group(1), 0) if m else None
+
+
+def _pure(n):
+    """no call, assignment or ++ / -- inside (the text can be repeated)"""
+    return not any(x.k in ('call', 'assign') or x.op in ('++', '--') for x in n.walk())
+
+
+def _pointer_names(lines, b0, b1):
+    """locals and parameters declared as pointers or arrays (no integer cast for them)"""
+    out = set()
+    for k in range(max(0, b0 - 3), b1):
+        for m in re.finditer(r'\*\s*([A-Za-z_]\w*)|([A-Za-z_]\w*)\s*\[', strip(lines[k]) if is_decl(lines[k]) or k < b0 else ''):
+            out.add(m.group(1) or m.group(2))
+    return out
+
+
+def t_swap(text, func, lines, b0, b1):
+    """the operands of + * & | ^ == != swapped, and of < > <= >= flipped, for any operands (commute and cmpflip
+    only take two simple ones); an operand that binds looser than the operator gets parentheses"""
+    for k, l, root, toks in _expr_lines(text, lines, b0, b1):
+        for j, n in enumerate(root.walk()):
+            if n.k != 'bin' or not (n.op in COMMUTATIVE or n.op in FLIP): continue
+            a, b = n.kids
+            if a.k == 'atom' and b.k == 'atom': continue
+            ta, tb = cexpr.text(l, a, toks), cexpr.text(l, b, toks)
+            if ta == tb: continue
+            p = cexpr.BIN[n.op]
+            sa, ea = cexpr.span(a, toks); sb, eb = cexpr.span(b, toks)
+            mid = l[ea:sb].replace(n.op, FLIP.get(n.op, n.op), 1)
+            ta = '(%s)' % ta if (a.k == 'bin' and cexpr.BIN[a.op] <= p) or a.k in ('assign', 'tern', 'comma') else ta
+            L = list(lines); L[k] = l[:sa] + _operand(tb, b, p) + mid + ta + l[eb:]
+            yield 'swap:%d:%d' % (k - b0, j), '\n'.join(L)
+
+
+def t_opassign(text, func, lines, b0, b1):
+    """x = x op e <-> x op= e (and x = e op x for a commutative op)"""
+    for k, l, root, toks in _expr_lines(text, lines, b0, b1):
+        for j, n in enumerate(root.walk()):
+            if n.k != 'assign': continue
+            lhs, rhs = n.kids; tl = cexpr.text(l, lhs, toks)
+            if n.op == '=' and rhs.k == 'bin' and rhs.op in ARITH and _pure(lhs):
+                x, y = rhs.kids
+                if cexpr.text(l, x, toks) == tl: e = cexpr.text(l, y, toks)
+                elif rhs.op in COMMUTATIVE and cexpr.text(l, y, toks) == tl: e = cexpr.text(l, x, toks)
+                else: continue
+                yield 'opassign:%d:%d:fold' % (k - b0, j), _put(lines, k, l, n, toks, '%s %s= %s' % (tl, rhs.op, e))
+            elif n.op in cexpr.ASSIGN and n.op != '=' and _pure(lhs):
+                op = n.op[:-1]
+                e = _operand(cexpr.text(l, rhs, toks), rhs, cexpr.BIN[op] + 1)
+                yield 'opassign:%d:%d:split' % (k - b0, j), _put(lines, k, l, n, toks, '%s = %s %s %s' % (tl, tl, op, e))
+
+
+def t_cast(text, func, lines, b0, b1):
+    """an integer cast on one subexpression (a variable, member, element, call result or sum), or an existing
+    integer cast dropped or changed"""
+    ptrs = _pointer_names(lines, b0, b1) | cexpr.pointer_globals()
+    ints = set(INT_TYPES) | {'long', 'unsigned long', 'signed short', 'signed int', 'unsigned int'}
+    for k, l, root, toks in _expr_lines(text, lines, b0, b1):
+        par = cexpr.parents(root)
+        for j, n in enumerate(root.walk()):
+            p = par.get(id(n))
+            if n.k == 'cast':
+                if n.op not in ints: continue
+                ti = cexpr.text(l, n.kids[0], toks)
+                yield 'cast:%d:%d:none' % (k - b0, j), _put(lines, k, l, n, toks, ti)
+                for t in CAST_TYPES:
+                    if t != n.op: yield 'cast:%d:%d:%s' % (k - b0, j, t.replace(' ', '_')), _put(lines, k, l, n, toks, '(%s)%s' % (t, ti))
+                continue
+            if p is None or p.k == 'cast': continue
+            if n.k == 'atom':
+                if not re.match(r'^[A-Za-z_]', n.op) or n.op in ptrs: continue
+            elif n.k not in ('member', 'index', 'call', 'paren') and not (n.k == 'bin' and n.op in ARITH): continue
+            if p.k == 'assign' and p.kids[0] is n: continue                      # an lvalue
+            if p.k == 'assign' and p.kids[0].k == 'atom' and p.kids[0].op in ptrs: continue   # a pointer's value
+            if p.k in ('un', 'post') and p.op in ('++', '--', '&'): continue
+            if p.k in ('member', 'index', 'call') and p.kids[0] is n: continue   # the base of a postfix
+            t = cexpr.text(l, n, toks)
+            if n.k == 'bin': t = '(%s)' % t
+            for ty in CAST_TYPES:
+                yield 'cast:%d:%d:%s' % (k - b0, j, ty.replace(' ', '_')), _put(lines, k, l, n, toks, '(%s)%s' % (ty, t))
+
+
+def t_mulshift(text, func, lines, b0, b1):
+    """x * 2^n <-> x << n, x * 3 / 5 / 9 <-> (x << k) + x, x * 2 <-> x + x"""
+    for k, l, root, toks in _expr_lines(text, lines, b0, b1):
+        for j, n in enumerate(root.walk()):
+            if n.k != 'bin': continue
+            a, b = n.kids
+            d = '%d:%d' % (k - b0, j)
+            if n.op == '*':
+                c, x = (_const(b), a) if _const(b) is not None else (_const(a), b)
+                if c is None or c < 2: continue
+                tx = cexpr.text(l, x, toks)
+                if c & (c - 1) == 0:
+                    yield 'mulshift:%s:shl' % d, _put(lines, k, l, n, toks, '(%s << %d)' % (_operand(tx, x, 12), c.bit_length() - 1))
+                if c in (2, 3, 5, 9) and _pure(x):
+                    s = c.bit_length() - 1
+                    new = '(%s + %s)' % (_operand(tx, x, 13), _operand(tx, x, 13)) if c == 2 else \
+                        '((%s << %d) + %s)' % (_operand(tx, x, 12), s, _operand(tx, x, 13))
+                    yield 'mulshift:%s:add' % d, _put(lines, k, l, n, toks, new)
+            elif n.op == '<<' and _const(b) is not None and 0 < _const(b) < 31:
+                tx = cexpr.text(l, a, toks)
+                yield 'mulshift:%s:mul' % d, _put(lines, k, l, n, toks, '%s * %d' % (_operand(tx, a, 13), 1 << _const(b)))
+            elif n.op == '+' and _pure(a):
+                ta, tb = cexpr.text(l, a, toks), cexpr.text(l, b, toks)
+                inner = a.kids[0] if a.k == 'paren' else a
+                if ta == tb:
+                    yield 'mulshift:%s:mul2' % d, _put(lines, k, l, n, toks, '%s * 2' % _operand(ta, a, 13))
+                elif inner.k == 'bin' and inner.op == '<<' and _const(inner.kids[1]) in (1, 2, 3) and \
+                        cexpr.text(l, inner.kids[0], toks) == tb:
+                    yield 'mulshift:%s:mul' % d, _put(lines, k, l, n, toks, '%s * %d' % (_operand(tb, b, 13), (1 << _const(inner.kids[1])) + 1))
+
+
+def t_shiftstmt(text, func, lines, b0, b1):
+    """`v << n` inside a statement -> `v <<= n;` on its own line before it (v a scalar local), and back"""
+    locs = set(u[2] for u in decl_units(lines, b0, b1)) - _pointer_names(lines, b0, b1)
+    for k, l, root, toks in _expr_lines(text, lines, b0, b1):
+        if not simple_stmt(l) or header_without_brace(lines[k - 1]): continue
+        for j, n in enumerate(root.walk()):
+            if n.k == 'bin' and n.op in ('<<', '>>') and n.kids[0].k == 'atom' and n.kids[0].op in locs \
+                    and _const(n.kids[1]) is not None:
+                v, c = n.kids[0].op, _const(n.kids[1])
+                L = _put(lines, k, l, n, toks, v).split('\n')
+                L.insert(k, '%s%s %s= %d;' % (l[:len(l) - len(l.lstrip())], v, n.op, c))
+                yield 'shiftstmt:%d:%d:out' % (k - b0, j), '\n'.join(L)
+    for k in range(b0 + 1, b1 - 1):
+        m = re.match(r'^(\s+)([A-Za-z_]\w*) (<<|>>)= (\w+);$', lines[k])
+        if not m or m.group(2) not in locs or not simple_stmt(lines[k + 1]): continue
+        v, nxt = m.group(2), lines[k + 1]
+        if v in writes(nxt) or not re.search(r'\b%s\b' % v, strip(nxt)): continue
+        L = list(lines); L[k + 1] = re.sub(r'\b%s\b' % v, '(%s %s %s)' % (v, m.group(3), m.group(4)), nxt); del L[k]
+        yield 'shiftstmt:%d:in' % (k - b0), '\n'.join(L)
+
+
+def _block_end(lines, k, b1):
+    """the index of the line closing the block opened at the end of line k"""
+    d = 0
+    for e in range(k, b1):
+        s = strip(lines[e]); d += s.count('{') - s.count('}')
+        if d == 0: return e
+    return None
+
+
+def _label(text, base):
+    n = 0
+    while re.search(r'\b%s%d\b' % (base, n), text): n += 1
+    return '%s%d' % (base, n)
+
+
+def t_loop(text, func, lines, b0, b1):
+    """for / while loops as do / while (with and without the entry test) and as goto loops (test at the bottom,
+    or at the top with a jump back); do / while as a while loop"""
+    for k in range(b0 + 1, b1):
+        l = lines[k]
+        m = re.match(r'^(\s+)for \(([^;]*); ([^;]*); ([^;]*)\) \{\s*$', l)
+        w = re.match(r'^(\s+)while \((.*)\) \{\s*$', l)
+        dw = re.match(r'^(\s+)do \{\s*$', l)
+        if not (m or w or dw): continue
+        e = _block_end(lines, k, b1)
+        if e is None: continue
+        ind = (m or w or dw).group(1)
+        body = lines[k + 1:e]
+        inner = strip('\n'.join(body))
+        if dw:
+            mw = re.match(r'^\s*\} while \((.*)\);\s*$', lines[e])
+            if not mw or re.search(r'\bcontinue\b', inner): continue
+            c = mw.group(1)
+            L = lines[:k] + ['%swhile (1) {' % ind] + body + ['%s    if (!(%s)) break;' % (ind, c), '%s}' % ind] + lines[e + 1:]
+            yield 'loop:%d:while1' % (k - b0), '\n'.join(L)
+            if not re.search(r'\bbreak\b', inner):
+                top = _label(text, '_top')
+                L = lines[:k] + ['%s:' % top] + body + ['%sif (%s) goto %s;' % (ind, c, top)] + lines[e + 1:]
+                yield 'loop:%d:goto' % (k - b0), '\n'.join(L)
+            continue
+        if strip(lines[e]).strip() != '}' or re.search(r'\bcontinue\b', inner): continue
+        if m: init, c, step = m.group(2).strip(), m.group(3).strip() or '1', m.group(4).strip()
+        else: init, c, step = '', w.group(2), ''
+        pre = ['%s%s;' % (ind, init)] if init else []
+        post = ['%s    %s;' % (ind, step)] if step else []
+        d = k - b0
+        if m:
+            yield 'loop:%d:while' % d, '\n'.join(lines[:k] + pre + ['%swhile (%s) {' % (ind, c)] + body + post + lines[e:])
+        yield 'loop:%d:do' % d, '\n'.join(lines[:k] + pre + ['%sdo {' % ind] + body + post + ['%s} while (%s);' % (ind, c)] + lines[e + 1:])
+        yield 'loop:%d:ifdo' % d, '\n'.join(lines[:k] + pre + ['%sif (%s) do {' % (ind, c)] + body + post + ['%s} while (%s);' % (ind, c)] + lines[e + 1:])
+        if not re.search(r'\bbreak\b', inner):
+            top, test = _label(text, '_top'), _label(text, '_test')
+            yield 'loop:%d:gotobot' % d, '\n'.join(lines[:k] + pre + ['%sgoto %s;' % (ind, test), '%s:' % top] + body + post +
+                                                    ['%s:' % test, '%sif (%s) goto %s;' % (ind, c, top)] + lines[e + 1:])
+            yield 'loop:%d:gototop' % d, '\n'.join(lines[:k] + pre + ['%s:' % top, '%sif (!(%s)) goto %s;' % (ind, c, test)] + body +
+                                                    post + ['%sgoto %s;' % (ind, top), '%s: ;' % test] + lines[e + 1:])
+
+
+def _uses(lines, b0, b1, name):
+    return [k for k in range(b0 + 1, b1) if re.search(r'\b%s\b' % name, strip(lines[k]))]
+
+
+def t_temps(text, func, lines, b0, b1):
+    """split: a scalar local's later assignment (`v = e;`, e not reading v) starts a new local for the rest of the
+    function (declared after v, or last); reuse: a scalar local whose first use is an assignment after another
+    local of the same type is last used takes that local's place (its declaration dropped)"""
+    u = [x for x in decl_units(lines, b0, b1) if x[0] == x[1] and DECL1.match(lines[x[0]])]
+    if not u: return
+    last = decl_units(lines, b0, b1)[-1][1]
+    decl = {x[2]: x[0] for x in u}
+    for v, dk in decl.items():
+        defs = [k for k in range(last + 1, b1) if re.match(r'^\s+%s = (.+);' % v, lines[k])
+                and not re.search(r'\b%s\b' % v, lines[k].split('=', 1)[1])]
+        for n, dline in enumerate(defs[1:], 1):
+            nv = '%s_%d' % (v, n)
+            if re.search(r'\b%s\b' % nv, text): continue
+            nxt = [x for x in defs if x > dline]
+            end = nxt[0] if nxt else b1
+            L = list(lines)
+            for k in range(dline, end): L[k] = re.sub(r'\b%s\b' % v, nv, L[k])
+            dl = re.sub(r'\b%s\b' % v, nv, lines[dk])
+            for where, at in (('after', dk + 1), ('last', last + 1)):
+                M = list(L); M.insert(at, dl)
+                yield 'split:%s:%d:%s' % (v, n, where), '\n'.join(M)
+    for b, bk in decl.items():
+        ub = [k for k in _uses(lines, b0, b1, b) if k != bk]
+        if not ub or not re.match(r'^\s+%s = (.+);' % b, lines[ub[0]]) or re.search(r'\b%s\b' % b, lines[ub[0]].split('=', 1)[1]): continue
+        tb = DECL1.match(lines[bk]).group(2)
+        for a, ak in decl.items():
+            if a == b or DECL1.match(lines[ak]).group(2) != tb: continue
+            ua = [k for k in _uses(lines, b0, b1, a) if k != ak]
+            if not ua or ua[-1] >= ub[0]: continue
+            L = list(lines)
+            for k in ub: L[k] = re.sub(r'\b%s\b' % b, a, L[k])
+            del L[bk]
+            yield 'reuse:%s:%s' % (b, a), '\n'.join(L)
+
+
 TRANSFORMS = [('type', t_type), ('swapdecl', t_swapdecl), ('movedecl', t_movedecl), ('scope', t_scope), ('swapstmt', t_swapstmt),
               ('commute', t_commute), ('cmpflip', t_cmpflip), ('incdec', t_incdec), ('zero', t_zero),
               ('chain', t_chain), ('ternary', t_ternary), ('temp', t_temp), ('rettype', t_rettype),
               ('paramtype', t_paramtype), ('tempadd', t_tempadd), ('ifswap', t_ifswap),
-              ('forchain', t_forchain)]
+              ('forchain', t_forchain), ('swap', t_swap), ('opassign', t_opassign), ('cast', t_cast),
+              ('mulshift', t_mulshift), ('shiftstmt', t_shiftstmt), ('loop', t_loop), ('temps', t_temps)]
+
+
+def interleave(nb, rnd):
+    """the candidates in an order that takes the transform families in turn (each family shuffled), so one
+    family with many candidates (cast) does not crowd the others out of a round"""
+    fam = {}
+    for x in nb: fam.setdefault(x[0].split(':')[0].split(' ')[0], []).append(x)
+    groups = list(fam.values())
+    for g in groups: rnd.shuffle(g)
+    rnd.shuffle(groups)
+    out = []
+    while groups:
+        for g in groups: out.append(g.pop())
+        groups = [g for g in groups if g]
+    return out
+
+
+def pick(nb, rnd):
+    """one candidate: a family at random, then one of its candidates"""
+    fam = {}
+    for x in nb: fam.setdefault(x[0].split(':')[0], []).append(x)
+    return rnd.choice(fam[rnd.choice(sorted(fam))])
 
 
 def neighbours(text, func, only=None):
@@ -618,16 +918,16 @@ def main():
             if compiled >= a.max or time.time() - t0 > a.minutes * 60 or stall >= a.stall: break
             nb = [(d, t) for d, t in neighbours(cur_text, func, only) if not any(d.startswith(s) for s in skips)]
             nb = [(d, t) for d, t in nb if fsha(t, func) not in tried]
-            rnd.shuffle(nb)
+            nb = interleave(nb, rnd)
             if len(nb) < a.round:   # two transforms at random from the current text
                 pool = neighbours(cur_text, func, only)
                 for _ in range(a.round * 4):
                     if len(nb) >= a.round or not pool: break
-                    d1, t1 = rnd.choice(pool)
+                    d1, t1 = pick(pool, rnd)
                     p2 = neighbours(t1, func, only)
                     if not p2: continue
-                    d2, t2 = rnd.choice(p2)
-                    if any((d1 + '+' + d2).startswith(s) or d2.startswith(s) for s in skips): continue
+                    d2, t2 = pick(p2, rnd)
+                    if any(d1.startswith(s) or d2.startswith(s) for s in skips): continue
                     if fsha(t2, func) not in tried: nb.append((d1 + ' + ' + d2, t2))
             nb = nb[:a.round]
             if not nb: break
