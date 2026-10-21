@@ -287,7 +287,7 @@ MakeTeamDbFmt,36207,102,028_35FB9_import_export,src/c/028_35FB9_import_export/Ma
 PostGameToTeamDb,3626D,2342,028_35FB9_import_export,src/c/028_35FB9_import_export/PostGameToTeamDb.c,nonmatching,"draft (own file): 2421 vs 2342, 291 lines (one more spill slot, the result in edx). See docs/UNSURE.md."
 RestoreGridCellBg,37E5B,75,028_35FB9_import_export,src/c/028_35FB9_import_export/RestoreGridCellBg.c,matched,
 SaveGridCellBg,37D6A,241,028_35FB9_import_export,src/c/028_35FB9_import_export/SaveGridCellBg.c,matched,
-TeamGridHitTest,37B92,193,028_35FB9_import_export,src/c/028_35FB9_import_export/TeamGridHitTest.c,nonmatching,registers: x/y (ebp/edi) and cx/top (ebx/esi) swapped vs asm; local declaration order moves it (top before cx gets to +36)
+TeamGridHitTest,37B92,193,028_35FB9_import_export,src/c/028_35FB9_import_export/TeamGridHitTest.c,matched,team declared last (found by tools/permute.py)
 AskExportToFloppy,38386,306,029_380E9_league_setup,src/c/029_380E9_league_setup/AskExportToFloppy.c,matched,
 AskTeamPassword,3A395,265,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,
 AskMasterPassword,3A49E,249,029_380E9_league_setup,src/c/029_380E9_league_setup/AskTeamPassword.c,matched,
@@ -506,12 +506,12 @@ checkint,53E6A,290,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai
 burst,532BD,202,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 check4check,53537,360,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 SkillForAnim,54134,150,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
+GetLowestPen,54A53,166,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,"unsigned short result, short sum and prev (found by tools/permute.py)"
 ChkOffsides,55A9F,464,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 ChkShotStat,55D28,330,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 setInjuryType,55E72,427,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 ReturnGoalies,59352,163,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,
 checkob,53F8C,424,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 424 vs 424. The far-side player test is cmp ecx,esi / jg; the original is cmp esi,ecx / jl. Do not retry: writing the limit on the left of < hoists that lea out of the loop."
-GetLowestPen,54A53,166,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 166 vs 166. The trail step is sub eax,ecx / cwde / add ebx,eax; the original has no cwde. The power-play return is lea eax,[ebx+ecx]; the original is mov eax,ebx / add eax,ecx. Do not retry: a named int for the step pushes ebp, an unsigned short store is and eax,0FFFFh, and pen-prev as an expression moves the box pointer from edx to eax."
 chk4lc,54AF9,272,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft (checkob.c): 273 vs 272, gameclock in di (original ax) in the energy arm. See UNSURE."
 chk4pass,55493,881,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 881 vs 881 in checkob.c, every statement in place; register picks only (puck pointer temps and the opponent loop in edx / ecx in the EXE). See docs/UNSURE.md."
 chk4shot,55804,561,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,
@@ -581,6 +581,7 @@ SetupTeamForIntermission,5DDDA,104,042_59D9A_engine_core,src/c/042_59D9A_engine_
 StartGame,5E086,42,042_59D9A_engine_core,src/c/042_59D9A_engine_core/StartGame.c,matched,
 TryAddPlayerToList,5BB9E,92,042_59D9A_engine_core,src/c/042_59D9A_engine_core/TryAddPlayerToList.c,matched,"same size, register choice only: the original computes &tmpdst[pl] in edx (add edx,eax) and indexes PlList[slot] with edx; this draft uses eax for both. Tried a tmpdst pointer, < -2, int i, nested if: no change or worse"
 UpdateCoachModes,5A77C,818,042_59D9A_engine_core,src/c/042_59D9A_engine_core/UpdateCoachModes.c,nonmatching,"draft: 818 vs 818 (best of 4). Every instruction matches except the duplicated line count: mov bh,3 where the original is mov cl,3. A named unsigned char, a chained assignment, a reload, a block scope and ~1 stay on bh. An int or short for that 3 is mov eax,3 and shifts the period-2 byte temps. Naming the period-2 decrement stores in place (dec bl). Do not retry those."
+GetHot,5A425,136,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,regd0.w = HotList[f] with no temporary (found by tools/permute.py)
 reenergizeteam,5B826,91,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 defaultsprites2,5BA89,277,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 SetPlList,5BBFA,762,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
@@ -590,7 +591,6 @@ updateanim,5CAEF,566,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckc
 clockcont_0,5D852,958,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 ResetBench,5DF86,148,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,matched,
 calcpuckcross,5A341,228,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"body 2 bytes short: the original keeps x in ebx and side in ecx and stores x with 16-bit mov bx,dx; this draft swaps the two registers and uses mov ebx,edx (declaration order did not change it). Its pop/ret tail (calcpuckcross_ret5/6) is shared by ~14 engine_core functions (Goal, SetPlList ...): they belong in this file; reenergizeteam already matches here because frag resolves the jump to the unique tail bytes of the draft"
-GetHot,5A425,136,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"same size; the original saves esi and negates the hot spot x through it (mov esi,ebx / neg esi); tried -x, 0-x, -(int)x, ~x+1, -regd0.w, int x, a zero local: all negate ebx in place. regd0 = regd1 = 0 order fixed. Also the filler that makes reenergizeteam's exit a near jump"
 Goal,5AB36,1688,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,draft: 1688 vs 1688 in calcpuckcross.c. Left: the PP goal stat index in edx (EXE eax) and the goalie lookup loading tmgoalie before tmlines. See docs/UNSURE.md.
 StartPer,5C010,436,042_59D9A_engine_core,src/c/042_59D9A_engine_core/calcpuckcross.c,nonmatching,"3 bytes short: the original keeps cont1team in si and cont2team in bx (push ebx), then reuses ebx for -1, ecx for 0 (bannertimer, crowdlevel) and builds fox with xor edi,edi / xor edi,edx; this draft reloads the globals into ax. Locals for the two teams did not change it"
 changeplayer,59E69,376,042_59D9A_engine_core,src/c/042_59D9A_engine_core/changeplayer.c,nonmatching,"Same instructions and branch layout (370 bytes), only allocation differs: the original spills cont at [esp+4] (px [esp], py [esp+8]) and uses edx for the 6-player counter, ebx/ecx for dx/dy, si for SCnum, cx for c1/c2playernum; this draft puts cont at [esp+8] and the counter in ecx. Declaration order (120 permutations) does not change it. File also hosts setplayer / DrawRinkOverlays (share changeplayer_ret5)"
@@ -955,11 +955,11 @@ ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
 SaveScheduleDB,89223,69,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,
 POCreateSchedule,8721F,769,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,
+SeriesWinner,87760,137,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,home declared after w1 (found by tools/permute.py)
 POSimSeriesTeamWins,87D5A,285,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,
+POSimSeries,87E77,270,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,home declared last (found by tools/permute.py)
+POHiliteSlot,89B69,105,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,matched,y2 as a ?: (found by tools/permute.py)
 POInitSchedule,875A3,445,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
-SeriesWinner,87760,137,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
-POSimSeries,87E77,270,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
-POHiliteSlot,89B69,105,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POCreateSchedule.c,nonmatching,
 POHandleElimination,88096,1423,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POHandleElimination.c,nonmatching,
 POPickConfTeams,870B6,361,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPickConfTeams.c,nonmatching,"361 vs 361. count stays in esi and the bitmask in edi (mov esi, ecx / xor edi, edi). The original is mov edi, ecx / xor esi, esi. The division compare then loads pick[1] into edx and pick[0] into eax. The pick swap uses ebx. The final loop hoists slots into ecx and uses edx as the write index. Declaring i before used, a cnt local before or after used, and used=0 before cnt=count did not swap esi and edi. Do not retry those."
 POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimConfFinals.c,matched,
