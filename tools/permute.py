@@ -804,8 +804,10 @@ _PIECES = {}
 def pieces(src, func):
     """the other pieces of a split function (its code outside its own asm block, e.g. SprSort_loop of SprSort, the
     body Watcom leaves where the function was defined when it moves the entry after a tail caller): the asm labels
-    FUNC_x outside FUNC's range (one per piece), plus the labels a `pieces of FUNC: L1 L2` comment in the C file
-    names (pieces labelled after another function: ThreeStarsLoop's PreGameIntro_scroll)"""
+    FUNC_x outside FUNC's range (one per piece; not data such as a FUNC_jt jump table, a label whose first line is
+    dd / dw / db, nor a function of its own such as pucknorm_body, one that starts with push / call __CHK), plus the
+    labels a `pieces of FUNC: L1 L2` comment in the C file names (pieces labelled after another function:
+    ThreeStarsLoop's PreGameIntro_scroll)"""
     k = (src, func)
     if k in _PIECES: return _PIECES[k]
     out = []
@@ -813,9 +815,13 @@ def pieces(src, func):
         asm = cc.c_paths(src, func)[2]
         s, e = cc.asm_range(src, func)
         names = []
-        for l in open(asm):
+        L = open(asm).read().split('\n') + ['', '']
+        for j, l in enumerate(L):
             m = cc.LABEL.match(l)
-            if m and m.group(1).startswith(func + '_'): names.append(m.group(1))
+            if not m or not m.group(1).startswith(func + '_'): continue
+            if re.match(r'\s*d[bwd]\s', L[j + 1]): continue
+            if L[j + 1].startswith('push dword') and 'call __CHK' in L[j + 2]: continue
+            names.append(m.group(1))
         claimed = {}
         for m in re.finditer(r'pieces of (\w+):\s*([\w ]+)', open(src).read()):
             for n in m.group(2).split(): claimed[n] = m.group(1)
