@@ -244,6 +244,10 @@ pop ecx	; 534B8
 pop ebx	; 534B9
 ret	; 534BA
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/TryBlockShot.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/TryBlockShot.inc"
+%else
 TryBlockShot:
 push dword 10h	; 534BB
 call __CHK	; 534C0
@@ -291,6 +295,7 @@ pop edx	; 53533
 pop ecx	; 53534
 pop ebx	; 53535
 ret	; 53536
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/checkob.c (check4check)
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/checkob.check4check.inc"
