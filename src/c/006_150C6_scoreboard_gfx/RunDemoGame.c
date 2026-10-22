@@ -357,6 +357,10 @@ int TitleScreen(void)
     return key;
 }
 
+/* DRAFT (RunIntro): 2160 vs 2160, 4 differing. The two song loads go through reused locals (wait, then i), the
+   last fade reads the byte into a signed char local c (dec al in place), and the dword locals are declared song2,
+   song4, song3, wait, skip (found over all 120 orders). Left: the white sweep holds 3Fh in bh (EXE ch). Tried for
+   it: 3Fh through c, the black zero through c, `i != 0xE0`, `i * 3 - 1` indexes. */
 /* RunIntro (1672A, PC only; ends in RunDemoGame_x): the intro. Free the speech bank's song (music on), clear the
    screen and the palette, show the Pioneer logos (PIONEER1: BKGD3 on PL1, fading to PL2 one step per 2 ticks with
    the PIONEER2 / 3 / 4 songs when music is on and none plays; then the FLA1-4 frames and PION from PIONEER2, a
@@ -366,6 +370,7 @@ int TitleScreen(void)
    No result. */
 void RunIntro(void)
 {
+    signed char c;
     signed char tgt[0x300];
     signed char pal[0x300];
     char path[0x20];
@@ -373,9 +378,9 @@ void RunIntro(void)
     DosTime t;
     int song2;
     int song4;
+    int song3;
     int wait;
     int skip;
-    int song3;
     int bank;
     int changed;
     int i;
@@ -402,7 +407,8 @@ void RunIntro(void)
         MakePath(path, fileoncd[0x12B] == 1 ? (char *)cddriveptr : 0, (char *)str_Pioneer3, (char *)str_Iff2);
         song3 = sub_8F98F(path);
         MakePath(path, fileoncd[0x12A] == 1 ? (char *)cddriveptr : 0, (char *)str_Pioneer2, (char *)str_Iff2);
-        songdata = song2 = sub_8F98F(path);
+        wait = sub_8F98F(path);                 /* wait reused for the song */
+        songdata = song2 = wait;
         if (songdata) sub_8FB8E(songdata, musichandle, 1, 0x7F);
         SetTickDeadline(0x104);
         WaitTickDeadline();
@@ -461,9 +467,10 @@ void RunIntro(void)
     while (changed) {
         changed = 0;
         for (i = 0; i < 0x300; i++) {
-            if (pal[i] > tgt[i]) {
+            c = pal[i];
+            if (c > tgt[i]) {
                 changed = 1;
-                pal[i] = pal[i] - 1;
+                pal[i] = c - 1;
             }
         }
         SetTickDeadline(5);
@@ -517,7 +524,8 @@ void RunIntro(void)
         FreeMemBlock(bank);
         if (musicon && !songdata) {
             MakePath(path, fileoncd[0x1DC] == 1 ? (char *)cddriveptr : 0, (char *)str_Easports, (char *)str_Iff2);
-            songdata = sub_8F98F(path);
+            i = sub_8F98F(path);                 /* i reused for the song */
+            songdata = i;
             if (songdata) sub_8FB8E(songdata, musichandle, 3, 0x4C);
         }
         FadePalStep(0, (unsigned char *)pal, 0x10);
