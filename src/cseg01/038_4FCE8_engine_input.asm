@@ -1215,6 +1215,10 @@ pop ebx	; 50A03
 ret	; 50A04
 %endif ; C
 ; Readjoy1 Readjoy2 = Readjoy1/2, reading byte 0 1 of joyrec instead of the pad.
+; C: src/c/038_4FCE8_engine_input/Readjoy1.c
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/Readjoy1.inc"
+%else
 Readjoy1:
 push dword 10h	; 50A05
 call __CHK	; 50A0A
@@ -1252,6 +1256,11 @@ pop edx	; 50A80
 pop ecx	; 50A81
 pop ebx	; 50A82
 ret	; 50A83
+%endif ; C
+; C: src/c/038_4FCE8_engine_input/Readjoy1.c (Readjoy2)
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/Readjoy1.Readjoy2.inc"
+%else
 Readjoy2:
 push dword 10h	; 50A84
 call __CHK	; 50A89
@@ -1277,6 +1286,7 @@ mov word [regd2], ax	; 50AC7
 mov ax, word [regd1]	; 50ACD
 mov word [lj2], ax	; 50AD3
 jmp near Readjoy_tail	; 50AD9
+%endif ; C
 ; C: src/c/038_4FCE8_engine_input/CenterMouse.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/CenterMouse.inc"
