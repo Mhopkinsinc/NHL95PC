@@ -3186,6 +3186,10 @@ call SetDialogColors	; 3D460
 add esp, byte 48h	; 3D465
 jmp near ImportMasterLeague_ret	; 3D468
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/SelectFloppyDrive.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/SelectFloppyDrive.inc"
+%else
 SelectFloppyDrive:
 push dword 84h	; 3D46D
 call __CHK	; 3D472
@@ -3350,6 +3354,7 @@ pop esi	; 3D690
 pop ecx	; 3D691
 pop ebx	; 3D692
 ret	; 3D693
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/FindLeagueFloppy.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/FindLeagueFloppy.inc"
