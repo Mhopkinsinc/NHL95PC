@@ -8,7 +8,6 @@ void DrawGameLineJerseys(unsigned char *nums, int art, unsigned char side)
     unsigned char c1;
     int i;
     int col;
-    unsigned char st;
 
     c1 = byte_D11BC[(side ? VisTeam : HomeTeam) * 4];
     c1 = jerseyremap[c1];
@@ -19,11 +18,12 @@ void DrawGameLineJerseys(unsigned char *nums, int art, unsigned char side)
         sub_931FC(art, lineslotx[i * 2], linesloty[i * 2]);
     }
     for (i = 0; i < 0x1C; i++) {
-        st = hmroster[side * 0x444 + gmrosterslot[i * 22] * 39];
-        if (!st) return;
-        switch (st) {
+        c1 = hmroster[side * 0x444 + gmrosterslot[i * 22] * 39];
+        if (!c1) return;
+        switch (c1) {
         case 2:
-            col = curperiod < 0 ? 0xFC : 0xC2;
+            if (curperiod < 0) col = 0xFC;
+            else col = 0xC2;
             break;
         case 3: case 4: col = 0xC3; break;
         case 1: case 5: case 6: case 8: col = 0xC2; break;
