@@ -124,7 +124,7 @@ int LoadLeagueTree(int a, int b);  /* 29B07 */
 int TreeSeriesWinner(unsigned char *series, int round, int same);  /* 2991C */
 void PlayoffTreeScreen(void);  /* 27F9C */
 void OpenStatsSchedule(void **out);  /* 29A97 */
-double RatingToFloat(unsigned char r);  /* 6F6AD */
+float RatingToFloat(unsigned char r);  /* 6F6AD */
 int GetMemListHead(int which);  /* 10010 */
 int SpeechIsInit(void);  /* 836CA */
 void MusicChanCmd3(void);

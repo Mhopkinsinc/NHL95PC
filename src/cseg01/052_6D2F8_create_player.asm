@@ -3127,6 +3127,10 @@ add esp, byte 4	; 6F6CF
 pop edx	; 6F6D2
 ret	; 6F6D3
 %endif ; C
+; C: src/c/052_6D2F8_create_player/RandomizeNewRatings.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/RandomizeNewRatings.inc"
+%else
 RandomizeNewRatings:
 push dword 64h	; 6F6D4
 call __CHK	; 6F6D9
@@ -3394,6 +3398,7 @@ pop edi	; 6FA6E
 pop esi	; 6FA6F
 pop ecx	; 6FA70
 ret	; 6FA71
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/CreatePlayerNop.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/CreatePlayerNop.inc"
