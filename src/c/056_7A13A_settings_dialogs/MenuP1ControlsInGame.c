@@ -452,12 +452,14 @@ void DrawControlsDlg(int alt)
    keyboard from ctlavailmask, less the other controller's device unless that is none, 10h), the current choice
    in setbits[0] (ctl1team -1: none away 41h, -2: none home 42h, else the side bit (1 home, 2 away) and the
    device bit), every box drawn on or off (DrawCtlBoxOn / DrawCtlBoxOff) and the names of the devices that are
-   not available, in the shade colour. side: the controller. No result. */
+   not available, in the shade colour. side: the controller. No result. The side bit goes through the byte away:
+   without that byte temporary, 10.0 GA builds the device mask with an extra mov edx, eax. */
 void DrawControlsOpts(int side)
 {
     int i;
     int bit;
     int *r;
+    unsigned char away;
 
     if (ctldlgalt) sub_8E9C0(0x40, 0xFF);
     else sub_8E9C0(0xFA, 0xFF);
@@ -470,7 +472,8 @@ void DrawControlsOpts(int side)
         if (ctl1team[side] == -1) setbits[0] = 0x41;
         else if (ctl1team[side] == -2) setbits[0] = 0x42;
     } else {
-        setbits[0] = (ctl1side[side] != 0) + 1;
+        away = ctl1side[side] != 0;
+        setbits[0] = away + 1;
         if (setbits[1] & ctl1dev[side] << 2) setbits[0] |= ctl1dev[side] << 2;
     }
     for (i = 0; i < 9; i++) {
