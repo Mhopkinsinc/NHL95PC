@@ -1101,3 +1101,87 @@ DrawListItem,,whole misc_dialogs module (no change),no change,ga
 DrawListItem,,final return declarations (int / short / unsigned short / char / unsigned char,,ga
 DrawListItem,,with missing return or returning a per-module int PrintMenuText result: no improvement),,ga
 DrawListItem,,"two permute runs (321 and 1014 candidates, log ~/tmp/u/np/permlog_l.csv)","321 and 1014 candidates, log ~/tmp/u/np/permlog_l.csv",ga
+ShowLoadingScreen,,"(2026-10-22): j / done separate (31), palcyclelock = k = 0 and = i = 0 (19-23), j = 0 before the store, for (j = 0",,ga
+ShowLoadingScreen,,"!j;) (22), while (j == 0), volatile palcyclelock stores, 0U, unsigned j, k = 0",,ga
+ShowLoadingScreen,,"palcyclelock = k (19), inner `if (j) j = 0` (7) and plain `j = 0` (10), ternary / 3*i / pointer-offset forms of the rotation, declaration orders of i j k and pic",,ga
+ShowLoadingScreen,,two permute.py runs (no gain),,ga
+ShowLoadingScreen,movedecl:i:,declaration orders of i,tried (docs/UNSURE.md),ga
+ShowLoadingScreen,swapdecl:i:,declaration orders of i,tried (docs/UNSURE.md),ga
+checkgoalp,,"(2026-10-22): d in the if, d declared after len, `d = x * x; d >>= 2` (size +0, 37",,ga
+checkgoalp,,"the y + radius order flips), d + y*y*2 and 2*y*y + d, unsigned d",,ga
+checkgoalp,,a short / int SCnum local (first or last),,ga
+checkgoalp,,"a Player *q copy, `!(SCnum <= 11 || SCnum == 16)`, nested CheckBump if, W(wcradiusy) + y, else-if radius test, module_try (36, no help)","36, no help",ga
+checkgoalp,,two permute.py runs (best 28 only through the mulshift y*y*2 form + casts),best 28 only through the mulshift y*y*2 form + casts,ga
+PlayLeagueGame,,(2026-10-22): assign-then-if and != forms of the pick (29 / 34),29 / 34,ga
+PlayLeagueGame,,the bank assignment nested in the sub_B30B4 argument (30),30,ga
+PlayLeagueGame,,the palette pointer through s.pal (17 but size +7,,ga
+PlayLeagueGame,,an extra store),,ga
+PlayLeagueGame,,one permute.py run (best 22 at size +18 only),best 22 at size +18 only,ga
+checkcheck,,"(2026-10-22): v declared first / second, int / unsigned short v (37 / 32)",37 / 32,ga
+checkcheck,,"the SPA as a ternary into v, into an int v, and as the SetSPA argument (37 each, size +0)","37 each, size +0",ga
+checkcheck,,"a (short) cast on the table read, ABS of (short) / (int) differences (46 / 32), operands swapped q - p (30, not kept), int shifts `p->Xpos >> 16`, (int) operand casts, `>= 0 ? d : -d`, `<= 0x13`, `odds =` assignments inside ABS (78)",78,ga
+SkateToSpot,,"(2026-10-22): `p->Yvel = 0; p->Xvel = p->Yvel;` (86 / 68), t moved alone (47)",47,ga
+SkateToSpot,,the chain with `(short)0`,,ga
+SkateToSpot,,"an empty else after the stop return, HIWORD stores as masks (94), ayp without t (68), `p->Xvel = d = p->Yvel` (12)",12,ga
+SkateToSpot,,two permute.py runs (from the draft: 5,,ga
+SkateToSpot,,from chain + t moved: 5 again only through the split),,ga
+checkwallcoll,,"(2026-10-22) for natural radius loads: `0xA0 - wcradiusx` (short), `(unsigned short)` cast, `*(unsigned short *)&`",,ga
+checkwallcoll,,"the W() dword read (all 51, movsx / xor-mov), `xlim = 0xA0; xlim -= ...` with and without the cast (49), unsigned short x / y parameters with the cast (52: xor eax,eax / mov ax)","52: xor eax,eax / mov ax",ga
+checkcx,,"(2026-10-22): the puckc compares reversed / nested if (22), d copied into t for the bounce (67), regd4.l = regd1.l (24)",24,ga
+checkcx,,one permute.py run (best 20 only at size +12),best 20 only at size +12,ga
+PassRecOneTimer,,"(2026-10-22) for the y distance: operands swapped, no cast, two statements (c = a + b",,ga
+PassRecOneTimer,,c -= / c = c - *pucky),,ga
+PassRecOneTimer,,"an int t for it, inner parentheses, `regd1.w - (*pucky - Ypos)`",,ga
+PassRecOneTimer,,"the cast on the sum only, (int) casts on either operand",,ga
+PassRecOneTimer,,a (short) cast on *pucky,,ga
+PassRecOneTimer,,the distance written twice inside d (CSE,,ga
+PassRecOneTimer,,"with and without casts), assigned inside the product",,ga
+PassRecOneTimer,,"one permute.py run (best 35 only through unsigned char casts + swaps, not kept)","best 35 only through unsigned char casts + swaps, not kept",ga
+SimPlayoffRound1,,"(2026-10-22, GA): the slot as `(s + 0x9C) * 7 + i` (20: fixes the s register but keeps an `add edx, 9Ch`",,ga
+SimPlayoffRound1,,"s slot moves to +68h), `i + (s + 0x9C) * 7` (21), `i + s * 7 + 0x444`, `0x444 + s * 7 + i`, `s * 7 + i + 0x444`, `7 * s + 0x444 + i`, `(s * 7 + 0x444) + i`, `s * 7 + (0x444 + i)`, `i + 0x444 + s * 7`, `0x444 + i + s * 7` (28-29)",28-29,ga
+SimPlayoffRound1,,a `p = g + i * 6` pointer (63),63,ga
+SimPlayoffRound1,,`&g[i * 6]`,,ga
+SimPlayoffRound1,,braces round the call,,ga
+SimPlayoffRound1,,the operands of `==` swapped,,ga
+SimPlayoffRound1,,`continue` instead of else,,ga
+SimPlayoffRound1,,`short s`,,ga
+SimPlayoffRound1,,s declared last,,ga
+SimPlayoffRound1,,"per-module SimulateGame prototypes with short / char mode, short n, or no parameters",,ga
+SimPlayoffRound1,,"`int wins[26] = {0}` (static init data, refused)",,ga
+SimPlayoffRound1,,"SeriesLength(sched) before / after `g = sched`, g set in the for",,ga
+SimPlayoffRound1,,a separate sched parameter name,,ga
+SimPlayoffRound1,,`(unsigned char)0xFF`,,ga
+SimPlayoffRound1,,pre-increments,,ga
+SimPlayoffRound1,,permute 5 min (only the ushort cast),,ga
+SimPlayoffRound1,type:s:short,`short s`,tried (docs/UNSURE.md),ga
+SeedPlayoffFinal,,"(2026-10-22, GA): the 23 other orders of the four plain arrays (best 14)",best 14,ga
+SeedPlayoffFinal,,the struct in reverse order (17),17,ga
+SeedPlayoffFinal,,w[8] as the struct first member (9),9,ga
+SeedPlayoffFinal,,"`ties + wins * 2` (fixes the sum start, leaves `add ebx, edx`), `2 * wins`, `wins << 1`, `wins + wins + ties`, wins stored before pts",,ga
+SeedPlayoffFinal,,"the first ReadTeamRec as `err = f(); if (err)`, `if (err = f())`, `r` for `&r[0]`, `*human = 1` after the read, `*human = 0` before the SeriesWinner calls or after",,ga
+SeedPlayoffFinal,,the human flag as its own if,,ga
+SeedPlayoffFinal,,two permute runs,,ga
+StartPer,,"(2026-10-22, GA): the lcrequest chain reversed (32)",32,ga
+StartPer,,"fox as `shotontarget ^ shotongoal`, `penshotlive ^ shotongoal` (29: Watcom reloads the globals as words, no register xor), `shotongoal ^ shotongoal`",,ga
+StartPer,,permute 5 min (21 only with four unnatural casts),21 only with four unnatural casts,ga
+TreeSeriesWinner,,"(2026-10-22, GA): the 5 other orders of away / i / home at function scope (38-46)",38-46,ga
+TreeSeriesWinner,,the three in an outer block around the hwins / awins block (88-89: block locals go below the parameters),88-89: block locals go below the parameters,ga
+TreeSeriesWinner,,a named `int r` declared first with `r = -1; goto done` and one `return r` (69,,ga
+TreeSeriesWinner,,an extra copy),,ga
+TreeSeriesWinner,,permute 5 min (nothing),,ga
+POSetSeriesTeams,,"(2026-10-22, GA): no f local",,ga
+POSetSeriesTeams,,"b reused as the loop counter (33, counter right, temp still eax and s still moved)","33, counter right, temp still eax and s still moved",ga
+POSetSeriesTeams,,f declared after i,,ga
+POSetSeriesTeams,,`char *s`,,ga
+POSetSeriesTeams,,`(s + b * 6)[4]`,,ga
+POSetSeriesTeams,,`a = b * 6` as the index,,ga
+POSetSeriesTeams,,"the four common b stores written in both branches (cross-jumped, 33 / 36)","cross-jumped, 33 / 36",ga
+POSetSeriesTeams,,"an `unsigned char *` / `void *` / `char *` result returning s (34, s still moved",,ga
+POSetSeriesTeams,,plus a copy back),,ga
+POSetSeriesTeams,,"permute 5 min (only casts, 33)","only casts, 33",ga
+POPickConfTeams,,"(2026-10-22, GA): `for (i = n = 0; ...)`, `for (n = i = 0; ...)` (37)",37,ga
+POPickConfTeams,,"`-confflag == slots[i]`, `*(slots + i)`, `confteams[first + pick[n]]`, `pick[n++]` (37-38)",37-38,ga
+POPickConfTeams,,permute 5 min (35 with an operand swap and the merged for chain),35 with an operand swap and the merged for chain,ga
+ReplayControlLoop,,"(2026-10-22, GA): the a / b statements swapped (37), both swapped (31)",31,ga
+ReplayControlLoop,,permute 5 min (26 only with a d split and a char oldx),26 only with a d split and a char oldx,ga
+RemoveFromLines,,"(2026-10-22, GA): `for (i = word_E9F14 = 0; ...)` / `word_E9F12`, `for (i = k = 0; ...)` (both give the same code as the draft)",both give the same code as the draft,ga
