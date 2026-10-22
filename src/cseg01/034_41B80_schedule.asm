@@ -1118,6 +1118,10 @@ pop edi	; 428A6
 pop esi	; 428A7
 ret 14h	; 428A8
 %endif ; C
+; C: src/c/034_41B80_schedule/UpdateSeasonSchedule.c (BuildPlayoffs)
+%ifdef CBUILD
+%include "c/034_41B80_schedule/UpdateSeasonSchedule.BuildPlayoffs.inc"
+%else
 BuildPlayoffs:
 push dword 0C0h	; 428AB
 call __CHK	; 428B0
@@ -1329,6 +1333,7 @@ mov ebx, dword [dword esp+09Ch]	; 42BA6
 mov eax, ebx	; 42BAD
 add esp, 0A4h	; 42BAF
 jmp near UpdateSeasonSchedule_pop3	; 42BB5
+%endif ; C
 ; C: src/c/034_41B80_schedule/GetPlayoffSeeds.c
 %ifdef CBUILD
 %include "c/034_41B80_schedule/GetPlayoffSeeds.inc"
