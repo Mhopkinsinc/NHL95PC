@@ -3477,6 +3477,10 @@ pop esi	; 3D84C
 pop ecx	; 3D84D
 ret	; 3D84E
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/WaitLeagueFloppy.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/WaitLeagueFloppy.inc"
+%else
 WaitLeagueFloppy:
 push dword 74h	; 3D84F
 call __CHK	; 3D854
@@ -3535,6 +3539,7 @@ pop edi	; 3D8D9
 pop esi	; 3D8DA
 pop ecx	; 3D8DB
 ret	; 3D8DC
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/ReadLeagueInfo.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/ReadLeagueInfo.inc"
