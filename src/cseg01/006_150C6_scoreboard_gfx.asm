@@ -1327,6 +1327,10 @@ pop edx	; 16008
 pop ecx	; 16009
 pop ebx	; 1600A
 ret	; 1600B
+; C: src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c
+%ifdef CBUILD
+%include "c/006_150C6_scoreboard_gfx/AnyInputPressed.inc"
+%else
 AnyInputPressed:
 push dword 14h	; 1600C
 call __CHK	; 16011
@@ -1368,6 +1372,7 @@ pop edx	; 1606E
 pop ecx	; 1606F
 pop ebx	; 16070
 ret	; 16071
+%endif ; C
 ; C: src/c/006_150C6_scoreboard_gfx/ReadBE32.c
 %ifdef CBUILD
 %include "c/006_150C6_scoreboard_gfx/ReadBE32.inc"
