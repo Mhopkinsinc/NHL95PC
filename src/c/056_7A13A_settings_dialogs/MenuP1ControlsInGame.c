@@ -40,18 +40,18 @@ int ControlsDlgLoop(int side);
 typedef struct { unsigned mouse:1, joy1:1, joy2:1, keys:1; } CtlAvail;
 #define AVAIL ((CtlAvail *)&ctlavailmask)
 
-/* DRAFT (whole file): every function's body matches on its own (ClearCtlBlink and MenuP2ControlsInGame byte for byte,
- ControlsDlgInGame's head and tail, ReassignCtlPlayer up to stack slots the px register). The EXE has ControlsDlgInGame
- split: its code from the ctl1team test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after ClearCtlBlink. With
- ControlsDlgInGame defined after ClearCtlBlink (as here), Watcom splits it the same way: MenuP1ControlsInGame falls
- into its entry, the rest stays after ClearCtlBlink (156 -> 3 differing). */
+/* The controls dialog module, in the EXE's order. The EXE has ControlsDlgInGame split: its code from the ctl1team
+ test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after ClearCtlBlink, and that piece holds the exit every
+ function here shares (ControlsDlg_ret0C / _ret / _ret0). With ControlsDlgInGame defined after ClearCtlBlink, Watcom
+ splits it the same way, and once DrawControlsOpts pushes ebp (its add esp, 0Ch / pop ebp tail matches
+ ControlsDlgInGame's) Watcom keeps the shared exit there, as in the EXE. Still drafts: MenuP1ControlsInGame /
+ ControlsDlgInGame (CtlSwapScoreFix and CtlSwapTeamFlag, in their own files, sit between the two pieces in the EXE),
+ ReassignCtlPlayer, ControlsDlgPlayoff and ControlsDlgLoop (register picks). */
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 #define TEAM(t) ((&hmtmstruct)[t])
 
 
-/* DRAFT (first pass from Ghidra, tools/ghidra_decomp.py): the box colours come from ctldlgalt; both end in the
-   shared ControlsDlg_ret exit of ControlsDlgInGame's split tail. */
 /* DrawCtlBoxOn (7C852, PC only): draw the bevel of the controls dialog box r (four ints: left, top, right,
    bottom) pressed in: the left and top edges in the shade colour, the right and bottom ones in the light colour
    (42h / 40h in the alternate palette of the playoff and exhibition dialogs, ctldlgalt; else F8h / FAh). No
@@ -106,7 +106,6 @@ int MenuP2ControlsExh(void)
     return ControlsDlgExh(1);
 }
 
-/* DRAFT (first pass from Ghidra). */
 /* ControlsDlgExh (7C9B0, PC only): the controls dialog of the exhibition settings for controller side: load the
    BKGD4 background, save the screen under it (at 98h, 0ECh), draw the dialog (the alternate colours in
    gamemode 2), its options and run it (DrawControlsDlg, DrawControlsOpts, ControlsDlgLoop), then restore the
@@ -141,9 +140,8 @@ int MenuP2ControlsLeague(void)
     return ControlsDlgLeague(1);
 }
 
-/* DRAFT (first pass from Ghidra): the EXE cross-jumps its end into ControlsDlgExh's (ControlsDlg_done). */
 /* ControlsDlgLeague (7CA70, PC only): ControlsDlgExh for the league settings, always in the normal colours.
-   side: the controller. Result 0. */
+   side: the controller. Result 0. Its end cross-jumps into ControlsDlgExh's (ControlsDlg_done). */
 int ControlsDlgLeague(int side)
 {
     int buf;
@@ -338,7 +336,7 @@ int MenuP2ControlsPlayoff(void)
     return ControlsDlgPlayoff(1);
 }
 
-/* DRAFT (first pass from Ghidra). */
+/* DRAFT: register picks (side * 4 in ebp, ctl1side in esi; the EXE uses eax for both). */
 /* ControlsDlgPlayoff (7D154, PC only): ControlsDlgExh for the playoffs (the alternate colours), and then the
    controller's team as ControlsDlgInGame sets it (cont1team / cont2team: 0 none, 1 home, 2 away from ctl1team
    ctl1side) and samesideflag when both controllers are on one side. side: the controller. Result 0. */
@@ -367,8 +365,6 @@ int ControlsDlgPlayoff(int side)
     return 0;
 }
 
-/* DRAFT: the body as the EXE; only the exit differs (the EXE jumps to ControlsDlg_ret0, the shared exit in
-   ControlsDlgInGame's body). */
 /* DrawControlsDlg (7D254, PC only): draw the controls dialog: an identity colour remap (with alt, the
    alternate palette: F7h-FAh to 43h-40h; alt is kept in ctldlgalt), the DBOX5 art of the PLAYIMG bank (from the
    CD when fileoncd+138h is 1) at 0Ah, 13h, then in the light colour (40h alt, else FAh) the home and away team
@@ -415,7 +411,6 @@ void DrawControlsDlg(int alt)
     sub_91964((char *)teamcitynames[VisTeam], x + 3, y);
 }
 
-/* DRAFT (first pass from Ghidra). */
 /* DrawControlsOpts (7D3F0, PC only): the controls dialog's choices for controller side: the title (ONE / TWO),
    the available devices in setbits[1] (always the teams, none and the buttons; the mouse, joysticks and
    keyboard from ctlavailmask, less the other controller's device unless that is none, 10h), the current choice
@@ -425,7 +420,6 @@ void DrawControlsDlg(int alt)
 void DrawControlsOpts(int side)
 {
     int i;
-    int team;
     int bit;
     int *r;
 
@@ -436,10 +430,9 @@ void DrawControlsOpts(int side)
     setbits[0] = 0;
     setbits[1] = AVAIL->joy1 << 3 | (AVAIL->mouse << 2 | 0x1C3) | AVAIL->joy2 << 4 | AVAIL->keys << 5;
     if (ctl1dev[side == 0] != 0x10) setbits[1] &= ~(ctl1dev[side == 0] << 2);
-    team = ctl1team[side];
-    if (team < 0) {
-        if (team == -1) setbits[0] = 0x41;
-        else if (team == -2) setbits[0] = 0x42;
+    if (ctl1team[side] < 0) {
+        if (ctl1team[side] == -1) setbits[0] = 0x41;
+        else if (ctl1team[side] == -2) setbits[0] = 0x42;
     } else {
         setbits[0] = (ctl1side[side] != 0) + 1;
         if (setbits[1] & ctl1dev[side] << 2) setbits[0] |= ctl1dev[side] << 2;

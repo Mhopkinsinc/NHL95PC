@@ -408,7 +408,7 @@ a2offsides,4DCDD,116,037_4842A_engine_player_logic,src/c/037_4842A_engine_player
 a2touchpuck,4DE14,400,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/a2touchpuck.c,matched,,
 ass_pc_slot20,49460,344,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ass_pc_slot20.c,nonmatching,"register allocation: side flag kept in ecx (EXE edx), so the first path lookup indexes differently; logic complete",register 22/39
 assbench,4B12C,827,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbench.c,nonmatching,,size 29/66
-assbenchside,49BC2,283,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbenchside.c,nonmatching,,register 7/14
+assbenchside,49BC2,283,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbenchside.c,matched,,
 assboxenter,499D8,490,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assboxenter.c,matched,,
 asscenterd,4A53A,290,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asscenterd.c,nonmatching,,register 11/13
 assdefo,49CDD,349,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assdefo.c,matched,,
@@ -462,7 +462,7 @@ CenterMouse,50ADE,32,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CenterM
 Readjoy1,50A05,127,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,registers: asm keeps the held buttons in eax and does regd1 = held & changed in ecx (saves ecx); C reuses eax/ebx; Readjoy2 is the clone (shared tail),size 8/13
 Readjoy2,50A84,90,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,nonmatching,,size 3/3
 doinput,504DA,1070,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/doinput.c,matched,c1playernum[0] == p->SCnum and passplayer == p->SCnum operand order (found by tools/permute.py),
-faceoffinput,4FF0D,161,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/faceoffinput.c,nonmatching,draft: pflags2 kept in al (ours) vs cl then copied to al,register 2/3
+faceoffinput,4FF0D,161,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/faceoffinput.c,matched,draft: pflags2 kept in al (ours) vs cl then copied to al,
 getlchoice,50908,109,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/getlchoice.c,nonmatching,draft: asm loads tmptr into edx first and computes the tmap difference in ax; ours keeps p in eax,register 7/9
 holdplayer,503CD,103,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/holdplayer.c,matched,,
 joyq_flush,4FD47,27,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/joyq_flush.c,matched,,
@@ -539,7 +539,7 @@ holdcheck,56B79,397,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_a
 newcheck,58084,113,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/newcheck.c,matched,,
 passmode,5514E,97,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/passmode.c,matched,,
 passtoa0,551CF,708,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/passtoa0.c,nonmatching,,register 60/98
-puckIChk,56E52,125,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/puckIChk.c,nonmatching,"draft: asm keeps |x| work in ebx (saves ebx, frame 8); ours saves edx",size 6/8
+puckIChk,56E52,125,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/puckIChk.c,matched,"draft: asm keeps |x| work in ebx (saves ebx, frame 8); ours saves edx",
 puckbody,56D06,332,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/puckbody.c,matched,,
 puckglue,56F5A,316,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/puckglue.c,nonmatching,2 regs: asm reads regd0 byte before loading puckc (C loads puckc first); second pucky read in ecx (C eax); crowdlevel clamp needs old level in ax and new in bx (C merges them; same pattern as wallcollb),register 5/8
 puckgoalie,57096,1005,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/puckgoalie.c,matched,,
@@ -864,24 +864,22 @@ ExhSetEditLoop,7C317,1339,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_di
 MenuModeSettings,7B3A7,325,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuModeSettings.c,matched,,
 ModeSetViewLoop,7B846,418,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuModeSettings.c,matched,,
 ModeSetEditLoop,7B9E8,1235,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuModeSettings.c,matched,,
+DrawCtlBoxOn,7C852,175,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 DrawCtlBoxOff,7C901,146,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c); ends in DrawCtlBoxOn's DrawCtlBox_common,
 MenuP1ControlsExh,7C993,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,"first pass from Ghidra matched (MenuP1ControlsInGame.c): a tail call, jmp short ControlsDlgExh",
+MenuP2ControlsExh ControlsDlgExh,7C9A1,178,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsLeague,7CA53,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c): jmp short ControlsDlgLeague,
+MenuP2ControlsLeague ControlsDlgLeague,7CA61,150,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP2ControlsInGame,7CB9F,20,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
+ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsPlayoff,7D137,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c): jmp short ControlsDlgPlayoff,
-DrawCtlBoxOn,7C852,175,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
-MenuP2ControlsExh,7C9A1,178,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 4/5
-ControlsDlgExh,7C9B0,163,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 4/5
-MenuP2ControlsLeague,7CA61,150,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
-ControlsDlgLeague,7CA70,135,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
+DrawControlsDlg,7D254,412,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
+DrawControlsOpts,7D3F0,559,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 11/17
-ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,tail 0/0
 ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 MenuP2ControlsPlayoff,7D145,271,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
 ControlsDlgPlayoff,7D154,256,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
-DrawControlsDlg,7D254,412,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 43/61
-DrawControlsOpts,7D3F0,559,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 34/43
 ControlsDlgLoop,7D6B1,1206,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 229/334
 ModeOptsToBits,7B604,304,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeOptsToBits.c,matched,,
 ModeSetHitTest,7B734,138,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeSetHitTest.c,matched,,

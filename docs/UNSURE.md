@@ -17,7 +17,6 @@ Left unnamed or capped. Do not retry the listed C shapes.
 * FadeOutPalCycle: `mov bh, bl; dec bh` vs `dec bl`.
 * ChkDelayedOffside: `je` to the shared `xor eax, eax` vs `jne` / `xor eax, edx`. Do not invert the compare.
 * getlchoice: `tm` must stay in edx across the tmap subtract. Declaration order and inlining did not.
-* faceoffinput: `pflags2` in al vs cl.
 * SetShotMode: tail copies `vtoa` into edx before the `regd0` store. A short local did not stop it.
 * BlitJerseyDigit: colour store and the right-edge load are swapped. `volatile` and a goto did not.
 * LoadCupFinalSeries: `db = db + 2` is `add [esp], 2`. The original loads, adds, and stores.

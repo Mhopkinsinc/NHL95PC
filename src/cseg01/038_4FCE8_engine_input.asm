@@ -206,6 +206,10 @@ jmp near CanBlockShot_ret5	; 4FF08
 %endif ; C
 ; faceoffinput: (afaceoffpl 17h, fodir1/fodir2, pf2aip). PC adds an automatic
 ; pull when temp5 runs out (SPA 7F1h) and picks the pull anim by pucktemp1.
+; C: src/c/038_4FCE8_engine_input/faceoffinput.c
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/faceoffinput.inc"
+%else
 faceoffinput:
 push dword 10h	; 4FF0D
 call __CHK	; 4FF12
@@ -263,6 +267,7 @@ pop edx	; 4FFAA
 pop ecx	; 4FFAB
 pop ebx	; 4FFAC
 ret	; 4FFAD
+%endif ; C
 ; C: src/c/038_4FCE8_engine_input/Acheck.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/Acheck.inc"

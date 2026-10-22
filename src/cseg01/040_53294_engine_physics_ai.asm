@@ -4978,6 +4978,10 @@ ret	; 56E51
 %endif ; C
 ; puckIChk: (icing). iflags bit 2 ifok, bit 0 ifcgl, bit 1 ifdir; loose puck past the goal
 ; line: |puckx| > 2Ch sets ifcgl (icing), else clears ifok.
+; C: src/c/040_53294_engine_physics_ai/puckIChk.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/puckIChk.inc"
+%else
 puckIChk:
 push dword 8	; 56E52
 call __CHK	; 56E57
@@ -5022,6 +5026,7 @@ or byte [iflags], 1	; 56EC6
 .x:
 pop ebx	; 56ECD
 ret	; 56ECE
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/puckshadow.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/puckshadow.inc"

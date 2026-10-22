@@ -1955,6 +1955,10 @@ pop ecx	; 49BBF
 pop ebx	; 49BC0
 ret	; 49BC1
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assbenchside.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assbenchside.inc"
+%else
 assbenchside:
 push dword 10h	; 49BC2
 call __CHK	; 49BC7
@@ -2041,6 +2045,7 @@ pop edi	; 49CD9
 pop edx	; 49CDA
 pop ebx	; 49CDB
 ret	; 49CDC
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/assdefo.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/assdefo.inc"
