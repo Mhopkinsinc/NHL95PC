@@ -807,6 +807,10 @@ pop ecx	; 5A57E
 pop ebx	; 5A57F
 ret	; 5A580
 %endif ; C
+; C: src/c/042_59D9A_engine_core/SetCoachMode.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/SetCoachMode.inc"
+%else
 SetCoachMode:
 push dword 10h	; 5A581
 call __CHK	; 5A586
@@ -878,6 +882,7 @@ pop edx	; 5A665
 pop ecx	; 5A666
 pop ebx	; 5A667
 ret	; 5A668
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/InitCoachModes.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/InitCoachModes.inc"
