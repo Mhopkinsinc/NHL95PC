@@ -1673,6 +1673,10 @@ mov dword [ebx], eax	; 30FB0
 pop ecx	; 30FB2
 ret	; 30FB3
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/GrowToButtons.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/GrowToButtons.inc"
+%else
 GrowToButtons:
 push dword 10h	; 30FB4
 call __CHK	; 30FB9
@@ -1724,6 +1728,7 @@ pop ebp	; 3100F
 pop edi	; 31010
 pop esi	; 31011
 ret	; 31012
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/TextInputDialog.c (MessageBox)
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/TextInputDialog.MessageBox.inc"
