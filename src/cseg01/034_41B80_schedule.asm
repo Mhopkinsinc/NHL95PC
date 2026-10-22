@@ -112,6 +112,10 @@ pop ecx	; 41C76
 pop ebx	; 41C77
 ret	; 41C78
 %endif ; C
+; C: src/c/034_41B80_schedule/DateKey.c
+%ifdef CBUILD
+%include "c/034_41B80_schedule/DateKey.inc"
+%else
 DateKey:
 push dword 8	; 41C79
 call __CHK	; 41C7E
@@ -129,6 +133,7 @@ sub eax, ebx	; 41C95
 add eax, edx	; 41C97
 pop ebx	; 41C99
 ret	; 41C9A
+%endif ; C
 ; C: src/c/034_41B80_schedule/NormalizeDate.c
 %ifdef CBUILD
 %include "c/034_41B80_schedule/NormalizeDate.inc"
