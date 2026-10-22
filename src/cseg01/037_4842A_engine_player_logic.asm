@@ -390,6 +390,10 @@ pop esi	; 487D6
 pop ecx	; 487D7
 ret	; 487D8
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/StarEligible.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/StarEligible.inc"
+%else
 StarEligible:
 push dword 0Ch	; 487D9
 call __CHK	; 487DE
@@ -434,6 +438,7 @@ mov eax, 1	; 48833
 pop ecx	; 48838
 pop ebx	; 48839
 ret	; 4883A
+%endif ; C
 ; StarCompare: qsort comparator for PickThreeStars; player stat points from dword_DB088, +2 for gwgteam/gwgplayer.
 StarCompare:
 push dword 28h	; 4883B
