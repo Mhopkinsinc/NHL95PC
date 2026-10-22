@@ -8525,6 +8525,10 @@ xor edx, edx	; 4EAF6
 mov eax, ebx	; 4EAF8
 call SkateToSpot	; 4EAFA
 jmp near ass_popx	; 4EAFF
+; C: src/c/037_4842A_engine_player_logic/assgoalie.c (assrefsignal)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assgoalie.assrefsignal.inc"
+%else
 assrefsignal:
 push dword 2Ch	; 4EB04
 call __CHK	; 4EB09
@@ -8711,6 +8715,7 @@ call SkateToSpot	; 4ED70
 .17:
 mov esp, ebp	; 4ED75
 jmp near assgoalie_popebp	; 4ED77
+%endif ; C
 assrefgoalpa:
 push dword 28h	; 4ED7C
 call __CHK	; 4ED81
