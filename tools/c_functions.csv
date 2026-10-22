@@ -349,7 +349,7 @@ GetLeagueId,41344,137,033_40183_trades,src/c/033_40183_trades/GetLeagueId.c,matc
 LeagueCheckStub,41337,13,033_40183_trades,src/c/033_40183_trades/LeagueCheckStub.c,matched,,
 LoadHomePals,40792,355,033_40183_trades,src/c/033_40183_trades/LoadHomePals.c,matched,,
 MsgCopyingDatabases,414E0,54,033_40183_trades,src/c/033_40183_trades/MsgCopyingDatabases.c,matched,,
-SaveLeagueGameRef,41978,520,033_40183_trades,src/c/033_40183_trades/SaveLeagueGameRef.c,nonmatching,"draft: 483 vs 520. Frame is 38h and the handle is at esp+30h. Each FileWriteAt result is tested in eax; the original copies it to edx first (mov edx, eax) and the next block tests edx. register, declaration order, and goto labels did not move it.",size 16/29
+SaveLeagueGameRef,41978,520,033_40183_trades,src/c/033_40183_trades/SaveLeagueGameRef.c,matched,"draft: 483 vs 520. Frame is 38h and the handle is at esp+30h. Each FileWriteAt result is tested in eax; the original copies it to edx first (mov edx, eax) and the next block tests edx. register, declaration order, and goto labels did not move it.",
 TradePlayers,40183,1551,033_40183_trades,src/c/033_40183_trades/TradePlayers.c,nonmatching,,register 4/4
 WriteLeagueInfo,413CD,275,033_40183_trades,src/c/033_40183_trades/WriteLeagueInfo.c,matched,,
 AdvancePlayoffs,44A41,910,034_41B80_schedule,src/c/034_41B80_schedule/AdvancePlayoffs.c,matched,,
@@ -521,13 +521,13 @@ check4check,53537,360,040_53294_engine_physics_ai,src/c/040_53294_engine_physics
 SkillForAnim,54134,150,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 GetLowestPen,54A53,166,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,"unsigned short result, short sum and prev (found by tools/permute.py)",
 chk4lc,54AF9,272,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,"draft (checkob.c): 273 vs 272, gameclock in di (original ax) in the energy arm. See UNSURE.",
+chk4shot,55804,561,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 ChkOffsides,55A9F,464,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 ChkShotStat,55D28,330,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 setInjuryType,55E72,427,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 ReturnGoalies,59352,163,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,matched,,
 checkob,53F8C,424,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 424 vs 424. The far-side player test is cmp ecx,esi / jg; the original is cmp esi,ecx / jl. Do not retry: writing the limit on the left of < hoists that lea out of the loop.",register 1/2
 chk4pass,55493,881,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,"draft: 881 vs 881 in checkob.c, every statement in place; register picks only (puck pointer temps and the opponent loop in edx / ecx in the EXE). See docs/UNSURE.md.",register 35/49
-chk4shot,55804,561,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkob.c,nonmatching,,register 19/29
 checkplcoll,58CE2,229,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkplcoll.c,nonmatching,stack slots: asm spills x (word) at [esp] and y at [esp+4]; C swaps the two slots; rest matches,slot 6/6
 checkwallcoll,582C9,481,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkwallcoll.c,nonmatching,"draft: 470 vs 481. xlim reloads in edx (original ecx). The x test negates that limit in ecx and compares dx with cx; the original negates it in edx, reloads x, and compares with regd4 in memory. Do not retry: non-volatile limits sign-extend the radii and spill y. Declaring ylim before xlim swaps the two stack slots.",size 21/35
 deflect,57A3E,90,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/deflect.c,matched,,
@@ -570,7 +570,7 @@ WaitDigiSample,599EE,35,041_59493_engine_sound_iface,src/c/041_59493_engine_soun
 sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sfx.c,matched,,
 AvgCline,5A03B,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/AvgCline.c,matched,,
 ClearSortCords,5BA4E,59,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClearSortCords.c,matched,,
-ClockTick,5DC10,347,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClockTick.c,nonmatching,register allocation: C needs esi as well (asm gets by with ebx/ecx/edx/edi); the gameclock check order also differs,register 21/34
+ClockTick,5DC10,347,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClockTick.c,matched,register allocation: C needs esi as well (asm gets by with ebx/ecx/edx/edi); the gameclock check order also differs,
 getlinee_pp,5A288,102,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,,
 TeamLineEnergy,5A2EE,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,"in CompLine.c before getlinee, marked --end getlinee: it falls through into getlinee's entry (a tail call to the next function)",
 getlinee,5A30C,53,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,"draft (CompLine.c; split as in the EXE: entry after TeamLineEnergy, getlinee_pp / getlinee_sum before it): register picks (the EXE keeps line in ecx and loads the line table into edx in the 6-and-up arm)",
@@ -641,7 +641,8 @@ LoadGameState,60612,3760,044_5FB03_game_state_saveload,src/c/044_5FB03_game_stat
 AddPenalty,62CF9,135,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty.c,matched,,
 AddPenalty2,62D80,290,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty2.c,matched,,
 AppendGSumRecord,61A8A,251,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AppendGSumRecord.c,matched,,
-BuildEventLines,61E99,1194,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/BuildEventLines.c,nonmatching,,size 14/20
+BuildEventLines,61E99,1194,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/BuildEventLines.c,matched,,
+RunDeferredCalls,61A27,99,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/BuildEventLines.c,context,compile context; matched in src/c/045_614C2_scoring_penalty_text/RunDeferredCalls.c,
 CheckAndReleasePlayer,639F9,62,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/CheckAndReleasePlayer.c,matched,original keeps i in edx and the masked time in cx (push ecx); this draft reuses dx. 10-min cap,
 ChkScorerMilestone,62807,1072,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/ChkScorerMilestone.c,nonmatching,,size 12/20
 ClearPenaltyBuffer,63D3C,45,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/ClearPenaltyBuffer.c,matched,,
@@ -702,7 +703,7 @@ ReplayRecordReset,67564,29,046_644A8_engine_display,src/c/046_644A8_engine_displ
 ReplayStep,67900,1228,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayStep.c,nonmatching,,size 24/40
 DrawRinkSideObjects,67DCC,2776,046_644A8_engine_display,src/c/046_644A8_engine_display/ReplayStep.c,nonmatching,"same size, 135 differing lines: f / x / y1 slots; see docs/UNSURE.md",register 50/100
 SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/SetTeamGoalie.c,matched,draft: side+1 is same size; widened side stays in ecx (original ebx) and the address copy is ebx (original ecx). int s=side; s++ saved g in ebx (206). A team pointer was 167. Do not retry those.,
-ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,nonmatching,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only",size 19/28
+ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,matched,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only",
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,,
 LoadTeamPPV,66497,278,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,,
