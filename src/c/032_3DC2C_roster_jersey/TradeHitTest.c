@@ -56,17 +56,17 @@ int TradeHitTest(int x, int y, int *out, int *slot, int *flag)
    load, sort them (TradeRosterCmp) and run the screen (TradeScreenLoop). Then free the bank, restore the text
    state and free the font. dir: the league dir; teams: the two teams; b, c, d: passed on to TradeScreenLoop.
    Result: BuildTradeRoster's error, else TradeScreenLoop's result.
-   DRAFT: 561 vs 561. teams lands in edi and the palette / result in esi (original esi, edi), and the bank and
-   shape stack slots are swapped (original shape +620h, bank +62Ch). See docs/UNSURE.md. */
+   Matched under 10.0 GA with the locals declared bank, recs, state, path, r, font, shape (the EXE's slots: shape
+   +620h, b +624h, c +628h, bank +62Ch, font +630h). */
 int TradeScreen(char *dir, int *teams, int b, int c, int d)
 {
+    int bank;
     unsigned char recs[0x5D0];
     unsigned char state[0x40];
     char path[0x10];
-    int shape;
-    int bank;
-    int font;
     int r;
+    int font;
+    int shape;
 
     sub_B4BA8();
     r = sub_8CCA8((char *)str_Temp6, 0x300, 0x20);
