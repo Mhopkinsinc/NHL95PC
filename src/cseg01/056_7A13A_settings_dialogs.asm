@@ -3828,6 +3828,10 @@ call __CHK	; 7CBA4
 mov eax, 1	; 7CBA9
 jmp near ControlsDlgInGame	; 7CBAE
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (CtlSwapScoreFix)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.CtlSwapScoreFix.inc"
+%else
 CtlSwapScoreFix:
 push dword 10h	; 7CBB3
 call __CHK	; 7CBB8
@@ -3898,6 +3902,7 @@ pop edx	; 7CC86
 pop ecx	; 7CC87
 pop ebx	; 7CC88
 ret	; 7CC89
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (CtlSwapTeamFlag)
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.CtlSwapTeamFlag.inc"
