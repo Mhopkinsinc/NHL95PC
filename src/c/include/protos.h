@@ -483,7 +483,7 @@ void QueueDeferredCall(void *fn, int a, int b, int c, int d, int e, int f, int g
 void faceoffinput(Player *p);  /* 4FF0D */
 void StartPenaltyShot(void);  /* 64398 */
 void MakeJerseyShape(unsigned char *buf, unsigned num, unsigned char c1, unsigned char c2);  /* 7A099 */
-void BlitJerseyDigit(unsigned char *dst, unsigned d, int c1, int c2, int right);
+void BlitJerseyDigit(unsigned char *dst, unsigned d, unsigned char c1, unsigned char c2, int right);
 void DrawDBErrorsScreen(int *sel, int *line, int *first);  /* 6EC95 */
 void DrawMenuBar(void *bar, int n, int col1, int col2, int col3);
 void FadeOutPalCycle(void);  /* 47C31 */

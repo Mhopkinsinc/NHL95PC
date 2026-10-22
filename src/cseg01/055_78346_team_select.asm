@@ -2377,6 +2377,10 @@ pop edi	; 7A012
 pop esi	; 7A013
 ret 18h	; 7A014
 %endif ; C
+; C: src/c/055_78346_team_select/BlitJerseyDigit.c
+%ifdef CBUILD
+%include "c/055_78346_team_select/BlitJerseyDigit.inc"
+%else
 BlitJerseyDigit:
 push dword 18h	; 7A017
 call __CHK	; 7A01C
@@ -2433,6 +2437,7 @@ pop ebp	; 7A093
 pop edi	; 7A094
 pop esi	; 7A095
 ret 4	; 7A096
+%endif ; C
 ; C: src/c/055_78346_team_select/MakeJerseyShape.c
 %ifdef CBUILD
 %include "c/055_78346_team_select/MakeJerseyShape.inc"
