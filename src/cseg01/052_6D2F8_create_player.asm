@@ -1034,6 +1034,10 @@ pop esi	; 6DE7B
 pop ecx	; 6DE7C
 ret	; 6DE7D
 %endif ; C
+; C: src/c/052_6D2F8_create_player/ShellSortBytes.c (LoadBothRosterLists)
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/ShellSortBytes.LoadBothRosterLists.inc"
+%else
 LoadBothRosterLists:
 push dword 4	; 6DE7E
 call __CHK	; 6DE83
@@ -1078,6 +1082,7 @@ xor edx, edx	; 6DEF7
 mov dword [facount], edx	; 6DEF9
 xor eax, eax	; 6DEFF
 jmp near LoadRosterList_faloop	; 6DF01
+%endif ; C
 ; C: src/c/051_6C2F9_database_save/RunEditRosters.c (EditTeamLines)
 %ifdef CBUILD
 %include "c/051_6C2F9_database_save/RunEditRosters.EditTeamLines.inc"
