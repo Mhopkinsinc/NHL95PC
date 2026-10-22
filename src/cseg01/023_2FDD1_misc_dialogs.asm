@@ -1188,9 +1188,9 @@ pop edi	; 30ADD
 pop esi	; 30ADE
 ret 4	; 30ADF
 %endif ; C
-; C: src/c/023_2FDD1_misc_dialogs/DrawButtons.c
+; C: src/c/023_2FDD1_misc_dialogs/TrackButtons.c (DrawButtons)
 %ifdef CBUILD
-%include "c/023_2FDD1_misc_dialogs/DrawButtons.inc"
+%include "c/023_2FDD1_misc_dialogs/TrackButtons.DrawButtons.inc"
 %else
 DrawButtons:
 push dword 0Ch	; 30AE2
@@ -1217,9 +1217,9 @@ pop esi	; 30B13
 pop ecx	; 30B14
 ret	; 30B15
 %endif ; C
-; C: src/c/023_2FDD1_misc_dialogs/DrawButton.c
+; C: src/c/023_2FDD1_misc_dialogs/TrackButtons.c (DrawButton)
 %ifdef CBUILD
-%include "c/023_2FDD1_misc_dialogs/DrawButton.inc"
+%include "c/023_2FDD1_misc_dialogs/TrackButtons.DrawButton.inc"
 %else
 DrawButton:
 push dword 28h	; 30B16
@@ -1304,9 +1304,9 @@ pop ecx	; 30BF0
 pop ebx	; 30BF1
 ret	; 30BF2
 %endif ; C
-; C: src/c/023_2FDD1_misc_dialogs/DrawButton.c (InitScrollBar)
+; C: src/c/023_2FDD1_misc_dialogs/TrackButtons.c (InitScrollBar)
 %ifdef CBUILD
-%include "c/023_2FDD1_misc_dialogs/DrawButton.InitScrollBar.inc"
+%include "c/023_2FDD1_misc_dialogs/TrackButtons.InitScrollBar.inc"
 %else
 InitScrollBar:
 push dword 8	; 30BF3
@@ -1332,9 +1332,9 @@ mov dword [byte ecx+01Ch], eax	; 30C38
 pop ecx	; 30C3B
 ret	; 30C3C
 %endif ; C
-; C: src/c/023_2FDD1_misc_dialogs/DrawButton.c (DrawScrollBar)
+; C: src/c/023_2FDD1_misc_dialogs/TrackButtons.c (DrawScrollBar)
 %ifdef CBUILD
-%include "c/023_2FDD1_misc_dialogs/DrawButton.DrawScrollBar.inc"
+%include "c/023_2FDD1_misc_dialogs/TrackButtons.DrawScrollBar.inc"
 %else
 DrawScrollBar:
 push dword 28h	; 30C3D
@@ -1402,6 +1402,10 @@ xor edx, eax	; 30D01
 mov dword [boxlitecolor], edx	; 30D03
 jmp near DrawButton_x	; 30D09
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/TrackButtons.c (TrackScrollBars)
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/TrackButtons.TrackScrollBars.inc"
+%else
 TrackScrollBars:
 push dword 20h	; 30D0E
 call __CHK	; 30D13
@@ -1520,6 +1524,7 @@ jl near TrackScrollBars.1	; 30E54
 mov eax, dword [byte esp+08h]	; 30E5A
 add esp, byte 10h	; 30E5E
 jmp near TrackButtons_x	; 30E61
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/SaveDialogBg.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/SaveDialogBg.inc"
