@@ -87,8 +87,8 @@ int RandomizeSchedule(char *dir, int shuffle)
             }
             if (!err) {
                 j = i * 6 + 2;
-                s.count[h]++;
                 ((int *)(s.rec + 0x11C))[s.count[h]] = j;
+                s.count[h]++;
                 err = WriteTeamRec(s.tfh, s.rec, h);
             }
             if (!err) err = ReadTeamRec(s.tfh, s.rec, v);
