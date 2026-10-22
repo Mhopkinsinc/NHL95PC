@@ -1639,6 +1639,10 @@ mov edx, 4	; 216C8
 mov eax, unk_CF88F	; 216CD
 jmp near CalTeamStatsScreen_common	; 216D2
 %endif ; C
+; C: src/c/016_20016_easn_stats/CalStandingsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/CalStandingsScreen.inc"
+%else
 CalStandingsScreen:
 push dword 28h	; 216D7
 call __CHK	; 216DC
@@ -1721,6 +1725,7 @@ pop edx	; 217EA
 pop ecx	; 217EB
 pop ebx	; 217EC
 ret	; 217ED
+%endif ; C
 CalStandingsMenu_jt:
 dd CalStandingsMenu_standings
 dd CalStandingsMenu_roster
