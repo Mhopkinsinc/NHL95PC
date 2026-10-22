@@ -1708,6 +1708,10 @@ call UpdateCoachModes	; 5B1C1
 .60:
 add esp, byte 8	; 5B1C6
 jmp near calcpuckcross_ret6	; 5B1C9
+; C: src/c/042_59D9A_engine_core/GiveControl.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/GiveControl.inc"
+%else
 GiveControl:
 push dword 14h	; 5B1CE
 call __CHK	; 5B1D3
@@ -1771,6 +1775,7 @@ pop edx	; 5B294
 pop ecx	; 5B295
 pop ebx	; 5B296
 ret	; 5B297
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/Setplass.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/Setplass.inc"
