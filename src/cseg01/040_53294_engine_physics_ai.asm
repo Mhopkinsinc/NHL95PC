@@ -2970,6 +2970,10 @@ add esp, byte 1Ch	; 5548B
 jmp near checkob_ret5	; 5548E
 ; chk4pass: (computer looks for a good pass): threat spodds roll, target by vtoa
 ; (PassLaneChk), dopass, assexit.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (chk4pass)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.chk4pass.inc"
+%else
 chk4pass:
 push dword 18h	; 55493
 call __CHK	; 55498
@@ -3240,6 +3244,7 @@ mov edx, 1	; 557F8
 .29:
 mov eax, edx	; 557FD
 jmp near checkob_ret5	; 557FF
+%endif ; C
 ; chk4shot: (computer looks for a shot). regd4 = 20h - spodds; shot lane test; jumps to
 ; chk4lc_shoot (CompShoot) to shoot.
 ; C: src/c/040_53294_engine_physics_ai/checkob.c (chk4shot)
