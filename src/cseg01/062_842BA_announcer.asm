@@ -24,6 +24,10 @@ global SayLineups, SayNowBack, FreeNowBack, SayBackMoment, FreeBackMoment, SayCo
 global SayElseNhl, SayHighlightIntro, SayPlayoffResult, SayTheGame, SayScoringPeriod, SayClip, SayTonightIntro, SayPlayoffTonight
 global RequestTimeClips, QueueTimeClips, SayPenalty, SayPenaltyShot, SayPlayerNumber, SayGoal, SayOneMinuteLeft, OpenAnnouncerBank
 global QueuePenaltyType, PreloadAnnouncerClips
+; C: src/c/062_842BA_announcer/PenaltyLenClip.c
+%ifdef CBUILD
+%include "c/062_842BA_announcer/PenaltyLenClip.inc"
+%else
 PenaltyLenClip:
 push dword 14h	; 842BA
 call __CHK	; 842BF
@@ -57,6 +61,7 @@ mov edx, str_2minCor	; 842FA
 call strcpy_	; 842FF
 pop ebx	; 84304
 ret	; 84305
+%endif ; C
 ; C: src/c/062_842BA_announcer/PlayoffRoundClipD.c
 %ifdef CBUILD
 %include "c/062_842BA_announcer/PlayoffRoundClipD.inc"
