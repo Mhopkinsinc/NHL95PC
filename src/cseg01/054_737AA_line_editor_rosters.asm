@@ -3876,6 +3876,10 @@ pop ebp	; 76425
 pop edi	; 76426
 pop esi	; 76427
 ret	; 76428
+; C: src/c/054_737AA_line_editor_rosters/FadePalStep.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/FadePalStep.inc"
+%else
 FadePalStep:
 push dword 1Ch	; 76429
 call __CHK	; 7642E
@@ -3964,6 +3968,11 @@ pop edi	; 76517
 pop esi	; 76518
 pop ecx	; 76519
 ret	; 7651A
+%endif ; C
+; C: src/c/054_737AA_line_editor_rosters/FadePalStep.c (FadePalStepSlow)
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/FadePalStep.FadePalStepSlow.inc"
+%else
 FadePalStepSlow:
 push dword 1Ch	; 7651B
 call __CHK	; 76520
@@ -4048,6 +4057,7 @@ sar eax, 18h	; 76608
 cmp ecx, eax	; 7660B
 jne short FadePalStepSlow.8	; 7660D
 jmp near FadePalStep_ret	; 7660F
+%endif ; C
 ; C: src/c/054_737AA_line_editor_rosters/SetPalette768.c
 %ifdef CBUILD
 %include "c/054_737AA_line_editor_rosters/SetPalette768.inc"
