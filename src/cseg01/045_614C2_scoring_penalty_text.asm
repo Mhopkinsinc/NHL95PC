@@ -3579,6 +3579,10 @@ or byte [awtmflags], 1	; 63F63
 .20:
 add esp, byte 4	; 63F6A
 jmp near InProgress_popebp	; 63F6D
+; C: src/c/045_614C2_scoring_penalty_text/SetupPenaltyShot.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/SetupPenaltyShot.inc"
+%else
 SetupPenaltyShot:
 push dword 10h	; 63F72
 call __CHK	; 63F77
@@ -3681,6 +3685,7 @@ pop esi	; 640FE
 pop edx	; 640FF
 pop ebx	; 64100
 ret	; 64101
+%endif ; C
 ShotLaneOpen:
 push dword 2Ch	; 64102
 call __CHK	; 64107
