@@ -3525,6 +3525,10 @@ pop edi	; 3D8D9
 pop esi	; 3D8DA
 pop ecx	; 3D8DB
 ret	; 3D8DC
+; C: src/c/030_3A9AA_database_merge/ReadLeagueInfo.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/ReadLeagueInfo.inc"
+%else
 ReadLeagueInfo:
 push dword 6Ch	; 3D8DD
 call __CHK	; 3D8E2
@@ -3674,6 +3678,7 @@ pop ebp	; 3DAB3
 pop edi	; 3DAB4
 pop esi	; 3DAB5
 ret 10h	; 3DAB6
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/ReadTeamNames.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/ReadTeamNames.inc"

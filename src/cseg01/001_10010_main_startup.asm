@@ -1813,6 +1813,10 @@ mov dword [joysampling], edx	; 11492
 pop edx	; 11498
 ret	; 11499
 %endif ; C
+; C: src/c/001_10010_main_startup/RunGameFrames.c
+%ifdef CBUILD
+%include "c/001_10010_main_startup/RunGameFrames.inc"
+%else
 RunGameFrames:
 push dword 0Ch	; 1149A
 call __CHK	; 1149F
@@ -1871,6 +1875,7 @@ jl near RunGameFrames.1	; 11547
 pop edx	; 1154D
 pop ebx	; 1154E
 ret	; 1154F
+%endif ; C
 ; C: src/c/001_10010_main_startup/HandleHotKey.c (SetFullPalette)
 %ifdef CBUILD
 %include "c/001_10010_main_startup/HandleHotKey.SetFullPalette.inc"

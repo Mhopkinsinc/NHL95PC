@@ -11,7 +11,7 @@ SetFullPalette,11550,72,001_10010_main_startup,src/c/001_10010_main_startup/Hand
 PlayGame,11D09,747,001_10010_main_startup,src/c/001_10010_main_startup/HandleHotKey.c,matched,,
 IntermissionPC,10F6D,152,001_10010_main_startup,src/c/001_10010_main_startup/IntermissionPC.c,matched,,
 ResetInputSampling,1145F,59,001_10010_main_startup,src/c/001_10010_main_startup/ResetInputSampling.c,matched,,
-RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunGameFrames.c,nonmatching,"extra ecx: n/i get ecx/ebx (asm ebx/edx), hot-key byte reuses eax in asm",register 6/12
+RunGameFrames,1149A,182,001_10010_main_startup,src/c/001_10010_main_startup/RunGameFrames.c,matched,"extra ecx: n/i get ecx/ebx (asm ebx/edx), hot-key byte reuses eax in asm",
 SetScreenSize,10E9F,206,001_10010_main_startup,src/c/001_10010_main_startup/SetScreenSize.c,matched,,
 SetupControllers,10712,344,001_10010_main_startup,src/c/001_10010_main_startup/SetupControllers.c,matched,,
 WaitKeyRelease,11161,46,001_10010_main_startup,src/c/001_10010_main_startup/WaitKeyRelease.c,matched,,
@@ -177,7 +177,7 @@ CmpPPGoals,25325,275,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpPPGo
 CmpPlusMinus,2554B,247,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpPlusMinus.c,matched,,
 CmpSHGoals,25438,275,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpSHGoals.c,matched,,
 CmpSavePct,259C0,310,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpSavePct.c,matched,,
-CmpShootPct,25755,277,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpShootPct.c,nonmatching,"draft: season record is mov edx,[statsskaterbuf]; add eax,edx (277). C copies the index first (mov edx,eax; mov eax,[buf]; add eax,edx, 278). Operand order and if/else did not flip that add. Do not retry those.",register 1/2
+CmpShootPct,25755,277,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpShootPct.c,matched,"draft: season record is mov edx,[statsskaterbuf]; add eax,edx (277). C copies the index first (mov edx,eax; mov eax,[buf]; add eax,edx, 278). Operand order and if/else did not flip that add. Do not retry those.",
 CmpTeamPenalties,23437,352,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamPenalties.c,nonmatching,draft: separate file; in CmpTeamStandings.c it moves the shared epilogue. Record pointer shift order and the points temps differ. See UNSURE.,size 27/33
 CmpTeamStandings,22DDE,336,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,matched,,
 CmpTeamScoring,22F2E,291,017_21CDE_player_stats,src/c/017_21CDE_player_stats/CmpTeamStandings.c,matched,,
@@ -317,7 +317,7 @@ LocateTeamDbCopy,3AF70,201,030_3A9AA_database_merge,src/c/030_3A9AA_database_mer
 MergeScheduleDb,3AE1E,338,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeTeamDbs.c,matched,,
 MergeTeamDbs,3A9AA,1140,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeTeamDbs.c,nonmatching,,
 MergeUpdateDbs,3B8B0,282,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/MergeUpdateDbs.c,matched,,
-ReadLeagueInfo,3D8DD,476,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadLeagueInfo.c,nonmatching,register allocation only: teams (edx) and b (ecx) swap between ebp and the stack slot at +44h,size 4/6
+ReadLeagueInfo,3D8DD,476,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadLeagueInfo.c,matched,register allocation only: teams (edx) and b (ecx) swap between ebp and the stack slot at +44h,
 ReadTeamNames,3DAB9,136,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/ReadTeamNames.c,matched,,
 SelectFloppyDrive,3D46D,551,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/SelectFloppyDrive.c,nonmatching,"draft: 551 vs 551. file is in edi. name lands in ebp and the found flag in esi (original keeps name in esi and the flag in ebp). The drive loop reloads the index into edx, then copies it to eax and incs; the original stores floppyok through edx and uses lea eax,[edx+1]. Declaration order, register, and a char* flag did not swap ebp/esi.",register 10/12
 UpdateTeamDbs,3B039,545,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/UpdateTeamDbs.c,matched,,
@@ -364,17 +364,17 @@ RandomizeSchedule,42295,924,034_41B80_schedule,src/c/034_41B80_schedule/Randomiz
 SeriesLength,42221,116,034_41B80_schedule,src/c/034_41B80_schedule/SeriesLength.c,nonmatching,"116 vs 116. Loop, jump table and case bodies match. The shared mov eax,esi / pop esi / pop edx / pop ecx / ret is after mov esi,5 (ja and the other returns jump forward to +57). The EXE falls out of mov esi,1 into that epilogue at +39 and later cases jump back. Do not retry: Watcom sinks this multi-predecessor return onto the first conditional fall-through (best-of-5); a return glued to case 0 folds to mov eax,1 or jumps to an epilogue at the end.",size 8/10
 SetSeriesTeams,42F42,171,034_41B80_schedule,src/c/034_41B80_schedule/SetSeriesTeams.c,matched,,
 SeedPlayoffRound1,42FED,1623,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,matched,,
+SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,matched,"draft: same size; team index is bl (original cl) and i+1 is lea ecx,[eax+1] (original inc eax). A while loop moved the compare above the index load. Do not retry the while.",
 SimPlayoffRound1,43644,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 15/26
 SeedPlayoffRound2,43757,1769,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"same size, 12 differing lines: month slot, one sum order; see docs/UNSURE.md",slot 10/12
 SimPlayoffRound2,43E40,267,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 13/20
 SeedPlayoffRound3,43F4B,1131,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"same size, first pass: EXE frame one dword larger (spilled buf + 1F8h); see docs/UNSURE.md",size 191/269
 SimPlayoffRound3,443B6,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 14/23
 SeedPlayoffFinal,444C9,733,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"same size, 14 differing lines; EXE tail is UpdateSeasonSchedule_pop3 (cannot be marked here); see docs/UNSURE.md",register 5/14
-SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"draft: same size; team index is bl (original cl) and i+1 is lea ecx,[eax+1] (original inc eax). A while loop moved the compare above the index load. Do not retry the while.",register 6/7
 SimScheduleDay,42631,634,034_41B80_schedule,src/c/034_41B80_schedule/SimScheduleDay.c,matched,,
 SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,,
 UpdatePlayoffSeries,41F64,671,034_41B80_schedule,src/c/034_41B80_schedule/UpdatePlayoffSeries.c,matched,,
-UpdateSeasonSchedule,41CC4,672,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft: 672 vs 672 (best of 5). The frame, opens, database loads, the 0/1 playoff test and both calls match. ext is in ebp and err in esi (original esi and ebp), so careerdb reloads through that freed register instead of edi. Do not retry an int or char* copy of ext (homes swap, ext stays in ebp), making err a pointer (655), or folding play into the if.",register 26/26
+UpdateSeasonSchedule,41CC4,672,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,matched,"draft: 672 vs 672 (best of 5). The frame, opens, database loads, the 0/1 playoff test and both calls match. ext is in ebp and err in esi (original esi and ebp), so careerdb reloads through that freed register instead of edi. Do not retry an int or char* copy of ext (homes swap, ext stays in ebp), making err a pointer (655), or folding play into the if.",
 SortStandings,42DAA,367,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft (UpdateSeasonSchedule.c): 365 vs 367, temp allocation. See UNSURE.",register 29/55
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,,
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,,
@@ -424,12 +424,13 @@ assgoalietopuck,4B5C2,306,037_4842A_engine_player_logic,src/c/037_4842A_engine_p
 assintroline,484DA,687,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assintroline.c,nonmatching,"draft: 682 vs 687. The wait loop and the flag setup match. The distance sum stays in edx (imul edx,edx / imul eax,ecx / add edx,eax); the original copies dx into ecx and dy into eax so the sum stays in eax. The abs loads eax; the original loads edx because eax still holds that sum. Do not retry a folded abs, dy*dy first, nesting dist outside dx/dy, or a separate step local.",register 44/47
 assintrostand,4842A,176,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assintrostand.c,matched,,
 assleaveice,4AB87,548,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assleaveice.c,matched,,
-asspenshooter,4FAE8,512,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspenshooter.c,nonmatching,register allocation only: EXE loads the puckc pointer into edx for the first test (C: eax); everything else matches,register 2/2
+asspenshooter,4FAE8,512,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspenshooter.c,matched,register allocation only: EXE loads the puckc pointer into edx for the first test (C: eax); everything else matches,
 asspuckc,4C6F3,458,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspuckc.c,matched,,
 asspuckc_chkdir,4C9FD,846,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asspuckc_chkdir.c,nonmatching,,register 21/25
 assrefatdot,4DFF7,198,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefatdot.c,matched,,
 assdefd,49E3A,876,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 asswingd,4A1A6,413,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
+asswingo,4A343,503,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 asscentero,4A65C,434,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 asspenalty,4ADAB,592,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 CountPuckThreat,4C632,193,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
@@ -438,7 +439,6 @@ RequestLineChange,4D938,196,037_4842A_engine_player_logic,src/c/037_4842A_engine
 assrefwhistle,4E8EF,499,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 assrefdrop,4F5BF,529,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
 assrefgoalline,4F7D0,448,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,matched,,
-asswingo,4A343,503,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,,register 1/2
 Endfaceoff,4DA7B,610,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,,
 assreffollow,4E0BD,469,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assrefwhistle.c,nonmatching,,size 1/1
 assscore,4A90F,435,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assscore.c,matched,,

@@ -2554,6 +2554,10 @@ mov eax, ebx	; 4A337
 call skateto	; 4A339
 jmp near ass_popx	; 4A33E
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asswingo)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assrefwhistle.asswingo.inc"
+%else
 asswingo:
 push dword 18h	; 4A343
 call __CHK	; 4A348
@@ -2694,6 +2698,7 @@ mov word [regd1], si	; 4A529
 asswingo_evade:
 mov edx, EvadePC	; 4A530
 jmp near asswingd_skateto	; 4A535
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/asscenterd.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/asscenterd.inc"
@@ -9715,6 +9720,10 @@ pop ecx	; 4FAE5
 pop ebx	; 4FAE6
 ret	; 4FAE7
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/asspenshooter.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/asspenshooter.inc"
+%else
 asspenshooter:
 push dword 14h	; 4FAE8
 call __CHK	; 4FAED
@@ -9883,3 +9892,4 @@ pop edx	; 4FCE4
 pop ecx	; 4FCE5
 pop ebx	; 4FCE6
 ret	; 4FCE7
+%endif ; C
