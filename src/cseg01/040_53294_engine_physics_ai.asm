@@ -5769,6 +5769,10 @@ mov eax, ebp	; 57862
 call deflect	; 57864
 jmp near PassLaneChk_ret5a	; 57869
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/SetShotMode.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/SetShotMode.inc"
+%else
 SetShotMode:
 push dword 10h	; 5786E
 call __CHK	; 57873
@@ -5812,6 +5816,7 @@ pop edx	; 578F6
 pop ecx	; 578F7
 pop ebx	; 578F8
 ret	; 578F9
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/ShotMode.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/ShotMode.inc"
