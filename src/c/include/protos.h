@@ -231,8 +231,8 @@ int __cdecl sub_8DAB8(void);  /* memory library: free memory */
 void __cdecl FreeMemBlock(int p);  /* library: free a block */
 void StopDigiSample(void);  /* 59981 */
 void sub_8F67D(int h);  /* sound library: stop sample */
-void FreeDigiSample(int unused);  /* 59945 */
-void sub_8F7AE(int h);  /* sound library: free sample */
+void FreeDigiSample(int fade);  /* 59945 */
+void sub_8F7AE(int h, int fade);  /* sound library: free sample (fade: release count) */
 int ClearInputQueue(void);  /* 6B3D7 */
 int ResetInputSampling(void);  /* 1145F */
 void NormalizeDressFlags(void);  /* 65B48 */
