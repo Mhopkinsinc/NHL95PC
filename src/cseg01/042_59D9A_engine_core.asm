@@ -5187,6 +5187,10 @@ jmp near calcpuckcross_ret5	; 5DC0B
 %endif ; C
 ; ClockTick: run from the main loop. Counts clockticks (18h per second) and gameclock down; horn sfx 97h at
 ; 60 s (unless music plays), UpdateCoachModes each second. Debug playback (penshotlive) ends via EndPenaltyShot.
+; C: src/c/042_59D9A_engine_core/ClockTick.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/ClockTick.inc"
+%else
 ClockTick:
 push dword 14h	; 5DC10
 call __CHK	; 5DC15
@@ -5292,6 +5296,7 @@ pop edx	; 5DD67
 pop ecx	; 5DD68
 pop ebx	; 5DD69
 ret	; 5DD6A
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/SetSPA.c (SprSortVert)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/SetSPA.SprSortVert.inc"
