@@ -1627,6 +1627,10 @@ pop ecx	; 30F5C
 pop ebx	; 30F5D
 ret	; 30F5E
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/GrowToButton.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/GrowToButton.inc"
+%else
 GrowToButton:
 push dword 8	; 30F5F
 call __CHK	; 30F64
@@ -1668,6 +1672,7 @@ mov dword [ebx], eax	; 30FB0
 .x:
 pop ecx	; 30FB2
 ret	; 30FB3
+%endif ; C
 GrowToButtons:
 push dword 10h	; 30FB4
 call __CHK	; 30FB9
