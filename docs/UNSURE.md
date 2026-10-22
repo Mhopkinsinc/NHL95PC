@@ -2,6 +2,8 @@
 
 Moved verbatim from HANDOFF.md. Triage plan: [HANDOFF.md](../HANDOFF.md) (Unsure plan).
 
+Compiler: the shapes were tried under 10.0 LA unless the entry or its heading names 10.0 GA (the reference compiler since 2026-10-22). `tools/permute.py` may retry LA shapes under GA (its skip rows in docs/unsure_tried.csv, from `tools/unsure_rows.py`, are per compiler); a hand retry of one needs a new reason. New entries say "under 10.0 GA" or go under a heading that does.
+
 ### Unsure
 
 Left unnamed or capped. Do not retry the listed C shapes.
