@@ -1837,6 +1837,10 @@ pop edi	; 41974
 pop esi	; 41975
 pop ecx	; 41976
 ret	; 41977
+; C: src/c/033_40183_trades/SaveLeagueGameRef.c
+%ifdef CBUILD
+%include "c/033_40183_trades/SaveLeagueGameRef.inc"
+%else
 SaveLeagueGameRef:
 push dword 50h	; 41978
 call __CHK	; 4197D
@@ -2004,3 +2008,4 @@ pop edx	; 41B7C
 pop ecx	; 41B7D
 pop ebx	; 41B7E
 ret	; 41B7F
+%endif ; C
