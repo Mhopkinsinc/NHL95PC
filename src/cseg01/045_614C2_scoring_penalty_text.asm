@@ -934,6 +934,10 @@ pop edi	; 61E94
 pop esi	; 61E95
 ret 8	; 61E96
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/BuildEventLines.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/BuildEventLines.inc"
+%else
 BuildEventLines:
 push dword 3Ch	; 61E99
 call __CHK	; 61E9E
@@ -1305,6 +1309,7 @@ add esp, byte 8	; 62338
 .14:
 add esp, byte 0Ch	; 6233B
 jmp near fileio_popebpx	; 6233E
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/PostGoalEvent.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/PostGoalEvent.inc"
