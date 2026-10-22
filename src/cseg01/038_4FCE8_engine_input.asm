@@ -592,6 +592,10 @@ pop edx	; 50339
 pop ecx	; 5033A
 pop ebx	; 5033B
 ret	; 5033C
+; C: src/c/038_4FCE8_engine_input/CanBlockShot.c (OppInReach)
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/CanBlockShot.OppInReach.inc"
+%else
 OppInReach:
 push dword 1Ch	; 5033D
 call __CHK	; 50342
@@ -653,6 +657,7 @@ cmp ebp, byte 6	; 503C1
 jl short OppInReach.loop	; 503C4
 xor eax, eax	; 503C6
 jmp near CanBlockShot_ret6	; 503C8
+%endif ; C
 ; holdplayer: (A button, not the puck carrier) with two PC checks first:
 ; OppInReach -> hold anim 873h; CanBlockShot -> dive (BlockShotDive); else Acheck on SortCords[impactp].
 ; C: src/c/038_4FCE8_engine_input/holdplayer.c
