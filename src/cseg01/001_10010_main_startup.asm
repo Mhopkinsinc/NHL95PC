@@ -1508,6 +1508,10 @@ add esp, byte 8	; 110DA
 pop edi	; 110DD
 pop esi	; 110DE
 ret	; 110DF
+; C: src/c/001_10010_main_startup/DrawFrameSprite.c
+%ifdef CBUILD
+%include "c/001_10010_main_startup/DrawFrameSprite.inc"
+%else
 DrawFrameSprite:
 push dword 10h	; 110E0
 call __CHK	; 110E5
@@ -1537,6 +1541,7 @@ call DrawSprite	; 1112D
 .x:
 pop esi	; 11132
 ret 4	; 11133
+%endif ; C
 ; C: src/c/001_10010_main_startup/DrawRinkEndArt.c
 %ifdef CBUILD
 %include "c/001_10010_main_startup/DrawRinkEndArt.inc"
