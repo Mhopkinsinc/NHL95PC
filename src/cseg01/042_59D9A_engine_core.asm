@@ -961,6 +961,10 @@ ret	; 5A77B
 %endif ; C
 ; UpdateCoachModes: coach AI, once a second from ClockTick. Picks each team's mode (team D2h..D6h) from the
 ; score difference, time left and penalties (details not traced).
+; C: src/c/042_59D9A_engine_core/UpdateCoachModes.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/UpdateCoachModes.inc"
+%else
 UpdateCoachModes:
 push dword 10h	; 5A77C
 call __CHK	; 5A781
@@ -1168,6 +1172,7 @@ pop edx	; 5AAAA
 pop ecx	; 5AAAB
 pop ebx	; 5AAAC
 ret	; 5AAAD
+%endif ; C
 ; PenTeamScored: During a delayed penalty (gmode bit 3): 1 if the scoring team has a skater
 ; with pflags2 bit 4 (caused a penalty), else 0. Goal then disallows the goal.
 ; C: src/c/042_59D9A_engine_core/PenTeamScored.c
