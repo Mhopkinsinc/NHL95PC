@@ -162,9 +162,11 @@ void PreGameIntro(void)
     UpdateHudPanel();
 }
 
-/* DRAFT (first pass from Ghidra): the EXE places its entry and frame start (to ThreeStarsLoop_tick) after
+/* DRAFT (GA, 22 differing): the EXE places its entry and frame start (to ThreeStarsLoop_tick) after
    StartPreGame, which falls into it, and its frame loop and exit after PreGameIntro (pieces of ThreeStarsLoop:
-   PreGameIntro_scroll PreGameIntro_end). */
+   PreGameIntro_scroll PreGameIntro_end); Watcom lays it out that way too. Left: the shared pop / ret exit
+   survives in PreGameIntro here (this exit jumps back to it), where the EXE keeps it in this function's exit
+   (PreGameIntro_popebp / _popx, also used by PickThreeStars in segment 037) and PreGameIntro jumps there. */
 /* ThreeStarsLoop (48333, PC only): run the pre-game skate until the sequence timer (seqtimer) runs out, Escape
    (escrequest) or a button (fire 10h / 20h on either pad: skip, with a palette fade): each 4-tick frame run the
    game frames due (6 per 10 input samples), follow the camera with the view (clamped to 0-40h, 0-1A8h), draw
@@ -175,7 +177,6 @@ int ThreeStarsLoop(void)
 {
     short n;
     int a;
-    int js;
 
     TicksSinceLastCall();
     joysampling = 1;
@@ -201,26 +202,26 @@ int ThreeStarsLoop(void)
         SetRinkScroll(viewscrollx, viewscrolly);
         sub_6AF52(bgscrollx * 8 + scrollx, bgscrolly * 8 + scrolly, bgscrollx * 8 + scrollx + 0x140, bgscrolly * 8 + scrolly + 0xA8);
         spritedrawcount = 0;
-        DrawRinkOverlays(viewscrollx, viewscrolly);
+        DrawRinkOverlays((short)viewscrollx, (short)viewscrolly);
         sub_6AF97(-(scrollx + bgscrollx * 8), -(bgscrolly * 8 + scrolly));
         sub_6ADA7();
         if (fadeinpending) {
-            js = joysampling;
+            joysampling_save = joysampling;
             joysampling = 0;
             FadePalette(0, gamepal, 0x10);
             fadeinpending = 0;
-            joysampling = js;
+            joysampling = joysampling_save;
         }
         CrowdNoiseUpdate(n);
         if (escrequest) break;
         Readjoy1();
-        if (*(unsigned char *)&regd1 & 0x30) {
+        if (*(unsigned char *)&regd1 & 0x10 || *(unsigned char *)&regd1 & 0x20) {
             introskipped = 1;
             fadeinpending = 1;
             break;
         }
         Readjoy2();
-        if (*(unsigned char *)&regd1 & 0x30) {
+        if (*(unsigned char *)&regd1 & 0x10 || *(unsigned char *)&regd1 & 0x20) {
             introskipped = 1;
             fadeinpending = 1;
             break;
