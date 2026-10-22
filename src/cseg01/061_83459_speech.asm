@@ -881,6 +881,10 @@ inc dword [dword eax+03B74h]	; 83E24
 add esp, byte 8	; 83E2A
 jmp near ShutdownSpeech_ret6	; 83E2D
 %endif ; C
+; C: src/c/061_83459_speech/StrEqNoCase.c
+%ifdef CBUILD
+%include "c/061_83459_speech/StrEqNoCase.inc"
+%else
 StrEqNoCase:
 push dword 0Ch	; 83E32
 call __CHK	; 83E37
@@ -909,6 +913,7 @@ mov eax, 1	; 83E65
 pop ecx	; 83E6A
 pop ebx	; 83E6B
 ret	; 83E6C
+%endif ; C
 FindFreeSpeechSlot:
 push dword 0Ch	; 83E6D
 call __CHK	; 83E72
