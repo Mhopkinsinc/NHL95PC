@@ -3066,6 +3066,10 @@ pop ecx	; 639A1
 pop ebx	; 639A2
 ret	; 639A3
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/chkatop.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/chkatop.inc"
+%else
 chkatop:
 push dword 8	; 639A4
 call __CHK	; 639A9
@@ -3099,6 +3103,7 @@ inc word [byte eax+tmATOP]	; 639F3
 .x:
 pop edx	; 639F7
 ret	; 639F8
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/CheckAndReleasePlayer.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/CheckAndReleasePlayer.inc"

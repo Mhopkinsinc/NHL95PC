@@ -676,7 +676,7 @@ StartPenaltyShot,64398,161,045_614C2_scoring_penalty_text,src/c/045_614C2_scorin
 Stop4Pen,63543,626,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/Stop4Pen.c,matched,,
 UpdatePowerPlayFlags,63C73,201,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/UpdatePowerPlayFlags.c,matched,,
 checkfornewpen,637B5,373,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/checkfornewpen.c,nonmatching,register allocation only: EXE keeps the index in dx and penalty / player in bl / bh; declaration-order search found no match,register 29/30
-chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/chkatop.c,nonmatching,original reads the puck y into dx (push edx) and t into ax; this draft uses ax for y. 10-min cap,size 9/12
+chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/chkatop.c,matched,original reads the puck y into dx (push edx) and t into ax; this draft uses ax for y. 10-min cap,
 releasepl,6392A,122,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/releasepl.c,matched,,
 updatePPTeamTime,63B57,46,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c,matched,,
 updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,matched,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add,
