@@ -1082,6 +1082,10 @@ pop esi	; 7908D
 pop ecx	; 7908E
 ret	; 7908F
 %endif ; C
+; C: src/c/055_78346_team_select/PruneGameLines.c
+%ifdef CBUILD
+%include "c/055_78346_team_select/PruneGameLines.inc"
+%else
 PruneGameLines:
 push dword 18h	; 79090
 call __CHK	; 79095
@@ -1186,6 +1190,7 @@ pop esi	; 79184
 pop ecx	; 79185
 pop ebx	; 79186
 ret	; 79187
+%endif ; C
 ; C: src/c/055_78346_team_select/MenuSaveDefaultLines.c (MenuUseTheseLines)
 %ifdef CBUILD
 %include "c/055_78346_team_select/MenuSaveDefaultLines.MenuUseTheseLines.inc"
