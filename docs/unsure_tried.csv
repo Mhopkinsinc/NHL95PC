@@ -818,3 +818,76 @@ ReassignCtlPlayer,,"best natural 10: an operand swap, dx in the loop block, px m
 ReassignCtlPlayer,type:py:char,"py as char, ",tried (docs/UNSURE.md),ga
 ShowRosterStats,,"(2026-10-22, GA): `m = 0; for (i = 0; ...)` (42), `for (m = i = 0; ...)` (23), gs declared at the top (25), `n = 0; for (i = 0; ...)` (28), `rosterpstat + 0x12 + idx * 0x28` (20, EXE size",,ga
 ShowRosterStats,,"as under LA), that with the m split (42)",42,ga
+LineEdDone,,"(2026-10-22): j / stride declaration order, both at function level (49), stride only or j only at function level, stride in the inner block, p first / i first / p in the loop, no p (`nums[i]` twice), if / else instead of continue, `goto search` layout (23), inner `continue` on stat 0, stride folded into the index",,ga
+LineEdDone,,"a row local, `!= 0` on CheckRosterComplete, `lines[0x28 + i]`, n / row / stride orders",,ga
+LineEdDone,,permute 5 min (only `unsigned i` reaches 14: it fixes the first loop registers but adds a jmp to each loop test and jb),only `unsigned i` reaches 14: it fixes the first loop registers but adds a jmp to each loop test and jb,ga
+LineEdDone,type:i:unsigned,`unsigned i`,tried (docs/UNSURE.md),ga
+POSeedTeams,,"(2026-10-22, GA): all 27 spellings of the swap (none better alone)",none better alone,ga
+POSeedTeams,,"the compare operands swapped (21: right registers, loads in the wrong order), `!(... != ...)`, `- ... == 0`, (short) / (int) index casts on the compare, n or c declared first, `k = c = randomd0(3)`",,ga
+POSeedTeams,,"with the split swap: compares written slot first, `i--; slots[i] = ...`, `n = -1, i = 0`, `c = c + randomd0(..)` both orders, `(short)(4 - c)`, ++i / ++n / n += 1",,ga
+POSeedTeams,,the HomeTeam search on a (no `a = i`) or k,,ga
+POSeedTeams,,"the VisTeam search on k, `(unsigned)i`, `*(slots + i)`, `-(int)`, `0 - ...`, `[(int)VisTeam]`",,ga
+POSeedTeams,,permute 5 min,,ga
+ScanSavedGames,,"(2026-10-22, GA, in the merged file): b / c declaration order, one `c` for all loops, char / int / short types for c and b",,ga
+ScanSavedGames,,"the char locals before n / j, j before n",,ga
+ScanSavedGames,,"the copy loop as a for loop, `savefname[n++] = 0`, `savefname[n++] = c`, n++ before j++, two separate break tests",,ga
+ScanSavedGames,,a while loop with the load in the condition,,ga
+ScanSavedGames,,permute 5 min (nothing better than base),nothing better than base,ga
+SimPlayoffRound2,,"(2026-10-22, GA): the 11 other orders of `s * 7 + 0x47C + i` (none better), SimulateGame declared int / unprototyped in the file, `len / 2 + 1` on the left",,ga
+SimPlayoffRound2,,"the score ternary flipped, `+= 1` / pre-increment of wins",,ga
+SimPlayoffRound2,,"an empty if arm for the FFh test, `g += 0x2A, s++`",,ga
+SimPlayoffRound2,,permute 5 min,,ga
+PickOtherGames,,"(2026-10-22, GA): for the second team the element read back in all three tests, in the first only, element first / h first / v first spellings, `othergamesb[i * 2] = g = rand()...`, `g = othergamesb[i * 2] = ...`, g reloaded from the element",,ga
+PickOtherGames,,the first test as its own if (all 18-26,,ga
+PickOtherGames,,the full read-back flips the j loops' i*2 / j*2 registers),,ga
+PickOtherGames,,the j-loop compares commuted,,ga
+PickOtherGames,,permute twice 5 min,,ga
+ResetGameVars,,"(2026-10-22, GA, on the plain version): chained stores for bannermsg / ovlstep / ovlseq",,ga
+ResetGameVars,,the textlines,,ga
+ResetGameVars,,"the penalty-shot ints, savedmousey / x",,ga
+ResetGameVars,,permute 5 min (nothing),,ga
+SimPlayoffRound3,,"for Round3: `&g[i * 6]`, `i * 6 + g`, braces round the call, `i + s * 7 + 0x498`, `(unsigned char)0xFF`",,ga
+CopyHumanTeamDBs,,"(2026-10-22, GA): t, t+retry, t+zero, t+retry+zero moved out of the struct as plain int locals, every order, declared before err or after tp (24-32 differing, all worse)","24-32 differing, all worse",ga
+CopyHumanTeamDBs,,"the whole frame struct as plain locals (arrays msg, path, dir, lg, name, ext in that order or with dir / lg swapped",,ga
+CopyHumanTeamDBs,,"scalars rfh..zero in struct order, reversed, or t / retry / zero first",,ga
+CopyHumanTeamDBs,,which / teams as parameters or copied locals: 40-68 differing),,ga
+CopyHumanTeamDBs,,"permute.py 5 min (321 candidates, nothing better)","321 candidates, nothing better",ga
+TradeDone,,"(2026-10-22, GA): `sel[i + 2] != sel[i]`, bad / buf declared first, `for (bad = i = 0; ...)`, else without braces, `if (bad == 0) { traderesult = 1; return; }` first",,ga
+TradeDone,,"permute.py 5 min (321 candidates, nothing better)","321 candidates, nothing better",ga
+LoadShapeByTag,,"(2026-10-22, GA): n = product + 11h in both operand orders, 0x11 first, `n = p; n += 0x11`",,ga
+LoadShapeByTag,,"the product through off / base / dir / p / i in both orders, int / short w and h locals in every order",,ga
+LoadShapeByTag,,"the sum inside the sub_8CCA8 call, `s.shape = p = sub_8CCA8(...)`",,ga
+LoadShapeByTag,,i / pos / p declaration orders,,ga
+LoadShapeByTag,,the struct first,,ga
+LoadShapeByTag,,permute.py 5 min on the 18-differing state,,ga
+DrawHudPanel,,"(2026-10-22, GA): on that /= shape: no z local, z declared first / before bank",,ga
+DrawHudPanel,,"the four zero stores as a chain, `hudclockhund = z = 0`, `hudclocksec = hudclocksec % 60`, unsigned home",,ga
+DrawHudPanel,,"on the draft shape: `hudclockmin = hudclockmin / 60`, `(int)` / `(short)60` casts",,ga
+DrawHudPanel,,an int temp for GetPeriodTime,,ga
+DrawHudPanel,,a local divisor,,ga
+DrawHudPanel,,"permute.py twice (321 and 385 candidates, nothing better)","321 and 385 candidates, nothing better",ga
+PlayMVI,,"(2026-10-22, GA): `s.chunk = el = ...`, `el = s.chunk = ...`",,ga
+PlayMVI,,the chunk tests through el,,ga
+PlayMVI,,the frame through el,,ga
+PlayMVI,,permute.py 5 min (641 candidates,,ga
+PlayMVI,,"best 17 only with char / short return types on the sub_1B092 / sub_1B0D7 prototypes, not taken)",,ga
+updatereplay,,"(2026-10-22, GA): `if (++replaytick >= 2) { rest } else { short arm }`, `if (++replaytick < 2) { short arm } else { rest }` with and without the gmode test wrapped around it",,ga
+updatereplay,,"casts on `regd0.w |= p->position << 4` ((unsigned char), (short)(unsigned char), (short)(...), (unsigned short)(...)",,ga
+updatereplay,,a byte store),,ga
+updatereplay,,"permute.py 5 min (513 candidates, best 21 with two stacked casts on line 43, not reproduced by hand)","513 candidates, best 21 with two stacked casts on line 43, not reproduced by hand",ga
+DumpStatsLog,,"(2026-10-22, GA): `(unsigned char *)((int)tm->tmroster + j * 39)` (home skater loop alone: brings the extra frame slot and folds `add eax, [esi+0EEh]`, 27 differing",,ga
+DumpStatsLog,,"in both loops 28), `(unsigned char *)(j * 39 + (int)tm->tmroster)`, `r = tm->tmroster; r += j * 39` (much worse)",much worse,ga
+DumpStatsLog,,"a (short) product, `(int)j * 39`, `39 * j`",,ga
+DrawGameLineJerseys,,"(2026-10-22, GA): all 120 declaration orders of c2 / c1 / i / col / st (no change)",no change,ga
+DrawGameLineJerseys,,"the hmroster index as product-first sum, `*(unsigned char *)(... + (int)hmroster)`, `(hmroster + side * 0x444)[...]`",,ga
+DrawGameLineJerseys,,a 2-D cast,,ga
+DrawGameLineJerseys,,"the index in col first (worse), st as signed char / char / int / short / unsigned / unsigned short, `switch ((int)st)`, st reused as c2 / col / i",,ga
+DrawGameLineJerseys,,the side ternary as if / else,,ga
+DrawGameLineJerseys,,permute.py 5 min (577 candidates),577 candidates,ga
+DrawGameLineJerseys,movedecl:c2:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,swapdecl:c2:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,movedecl:c1:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,swapdecl:c1:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,movedecl:i:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,swapdecl:i:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+DrawGameLineJerseys,movedecl:col:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
