@@ -4558,10 +4558,6 @@ add esp, byte 0Ch	; 7D3E2
 add esp, 120h	; 7D3E5
 jmp near ControlsDlg_ret0	; 7D3EB
 %endif ; C
-; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (DrawControlsOpts)
-%ifdef CBUILD
-%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.DrawControlsOpts.inc"
-%else
 DrawControlsOpts:
 push dword 28h	; 7D3F0
 call __CHK	; 7D3F5
@@ -4735,7 +4731,6 @@ push eax	; 7D60F
 push str_TheKeyboard	; 7D610
 call sub_91964	; 7D615
 jmp near ControlsDlg_ret0C	; 7D61A
-%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/CtlDlgHitTest.c
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/CtlDlgHitTest.inc"
