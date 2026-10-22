@@ -1,6 +1,6 @@
 /* Skating (043_5E16D_engine_skating): EvadePlayers... StopNA in address order, as one source file because
  later functions end in an earlier one's pop/ret tail (multi-block file, see tools/cc.py). Functions of the
- segment that are still asm are missing; the ones here that do not match yet (EvadePlayers, skateto) are
+ segment that are still asm are missing; the ones here that do not match yet (EvadePlayers, EvadePC) are
  compiled for the layout but not spliced. */
 #include "nhl95.h"
 
@@ -132,13 +132,16 @@ void skateto(Player *p, void (*evade)(Player *))
             regd0.w = vtoa(regd0.w, regd1.w);
         if (evade != NULL) evade(p);                /* jsr (a0) */
         TEMP2_DIR(p) = regd0.w;
-        if (regd0.w > 7 && !(p->Xvel | p->Yvel)) {
+        if (regd0.w > 7 && !(px = p->Xvel, (p->Yvel | px))) {   /* the comma loads Xvel first, as the EXE */
             if (puckpflags2 & 1) {                  /* puck in a fight: face xc1/yc1 */
                 regd0.w = xc1;
                 regd1.w = yc1;
             } else {
+                short sy;
+
                 regd0.w = *puckx;
-                regd1.w = *pucky;
+                sy = *pucky;
+                regd1.w = sy;
             }
             regd0.w -= HIWORD(p->Xpos);
             regd1.w -= HIWORD(p->Ypos);

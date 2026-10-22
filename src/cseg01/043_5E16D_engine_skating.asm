@@ -651,6 +651,10 @@ jmp near EvadePlayers_popedi	; 5E936
 ; d0/d1 = x/y cord to skate to). eax = player, edx = routine to call (0 = none), regd0/regd1 = target.
 ; Every 12 ticks (temp2+1 countdown): avdgoal, aim with the velocity lead, vtoa (9 = close enough), the routine,
 ; keep the direction in temp2; stopped with no direction -> face the puck (or xc1/yc1 in a fight). Then doplayeracc.
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (skateto)
+%ifdef CBUILD
+%include "c/043_5E16D_engine_skating/EvadePlayers.skateto.inc"
+%else
 skateto:
 push dword 18h	; 5E93B
 call __CHK	; 5E940
@@ -805,6 +809,7 @@ pop esi	; 5EB13
 pop ecx	; 5EB14
 pop ebx	; 5EB15
 ret	; 5EB16
+%endif ; C
 ; skatetopuck: player skates to the puck (player a3 should skate to puck). eax = player.
 ; skatetopuckinit inline (puck pos + half its velocity high byte), every 10 ticks (goalie 5): avdgoal, aim (PC: straight
 ; at the puck when it is slow and within 18h, else GetHot + velocity lead), then the sweep check (vecdist 900..1444 -> Sweepcheck).
