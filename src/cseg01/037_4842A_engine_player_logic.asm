@@ -3592,6 +3592,10 @@ mov word [byte eax+012h], 0FFFFh	; 4B025
 pop edx	; 4B02B
 ret	; 4B02C
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assepen.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assepen.inc"
+%else
 assepen:
 push dword 10h	; 4B02D
 call __CHK	; 4B032
@@ -3676,6 +3680,7 @@ pop edx	; 4B128
 pop ecx	; 4B129
 pop ebx	; 4B12A
 ret	; 4B12B
+%endif ; C
 assbench:
 push dword 14h	; 4B12C
 call __CHK	; 4B131
