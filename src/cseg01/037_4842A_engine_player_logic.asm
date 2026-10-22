@@ -1277,6 +1277,10 @@ call playeracc	; 492F2
 pop ebx	; 492F7
 ret	; 492F8
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/SteerToTarget.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/SteerToTarget.inc"
+%else
 SteerToTarget:
 push dword 10h	; 492F9
 call __CHK	; 492FE
@@ -1392,6 +1396,7 @@ pop edx	; 4945C
 pop ecx	; 4945D
 pop ebx	; 4945E
 ret	; 4945F
+%endif ; C
 ass_pc_slot20:
 push dword 14h	; 49460
 call __CHK	; 49465
