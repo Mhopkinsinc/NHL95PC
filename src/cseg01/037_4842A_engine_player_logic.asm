@@ -5642,6 +5642,10 @@ pop ecx	; 4C8BA
 pop ebx	; 4C8BB
 ret	; 4C8BC
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/sub_4C8BD.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/sub_4C8BD.inc"
+%else
 sub_4C8BD:
 push dword 18h	; 4C8BD
 call __CHK	; 4C8C2
@@ -5756,6 +5760,7 @@ pop edx	; 4C9F9
 pop ecx	; 4C9FA
 pop ebx	; 4C9FB
 ret	; 4C9FC
+%endif ; C
 asspuckc_chkdir:
 push dword 14h	; 4C9FD
 call __CHK	; 4CA02
