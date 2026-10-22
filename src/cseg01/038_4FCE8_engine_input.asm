@@ -1128,6 +1128,10 @@ pop ecx	; 50905
 pop ebx	; 50906
 ret	; 50907
 %endif ; C
+; C: src/c/038_4FCE8_engine_input/getlchoice.c
+%ifdef CBUILD
+%include "c/038_4FCE8_engine_input/getlchoice.inc"
+%else
 getlchoice:
 push dword 10h	; 50908
 call __CHK	; 5090D
@@ -1160,6 +1164,7 @@ pop esi	; 50971
 pop edx	; 50972
 pop ecx	; 50973
 ret	; 50974
+%endif ; C
 ; C: src/c/038_4FCE8_engine_input/lcfound.c
 %ifdef CBUILD
 %include "c/038_4FCE8_engine_input/lcfound.inc"
