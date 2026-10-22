@@ -81,7 +81,6 @@ void ScanDbFiles(void)
 typedef struct { int x1, y1, x2, y2; } DbRect;
 #define DBRECT ((DbRect *)dbdlgrects)
 
-/* DRAFT (DrawDbDialog): only the scroll-bar end differs: the EXE adds 12h to rect 8's y1 before the quotient, this adds it to the quotient. */
 /* DrawDbDialog: draw the database dialog: art PDBX of bank DBDIALOG at 10,19 (from the CD when
  the files are there), then work out the button mask fdlgmask and the shown tab fdlgtab from the lists that have
  entries (temporary: tab 2, original: tab 1, current: tab 0, the last one wins). With a tab: its title (rect 9),
@@ -133,7 +132,8 @@ void DrawDbDialog(void)
         x = DBRECT[8].x1 + 0xA;
         y = DBRECT[8].y1 + 0x13;
         xright = DBRECT[8].x2 + 0xA;
-        ybar = DBRECT[8].y1 + (0x354 / list[0] + 0x12);
+        bank = 0x354 / list[0];                 /* the thumb height (bank reused) */
+        ybar = DBRECT[8].y1 + 0x12 + bank;
         sub_B4FAC(x, y, DBRECT[8].x2 + 9, y, 0x7D);
         sub_B4FAC(x, y, x, ybar - 1, 0x7D);
         sub_B4FAC(xright, y - 1, xright, ybar, 0x7B);
