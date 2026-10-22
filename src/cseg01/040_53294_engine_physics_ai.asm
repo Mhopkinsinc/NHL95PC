@@ -2152,6 +2152,10 @@ jmp near checkob_ret5	; 54AF4
 ; chk4lc: (see if computer should call line change). Puck in own half below the blue line,
 ; 1 in 4, not pflags2 bit 3; PC adds clock penalty checks (GetLowestPen). Then CompLine, setpersonel and
 ; chk4lc_shoot: CompShoot dumps the puck. Returns 1 when it did.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (chk4lc)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.chk4lc.inc"
+%else
 chk4lc:
 push dword 18h	; 54AF9
 call __CHK	; 54AFE
@@ -2236,6 +2240,7 @@ mov eax, ecx	; 54BF8
 call CompShoot	; 54BFA
 mov eax, 1	; 54BFF
 jmp near checkob_ret5	; 54C04
+%endif ; C
 PassLaneChk:
 push dword 1Ch	; 54C09
 call __CHK	; 54C0E
