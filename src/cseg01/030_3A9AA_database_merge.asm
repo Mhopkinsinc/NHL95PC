@@ -435,6 +435,10 @@ mov eax, edx	; 3AF66
 add esp, byte 38h	; 3AF68
 jmp near MergeTeamDbs_ret	; 3AF6B
 %endif ; C
+; C: src/c/030_3A9AA_database_merge/LocateTeamDbCopy.c
+%ifdef CBUILD
+%include "c/030_3A9AA_database_merge/LocateTeamDbCopy.inc"
+%else
 LocateTeamDbCopy:
 push dword 34h	; 3AF70
 call __CHK	; 3AF75
@@ -510,6 +514,7 @@ pop ebp	; 3B033
 pop edi	; 3B034
 pop esi	; 3B035
 ret 0Ch	; 3B036
+%endif ; C
 ; C: src/c/030_3A9AA_database_merge/UpdateTeamDbs.c
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/UpdateTeamDbs.inc"
