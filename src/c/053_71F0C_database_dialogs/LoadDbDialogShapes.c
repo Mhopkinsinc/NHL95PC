@@ -30,7 +30,6 @@ typedef struct { char res[0x15]; unsigned char attrib; char pad[8]; char name[14
 typedef struct { char c[8]; } Name8;
 typedef struct { char c[9]; } Name9;
 
-/* DRAFT (ScanDbFiles): Watcom sinks the ++dblistcur[0] below the savefname stores, and the name byte goes through dl dh instead of dh bh; rest matches. */
 /* ScanDbFiles: build the database dialog lists: clear the temp current original lists (count, selection,
  top, last), then add CURRENT when DB exists, ORIGINAL when ORG exists, and every directory matching the DBX pattern
  (names up to the dot, at most 16, in savefname) sorted by name; the temp list's last visible line is
@@ -40,7 +39,6 @@ void ScanDbFiles(void)
     DbFindT ft;
     int n;
     int j;
-    unsigned char c;
 
     n = 0;
     dblistorig[0] = dblistcur[0] = dblisttemp[0] = 0;
@@ -49,10 +47,11 @@ void ScanDbFiles(void)
     dblistorig[3] = dblistcur[3] = dblisttemp[3] = 0;
     if (!unknown_libname_1((char *)str_Db3, 0, &ft)) {
         dblistcur[4] = (int)savefname;
-        ++dblistcur[0];
         *(Name8 *)savefname = *(Name8 *)str_CURRENT;
-        savefname[8] = 0;
-        n = 9;
+        ++dblistcur[0];
+        n += 8;
+        savefname[n] = 0;
+        n++;
     }
     if (!unknown_libname_1((char *)str_Org, 0, &ft)) {
         dblistorig[4] = (int)(savefname + n);
@@ -66,11 +65,9 @@ void ScanDbFiles(void)
     do {
         dblisttempnames[dblisttemp[0]] = (int)(savefname + n);
         dblisttemp[0]++;
-        for (j = 0; j < 8; j++) {
-            c = ft.name[j];
-            if (!c || c == '.') break;
-            savefname[n] = c;
-            n++;
+        for (j = 0; j < 8; j++, n++) {
+            if (!ft.name[j] || ft.name[j] == '.') break;
+            savefname[n] = ft.name[j];
         }
         savefname[n] = 0;
         n++;

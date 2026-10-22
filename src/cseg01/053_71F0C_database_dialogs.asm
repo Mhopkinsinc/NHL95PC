@@ -486,6 +486,10 @@ pop ecx	; 72489
 pop ebx	; 7248A
 ret	; 7248B
 %endif ; C
+; C: src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c (ScanDbFiles)
+%ifdef CBUILD
+%include "c/053_71F0C_database_dialogs/LoadDbDialogShapes.ScanDbFiles.inc"
+%else
 ScanDbFiles:
 push dword 44h	; 7248C
 call __CHK	; 72491
@@ -596,6 +600,7 @@ mov dword [dblisttemp+0Ch], eax	; 725F8
 .9:
 add esp, byte 2Ch	; 725FD
 jmp near DbDialog_ret	; 72600
+%endif ; C
 ; C: src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c
 %ifdef CBUILD
 %include "c/053_71F0C_database_dialogs/DrawDbDialogButtons.inc"
