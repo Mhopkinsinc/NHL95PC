@@ -276,7 +276,8 @@ int TitleScreen(void)
         FadePalStep(0, (unsigned char *)pal, 0x10);
     }
     key = 0;
-    t0 = GetTicks();
+    /* Timer-library entry uses the cdecl calling convention. */
+    t0 = ((int (__cdecl *)(void))GetTicks)();
     due = key;
     first = 1;
     n = 0;
@@ -292,7 +293,7 @@ int TitleScreen(void)
                 due += delay;
                 n++;
                 frame = sub_1B002(dec);
-                if (GetTicks() - t0 < due) {
+                if (((int (__cdecl *)(void))GetTicks)() - t0 < due) {
                     SetDrawBitmap(bmp);
                     sub_9121C((int)mask);
                     sub_9087C(frame, 0, 0);
@@ -305,7 +306,7 @@ int TitleScreen(void)
                         PaNhlIntro();
                     }
                     first = 0;
-                    t0 = GetTicks();
+                    t0 = ((int (__cdecl *)(void))GetTicks)();
                 }
                 break;
             case 0x4D564968:
@@ -329,7 +330,7 @@ int TitleScreen(void)
             }
             sub_1B92E(stream, chunk);
             sub_1B2A7();
-            if (id == 0x4D564966 && (i = GetTicks() - t0) < due) {
+            if (id == 0x4D564966 && (i = ((int (__cdecl *)(void))GetTicks)() - t0) < due) {
                 SetTickDeadline(due - i);
                 while (!TickDeadlinePassed() && !key) {
                     if (n > 0x23) key = AnyInputPressed();
