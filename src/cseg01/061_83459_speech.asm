@@ -675,6 +675,10 @@ mov eax, dword [byte edx+eax*2+016h]	; 83BED
 pop edx	; 83BF1
 ret	; 83BF2
 %endif ; C
+; C: src/c/061_83459_speech/OpenSpeechBank.c (ReadSpeechSample)
+%ifdef CBUILD
+%include "c/061_83459_speech/OpenSpeechBank.ReadSpeechSample.inc"
+%else
 ReadSpeechSample:
 push dword 38h	; 83BF3
 call __CHK	; 83BF8
@@ -743,6 +747,7 @@ cmp edx, eax	; 83CA2
 jl short ReadSpeechSample.1	; 83CA4
 add esp, byte 14h	; 83CA6
 jmp near OpenSpeechBank_ret	; 83CA9
+%endif ; C
 ; C: src/c/061_83459_speech/ShutdownSpeech.c (LoadSpeechSlot)
 %ifdef CBUILD
 %include "c/061_83459_speech/ShutdownSpeech.LoadSpeechSlot.inc"
@@ -1224,6 +1229,10 @@ pop esi	; 84122
 pop ecx	; 84123
 ret	; 84124
 %endif ; C
+; C: src/c/061_83459_speech/OpenSpeechBank.c (CompactSpeechSlot)
+%ifdef CBUILD
+%include "c/061_83459_speech/OpenSpeechBank.CompactSpeechSlot.inc"
+%else
 CompactSpeechSlot:
 push dword 44h	; 84125
 call __CHK	; 8412A
@@ -1302,6 +1311,7 @@ add eax, ebx	; 841F4
 mov dword [byte eax+022h], 0	; 841F6
 add esp, byte 2Ch	; 841FD
 jmp near OpenSpeechBank_ret	; 84200
+%endif ; C
 ; C: src/c/061_83459_speech/MakeSampleRoom.c
 %ifdef CBUILD
 %include "c/061_83459_speech/MakeSampleRoom.inc"
