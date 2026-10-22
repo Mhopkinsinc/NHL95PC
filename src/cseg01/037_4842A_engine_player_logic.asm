@@ -6028,6 +6028,10 @@ pop ecx	; 4CD48
 pop ebx	; 4CD49
 ret	; 4CD4A
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assgoalie.c (assnearest)
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assgoalie.assnearest.inc"
+%else
 assnearest:
 push dword 28h	; 4CD4B
 call __CHK	; 4CD50
@@ -6563,6 +6567,7 @@ call check4check	; 4D3EB
 .60:
 add esp, byte 0Ch	; 4D3F0
 jmp near assgoalie_popebp	; 4D3F3
+%endif ; C
 assshoot:
 push dword 14h	; 4D3F8
 call __CHK	; 4D3FD
