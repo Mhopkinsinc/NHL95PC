@@ -101,9 +101,6 @@ void CompLine(Team *other, Team *team)
     ((unsigned char *)team)[0xD4] &= ~0x40;
 }
 
-/* DRAFT: every block matches but for register picks: the EXE copies line to ecx at the entry and loads the
-   line table into edx in the 6-and-up arm (reading line from cx), and sums the 4-5 arm's product in eax; here
-   line stays in edx and the table goes to ebx. */
 /* getlinee (5A30C; 93G penalty93 getlinee, "energy level of this line"): the average energy of line `line` of
    team t. t->tmlines lists the lines' roster slots: lines 0-3 three each from +0, lines 4 and 5 five each from
    +12h, lines 6 and up four each from +1Ch. Result: the sum of those players' t->tmpde energies divided by their
@@ -113,7 +110,6 @@ short getlinee(Team *t, short line)
 {
     unsigned char *p;
     short n;
-    short sum;
     short i;
 
     if (line < 4) {
@@ -126,9 +122,9 @@ short getlinee(Team *t, short line)
         p = t->tmlines + 0x1C + (line - 6) * 4;
         n = 4;
     }
-    sum = 0;
-    for (i = 0; i < n; i++) sum += t->tmpde[*p++];
-    return sum / n;
+    line = 0;                                   /* line reused as the sum */
+    for (i = 0; i < n; i++) line += t->tmpde[*p++];
+    return line / n;
 }
 
 /* TeamLineEnergy (5A2EE, PC only): the average energy of line `line` (getlinee) of the away team when team is

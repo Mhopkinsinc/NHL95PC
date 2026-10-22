@@ -518,6 +518,10 @@ pop esi	; 5A284
 pop ecx	; 5A285
 pop ebx	; 5A286
 ret	; 5A287
+; C: src/c/042_59D9A_engine_core/CompLine.c (getlinee_pp)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/CompLine.getlinee_pp.inc"
+%else
 getlinee_pp:
 cmp dx, byte 6	; 5A288
 jge short .1	; 5A28C
@@ -562,6 +566,7 @@ pop esi	; 5A2EA
 pop ecx	; 5A2EB
 pop ebx	; 5A2EC
 ret	; 5A2ED
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/CompLine.c (TeamLineEnergy)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/CompLine.TeamLineEnergy.inc"
@@ -578,6 +583,10 @@ mov eax, hmtmstruct	; 5A304
 .2:
 movsx edx, dx	; 5A309
 %endif ; C
+; C: src/c/042_59D9A_engine_core/CompLine.c (getlinee)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/CompLine.getlinee.inc"
+%else
 getlinee:
 push dword 14h	; 5A30C
 call __CHK	; 5A311
@@ -597,6 +606,7 @@ mov edx, dword [dword esi+tmlines]	; 5A332
 add eax, edx	; 5A338
 mov edi, 3	; 5A33A
 jmp short getlinee_sum	; 5A33F
+%endif ; C
 calcpuckcross:
 push dword 20h	; 5A341
 call __CHK	; 5A346
