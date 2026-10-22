@@ -4086,6 +4086,10 @@ pop ecx	; 4B5BF
 pop ebx	; 4B5C0
 ret	; 4B5C1
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/assgoalietopuck.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/assgoalietopuck.inc"
+%else
 assgoalietopuck:
 push dword 14h	; 4B5C2
 call __CHK	; 4B5C7
@@ -4205,6 +4209,7 @@ pop edx	; 4B6F0
 pop ecx	; 4B6F1
 pop ebx	; 4B6F2
 ret	; 4B6F3
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/ClampYPosition.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/ClampYPosition.inc"
