@@ -1,10 +1,7 @@
 /* Engine player logic: intro line skate. */
-/* DRAFT: 682 vs 687. The wait loop, the temp5 countdown and the flag setup match.
- The distance sum stays in edx (imul edx,edx / imul eax,ecx / add edx,eax); the
- original copies dx into ecx and dy into eax so the sum stays in eax. The abs
- loads eax; the original loads edx because eax still holds that sum. Do not
- retry a folded abs, dy*dy first, nesting dist outside dx/dy, or a separate
- step local. */
+/* DRAFT: 683 vs 687. The squared distance goes into the wait loop's i (dead by then), which keeps it
+ in eax as in the original. Left: the original copies dx into ecx and dy into eax before the two imuls
+ (C squares them in place), and keeps the temp1 step z in edi (C ax). See docs/UNSURE.md. */
 #define assintroline assintroline_decl
 #include "nhl95.h"
 #undef assintroline
@@ -22,7 +19,6 @@ void assintroline(Player *p)
     int i;
     int dx;
     int dy;
-    int dist;
     int v;
     short z;
 
@@ -68,8 +64,8 @@ void assintroline(Player *p)
     }
     dx = HIWORD(p->Xpos) - p->temp3;
     dy = HIWORD(p->Ypos) - p->temp4;
-    dist = dx * dx + dy * dy;
-    if (dist < 0x40) {
+    i = dy * dy + dx * dx;
+    if (i < 0x40) {
         if (p->Xvel < 0)
             v = -(*(int *)((char *)&p->Xvel - 2) >> 16);
         else
@@ -107,6 +103,6 @@ void assintroline(Player *p)
     }
     regd0.w = p->temp3;
     regd1.w = p->temp4;
-    if (dist > 0x90) skateto(p, 0);
+    if (i > 0x90) skateto(p, 0);
     else SkateToSpot(p, 0);
 }
