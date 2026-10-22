@@ -29,10 +29,6 @@ global ImportMasterLeague_ret
 global MergeTeamDbs, MergeScheduleDb, LocateTeamDbCopy, UpdateTeamDbs, MergeLeagueFiles, MergeUpdateDbs
 global RebuildLeagueDbs, ExportTeamToFloppy, CopyLeagueFiles, ImportMasterLeague, ImportPlayerTeam, ImportDbs, ExportDbs, SelectFloppyDrive
 global FindLeagueFloppy, WaitLeagueFloppy, ReadLeagueInfo, ReadTeamNames
-; C: src/c/030_3A9AA_database_merge/MergeTeamDbs.c
-%ifdef CBUILD
-%include "c/030_3A9AA_database_merge/MergeTeamDbs.inc"
-%else
 MergeTeamDbs:
 push dword 0A7Ch	; 3A9AA
 call __CHK	; 3A9AF
@@ -312,7 +308,6 @@ pop ebp	; 3AE18
 pop edi	; 3AE19
 pop esi	; 3AE1A
 ret 8	; 3AE1B
-%endif ; C
 ; C: src/c/030_3A9AA_database_merge/MergeTeamDbs.c (MergeScheduleDb)
 %ifdef CBUILD
 %include "c/030_3A9AA_database_merge/MergeTeamDbs.MergeScheduleDb.inc"

@@ -693,10 +693,6 @@ ret	; 12059
 xor eax, eax	; 1205A
 ret	; 1205C
 %endif ; C
-; C: src/c/002_1167B_gamesave_io/PickAwardWinners.c
-%ifdef CBUILD
-%include "c/002_1167B_gamesave_io/PickAwardWinners.inc"
-%else
 PickAwardWinners:
 push dword 41Ch	; 1205D
 call __CHK	; 12062
@@ -1234,4 +1230,3 @@ pop edx	; 12845
 pop ecx	; 12846
 pop ebx	; 12847
 ret	; 12848
-%endif ; C

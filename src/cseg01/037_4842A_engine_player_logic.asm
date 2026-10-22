@@ -5637,10 +5637,6 @@ pop ecx	; 4C8BA
 pop ebx	; 4C8BB
 ret	; 4C8BC
 %endif ; C
-; C: src/c/037_4842A_engine_player_logic/sub_4C8BD.c
-%ifdef CBUILD
-%include "c/037_4842A_engine_player_logic/sub_4C8BD.inc"
-%else
 sub_4C8BD:
 push dword 18h	; 4C8BD
 call __CHK	; 4C8C2
@@ -5755,7 +5751,6 @@ pop edx	; 4C9F9
 pop ecx	; 4C9FA
 pop ebx	; 4C9FB
 ret	; 4C9FC
-%endif ; C
 asspuckc_chkdir:
 push dword 14h	; 4C9FD
 call __CHK	; 4CA02
@@ -7150,10 +7145,6 @@ mov word [byte ebx+temp3], dx	; 4DA75
 pop ebx	; 4DA79
 ret	; 4DA7A
 %endif ; C
-; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (Endfaceoff)
-%ifdef CBUILD
-%include "c/037_4842A_engine_player_logic/assrefwhistle.Endfaceoff.inc"
-%else
 Endfaceoff:
 push dword 18h	; 4DA7B
 call __CHK	; 4DA80
@@ -7314,7 +7305,6 @@ mov eax, 0FFFFFB00h	; 4DCCD
 .15:
 mov word [word_E0028], ax	; 4DCD2
 jmp near ass_popx	; 4DCD8
-%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/a2offsides.c
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/a2offsides.inc"

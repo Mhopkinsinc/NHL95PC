@@ -92,10 +92,6 @@ pop esi	; 6C3B8
 pop ecx	; 6C3B9
 ret	; 6C3BA
 %endif ; C
-; C: src/c/051_6C2F9_database_save/MenuSaveDbsAs.c
-%ifdef CBUILD
-%include "c/051_6C2F9_database_save/MenuSaveDbsAs.inc"
-%else
 MenuSaveDbsAs:
 push dword 78h	; 6C3BB
 call __CHK	; 6C3C0
@@ -178,7 +174,6 @@ pop edi	; 6C4B6
 pop esi	; 6C4B7
 pop ecx	; 6C4B8
 ret	; 6C4B9
-%endif ; C
 ; C: src/c/051_6C2F9_database_save/SaveDbsToDir.c
 %ifdef CBUILD
 %include "c/051_6C2F9_database_save/SaveDbsToDir.inc"
