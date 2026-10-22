@@ -506,6 +506,15 @@ class TextTargets:
         jmps = [j for j in jmps if not any(x['off'] == j + 1 for x in self.r['fixups'])]
         e = min(ends[:1] + [j + 5 for j in jmps[:1]]) if ends or jmps else None
         e = k + 1 if 0 <= k - t < 16 else e if e is not None and e - t >= 8 else None
+        if e is None:
+            # no ret or jmp close by: a branch into the middle of a draft (PenaltyManager's `jge chkprogress_go` into
+            # InProgress, whose draft is a byte off before that point): the straight-line code from the target up to
+            # its first branch, at least 8 bytes, relocated fields as wildcards
+            run = t
+            for i in Cs(CS_ARCH_X86, CS_MODE_32).disasm(text[t:t + 40], t):
+                if i.mnemonic.startswith(('j', 'call', 'ret', 'loop')): break
+                run = i.address + i.size
+            if run - t >= 8: e = run
         if e:
             masked = set(range(jmps[0] + 1, jmps[0] + 5)) if jmps and e == jmps[0] + 5 else set()
             for f in fx: masked.update(range(f['off'], f['off'] + 4))
