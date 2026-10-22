@@ -552,6 +552,10 @@ pop ebx	; 5E7FC
 ret	; 5E7FD
 ; EvadePC: player should avoid the puck carrier (player a3 should avoid the puck carrier if he's on my team).
 ; eax = player struct; skateto's a0 routine (passed in edx). Result in regd0 (a direction).
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (EvadePC)
+%ifdef CBUILD
+%include "c/043_5E16D_engine_skating/EvadePlayers.EvadePC.inc"
+%else
 EvadePC:
 push dword 1Ch	; 5E7FE
 call __CHK	; 5E803
@@ -647,6 +651,7 @@ mov word [regd0], 6	; 5E92A
 EvadePC_x:
 add esp, byte 4	; 5E933
 jmp near EvadePlayers_popedi	; 5E936
+%endif ; C
 ; skateto: player skates to the point regd0/regd1 (;a0 = extra routine for collision avoidance,
 ; d0/d1 = x/y cord to skate to). eax = player, edx = routine to call (0 = none), regd0/regd1 = target.
 ; Every 12 ticks (temp2+1 countdown): avdgoal, aim with the velocity lead, vtoa (9 = close enough), the routine,
@@ -813,6 +818,10 @@ ret	; 5EB16
 ; skatetopuck: player skates to the puck (player a3 should skate to puck). eax = player.
 ; skatetopuckinit inline (puck pos + half its velocity high byte), every 10 ticks (goalie 5): avdgoal, aim (PC: straight
 ; at the puck when it is slow and within 18h, else GetHot + velocity lead), then the sweep check (vecdist 900..1444 -> Sweepcheck).
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (skatetopuck)
+%ifdef CBUILD
+%include "c/043_5E16D_engine_skating/EvadePlayers.skatetopuck.inc"
+%else
 skatetopuck:
 push dword 24h	; 5EB17
 call __CHK	; 5EB1C
@@ -1018,12 +1027,13 @@ sar edx, 18h	; 5ED9E
 mov eax, esi	; 5EDA1
 call doplayeracc	; 5EDA3
 jmp near EvadePC_x	; 5EDA8
+%endif ; C
 ; playeracc: accelerate player in direction edx (;d2 = direction of acc). eax = player.
 ; dirtab x/y times (legstr+30h)/64 (PC), wall push test, accel factor 32-weight/8+legstr (+legstr+20 goalie), max speed
 ; check against MaxSpeed (referee: fixed 0Fh/0Ch), then the energy drain when fatigue is on (getpde/setpde inline).
-; C: src/c/043_5E16D_engine_skating/playeracc.c
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (playeracc)
 %ifdef CBUILD
-%include "c/043_5E16D_engine_skating/playeracc.inc"
+%include "c/043_5E16D_engine_skating/EvadePlayers.playeracc.inc"
 %else
 playeracc:
 push dword 14h	; 5EDAD
@@ -1239,9 +1249,9 @@ ret	; 5F04D
 ; avdgoal_box: helper of avdgoal. eax = player, edx/ebx = goal x limits, ecx = goal y, [esp+4]/[esp+8] = int* for
 ; the side bits of the player and the target (1/4 x, 2/8 y). Returns eax 1 when the line player->target (regd0/regd1)
 ; crosses this goal's box, else 0. ret 8.
-; C: src/c/043_5E16D_engine_skating/avdgoal_box.c
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (avdgoal_box)
 %ifdef CBUILD
-%include "c/043_5E16D_engine_skating/avdgoal_box.inc"
+%include "c/043_5E16D_engine_skating/EvadePlayers.avdgoal_box.inc"
 %else
 avdgoal_box:
 push dword 1Ch	; 5F04E
@@ -1882,9 +1892,9 @@ mov esp, ebp	; 5F73E
 jmp near EvadePlayers_popebp	; 5F740
 ; dostop: player stops. eax = player. |Xvel| or |Yvel| > 1000h: stop animation (SPAstop, sets pf2aip)
 ; or SPAglide when skating backwards; then StopNA.
-; C: src/c/043_5E16D_engine_skating/dostop.c
+; C: src/c/043_5E16D_engine_skating/EvadePlayers.c (dostop)
 %ifdef CBUILD
-%include "c/043_5E16D_engine_skating/dostop.inc"
+%include "c/043_5E16D_engine_skating/EvadePlayers.dostop.inc"
 %else
 dostop:
 push dword 0Ch	; 5F745
