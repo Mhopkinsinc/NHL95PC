@@ -5761,6 +5761,10 @@ pop ecx	; 4C9FA
 pop ebx	; 4C9FB
 ret	; 4C9FC
 %endif ; C
+; C: src/c/037_4842A_engine_player_logic/asspuckc_chkdir.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/asspuckc_chkdir.inc"
+%else
 asspuckc_chkdir:
 push dword 14h	; 4C9FD
 call __CHK	; 4CA02
@@ -6018,6 +6022,7 @@ pop edx	; 4CD47
 pop ecx	; 4CD48
 pop ebx	; 4CD49
 ret	; 4CD4A
+%endif ; C
 assnearest:
 push dword 28h	; 4CD4B
 call __CHK	; 4CD50
