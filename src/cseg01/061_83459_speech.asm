@@ -1122,6 +1122,10 @@ pop ecx	; 84033
 pop ebx	; 84034
 ret	; 84035
 %endif ; C
+; C: src/c/061_83459_speech/FreeUnrequestedSamples.c
+%ifdef CBUILD
+%include "c/061_83459_speech/FreeUnrequestedSamples.inc"
+%else
 FreeUnrequestedSamples:
 push dword 10h	; 84036
 call __CHK	; 8403B
@@ -1166,6 +1170,7 @@ pop edx	; 840A5
 pop ecx	; 840A6
 pop ebx	; 840A7
 ret	; 840A8
+%endif ; C
 ; C: src/c/061_83459_speech/OpenSpeechBank.c (MoveSampleMem)
 %ifdef CBUILD
 %include "c/061_83459_speech/OpenSpeechBank.MoveSampleMem.inc"
