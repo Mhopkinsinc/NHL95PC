@@ -1,5 +1,5 @@
 /* Misc dialogs: text edit cursor. */
-/* DRAFT: both functions are the original size; register picks left (see docs/UNSURE.md). */
+/* DrawEditText is still a draft (see its comment and docs/UNSURE.md). */
 #include "nhl95.h"
 
 #define TEXTWIDTHN ((int (__cdecl *)(char *s, int n))sub_90A40)
@@ -24,9 +24,8 @@ void DrawEditCursor(int mode)
         if (mode & 2) w = cw;
         else w = TEXTWIDTHN(s, 1);
     } else w = fputchar((char *)str_Space);
-    if (mode & 2) x = editpos * cw;
-    else x = TEXTWIDTHN(editbuf, editpos);
-    x += editx;
+    if (mode & 2) x = editpos * cw + editx;
+    else x = TEXTWIDTHN(editbuf, editpos) + editx;
     y = byte_D42C5 + edity - editcurw - 2;
     FILLRECT(x, y, w, editcurw, fontcolor);
 }

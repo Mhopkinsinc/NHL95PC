@@ -2154,6 +2154,10 @@ mov dword [criterrflag], 0FFFFFFFFh	; 314A7
 xor eax, eax	; 314B1
 ret	; 314B3
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/DrawEditCursor.inc"
+%else
 DrawEditCursor:
 push dword 34h	; 314B4
 call __CHK	; 314B9
@@ -2236,6 +2240,7 @@ pop edx	; 31595
 pop ecx	; 31596
 pop ebx	; 31597
 ret	; 31598
+%endif ; C
 DrawEditText:
 push dword 34h	; 31599
 call __CHK	; 3159E
