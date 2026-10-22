@@ -35,12 +35,11 @@ int avdgoal_box(Player *p, int x1, int x2, int y, int *ps, int *pt)
         *(unsigned char *)ps |= 2;
         if (y <= tx) return 0;
     }
-    y = -y;
-    if (y <= px) {
-        if (y > tx) *(unsigned char *)pt |= 8;
+    if (-y <= px) {
+        if (-y > tx) *(unsigned char *)pt |= 8;
     } else {
         *(unsigned char *)ps |= 8;
-        if (y > tx) return 0;
+        if (-y > tx) return 0;
     }
     return 1;
 }

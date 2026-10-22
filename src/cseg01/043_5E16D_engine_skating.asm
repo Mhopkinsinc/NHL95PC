@@ -1234,6 +1234,10 @@ ret	; 5F04D
 ; avdgoal_box: helper of avdgoal. eax = player, edx/ebx = goal x limits, ecx = goal y, [esp+4]/[esp+8] = int* for
 ; the side bits of the player and the target (1/4 x, 2/8 y). Returns eax 1 when the line player->target (regd0/regd1)
 ; crosses this goal's box, else 0. ret 8.
+; C: src/c/043_5E16D_engine_skating/avdgoal_box.c
+%ifdef CBUILD
+%include "c/043_5E16D_engine_skating/avdgoal_box.inc"
+%else
 avdgoal_box:
 push dword 1Ch	; 5F04E
 call __CHK	; 5F053
@@ -1313,6 +1317,7 @@ pop ebp	; 5F115
 pop edi	; 5F116
 pop esi	; 5F117
 ret 8	; 5F118
+%endif ; C
 db 08Bh,0C0h
 ; avdgoal_jt: switch table of avdgoal, indexed by the player's side bits (0-12).
 avdgoal_jt:
