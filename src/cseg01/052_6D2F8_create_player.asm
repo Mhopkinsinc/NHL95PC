@@ -876,6 +876,10 @@ pop esi	; 6DCBA
 pop ecx	; 6DCBB
 pop ebx	; 6DCBC
 ret	; 6DCBD
+; C: src/c/052_6D2F8_create_player/RosterPanelClick.c (FixJerseyNumber)
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/RosterPanelClick.FixJerseyNumber.inc"
+%else
 FixJerseyNumber:
 push dword 0ACh	; 6DCBE
 call __CHK	; 6DCC3
@@ -1008,6 +1012,7 @@ test edi, edi	; 6DE39
 jne near FixJerseyNumber.1	; 6DE3B
 add esp, 80h	; 6DE41
 jmp near RosterPanelClick_ret	; 6DE47
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/CopyRoster1Rec.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/CopyRoster1Rec.inc"
