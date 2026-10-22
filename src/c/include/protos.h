@@ -104,7 +104,7 @@ int DateKey(int month, int day);  /* 41C79 */
 unsigned Swap16(unsigned x);  /* 837D9 */
 int RandMod(int n);
 int rand(void);  /* Watcom CRT rand_ */
-void SimAddPair(int *count, int *pairs, int a, int b);  /* 452A6 */
+void SimAddPair(int *count, int (*pairs)[2], int a, int b);  /* 452A6 */
 int StrLenToDot(char *s);  /* 1D5D5 */
 unsigned char *TeamRecPtr(int team);  /* 6CB90 */
 unsigned char *CarTeamRecPtr(int team);  /* 6CB6B */
