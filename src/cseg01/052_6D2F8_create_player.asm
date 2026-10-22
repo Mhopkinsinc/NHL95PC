@@ -2455,6 +2455,10 @@ pop edi	; 6EF7F
 pop esi	; 6EF80
 ret 0Ch	; 6EF81
 %endif ; C
+; C: src/c/052_6D2F8_create_player/CheckDatabases.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/CheckDatabases.inc"
+%else
 CheckDatabases:
 push dword 48h	; 6EF84
 call __CHK	; 6EF89
@@ -2646,6 +2650,7 @@ pop esi	; 6F155
 pop ecx	; 6F156
 pop ebx	; 6F157
 ret	; 6F158
+%endif ; C
 SplitPlayerName:
 push dword 20h	; 6F159
 call __CHK	; 6F15E
