@@ -3763,6 +3763,10 @@ pop edi	; 44A3C
 pop esi	; 44A3D
 ret 0Ch	; 44A3E
 %endif ; C
+; C: src/c/034_41B80_schedule/AdvancePlayoffs.c
+%ifdef CBUILD
+%include "c/034_41B80_schedule/AdvancePlayoffs.inc"
+%else
 AdvancePlayoffs:
 push dword 54h	; 44A41
 call __CHK	; 44A46
@@ -4032,6 +4036,7 @@ pop ebp	; 44DC9
 pop edi	; 44DCA
 pop esi	; 44DCB
 ret 10h	; 44DCC
+%endif ; C
 CreateNewLeague:
 push dword 0A0h	; 44DCF
 call __CHK	; 44DD4
