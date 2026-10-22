@@ -3143,6 +3143,10 @@ pop ecx	; 5C245
 pop ebx	; 5C246
 ret	; 5C247
 %endif ; C
+; C: src/c/042_59D9A_engine_core/updatecrowdf.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/updatecrowdf.inc"
+%else
 updatecrowdf:
 push dword 10h	; 5C248
 call __CHK	; 5C24D
@@ -3202,6 +3206,7 @@ pop edi	; 5C2FE
 pop edx	; 5C2FF
 pop ecx	; 5C300
 ret	; 5C301
+%endif ; C
 ; periodicevents: Clock at 0 -> horn (sfx 90h), LockScroll, clockcont_0. Once a
 ; second (lldisp, 18h frames): updatecrowdf, RestBench, the stats/energy checks.
 periodicevents:
