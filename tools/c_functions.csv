@@ -67,7 +67,7 @@ CupSeriesWinner,15CE1,138,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gf
 DrawHudPanel,150C6,686,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/DrawHudPanel.c,nonmatching,"draft: 691 vs 686. home stays in ebp and away is stored; the original pushes eax and keeps away in ebp. The /60 setup writes edx before 3Ch. Do not retry volatile home, a local copy of away, or taking home's address.",size 11/19
 DrawLineGroupBars,157BD,472,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/DrawLineGroupBars.c,matched,"draft: 472 vs 472. color is at esp+20h and color2 at esp+24h; the original has them swapped, and the saved x+20h and 14h-width temps are swapped the same way. Do not retry: an if/else chain inverts the group tests, assigning the temps before the calls is 475 bytes, and a struct of the slots shifts every home (468 bytes).",
 IsCupClinched,15C30,177,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/IsCupClinched.c,nonmatching,"stack: asm spills both score args to the stack (push eax/edx, 14h frame) and returns through one exit; C keeps them in cl/ch",register 14/29
-LoadCupFinalSeries,15B76,186,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/LoadCupFinalSeries.c,nonmatching,"db+=2 compiles to add [esp],2; asm does load/add/store before xor edx",register 4/8
+LoadCupFinalSeries,15B76,186,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/LoadCupFinalSeries.c,matched,"db+=2 compiles to add [esp],2; asm does load/add/store before xor edx",
 ReadBE32,16072,45,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/ReadBE32.c,matched,,
 RunDemoGame,15D6B,673,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"draft: 673 vs 673. Setup, matchup switch, option bytes and the restore copy match. 0x10 and the later 1 stay in esi (original ebp, so no push ebp) and the zeros stay in edi (original xor eax, and demomode is xor ecx). The fixed-pair index is cwde with eax*2 (original movsx edx, ax and edx*2). Do not retry declaring that constant first, holding 0x10 across the copy, or using the team local as the pair index.",register 24/35
 TitleScreen,1609F,1675,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/RunDemoGame.c,nonmatching,"same size, 52 differing lines: frame slots; waits for RunDemoGame (RunDemoGame_x); see docs/UNSURE.md",slot 17/32
@@ -571,9 +571,10 @@ sfx,59884,193,041_59493_engine_sound_iface,src/c/041_59493_engine_sound_iface/sf
 AvgCline,5A03B,104,042_59D9A_engine_core,src/c/042_59D9A_engine_core/AvgCline.c,matched,,
 ClearSortCords,5BA4E,59,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClearSortCords.c,matched,,
 ClockTick,5DC10,347,042_59D9A_engine_core,src/c/042_59D9A_engine_core/ClockTick.c,nonmatching,register allocation: C needs esi as well (asm gets by with ebx/ecx/edx/edi); the gameclock check order also differs,register 21/34
+getlinee_pp,5A288,102,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,,
 TeamLineEnergy,5A2EE,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,"in CompLine.c before getlinee, marked --end getlinee: it falls through into getlinee's entry (a tail call to the next function)",
+getlinee,5A30C,53,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,matched,"draft (CompLine.c; split as in the EXE: entry after TeamLineEnergy, getlinee_pp / getlinee_sum before it): register picks (the EXE keeps line in ecx and loads the line table into edx in the 6-and-up arm)",
 CompLine,5A0A3,485,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,nonmatching,"draft: 482 vs 485. other is in esi and the line is in ecx when the pointer copy is declared first. diff stays in ax, not di. The flag byte is in al, not ah. The first getlinee widens with movsx esi,cx / mov edx,esi. line+1 is lea edx,[esi+1] then inc ecx, not a copy incremented in edi. The saved line is at esp+4 and the best energy at esp+0. The side bool is and eax,0xff, not xor ah,ah / cwde. tmlcnt is incremented in eax. Do not retry a stack struct for those two slots (it pushes ebp).",register 20/37
-getlinee,5A30C,53,042_59D9A_engine_core,src/c/042_59D9A_engine_core/CompLine.c,nonmatching,"draft (CompLine.c; split as in the EXE: entry after TeamLineEnergy, getlinee_pp / getlinee_sum before it): register picks (the EXE keeps line in ecx and loads the line table into edx in the 6-and-up arm)",register 1/2
 DoGameFrame,5C1C4,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/DoGameFrame.c,matched,,
 GameOver,5DD9E,30,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GameOver.c,matched,,
 GetHotOrStick,5A534,77,042_59D9A_engine_core,src/c/042_59D9A_engine_core/GetHotOrStick.c,matched,,
@@ -617,7 +618,7 @@ cleargamevars,5CD4F,195,042_59D9A_engine_core,src/c/042_59D9A_engine_core/clearg
 clearteams,5B881,249,042_59D9A_engine_core,src/c/042_59D9A_engine_core/clearteams.c,matched,,
 forcepldata,5E0DD,144,042_59D9A_engine_core,src/c/042_59D9A_engine_core/forcepldata.c,matched,,
 forceteams forcepldata,5E0B0,189,042_59D9A_engine_core,src/c/042_59D9A_engine_core/forceteams.c,matched,,
-periodicevents,5C302,269,042_59D9A_engine_core,src/c/042_59D9A_engine_core/periodicevents.c,nonmatching,"draft: (signed char)--lldisp matches test dl,dl. The add is add al,18h (2) vs add bl,18h (3). A second byte local copied before the test. Do not retry those.",register 3/3
+periodicevents,5C302,269,042_59D9A_engine_core,src/c/042_59D9A_engine_core/periodicevents.c,matched,"draft: (signed char)--lldisp matches test dl,dl. The add is add al,18h (2) vs add bl,18h (3). A second byte local copied before the test. Do not retry those.",
 resetplstuff,5E01A,108,042_59D9A_engine_core,src/c/042_59D9A_engine_core/resetplstuff.c,matched,,
 restorepl,59FE1,90,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restorepl.c,matched,,
 restoreteams,5B97A,87,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restoreteams.c,matched,,
@@ -801,8 +802,8 @@ CmpRosterSkaters,75931,262,054_737AA_line_editor_rosters,src/c/054_737AA_line_ed
 DbLineEditor,737E1,469,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditor.c,matched,,
 DbLineEditorLoop,73A18,5678,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DbLineEditorLoop.c,nonmatching,"first pass (Ghidra): 5,673 of 5,678 bytes, 376 differing (64 with frame offsets masked)",
 DrawLineJerseys,75046,438,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/DrawLineJerseys.c,nonmatching,stack slots of the spilled side / c1 / c2 bytes rotate (+24h/+28h/+2Ch); independent of declaration order,size 20/42
-FadePalStep,76429,242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,,register 2/4
-FadePalStepSlow,7651B,249,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,nonmatching,,register 2/4
+FadePalStep,76429,242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,matched,,
+FadePalStepSlow,7651B,249,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FadePalStep.c,matched,,
 FindRosterSlot,739B6,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/FindRosterSlot.c,matched,,
 GameLineEditor,767D0,707,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameLineEditor.c,matched,,
 GameLineEditorLoop,76AF5,5242,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameLineEditorLoop.c,nonmatching,"first pass (Ghidra): 5,243 of 5,242 bytes, 384 differing (49 with frame offsets masked: item*20h spilled in the EXE)",
