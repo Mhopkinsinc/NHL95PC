@@ -139,6 +139,10 @@ call __CHK	; 2FED7
 xor eax, eax	; 2FEDC
 ret	; 2FEDE
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/TextInputDialog.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/TextInputDialog.inc"
+%else
 TextInputDialog:
 push dword 138h	; 2FEDF
 call __CHK	; 2FEE4
@@ -382,6 +386,7 @@ pop ebp	; 30203
 pop edi	; 30204
 pop esi	; 30205
 ret 14h	; 30206
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/SetListItemColors.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/SetListItemColors.inc"
