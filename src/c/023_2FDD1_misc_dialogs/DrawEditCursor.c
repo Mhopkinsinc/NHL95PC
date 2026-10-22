@@ -37,7 +37,9 @@ void DrawEditCursor(int mode)
    "." per character, else by fputchar); clamp editpos to the text; print it at editx, edity (fixed-pitch: a "."
    per character); then clear the rest of the field (sub_90EC0, byte_D42C5 - 2 high, colour dword_D42AC).
    mode: the edit mode bits. No result.
-   DRAFT: same size (372). The width of "." stays in edi (original ebp, with the text length in edi); see UNSURE. */
+   DRAFT: same size (372). The fixed-pitch width test keeps its product in len (edi), which puts the width of "."
+   in ebp as in the EXE. Left: `len = strlen(editbuf)` is copied to esi and edi (the EXE compares eax and keeps
+   len in edi), so the later argument loads take edx / ebx / ecx (EXE ebx / ecx / esi); see UNSURE. */
 void DrawEditText(int mode)
 {
     int cw;
@@ -48,7 +50,7 @@ void DrawEditText(int mode)
     cw = fputchar((char *)str_Dot);
     if (editmaxw) {
         if (mode & 2) {
-            while ((int)strlen(editbuf) * cw > editmaxw && strlen(editbuf))
+            while ((len = strlen(editbuf) * cw) > editmaxw && strlen(editbuf))
                 editbuf[strlen(editbuf) - 1] = 0;
         } else {
             while (fputchar(editbuf) > editmaxw && strlen(editbuf))
