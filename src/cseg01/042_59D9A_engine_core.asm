@@ -3209,6 +3209,10 @@ ret	; 5C301
 %endif ; C
 ; periodicevents: Clock at 0 -> horn (sfx 90h), LockScroll, clockcont_0. Once a
 ; second (lldisp, 18h frames): updatecrowdf, RestBench, the stats/energy checks.
+; C: src/c/042_59D9A_engine_core/periodicevents.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/periodicevents.inc"
+%else
 periodicevents:
 push dword 0Ch	; 5C302
 call __CHK	; 5C307
@@ -3282,6 +3286,7 @@ jl short periodicevents.3	; 5C40A
 pop edx	; 5C40C
 pop ebx	; 5C40D
 ret	; 5C40E
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/calcpuckcross.c (updateplayers)
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/calcpuckcross.updateplayers.inc"
