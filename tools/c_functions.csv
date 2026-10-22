@@ -62,7 +62,7 @@ ReadTeamRec ReadGSummaryRec,147C9,92,005_1431E_file_utils,src/c/005_1431E_file_u
 UpdateHudPanel,14CF1,576,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,,
 DrawPanelClock,14F31,405,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,,
 DrawPanelClockDigits,1540A,587,005_1431E_file_utils,src/c/005_1431E_file_utils/UpdateHudPanel.c,matched,,
-AnyInputPressed,1600C,102,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c,nonmatching,draft: asm keeps result in esi and saves 4 regs; ours uses edx,size 7/14
+AnyInputPressed,1600C,102,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c,matched,draft: asm keeps result in esi and saves 4 regs; ours uses edx,
 CupSeriesWinner,15CE1,138,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/CupSeriesWinner.c,nonmatching,"draft: need computed in ebp (mov ebp,edx / shr / inc) vs lea; same logic",register 8/18
 DrawHudPanel,150C6,686,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/DrawHudPanel.c,nonmatching,"draft: 691 vs 686. home stays in ebp and away is stored; the original pushes eax and keeps away in ebp. The /60 setup writes edx before 3Ch. Do not retry volatile home, a local copy of away, or taking home's address.",size 11/19
 DrawLineGroupBars,157BD,472,006_150C6_scoreboard_gfx,src/c/006_150C6_scoreboard_gfx/DrawLineGroupBars.c,matched,"draft: 472 vs 472. color is at esp+20h and color2 at esp+24h; the original has them swapped, and the saved x+20h and 14h-width temps are swapped the same way. Do not retry: an if/else chain inverts the group tests, assigning the temps before the calls is 475 bytes, and a struct of the slots shifts every home (468 bytes).",
@@ -232,8 +232,8 @@ DrawEditText,31599,372,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawE
 DrawListItem,302B9,227,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"registers: y / w in ebp / edi (EXE edi / ebp); DrawListItems short-jumps into its exit, mark as one block",register 23/26
 DrawListItems,3039C,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawListItem.c,nonmatching,"compiles to the original 95 bytes, but it branches into DrawListItem+DEh, so it cannot be marked until DrawListItem is.",tail 0/0
 EditTextField,3170D,936,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/EditTextField.c,nonmatching,,size 82/159
-GrowToButton,30F5F,85,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButton.c,nonmatching,same blocks; original keeps w in edx and v in ecx (then edx / eax in the second half); this draft moves w to ecx. 10-min cap,register 13/16
-GrowToButtons,30FB4,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButtons.c,nonmatching,registers: asm sums in edx and builds each width in esi; C swaps them,register 18/18
+GrowToButton,30F5F,85,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButton.c,matched,same blocks; original keeps w in edx and v in ecx (then edx / eax in the second half); this draft moves w to ecx. 10-min cap,
+GrowToButtons,30FB4,95,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/GrowToButtons.c,matched,registers: asm sums in edx and builds each width in esi; C swaps them,
 ListDialog,303FB,1513,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/ListDialog.c,nonmatching,,register 133/142
 ListHitTest,3023E,123,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/ListHitTest.c,nonmatching,"scheduling: asm loads w (stack arg) before top+2 and keeps x1 at [esp], x2 at [esp+4]; C swaps the slots",register 7/17
 MeasureTextLine,309E4,40,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/MeasureTextLine.c,matched,,
@@ -454,9 +454,9 @@ rtss,4F990,11,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/
 sub_4C8BD,4C8BD,320,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/sub_4C8BD.c,matched,,
 Acheck,4FFAE,64,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Acheck.c,matched,,
 lineinput,4FD8E,383,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,matched,,
+OppInReach,5033D,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,matched,"draft (CanBlockShot.c): 139 vs 144, offset register. See UNSURE.",
 asspassrec,50F3F,362,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,matched,,
 CanBlockShot,4FFEE,847,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,"draft (owner of CanBlockShot_ret5/6): unsolved xor eax,edx return. See UNSURE.",size 35/76
-OppInReach,5033D,144,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,"draft (CanBlockShot.c): 139 vs 144, offset register. See UNSURE.",register 7/9
 PassRecOneTimer,50B55,775,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CanBlockShot.c,nonmatching,,size 17/27
 CenterMouse,50ADE,32,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/CenterMouse.c,matched,,
 Readjoy1,50A05,127,038_4FCE8_engine_input,src/c/038_4FCE8_engine_input/Readjoy1.c,matched,registers: asm keeps the held buttons in eax and does regd1 = held & changed in ecx (saves ecx); C reuses eax/ebx; Readjoy2 is the clone (shared tail),
@@ -508,7 +508,7 @@ SetShotMode,5786E,140,040_53294_engine_physics_ai,src/c/040_53294_engine_physics
 ShotMode,578FA,261,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ShotMode.c,matched,,
 Sweepcheck,532A2,27,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/Sweepcheck.c,matched,,
 ToFixed,53294,14,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/ToFixed.c,matched,,
-TryBlockShot,534BB,124,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/TryBlockShot.c,nonmatching,"registers only: original p in ecx, n in ebx, gmode2 temp in edx; this draft p in ebx, n in edx. 10-min cap",register 16/19
+TryBlockShot,534BB,124,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/TryBlockShot.c,matched,"registers only: original p in ecx, n in ebx, gmode2 temp in edx; this draft p in ebx, n in edx. 10-min cap",
 checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkagr.c,matched,,
 checkcheck,5382C,1209,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcheck.c,nonmatching,,size 11/20
 checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcoll.c,nonmatching,"draft: 479 vs 468. x is saved in edi and y in esi. The original saves x in esi and y in edi, so the swap needs a third mov. Do not retry: short parameters, or copying x then y into locals (saves ebp, cookie 18h).",size 26/46
@@ -623,18 +623,18 @@ restorepl,59FE1,90,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restorepl.c
 restoreteams,5B97A,87,042_59D9A_engine_core,src/c/042_59D9A_engine_core/restoreteams.c,matched,,
 setupice,5D7F7,91,042_59D9A_engine_core,src/c/042_59D9A_engine_core/setupice.c,matched,,
 updatecrowdf,5C248,186,042_59D9A_engine_core,src/c/042_59D9A_engine_core/updatecrowdf.c,nonmatching,"2 bytes short, only the randomd0 result register: the original widens it with movsx edx,ax and compares edx, this draft does cwde / eax. Tried int/short r, n reused, if/switch/return, a sound-number local. The (1000-crowdlevel)/4 clamp needs int t then short n = t",register 2/3
+EvadePC,5E7FE,317,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
 skateto,5E93B,476,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,1 instruction off: the original loads the pucky pointer into eax and Xvel|Yvel as eax=Xvel/edx=Yvel; wcc picks edx in both (register cache of regd0 in eax?),
+skatetopuck,5EB17,662,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
+playeracc,5EDAD,673,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
+avdgoal_box,5F04E,205,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
+dostop,5F745,229,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
 StopNA,5F82A,136,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,matched,,
 EvadePlayers,5E4C4,826,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,"body matches to +1A7 (of 333h); the original frame has one more dword (sub esp,14h): a swap spill at [esp] for the vtoa args because ebp is busy there; this draft keeps ebp free (frame 10h)",register 24/59
-EvadePC,5E7FE,317,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,,register 6/6
-avdgoal,5F151,1524,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/avdgoal.c,nonmatching,"1504 vs 1524: p homed, margin in esi in the EXE; match belongs in EvadePlayers.c; see docs/UNSURE.md",size 108/282
-avdgoal_box,5F04E,205,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/avdgoal_box.c,matched,"return register: asm returns 0/1 straight in eax (pt lives in eax too); C builds it in ecx + mov eax,ecx; rest matches. Declared short it matches exactly, but avdgoal tests eax, so the original is int. Tried: a result local with gotos, unsigned side pointers, short locals, a char result.",
+avdgoal,5F151,1524,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/EvadePlayers.c,nonmatching,,
 doplayeracc,5E16D,855,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/doplayeracc.c,nonmatching,,size 2/2
-dostop,5F745,229,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/dostop.c,matched,,
 goalieacc,5F8B2,216,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/goalieacc.c,matched,,
 noturn0,5F98A,377,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/noturn0.c,matched,,
-playeracc,5EDAD,673,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/playeracc.c,matched,,
-skatetopuck,5EB17,662,043_5E16D_engine_skating,src/c/043_5E16D_engine_skating/skatetopuck.c,nonmatching,,register 8/15
 SaveGameState,5FB03,2831,044_5FB03_game_state_saveload,src/c/044_5FB03_game_state_saveload/SaveGameState.c,nonmatching,,register 5/5
 LoadGameState,60612,3760,044_5FB03_game_state_saveload,src/c/044_5FB03_game_state_saveload/SaveGameState.c,nonmatching,same size; fh in memory and the unpack pointer in esi (EXE ebp / ebx): 527 lines of one swap; see docs/UNSURE.md,size 254/514
 AddPenalty,62CF9,135,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/AddPenalty.c,matched,,
@@ -671,7 +671,7 @@ RunDeferredCalls,61A27,99,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring
 SetBoxDoorObject,61576,44,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/SetBoxDoorObject.c,matched,,
 SetPA,62EA2,71,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/SetPA.c,matched,,
 SetRinkObject,614C2,180,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/SetRinkObject.c,matched,,
-SetupPenaltyShot,63F72,400,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/SetupPenaltyShot.c,nonmatching,,register 12/19
+SetupPenaltyShot,63F72,400,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/SetupPenaltyShot.c,matched,,
 StartPenaltyShot,64398,161,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/StartPenaltyShot.c,matched,,
 Stop4Pen,63543,626,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/Stop4Pen.c,matched,,
 UpdatePowerPlayFlags,63C73,201,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/UpdatePowerPlayFlags.c,matched,,
@@ -724,7 +724,7 @@ DrawMenuItemSel,6B94E,157,050_6B093_joystick_calibration,src/c/050_6B093_joystic
 DrawMenuItemNorm,6B9EB,98,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/DrawMenuItemSel.c,matched,,
 EventToPointer,6B4BB,297,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/EventToPointer.c,matched,,
 GetInputEvent,6B391,70,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/GetInputEvent.c,matched,,
-InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputInstall.c,nonmatching,registers: C loads inputinstalled into edx and reuses the 0 for the ptrstep/dword_CDA24 stores; asm compares memory and zeroes ebx,size 4/6
+InputInstall,6B410,108,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputInstall.c,matched,registers: C loads inputinstalled into edx and reuses the 0 for the ptrstep/dword_CDA24 stores; asm compares memory and zeroes ebx,
 InputRemove,6B47C,63,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/InputRemove.c,matched,,
 JoystickCalScreen,6B093,713,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/JoystickCalScreen.c,nonmatching,"draft: 711 vs 713 (best of 5). The abort test falls through and the frame matches. The side-art call is still two calls (bank reloaded into ebp and edi), so it does not merge, and sub_8E83C is stored without mov esi, eax before add esp, 8. A bank register plus duplicated side calls merged that call but skipped the puck store at [esp+344h] and pushed 0 after the width and height reads (698). Do not retry an abort-first if, a ternary that puts the side string in eax, or a bank register used for every sub_B30B4.",register 31/40
 LoadLeagueDbsMem,6C19B,350,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/LoadLeagueDbsMem.c,matched,,
@@ -786,10 +786,10 @@ DbDialogHitTest,72A5C,82,053_71F0C_database_dialogs,src/c/053_71F0C_database_dia
 DrawDbDialogButtons,72605,464,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c,matched,,
 InputDialog,71F0C,1010,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/InputDialog.c,matched,,
 LoadDbDialogShapes,7230B,385,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
+ScanDbFiles,7248C,377,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 DrawDbList,72AC6,801,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 DeleteSelectedDb,735C3,320,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 MenuOpenDatabase,73703,167,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
-ScanDbFiles,7248C,377,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,,register 8/11
 DrawDbDialog,727EE,622,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,scroll-bar end: EXE adds 12h to rect 8 y1 before adding the quotient,size 2/3
 DbDialogLoop,72DE7,1501,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,,register 65/99
 LoadDbsFromDir,7345B,360,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbsFromDir.c,matched,,
@@ -892,7 +892,7 @@ GadgetStub0,7E032,13,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/Gad
 InstantReplay,7E0FA,2027,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/InstantReplay.c,nonmatching,"own file, 20 differing lines; match belongs in DrawGadgetButton.c; see docs/UNSURE.md",size 9/16
 LoadRockMusic,7DC8B,573,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/LoadRockMusic.c,nonmatching,"draft: 577 vs 573. The cue loops, the random retry, and the tune banks match. The zero cue is xor ebp instead of xor esi, so ebp is pushed and the cookie is 3Ch. team*3 reloads the stack slot instead of copying it through edx, and the accepted cue id stays in eax instead of edx.",register 13/26
 FreeRockMusic,7DEC8,134,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/LoadRockMusic.c,nonmatching,draft: 133 vs 134. The three free loops match. The exit jumps to LoadRockMusic's pop ebp; the original pops ebp and then jumps to LoadRockMusic_ret. Do not retry until the LoadRockMusic draft stops pushing ebp.,size 1/1
-PickNearestPlayer,7E93E,110,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/PickNearestPlayer.c,nonmatching,"register allocation only: asm spills y to the stack and reloads it into ebp (x in edi, best in esi)",register 9/15
+PickNearestPlayer,7E93E,110,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/PickNearestPlayer.c,matched,"register allocation only: asm spills y to the stack and reloads it into ebp (x in edi, best in esi)",
 ReplayControlLoop,7E9AC,1777,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/ReplayControlLoop.c,nonmatching,"own file (4 bytes over: own epilogue), 37 differing lines; match belongs in DrawGadgetButton.c; see docs/UNSURE.md",register 22/31
 ReplaySaveHilight,7F0AF,1653,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/ReplaySaveHilight.c,nonmatching,"draft: 1649 vs 1653, every statement in place; register picks (old pointer x / y in esi / ecx, EXE ecx / esi). See docs/UNSURE.md.",register 49/50
 sub_7E03F,7E03F,32,057_7DC8B_gadgets_replay,src/c/057_7DC8B_gadgets_replay/sub_7E03F.c,matched,,
