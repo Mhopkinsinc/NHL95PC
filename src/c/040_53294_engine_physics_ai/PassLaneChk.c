@@ -1,7 +1,6 @@
 /* Engine physics AI: is the pass lane to a team-mate open; NetCollide and puckstick (matched) end in its pops. */
-/* DRAFT: 344 vs 346. The side copy is mov esi,edi (original mov edx,edi), so the team-mate's
- y stays in edx. The other gap is inc esi where the original does lea eax,[esi+1].
- Do not retry: declaring limit first produced movzx edi; declaring oy before side did not move the copy to edx. */
+/* DRAFT (PassLaneChk): 344 vs 346. The direction is kept in oy (dead by then) and the x gap in dy, as the
+ original; left is inc esi where the original does lea eax,[esi+1] for the wrap (see docs/UNSURE.md). */
 #define PassLaneChk PassLaneChk_decl
 #define checkpuckcoll checkpuckcoll_decl
 #define imul32 imul32_decl
@@ -147,7 +146,6 @@ int PassLaneChk(Player *p, Player *o)
     int y;
     int oy;
     int dy;
-    int ang;
     int wrapped;
 
     side = (p->pflags & pfgoal) != 0;
@@ -172,11 +170,13 @@ int PassLaneChk(Player *p, Player *o)
     dy = oy - y;
     if (dy < 0) dy = -dy;
     if (dy > 0x3C) return 0;
-    if (ABS((p->Xpos >> 16) - (o->Xpos >> 16)) > 0x28) return 0;
-    ang = vtoa(W(o->Xvel), W(o->Yvel));
-    if (ang == 8) ang = W(o->facedir);
-    ang -= vtoa((short)(HIWORD(p->Xpos) - HIWORD(o->Xpos)), (short)(HIWORD(p->Ypos) - HIWORD(o->Ypos)));
-    wrapped = ang + 1;
+    dy = (p->Xpos >> 16) - (o->Xpos >> 16);
+    if (dy < 0) dy = -dy;
+    if (dy > 0x28) return 0;
+    oy = vtoa(W(o->Xvel), W(o->Yvel));
+    if (oy == 8) oy = W(o->facedir);
+    oy -= vtoa((short)(HIWORD(p->Xpos) - HIWORD(o->Xpos)), (short)(HIWORD(p->Ypos) - HIWORD(o->Ypos)));
+    wrapped = oy + 1;
     if ((wrapped & 7) >= 3) return 0;
     return 1;
 }
