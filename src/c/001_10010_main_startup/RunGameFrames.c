@@ -4,8 +4,6 @@
 /* RunGameFrames: run up to n game frames: every 3 frames take the next queued input event (none: stop; a hot key
  that HandleHotKey takes flushes the queue and stops); the clock runs while not stopped (hudhundaccum + 100
  outside penalty shots); stop early on a deferred call, exit or game over. */
-/* DRAFT: 182 vs 182. Storing the queue entry through `*(unsigned char **)&joyrec` drops a dead copy of it
-   into edx (with `joyrec = (int)...` the size was 187); left: n is kept in ecx where the EXE uses ebx. */
 void RunGameFrames(int n)
 {
     int i;

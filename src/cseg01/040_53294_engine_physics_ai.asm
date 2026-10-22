@@ -408,6 +408,10 @@ mov eax, ecx	; 53693
 call TryBlockShot	; 53695
 jmp near checkob_ret5	; 5369A
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/checkagr.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkagr.inc"
+%else
 checkagr:
 push dword 10h	; 5369F
 call __CHK	; 536A4
@@ -498,6 +502,7 @@ pop edx	; 53789
 pop ecx	; 5378A
 pop ebx	; 5378B
 ret	; 5378C
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/FacingBoards.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/FacingBoards.inc"
@@ -4095,6 +4100,10 @@ add esp, byte 0Ch	; 562D3
 jmp near PassLaneChk_ret5	; 562D6
 ; FallDown: A player falls after a hit: fall animation, newcheck, injury (setInjuryType),
 ; penalty roll (checkagr AddPenalty2).
+; C: src/c/040_53294_engine_physics_ai/FallDown.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/FallDown.inc"
+%else
 FallDown:
 push dword 14h	; 562DB
 call __CHK	; 562E0
@@ -4647,6 +4656,7 @@ pop esi	; 56A50
 pop ecx	; 56A51
 pop ebx	; 56A52
 ret	; 56A53
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/Bcheck.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/Bcheck.inc"

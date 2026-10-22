@@ -19,6 +19,7 @@ int WriteTeamRec(int fh, void *rec, int n);
    Result: 0 or the I/O error. */
 int MergeTeamDbs(char *odir, char *ndir, char *mdir, char *next, char *mext, int who)
 {
+    int err;
     struct {
         unsigned char nrec[0x2E8];
         unsigned char orec[0x2E8];
@@ -39,9 +40,7 @@ int MergeTeamDbs(char *odir, char *ndir, char *mdir, char *next, char *mext, int
         int tmfh;
         int tnfh;
     } s;
-    int err;
     int t;
-    int k;
 
     s.sofh = s.smfh = s.snfh = s.kfh = s.tofh = s.tmfh = s.tnfh = -1;
     MakePath(s.path, odir, (char *)leaguedbnames[4], (char *)str_extDB);
@@ -71,6 +70,7 @@ int MergeTeamDbs(char *odir, char *ndir, char *mdir, char *next, char *mext, int
         err = FileOpenRW(s.path, &s.smfh);
     }
     for (t = 0; t < 0x1A; t++) {
+        int k;
         int i;
 
         if (!err) err = ReadTeamRec(s.tofh, s.orec, t);

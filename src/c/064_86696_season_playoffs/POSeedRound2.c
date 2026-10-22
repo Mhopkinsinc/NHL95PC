@@ -445,7 +445,8 @@ void POSeedRound2(unsigned char *p)
    (SeriesWinner) fills one final, the winner listed first in the team order at p getting the home slot
    (POSetSeriesTeams). POSeedFinal shares its last pairing (POSeedConfFinals_pair) and POSeedTeams its exit
    (POSeedConfFinals_x). p: the playoff schedule. No result. It ends with `jmp POSeedRound2_x` as in the EXE only
-   with the other seeding functions in this file (tools/module_try.py). */
+   with the other seeding functions in this file (tools/module_try.py). The second fill goes through the byte d:
+   written like the first, 10.0 GA doubles the remainder in place (add edx, edx; the EXE has lea eax, [edx+edx]). */
 void POSeedConfFinals(unsigned char *p)
 {
     int a;
@@ -454,6 +455,7 @@ void POSeedConfFinals(unsigned char *p)
     int day;
     int *q;
     int c;
+    unsigned char d;
 
     g = p + 0x1B0C;
     i = 0;
@@ -478,8 +480,9 @@ void POSeedConfFinals(unsigned char *p)
     g = p + 0x1BBA;
     for (i = 0; i < 7; i++, g += 6) {
         g[0] = a;
-        g[1] = i % 7 * 2 + day;
-        if (g[1] > 0x1F) {
+        d = i % 7 * 2 + day;
+        g[1] = d;
+        if (d > 0x1F) {
             g[0]++;
             g[1] -= 0x1F;
         }

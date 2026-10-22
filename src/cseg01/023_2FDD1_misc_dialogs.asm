@@ -18,6 +18,10 @@ global AskDatabaseChoice, DrawBevelRect, DlgReturnZero, TextInputDialog, DlgNull
 global ListHitTest, DrawListItem, DrawListItems, ListDialog, MeasureTextLine, SetDialogColors, TrackButtons, DrawButtons
 global DrawButton, InitScrollBar, DrawScrollBar, TrackScrollBars, SaveDialogBg, RestoreDialogBg, GrowToButton, GrowToButtons
 global MessageBox, RunMessageBox, CritErrHandler, DrawEditCursor, DrawEditText, EditTextField
+; C: src/c/023_2FDD1_misc_dialogs/AskDatabaseChoice.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/AskDatabaseChoice.inc"
+%else
 AskDatabaseChoice:
 push dword 30h	; 2FDD1
 call __CHK	; 2FDD6
@@ -59,6 +63,7 @@ pop edx	; 2FE45
 pop ecx	; 2FE46
 pop ebx	; 2FE47
 ret	; 2FE48
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/DrawBevelRect.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/DrawBevelRect.inc"
@@ -1729,6 +1734,10 @@ pop edi	; 31010
 pop esi	; 31011
 ret	; 31012
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/TextInputDialog.c (MessageBox)
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/TextInputDialog.MessageBox.inc"
+%else
 MessageBox:
 push dword 3Ch	; 31013
 call __CHK	; 31018
@@ -1936,6 +1945,7 @@ jl short MessageBox.15	; 31242
 mov eax, dword [byte esp+08h]	; 31244
 add esp, byte 20h	; 31248
 jmp near DlgNullCallback	; 3124B
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/RunMessageBox.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/RunMessageBox.inc"

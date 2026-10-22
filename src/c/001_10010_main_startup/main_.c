@@ -75,8 +75,8 @@ void main_(void)
         int fh;
         DosTime t;
     } s;
-    int spc;
     int bps;
+    int spc;
     int need;
     int dosmem;
     int pal;
