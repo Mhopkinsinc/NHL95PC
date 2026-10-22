@@ -1412,6 +1412,10 @@ mov eax, dword [byte esp+04h]	; 877DD
 add esp, byte 0Ch	; 877E1
 jmp near POCreateSchedule_x	; 877E4
 %endif ; C
+; C: src/c/064_86696_season_playoffs/POSeriesScore.c
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeriesScore.inc"
+%else
 POSeriesScore:
 push dword 10h	; 877E9
 call __CHK	; 877EE
@@ -1471,6 +1475,7 @@ pop ebp	; 8785D
 pop edi	; 8785E
 pop esi	; 8785F
 ret 4	; 87860
+%endif ; C
 POSeedRound2:
 push dword 4Ch	; 87863
 call __CHK	; 87868
