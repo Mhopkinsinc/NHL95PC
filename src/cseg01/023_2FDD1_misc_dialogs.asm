@@ -408,6 +408,10 @@ pop ecx	; 3023B
 pop ebx	; 3023C
 ret	; 3023D
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/ListHitTest.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/ListHitTest.inc"
+%else
 ListHitTest:
 push dword 18h	; 3023E
 call __CHK	; 30243
@@ -458,6 +462,7 @@ add esp, byte 0Ch	; 302B1
 pop edi	; 302B4
 pop esi	; 302B5
 ret 8	; 302B6
+%endif ; C
 DrawListItem:
 push dword 28h	; 302B9
 call __CHK	; 302BE
