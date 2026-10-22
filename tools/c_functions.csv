@@ -197,8 +197,8 @@ MoveTreeHighlight,27BC3,113,018_27080_standings_playoffs,src/c/018_27080_standin
 PlayoffTreeHitTest ShowPlayoffTree,29681,137,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/PlayoffTreeHitTest.c,matched,,
 PlayoffTreeScreen,27F9C,5861,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/PlayoffTreeScreen.c,matched,,
 StandingsScreen,27080,2015,018_27080_standings_playoffs,src/c/018_27080_standings_playoffs/StandingsScreen.c,matched,,
-DrawBevelBox,29D00,533,019_2970A_league_schedule,src/c/019_2970A_league_schedule/DrawBevelBox.c,nonmatching,stack slots of the corner coordinate temporaries differ (x1 + 2 / y1 + 2 ...); logic matches,register 47/71
 FitPlayerName,29C75,139,019_2970A_league_schedule,src/c/019_2970A_league_schedule/FitPlayerName.c,matched,,
+DrawBevelBox,29D00,533,019_2970A_league_schedule,src/c/019_2970A_league_schedule/FitPlayerName.c,matched,,
 LoadLeagueTree,29B07,366,019_2970A_league_schedule,src/c/019_2970A_league_schedule/LoadLeagueTree.c,matched,,
 LoadPlayoffModeTree,2970A,530,019_2970A_league_schedule,src/c/019_2970A_league_schedule/LoadPlayoffModeTree.c,matched,,
 OpenStatsSchedule,29A97,112,019_2970A_league_schedule,src/c/019_2970A_league_schedule/OpenStatsSchedule.c,matched,,

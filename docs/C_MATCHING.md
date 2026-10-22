@@ -95,7 +95,9 @@ the first seconds of each run and takes twice as long). A tool that compiles man
 tools/scope_decls.py do. `cc.py compile A.c B.c ...` does the same from the shell.
 
 **The compiler state.** wcc386 can compile the same source differently after other files in the same DOSBox run
-(DrawBevelBox matches after most files but not fresh; HANDOFF step 3). `make` compiles each file in its own run, so
+(DrawBevelBox matched after most files but not fresh; HANDOFF step 3. The state can come from an earlier
+function of the same file too: after FitPlayerName, the function before it in the EXE, in one file it matches
+fresh, and that is how it is built now). `make` compiles each file in its own run, so
 only the fresh result counts. So `compile_many` caches only the first object of each run, and permute.py
 compiles a match again alone before it counts it. A score from a batched run can be off for the few
 state-sensitive drafts (DrawBevelBox, DrawPanel3D): check one with tools/state_probe.py.
