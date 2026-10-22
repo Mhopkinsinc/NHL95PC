@@ -652,3 +652,169 @@ PickAwardWinners,,v += b29,,ga
 PickAwardWinners,,the ternary form,,ga
 PickAwardWinners,,"the zero test as == 0, pts as b29 + b29 + b2B or with its operands swapped",,ga
 PickAwardWinners,,"permute.py (two runs, 2,049 candidates each, decl / scope / stmt / commute / swap / zero / chain / temp / lvinline / inplace / tempadd / type / mulshift / ifswap): no single or paired transform changes the divisor",,ga
+StartThreeStars,,(2026-10-22): nothing in the C,,ga
+assreffollow,,under GA (2026-10-22,,ga
+assreffollow,,the GA diff points there): `^` in both operand orders,,ga
+assreffollow,,with `!= 0`,,ga
+assreffollow,,"without parentheses, `==` with the inverted bool, `!a != !b`, `-` (all `^` / `-` forms 10-16: the c pointer is built in ecx and the bool zero-extended with `xor ecx, ecx / mov cl, al`)","all `^` / `-` forms 10-16: the c pointer is built in ecx and the bool zero-extended with `xor ecx, ecx / mov cl, al`",ga
+assreffollow,,"`^` combined with six spellings of the c pointer (`SortCords + *puckc`, int sums, `c = SortCords; c += *puckc`, char * sum, `* sizeof(Player)`): all 10. permute 5 min on the `^` form: best 6 (a char cast on a bool), not better than the base 4",,ga
+assshoot,,"under GA (2026-10-22): `&= ~pfna`, `&= 0xFD`, `= p->pflags & ~pfna`, `^= pfna`, `-= pfna`, `&= -3`, unsigned / signed char casts and the byte pointer form (all 4)",all 4,ga
+assshoot,,"the regd1 / regd2 byte RMWs as word / long / signed char ops (all 4, Watcom narrows them)","all 4, Watcom narrows them",ga
+assshoot,,five if / else / nesting layouts of the three opening tests (4),4,ga
+assshoot,,"17 spellings of the sflags test: only widening casts ((int), (unsigned), (short), (unsigned short)) move the clear to ah, but then load sflags into al (2)",2,ga
+assshoot,,permute 5 min: best 2 (the same unsigned short cast),the same unsigned short cast,ga
+AwardsCeremony,,(2026-10-22): nothing in the C,,ga
+ExportTeamToFloppy,,(2026-10-22): err,,ga
+ExportTeamToFloppy,,"a new int x, and both, inserted at every position of the chain (60 variants, all 11, Watcom drops them)","60 variants, all 11, Watcom drops them",ga
+ExportTeamToFloppy,,permute 5 min: best 9 but size +1 (team parameter as short),,ga
+PlacePlayersAtStart,,"under GA (2026-10-22): the assignment number as ternaries, (short) / (int) / (unsigned char) / (unsigned short) casts, constant first (14-15)",14-15,ga
+PlacePlayersAtStart,,"the mirror as `regd1.l = -regd1.w` (10 but size +2, and writes the high word), `~x + 1` (9, +4), `0 - x`, `-(short)regd1.l` (15)",15,ga
+PlacePlayersAtStart,,the map negate with (short) / (int) arms,,ga
+PlacePlayersAtStart,,"a negated ternary, `regd4.l =`, `*(int *)` loads (15-17)",15-17,ga
+SelectSavedFile,,(2026-10-22): `teamabbrevs[t + 2]` for off_C5441 (off_C5441 is teamabbrevs + 8,,ga
+SelectSavedFile,,"still hoisted), five ternary spellings in the strncpy argument (26-30)",26-30,ga
+SelectSavedFile,,"the else arm through a goto, `*(char **)((char *)table + t * 4)`, `t[off_C5441]` (15)",15,ga
+SelectSavedFile,,permute 5 min: nothing better than the base,,ga
+MenuGameShowPlayerStats,,"(2026-10-22): the loop counter i as that copy (`i = s; i = gmrosterslot[...]`, `i = gmrosterslot[i * 22]`, i assigned in the index, `i = s * 22`, `i = s` as the index, `i = s = *sel`, `s = i = *sel`): all 20-32 against 16",,ga
+MenuGameShowPlayerStats,,permute 5 min: nothing better than the base,,ga
+MenuSaveDefaultLines,,"(2026-10-22): all 120 declaration orders of i, j, fh, r, t (all 18)",all 18,ga
+MenuSaveDefaultLines,swapdecl:i:,"declaration orders of i, j, fh, r, t",tried (docs/UNSURE.md),ga
+SelectRosterTeam,,(2026-10-22): all 720 declaration orders (best 14),best 14,ga
+SelectRosterTeam,,"the DivMenu form for either clear (14-17), slot-first / pointer / int-array / byte-offset forms of the second clear",,ga
+SelectRosterTeam,,the clears swapped (14),14,ga
+PenaltyManager,,(2026-10-22): nothing beyond the mark,,ga
+FindFreeSpeechSlot,,(2026-10-22): `register` b,,ga
+FindFreeSpeechSlot,,"a K&R definition, `SpeechSlot * const b = speechbank`, `if (... != 0) ; else return i`",,ga
+FindFreeSpeechSlot,,the loaded field through an int local (6),6,ga
+FindFreeSpeechSlot,,"a do-while under an if (7), `!(b + i)->loaded`",,ga
+FindFreeSpeechSlot,,a cast on the load,,ga
+FindFreeSpeechSlot,,"the whole speech segment as one module (module_try: unchanged), permute.py 5 min (321 candidates, best 5)","321 candidates, best 5",ga
+FindFreeSpeechSlot,,"the parameter renamed n with a local counter i (`for (i = n; ...)`, either declaration order: 6",,ga
+FindFreeSpeechSlot,,`i = n;` before the loop: 5),,ga
+FindFreeSpeechSlot,,a named `r = -1; return r;` (5),5,ga
+SelectMatchingPlayers,,"(2026-10-22): `(char *)(falist + i * 27) + 8`, `(char *)&falist[i * 27] + 8`, `(char *)((int)(falist + i * 27) + 8)`, `8 + (char *)(falist + i * 27)`, `&((char *)(falist + i * 27))[8]`",,ga
+SelectMatchingPlayers,,"a signed char cast, `&(&falist[i * 27])[8]`, `((unsigned char (*)[27])falist)[i] + 8`, `((char (*)[27])falist)[i] + 8` (all 11: falist in eax), `&falist[27 * i + 8]` (unchanged)",,ga
+SelectMatchingPlayers,,an int `off = i * 27` local with `(char *)falist + off + 8` (the BuildFreeAgentList shape,,ga
+SelectMatchingPlayers,,"26-30 with the extra local), every order of f, l, i, k (no change)",no change,ga
+PickAwardWinners,,"(2026-10-22): `/ (int)(b29 + b2A)`, `if (b29 == 0 && b2A == 0)`, `pct = 0; if (b29 || b2A) pct = ...` (7), pts as `b2B + b29 * 2` / `b29 + b29 + b2B`, g as short (51) / int (42), st as char *",,ga
+PickAwardWinners,type:g:short,"b2B`, g as short",tried (docs/UNSURE.md),ga
+FadePalette,,"(2026-10-22): `2 < steps ? 2 : steps`, `steps >= 3 ? 2 : steps` (8), `!(steps <= 2) ? ...` (9), `2u`, braces on both arms, `dir != 0`, `palfadedin != 0`, `int i; int c;` order, `register int steps`",,ga
+FadePalette,,a K&R definition,,ga
+FadePalette,,the else arm first (12),12,ga
+FadePalette,,the segment as one module (module_try: same code),module_try: same code,ga
+BuildTeamRosterList,,"(2026-10-22): `*(int *)(*rec + i * 4 + 0xB0)`, `*(int *)(*rec + 0xB0 + i * 4)`, `((int *)*rec)[i + 0x2C]`, `(*(int **)rec + 0x2C)[i]`, `(*(int **)rec)[i + 0x2C]`, `0xB0 + *rec`",,ga
+BuildTeamRosterList,,"the skater load spelled `*(int *)(*rec + i * 4 + 0x4C)` / `((int *)*rec)[i + 0x13]` (5), k / i / e declaration orders, team assigned before k (11) or inside the e expression or dropped (`e = list + (i + 0x19) * 27`), `0x19 + i`, `i = 0; for (; ...)` (4), permute.py 5 min (321 candidates)",321 candidates,ga
+RosterPanelClick,,(2026-10-22): retried under GA because the diff is the address CSE: falistsel indexed directly (unsigned char and char) and the int sums falistsel + row either order (13: the block-scope fa local also sets early registers,,ga
+RosterPanelClick,,"the toggle still adds into edi), and new: `fa[row] = ~((unsigned char *)falistsel)[row]` and the reverse, `~*(fa + row)`, `*(fa + row) = ~fa[row]`, `signed char *fa`, `row[fa]`, every order of side, h, row, rowy (no change)",no change,ga
+DrawAwardsSummary,,"(2026-10-22): every order of s, y, k",,ga
+DrawAwardsSummary,,"the byte through an `(unsigned char *)` cast, `21 * awardwinners[k * 52]`, `s.i++; } while (s.i < 0xB)`, permute.py in the merged file (321 candidates, best 12)","321 candidates, best 12",ga
+BuildFreeAgentList,,"(2026-10-22): all 720 orders of n, i, s, rec, off, p (no change at all), `unsigned short off` (6) / `unsigned short n` (8) under GA (as under LA), rec not named (s * 0x34 written twice), `p = keydb + (rec = s * 0x34)`, p from `s * 0x34` with rec kept, rec assigned after the 0FFh test, `&keydb[rec]`, `rec + keydb`, `*(int *)&falist[off + 4]`, `*p`, permute.py 5 min (449 candidates, best 6: off short / unsigned short)","449 candidates, best 6: off short / unsigned short",ga
+BuildFreeAgentList,type:off:unsigned_short,`unsigned short off`,tried (docs/UNSURE.md),ga
+BuildFreeAgentList,type:n:unsigned_short,`unsigned short n`,tried (docs/UNSURE.md),ga
+SelectHilight,,"(2026-10-22): `s.i = s.i + 1`, `++s.i`, `s.i += 1` in the struct version (no change), i declared first or last",,ga
+SelectHilight,,"the 12 orders / placements of i, tbl, strs, permute.py on the new base (321 candidates)",321 candidates,ga
+FixJerseyConflict,,"(2026-10-22): `s.key[k][1] == s.key[s.i][1]` and `s.i != k` with it (22), `&s.key[s.i][0]` / `s.key + s.i` for the buffer, `(*(s.key + s.i))[1]`, `*(s.key[k] + 1)`",,ga
+FixJerseyConflict,,a nested if,,ga
+FixJerseyConflict,,"the pal assignment inside the sub_8FFB0 argument, permute.py 5 min (321 candidates, best 12 only as a batched-state score: `0x1A + tr`). Note: try_variants / permute scores below the base that are not confirmed fresh can be compiler-state artifacts (rec2 / B2 / B3 scored 16 batched, 20 alone)","rec2 / B2 / B3 scored 16 batched, 20 alone",ga
+CreateFreeAgent,,(2026-10-22): `csize = s.df.sectors; csize *= s.df.bytes` and the bytes-first two-step (26-31),26-31,ga
+CreateFreeAgent,,an unsigned cast,,ga
+CreateFreeAgent,,"the jersey number in i / n / kind / csize / err (46-55, sizes +25 to +111) or k (19: size right",,ga
+CreateFreeAgent,,the dead copy gone,,ga
+CreateFreeAgent,,the csize registers swapped,,ga
+CreateFreeAgent,,"with k, all three csize forms 26-31), `if ((j = InputDialog(...)) < 0)`, permute.py twice (577 candidates from the old base: best 14",,ga
+CreateFreeAgent,,the committed shape,,ga
+CreateFreeAgent,,"513 from the k base: best 13 only with an artificial `_t0 = attdb_size + 0x14` temp, 20 without it)",,ga
+OpenSpeechBank,,"(2026-10-22): those 30 orders, int / unsigned / long type with short / unsigned short c and the shifts `(unsigned short)type >> 8`, `(short)type >> 8`, `(type & 0xFFFF) >> 8` (18 combinations, 43-45 before the slot sweep)","18 combinations, 43-45 before the slot sweep",ga
+TradePlayers,,"(2026-10-22, GA): the second label inlined / the first inlined / both inlined (4), nm declared first, nm assigned in the strcat call",,ga
+TradePlayers,,"the second index through r or again, err / again / r declaration orders",,ga
+TradePlayers,,"the ""Show "" copy before / after the dword_C87C8 store or the nm load (5-7), nm as unsigned char * or int",,ga
+TradePlayers,,"the width ternary in five spellings (`s.x > s.y ? ...`, `>=`, `6 + ...`",,ga
+TradePlayers,,"a separate store, through r), `(int)&s.msg1` / `&s.msg2`, `&str_Statistics`, `&btn_TradeStats`, fputchar of dword_C87C8 / C87E8 (11), `1[s.sel]`, `*(s.sel + 1)`, `r == 0`",,ga
+TradePlayers,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+doplayeracc,,"(2026-10-22, GA): casts on *pucky `(unsigned short)` `(int)` `(unsigned)` `(long)` `(signed char)`, `*(unsigned short *)pucky`, `*(volatile short *)pucky`, vy as int / unsigned short / unsigned, dy int, casts on vy or the sum",,ga
+doplayeracc,,"*pucky through t / xv / yv / a new short py (any declaration position) / unsigned short / int py, py loaded before vy, `py + vy`, `dy = vy; dy += py`, `dy = py; dy += vy`, one-statement `vy + py - y` / `py + vy - y` / `vy - y + py`, `(short)xv` / `(short)yv`, `(unsigned short)` into xv / yv",,ga
+doplayeracc,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+doplayeracc,type:vy:int,"pucky`, vy as int / unsigned short / unsigned, ",tried (docs/UNSURE.md),ga
+doplayeracc,type:vy:unsigned_short,"pucky`, vy as int / unsigned short / unsigned, ",tried (docs/UNSURE.md),ga
+doplayeracc,type:vy:unsigned,"pucky`, vy as int / unsigned short / unsigned, ",tried (docs/UNSURE.md),ga
+ListDialog,,"(2026-10-22, GA, fresh compiles): plain locals in forward / reverse / 14 random orders (34-83), bg at all 16 declaration positions after the five address-taken ints (24), permute movedecl / swapdecl / scope 6 minutes (321 candidates, best 11 above), and on that base `bg = sub_8CCA8(...); bg2 = bg;`, `bg2 = sub_8CCA8(...); bg = bg2;`, `bg = bg2 = ...`, bg as the size temporary, `bg = 0` first, short lh",,ga
+RunDemoGame,,"(2026-10-22, GA, fresh compiles): `short team` (14)",14,ga
+RunDemoGame,,"a block-scoped short t, `(int)randomd0(0x11)`, `team *= 2` with the index unscaled, `(short *)&dword_C5861 + team` (with int or short team), team declared before one, home as the index, vis for the else branch's team",,ga
+RunDemoGame,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+RunDemoGame,type:team:short,`short team`,tried (docs/UNSURE.md),ga
+ShowCredits,,"(2026-10-22, GA, fresh compiles): y in two statements (`y = n * h; y = 0xDA - (y >> 1)` 18, `y = n * h >> 1; y = 0xDA - y` 20), `/ 2` (12), `(int)byte_D42C3`, `% 8u` (17), `0x85 + rand() % 8` forms",,ga
+ShowCredits,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+FreeRockMusic,,"(2026-10-22, GA, fresh compiles): LoadRockMusic with plain locals (path / picked / home",,ga
+FreeRockMusic,,with or without the inner team copies,,ga
+FreeRockMusic,,63 vs 26),,ga
+FreeRockMusic,,"the zero store as a literal, through cue or t3 (all still push ebp)",,ga
+RunIntro,,"(2026-10-22, GA): all 120 orders of song2 / song4 / song3 / wait / skip on the old base (all >= 10), `song2 = sub_8F98F(path); songdata = song2;` (5, same), `song2 = songdata = ...` (7), wait copied in two statements (10, 11), through songdata (7), through skip (61)",61,ga
+RunIntro,,"on the new base `(signed char)` / `(unsigned char)` 3Fh, `(signed char)0` for the black store, `(pal + i * 3)[k]`",,ga
+RunIntro,,"the zero store braced, c declared after tgt (12)",12,ga
+RunIntro,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+SeriesLength,,"(2026-10-22, GA, fresh compiles): the plain `switch (n)` with breaks and one `return len` (10, same body, epilogue at the end)","10, same body, epilogue at the end",ga
+SeriesLength,,"with `>= 0` tests (10), `default: break` first (10), case 1 falling into `default: return len;` (with breaks 10",,ga
+SeriesLength,,"with returns 13, as `switch (n - 1)` 10), returns in every case (17), fall-through between cases 3 / 2 and 5 / 6 (13), `len = 3; if (SeriesWinner(...) >= 0) len = 5;` (12), ternaries (11)",11,ga
+CreatePlayoffs,,"(2026-10-22, GA, fresh compiles): the frame struct up to x with bank2, fill, lite, bg, shade, fg, rgb[4], orgb[4] as plain locals (forward, reverse and 30 random orders: 24-28",,ga
+CreatePlayoffs,,"the two 4-byte arrays land right after the struct, below the scalars, where the EXE has them at the top)",,ga
+CreateNewLeague,,"(2026-10-22, GA): permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+CreateNewLeague,,the LA list (store forms,,ga
+CreateNewLeague,,"a byte local, `&= ~0xFF`) not repeated",,ga
+SeedPlayoffRound2,,"(2026-10-22, GA, fresh compiles): month declared before day (22), day / month after g, after i, after t, after err (as month, day: 22), before len, before the POTeamRec locals (34)",34,ga
+SeedPlayoffRound2,,the first month chain as two stores (18),18,ga
+POHandleElimination,,beyond the UNSURE (LA) list,,ga
+POHandleElimination,,nothing new tried under GA,,ga
+SetGameSides,,"(2026-10-22, GA, fresh compiles): rec[2] in a local h (declared after o, before o, before rec), h assigned inside the compare, `o = rec[2]` before the test (if / else and `team != o` forms), o assigned inside the compare (all 13: Watcom compiles them alike)",all 13: Watcom compiles them alike,ga
+SetGameSides,,"permute 5 minutes (321 candidates, none better)","321 candidates, none better",ga
+LoadRink,,"(2026-10-22, GA, fresh compiles): all 120 orders of smap / size / tiles / n / t (others 20+)",others 20+,ga
+LoadRink,,"the first or second bitmap's clears through tiles (40-43) or smap (24), through the global with no t (17)",17,ga
+DrawListItem,,"operand order, is right for GA's product registers). Left: first_pick +010 `mov ebp, ebx` / `mov edi, ecx`, EXE `mov edi, ebx` / `mov ebp, ecx` (y and w swapped through the whole function)",,ga
+DrawListItem,,"the byte_D42C3 load scheduled after idx - top (EXE before), `lea ebp, [ebx+eax]` for the y sum (EXE `add edi, eax`), and case 1's `sub edi, 4; add esi, edi` (EXE `lea eax, [ebp-4]` and a jump into case 2's `add esi, eax`). Tried (2026-10-22, GA, fresh compiles, on the new base): `y += ...; y += 2` (37), `y = y + ...`, `2 + ...`, `x += (w -= fputchar(text)) - 4`, `x += w + -4` (all 19), `x += w - fputchar(text) - 4` (34)",34,ga
+DrawListItem,,"the w / x statements first (20), `idx == sel` (21)",21,ga
+DrawListItem,,the row height in an int h (33),33,ga
+DrawListItem,,permute 5 minutes (321 candidates,,ga
+DrawListItem,,the 19 above),,ga
+checkob,,"under GA: it still hoists the `lea` out of the loop (5 differing). Tried (2026-10-22, GA): `extra + 0x4E < Y`, `(int)(extra + 0x4E) < Y`, `0x4E + extra < Y`, `extra + 0x4E < (y = Y)`, `!(extra + 0x4E >= Y)` (20)",20,ga
+checkob,,"the pucky test flipped too (8), `-Y < -(extra + 0x4E)` (17), `continue` on position then `y = Y; if (extra + 0x4E < y)`",,ga
+checkob,,the same nested in `if (position >= 0)`,,ga
+checkob,,"a comma `(y = Y, lim < y)` (20), `if (position < 0 || lim >= Y) continue;` and the `; else` form",,ga
+checkob,,a `? 1 : 0` ternary (20) (all hoist: 5),all hoist: 5,ga
+checkob,,"with the limit on the left: extra short (21) / unsigned (8), `HIWORD(o->Ypos)` (5), found int (18), n short (11)",11,ga
+checkob,,"permute 5 min (321 candidates, exhausted, best base)","321 candidates, exhausted, best base",ga
+SayPenalty,,"(2026-10-22, GA): `cnt > 1` (6, same as `1 < cnt`), `idx < cnt` in both (12, size -4: idx gets a register",,ga
+SayPenalty,,"a goes to memory) or only in the request (6), if / else calls for the ternary (12), `!speechinit || !SpeechIdle()` (11)",11,ga
+SayPenalty,,"the body nested in `if (speechinit && SpeechIdle())` (10), `idx != 1` arms swapped (11), `withtime != 0`",,ga
+SayPenalty,,a block around the time clips,,ga
+SayPenalty,,the speechq / speechbank spellings (6),6,ga
+SayPenalty,,a / b short (40),40,ga
+SayPenalty,,"a / b / both unsigned (6), withtime char (11), cnt short (14), all 24 orders of the four arrays (12-22",,ga
+SayPenalty,,the stack offsets move),,ga
+SayPenalty,,"permute 5 min (321, best 4 with an `(unsigned short)` cast in the cnt compare, not natural)",,ga
+SaveGameState,,"(2026-10-22, GA): `6 * i`, `FileWriteAt(...) != 0` before the loop",,ga
+SaveGameState,,"a `p++` after the last byte pair (10, unchanged), `for (p = buf, i = 0; ...)` (33)",33,ga
+checkgoal,,"(2026-10-22, GA): z short / unsigned short (21), `z = -y; p->Zvel = z >> 1` (23), `y = -y; p->Zvel = y >> 1` (12), `x = -y; x >>= 1` (21), `x = -y; p->Zvel = x >> 1` (12), Zvel read in place: `x = -p->Zvel; x >>= 1` (21), `p->Zvel = -p->Zvel >> 1` (25), `y = -p->Zvel; x = y; x >>= 1` (10), `y = -p->Zvel; p->Zvel = y >> 1` (12), `y = -y; x = y; x >>= 1` (10), `y = -y; p->Zvel = x = y >> 1` (12), `p->Zvel = -y >> 1` (22), `(short)-y >> 1` (23), `x = y = -y` (10), `-p->Zvel / 2` (30), `p->Zvel = -p->Zvel; p->Zvel >>= 1` (18), `(z = p->Zvel) < 0` with `z = -z` (25) or `x = -z` (29), `onetimerflag = 0; shotongoal = 0;` (8), `*puckc` read in place instead of c (8)",8,ga
+checkgoal,,"permute 5 min (321, exhausted, best base)","321, exhausted, best base",ga
+EasnGoalieStatsScreen,,"(2026-10-22, GA): a `switch (gamemode)` with case 1 first (25) or default first (22)",22,ga
+EasnGoalieStatsScreen,,the drive tests as ternaries `dir2 = fileoncd[x] == 1 ? cddriveptr : 0` (14),14,ga
+EasnGoalieStatsScreen,,the `gamemode == 1` arm first (15),15,ga
+checkplcoll,,"(2026-10-22, GA): `while (i != 16)` (13), `for (; i != 16; i++)` (17), d assigned before each test (13), `if (i != 0) do ...` (13), `if ((i = OOlistpos[...]) == 0) return;` (13)",13,ga
+checkplcoll,,the two early returns as one `||` (13),13,ga
+checkplcoll,,"permute 5 min (321, best 8 with x as int, which changes the word home: not the original)","321, best 8 with x as int, which changes the word home: not the original",ga
+wallcoll,,"(2026-10-22, GA): all 32 operand orders of the two products and the Yvel sum (best the committed one",,ga
+wallcoll,,16-20),,ga
+SetSoundDevice,,"(2026-10-22, GA): `if (dev == 8) if (!dword_D2350)`, `dword_D2350 == 0` (no change), `dword_D2350 == 0 && dev == 8` (13)",13,ga
+SetSoundDevice,,"the dev == 4 / dev == 8 blocks as `else if` (10: a jmp more), `s.ev = 0` after sub_B2DCA (12), `sounddev = 8` before `dword_D2350 = -1` (no change)",no change,ga
+SetSoundDevice,,the sndcardname switch with `default:` for 8 (18) or as an if / else chain (30),30,ga
+SetSoundDevice,,"permute 5 min in the merged file (321, exhausted, best base)","321, exhausted, best base",ga
+FillDressedSlots,,"(2026-10-22, GA): all 24 orders of r, i, lt, k (20 each)",20 each,ga
+FillDressedSlots,,"the loop with `if ((r = list[i]) < 0) break;` or `r = list[i]; if (r < 0) break;` (31), k as int (56) / signed char (24), `+= 1` for the dressed count, lt by if / else, `r == lt[k]`",,ga
+FillDressedSlots,,the D test inverted (25),25,ga
+FillDressedSlots,type:k:int,k as int,tried (docs/UNSURE.md),ga
+ReassignCtlPlayer,,"(2026-10-22, GA): every combination of px (cast / no cast / `*puckx + (*puckvx >> 8)`), py (both operand orders) and n (signed char / short / int / unsigned short) (11-23",,ga
+ReassignCtlPlayer,,short n with the rest: 14-15),,ga
+ReassignCtlPlayer,,"the compare with n short (14) or int (20), pl int (28), `*puckc == p->SCnum` without the cast (11)",11,ga
+ReassignCtlPlayer,,"permute 5 min from the short-n base (449, best 5 only with py as char, not the original",,ga
+ReassignCtlPlayer,,"best natural 10: an operand swap, dx in the loop block, px moved)",,ga
+ReassignCtlPlayer,type:py:char,"py as char, ",tried (docs/UNSURE.md),ga
+ShowRosterStats,,"(2026-10-22, GA): `m = 0; for (i = 0; ...)` (42), `for (m = i = 0; ...)` (23), gs declared at the top (25), `n = 0; for (i = 0; ...)` (28), `rosterpstat + 0x12 + idx * 0x28` (20, EXE size",,ga
+ShowRosterStats,,"as under LA), that with the m split (42)",42,ga
