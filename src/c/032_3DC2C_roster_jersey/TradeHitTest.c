@@ -1,7 +1,4 @@
 /* Roster and jersey: trade screen hit test. */
-/* DRAFT: 247 vs 252. out is spilled correctly. x is in edi and y in ebp (original esi, edi), so the
- button edge lands in esi instead of ebp and y+28h is an add rather than lea. Declaring the edge first
- or last did not swap x and y. Do not retry that. */
 #define TradeHitTest TradeHitTestDecl
 #include "nhl95.h"
 #undef TradeHitTest
@@ -26,9 +23,8 @@ int TradeHitTest(int x, int y, int *out, int *slot, int *flag)
             if (x < e) continue;
             e += 0x3A;
             if (x >= e) continue;
-            e = tradebtny[i * 2];
-            if (y < e) continue;
-            if (y >= e + 0x28) continue;
+            if (y < tradebtny[i * 2]) continue;
+            if (y >= tradebtny[i * 2] + 0x28) continue;
             if (*slot >= 0) out[*slot] = i;
             else {
                 *slot = i / 2;
