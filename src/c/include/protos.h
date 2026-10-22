@@ -954,7 +954,7 @@ void DrawExhSetDlg(void);  /* 7C1AC */
 void DrawModeSetDlg(void);  /* 7B4EC */
 void DrawPhotoWithPal(unsigned char *src, int art, int x, int y);  /* 21C04 */
 void __cdecl sub_91FE0(int art, int x, int y);  /* graphics library: draw art */
-int MenuSoundSettings(void);  /* 82579 */
+int MenuSoundSettings(int a, int b);  /* 82579 */
 int MenuCentralRegistry(void);  /* 6BE95 */
 void SetModeMenuLabels(unsigned mode);  /* 805C4 */
 void DrawMenuBox(int x1, int y1, int x2, int y2, int c1, int c2, int c3);  /* 6B7FC */
