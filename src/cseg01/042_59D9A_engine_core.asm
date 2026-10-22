@@ -1238,6 +1238,10 @@ ret	; 5AB35
 ; esi = scoring team, ebp = the other (puck Ypos sign xor gmdir). Puck stopped in the net, assreplace
 ; puck 1Ah. Offside (tmflags bit 4) -> AddPenalty 8 + AddPenalty2 1Bh; PenTeamScored (delayed penalty) -> no goal
 ; else tmscore+1 and the scoring bookkeeping (goal/assist counts, PenGoalStuff).
+; C: src/c/042_59D9A_engine_core/calcpuckcross.c (Goal)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/calcpuckcross.Goal.inc"
+%else
 Goal:
 push dword 24h	; 5AB36
 call __CHK	; 5AB3B
@@ -1718,6 +1722,7 @@ call UpdateCoachModes	; 5B1C1
 .60:
 add esp, byte 8	; 5B1C6
 jmp near calcpuckcross_ret6	; 5B1C9
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/GiveControl.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/GiveControl.inc"
