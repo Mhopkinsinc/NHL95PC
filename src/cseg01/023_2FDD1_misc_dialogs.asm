@@ -18,6 +18,10 @@ global AskDatabaseChoice, DrawBevelRect, DlgReturnZero, TextInputDialog, DlgNull
 global ListHitTest, DrawListItem, DrawListItems, ListDialog, MeasureTextLine, SetDialogColors, TrackButtons, DrawButtons
 global DrawButton, InitScrollBar, DrawScrollBar, TrackScrollBars, SaveDialogBg, RestoreDialogBg, GrowToButton, GrowToButtons
 global MessageBox, RunMessageBox, CritErrHandler, DrawEditCursor, DrawEditText, EditTextField
+; C: src/c/023_2FDD1_misc_dialogs/AskDatabaseChoice.c
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/AskDatabaseChoice.inc"
+%else
 AskDatabaseChoice:
 push dword 30h	; 2FDD1
 call __CHK	; 2FDD6
@@ -59,6 +63,7 @@ pop edx	; 2FE45
 pop ecx	; 2FE46
 pop ebx	; 2FE47
 ret	; 2FE48
+%endif ; C
 ; C: src/c/023_2FDD1_misc_dialogs/DrawBevelRect.c
 %ifdef CBUILD
 %include "c/023_2FDD1_misc_dialogs/DrawBevelRect.inc"
