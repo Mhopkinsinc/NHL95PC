@@ -1212,6 +1212,10 @@ pop esi	; 411C5
 pop ecx	; 411C6
 ret	; 411C7
 %endif ; C
+; C: src/c/033_40183_trades/BuildLeagueList.c
+%ifdef CBUILD
+%include "c/033_40183_trades/BuildLeagueList.inc"
+%else
 BuildLeagueList:
 push dword 70h	; 411C8
 call __CHK	; 411CD
@@ -1350,6 +1354,7 @@ pop edi	; 41333
 pop esi	; 41334
 pop ecx	; 41335
 ret	; 41336
+%endif ; C
 ; C: src/c/033_40183_trades/LeagueCheckStub.c
 %ifdef CBUILD
 %include "c/033_40183_trades/LeagueCheckStub.inc"
