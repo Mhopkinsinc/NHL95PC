@@ -23,8 +23,7 @@ void DrawGameLineJerseys(unsigned char *nums, int art, unsigned char side)
         if (!st) return;
         switch (st) {
         case 2:
-            if (curperiod < 0) col = 0xFC;
-            else col = 0xC2;
+            col = curperiod < 0 ? 0xFC : 0xC2;
             break;
         case 3: case 4: col = 0xC3; break;
         case 1: case 5: case 6: case 8: col = 0xC2; break;
