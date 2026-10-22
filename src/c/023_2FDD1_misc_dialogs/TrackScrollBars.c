@@ -6,7 +6,9 @@
 /* TrackScrollBars: the same hit test for scroll bars (12 ints each). A bar under the mouse is
  pressed while button bit 0 is down. Bit 1 releases it. The thumb follows the mouse, clamped
  inside the bar, and the item index is thumb * total / (height - 4). Returns the bar under the
- mouse, or -1. */
+ mouse, or -1.
+ DRAFT: everything up to the exit matches; the EXE ends in `jmp TrackButtons_x`, so the match needs this
+ function in TrackButtons.c after DrawButtons, DrawButton, InitScrollBar and DrawScrollBar (address order). */
 int TrackScrollBars(int *list, int n, int x, int y, int buttons)
 {
     int yy;
@@ -35,15 +37,14 @@ int TrackScrollBars(int *list, int n, int x, int y, int buttons)
                 (list + i * 12)[5] = 0;
             else if ((list + i * 12)[3] - (list + i * 12)[7] - 4 < (list + i * 12)[5])
                 (list + i * 12)[5] = (list + i * 12)[3] - (list + i * 12)[7] - 4;
-            t = (list + i * 12)[3] - 4;
-            (list + i * 12)[8] = (list + i * 12)[5] * (list + i * 12)[10] / t;
+            (list + i * 12)[8] = (list + i * 12)[5] * (list + i * 12)[10] / (t = (list + i * 12)[3] - 4);
             hit = i;
-            if (old == (list + i * 12)[5]) continue;
+            if (old != (list + i * 12)[5]) DrawScrollBar(list + i * 12);
         } else {
             if ((list + i * 12)[11] == 0) continue;
             (list + i * 12)[11] = 0;
+            DrawScrollBar(list + i * 12);
         }
-        DrawScrollBar(list + i * 12);
     }
     return hit;
 }
