@@ -6255,6 +6255,10 @@ pop ebp	; 77F69
 pop edi	; 77F6A
 pop esi	; 77F6B
 ret 0Ch	; 77F6C
+; C: src/c/054_737AA_line_editor_rosters/LineEdHitTest.c
+%ifdef CBUILD
+%include "c/054_737AA_line_editor_rosters/LineEdHitTest.inc"
+%else
 LineEdHitTest:
 push dword 14h	; 77F6F
 call __CHK	; 77F74
@@ -6317,6 +6321,7 @@ pop edi	; 77FF1
 pop esi	; 77FF2
 pop ecx	; 77FF3
 ret	; 77FF4
+%endif ; C
 LoadGameRoster:
 push dword 0ACh	; 77FF5
 call __CHK	; 77FFA
