@@ -66,6 +66,10 @@ mov word [byte eax+SPAcnt], 0FFFFh	; 59DB4
 .x:
 ret	; 59DBA
 %endif ; C
+; C: src/c/042_59D9A_engine_core/SetSPA.c (SprSort_loop)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/SetSPA.SprSort_loop.inc"
+%else
 SprSort_loop:
 lea esi, [byte eax+02h]	; 59DBB
 test byte [sflags], 80h	; 59DBE
@@ -128,6 +132,7 @@ pop edx	; 59E65
 pop ecx	; 59E66
 pop ebx	; 59E67
 ret	; 59E68
+%endif ; C
 ; changeplayer: Human control moves to the best teammate (Sweepcheck); restorepl gives
 ; the old player his assignment back. Callers: input, physics, player logic, assignments.
 changeplayer:
@@ -5247,6 +5252,10 @@ pop edx	; 5DD67
 pop ecx	; 5DD68
 pop ebx	; 5DD69
 ret	; 5DD6A
+; C: src/c/042_59D9A_engine_core/SetSPA.c (SprSortVert)
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/SetSPA.SprSortVert.inc"
+%else
 SprSortVert:
 push dword 4	; 5DD6B
 call __CHK	; 5DD70
@@ -5265,6 +5274,7 @@ mov eax, Ylist	; 5DD8D
 mov ecx, SortCords	; 5DD92
 xor ebx, ebx	; 5DD97
 jmp near SprSort_test	; 5DD99
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/GameOver.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/GameOver.inc"

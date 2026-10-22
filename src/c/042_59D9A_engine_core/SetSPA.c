@@ -12,8 +12,8 @@ void SetSPA(Player *p, short spa)
     }
 }
 
-/* DRAFT (first pass from Ghidra): the EXE splits it. Its body (SprSort_loop, SprSort_test) follows SetSPA and its
-   entry (5DD7C) follows SprSortVert, which falls into it. */
+/* The EXE splits it: its body (SprSort_loop, SprSort_test) follows SetSPA and its entry (5DD7C) follows
+   SprSortVert, which falls into it. */
 /* SprSort (5DD7C; 93G SprSort): sort the 17 sort objects (SortCords) for drawing: copy each one's y (its x when
    sflags bit 7, sfhor) to Ylist, then bubble sort OOlist by Ylist and record each object's place in OOlistpos.
    No arguments and no result. */
@@ -23,15 +23,15 @@ void SprSort(void)
     Player *p;
     short i;
     signed char *o;
-    short a;
     short b;
+    short a;
     short n;
     char swapped;
 
     y = Ylist;
     p = SortCords;
     for (i = 0; i < 0x11; i++) {
-        *y++ = (sflags & 0x80) ? HIWORD(p->Xpos) : HIWORD(p->Ypos);
+        if (sflags & 0x80) *y++ = HIWORD(p->Xpos); else *y++ = HIWORD(p->Ypos);
         p++;
     }
     do {
@@ -39,11 +39,10 @@ void SprSort(void)
         o = (signed char *)OOlist;
         n = 0;
         for (i = 0; i < 0x10; i++) {
-            a = *o;
-            o++;
+            a = *o++;
             b = *o;
             n++;
-            if (Ylist[o[-1]] > Ylist[*o]) {
+            if (Ylist[a] > Ylist[b]) {
                 o[0] = a;
                 o[-1] = b;
                 OOlistpos[a] = n;
