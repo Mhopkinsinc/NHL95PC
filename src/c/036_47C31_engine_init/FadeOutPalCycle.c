@@ -14,7 +14,6 @@ void FadeOutPalCycle(void)
     int done;
     int i;
     int j;
-    signed char c;
 
     if (!loadscreenon) return;
     done = 0;
@@ -22,9 +21,8 @@ void FadeOutPalCycle(void)
         palcyclelock = done = 1;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 0x300; j++) {
-                c = loadpals[i * 0x300 + j];
-                if (c > 0) {
-                    loadpals[i * 0x300 + j] = c - 1;
+                if ((signed char)loadpals[i * 0x300 + j] > 0) {
+                    loadpals[i * 0x300 + j]--;
                     if (done == 1) done = 0;
                 }
             }
