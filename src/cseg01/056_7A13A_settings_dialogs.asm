@@ -4318,6 +4318,10 @@ call __CHK	; 7D13C
 xor eax, eax	; 7D141
 jmp short ControlsDlgPlayoff	; 7D143
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP2ControlsPlayoff)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP2ControlsPlayoff.inc"
+%else
 MenuP2ControlsPlayoff:
 push dword 4	; 7D145
 call __CHK	; 7D14A
@@ -4406,6 +4410,7 @@ add esp, byte 4	; 7D247
 xor eax, eax	; 7D24A
 add esp, byte 8	; 7D24C
 jmp near ControlsDlg_ret	; 7D24F
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (DrawControlsDlg)
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.DrawControlsDlg.inc"

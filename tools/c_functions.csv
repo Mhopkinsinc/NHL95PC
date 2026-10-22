@@ -873,13 +873,12 @@ MenuP2ControlsLeague ControlsDlgLeague,7CA61,150,056_7A13A_settings_dialogs,src/
 MenuP2ControlsInGame,7CB9F,20,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsPlayoff,7D137,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c): jmp short ControlsDlgPlayoff,
+MenuP2ControlsPlayoff ControlsDlgPlayoff,7D145,271,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 DrawControlsDlg,7D254,412,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 DrawControlsOpts,7D3F0,559,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 11/17
 ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
-MenuP2ControlsPlayoff,7D145,271,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
-ControlsDlgPlayoff,7D154,256,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 4/6
 ControlsDlgLoop,7D6B1,1206,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 229/334
 ModeOptsToBits,7B604,304,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeOptsToBits.c,matched,,
 ModeSetHitTest,7B734,138,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeSetHitTest.c,matched,,

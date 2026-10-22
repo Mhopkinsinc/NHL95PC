@@ -46,7 +46,7 @@ typedef struct { unsigned mouse:1, joy1:1, joy2:1, keys:1; } CtlAvail;
  splits it the same way, and once DrawControlsOpts pushes ebp (its add esp, 0Ch / pop ebp tail matches
  ControlsDlgInGame's) Watcom keeps the shared exit there, as in the EXE. Still drafts: MenuP1ControlsInGame /
  ControlsDlgInGame (CtlSwapScoreFix and CtlSwapTeamFlag, in their own files, sit between the two pieces in the EXE),
- ReassignCtlPlayer, ControlsDlgPlayoff and ControlsDlgLoop (register picks). */
+ ReassignCtlPlayer and ControlsDlgLoop (register picks). */
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
 #define TEAM(t) ((&hmtmstruct)[t])
@@ -336,14 +336,13 @@ int MenuP2ControlsPlayoff(void)
     return ControlsDlgPlayoff(1);
 }
 
-/* DRAFT: register picks (side * 4 in ebp, ctl1side in esi; the EXE uses eax for both). */
 /* ControlsDlgPlayoff (7D154, PC only): ControlsDlgExh for the playoffs (the alternate colours), and then the
    controller's team as ControlsDlgInGame sets it (cont1team / cont2team: 0 none, 1 home, 2 away from ctl1team
    ctl1side) and samesideflag when both controllers are on one side. side: the controller. Result 0. */
 int ControlsDlgPlayoff(int side)
 {
     int buf;
-    short team;
+    int team;
 
     buf = sub_8CCA8((char *)str_BKGD4, 0x8C31, 0x20);
     *(Hdr17 *)buf = *(Hdr17 *)pointerspr;
