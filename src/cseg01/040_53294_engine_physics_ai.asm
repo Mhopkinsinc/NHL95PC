@@ -7856,6 +7856,10 @@ pop ecx	; 59263
 ret	; 59264
 %endif ; C
 ; ChkGoalies: (computer pulls goalie on delayed penalty), once a second from periodicevents.
+; C: src/c/040_53294_engine_physics_ai/ChkGoalies.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/ChkGoalies.inc"
+%else
 ChkGoalies:
 push dword 14h	; 59265
 call __CHK	; 5926A
@@ -7931,6 +7935,7 @@ pop edx	; 5934E
 pop ecx	; 5934F
 pop ebx	; 59350
 ret	; 59351
+%endif ; C
 ; ReturnGoalies: (computer returns a pulled goalie), from puckfaceoff.
 ; C: src/c/040_53294_engine_physics_ai/checkob.c (ReturnGoalies)
 %ifdef CBUILD
