@@ -1096,3 +1096,8 @@ CreatePlayoffs,,"split frame with rgb/orgb small struct + scalars, tail struct, 
 EasnGoalieStatsScreen,,"(2026-10-22): whole-segment module_try (12, apparent size +0 just includes neighbor bytes/shared tail), full module with reconstructed skater page in address order (fresh 66 first_pick differences), either/both drive tests reversed, ext2 initialized before branch, reuse dir/name/ext for second path",,ga
 EasnGoalieStatsScreen,,"targeted GA tail-layout retries motivated by the specific shared-jne diff: duplicated MakePath, shared goto selectors, and explicit nodrive/embpal blocks after return with all four conditional orientations. Best standalone unchanged",,ga
 EasnGoalieStatsScreen,,original restored,,ga
+DrawListItem,,"(2026-10-22, GA, fresh compiles): row-height int / unsigned / short / byte with both product orders and split increments, row sums through c / h / top, copied y, final y preincrement or separate increment before or after the switch, shared switch offsets in c / h / w / top / a new delta with default goto or zero, per-arm width temporaries and call-result temporaries, c / h declaration order",,ga
+DrawListItem,,whole misc_dialogs module (no change),no change,ga
+DrawListItem,,final return declarations (int / short / unsigned short / char / unsigned char,,ga
+DrawListItem,,with missing return or returning a per-module int PrintMenuText result: no improvement),,ga
+DrawListItem,,"two permute runs (321 and 1014 candidates, log ~/tmp/u/np/permlog_l.csv)","321 and 1014 candidates, log ~/tmp/u/np/permlog_l.csv",ga
