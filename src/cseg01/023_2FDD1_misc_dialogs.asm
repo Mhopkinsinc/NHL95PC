@@ -1332,6 +1332,10 @@ mov dword [byte ecx+01Ch], eax	; 30C38
 pop ecx	; 30C3B
 ret	; 30C3C
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/DrawButton.c (DrawScrollBar)
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/DrawButton.DrawScrollBar.inc"
+%else
 DrawScrollBar:
 push dword 28h	; 30C3D
 call __CHK	; 30C42
@@ -1397,6 +1401,7 @@ mov edx, ebp	; 30CFF
 xor edx, eax	; 30D01
 mov dword [boxlitecolor], edx	; 30D03
 jmp near DrawButton_x	; 30D09
+%endif ; C
 TrackScrollBars:
 push dword 20h	; 30D0E
 call __CHK	; 30D13

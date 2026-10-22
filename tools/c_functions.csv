@@ -229,7 +229,7 @@ DlgReturnZero,2FED2,13,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DlgRe
 DrawBevelRect,2FE49,137,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawBevelRect.c,matched,,
 DrawButton,30B16,221,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,matched,,
 InitScrollBar,30BF3,74,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,matched,,
-DrawScrollBar,30C3D,209,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,nonmatching,draft: x in ebp y in edi (207); EXE x in edi y in ebp (209). Declaring x before y did not swap them.,register 32/38
+DrawScrollBar,30C3D,209,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButton.c,matched,draft: x in ebp y in edi (207); EXE x in edi y in ebp (209). Declaring x before y did not swap them.,
 DrawButtons,30AE2,52,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawButtons.c,matched,,
 DrawEditCursor,314B4,229,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft: same size (229); only the FILLRECT push registers differ (editcurw ecx / fontcolor ebp, EXE ebp / edx). See docs/UNSURE.md.",register 5/5
 DrawEditText,31599,372,023_2FDD1_misc_dialogs,src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c,nonmatching,"draft (DrawEditCursor.c): same size (372), dot width in edi (original ebp). See docs/UNSURE.md.",register 14/16

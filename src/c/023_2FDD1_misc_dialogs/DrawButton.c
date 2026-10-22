@@ -43,13 +43,12 @@ void InitScrollBar(int *sb, int visible, int total)
     sb[0x1C / 4] = (sb[0x0C / 4] - 4) * sb[0x24 / 4] / sb[0x28 / 4];
 }
 
-/* DRAFT (DrawScrollBar): x y land in ebp edi, EXE edi ebp; the rest and the jump to DrawButton_x match. */
 /* DrawScrollBar: draw scroll bar sb: its bevelled frame (x, y, w, h at +0..+0Ch) in the box colours, then the
  thumb (offset +10h +14h plus 2, size +18h +1Ch), pressed (+2Ch) with light and shade swapped (xor swap). */
 void DrawScrollBar(int *sb)
 {
-    int y;
     int x;
+    int y;
 
     x = sb[0];
     y = sb[1];
@@ -59,8 +58,9 @@ void DrawScrollBar(int *sb)
         boxshadecolor ^= boxlitecolor;
         boxlitecolor ^= boxshadecolor;
     }
+    x += sb[4] + 2;
     y += sb[5] + 2;
-    DrawBevelRect(x + (sb[4] + 2), y, sb[6], sb[7], boxfillcolor, boxlitecolor, boxshadecolor);
+    DrawBevelRect(x, y, sb[6], sb[7], boxfillcolor, boxlitecolor, boxshadecolor);
     if (sb[0x2C / 4] != 0) {
         boxlitecolor ^= boxshadecolor;
         boxshadecolor ^= boxlitecolor;
