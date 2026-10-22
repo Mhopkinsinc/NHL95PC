@@ -1,4 +1,7 @@
 /* Engine player logic: going to the bench. */
+/* DRAFT: 820 vs 827. Left: the temp1 count in di and its +8 copied to eax before the test (EXE dx, then
+   esi after it), so edi is saved where the EXE saves esi; the pflags byte in al / ah (EXE cl / ch) and the swap
+   test widening `xor edx, edx / mov dl, al` (EXE `mov edx, eax / and edx, 0FFh`). See docs/UNSURE.md. */
 #include "nhl95.h"
 
 /* assbench (4B12C; 93G logic93 / 94G assign94 assbench "player a3 should go to bench", PC version): not while
@@ -37,7 +40,7 @@ void assbench(Player *p)
     if (p->pflags & 2) {
         p->pflags &= 0xFD;
         p->temp2 = 8;
-        p->temp4 = (p->pflags & 0x40) ? 0x41 : -0x32;
+        p->temp4 = !(p->pflags & 0x40) ? -0x32 : 0x41;
         p->temp3 = -0xA8;
         p->temp1 = 0;
     }
@@ -50,7 +53,8 @@ void assbench(Player *p)
         return;
     }
     if (p->position == 0) ((unsigned char *)p)[0x48] |= 3;
-    if (--p->temp1 < 0) {
+    d = --p->temp1;
+    if (d < 0) {
         p->temp1 += 8;
         d = HIWORD(p->Ypos) - p->temp4;
         regd0.w = HIWORD(p->Xpos) - p->temp3;
