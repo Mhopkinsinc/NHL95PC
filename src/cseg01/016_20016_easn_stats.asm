@@ -973,6 +973,10 @@ xor ecx, ecx	; 20D84
 mov ebx, str_embpal2	; 20D86
 cmp byte [fileoncd+08Eh], 1	; 20D8B
 jmp near EasnGoalieStatsScreen_m.3	; 20D92
+; C: src/c/016_20016_easn_stats/EasnStandingsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/EasnStandingsScreen.inc"
+%else
 EasnStandingsScreen:
 push dword 28h	; 20D97
 call __CHK	; 20D9C
@@ -1053,6 +1057,7 @@ pop edx	; 20EA0
 pop ecx	; 20EA1
 pop ebx	; 20EA2
 ret	; 20EA3
+%endif ; C
 db 08Dh,040h,00h
 EasnStandingsMenu_jt:
 dd EasnStandingsMenu_standings
