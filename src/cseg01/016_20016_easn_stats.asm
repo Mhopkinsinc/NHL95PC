@@ -310,6 +310,10 @@ mov edx, 4	; 203EB
 mov eax, unk_CF88F	; 203F0
 jmp near GameTeamStatsScreen_common	; 203F5
 %endif ; C
+; C: src/c/016_20016_easn_stats/GameStandingsScreen.c
+%ifdef CBUILD
+%include "c/016_20016_easn_stats/GameStandingsScreen.inc"
+%else
 GameStandingsScreen:
 push dword 28h	; 203FA
 call __CHK	; 203FF
@@ -390,6 +394,7 @@ pop edx	; 20503
 pop ecx	; 20504
 pop ebx	; 20505
 ret	; 20506
+%endif ; C
 db 08Dh,040h,00h
 GameStandingsMenu_jt:
 dd GameStandingsMenu_standings
