@@ -359,6 +359,10 @@ pop edx	; 6185E
 pop ecx	; 6185F
 pop ebx	; 61860
 ret	; 61861
+; C: src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c (DrawRinkObjects)
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/DecayCrowdLevel.DrawRinkObjects.inc"
+%else
 DrawRinkObjects:
 push dword 34h	; 61862
 call __CHK	; 61867
@@ -479,6 +483,7 @@ jge near DrawRinkObjects.4	; 619BA
 mov esp, ebp	; 619C0
 pop ebp	; 619C2
 jmp near sfxslots_popx	; 619C3
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/QueueDeferredCall.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/QueueDeferredCall.inc"
