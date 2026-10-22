@@ -4100,6 +4100,10 @@ add esp, byte 0Ch	; 562D3
 jmp near PassLaneChk_ret5	; 562D6
 ; FallDown: A player falls after a hit: fall animation, newcheck, injury (setInjuryType),
 ; penalty roll (checkagr AddPenalty2).
+; C: src/c/040_53294_engine_physics_ai/FallDown.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/FallDown.inc"
+%else
 FallDown:
 push dword 14h	; 562DB
 call __CHK	; 562E0
@@ -4652,6 +4656,7 @@ pop esi	; 56A50
 pop ecx	; 56A51
 pop ebx	; 56A52
 ret	; 56A53
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/Bcheck.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/Bcheck.inc"
