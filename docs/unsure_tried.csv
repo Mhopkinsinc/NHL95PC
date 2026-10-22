@@ -891,3 +891,99 @@ DrawGameLineJerseys,swapdecl:c1:,declaration orders of c2 / c1 / i / col / st,tr
 DrawGameLineJerseys,movedecl:i:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
 DrawGameLineJerseys,swapdecl:i:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
 DrawGameLineJerseys,movedecl:col:,declaration orders of c2 / c1 / i / col / st,tried (docs/UNSURE.md),ga
+LoadGameRoster,,"(2026-10-22): two GA permute runs (321 candidates each, no improvement)","321 candidates each, no improvement",ga
+LoadGameRoster,,"fresh GA diff justified LA offset/index retries: product in n, i copy, *2*11, <<1, narrowed RHS assignment",,ga
+LoadGameRoster,,integer/pointer table sums and BA team stride,,ga
+LoadGameRoster,,"row-indexed lseek for both tables fixed seek order, n=i*11 also fixed the first team test",,ga
+LoadGameRoster,,integer/pointer/index/2-D spellings of final slot address,,ga
+LoadGameRoster,,byte/word/int slot locals before product (after-product declaration variants rejected as non-C89),after-product declaration variants rejected as non-C89,ga
+TeamRosterScreen,,"(2026-10-22): GA permute two runs (449 and 180 candidates), movedecl:y:4 fixed font and handle slots",,ga
+TeamRosterScreen,,"full scalar struct in target/reverse order and subsets n/fh/mf/gs/idx, n/fh, mf/gs/idx, n/fh/kf/mf/gs/idx/m, kfh/pfh/n/fh/kf/mf, gs/idx/m/y in forward/reverse order, all worse. New GA diff justified revisiting grouping rather than LA declaration sweeps",,ga
+CheckLeagueDiskSync,,(2026-10-22): remove directory alias,,ga
+CheckLeagueDiskSync,,reuse team for record offset,,ga
+CheckLeagueDiskSync,,"product-first integer and pointer sums, split pointer update, teams += offset, 30*team",,ga
+CheckLeagueDiskSync,,"split rec=(char*)((team<<4)-team), then rec=(char*)((int)rec*2+(int)teams) fixes initial address/registers",,ga
+CheckLeagueDiskSync,,err vs literal-zero message clear,,ga
+CheckLeagueDiskSync,,short cast on rec[16h]&kind cuts size,,ga
+CheckLeagueDiskSync,,kind inline/int/signed char/block-scope,,ga
+CheckLeagueDiskSync,,id block scope or dead team parameter reuse,,ga
+CheckLeagueDiskSync,,with/without cast,,ga
+CheckLeagueDiskSync,,"two GA permute runs (577,321 candidates)","577,321 candidates",ga
+StartPreGame,,(2026-10-22): signed-short cast of ResetInputSampling,,ga
+StartPreGame,,"frameaccum += samples*6, then n=frameaccum/10 before frameaccum%=10",,ga
+StartPreGame,,equivalent named a variants with/without frameaccum store,,ga
+StartPreGame,,viewscrolly = 140h-camy-54h restores arithmetic. All six combinations scored,,ga
+StartPreGame,,no permutation needed. Remaining split-layout dependency is the existing UNSURE issue,,ga
+StartPreGame,,left unmarked,,ga
+RandomizeSchedule,,"(2026-10-22): GA diff justified LA retries of byte dv/sl at function/loop scope, individual byte dv or sl, unsigned-byte casts at uses, n boolean split and unsigned-char cast and dead byte t reuse",,ga
+RandomizeSchedule,,"list append inline/index assignment/postincrement, product in n or j, count in dv/sl/n/new scoped cnt",,ga
+RandomizeSchedule,,literal and compound increment forms,,ga
+RandomizeSchedule,,"48 manual combinations, two GA permute runs (321,385 candidates), selected j=6*i+2 for both lists",,ga
+RandomizeSchedule,,rejected swapstmt:71 because moving count[h]++ before the indexed store changes semantics. That swap reached commit 39442b7 and was corrected immediately by a follow-up commit,,ga
+RandomizeSchedule,,with no history rewrite,,ga
+SkaterStatsCard,,(2026-10-22): new GA diff justified index-local retry using existing i/v/pct/bank/art or new portrait,,ga
+SkaterStatsCard,,common inner art tail,,ga
+SkaterStatsCard,,separate row/column in every ordered pair of bank/v/art/pct,,ga
+SkaterStatsCard,,"bank and v plus draw call wrapping statspalshape assignment fixed all prior differences. Inner shared draw, original duplicated tails, label in rec, local art result",,ga
+SkaterStatsCard,,"ratings index/address in bank/art/pct/v, split value/product, reversed subscript and integer pointer sum. Two GA permute runs (321 each)",321 each,ga
+SkaterStatsCard,,"rejected lower-score cast of statspalshape to char (pointer truncation), retained natural manual shape",,ga
+DrawTeamGridName,,(2026-10-22): all 24 orders of c/r/x/y with s first/last,,ga
+DrawTeamGridName,,scoped x/y/s/c/r combinations,,ga
+DrawTeamGridName,,"split/ternary/5*17 coordinate arithmetic, x2 right bound",,ga
+DrawTeamGridName,,y/x2/base/s as product temporary,,ga
+DrawTeamGridName,,short half-width result,,ga
+DrawTeamGridName,,byte/short/unsigned-short row cast,,ga
+DrawTeamGridName,,"two GA permute runs (385 each). Retained split x updates, x2=x+4Dh, unsigned-byte cast of bounded row (0..3), rejected worse manual shapes",,ga
+HilightSaveToDlg,,(2026-10-22): plain/volatile/scalar-struct/state-frame counters with separate or argument-assigned y2,,ga
+HilightSaveToDlg,,"struct {int i;} count and sub_B4FAC(...,y2=y+Eh,59h) fixed all body differences. Unchanged DrawGadgetButton definition before/after target gave 1/5 differing (external branch)",,ga
+HilightSaveToDlg,,"marking target then make rejected cross-segment draft owner: branches to DrawGadgetButton+8C, not a marked block nor shared ret tail. Unmarked and removed copied owner",,ga
+HilightSaveToDlg,,migrating its existing 057 marker is outside assigned function scope. No permutation run,,ga
+HighlightGridCell,,"(2026-10-22): coordinate frame structs in target/current order at function/if scope, x2-only struct, other four/five/six-member groups, scoped coordinate sets",,ga
+HighlightGridCell,,swap y2/x0 declarations,,ga
+HighlightGridCell,,relative-y vs row-product expressions,,ga
+HighlightGridCell,,int/short/unsigned-short x0 and on vs literal-zero erase argument,,ga
+HighlightGridCell,,"short x0 is safe for grid range and literal zero equals on on that branch. Retained scoped x2 member and declaration swap y0/x3. Two GA permute runs (449,385 candidates",,ga
+HighlightGridCell,,second excluded type/cast/statement-swap),,ga
+HighlightGridCell,,rejected byte x0 truncation despite 21-difference score,,ga
+assrefpenshot,,(2026-10-22): original/local-pointer/direct-pointer chained puck stops,,ga
+assrefpenshot,,"full vs staged x/y subtraction, square sum vs separate squares, x/y copies through v and square-first, reversed dx/dy declarations",,ga
+assrefpenshot,,direct field timer decrement/update,,ga
+assrefpenshot,,saved px high word,,ga
+assrefpenshot,,"short/signed-char/unsigned-char/int face and inline field, swapped/scoped face",,ga
+assrefpenshot,,"corrected scratch variants that accidentally replaced both puckvz stores. Two GA permute runs (449,321 candidates). Selected full-width inline facedir (better than narrowed face), direct chain, px temporary and full y subtraction",,ga
+checkfornewpen,,(2026-10-22): marked-byte c reuse/split/in-place/pl reuse/unsigned cast,,ga
+checkfornewpen,,all 120 declaration orders,,ga
+checkfornewpen,,"separate guard and loop start as zero or reloaded CBC44, explicit !=0, separate ifs",,ga
+checkfornewpen,,all combinations of scoped pl/t/c,,ga
+checkfornewpen,,XOR operand swap and != forms. One GA permute run (705 candidates),705 candidates,ga
+checkfornewpen,,rejected byte i candidates because assignment in guard truncates CBC44 before testing it. Kept full-width guard and short-index reload,,ga
+wallcollb,,"(2026-10-22): half=v then half>>=1 (also in store), raised=level then +=1200, separate wallcoll/return in glass fallback, all combinations",,ga
+wallcollb,,"reuse v for crowdlevel, half for raised, half unsigned short/int, v int, explicit short shift cast, all wall calls duplicated. One 4-minute permute run, 833 candidates (all transform chains/hashes in /home/mhopkins/tmp/u/np/permlog_h.csv)",,ga
+wallcollb,,best 25 used invalid byte narrowing of SCnum/half and was rejected,,ga
+SetupTeamLines,,(2026-10-22): 28 -> 26 differing,,ga
+SetupTeamLines,,"retained the boolean unsigned-short cast on the undressed test and reordered the last store index. Hand variants: volatile comparison, inverted comparison xor 1, reversed equality/read-index order, scoped byte result, reuse st, pointer loop, boolean casts to unsigned char/signed char/short/unsigned short/int, three integer address-sum orders, index casts to short/int/unsigned short. Retried read-index order because GA first_pick shows the final loop address/register mismatch",,ga
+SetupTeamLines,,"permute 1 run(s), 320 logged candidates, families base, cast, cmpflip, commute, forchain, incdec, loop, movedecl, paramtype, reuse, split, swap, swapdecl, swapstmt, tempadd, ternary, type, zero",,ga
+SetupTeamLines,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+SetRosterTeamMenus,,"(2026-10-22): Original draft retained. Flat division index (d<<3)-d+i, d*7+i, i+d*7, integer pointer address, row pointer, i/d/t short/unsigned/unsigned short, all declaration orders, reversed equality, unsigned-byte cast. LA flat-index shape retried because GA first_pick swaps the loop counter and index registers",,ga
+SetRosterTeamMenus,,"permute 1 run(s), 320 logged candidates, families base, cast, chain, commute, ifswap, incdec, lvinline, movedecl, mulshift, paramtype, split, swap, swapdecl, tempadd, type, zero",,ga
+SetRosterTeamMenus,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+MoveToOtherRoster,,(2026-10-22): 29 -> 27 differing,,ga
+MoveToOtherRoster,,"named roster-entry temporary before k. Tried off/k/src reuse for free-agent record-pointer loads, integer-address store orders, free-agent jersey index via k=j, and combination with the retained entry temp. LA address forms retried only at the GA free-agent mismatch sites",,ga
+MoveToOtherRoster,,"permute 1 run(s), 384 logged candidates, families base, cast, chain, cmpflip, commute, incdec, inplace, loop, movedecl, reuse, scope, split, swap, swapdecl, swapstmt, temp, tempadd, type, zero",,ga
+MoveToOtherRoster,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+TradeHitTest,,"(2026-10-22): 29 -> 26 differing by inlining the y-edge reads. Tried height via row/i or direct global, y-edge via row/hit (hit reuse rejected for semantics) or direct table, combinations of inlining with height reuse, scoped edge plus separate height, all 24 declaration orders under GA because first_pick shows the x/y/edge register cycle",,ga
+TradeHitTest,,no improvement in the order sweep,,ga
+TradeHitTest,,"permute 1 run(s), 320 logged candidates, families base, cast, cmpflip, commute, incdec, movedecl, mulshift, opassign, paramtype, rettype, reuse, scope, split, swap, swapdecl, swapstmt, temp, tempadd, type",,ga
+TradeHitTest,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+FindPlayer,,"(2026-10-22): 30 -> 20 differing by reversing both equivalent roster-name ternaries. Tried team volatile on first test/all comparisons/later comparisons or member declaration, unsigned-byte/volatile-byte/integer-address rosterteam loads, and switch(team). LA volatility/cast shapes retried because GA still has the register-cached team instead of memory compare",,ga
+FindPlayer,,no further improvement,,ga
+FindPlayer,,"permute 1 run(s), 320 logged candidates, families base, cast, chain, cmpflip, commute, forchain, incdec, loop, movedecl, scope, swap, swapdecl, swapstmt, tempadd, ternary, type, zero",,ga
+FindPlayer,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+ShotLaneOpen,,"(2026-10-22): 31 -> 21 differing, both builds MATCH. Retained initial puck index via x and scoped opponent px read before Ypos check. Tried sequencing vecdist via ty/x/i before d-m, staged/byte-sum/x-index carrier pointer, Xpos preload after/before Ypos compare via x/ty/function-local/scoped px. A 5-difference body match in /home/mhopkins/tmp/u/np/ShotLaneOpen.bodymatch.c changes shared-exit ownership and make fails: ProcessPenaltyList branches into ShotLaneOpen pops absent in the EXE. Tried Shot first/before chkprogress/last and InProgress before/after Shot/last",,ga
+ShotLaneOpen,,"last Shot shares PenGoalStuff add-esp exit, others keep wrong pops. Original function order retained. No permute run",,ga
+TitleScreen,,(2026-10-22): 33 -> 29 differing,,ga
+TitleScreen,,"retain cdecl function casts on TitleScreen GetTicks calls (timer-library ABI documented by WaitClickTimeout). Tried exact-order frame struct (pal/path + bank/chunk/frame/bmp/id/delay/first/mask/stream/t0/ends/due), palette ternaries with/without byte casts, scoped bright char, in-place palette add, named 3Fh max, scoped palette-copy bytes/colours, combinations on plain/frame layouts",,ga
+TitleScreen,,"cdecl block declaration fails against global declaration, casts accepted. Search best 17 narrows decoder argument to unsigned short",,ga
+TitleScreen,,"rejected because sub_1AC25 allocates a pointer. Removing narrowing or replacing with int/long/unsigned/signed int/unsigned long gives 43, cdecl 41. GA declaration movement tried because remaining slots differ",,ga
+TitleScreen,,"permute 1 run(s), 256 logged candidates, families base, cast, cmpflip, commute, ifswap, incdec, loop, movedecl, opassign, rettype, reuse, split, swap, swapdecl, swapstmt, tempadd, ternary, type, zero",,ga
+TitleScreen,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
