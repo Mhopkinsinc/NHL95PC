@@ -7,6 +7,8 @@ Status of each src/c/<seg>/<Func>.c:
   matched      the asm block is wrapped in %ifdef CBUILD / %include (cc.py mark): `make` builds it from C and the
                sha1 check proves it byte-identical
   nonmatching  a C file without the marker (work in progress or does not match yet); say why in the notes column
+  context      an unmarked copy of a function that is matched in another C file, kept so the file compiles to the
+               EXE's layout (RunDeferredCalls in BuildEventLines.c, for its shared exit); not counted
 Library segments (is_lib) are not counted. Rows with status asm come from tools/handasm.csv (run tools/find_handasm.py first): hand-written asm, skipped by
 the C queue, not counted. The notes column of tools/c_functions.csv is kept across runs (edit it by hand), and so is the cause column of
 the drafts (tools/draft_causes.py). The denominator is the number of
@@ -89,6 +91,10 @@ def main():
             rows.append(dict(function=d, address='%05X' % s, size=e - s, segment=stem, c_file=rel,
                              status='nonmatching', notes=notes.get(key, notes.get(rel, '') if d == fil else ''),
                              cause=causes.get(key, '')))
+    done_f = {f: r['c_file'] for r in rows if r['status'] == 'matched' for f in r['function'].split()}
+    for r in rows:                              # a draft copy of a function matched in another file: compile context
+        if r['status'] == 'nonmatching' and r['function'] in done_f and done_f[r['function']] != r['c_file']:
+            r['status'] = 'context'; r['notes'] = r['notes'] or 'compile context; matched in %s' % done_f[r['function']]
     work = [r for r in rows]
     asmrows = []                                # hand-written asm (tools/find_handasm.py): the C queue skips these
     HA = os.path.join(ROOT, 'tools/handasm.csv')
