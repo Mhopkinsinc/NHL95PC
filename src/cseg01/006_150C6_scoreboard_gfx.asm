@@ -1032,6 +1032,10 @@ pop ecx	; 15C2D
 pop ebx	; 15C2E
 ret	; 15C2F
 %endif ; C
+; C: src/c/006_150C6_scoreboard_gfx/IsCupClinched.c
+%ifdef CBUILD
+%include "c/006_150C6_scoreboard_gfx/IsCupClinched.inc"
+%else
 IsCupClinched:
 push dword 14h	; 15C30
 call __CHK	; 15C35
@@ -1095,6 +1099,7 @@ add esp, byte 8	; 15CDB
 pop ecx	; 15CDE
 pop ebx	; 15CDF
 ret	; 15CE0
+%endif ; C
 ; C: src/c/006_150C6_scoreboard_gfx/CupSeriesWinner.c
 %ifdef CBUILD
 %include "c/006_150C6_scoreboard_gfx/CupSeriesWinner.inc"
