@@ -3829,6 +3829,10 @@ mov eax, esi	; 64275
 .15:
 add esp, byte 8	; 64277
 jmp near InProgress_popebp	; 6427A
+; C: src/c/045_614C2_scoring_penalty_text/QuickShotChk.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/QuickShotChk.inc"
+%else
 QuickShotChk:
 push dword 10h	; 6427F
 call __CHK	; 64284
@@ -3898,6 +3902,7 @@ pop esi	; 64334
 pop edx	; 64335
 pop ebx	; 64336
 ret	; 64337
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/CountShotOnGoal.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/CountShotOnGoal.inc"
