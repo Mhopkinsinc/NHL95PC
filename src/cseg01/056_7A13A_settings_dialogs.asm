@@ -3757,6 +3757,10 @@ xor edx, edx	; 7CAEA
 mov dword [ctldlgalt], edx	; 7CAEC
 jmp near ControlsDlg_done	; 7CAF2
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.inc"
+%else
 MenuP1ControlsInGame:
 push dword 4	; 7CAF7
 call __CHK	; 7CAFC
@@ -3813,6 +3817,7 @@ cmp dword [dword eax+ctl1team], byte 0	; 7CB8B
 jge near ControlsDlgInGame_side	; 7CB92
 xor edx, edx	; 7CB98
 jmp near ControlsDlgInGame_setside	; 7CB9A
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP2ControlsInGame)
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP2ControlsInGame.inc"
@@ -3893,9 +3898,9 @@ pop edx	; 7CC86
 pop ecx	; 7CC87
 pop ebx	; 7CC88
 ret	; 7CC89
-; C: src/c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.c
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (CtlSwapTeamFlag)
 %ifdef CBUILD
-%include "c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.inc"
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.CtlSwapTeamFlag.inc"
 %else
 CtlSwapTeamFlag:
 push dword 10h	; 7CC8A
@@ -4169,6 +4174,10 @@ cmp ebx, byte 2	; 7CFAB
 jl near ClearCtlBlink.1	; 7CFAE
 jmp near ControlsDlg_ret0	; 7CFB4
 %endif ; C
+; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (ControlsDlgInGame_side)
+%ifdef CBUILD
+%include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.ControlsDlgInGame_side.inc"
+%else
 ControlsDlgInGame_side:
 cmp dword [dword eax+ctl1side], byte 0	; 7CFB9
 jne short .1	; 7CFC0
@@ -4308,6 +4317,7 @@ pop edx	; 7D133
 pop ecx	; 7D134
 pop ebx	; 7D135
 ret	; 7D136
+%endif ; C
 ; C: src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c (MenuP1ControlsPlayoff)
 %ifdef CBUILD
 %include "c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.MenuP1ControlsPlayoff.inc"

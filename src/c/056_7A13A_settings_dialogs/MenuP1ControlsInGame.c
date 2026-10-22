@@ -44,8 +44,9 @@ typedef struct { unsigned mouse:1, joy1:1, joy2:1, keys:1; } CtlAvail;
  test on (ControlsDlgInGame_side.. ControlsDlg_ret0) sits after ClearCtlBlink, and that piece holds the exit every
  function here shares (ControlsDlg_ret0C / _ret / _ret0). With ControlsDlgInGame defined after ClearCtlBlink, Watcom
  splits it the same way, and once DrawControlsOpts pushes ebp (its add esp, 0Ch / pop ebp tail matches
- ControlsDlgInGame's) Watcom keeps the shared exit there, as in the EXE. Still drafts: MenuP1ControlsInGame /
- ControlsDlgInGame (CtlSwapScoreFix and CtlSwapTeamFlag, in their own files, sit between the two pieces in the EXE),
+ ControlsDlgInGame's) Watcom keeps the shared exit there, as in the EXE. CtlSwapScoreFix and CtlSwapTeamFlag sit
+ between ControlsDlgInGame's two pieces in the EXE, so they are here too (marked: MenuP1ControlsInGame with
+ ControlsDlgInGame's entry, ControlsDlgInGame_side with its body and the shared exit). Still drafts: CtlSwapScoreFix,
  ReassignCtlPlayer and ControlsDlgLoop (register picks). */
 
 typedef struct Hdr17 { char c[17]; } Hdr17;
@@ -170,6 +171,48 @@ void MenuP1ControlsInGame(void)
 void MenuP2ControlsInGame(void)
 {
     ControlsDlgInGame(1);
+}
+
+/* DRAFT: same size; the puck byte is mov ch, [ebx] with gmode in cl in the EXE (docs/UNSURE.md). */
+/* CtlSwapScoreFix: put side's pulled goalie back (tmgoalie negative with a goalie choice in bits 4-7): keep the
+ choice (low nibble); not while side trails by 1-2 in the third period with more than 60 seconds left, nor
+ while the other team has the puck in a stoppage. Then the goalie is back (high byte 0), the menu shows him
+ checked (off_CD498) and "pulled" unchecked (off_CD4A0), setpersonel. */
+void CtlSwapScoreFix(int side)
+{
+    Team *t;
+    int d;
+    unsigned char f;
+
+    t = &(&hmtmstruct)[side];
+    if (t->tmgoalie >= 0) return;
+    if (!(*(unsigned char *)&t->tmgoalie & 0xF0)) return;
+    *(unsigned char *)&t->tmgoalie &= 0xF;
+    d = (&hmtmstruct)[side == 0].tmscore - t->tmscore;
+    if (d > 0 && d <= 2 && gsp == 2 && gameclock <= 0x3C) return;
+    f = gmode;
+    if (!(f & 1)) {
+        signed char c = *puckc;
+        if (c >= 0 && ((c < 6) ^ side) && (f & 8)) return;
+    }
+    ((unsigned char *)&t->tmgoalie)[1] = 0;
+    *(unsigned char *)((int (*)[3])off_CD4A0)[side][0] = 2;
+    *(unsigned char *)((int (*)[3])off_CD498)[side][(short)(t->tmgoalie & 0xF)] = 1;
+    setpersonel(t);
+}
+
+/* CtlSwapTeamFlag: for team (0 home, 1 visitors) with no goalie in (tmgoalie < 0, low flag nibble clear): mark it
+ (tmgoalie |= FFF0h) unless the other team has the puck in play (gmode bit 0 clear, puckc set, not team's
+ player) and gmode bit 3 is set. */
+void CtlSwapTeamFlag(int team)
+{
+    Team *t;
+
+    t = &(&hmtmstruct)[team];
+    if (t->tmgoalie < 0 && !(*(unsigned char *)&t->tmgoalie & 0xF0)) {
+        if (!(gmode & 1) && *puckc >= 0 && (team ^ (*puckc < 6)) && (gmode & 8)) return;
+        t->tmgoalie |= 0xFFF0;
+    }
 }
 
 /* DRAFT (tools/permute.py, 18 -> 6): the (short) cast and n as signed char give the EXE's stack slots (px 4,
@@ -313,7 +356,7 @@ int ControlsDlgInGame(int side)
     }
     ReassignCtlPlayer(side);
     ClearCtlBlink();
-    if (puckasslist[puckstruct[6] >> 16] == 0x1B && team == 1 && old1 != team && old2 != team) pucktemp1 = 0;
+    if (puckasslist[((Player *)puckstruct)->assnum] == 0x1B && team == 1 && old1 != team && old2 != team) pucktemp1 = 0;
     for (team = 1; team <= 2; team++) {
         if ((old1 == team || old2 == team) && cont1team != team && cont2team != team)
             CtlSwapScoreFix(team == 2);
