@@ -22,6 +22,10 @@ Each candidate is the current best text with one transform applied (once those a
   tempadd   a call-free subexpression a op b (or a whole right-hand side) computed into a new int temporary
   ifswap    if (c) A; else B; -> if (!(c)) B; else A;
   forchain  b = e; for (a = e; ...) <-> for (a = b = e; ...) (decides the jump to the loop test)
+  lvinline  a scalar local assigned once from a simple lvalue (a global, *p, p->f, s.f, a[i]) and never written
+            again: the lvalue at each use (and the local dropped). First-pass drafts copy globals and fields into
+            locals where the original read them in place, and that changes the register picks
+  inplace   v = E; followed by L = v; -> L = E; (later v -> L), and v = L op e; L = v; -> L op= e; / L++ / L--
 The expression transforms parse each line with tools/cexpr.py:
   swap      any operands of + * & | ^ == != swapped, of < > <= >= flipped (parenthesized where needed)
   opassign  x = x op e <-> x op= e
@@ -341,6 +345,58 @@ def t_temp(text, func, lines, b0, b1):
         L[b] = re.sub(r'\b%s\b' % name, '(%s)' % ma.group(2).strip(), L[b])
         del L[a]; del L[d]
         yield 'temp:%s:inline' % name, '\n'.join(L)
+
+
+SIMPLE_LV = re.compile(r'^(?:\*\s*[A-Za-z_]\w*|[A-Za-z_]\w*(?:\[\w+\]|\.\w+|->\w+)*)$')
+
+
+def t_lvinline(text, func, lines, b0, b1):
+    """a scalar local assigned once from a simple lvalue (no calls) and not written again: read the lvalue in place"""
+    for d in range(b0 + 1, b1):
+        m = DECL1.match(lines[d])
+        if not m: continue
+        name = m.group(4)
+        refs = [k for k in range(b0 + 1, b1) if k != d and re.search(r'\b%s\b' % name, strip(lines[k]))]
+        sets = [k for k in refs if name in writes(lines[k])]
+        if len(sets) != 1 or re.search(r'&\s*%s\b' % name, text): continue
+        a = sets[0]
+        ma = re.match(r'^(\s+)%s = ([^;]+);\s*$' % name, lines[a])
+        if not ma: continue
+        e = ma.group(2).strip()
+        if not SIMPLE_LV.match(e) or e == name or any(k < a for k in refs): continue
+        base = ids(e)
+        if any(base & writes(lines[k]) for k in range(a + 1, b1)): continue
+        rep = '(%s)' % e if e.startswith('*') else e
+        L = list(lines)
+        for k in refs:
+            if k > a: L[k] = re.sub(r'\b%s\b' % name, lambda mm: rep, L[k])
+        del L[a]; del L[d]
+        yield 'lvinline:%s' % name, '\n'.join(L)
+
+
+def t_inplace(text, func, lines, b0, b1):
+    """v = E; L = v; -> L = E; (later v -> L), and v = L op e; L = v; -> L op= e; (v a local set only there)"""
+    for a in range(b0 + 1, b1 - 1):
+        m1 = re.match(r'^(\s+)([A-Za-z_]\w*) = ([^;]+);\s*$', lines[a])
+        m2 = re.match(r'^(\s+)(\*?\s*%s) = ([A-Za-z_]\w*);\s*$' % LV, lines[a + 1])
+        if not m1 or not m2 or m1.group(1) != m2.group(1) or m2.group(3) != m1.group(2): continue
+        v, e, lhs = m1.group(2), m1.group(3).strip(), m2.group(2).strip()
+        if v == lhs: continue
+        decl = [k for k in range(b0 + 1, b1) if DECL1.match(lines[k]) and DECL1.match(lines[k]).group(4) == v]
+        if len(decl) != 1: continue
+        if [k for k in range(b0 + 1, b1) if v in writes(lines[k])] != [a] or re.search(r'&\s*%s\b' % v, text): continue
+        outs = [('%s = %s;' % (lhs, e), 'inplace:%s' % v)]
+        m3 = re.match(r'^%s\s*([-+*/|&^]|<<|>>)\s*(.+)$' % re.escape(lhs), e)
+        if m3:
+            op, r = m3.group(1), m3.group(2).strip()
+            outs.append(('%s%s;' % (lhs, op * 2) if op in '+-' and r == '1' else '%s %s= %s;' % (lhs, op, r), 'inplace:%s:%s=' % (v, op)))
+        for st, desc in outs:
+            L = list(lines)
+            L[a] = m1.group(1) + st
+            for k in range(a + 2, b1):
+                L[k] = re.sub(r'\b%s\b' % v, lambda mm: lhs, L[k])
+            del L[a + 1]; del L[decl[0]]
+            yield desc, '\n'.join(L)
 
 
 def t_tempadd(text, func, lines, b0, b1):
@@ -743,7 +799,8 @@ TRANSFORMS = [('type', t_type), ('swapdecl', t_swapdecl), ('movedecl', t_movedec
               ('chain', t_chain), ('ternary', t_ternary), ('temp', t_temp), ('rettype', t_rettype),
               ('paramtype', t_paramtype), ('tempadd', t_tempadd), ('ifswap', t_ifswap),
               ('forchain', t_forchain), ('swap', t_swap), ('opassign', t_opassign), ('cast', t_cast),
-              ('mulshift', t_mulshift), ('shiftstmt', t_shiftstmt), ('loop', t_loop), ('temps', t_temps)]
+              ('mulshift', t_mulshift), ('shiftstmt', t_shiftstmt), ('loop', t_loop), ('temps', t_temps),
+              ('lvinline', t_lvinline), ('inplace', t_inplace)]
 
 
 def interleave(nb, rnd):
