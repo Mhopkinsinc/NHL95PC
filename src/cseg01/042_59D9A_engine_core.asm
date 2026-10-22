@@ -2436,6 +2436,10 @@ ret	; 5BA06
 %endif ; C
 ; ResetClock: gameclock = PerTimeTotal = GetPeriodTime, clockticks = 0,
 ; periodendtime = gameclock - random(length/2), clock stopped (gmode bit 0).
+; C: src/c/042_59D9A_engine_core/ResetClock.c
+%ifdef CBUILD
+%include "c/042_59D9A_engine_core/ResetClock.inc"
+%else
 ResetClock:
 push dword 8	; 5BA07
 call __CHK	; 5BA0C
@@ -2455,6 +2459,7 @@ mov word [periodendtime], dx	; 5BA3E
 or byte [gmode], 1	; 5BA45
 pop edx	; 5BA4C
 ret	; 5BA4D
+%endif ; C
 ; C: src/c/042_59D9A_engine_core/ClearSortCords.c
 %ifdef CBUILD
 %include "c/042_59D9A_engine_core/ClearSortCords.inc"
