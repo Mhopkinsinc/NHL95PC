@@ -1491,6 +1491,10 @@ pop edx	; 6C03F
 pop ecx	; 6C040
 pop ebx	; 6C041
 ret	; 6C042
+; C: src/c/050_6B093_joystick_calibration/BuildTeamRosterList.c
+%ifdef CBUILD
+%include "c/050_6B093_joystick_calibration/BuildTeamRosterList.inc"
+%else
 BuildTeamRosterList:
 push dword 14h	; 6C043
 call __CHK	; 6C048
@@ -1626,6 +1630,7 @@ pop edi	; 6C197
 pop esi	; 6C198
 pop ecx	; 6C199
 ret	; 6C19A
+%endif ; C
 ; C: src/c/050_6B093_joystick_calibration/LoadLeagueDbsMem.c
 %ifdef CBUILD
 %include "c/050_6B093_joystick_calibration/LoadLeagueDbsMem.inc"
