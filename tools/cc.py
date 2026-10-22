@@ -544,6 +544,33 @@ class TextTargets:
             at = set(global_labels(self.asm).values())
             lab = [h for h in hits if ga + h in at]
             if len(lab) == 1: hits = lab
+        if not hits and tail and not masked:
+            # The draft can retain pops that the original reaches only outside this function (PickThreeStars
+            # jumps to PreGameIntro_popebp, in the previous segment). On this otherwise failing path, follow
+            # original outgoing branches into pop/ret epilogues and require one exact, globally named suffix.
+            raw = text[t:e]
+            md = Cs(CS_ARCH_X86, CS_MODE_32)
+            ins = list(md.disasm(raw, t))
+            if ins and ins[-1].mnemonic == 'ret' and all(i.mnemonic in ('pop', 'ret') for i in ins):
+                _, ge = asm_range(self.src, g)
+                targets = set()
+                for i in md.disasm(original_bytes(ga, ge - ga), ga):
+                    if not i.mnemonic.startswith('j') or not i.op_str.startswith('0x'): continue
+                    dest = int(i.op_str, 16)
+                    if ga <= dest < ge: continue
+                    try: data = original_bytes(dest, 16)
+                    except SystemExit: continue
+                    for j in md.disasm(data, dest):
+                        if j.mnemonic not in ('pop', 'ret'): break
+                        if j.mnemonic == 'ret':
+                            end = j.address + j.size - dest
+                            if data[:end].endswith(raw): targets.add(dest + end - len(raw))
+                            break
+                if len(targets) == 1:
+                    ta = targets.pop()
+                    for gasm in sorted(glob.glob(os.path.join(ROOT, 'src/cseg01/*.asm'))):
+                        names = [n for n, a in global_labels(gasm).items() if a == ta]
+                        if names: return names[0], ta
         if len(hits) != 1:
             raise SystemExit('%s: %s branches to the tail %s of %s; found %d times in the original %s' % (self.src, func, text[t:t + 16].hex(), g, len(hits), g))
         ta = ga + hits[0]
