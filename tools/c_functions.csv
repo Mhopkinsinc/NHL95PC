@@ -410,7 +410,7 @@ ass_pc_slot20,49460,344,037_4842A_engine_player_logic,src/c/037_4842A_engine_pla
 assbench,4B12C,827,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbench.c,nonmatching,,size 29/66
 assbenchside,49BC2,283,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assbenchside.c,matched,,
 assboxenter,499D8,490,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assboxenter.c,matched,,
-asscenterd,4A53A,290,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asscenterd.c,nonmatching,,register 11/13
+asscenterd,4A53A,290,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asscenterd.c,matched,,
 assdefo,49CDD,349,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assdefo.c,matched,,
 assdopen,4AFFB,50,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/assdopen.c,matched,,
 asseben,4AAC2,197,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/asseben.c,matched,"1 register: slot+2 goes through ebx in the asm (mov ebx,edx / add ebx,2), C adds in edx; rest matches",

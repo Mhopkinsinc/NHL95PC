@@ -2689,6 +2689,10 @@ mov word [regd1], si	; 4A529
 asswingo_evade:
 mov edx, EvadePC	; 4A530
 jmp near asswingd_skateto	; 4A535
+; C: src/c/037_4842A_engine_player_logic/asscenterd.c
+%ifdef CBUILD
+%include "c/037_4842A_engine_player_logic/asscenterd.inc"
+%else
 asscenterd:
 push dword 10h	; 4A53A
 call __CHK	; 4A53F
@@ -2786,6 +2790,7 @@ pop edx	; 4A658
 pop ecx	; 4A659
 pop ebx	; 4A65A
 ret	; 4A65B
+%endif ; C
 ; C: src/c/037_4842A_engine_player_logic/assrefwhistle.c (asscentero)
 %ifdef CBUILD
 %include "c/037_4842A_engine_player_logic/assrefwhistle.asscentero.inc"
