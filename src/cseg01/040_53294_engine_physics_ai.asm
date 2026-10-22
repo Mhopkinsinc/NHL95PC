@@ -8,7 +8,7 @@ extern SetSPA, Stop4Pen, __CHK, a2touchpuck, assexit, assinsert, assreplace
 extern pad1dev, hmshotcnt, awshotcnt, sflags, gmode2, PenBuf, iflags
 extern OOlist, collflag, dirtab, doplayeracc, gameopts, wcradiusy, sflags3
 extern bannertimer, onetimerflag, shotongoal, penshotplayer, penshotctl, penshotmode, penshotstart, shotontarget
-extern penshotlive, dword_CCC2C, dword_CCC4E, hmtmstruct, awtmstruct, puckcross_m2
+extern penshotlive, dword_CCC2C, dword_CCC4E, hmtmstruct, awtmstruct, puckcross_m2, puckcross
 extern dword_E03AE, dword_E03B6, dword_E03B9, dword_E03BD, dword_E9A9E
 extern dword_E9AB6, puckvx, gmode, puckx, pucky, puckvy, puckz
 extern puckc, off_CD498, off_CD4A0, lastplayer, puckflip, puckvz, randomd0, CanRemovePlayer
@@ -1387,6 +1387,10 @@ ret	; 541C9
 %endif ; C
 ; ChkDelayedOffside: Offsides option: the flagged team touches the puck in the zone -> AddPenalty2 8 on
 ; SortCords[lasttouch], returns 1. Called from checkpuckcoll before puckstick puckgoalie.
+; C: src/c/040_53294_engine_physics_ai/ChkDelayedOffside.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/ChkDelayedOffside.inc"
+%else
 ChkDelayedOffside:
 push dword 8	; 541CA
 call __CHK	; 541CF
@@ -1452,6 +1456,7 @@ call AddPenalty2	; 5427E
 mov eax, 1	; 54283
 pop edx	; 54288
 ret	; 54289
+%endif ; C
 checkpuckcoll:
 push dword 18h	; 5428A
 call __CHK	; 5428F
