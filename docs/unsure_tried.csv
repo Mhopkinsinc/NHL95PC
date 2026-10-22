@@ -987,3 +987,112 @@ TitleScreen,,"cdecl block declaration fails against global declaration, casts ac
 TitleScreen,,"rejected because sub_1AC25 allocates a pointer. Removing narrowing or replacing with int/long/unsigned/signed int/unsigned long gives 43, cdecl 41. GA declaration movement tried because remaining slots differ",,ga
 TitleScreen,,"permute 1 run(s), 256 logged candidates, families base, cast, cmpflip, commute, ifswap, incdec, loop, movedecl, opassign, rettype, reuse, split, swap, swapdecl, swapstmt, tempadd, ternary, type, zero",,ga
 TitleScreen,,full chains and hashes in /home/mhopkins/tmp/u/np/permlog_h.csv,,ga
+RunIntro,,"(2026-10-22): dedicated white local or white/black locals, signed char / unsigned char / short / int, at function scope and in a block around the sweep (16 fresh variants)",16 fresh variants,ga
+RunIntro,,inclusive bounds i <= 0xEF and i >= 0xE1. None improved,,ga
+RunIntro,,no permute run,,ga
+ListDialog,,(2026-10-22): on prior best11 plain-locals draft,,ga
+ListDialog,,a non-address-taken bg/title/lh/bh struct in six field orders,,ga
+ListDialog,,with mouse locals plain or in a separate address-taken y/x/my/mx/i struct (12 fresh variants,,ga
+ListDialog,,best 16 at correct size,,ga
+ListDialog,,Watcom scalarizes the non-address-taken group),,ga
+ListDialog,,"allocation result via dead tw / sz / n / title (18), final result via tw / sz / n / align / marks (11). No retained changes, no permute run",,ga
+DrawHudPanel,,"(2026-10-22): reset / bank / z reused for the GetPeriodTime result, chained store before /=, divisor 60, and quotient before storing hudclockmin (12 fresh variants",,ga
+DrawHudPanel,,none improved),,ga
+DrawHudPanel,,full scoreboard module via module_try.py (same 8 score,,ga
+DrawHudPanel,,no module-only matches,,ga
+DrawHudPanel,,module copy in /home/mhopkins/tmp/u/np/scoreboard_module_i.c). No permute run,,ga
+RunDemoGame,,"(2026-10-22): final gameresult comparison assigned to team / one / home / vis before return (same 8), switch(demoteammode) (38), copy demoteammode into home / vis / one (33-38)",33-38,ga
+RunDemoGame,,"team copy repeated under GA because the remaining diff is the unified index/register lifetime across mode arms (29, same lost-ebp pattern seen under LA). Full scoreboard module unchanged (8). No permute run",,ga
+ShowCredits,,"(2026-10-22): scoped unsigned char / short / int height, y initialized to 0xDA then -= product",,ga
+ShowCredits,,scoped raw random dividend or divisor (12 combinations),12 combinations,ga
+ShowCredits,,"on the int-height base, wait / stop / y / i reused for raw rightmost rand dividend, remainder, or divisor (12 variants). Full scoreboard module no improvement. Both builds MATCH",,ga
+ShowCredits,,draft stays unmarked. No permute run,,ga
+ReassignCtlPlayer,,"(2026-10-22): short n with px/py scoped to the team arm, dx/d/pl scoped to the eligibility arm, or both, crossed with normal distance, dx squared first, dy squared first, and both squared separately (12 fresh valid variants",,ga
+ReassignCtlPlayer,,14-53,,ga
+ReassignCtlPlayer,,initial coordinate declarations after statements failed C89 and were corrected to block start),,ga
+ReassignCtlPlayer,,"per-module restorepl declarations short(int,int), int(int,int), int() with signed-char/short n (6 fresh variants, 10-17). None improved. No permute run",,ga
+SeriesLength,,(2026-10-22): full schedule module via module_try.py (same 10,,ga
+SeriesLength,,"no module-only matches), 28 new source orders of the existing goto blocks (one+done kept together, n4+n7 kept together to preserve fall-through",,ga
+SeriesLength,,"all 23 remaining orders with one first, five selected other positions), len copied to the dead n for return (10). None improved. Module copy /home/mhopkins/tmp/u/np/schedule_module_i.c. No permute run",,ga
+ExportTeamToFloppy,,(2026-10-22): all seven ways to split the four-handle chain into shorter chains preserving store order,,ga
+ExportTeamToFloppy,,return err via dead team / full / check,,ga
+ExportTeamToFloppy,,"zero as 0U or memset (memset worse, all other shapes score 11)","memset worse, all other shapes score 11",ga
+ExportTeamToFloppy,,full database-merge module (15 at equal size,,ga
+ExportTeamToFloppy,,"no module-only matches). No retained changes, no permute run. Module copy /home/mhopkins/tmp/u/np/merge_module_i.c",,ga
+CreateNewLeague,,"(2026-10-22): independent block-local j variables around TextInputDialog result, DB-size copy loop, and DiskSpaceShort result, all seven scope combinations (12 unchanged)",12 unchanged,ga
+CreateNewLeague,,"final byte zero via existing err / quit / j / sz (j unchanged, others much worse). Full schedule module unchanged (12). No permute run",,ga
+HighlightGridCell,,"(2026-10-22): int x0 with column product held in a new scoped/outer int col (following the successful DrawTeamGridName shape), and x0 / x0+x3 / four outer coordinates / all coordinates scoped into the matched-cell block (10 fresh combinations",,ga
+HighlightGridCell,,best 17 at correct size),,ga
+HighlightGridCell,,two-/three-member x2/x0/x3 structs in eight orders and x0+x3 / x0+y3 pairs,,ga
+HighlightGridCell,,full-int x0 as x followed by -- / -= 1 or -1 followed by += x (13 fresh variants,,ga
+HighlightGridCell,,"best 17 at correct size). No retained changes, no permute run",,ga
+checkob,,"(2026-10-22, agent J): difference <0 (12), difference >0 (10), extra < Y-4Eh (2, arithmetic operands now differ), explicit signed operands (5), assign sum to existing y (5), long constant (5), unsigned comparison (6), comparison ==1 (20), Y >= extra+4Fh (3), found assigned condition then tested (37), long difference (12), short difference (16), double-negated sum (18), Y read unconditionally before position (12)",12,ga
+checkob,,module_try both only checkob and whole segment (2). No source change,,ga
+checkob,,no additional permute run,,ga
+StartPreGame,,"(2026-10-22, agent J): whole 036 module compilation (still 3)",still 3,ga
+StartPreGame,,confirmed existing split-layout dependency,,ga
+StartPreGame,,with the other pieces outside the assigned function. No source change,,ga
+StartPreGame,,no additional permute run,,ga
+LoadShapeByTag,,"(2026-10-22, agent J): fresh block pixels (7), just width (7) / height (5) named, width / height loaded into i then compound *= (13/14), block dimension pointer (7), unsigned product (7), i += 11h before n assignment (18), fresh product through byte-offset loads (7), whole 015 module (4)",4,ga
+LoadShapeByTag,,"one additional permute run from current 4-difference draft, 321 candidates /107s, no improvement, recorded in permlog_j.csv. No source change",,ga
+assreffollow,,"(2026-10-22, agent J): XOR ==1 / &1 / >0 (12/11/12), sum ==1 (13), negative booleans XOR (9), complemented XOR (10)",10,ga
+assreffollow,,"a fresh assigned side as unsigned char / short (6), unsigned short / long / unsigned (7)",7,ga
+assreffollow,,integer carrier address (10),10,ga
+assreffollow,,"side assignment then compound XOR, carrier flags into side, RHS assigned to side, comma then XOR, each int / unsigned char / short (best int comma 6). Whole 037 module remains 4. One additional permute run on int-comma shape (257 candidates /212s, best 6, permlog_j.csv), then restored original 4-difference source",,ga
+assshoot,,"(2026-10-22, agent J): file-local sflags declaration as short / unsigned short / int / unsigned / signed char (4), casting the masked sflags result to short / unsigned short (9), int (4), unsigned (8)",8,ga
+assshoot,,"pflags clear through unsigned char / short / int bitfield (4), short/int-wide RMW (4)",4,ga
+assshoot,,"timer named short/int (12/22), flags named unsigned char / signed char / short (6) / int (7)",7,ga
+assshoot,,"Y abs ternaries (4), positive arm first (10), second Y in separate local/scope and whole body scoped local (4). Full 037 module also stays 4 (recorded with assreffollow). No source change",,ga
+assshoot,,no additional permute run,,ga
+SelectHilight,,"(2026-10-22, agent J): free arguments through r/size (7",,ga
+SelectHilight,,"LA idea retried because pointers are now plain GA locals), n/multi/dir/idx (77), i (83,+14), name (79,+24)","79,+24",ga
+SelectHilight,,FreeMemBlock pointer argument / unprototyped / int result declarations (7),7,ga
+SelectHilight,,"integer/reversed string offsets (7), error initialized (77), size scoped (7), dialog result through r (79,+24), strs scoped (77), tbl/strs as int/unsigned/long addresses (7)",7,ga
+SelectHilight,,whole 058 module (7). No source change,,ga
+SelectHilight,,no additional permute run,,ga
+HilightSaveToDlg,,"(2026-10-22, agent J): whole 058 module (5,+0) and complete combined 057+058 module (1,+0, still external tail destination",,ga
+HilightSaveToDlg,,"DrawGadgetButton itself breaks, 11 differing). Existing standalone tail-owner-copy and rejected mark shapes in UNSURE were not repeated",,ga
+HilightSaveToDlg,,migrating unassigned 057 owner remains outside this brief. No source change,,ga
+HilightSaveToDlg,,no additional permute run,,ga
+FadePalette,,"(2026-10-22, agent J): volatile view once / twice / test-only in clamp (still 7,+3), scalar frame copy (7,+3), short/unsigned-short clamp test (7/8,+1), steps short/unsigned short (24/26), steps long (7), dir short/byte (13/22), palfadedin declared volatile int/unsigned (7), short/byte (10/25), all steps uses through frame member (10). One additional permute run (449 candidates /152s, permlog_j.csv): best 7 differing, one-byte size gap via short cast, no count improvement",,ga
+FadePalette,,original draft retained rather than a narrowed-test tradeoff,,ga
+checkgoal,,"(2026-10-22, agent J): unsigned negation (8), unsigned-short input/result and bounce local (9/10), explicit z=y then z=-z (19), compound x-shift store (8), unsigned-short field input (9), signed bounce local (8)",8,ga
+checkgoal,,z unsigned/long (8,,ga
+checkgoal,,unsigned short reconfirmed known worse 21),,ga
+checkgoal,,"int/short/unsigned-short/byte/long function result with bare returns (8), int result views of checkgoalp/wallcoll/EndPenaltyShot/Goal (8), randomd0 unsigned-short result (8), int result with short input (13)",13,ga
+checkgoal,,"0-y (8), zero then x-=y (10), short compound negation (21), y*-1 (9), ~y+1 (21). Whole 040 module already measured with checkob (9,+0). No source change",,ga
+checkgoal,,no additional permute run,,ga
+SetSoundDevice,,"(2026-10-22, agent J): ev plain local (9), h2/btn/x/y plain (15/16/20/29)",15/16/20/29,ga
+SetSoundDevice,,"named initialization-state int/short/unsigned (17), through t (9, different picks earlier), event from captured opened state (20)",20,ga
+SetSoundDevice,,all 15 block-scope combinations of t/fp/i/e (9),9,ga
+SetSoundDevice,,"short/unsigned-short result (9), byte result (10,+3)","10,+3",ga
+SetSoundDevice,,D2350 volatile int/unsigned/long declaration (9),9,ga
+SetSoundDevice,,full 060 module (9). No source change,,ga
+SetSoundDevice,,no additional permute run,,ga
+SetSoundDevice,rettype:short,short result,tried (docs/UNSURE.md),ga
+DrawAwardsSummary,,"(2026-10-22, agent J): right-associated OR / De Morgan (12), int/short/ushort comparison casts (17), XOR comparisons (19), signed-char comparison casts (12)",12,ga
+DrawAwardsSummary,,"unsigned increment lvalue (13), comma increment (18), assignment increment (12), <=Ah bound (13)",13,ga
+DrawAwardsSummary,,"k short/ushort (22/23), unsigned/long (12)",12,ga
+DrawAwardsSummary,,"assigned team char/uchar (16,+3), int/short (17",,ga
+DrawAwardsSummary,,LA byte-temp idea retried because GA still differs precisely in the merged-file byte allocation),,ga
+DrawAwardsSummary,,"increment through next (16), y/k (12), scoped y/k (12), single 48-byte frame buffer (12), 002 module including the DrawAwardsSummary definition (12). One additional permute run seeded with signed-char comparison casts (321 candidates /162s, best 12, permlog_j.csv). Restored original source, no draft commit",,ga
+TradePlayers,,"(2026-10-22): nm reused for index, r/again reused for lookup result, city table pointer local, char-pointer global declaration, block-local second nm, void/old-style strcat prototypes, again=r condition, frame int-pointer alias, separate lookup address",,ga
+TradePlayers,,"nested strcat, return through nm, nested return through nm on either label, nm for either stored label address. Whole segment module_try worsens 3 -> 10",,ga
+FindFreeSpeechSlot,,"(2026-10-22): short/unsigned short/long/unsigned/signed-int return types, const/volatile/const-volatile slot pointers, explicit integer address sum in both orders, field address through byte pointer, commuted subscript, volatile field, negated inequality, combined loop condition + ternary return, break + ternary return, deferred found goto with i=-1. All address forms remain 5",,ga
+FindFreeSpeechSlot,,loop variants 11-15,,ga
+FindLoadedSpeechSlot,,"(2026-10-22): short/unsigned short/long/unsigned/signed-int return types, const/volatile/const-volatile slot pointers, explicit integer address sum in both orders, field address through byte pointer, commuted subscript, volatile field, negated inequality, combined loop condition + ternary return, break + ternary return, deferred found goto with i=-1. All address forms remain 5",,ga
+FindLoadedSpeechSlot,,loop variants 11-15,,ga
+doplayeracc,,"(2026-10-22): vy updated before dy, assignment expression vy+=*pucky, sum through t, embedded t/xv assignment, vy-=y before sum (separate/embedded), volatile dy, per-module pucky int/void-pointer/byte-pointer declarations, vy loaded before y, dy-= -*pucky (new staged GA retry motivated by folded add). Whole segment module_try gives 6 differing size +0, worse than score 5. No source changes",,ga
+SelectMatchingPlayers,,"(2026-10-22): k initialized to product as pointer then base added (pointer and int forms), side reused for offset/int address or offset before k pointer, k assigned inside call expression, volatile falist pointer, per-module SplitPlayerName void/int result and char-pointer/int first parameter, one buffer struct preserving offsets. Whole-segment module_try unchanged at score 7",,ga
+assrefpenshot,,(2026-10-22): per-module puckvz/puckz short-pointer declarations separately/together,,ga
+assrefpenshot,,r reused for facedir and global regd2.w comparison/subtraction with short/ushort/int r and cast/mask/cast-short result forms,,ga
+assrefpenshot,,existing px reused for facedir with int/short/ushort comparison and int/short subtraction,,ga
+assrefpenshot,,"px reused for puckvz pointer, alone and combined with all px-facing forms. All worse or unchanged",,ga
+RosterPanelClick,,"(2026-10-22): rowy/h/x/y reused for the byte value with complement or xor FF, compound xor FF/-1, xor expression, -(value+1), volatile byte pointer, scoped int value temporary, one-byte struct entry, int-pointer fa with byte access casts. Unchanged or worse",,ga
+SkaterStatsCard,,"(2026-10-22): rating char/uchar/short/ushort/int/unsigned at function or loop scope (C90 declaration placement corrected), integer/const/volatile attrp, compound v product, unsigned rating or constants, ushort promotion, direct unsigned load, byte assignment embedded into result/sum, compound product after byte value, initial-five accumulator, nested-block initialized byte. Natural byte-local improvement retained unmarked",,ga
+SkaterStatsCard,,both builds MATCH,,ga
+CreatePlayoffs,,"(2026-10-22): chained bank assignment through p/i in both orders, p/i used throughout bank calls, r/i/p reused for zero, second background load/test through p/i, just bank2 lifted to scalar",,ga
+CreatePlayoffs,,"split frame with rgb/orgb small struct + scalars, tail struct, rgb/orgb in head struct + scalars, bank2 scalar + tail struct, each in forward/reverse/mixed scalar orders. Batched scores of 11 for dead assignments were not improvements: fresh first_pick stayed 12. Original restored",,ga
+EasnGoalieStatsScreen,,"(2026-10-22): whole-segment module_try (12, apparent size +0 just includes neighbor bytes/shared tail), full module with reconstructed skater page in address order (fresh 66 first_pick differences), either/both drive tests reversed, ext2 initialized before branch, reuse dir/name/ext for second path",,ga
+EasnGoalieStatsScreen,,"targeted GA tail-layout retries motivated by the specific shared-jne diff: duplicated MakePath, shared goto selectors, and explicit nodrive/embpal blocks after return with all four conditional orientations. Best standalone unchanged",,ga
+EasnGoalieStatsScreen,,original restored,,ga
