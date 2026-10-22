@@ -837,8 +837,6 @@ MenuGameShowPlayerStats,79AC9,776,055_78346_team_select,src/c/055_78346_team_sel
 PruneGameLines,79090,248,055_78346_team_select,src/c/055_78346_team_select/PruneGameLines.c,nonmatching,C folds the side * 444h * 4 step into the hmroster address ([edi+edx*4]); the EXE adds it first and reads the status into ch,size 3/5
 StubRet4b,78E29,13,055_78346_team_select,src/c/055_78346_team_select/StubRet4b.c,matched,,
 CtlDlgHitTest,7D61F,82,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlDlgHitTest.c,matched,,
-CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapScoreFix.c,nonmatching,"draft: same size; puck byte is mov ch,[ebx] with gmode in cl. Adjacent chars stayed bl. A short high byte and c=f paired bh/bl and moved gmode. Do not retry those.",register 3/3
-CtlSwapTeamFlag,7CC8A,91,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/CtlSwapTeamFlag.c,matched,,
 DrawCtlBoxes,7D671,64,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawCtlBoxes.c,matched,,
 DrawExhSetDlg,7C1AC,225,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawExhSetDlg.c,matched,,
 DrawLeagueSetDlgSel,7A57E,303,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/DrawLeagueSetDlgSel.c,matched,,
@@ -870,15 +868,17 @@ MenuP1ControlsExh,7C993,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_d
 MenuP2ControlsExh ControlsDlgExh,7C9A1,178,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsLeague,7CA53,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c): jmp short ControlsDlgLeague,
 MenuP2ControlsLeague ControlsDlgLeague,7CA61,150,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
+MenuP1ControlsInGame ControlsDlgInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP2ControlsInGame,7CB9F,20,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
+CtlSwapTeamFlag,7CC8A,91,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 ClearCtlBlink,7CEA1,280,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
+ControlsDlgInGame_side,7CFB9,382,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 MenuP1ControlsPlayoff,7D137,14,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,first pass from Ghidra matched (MenuP1ControlsInGame.c): jmp short ControlsDlgPlayoff,
 MenuP2ControlsPlayoff ControlsDlgPlayoff,7D145,271,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 DrawControlsDlg,7D254,412,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
 DrawControlsOpts,7D3F0,559,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,matched,,
-MenuP1ControlsInGame,7CAF7,168,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
+CtlSwapScoreFix,7CBB3,215,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,
 ReassignCtlPlayer,7CCE5,444,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,register 11/17
-ControlsDlgInGame,7CB03,156,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 1/1
 ControlsDlgLoop,7D6B1,1206,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/MenuP1ControlsInGame.c,nonmatching,,size 229/334
 ModeOptsToBits,7B604,304,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeOptsToBits.c,matched,,
 ModeSetHitTest,7B734,138,056_7A13A_settings_dialogs,src/c/056_7A13A_settings_dialogs/ModeSetHitTest.c,matched,,
