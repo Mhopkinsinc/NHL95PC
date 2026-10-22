@@ -2241,6 +2241,10 @@ pop ecx	; 31596
 pop ebx	; 31597
 ret	; 31598
 %endif ; C
+; C: src/c/023_2FDD1_misc_dialogs/DrawEditCursor.c (DrawEditText)
+%ifdef CBUILD
+%include "c/023_2FDD1_misc_dialogs/DrawEditCursor.DrawEditText.inc"
+%else
 DrawEditText:
 push dword 34h	; 31599
 call __CHK	; 3159E
@@ -2357,6 +2361,7 @@ add edi, dword [editx]	; 316FC
 push edi	; 31702
 call sub_90EC0	; 31703
 jmp near DrawEditCursor_x	; 31708
+%endif ; C
 EditTextField:
 push dword 1Ch	; 3170D
 call __CHK	; 31712

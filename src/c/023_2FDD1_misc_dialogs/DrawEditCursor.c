@@ -1,5 +1,4 @@
 /* Misc dialogs: text edit cursor. */
-/* DrawEditText is still a draft (see its comment and docs/UNSURE.md). */
 #include "nhl95.h"
 
 #define TEXTWIDTHN ((int (__cdecl *)(char *s, int n))sub_90A40)
@@ -37,9 +36,8 @@ void DrawEditCursor(int mode)
    "." per character, else by fputchar); clamp editpos to the text; print it at editx, edity (fixed-pitch: a "."
    per character); then clear the rest of the field (sub_90EC0, byte_D42C5 - 2 high, colour dword_D42AC).
    mode: the edit mode bits. No result.
-   DRAFT: same size (372). The fixed-pitch width test keeps its product in len (edi), which puts the width of "."
-   in ebp as in the EXE. Left: `len = strlen(editbuf)` is copied to esi and edi (the EXE compares eax and keeps
-   len in edi), so the later argument loads take edx / ebx / ecx (EXE ebx / ecx / esi); see UNSURE. */
+   The fixed-pitch width test keeps its product in len, and the clamp goes through w, as the EXE's registers
+   show. */
 void DrawEditText(int mode)
 {
     int cw;
@@ -57,8 +55,9 @@ void DrawEditText(int mode)
                 editbuf[strlen(editbuf) - 1] = 0;
         }
     }
-    len = strlen(editbuf);
-    if (len < editpos) editpos = len;
+    w = strlen(editbuf);
+    len = w;
+    if (w < editpos) editpos = w;
     if (mode & 2) {
         for (i = 0; i < len; i++) sub_92CD0((char *)str_Dot, editx + cw * i, edity);
     } else {
