@@ -1,451 +1,654 @@
-func,transform,shape,result
-LoadShapeByTag,,shapes listed in docs/UNSURE.md (not itemized),
-POPickConfTeams,,shapes listed in docs/UNSURE.md (not itemized),
-BlitClipRect,,Five shapes (not itemized),
-SetGameSides,,shapes listed in docs/UNSURE.md (not itemized),
-CmpTeamPP,,shapes listed in docs/UNSURE.md (not itemized),
-CmpTeamPP,movedecl:pp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md)
-CmpTeamPP,swapdecl:pp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md)
-CmpTeamPP,movedecl:qp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md)
-CmpTeamPP,swapdecl:qp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md)
-DrawEditCursor,,"h assigned before or after y, h assigned inside the y sum, y built in steps, every operand order of the sum",
-ChkTwoLinePass,,shapes listed in docs/UNSURE.md (not itemized),
-CtlSwapScoreFix,,shapes listed in docs/UNSURE.md (not itemized),
-OneTimerChk,,shapes listed in docs/UNSURE.md (not itemized),
-SetTeamGoalie,,shapes listed in docs/UNSURE.md (not itemized),
-ChkGoalies,,shapes listed in docs/UNSURE.md (not itemized),
-chk4lc,,shapes listed in docs/UNSURE.md (not itemized),
-chk4lc,type:d:int,`int d`,tried (docs/UNSURE.md)
-SelectRosterTeam,,shapes listed in docs/UNSURE.md (not itemized),
-SelectRosterTeam,movedecl:side:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,swapdecl:side:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,movedecl:slot:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,swapdecl:slot:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,movedecl:div:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,swapdecl:div:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,movedecl:old:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,swapdecl:old:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,movedecl:d:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,swapdecl:d:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-SelectRosterTeam,movedecl:i:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md)
-QueueSpeechClip,,shapes listed in docs/UNSURE.md (not itemized),
-QueueSpeechClip,movedecl:pos:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:pos:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:slot:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:slot:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:free:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:free:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:loaded:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:loaded:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:tmp:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:tmp:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:off:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:off:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:bank:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,swapdecl:bank:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-QueueSpeechClip,movedecl:dst:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md)
-CreatePlayerLoop,,shapes listed in docs/UNSURE.md (not itemized),
-SortStandings,,shapes listed in docs/UNSURE.md (not itemized),
-SortStandings,movedecl:i:,"declaration orders of i, j, w",tried (docs/UNSURE.md)
-SortStandings,swapdecl:i:,"declaration orders of i, j, w",tried (docs/UNSURE.md)
-SortStandings,swapdecl:j:,"declaration orders of i, j, w",tried (docs/UNSURE.md)
-SortStandings,movedecl:w:,"declaration orders of i, j, w",tried (docs/UNSURE.md)
-DrawEditText,,shapes listed in docs/UNSURE.md (not itemized),
-DrawEditText,movedecl:cw:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,swapdecl:cw:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,movedecl:len:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,swapdecl:len:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,movedecl:i:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,swapdecl:i:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md)
-DrawEditText,type:cw:unsigned,`unsigned cw`,tried (docs/UNSURE.md)
-FixJerseyNumber,,shapes listed in docs/UNSURE.md (not itemized),
-HilightSaveToDlg,,(best 221 of 247 instructions in common),best 221 of 247 instructions in common
-HilightSaveToDlg,movedecl:x2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,swapdecl:x2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,movedecl:i:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,movedecl:x:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,swapdecl:x:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,movedecl:y:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,swapdecl:y:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,movedecl:y2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-HilightSaveToDlg,swapdecl:y2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md)
-RemoveFromLines,,shapes listed in docs/UNSURE.md (not itemized),
-checkgoal,,"for the bounce: `(short)-p->Zvel >> 1`, `/ 2`, y / x parameter reuse",
-checkgoal,,"a short / unsigned short / int / unsigned temporary, `x = z; x >>= 1`, `p->Zvel = x >>= 1`",
-updatereplay,,"`(i * 2 + 1) * 12`, `(i + i + 1) * 12`, `i * 3 * 8`, `i * 24 + 12`",
-updatereplay,,a 12-byte RinkObj struct indexed `[i * 2 + 1]` / `[i + i + 1]`,
-CanBlockShot,,"dx / dy copies either way, `dx = dy = ...`, dy computed twice, `>> 16` instead of HIWORD, `-(p - q)`, compound `-=`, all 120 declaration orders of q, i, dx, dy, t (two forms)",
-CanBlockShot,movedecl:dx:,"declaration orders of q, i, dx, dy, t",tried (docs/UNSURE.md)
-CanBlockShot,swapdecl:dx:,"declaration orders of q, i, dx, dy, t",tried (docs/UNSURE.md)
-FillDressedSlots,,shapes listed in docs/UNSURE.md (not itemized),
-FillDressedSlots,movedecl:r:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,swapdecl:r:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,movedecl:i:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,swapdecl:i:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,movedecl:lt:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,swapdecl:lt:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-FillDressedSlots,movedecl:k:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md)
-TradeScreen,,shapes listed in docs/UNSURE.md (not itemized),
-TradeScreen,movedecl:shape:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,swapdecl:shape:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,movedecl:bank:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,swapdecl:bank:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,movedecl:font:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,swapdecl:font:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-TradeScreen,movedecl:r:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md)
-NetCollide,,with other shapes,
-periodicevents,,shapes listed in docs/UNSURE.md (not itemized),
-DrawListItem,,shapes listed in docs/UNSURE.md (not itemized),
-MenuHitTest,,shapes listed in docs/UNSURE.md (not itemized),
-SimPlayoffFinal,,shapes listed in docs/UNSURE.md (not itemized),
-FadePalette,,shapes listed in docs/UNSURE.md (not itemized),
-BuildFreeAgentList,,shapes listed in docs/UNSURE.md (not itemized),
-assshoot,,shapes listed in docs/UNSURE.md (not itemized),
-TradeHitTest,,shapes listed in docs/UNSURE.md (not itemized),
-EasnGoalieStatsScreen,,shapes listed in docs/UNSURE.md (not itemized),
-CalStandingsScreen,,shapes listed in docs/UNSURE.md (not itemized),
-LoadJerseyColours,,shapes listed in docs/UNSURE.md (not itemized),
-BuildTeamRosterList,,shapes listed in docs/UNSURE.md (not itemized),
-BuildTradeRoster,,shapes listed in docs/UNSURE.md (not itemized),
-checkwallcoll,,shapes listed in docs/UNSURE.md (not itemized),
-SplitPlayerName,,shapes listed in docs/UNSURE.md (not itemized),
-SetRosterTeamMenus,,shapes listed in docs/UNSURE.md (not itemized),
-asswingo,,"both operand orders, (short) casts on either side, `/ 64`",
-asswingo,,"a short / int local for the shift, `regd3.w = shift; regd3.w += regd0.w` and the reverse, HIWORD(regd0.l)",regd0.l
-assreffollow,,"`^` with `!= 0`, `? 1 : 0`, `!!`, (int), (unsigned), (unsigned char) casts, `(x ^ y) != 0`",
-assreffollow,,the operands swapped,
-assreffollow,,a 7+1 bit field (char and unsigned base) and `(unsigned char)pflags >> 7`,
-assreffollow,,for the pointer `SortCords + *puckc` and int / char* sums,
-PassRecOneTimer,,for the aim: short locals x / y (pushes change),
-PassRecOneTimer,,the y product into t and folded into one expression. Not yet tried: other forms of the y distance,
-chk4shot,,"a local for penshotlive (assigned before or inside the test), (unsigned char) on the pflags bit, `(short)p->spodds`",
-POInitSchedule,,"all 120 declaration orders of i, n, g, e, t (no change)",no change
-POInitSchedule,,"the game pointer as `po + base + i * 6`, `&po[base + i * 6]`, `&g[i * 6]`",
-POInitSchedule,,a 6-byte POGame struct,
-POInitSchedule,,the day as a cast / reordered sum,
-POInitSchedule,movedecl:i:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,swapdecl:i:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,movedecl:n:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,swapdecl:n:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,movedecl:g:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,swapdecl:g:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,movedecl:e:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-POInitSchedule,swapdecl:e:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md)
-assbench,,the hold test as one `||` or two ifs,
-assbench,,the y distance as a short local or inline,
-assbench,,"the swap test as `^`, `!=`, `? 1 : 0`, `!newpos`, `(...) != 0`",
-EvadePC,,"all 6 declaration orders of c, dx, dy (only the original order keeps the rest)",
-EvadePC,,a short temp for regd2,
-EvadePC,,"the store inside the abs test, `>= 0 ?` and `(int)` abs forms",
-EvadePC,,the gap sum in both orders,
-EvadePC,movedecl:c:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md)
-EvadePC,swapdecl:c:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md)
-EvadePC,swapdecl:dx:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md)
-EvadePC,movedecl:dy:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md)
-SetupTeamLines,,"all 24 declaration orders of lt, i, k, st",
-SetupTeamLines,,"the store / read index in both orders, `? 1 : 0`",
-SetupTeamLines,movedecl:lt:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,swapdecl:lt:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,movedecl:i:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,swapdecl:i:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,movedecl:k:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,swapdecl:k:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-SetupTeamLines,movedecl:st:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md)
-ShotLaneOpen,,"the zero as a plain, volatile (one or both) local, in a struct with the distance, as an int[2]",
-PenGoalStuff,,"for the team choice: `side == 0`, `(side == 0) != 0`, `(int)`, `!side`, `? 1 : 0`",
-PenGoalStuff,,the minutes through a signed char local or not,
-MergeTeamDbs,,"plain parameters, struct fields stored in either order",
-MergeTeamDbs,,a K&R definition with the declarations reordered,
-MergeTeamDbs,,a local copy of next,
-LoadGameRoster,,`(unsigned char)` / `22 * i` / pointer-sum forms of the slot store,
-LoadGameRoster,,a 16h-byte struct for the entries (same code),same code
-LoadGameRoster,,"the offset as `[i]` of the team row or a byte sum in either order, and a volatile counter (reloads every use)",
-AdvancePlayoffs,,"the count as short, and as int with `(short)` compares (worse), err / i in both declaration orders",
-TextInputDialog,,the box width as its own local or by reusing minw,
-TextInputDialog,,"the ""required"" retry loop as a local bool, `!(... || ...)`, `&& / !=` and a ternary",
-CopyHumanTeamDBs,,"those, all 24 orders of err / r / i / tp",
-FixJerseyConflict,,"rgb as [4] before / after the struct and after the ints, both compare orders and `s.i != k`",
-FixJerseyConflict,,"a pointer-sum, `^`",
-FixJerseyConflict,,a nested if,
-FixJerseyConflict,,"the keys as an array of 34h-byte structs, and four forms of the record-number index (`*(int *)(tr + i*4 + 0x4C)`, `((int *)tr)[i + 0x13]`, ...)",
-SwapSelectedPlayers,,`s.na = nb = 0` / `nb = s.na = 0` / separate stores,
-SwapSelectedPlayers,,"the count declarations in both orders, `rosterteamrec[1]` for dword_EAF7C (and a pointer-sum key index)",
-SwapSelectedPlayers,,the list index as int / unsigned char / unsigned,
-SwapSelectedPlayers,,with and without a local for the second index,
-RandomizeNewRatings,,"the call with the result discarded, cast to float, assigned to a plain float / double / long / register / volatile local (dead ones become a qword temp at +4Ch and frame 58h)",dead ones become a qword temp at +4Ch and frame 58h
-RandomizeNewRatings,,a 20th struct member,
-RandomizeNewRatings,,"a local declared before the struct, `f13 = f13`, and a store through `*(float *)&a`",
-DrawSprite,,the edges as short or int locals,
-DrawSprite,,"the declarations reversed, flip as the plain parameter instead of a struct copy",
-RandomizeSchedule,,division / slot as int or unsigned char locals or indexed directly,
-RandomizeSchedule,,"the swap byte as unsigned char or int, `6 + (i >= 2)`, `(i >= 2 ? 1 : 0) + 6`",
-RandomizeSchedule,,"an unsigned char cast, and the list append as `[count++]`",
-RandomizeSchedule,,"a pointer sum, `6 * i`, or through n",
-EditTextField,,the poll as a `while (!(key = PollKey()) && !sub_B3D64())` idle loop and as a loop with `key = 0; break`,
-SelectHilight,,`s.i++` / `s.i = s.i + 1` / `n > s.i` / a while loop,
-SelectHilight,,"the counter through a local copy (`for (...; s.i = r + 1)`, `while ((s.i = r) < n)`), and one `err = -1; return err;` exit (worse)",worse
-ExecuteTrade,,"all the macro forms (lvalue for both, rvalue for the reads), five declaration orders of the locals, and the traded flag as a struct field",
-doplayeracc,,"for that: vy as int / short / long / unsigned, `(short)` / `(int)` / `(unsigned short)` casts on *pucky or the sum",
-doplayeracc,,"a volatile read, *pucky through t, `dy = vy; dy += *pucky`, `*pucky + vy` (with and without `- y` in the same statement), `vy - y + *pucky`, `vy + (*pucky - y)`, and no vy local (`HIBYTE(*puckvy) + *pucky - y` and in steps)",
-doplayeracc,type:vy:int,"vy as int / short / long / unsigned, `",tried (docs/UNSURE.md)
-doplayeracc,type:vy:unsigned,"vy as int / short / long / unsigned, `",tried (docs/UNSURE.md)
-asspuckc_chkdir,,"the pointer as `&SortCords[n]`, `SortCords + n`, two `(char *)` sums and a second pointer variable (worse), both compare orders for the facedir test, `--regd4.w != 0` / a separate decrement",
-asspuckc_chkdir,,"a goto for the first abs test, t declared first (worse)",worse
-checkcx,,"int locals for the two gaps (both declaration and init orders, worse)","both declaration and init orders, worse"
-checkcx,,"the bounce products and the two velocity sums in either operand order, `(int)` casts",
-checkcx,,"the direction in d instead of dx (worse), `o->facedir == dx`",
-SetupStatsSourceMenu,,the menu byte stores as one chain in either order and as separate statements,
-SetupStatsSourceMenu,,the three int locals in other declaration orders,
-SetupStatsSourceMenu,,the ten count stores as two chains or separate statements,
-SetupStatsSourceMenu,,the increment as `[n << 3]`,
-SetupStatsSourceMenu,,"a `(char *)` sum or through a pointer set before the stores (`add eax, IMM` instead), and `n = src` before the switch",
-MoveToOtherRoster,,"seven forms of the read (`((int *)rec)[j + 2Ch]`, `*(int *)(rec + j * 4 + off)` and its operand orders, `((int *)(off + rec))[j]`, `j[(int *)...]`) on all sites",
-MoveToOtherRoster,,"the goalie read as `[j + 19h]` from +4Ch, `-1 ==`, `0x19 + j`, unsigned / `< 0` tests, `slot = j; slot += 0x19`",
-MoveToOtherRoster,,"a while loop, and a second loop counter for the goalie or jersey loops (moves the record to ebx)",
-PickForLineSlot,,"the ternaries inverted, `&X[side * 25]`",
-PickForLineSlot,,"the list through a variable first, `if ((p = F(...)) >= 0)`",
-SkateToSpot,,"ten declaration orders, `ABS` as `x >= 0 ? x : -x`",
-SkateToSpot,,the spilled shorts as int,
-SkateToSpot,,"the vtoa arguments without casts (the first 130 instructions then match, 295 of 334, but the differences are computed in 32 bits)","the first 130 instructions then match, 295 of 334, but the differences are computed in 32 bits"
-LoadRink,,"the four declaration orders, `smap = map =` / `map = smap =` / separate",
-LoadRink,,a struct for tiles and map (inside or outside the path's struct,
-LoadRink,,worse,
-LoadRink,,a 1Ch frame),
-LoadRink,,an explicit int slot for the tile count (`s.n = n` in the call,
-LoadRink,,worse),
-LoadRink,,a block-scoped pointer for the bitfield clears (worse),worse
-checkcheck,,the SPA in a separate short,
-checkcheck,,an if/else into it,
-checkcheck,,"the whole test as a ternary argument, five declaration positions for v",
-checkcheck,,"the xor and compare operands swapped, `0xB + (...)`, `(int)` / `? 1 : 0` / a short temp for the penalty, `q->facedir + 1 - p->facedir`, dir as int",
-checkcheck,type:dir:int,"facedir`, dir as int",tried (docs/UNSURE.md)
-SetSoundDevice,,the clear before the name switch (worse),worse
-SetSoundDevice,,"the MT-32 sample in i instead of t, t declared second, t also set from the AdLib load",
-PlayMVI,,`n = s.nframes = 0` (worse),worse
-PlayMVI,,a separate song local,
-CreateNewLeague,,`(char *)` / `(signed char *)` / pointer-sum forms of the store,
-CreateNewLeague,,"a byte local set to 0 first, `lgstate[1] &= ~0xFF`",
-ReplayStep,,"a pointer local for the advance (`p = replayplay + 0x80; replayplay = p`) with and without a short temp for the sound ids, and the flag as `(regd0.w & 0x800) != 0` / `(regd0.l & 0x800) != 0` (all worse)",all worse
-DrawLineEditorScreen,,"the locals as one struct or plain in four orders, n unused, buttons through a local",
-DrawLineEditorScreen,,a smaller remap array,
-DrawLineEditorScreen,,the palette source without the `src` pointer (worse) or with the declarations reversed,
-FindPlayer,,"the team compares in either operand order, `(unsigned char)` / `(int)` casts on rosterteam",
-FindPlayer,,a volatile read of the team,
-ListDialog,,the width and index variables in four declaration orders,
-ListDialog,,the done flag as its own variable or as n,
-ListDialog,,"a local copy of n declared first or second, `s.top = s.scroll = 0` in both orders",
-TradePlayers,,"memcpy for the ""Show "" copies (worse), `*s.sel`",
-TradePlayers,,"the index through r first, `((char **)teamcitynames)[i]` and `*(char **)(teamcitynames + i)` on either or both lookups",
-BuildStandingsGrid,,"the team number as an int / unsigned char variable or inline, declared first",
-BuildStandingsGrid,,"the comparison as four `if / else if` arms with the same swap body (worse, 270)","worse, 270"
-ChkScorerMilestone,,"`t * 25 * 16 + p * 16`, `(t * 25 + p) * 16`, `t * 400`, p * 16 first (all sites, and only at those two sites: worse)","all sites, and only at those two sites: worse"
-ChkScorerMilestone,,the 2-D array form,
-ChkScorerMilestone,,the first assist block as g / a new variable / sum = ASSISTS first or ASSISTS + GOALS,
-ChkScorerMilestone,,"the assist numbers as `dword_DF646[t * 128]` / `[t << 7]`, assigned in the condition or as separate statements",
-ChkScorerMilestone,,t as `(a < 0) ^ dir` in two statements,
-ChkScorerMilestone,,with a dir variable,
-ChkScorerMilestone,,"with the operands swapped, as `?:` or an unsigned char cast",
-ChkScorerMilestone,,seven declaration orders,
-passtoa0,,24 declaration orders,
-passtoa0,,ax / ay / sp / n / r as short or int (all 32),all 32
-passtoa0,,`else r = 0` / `r -= r`,
-passtoa0,,"the root term as `<< 2`, `4 * k * (...)`, `k * (...) * 4`",
-passtoa0,,"`(short)`, `(int)` and `(long)` casts on the squares",
-passtoa0,,k through r first,
-passtoa0,,`n = 0; for (; ...)`,
-passtoa0,type:ax:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md)
-passtoa0,type:ay:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md)
-passtoa0,type:sp:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md)
-passtoa0,type:n:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md)
-passtoa0,type:r:short,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md)
-BuildPlayoffs,,the copy after `human = 0`,
-BuildPlayoffs,,"err / n in a second struct (before or after the first, or in an inner block after the seeds test)",
-BuildPlayoffs,,"err as a one-field struct, `int err[1]` (both enregistered: ebp, and rwfh / rdfh pushed) or volatile",
-BuildPlayoffs,,n as a plain int in the last block,
-DrawRinkObjects,,"`((Pt *)dword_CD2F8)[i].y`, `(... + i)->y`, `dword_CD2F8[i] >> 16` (with or without a short cast), HIWORD, `((short *)dword_CD2F8)[i * 2 + 1]`",
-DrawRinkObjects,,"a char-pointer form, `(int)i` / `(short)i` casts",
-DrawRinkObjects,,"a second counter for the last loop, `o++` in the for",
-GameLoop,,local x / y for the sub_6AF52 rectangle in either order (worse),worse
-GameLoop,,the clock sum in four operand orders,
-GameLoop,,`joysampling = demomode`,
-GameLoop,,"a demomode local (`d = demomode`, worse, 334)","`d = demomode`, worse, 334"
-GameLoop,,the period-end demo exit returning on its own,
-POHandleElimination,,an explicit `goto save` after it,
-POHandleElimination,,the else as a plain block,
-POHandleElimination,,the pochampion test braced or as `if ((pochampion = ...) == -1)`,
-POHandleElimination,,"the fade-in at the end of both branches (with or without a copy on the early exit: both calls are merged, or +31 bytes)","with or without a copy on the early exit: both calls are merged, or +31 bytes"
-DebugMonitor,,"there: `n + buf`, `&buf[n]`, `n += sprintf`, `n = (int)(buf + n)` first",
-DebugMonitor,,the frame word cast,
-DebugMonitor,,the two lines swapped (worse),worse
-DebugMonitor,,"n as unsigned / short, declared before the buffer",
-DebugMonitor,type:n:unsigned,"n as unsigned / short, ",tried (docs/UNSURE.md)
-DebugMonitor,type:n:short,"n as unsigned / short, ",tried (docs/UNSURE.md)
-DumpStatsLog,,"the roster pointer as `j * 39 + tm->tmroster`, `&tm->tmroster[...]`, `r = tm->tmroster; r += ...` (all worse), inline in the arguments",
-DumpStatsLog,,an int temporary for `j * 39`,
-DumpStatsLog,,the stat words indexed from the stats pointer instead of a walking pointer (worse),worse
-DumpStatsLog,type:j:int,an int temporary for `j,tried (docs/UNSURE.md)
-DrawAwardsSummary,,"the three compares as a switch, `s.i++` / `s.i = k + 1` before the test",
-DrawAwardsSummary,,a byte temp for the team (all worse or no change),all worse or no change
-SaveGameState,,the index as `word_DEE94[i * 6]`,
-SaveGameState,,"a char-pointer offset, `[i * 3 * 2]`",
-SaveGameState,,"a 12-byte struct, `p[0] / p[1]` then `p += 2`",
-SaveGameState,,an int `j = i * 3` declared in five places,
-SaveGameState,,a separate counter declared in six places,
-SaveGameState,,"the record pointer declared first / last, one pointer for packing and records (much worse)",much worse
-AwardsCeremony,,"the load inside the condition (`!= 0` or bare), nested ifs",
-AwardsCeremony,,the music bit as a byte test,
-AwardsCeremony,,a `modify [eax]` pragma on sub_8FB8E,
-GameStatsScreen,,"s.cx assigned inside the expression or as a statement after a width variable, no s.cx (worse: the frame shifts)",worse: the frame shifts
-GameStatsScreen,,"the times as plain `TS / 60, TS % 60`, ten declaration orders",
-DrawCallBanner,,"all 120 orders of the five shorts with the clip offsets written out (no `d`), 10 orders with a `d` temp, y / y2 / w in a struct (Watcom puts its members in registers), `volatile` (n in edi as in the EXE, but every short is then re-read), `register` on n and x",
-DrawCallBanner,,a `char **` to the string,
-puckfaceoff,,four declaration orders,
-puckfaceoff,,the team pointer inline,
-puckfaceoff,,"the zero stores chained, `cont2team | cont1team`",
-MenuGameShowPlayerStats,,"the local declared first, unsigned, assigned in the condition, in an inner block, `*sel` read directly (ebp, but then `movzx ebp`)",
-MenuGameShowPlayerStats,,the slot or its product in a temp,
-MenuGameShowPlayerStats,,the index sum reordered,
-ExportTeamToFloppy,,"err and another int in the chain (Watcom drops them), `err ^= x`, `err = x - x`",
-ExportTeamToFloppy,,"the chain after t or err first, `*(long *)&zero = 0`, `0L`",
-ExportTeamToFloppy,,the name table as `char **`,
-skatetopuck,,"the step as if / else, `position ? 10 : 5`, `t = t + (...)`",
-skatetopuck,,a (signed char) cast,
-skatetopuck,,"the y argument as `(p->Ypos >> 16)`, `(int)sy`, `-HIWORD(...) + sy`",
-skatetopuck,,a short cast,
-skatetopuck,,sx / sy declared the other way round,
-CreateFreeAgent,,"`bytes * sectors`, `csize *= bytes`",
-CreateFreeAgent,,the box result assigned in the test,
-CreateFreeAgent,,"the loops without pointer locals (much worse), volatile pointers",
-DbDialogLoop,,"240 random declaration orders of the register locals (no change), `if (!btn)` / `if (x == ox && y == oy) continue` for the move branch, `y != ox`, `list[2] = list[2] + d`",
-DbDialogLoop,,"a `first` local loaded in the condition, before it, or in a nested `if (oy != y)` (with `first -= d; if (first >= 0)` the move branch matches but the scroll does not), `last + d`",
-LockerRoomLoop,,"`(0x1B + vis)`, `(vis + 0x1C - 1)`, `(vis - 1 + 0x1C)` in either case, `hm = vis; hm = (hm + 0x1B) % 0x1C`, `hm = (hm + 0x1B) % 0x1C` for the fallback, `vis += 0x1B; vis %= 0x1C` (these two fix the move branch but not the hoist), cflags -ot / -os / -ol / -or / -oe / -oi",
-DrawDlgFrame,,"`bevel != 0`, bevel short / char / unsigned",
-DrawDlgFrame,,"an int result, `if (!bevel) return;`, `(2 + x1)`, named locals assigned at first use (`sub_B5DB0(xa = x1 + 2, ya = y1 + 2, ...)`: the prologue changes)",
-BuildEventLines,,"the flags as int, as `n`, in a block, read directly",
-BuildEventLines,,separate assist variables (worse),worse
-BuildEventLines,,"struct-array forms for the rosters (28 players of 27h a side), team records and goal tables (no change)",no change
-RunFileDlg,,"the step declared in the drag block, in each arm, first or last",
-RunFileDlg,,`pos` reused as the step,
-RunFileDlg,,`if ((d = ...) == 0)` and `if (!(d = ...))`,
-SaveGameNameDlg,,one shared redraw after `if (!(b & 2)) ... else if (in row) {...}` and a goto into the move redraw (both merge the not-on-a-button redraw too: 40-49 bytes short),both merge the not-on-a-button redraw too: 40-49 bytes short
-SaveGameNameDlg,,the button variable as unsigned short / char / unsigned char,
-SaveGameNameDlg,,the poll as `if ((b = ...) & 2)`,
-ShowCredits,,"for the two loads: a `signed char *` or packed struct page pointer, `(int)` / `(short)` / `(unsigned char)` casts on either operand, `cur[0]`",
-ShowCredits,,the y statement before the wait store,
-ShowCredits,,the product through `i` or `y`,
-ShowCredits,,"the rand terms as `0x85 + rand() % 8`, and the second term through a local",
-checkpuckcoll,,"every declaration order, int types for either variable, separate variables for the half size / box size / box limit / |dy|",
-checkpuckcoll,,"the speed as two statements, and every valid split of the five roles over three variables (best: 49 differing instructions, reach and box limit in one variable)","best: 49 differing instructions, reach and box limit in one variable"
-Goal,,"for the two left: the power-play compare with swapped operands, `!=` or `==` first, separate ifs, `+= 1`, `++x`",
-Goal,,a byte-offset form,
-Goal,,"the lookup as `tmlines[0x24 + g]`, `(tmlines + 0x24)[g]`, pointer sums",
-Goal,,an int sum,
-Goal,,an unsigned char cast,
-Goal,,a separate subtraction and a separate variable,
-chk4pass,,spodds as a short,
-chk4pass,,"the opponent base as a pointer sum either way round, `regd0.w = regd0.w + 6`, `> 5`, int / short types for the result",
-chk4pass,,the direction and the distance,
-PickAwardWinners,,"every form of those sums (each site alone and pairs jointly), named season record fields instead of offset casts",
-PickAwardWinners,,the divisor and percentage operand orders,
-PickAwardWinners,,the roster index as an array member or byte offset,
-ReplaySaveHilight,,"both declaration orders and assignment orders of the old x / y, short old x / y",
-ReplaySaveHilight,,a goto-shared or separate-statement switch,
-ShowRosterStats,,the key read through a local,
-ShowRosterStats,,"the copy destinations as array, byte offset or `*(T *)` forms",
-ShowRosterStats,,"a named career pointer, named offset and index temporaries",
-ShowRosterStats,,the playoff address operand orders and an if / else,
-ShowRosterStats,,"the record address forms, every declaration order of the four stack scalars (no change), and block-scoped key and record pointers",
-DrawCalendarDay,,"one coordinate pair everywhere and every grouping of the four sections (both declaration orders), all 720 declaration orders of the six coordinates, `y += 5` after the legend if or inside it",
-DrawCalendarDay,,the legend's second y as `y + 0xC`,
-DrawCalendarDay,,"the day index as a separate or inline expression per section, and every operand order of the two day sums",
-DrawCalendarDay,movedecl:boxb:,declaration order `boxb,tried (docs/UNSURE.md)
-DrawCalendarDay,swapdecl:boxb:,declaration order `boxb,tried (docs/UNSURE.md)
-POSeedTeams,,shapes listed in docs/UNSURE.md (not itemized),
-setplayer,,"the 68k registers as plain Reg8 locals, as `long` with byte casts, as a char-array union and as volatile unions",
-setplayer,,six struct groupings of the registers and bonus bytes,
-setplayer,,n as a plain parameter,
-setplayer,,the team pointer declared last (no change),no change
-DrawRinkOverlays,,the arrow read as `*(int *)((char *)dword_CC0B4 + r * 2 + (i << 4)) >> 16` and y1 declared last (worse: 113 lines),worse: 113 lines
-DrawLockerJersey,,"one `PrintOutlinedText(0x12D - fputchar(name), 2Ch, name)` after the branches (Watcom shares the name: 1,618 bytes) and inside both branches (1,650)","1,650"
-SeedPlayoffRound2,,"day and month declared the other way round, and the first sum as `0x47C + i * 7 + k`, `k + i * 7 + 0x47C`, `i * 7 + k + 0x47C`, `i * 7 + (0x47C + k)` (all worse: 21 to 24)",all worse: 21 to 24
-SeedPlayoffRound3,,"the SetSeriesTeams target in a named pointer before the if (worse, 213) and the compare as `c1 == s[2]` (no change)",no change
-SeedPlayoffFinal,,"all 24 declaration orders of gf, wins, ga, pts with the record array",
-SeedPlayoffFinal,,w[2] with two record locals in either order (49 and 96 lines),49 and 96 lines
-SeedPlayoffFinal,swapdecl:gf:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md)
-SeedPlayoffFinal,swapdecl:wins:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md)
-SeedPlayoffFinal,swapdecl:ga:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md)
-SeedPlayoffFinal,swapdecl:pts:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md)
-wallcoll,,the puck-branch Yvel sum in three orders,
-wallcoll,,the regd2 product as `regd1.w * p->Xvel`,
-wallcoll,,the player-branch products as `regd3 * regd0 - regd2 * regd1` (no change),no change
-doshot,,one int for `(int)r`,
-doshot,,"the distance divisor and passspeed (worse, 99)","worse, 99"
-doshot,,the stack shorts declared in reverse and in one other order (no change or worse),no change or worse
-doshot,,"the shot power and accuracy as separate shorts, passspeed scaled by plain assignment (89 to 100)",89 to 100
-TitleScreen,,"the locals in that order (92 lines), reversed and seven random orders (best 52, kept), and 240 random orders of all 18 locals with tools/permute_decls.py (none better)",none better
-RunIntro,,the five dword locals in all 120 orders,
-RunIntro,,"with the song loads as separate statements and `pal[i] = pal[i] - 1` (best 44, kept",
-RunIntro,,"tools/permute_decls.py ranks a different order first, 83 by the aligned diff)",
-DrawTextOverlay,,"the offset and line y as separate shorts (348), ovltimer and the clip offsets without the copy t (357)",357
-ShowAwardScreens,,"the centred prints as single calls (108 lines, 7 bytes short)","108 lines, 7 bytes short"
-ShowAwardScreens,,"the titles as `PrintShadowText(x + 0x34, ...); x += 0x50;` (71)",71
-DrawRinkSideObjects,,"all 24 declaration orders of y1, x, f, y (best f, x, y1, y: 135, kept)","best f, x, y1, y: 135, kept"
-DrawRinkSideObjects,,the two arrays declared after the shorts or ord first (no better),no better
-DrawRinkSideObjects,movedecl:y1:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,swapdecl:y1:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,movedecl:x:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,swapdecl:x:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,movedecl:f:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,swapdecl:f:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,movedecl:y:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-DrawRinkSideObjects,swapdecl:y:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md)
-LoadGameState,,"six declaration orders of the scalars (no change, 544), one pointer for the unpacking and the record copies (527, kept)","527, kept"
-puckfaceoff2,,"the first pass with a short frame temporary (2,822 bytes, 187 lines), that temporary as an int with the goalie offset ternary flipped",
-puckfaceoff2,,"a short cast on the regd0 add and `fadeinpending = word_CBEC6` (2,785, 114: kept)","2,785, 114: kept"
-puckfaceoff2,,"the same with a separate short for the countdown (2,791, 147)","2,791, 147"
-DrawLockerRoom,,"the song load as a separate statement, through a local, and through a chained local (no change)",no change
-ReplayControlLoop,,"the step buttons as `dword_ED6E8 = d = 0` (worse, 49 / 78)","worse, 49 / 78"
-ReplayControlLoop,,"the PickNearestPlayer result through a local for the -1 test (no change) and also for the replay indexes (worse, 49)","worse, 49"
-InstantReplay,,"the saved locals as `register` (no change), declared before the buffer (40)",40
-CreatePlayoffs,,"plain locals for the whole frame (forward order 70, reverse 61)","forward order 70, reverse 61"
-CreatePlayoffs,,the struct only up to x with the rest plain (forward 58,
-CreatePlayoffs,,"reverse 44, which fixes the bank store but moves r to ebp and swaps fg / shade), `r = DiskSpaceShort(...)` as its own statement (no change)",no change
-POAfterGame,,"the clearing loop with a separate wins count, `s[(k - n + m) * 6]` (311), `(ctl1team < 0) ^ (ctl2team < 0)` (no change)",no change
-DrawPlayoffTree,,the four declaration orders of midl / arrows / y (no change between them),no change between them
-DrawPlayoffTree,movedecl:midl:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-DrawPlayoffTree,swapdecl:midl:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-DrawPlayoffTree,movedecl:arrows:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-DrawPlayoffTree,swapdecl:arrows:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-DrawPlayoffTree,movedecl:y:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-DrawPlayoffTree,swapdecl:y:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md)
-assgoalie,,all of the above without the in-place y2 (288),288
-assnearest,,that test as `dy = regd1.w - *pucky; if (dy < 0) dy = -dy; if (dy > 0x14)` with the regd1 local (93: the local then lives across the calls and every register moves),93: the local then lives across the calls and every register moves
-assnearest,,a local declared in that block only,
-assrefsignal,,shapes listed in docs/UNSURE.md (not itemized),
-assrefgoalpa,,"the three assreplace exits as `a = n; goto replace;` with the call there (183), and two declaration orders of the goal-call shorts with that (150, 183)","150, 183"
-PickThreeStars,,"the index pair as short locals t / j in both roster loops (125, 1,084 bytes) and as ints (130)",130
-StartThreeStars,,the loop as `q = SortCords; for (i = 0; ...)` or a do-while,
-assthreestars,,"the team and player as int locals, in both declaration orders (160, 994 bytes)","160, 994 bytes"
-RunMenu,,"plain locals instead of the struct, in both declaration orders (730, 736)","730, 736"
-RunTeamPickMenu,,the loop rebuilt with gotos in that order (477),477
-RunTeamPickMenu,,plus the pointer block through a `short *` local (476),476
-RunTeamPickMenu,,plus the size product as (h + 1) * (w + 1) (490),490
-PostGameToTeamDb,,the goalie bytes unsigned,
-PostGameToTeamDb,,with and without explicit padding to 404h (no change),no change
-PlayoffTreeMenu,,the block through a `short *` local assigned in the same statement (622),622
-PlayoffTreeMenu,,plus the size product written the other way round (625),625
-TonightsGameScreen,,"out at function level, first and last (out next to fh)",
-TonightsGameScreen,,the two 8-byte arrays in both orders,
-TeamRosterScreen,,the copy as `*(PRec *)(statsskaterplr[idx] * 0x34 + statsplayerbuf)` (no change). A permutation target for the ten scalar declarations,
-PreGameScreen,,`oldmx = mx = 0; oldmy = 0; my = 0;` (the init still differs),
-StartHL2,,"`(gsp == 3 && gameopts.fullot ? 0 : 1)` (branches the other way round), separate acc / n locals (esi / edi swapped)",
-TeamStatsScreen,,"the scalars in the frame struct as well (287 lines: every member is reloaded after each call, since &sched is taken)","287 lines: every member is reloaded after each call, since &sched is taken"
-SayTheGame,,SayClip defined first in SayNhlIntro.c (Watcom keeps it whole at the top,
-SayTheGame,,SayTheGame still 1 off,
-SayTheGame,,the matched SayNhlIntro block 2 off),
-StubRet4b,,"(2026-10-21, none changes the 4): three unused ints, three initialised ints",
-StubRet4b,,a dead self-call (`if (0) StubRet4b(...)`),
-StubRet4b,,an initialised array,
-StubRet4b,,"a struct filled from the parameters, dead stores to one local",
-StubRet4b,,a chained store to the parameters,
-StubRet4b,,an empty body,
+func,transform,shape,result,cc
+LoadShapeByTag,,shapes listed in docs/UNSURE.md (not itemized),,la
+POPickConfTeams,,shapes listed in docs/UNSURE.md (not itemized),,la
+BlitClipRect,,Five shapes (not itemized),,la
+SetGameSides,,shapes listed in docs/UNSURE.md (not itemized),,la
+CmpTeamPP,,shapes listed in docs/UNSURE.md (not itemized),,la
+CmpTeamPP,movedecl:pp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md),la
+CmpTeamPP,swapdecl:pp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md),la
+CmpTeamPP,movedecl:qp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md),la
+CmpTeamPP,swapdecl:qp:,"declaration orders of x, y, pp, qp",tried (docs/UNSURE.md),la
+DrawEditCursor,,"h assigned before or after y, h assigned inside the y sum, y built in steps, every operand order of the sum",,la
+ChkTwoLinePass,,shapes listed in docs/UNSURE.md (not itemized),,la
+CtlSwapScoreFix,,shapes listed in docs/UNSURE.md (not itemized),,la
+OneTimerChk,,shapes listed in docs/UNSURE.md (not itemized),,la
+SetTeamGoalie,,shapes listed in docs/UNSURE.md (not itemized),,la
+ChkGoalies,,shapes listed in docs/UNSURE.md (not itemized),,la
+chk4lc,,shapes listed in docs/UNSURE.md (not itemized),,la
+chk4lc,type:d:int,`int d`,tried (docs/UNSURE.md),la
+SelectRosterTeam,,shapes listed in docs/UNSURE.md (not itemized),,la
+SelectRosterTeam,movedecl:side:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,swapdecl:side:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,movedecl:slot:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,swapdecl:slot:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,movedecl:div:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,swapdecl:div:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,movedecl:old:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,swapdecl:old:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,movedecl:d:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,swapdecl:d:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+SelectRosterTeam,movedecl:i:,"declaration orders of side, slot, div, old, d, i",tried (docs/UNSURE.md),la
+QueueSpeechClip,,shapes listed in docs/UNSURE.md (not itemized),,la
+QueueSpeechClip,movedecl:pos:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:pos:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:slot:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:slot:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:free:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:free:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:loaded:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:loaded:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:tmp:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:tmp:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:off:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:off:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:bank:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,swapdecl:bank:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+QueueSpeechClip,movedecl:dst:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+CreatePlayerLoop,,shapes listed in docs/UNSURE.md (not itemized),,la
+SortStandings,,shapes listed in docs/UNSURE.md (not itemized),,la
+SortStandings,movedecl:i:,"declaration orders of i, j, w",tried (docs/UNSURE.md),la
+SortStandings,swapdecl:i:,"declaration orders of i, j, w",tried (docs/UNSURE.md),la
+SortStandings,swapdecl:j:,"declaration orders of i, j, w",tried (docs/UNSURE.md),la
+SortStandings,movedecl:w:,"declaration orders of i, j, w",tried (docs/UNSURE.md),la
+DrawEditText,,shapes listed in docs/UNSURE.md (not itemized),,la
+DrawEditText,movedecl:cw:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,swapdecl:cw:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,movedecl:len:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,swapdecl:len:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,movedecl:i:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,swapdecl:i:,"declaration orders of cw, len, i, a",tried (docs/UNSURE.md),la
+DrawEditText,type:cw:unsigned,`unsigned cw`,tried (docs/UNSURE.md),la
+FixJerseyNumber,,shapes listed in docs/UNSURE.md (not itemized),,la
+HilightSaveToDlg,,(best 221 of 247 instructions in common),best 221 of 247 instructions in common,la
+HilightSaveToDlg,movedecl:x2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,swapdecl:x2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,movedecl:i:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,movedecl:x:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,swapdecl:x:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,movedecl:y:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,swapdecl:y:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,movedecl:y2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+HilightSaveToDlg,swapdecl:y2:,"declaration orders of x2, i, x, y, y2",tried (docs/UNSURE.md),la
+RemoveFromLines,,shapes listed in docs/UNSURE.md (not itemized),,la
+checkgoal,,"for the bounce: `(short)-p->Zvel >> 1`, `/ 2`, y / x parameter reuse",,la
+checkgoal,,"a short / unsigned short / int / unsigned temporary, `x = z; x >>= 1`, `p->Zvel = x >>= 1`",,la
+updatereplay,,"`(i * 2 + 1) * 12`, `(i + i + 1) * 12`, `i * 3 * 8`, `i * 24 + 12`",,la
+updatereplay,,a 12-byte RinkObj struct indexed `[i * 2 + 1]` / `[i + i + 1]`,,la
+CanBlockShot,,"dx / dy copies either way, `dx = dy = ...`, dy computed twice, `>> 16` instead of HIWORD, `-(p - q)`, compound `-=`, all 120 declaration orders of q, i, dx, dy, t (two forms)",,la
+CanBlockShot,movedecl:dx:,"declaration orders of q, i, dx, dy, t",tried (docs/UNSURE.md),la
+CanBlockShot,swapdecl:dx:,"declaration orders of q, i, dx, dy, t",tried (docs/UNSURE.md),la
+FillDressedSlots,,shapes listed in docs/UNSURE.md (not itemized),,la
+FillDressedSlots,movedecl:r:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,swapdecl:r:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,movedecl:i:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,swapdecl:i:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,movedecl:lt:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,swapdecl:lt:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+FillDressedSlots,movedecl:k:,"declaration orders of r, i, lt, k, a",tried (docs/UNSURE.md),la
+TradeScreen,,shapes listed in docs/UNSURE.md (not itemized),,la
+TradeScreen,movedecl:shape:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,swapdecl:shape:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,movedecl:bank:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,swapdecl:bank:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,movedecl:font:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,swapdecl:font:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+TradeScreen,movedecl:r:,"declaration orders of shape, bank, font, pal, r",tried (docs/UNSURE.md),la
+NetCollide,,with other shapes,,la
+periodicevents,,shapes listed in docs/UNSURE.md (not itemized),,la
+DrawListItem,,shapes listed in docs/UNSURE.md (not itemized),,la
+MenuHitTest,,shapes listed in docs/UNSURE.md (not itemized),,la
+SimPlayoffFinal,,shapes listed in docs/UNSURE.md (not itemized),,la
+FadePalette,,shapes listed in docs/UNSURE.md (not itemized),,la
+BuildFreeAgentList,,shapes listed in docs/UNSURE.md (not itemized),,la
+assshoot,,shapes listed in docs/UNSURE.md (not itemized),,la
+TradeHitTest,,shapes listed in docs/UNSURE.md (not itemized),,la
+EasnGoalieStatsScreen,,shapes listed in docs/UNSURE.md (not itemized),,la
+CalStandingsScreen,,shapes listed in docs/UNSURE.md (not itemized),,la
+LoadJerseyColours,,shapes listed in docs/UNSURE.md (not itemized),,la
+BuildTeamRosterList,,shapes listed in docs/UNSURE.md (not itemized),,la
+BuildTradeRoster,,shapes listed in docs/UNSURE.md (not itemized),,la
+checkwallcoll,,shapes listed in docs/UNSURE.md (not itemized),,la
+SplitPlayerName,,shapes listed in docs/UNSURE.md (not itemized),,la
+SetRosterTeamMenus,,shapes listed in docs/UNSURE.md (not itemized),,la
+asswingo,,"both operand orders, (short) casts on either side, `/ 64`",,la
+asswingo,,"a short / int local for the shift, `regd3.w = shift; regd3.w += regd0.w` and the reverse, HIWORD(regd0.l)",regd0.l,la
+assreffollow,,"`^` with `!= 0`, `? 1 : 0`, `!!`, (int), (unsigned), (unsigned char) casts, `(x ^ y) != 0`",,la
+assreffollow,,the operands swapped,,la
+assreffollow,,a 7+1 bit field (char and unsigned base) and `(unsigned char)pflags >> 7`,,la
+assreffollow,,for the pointer `SortCords + *puckc` and int / char* sums,,la
+PassRecOneTimer,,for the aim: short locals x / y (pushes change),,la
+PassRecOneTimer,,the y product into t and folded into one expression. Not yet tried: other forms of the y distance,,la
+chk4shot,,"a local for penshotlive (assigned before or inside the test), (unsigned char) on the pflags bit, `(short)p->spodds`",,la
+POInitSchedule,,"all 120 declaration orders of i, n, g, e, t (no change)",no change,la
+POInitSchedule,,"the game pointer as `po + base + i * 6`, `&po[base + i * 6]`, `&g[i * 6]`",,la
+POInitSchedule,,a 6-byte POGame struct,,la
+POInitSchedule,,the day as a cast / reordered sum,,la
+POInitSchedule,movedecl:i:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,swapdecl:i:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,movedecl:n:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,swapdecl:n:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,movedecl:g:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,swapdecl:g:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,movedecl:e:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+POInitSchedule,swapdecl:e:,"declaration orders of i, n, g, e, t",tried (docs/UNSURE.md),la
+assbench,,the hold test as one `||` or two ifs,,la
+assbench,,the y distance as a short local or inline,,la
+assbench,,"the swap test as `^`, `!=`, `? 1 : 0`, `!newpos`, `(...) != 0`",,la
+EvadePC,,"all 6 declaration orders of c, dx, dy (only the original order keeps the rest)",,la
+EvadePC,,a short temp for regd2,,la
+EvadePC,,"the store inside the abs test, `>= 0 ?` and `(int)` abs forms",,la
+EvadePC,,the gap sum in both orders,,la
+EvadePC,movedecl:c:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md),la
+EvadePC,swapdecl:c:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md),la
+EvadePC,swapdecl:dx:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md),la
+EvadePC,movedecl:dy:,"declaration orders of c, dx, dy",tried (docs/UNSURE.md),la
+SetupTeamLines,,"all 24 declaration orders of lt, i, k, st",,la
+SetupTeamLines,,"the store / read index in both orders, `? 1 : 0`",,la
+SetupTeamLines,movedecl:lt:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,swapdecl:lt:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,movedecl:i:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,swapdecl:i:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,movedecl:k:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,swapdecl:k:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+SetupTeamLines,movedecl:st:,"declaration orders of lt, i, k, st, the",tried (docs/UNSURE.md),la
+ShotLaneOpen,,"the zero as a plain, volatile (one or both) local, in a struct with the distance, as an int[2]",,la
+PenGoalStuff,,"for the team choice: `side == 0`, `(side == 0) != 0`, `(int)`, `!side`, `? 1 : 0`",,la
+PenGoalStuff,,the minutes through a signed char local or not,,la
+MergeTeamDbs,,"plain parameters, struct fields stored in either order",,la
+MergeTeamDbs,,a K&R definition with the declarations reordered,,la
+MergeTeamDbs,,a local copy of next,,la
+LoadGameRoster,,`(unsigned char)` / `22 * i` / pointer-sum forms of the slot store,,la
+LoadGameRoster,,a 16h-byte struct for the entries (same code),same code,la
+LoadGameRoster,,"the offset as `[i]` of the team row or a byte sum in either order, and a volatile counter (reloads every use)",,la
+AdvancePlayoffs,,"the count as short, and as int with `(short)` compares (worse), err / i in both declaration orders",,la
+TextInputDialog,,the box width as its own local or by reusing minw,,la
+TextInputDialog,,"the ""required"" retry loop as a local bool, `!(... || ...)`, `&& / !=` and a ternary",,la
+CopyHumanTeamDBs,,"those, all 24 orders of err / r / i / tp",,la
+FixJerseyConflict,,"rgb as [4] before / after the struct and after the ints, both compare orders and `s.i != k`",,la
+FixJerseyConflict,,"a pointer-sum, `^`",,la
+FixJerseyConflict,,a nested if,,la
+FixJerseyConflict,,"the keys as an array of 34h-byte structs, and four forms of the record-number index (`*(int *)(tr + i*4 + 0x4C)`, `((int *)tr)[i + 0x13]`, ...)",,la
+SwapSelectedPlayers,,`s.na = nb = 0` / `nb = s.na = 0` / separate stores,,la
+SwapSelectedPlayers,,"the count declarations in both orders, `rosterteamrec[1]` for dword_EAF7C (and a pointer-sum key index)",,la
+SwapSelectedPlayers,,the list index as int / unsigned char / unsigned,,la
+SwapSelectedPlayers,,with and without a local for the second index,,la
+RandomizeNewRatings,,"the call with the result discarded, cast to float, assigned to a plain float / double / long / register / volatile local (dead ones become a qword temp at +4Ch and frame 58h)",dead ones become a qword temp at +4Ch and frame 58h,la
+RandomizeNewRatings,,a 20th struct member,,la
+RandomizeNewRatings,,"a local declared before the struct, `f13 = f13`, and a store through `*(float *)&a`",,la
+DrawSprite,,the edges as short or int locals,,la
+DrawSprite,,"the declarations reversed, flip as the plain parameter instead of a struct copy",,la
+RandomizeSchedule,,division / slot as int or unsigned char locals or indexed directly,,la
+RandomizeSchedule,,"the swap byte as unsigned char or int, `6 + (i >= 2)`, `(i >= 2 ? 1 : 0) + 6`",,la
+RandomizeSchedule,,"an unsigned char cast, and the list append as `[count++]`",,la
+RandomizeSchedule,,"a pointer sum, `6 * i`, or through n",,la
+EditTextField,,the poll as a `while (!(key = PollKey()) && !sub_B3D64())` idle loop and as a loop with `key = 0; break`,,la
+SelectHilight,,`s.i++` / `s.i = s.i + 1` / `n > s.i` / a while loop,,la
+SelectHilight,,"the counter through a local copy (`for (...; s.i = r + 1)`, `while ((s.i = r) < n)`), and one `err = -1; return err;` exit (worse)",worse,la
+ExecuteTrade,,"all the macro forms (lvalue for both, rvalue for the reads), five declaration orders of the locals, and the traded flag as a struct field",,la
+doplayeracc,,"for that: vy as int / short / long / unsigned, `(short)` / `(int)` / `(unsigned short)` casts on *pucky or the sum",,la
+doplayeracc,,"a volatile read, *pucky through t, `dy = vy; dy += *pucky`, `*pucky + vy` (with and without `- y` in the same statement), `vy - y + *pucky`, `vy + (*pucky - y)`, and no vy local (`HIBYTE(*puckvy) + *pucky - y` and in steps)",,la
+doplayeracc,type:vy:int,"vy as int / short / long / unsigned, `",tried (docs/UNSURE.md),la
+doplayeracc,type:vy:unsigned,"vy as int / short / long / unsigned, `",tried (docs/UNSURE.md),la
+asspuckc_chkdir,,"the pointer as `&SortCords[n]`, `SortCords + n`, two `(char *)` sums and a second pointer variable (worse), both compare orders for the facedir test, `--regd4.w != 0` / a separate decrement",,la
+asspuckc_chkdir,,"a goto for the first abs test, t declared first (worse)",worse,la
+checkcx,,"int locals for the two gaps (both declaration and init orders, worse)","both declaration and init orders, worse",la
+checkcx,,"the bounce products and the two velocity sums in either operand order, `(int)` casts",,la
+checkcx,,"the direction in d instead of dx (worse), `o->facedir == dx`",,la
+SetupStatsSourceMenu,,the menu byte stores as one chain in either order and as separate statements,,la
+SetupStatsSourceMenu,,the three int locals in other declaration orders,,la
+SetupStatsSourceMenu,,the ten count stores as two chains or separate statements,,la
+SetupStatsSourceMenu,,the increment as `[n << 3]`,,la
+SetupStatsSourceMenu,,"a `(char *)` sum or through a pointer set before the stores (`add eax, IMM` instead), and `n = src` before the switch",,la
+MoveToOtherRoster,,"seven forms of the read (`((int *)rec)[j + 2Ch]`, `*(int *)(rec + j * 4 + off)` and its operand orders, `((int *)(off + rec))[j]`, `j[(int *)...]`) on all sites",,la
+MoveToOtherRoster,,"the goalie read as `[j + 19h]` from +4Ch, `-1 ==`, `0x19 + j`, unsigned / `< 0` tests, `slot = j; slot += 0x19`",,la
+MoveToOtherRoster,,"a while loop, and a second loop counter for the goalie or jersey loops (moves the record to ebx)",,la
+PickForLineSlot,,"the ternaries inverted, `&X[side * 25]`",,la
+PickForLineSlot,,"the list through a variable first, `if ((p = F(...)) >= 0)`",,la
+SkateToSpot,,"ten declaration orders, `ABS` as `x >= 0 ? x : -x`",,la
+SkateToSpot,,the spilled shorts as int,,la
+SkateToSpot,,"the vtoa arguments without casts (the first 130 instructions then match, 295 of 334, but the differences are computed in 32 bits)","the first 130 instructions then match, 295 of 334, but the differences are computed in 32 bits",la
+LoadRink,,"the four declaration orders, `smap = map =` / `map = smap =` / separate",,la
+LoadRink,,a struct for tiles and map (inside or outside the path's struct,,la
+LoadRink,,worse,,la
+LoadRink,,a 1Ch frame),,la
+LoadRink,,an explicit int slot for the tile count (`s.n = n` in the call,,la
+LoadRink,,worse),,la
+LoadRink,,a block-scoped pointer for the bitfield clears (worse),worse,la
+checkcheck,,the SPA in a separate short,,la
+checkcheck,,an if/else into it,,la
+checkcheck,,"the whole test as a ternary argument, five declaration positions for v",,la
+checkcheck,,"the xor and compare operands swapped, `0xB + (...)`, `(int)` / `? 1 : 0` / a short temp for the penalty, `q->facedir + 1 - p->facedir`, dir as int",,la
+checkcheck,type:dir:int,"facedir`, dir as int",tried (docs/UNSURE.md),la
+SetSoundDevice,,the clear before the name switch (worse),worse,la
+SetSoundDevice,,"the MT-32 sample in i instead of t, t declared second, t also set from the AdLib load",,la
+PlayMVI,,`n = s.nframes = 0` (worse),worse,la
+PlayMVI,,a separate song local,,la
+CreateNewLeague,,`(char *)` / `(signed char *)` / pointer-sum forms of the store,,la
+CreateNewLeague,,"a byte local set to 0 first, `lgstate[1] &= ~0xFF`",,la
+ReplayStep,,"a pointer local for the advance (`p = replayplay + 0x80; replayplay = p`) with and without a short temp for the sound ids, and the flag as `(regd0.w & 0x800) != 0` / `(regd0.l & 0x800) != 0` (all worse)",all worse,la
+DrawLineEditorScreen,,"the locals as one struct or plain in four orders, n unused, buttons through a local",,la
+DrawLineEditorScreen,,a smaller remap array,,la
+DrawLineEditorScreen,,the palette source without the `src` pointer (worse) or with the declarations reversed,,la
+FindPlayer,,"the team compares in either operand order, `(unsigned char)` / `(int)` casts on rosterteam",,la
+FindPlayer,,a volatile read of the team,,la
+ListDialog,,the width and index variables in four declaration orders,,la
+ListDialog,,the done flag as its own variable or as n,,la
+ListDialog,,"a local copy of n declared first or second, `s.top = s.scroll = 0` in both orders",,la
+TradePlayers,,"memcpy for the ""Show "" copies (worse), `*s.sel`",,la
+TradePlayers,,"the index through r first, `((char **)teamcitynames)[i]` and `*(char **)(teamcitynames + i)` on either or both lookups",,la
+BuildStandingsGrid,,"the team number as an int / unsigned char variable or inline, declared first",,la
+BuildStandingsGrid,,"the comparison as four `if / else if` arms with the same swap body (worse, 270)","worse, 270",la
+ChkScorerMilestone,,"`t * 25 * 16 + p * 16`, `(t * 25 + p) * 16`, `t * 400`, p * 16 first (all sites, and only at those two sites: worse)","all sites, and only at those two sites: worse",la
+ChkScorerMilestone,,the 2-D array form,,la
+ChkScorerMilestone,,the first assist block as g / a new variable / sum = ASSISTS first or ASSISTS + GOALS,,la
+ChkScorerMilestone,,"the assist numbers as `dword_DF646[t * 128]` / `[t << 7]`, assigned in the condition or as separate statements",,la
+ChkScorerMilestone,,t as `(a < 0) ^ dir` in two statements,,la
+ChkScorerMilestone,,with a dir variable,,la
+ChkScorerMilestone,,"with the operands swapped, as `?:` or an unsigned char cast",,la
+ChkScorerMilestone,,seven declaration orders,,la
+passtoa0,,24 declaration orders,,la
+passtoa0,,ax / ay / sp / n / r as short or int (all 32),all 32,la
+passtoa0,,`else r = 0` / `r -= r`,,la
+passtoa0,,"the root term as `<< 2`, `4 * k * (...)`, `k * (...) * 4`",,la
+passtoa0,,"`(short)`, `(int)` and `(long)` casts on the squares",,la
+passtoa0,,k through r first,,la
+passtoa0,,`n = 0; for (; ...)`,,la
+passtoa0,type:ax:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md),la
+passtoa0,type:ay:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md),la
+passtoa0,type:sp:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md),la
+passtoa0,type:n:int,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md),la
+passtoa0,type:r:short,ax / ay / sp / n / r as short or int,tried (docs/UNSURE.md),la
+BuildPlayoffs,,the copy after `human = 0`,,la
+BuildPlayoffs,,"err / n in a second struct (before or after the first, or in an inner block after the seeds test)",,la
+BuildPlayoffs,,"err as a one-field struct, `int err[1]` (both enregistered: ebp, and rwfh / rdfh pushed) or volatile",,la
+BuildPlayoffs,,n as a plain int in the last block,,la
+DrawRinkObjects,,"`((Pt *)dword_CD2F8)[i].y`, `(... + i)->y`, `dword_CD2F8[i] >> 16` (with or without a short cast), HIWORD, `((short *)dword_CD2F8)[i * 2 + 1]`",,la
+DrawRinkObjects,,"a char-pointer form, `(int)i` / `(short)i` casts",,la
+DrawRinkObjects,,"a second counter for the last loop, `o++` in the for",,la
+GameLoop,,local x / y for the sub_6AF52 rectangle in either order (worse),worse,la
+GameLoop,,the clock sum in four operand orders,,la
+GameLoop,,`joysampling = demomode`,,la
+GameLoop,,"a demomode local (`d = demomode`, worse, 334)","`d = demomode`, worse, 334",la
+GameLoop,,the period-end demo exit returning on its own,,la
+POHandleElimination,,an explicit `goto save` after it,,la
+POHandleElimination,,the else as a plain block,,la
+POHandleElimination,,the pochampion test braced or as `if ((pochampion = ...) == -1)`,,la
+POHandleElimination,,"the fade-in at the end of both branches (with or without a copy on the early exit: both calls are merged, or +31 bytes)","with or without a copy on the early exit: both calls are merged, or +31 bytes",la
+DebugMonitor,,"there: `n + buf`, `&buf[n]`, `n += sprintf`, `n = (int)(buf + n)` first",,la
+DebugMonitor,,the frame word cast,,la
+DebugMonitor,,the two lines swapped (worse),worse,la
+DebugMonitor,,"n as unsigned / short, declared before the buffer",,la
+DebugMonitor,type:n:unsigned,"n as unsigned / short, ",tried (docs/UNSURE.md),la
+DebugMonitor,type:n:short,"n as unsigned / short, ",tried (docs/UNSURE.md),la
+DumpStatsLog,,"the roster pointer as `j * 39 + tm->tmroster`, `&tm->tmroster[...]`, `r = tm->tmroster; r += ...` (all worse), inline in the arguments",,la
+DumpStatsLog,,an int temporary for `j * 39`,,la
+DumpStatsLog,,the stat words indexed from the stats pointer instead of a walking pointer (worse),worse,la
+DumpStatsLog,type:j:int,an int temporary for `j,tried (docs/UNSURE.md),la
+DrawAwardsSummary,,"the three compares as a switch, `s.i++` / `s.i = k + 1` before the test",,la
+DrawAwardsSummary,,a byte temp for the team (all worse or no change),all worse or no change,la
+SaveGameState,,the index as `word_DEE94[i * 6]`,,la
+SaveGameState,,"a char-pointer offset, `[i * 3 * 2]`",,la
+SaveGameState,,"a 12-byte struct, `p[0] / p[1]` then `p += 2`",,la
+SaveGameState,,an int `j = i * 3` declared in five places,,la
+SaveGameState,,a separate counter declared in six places,,la
+SaveGameState,,"the record pointer declared first / last, one pointer for packing and records (much worse)",much worse,la
+AwardsCeremony,,"the load inside the condition (`!= 0` or bare), nested ifs",,la
+AwardsCeremony,,the music bit as a byte test,,la
+AwardsCeremony,,a `modify [eax]` pragma on sub_8FB8E,,la
+GameStatsScreen,,"s.cx assigned inside the expression or as a statement after a width variable, no s.cx (worse: the frame shifts)",worse: the frame shifts,la
+GameStatsScreen,,"the times as plain `TS / 60, TS % 60`, ten declaration orders",,la
+DrawCallBanner,,"all 120 orders of the five shorts with the clip offsets written out (no `d`), 10 orders with a `d` temp, y / y2 / w in a struct (Watcom puts its members in registers), `volatile` (n in edi as in the EXE, but every short is then re-read), `register` on n and x",,la
+DrawCallBanner,,a `char **` to the string,,la
+puckfaceoff,,four declaration orders,,la
+puckfaceoff,,the team pointer inline,,la
+puckfaceoff,,"the zero stores chained, `cont2team | cont1team`",,la
+MenuGameShowPlayerStats,,"the local declared first, unsigned, assigned in the condition, in an inner block, `*sel` read directly (ebp, but then `movzx ebp`)",,la
+MenuGameShowPlayerStats,,the slot or its product in a temp,,la
+MenuGameShowPlayerStats,,the index sum reordered,,la
+ExportTeamToFloppy,,"err and another int in the chain (Watcom drops them), `err ^= x`, `err = x - x`",,la
+ExportTeamToFloppy,,"the chain after t or err first, `*(long *)&zero = 0`, `0L`",,la
+ExportTeamToFloppy,,the name table as `char **`,,la
+skatetopuck,,"the step as if / else, `position ? 10 : 5`, `t = t + (...)`",,la
+skatetopuck,,a (signed char) cast,,la
+skatetopuck,,"the y argument as `(p->Ypos >> 16)`, `(int)sy`, `-HIWORD(...) + sy`",,la
+skatetopuck,,a short cast,,la
+skatetopuck,,sx / sy declared the other way round,,la
+CreateFreeAgent,,"`bytes * sectors`, `csize *= bytes`",,la
+CreateFreeAgent,,the box result assigned in the test,,la
+CreateFreeAgent,,"the loops without pointer locals (much worse), volatile pointers",,la
+DbDialogLoop,,"240 random declaration orders of the register locals (no change), `if (!btn)` / `if (x == ox && y == oy) continue` for the move branch, `y != ox`, `list[2] = list[2] + d`",,la
+DbDialogLoop,,"a `first` local loaded in the condition, before it, or in a nested `if (oy != y)` (with `first -= d; if (first >= 0)` the move branch matches but the scroll does not), `last + d`",,la
+LockerRoomLoop,,"`(0x1B + vis)`, `(vis + 0x1C - 1)`, `(vis - 1 + 0x1C)` in either case, `hm = vis; hm = (hm + 0x1B) % 0x1C`, `hm = (hm + 0x1B) % 0x1C` for the fallback, `vis += 0x1B; vis %= 0x1C` (these two fix the move branch but not the hoist), cflags -ot / -os / -ol / -or / -oe / -oi",,la
+DrawDlgFrame,,"`bevel != 0`, bevel short / char / unsigned",,la
+DrawDlgFrame,,"an int result, `if (!bevel) return;`, `(2 + x1)`, named locals assigned at first use (`sub_B5DB0(xa = x1 + 2, ya = y1 + 2, ...)`: the prologue changes)",,la
+BuildEventLines,,"the flags as int, as `n`, in a block, read directly",,la
+BuildEventLines,,separate assist variables (worse),worse,la
+BuildEventLines,,"struct-array forms for the rosters (28 players of 27h a side), team records and goal tables (no change)",no change,la
+RunFileDlg,,"the step declared in the drag block, in each arm, first or last",,la
+RunFileDlg,,`pos` reused as the step,,la
+RunFileDlg,,`if ((d = ...) == 0)` and `if (!(d = ...))`,,la
+SaveGameNameDlg,,one shared redraw after `if (!(b & 2)) ... else if (in row) {...}` and a goto into the move redraw (both merge the not-on-a-button redraw too: 40-49 bytes short),both merge the not-on-a-button redraw too: 40-49 bytes short,la
+SaveGameNameDlg,,the button variable as unsigned short / char / unsigned char,,la
+SaveGameNameDlg,,the poll as `if ((b = ...) & 2)`,,la
+ShowCredits,,"for the two loads: a `signed char *` or packed struct page pointer, `(int)` / `(short)` / `(unsigned char)` casts on either operand, `cur[0]`",,la
+ShowCredits,,the y statement before the wait store,,la
+ShowCredits,,the product through `i` or `y`,,la
+ShowCredits,,"the rand terms as `0x85 + rand() % 8`, and the second term through a local",,la
+checkpuckcoll,,"every declaration order, int types for either variable, separate variables for the half size / box size / box limit / |dy|",,la
+checkpuckcoll,,"the speed as two statements, and every valid split of the five roles over three variables (best: 49 differing instructions, reach and box limit in one variable)","best: 49 differing instructions, reach and box limit in one variable",la
+Goal,,"for the two left: the power-play compare with swapped operands, `!=` or `==` first, separate ifs, `+= 1`, `++x`",,la
+Goal,,a byte-offset form,,la
+Goal,,"the lookup as `tmlines[0x24 + g]`, `(tmlines + 0x24)[g]`, pointer sums",,la
+Goal,,an int sum,,la
+Goal,,an unsigned char cast,,la
+Goal,,a separate subtraction and a separate variable,,la
+chk4pass,,spodds as a short,,la
+chk4pass,,"the opponent base as a pointer sum either way round, `regd0.w = regd0.w + 6`, `> 5`, int / short types for the result",,la
+chk4pass,,the direction and the distance,,la
+PickAwardWinners,,"every form of those sums (each site alone and pairs jointly), named season record fields instead of offset casts",,la
+PickAwardWinners,,the divisor and percentage operand orders,,la
+PickAwardWinners,,the roster index as an array member or byte offset,,la
+ReplaySaveHilight,,"both declaration orders and assignment orders of the old x / y, short old x / y",,la
+ReplaySaveHilight,,a goto-shared or separate-statement switch,,la
+ShowRosterStats,,the key read through a local,,la
+ShowRosterStats,,"the copy destinations as array, byte offset or `*(T *)` forms",,la
+ShowRosterStats,,"a named career pointer, named offset and index temporaries",,la
+ShowRosterStats,,the playoff address operand orders and an if / else,,la
+ShowRosterStats,,"the record address forms, every declaration order of the four stack scalars (no change), and block-scoped key and record pointers",,la
+DrawCalendarDay,,"one coordinate pair everywhere and every grouping of the four sections (both declaration orders), all 720 declaration orders of the six coordinates, `y += 5` after the legend if or inside it",,la
+DrawCalendarDay,,the legend's second y as `y + 0xC`,,la
+DrawCalendarDay,,"the day index as a separate or inline expression per section, and every operand order of the two day sums",,la
+DrawCalendarDay,movedecl:boxb:,declaration order `boxb,tried (docs/UNSURE.md),la
+DrawCalendarDay,swapdecl:boxb:,declaration order `boxb,tried (docs/UNSURE.md),la
+POSeedTeams,,shapes listed in docs/UNSURE.md (not itemized),,la
+setplayer,,"the 68k registers as plain Reg8 locals, as `long` with byte casts, as a char-array union and as volatile unions",,la
+setplayer,,six struct groupings of the registers and bonus bytes,,la
+setplayer,,n as a plain parameter,,la
+setplayer,,the team pointer declared last (no change),no change,la
+DrawRinkOverlays,,the arrow read as `*(int *)((char *)dword_CC0B4 + r * 2 + (i << 4)) >> 16` and y1 declared last (worse: 113 lines),worse: 113 lines,la
+DrawLockerJersey,,"one `PrintOutlinedText(0x12D - fputchar(name), 2Ch, name)` after the branches (Watcom shares the name: 1,618 bytes) and inside both branches (1,650)","1,650",la
+SeedPlayoffRound2,,"day and month declared the other way round, and the first sum as `0x47C + i * 7 + k`, `k + i * 7 + 0x47C`, `i * 7 + k + 0x47C`, `i * 7 + (0x47C + k)` (all worse: 21 to 24)",all worse: 21 to 24,la
+SeedPlayoffRound3,,"the SetSeriesTeams target in a named pointer before the if (worse, 213) and the compare as `c1 == s[2]` (no change)",no change,la
+SeedPlayoffFinal,,"all 24 declaration orders of gf, wins, ga, pts with the record array",,la
+SeedPlayoffFinal,,w[2] with two record locals in either order (49 and 96 lines),49 and 96 lines,la
+SeedPlayoffFinal,swapdecl:gf:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md),la
+SeedPlayoffFinal,swapdecl:wins:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md),la
+SeedPlayoffFinal,swapdecl:ga:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md),la
+SeedPlayoffFinal,swapdecl:pts:,"declaration orders of gf, wins, ga, pts",tried (docs/UNSURE.md),la
+wallcoll,,the puck-branch Yvel sum in three orders,,la
+wallcoll,,the regd2 product as `regd1.w * p->Xvel`,,la
+wallcoll,,the player-branch products as `regd3 * regd0 - regd2 * regd1` (no change),no change,la
+doshot,,one int for `(int)r`,,la
+doshot,,"the distance divisor and passspeed (worse, 99)","worse, 99",la
+doshot,,the stack shorts declared in reverse and in one other order (no change or worse),no change or worse,la
+doshot,,"the shot power and accuracy as separate shorts, passspeed scaled by plain assignment (89 to 100)",89 to 100,la
+TitleScreen,,"the locals in that order (92 lines), reversed and seven random orders (best 52, kept), and 240 random orders of all 18 locals with tools/permute_decls.py (none better)",none better,la
+RunIntro,,the five dword locals in all 120 orders,,la
+RunIntro,,"with the song loads as separate statements and `pal[i] = pal[i] - 1` (best 44, kept",,la
+RunIntro,,"tools/permute_decls.py ranks a different order first, 83 by the aligned diff)",,la
+DrawTextOverlay,,"the offset and line y as separate shorts (348), ovltimer and the clip offsets without the copy t (357)",357,la
+ShowAwardScreens,,"the centred prints as single calls (108 lines, 7 bytes short)","108 lines, 7 bytes short",la
+ShowAwardScreens,,"the titles as `PrintShadowText(x + 0x34, ...); x += 0x50;` (71)",71,la
+DrawRinkSideObjects,,"all 24 declaration orders of y1, x, f, y (best f, x, y1, y: 135, kept)","best f, x, y1, y: 135, kept",la
+DrawRinkSideObjects,,the two arrays declared after the shorts or ord first (no better),no better,la
+DrawRinkSideObjects,movedecl:y1:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,swapdecl:y1:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,movedecl:x:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,swapdecl:x:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,movedecl:f:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,swapdecl:f:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,movedecl:y:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+DrawRinkSideObjects,swapdecl:y:,"declaration orders of y1, x, f, y",tried (docs/UNSURE.md),la
+LoadGameState,,"six declaration orders of the scalars (no change, 544), one pointer for the unpacking and the record copies (527, kept)","527, kept",la
+puckfaceoff2,,"the first pass with a short frame temporary (2,822 bytes, 187 lines), that temporary as an int with the goalie offset ternary flipped",,la
+puckfaceoff2,,"a short cast on the regd0 add and `fadeinpending = word_CBEC6` (2,785, 114: kept)","2,785, 114: kept",la
+puckfaceoff2,,"the same with a separate short for the countdown (2,791, 147)","2,791, 147",la
+DrawLockerRoom,,"the song load as a separate statement, through a local, and through a chained local (no change)",no change,la
+ReplayControlLoop,,"the step buttons as `dword_ED6E8 = d = 0` (worse, 49 / 78)","worse, 49 / 78",la
+ReplayControlLoop,,"the PickNearestPlayer result through a local for the -1 test (no change) and also for the replay indexes (worse, 49)","worse, 49",la
+InstantReplay,,"the saved locals as `register` (no change), declared before the buffer (40)",40,la
+CreatePlayoffs,,"plain locals for the whole frame (forward order 70, reverse 61)","forward order 70, reverse 61",la
+CreatePlayoffs,,the struct only up to x with the rest plain (forward 58,,la
+CreatePlayoffs,,"reverse 44, which fixes the bank store but moves r to ebp and swaps fg / shade), `r = DiskSpaceShort(...)` as its own statement (no change)",no change,la
+POAfterGame,,"the clearing loop with a separate wins count, `s[(k - n + m) * 6]` (311), `(ctl1team < 0) ^ (ctl2team < 0)` (no change)",no change,la
+DrawPlayoffTree,,the four declaration orders of midl / arrows / y (no change between them),no change between them,la
+DrawPlayoffTree,movedecl:midl:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+DrawPlayoffTree,swapdecl:midl:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+DrawPlayoffTree,movedecl:arrows:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+DrawPlayoffTree,swapdecl:arrows:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+DrawPlayoffTree,movedecl:y:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+DrawPlayoffTree,swapdecl:y:,declaration orders of midl / arrows / y,tried (docs/UNSURE.md),la
+assgoalie,,all of the above without the in-place y2 (288),288,la
+assnearest,,that test as `dy = regd1.w - *pucky; if (dy < 0) dy = -dy; if (dy > 0x14)` with the regd1 local (93: the local then lives across the calls and every register moves),93: the local then lives across the calls and every register moves,la
+assnearest,,a local declared in that block only,,la
+assrefsignal,,shapes listed in docs/UNSURE.md (not itemized),,la
+assrefgoalpa,,"the three assreplace exits as `a = n; goto replace;` with the call there (183), and two declaration orders of the goal-call shorts with that (150, 183)","150, 183",la
+PickThreeStars,,"the index pair as short locals t / j in both roster loops (125, 1,084 bytes) and as ints (130)",130,la
+StartThreeStars,,the loop as `q = SortCords; for (i = 0; ...)` or a do-while,,la
+assthreestars,,"the team and player as int locals, in both declaration orders (160, 994 bytes)","160, 994 bytes",la
+RunMenu,,"plain locals instead of the struct, in both declaration orders (730, 736)","730, 736",la
+RunTeamPickMenu,,the loop rebuilt with gotos in that order (477),477,la
+RunTeamPickMenu,,plus the pointer block through a `short *` local (476),476,la
+RunTeamPickMenu,,plus the size product as (h + 1) * (w + 1) (490),490,la
+PostGameToTeamDb,,the goalie bytes unsigned,,la
+PostGameToTeamDb,,with and without explicit padding to 404h (no change),no change,la
+PlayoffTreeMenu,,the block through a `short *` local assigned in the same statement (622),622,la
+PlayoffTreeMenu,,plus the size product written the other way round (625),625,la
+TonightsGameScreen,,"out at function level, first and last (out next to fh)",,la
+TonightsGameScreen,,the two 8-byte arrays in both orders,,la
+TeamRosterScreen,,the copy as `*(PRec *)(statsskaterplr[idx] * 0x34 + statsplayerbuf)` (no change). A permutation target for the ten scalar declarations,,la
+PreGameScreen,,`oldmx = mx = 0; oldmy = 0; my = 0;` (the init still differs),,la
+StartHL2,,"`(gsp == 3 && gameopts.fullot ? 0 : 1)` (branches the other way round), separate acc / n locals (esi / edi swapped)",,la
+TeamStatsScreen,,"the scalars in the frame struct as well (287 lines: every member is reloaded after each call, since &sched is taken)","287 lines: every member is reloaded after each call, since &sched is taken",la
+SayTheGame,,SayClip defined first in SayNhlIntro.c (Watcom keeps it whole at the top,,la
+SayTheGame,,SayTheGame still 1 off,,la
+SayTheGame,,the matched SayNhlIntro block 2 off),,la
+StubRet4b,,"(2026-10-21, none changes the 4): three unused ints, three initialised ints",,la
+StubRet4b,,a dead self-call (`if (0) StubRet4b(...)`),,la
+StubRet4b,,an initialised array,,la
+StubRet4b,,"a struct filled from the parameters, dead stores to one local",,la
+StubRet4b,,a chained store to the parameters,,la
+StubRet4b,,an empty body,,la
+BlitClipRect,,(2026-10-21) on that shape: x1 declared first (15),15,la
+BlitClipRect,,the copies in either order,,la
+BlitClipRect,,"the sums in either order, `x = x + w` / `x = w + x`",,la
+BlitClipRect,,"permute 3 minutes. On the old shape: ternary clamps, `x2 = w; x2 += x`",,la
+BlitClipRect,,"a dead `w = 0`, one combined return test, `x2 -= x; w = x2`",,la
+SetGameSides,,"(2026-10-21): no rec (games[g * 6 + k] everywhere, either compare order), `&games[g * 6]`, rec in the SetCtlTeams arguments, rec[2] in a local h, o = rec[2] before the test (if / else and single-arm forms)",,la
+SetGameSides,,the if / else swapped,,la
+SetGameSides,,permute (exhausted),,la
+SetTeamGoalie,,"(2026-10-21): c declared first, c in its block, old as int, c as int, `s = side + 1` in a block int",,la
+SetTeamGoalie,,the old read after the controller test (worse),worse,la
+SetTeamGoalie,,"(2026-10-21) on that base: c in a block, every declaration order of old / g2 / c, c as int / short",,la
+SetTeamGoalie,,the assignment inside the test,,la
+SetTeamGoalie,,"a nested if, `side ^ (c < 6)`, `(c < 6) != side`, no c (worse), g2 reused for c (worse)",worse,la
+SetTeamGoalie,,318 permute candidates,,la
+SetTeamGoalie,movedecl:old:,"declaration order of old / g2 / c, c",tried (docs/UNSURE.md),la
+SetTeamGoalie,swapdecl:old:,"declaration order of old / g2 / c, c",tried (docs/UNSURE.md),la
+SetTeamGoalie,swapdecl:g2:,"declaration order of old / g2 / c, c",tried (docs/UNSURE.md),la
+SetTeamGoalie,movedecl:c:,"declaration order of old / g2 / c, c",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:old:int,"block, old as int, ",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:c:int,"c as int, `",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:old:int,"old / g2 / c, c as int / short, ",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:g2:int,"old / g2 / c, c as int / short, ",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:c:int,"old / g2 / c, c as int / short, ",tried (docs/UNSURE.md),la
+SetTeamGoalie,type:c:short,"old / g2 / c, c as int / short, ",tried (docs/UNSURE.md),la
+SelectRosterTeam,,"(2026-10-21): a `MenuItem20 *m` local for the two clears, `d = div * 8` as the index, `i = slot` as the item index",,la
+SelectRosterTeam,,the DivMenu form for the clears with the MenuItem20 form for the restores,,la
+checkgoal,,"(2026-10-21) under that prototype: `x = -y`, `y = -y; x = y`",,la
+checkgoal,,"a block short / unsigned short for -y, `x = -y >> 1`, `p->Zvel = x >>= 1` (all worse)",all worse,la
+FillDressedSlots,,"(2026-10-21): k / lt / both declared in the inner blocks, k as a block int, r declared in the loop body with a break",,la
+FillDressedSlots,,295 permute candidates,,la
+MenuHitTest,,"on that base (2026-10-21): short result, m declared first / last / in the loop block, `menus[i] + j`, `&origin[i * 2]`",,la
+MenuHitTest,,"the four tests joined with || or as one && block, `return j = 0`, `j = 1; return j`",,la
+MenuHitTest,,"permute 3 minutes (best 2, size +1). Declaration orders other than j, m, o put the body back to 13",,la
+FadePalette,,(2026-10-21): taking the address of steps (`(void)&steps`,,la
+FadePalette,,"an unused `int *sp = &steps` first or last, assigned before the test) changes nothing (Watcom still compares ebx)",,la
+FadePalette,,the clamp through `*sp` (worse),worse,la
+BuildFreeAgentList,,"(2026-10-21): every combination of int / unsigned for n, s, rec, off and int / unsigned / short for i (47 variants, none below 12), off inlined as `i * 27` everywhere",,la
+BuildFreeAgentList,,permute 3 minutes,,la
+BuildFreeAgentList,,"n as int (with and without the cast), long, unsigned long, `(int)(... / 0x34)`, `*(int *)&n`, short off (7), unsigned short rec (8), short i / s",,la
+BuildFreeAgentList,type:n:int,n as int,tried (docs/UNSURE.md),la
+BuildFreeAgentList,type:off:unsigned_short,`unsigned short off`,tried (docs/UNSURE.md),la
+BuildFreeAgentList,type:n:unsigned_short,`unsigned short n`,tried (docs/UNSURE.md),la
+assshoot,,"(2026-10-21): `p->pflags = p->pflags & ...`, unsigned char casts on the lvalue or the mask, `^= pfna`, `& 0xFD`, `!= 0` on the test, `else if` after the pfalock test",,la
+EasnGoalieStatsScreen,,(2026-10-21): the skater written before the goalie (the goalie then jumps into the skater: 115 bytes short) and after it (the goalie keeps its own 467-byte layout,,la
+EasnGoalieStatsScreen,,the gamemode == 1 arm inline). Note: the skater asm block starts with a `db` line without an address and has EasnSkaterStatsScreen_m inside its __CHK call,,la
+CalStandingsScreen,,(2026-10-21) on CalStandingsScreen: dword_C65AC read in place as the MakePath argument (no bank),,la
+CalStandingsScreen,,"a literal 0 as the MakePath argument (with and without bank), bank assigned before the test",,la
+CalStandingsScreen,,"an int bank, bank declared after path or in the playoffs block, and `sub_8E8A0(str_EASNvfn, 0)` for the font (with and without a 0 bank)",with and without a 0 bank,la
+LoadJerseyColours,,"(2026-10-21) besides the UNSURE list: `c = *(p = &dst[i])`, `*(signed char *)p`, `p = dst + i`",,la
+LoadJerseyColours,,"an int c, p kept live after the store",,la
+BuildTeamRosterList,,(2026-10-21): (*rec + i)[0xE4],,la
+BuildTeamRosterList,,the sum through team / k / e,,la
+BuildTeamRosterList,,a do-while,,la
+BuildTeamRosterList,,the index assignment inside the e expression,,la
+BuildTeamRosterList,,permute 3 minutes on the new base (8),8,la
+assreffollow,,"(2026-10-21), besides the UNSURE list: the first bool assigned to d (`(d = ... != 0) ^ ...`, also `!= 0` on the xor",,la
+assreffollow,,"the comma form, d for both sides, operands reversed), `(short)` casts on both bools with `!=` and `^`",,la
+assreffollow,,"a subtraction (gives the EXE's mov ecx, eax / and ecx, 0FFh but `sub`). Every arithmetic form (^, -) also moves the SortCords pointer build at the top into ecx",,la
+SelectHilight,,"(2026-10-21): the FreeMemBlock arguments through r / size (the named copies are propagated away, 14 as before)","the named copies are propagated away, 14 as before",la
+doplayeracc,,"(2026-10-21) besides the UNSURE list: `dy = *pucky; dy += vy;`, *pucky through a `short *pp` local (before or after vy), `dy = vy + *pucky - y` in one statement, `vy - (y - *pucky)`, `vy - -*pucky`, `dy = -y; dy += vy + *pucky`",,la
+CreateNewLeague,,beyond a look (UNSURE already lists their shapes: a byte register,,la
+CreateNewLeague,,"a prologue order plus the UpdateSeasonSchedule_pop3 module, frame slot orders)",,la
+TradePlayers,,"(2026-10-21): nm only for one label, two locals nm / nm2, nm declared first",,la
+TradePlayers,,"an int nm, nm assigned inside the strcat call",,la
+TradePlayers,,"an int k (or r) for the second index, `dword_C87C8 = (int)&s` / through nm, nm = the strcat result",,la
+TradePlayers,,"the second sel through a pointer cast, 321 permute candidates from the nm version",,la
+DrawRinkObjects,,(2026-10-21): the dword_CD2F8 index through a block int k (also passed as the i argument),,la
+DrawRinkObjects,,the height through a block short / int (all worse),all worse,la
+DebugMonitor,,"(2026-10-21): `n = sprintf(...)` / `n += sprintf(...)` in either arm, `k = WaitKey()`, `(int)` casts on the error arguments",,la
+DebugMonitor,,the error arm ending in `continue` (either condition spelling) with the newline line after it,,la
+DebugMonitor,,the arms swapped with the positive condition (27 differing),27 differing,la
+DrawAwardsSummary,,"beyond a module_try of 002 + 003: in the module (needed for its PickAwardWinners_x exit) it is 12 differing (size +0) and PickAwardWinners itself drops to 7 differing there, so the merge does not pay yet",,la
+MenuGameShowPlayerStats,,(2026-10-21): `k = s; k = gmrosterslot[s * 22]` (int or unsigned,,la
+MenuGameShowPlayerStats,,"the dead copy is dropped, s goes to ebp), `k = s` used as the index, `k = s; k ^= s; k |= ...`",,la
+MenuGameShowPlayerStats,,"the unused parameter a as that copy (`a = s; a = slot`, `a = slot`, `a = *sel` as the selection, `a = s = *sel`, `s = a = *sel`)",,la
+ShowCredits,,"(2026-10-21): the first rand term through y / i / wait (34-40), byte_D42C3 through y or i before the multiply (9 and 17)",9 and 17,la
+Goal,,"(2026-10-21): pk, net, r (scoped in the gmode block) for the lookup pointer, new block-scoped pointers (propagated away, back to 7), `(o->tmgoalie + 0x24)[o->tmlines]` and the other swapped-subscript forms, i = o->tmgoalie first, `o->tmap > t->tmap` for the shg test",,la
+ShowRosterStats,,"(2026-10-21): p or k reused for the record pointer (with if / ternary), `s += 9`, every order of the three terms of the playoff address with and without an (int) cast, `&(...)[0x12]`, `(unsigned short *)(...) + 9`",,la
+wallcoll,,(2026-10-21): the player-branch Xvel product with regd0 read first into a block int / short,,la
+wallcoll,,"the Yvel one with regd1 first (block int / short), and the pairs (all worse, 14-44)","all worse, 14-44",la
+RunIntro,,on that base). Left: the white sweep holds 3Fh in bh (EXE ch). Tried for it (2026-10-21): 3Fh through c,,la
+RunIntro,,"the black zero through c, `i != 0xE0`, `i * 3 - 1` indexes, separate or reversed white stores",,la
+assnearest,,"a local declared in that block only. Agent pass (2026-10-21): unchanged (6). Tried (2026-10-21): the ABS(regd1.w - *pucky) test as a block-local int / short `d` (inside `if (ABS(regd1.w) > ABS(*pucky) && ABS(*puckx) < 0x41)`, also `d = regd1.w; d -= *pucky;`): 65-91 differing",,la
+assnearest,,the whole frame moves,,la
+assnearest,,the reversed difference in the ternary (26),26,la
+assnearest,,the comma form with dy (100),100,la
+StartThreeStars,,"the loop as `q = SortCords; for (i = 0; ...)` or a do-while. Agent pass (2026-10-21): draft 7 -> 4. `q = SortCords;` before `for (i = 0; ...)` removes the leading jmp. Only the three exits are left: the EXE jumps to PreGameIntro_popx in segment 036, so it needs a cross-segment module with PreGameIntro (split around ThreeStarsLoop)",,la
+ControlsDlgLoop,,(2026-10-21,,la
+ControlsDlgLoop,,"scores differing / size short): a local for ox - 4, !side, while / for loop forms, functions compiled before it (all 143 / 3)",all 143 / 3,la
+ControlsDlgLoop,,"`if (btn & 2 || btn & 4) goto click;` with a click: label, or two goto tests (145 / 0)",145 / 0,la
+ControlsDlgLoop,,`if (mx != ox || my != oy)` (143 / 3),143 / 3,la
+ControlsDlgLoop,,Cancel and case 100h through a quit: label after the loop (143 / 3),143 / 3,la
+ControlsDlgLoop,,separate ifs or no final else (143 / 3),143 / 3,la
+ControlsDlgLoop,,other restructurings (160-171),160-171,la
+TextGridPut,,"(2026-10-21): row * 100 + col, 100 * row, col += row * 100 first, d = &d[...], int d (textgrid + ...), (unsigned) / 100u, d = textgrid before col / row or between them, y *= 36 in place, x split too, one memcpy expression, short row",,la
+TextGridPut,,permute (3 min) found nothing,,la
+FindFreeSpeechSlot,,"(2026-10-21): `for (b = speechbank; ...)`, initialised declaration, while loop, goto loop, `continue` form, `!b[i].loaded`",,la
+FindFreeSpeechSlot,,"a copy j of i (either declaration order), no local (reloads, +2), `unsigned char *` / int b with byte offsets, `(b + i)->loaded`, unsigned i",,la
+FindFreeSpeechSlot,,"a named -1 result, break + test, `n = 400` bound",,la
+FindFreeSpeechSlot,,a zero local. permute.py has no untried transforms (0 compiled),0 compiled,la
+SelectMatchingPlayers,,"(2026-10-21): `(int)` sums in either order (fold falist into the add), `(char *)falist + i * 27 + 8`, `i * 27 + falist + 8`, `&falist[i * 27] + 8`, `&(falist + i * 27)[8]`, `(falist + i * 27) + 8`, `(falist + 8) + i * 27`, `&falist[8 + i * 27]`, `falist + (i * 27 + 8)`",,la
+SelectMatchingPlayers,,a 2-D `[i][8]`,,la
+SelectMatchingPlayers,,a 27-byte struct with the name at +8,,la
+SelectMatchingPlayers,,"a pointer local (k or a new p, assigned with or without += 8)","k or a new p, assigned with or without += 8",la
+RosterPanelClick,,"(2026-10-21): no fa local (falistsel indexed directly, unsigned char or char), int sums `falistsel + row` either order, `char *fa`, falistsel declared `unsigned char *` (with and without fa)",,la
+RosterPanelClick,,"a byte temp for `~fa[row]`, `fa[row + dword_EBCA4]` without `row +=` (either order), fa assigned before `row +=`",,la
+RosterPanelClick,,"a volatile read, fa declared at the top (two places), `fa = falistsel + dword_EBCA4`",,la
+SayPenalty,,"(2026-10-21): `cnt > 1`, `*(int *)(speechq + 0x60)`, `withtime != 0`, `idx != 1` arms swapped, `== 0` tests, one combined early return, `((int *)speechbank)[0x3B70 / 4]`",,la
+SayPenalty,,"the four arrays reversed, nested ifs instead of early returns",,la
+SayPenalty,,a / b copied to locals (either order),,la
+SayPenalty,,"permute (3 min, exhausted)","3 min, exhausted",la
+MenuSaveDefaultLines,,"(2026-10-21): r only (ternary kept), short t, `(int)` ternary arms",,la
+MenuSaveDefaultLines,,"the first result in a new p, `p = r = ` / `r = p = ` for the second",,la
+MenuSaveDefaultLines,,the read result in n,,la
+MenuSaveDefaultLines,,"the compare terms swapped, t declared first",,la
+MenuSaveDefaultLines,,permute (3 min),3 min,la
+WaitLeagueFloppy,,"(2026-10-21): `if (r == 4) r = -1`, if / else returns, `r != 4 ? r : -1`, short r",,la
+WaitLeagueFloppy,,"a second result local `ret` (if / else or ternary, declared first or last)",,la
+LocateTeamDbCopy,,"(2026-10-21): the WaitLeagueFloppy result through a second local w (`r = w = ...` or `w = ...; r = w`), `*id` from `e + 0x1A`",,la
+LocateTeamDbCopy,,the compare from `tab + i * 30 + 0x1A`,,la
+LocateTeamDbCopy,,"permute (3 min, scope etc.)","3 min, scope etc.",la
+SelectFloppyDrive,,"(2026-10-21): no parameter copies, found declared first, pname before pfile, found / pname / pfile order",,la
+CheckDatabases,,"(2026-10-21): skaters += 1 / ++skaters, `((int *)slot)[0x13]`",,la
+CheckDatabases,,"a key pointer local, skaters declared first, `-1 != ...`",,la
+CheckDatabases,,"an early continue, `*(KeyDbPtr(..) + 2)`, id assigned in or before the test (worse), KeyDbPtr / TeamRecPtr pragmas without ecx or none (no change)",no change,la
+CheckDatabases,,permute (3 min),3 min,la
+SteerToTarget,,(2026-10-21): no v,,la
+SteerToTarget,,"a second local w (either declaration order), `-=` twice, `v = regd1.w - v`",,la
+SteerToTarget,,"a (short) cast on the Ypos term, `regd1.w - (v + ...)`, v as short",,la
+SteerToTarget,type:v:short,v as short,tried (docs/UNSURE.md),la
+SelectSavedFile,,(2026-10-21): a ternary in the strncpy argument,,la
+SelectSavedFile,,a separate local for the second team,,la
+SelectSavedFile,,"the exhstate words read in place, permute 3 min",,la
+ReassignCtlPlayer,,"(2026-10-21) on top of the draft: `(short)` around the whole px sum, no cast, py before px, and without the cast/byte counter: short / int / unsigned short n, py with a (short) cast, py first, `(short)pl` for best, `*puckc` without the cast. All 12-28",,la
+SeriesLength,,"(2026-10-21): a plain `switch (n)` (cases 1-7, breaks, one `return len`), `>= 0` tests, `len = SeriesWinner(...) < 0 ? 3 : 5`, `switch (n - 1)` with cases 0-6, `default: break` after case 1 or first, case 1 last (with and without its break)",,la
+SeriesLength,,the cases in reverse. The shared epilogue always lands after the best-of-5 arm,,la
+checkob,,"(2026-10-21): `extra + 0x4E < Y`, `0x4E + extra < Y`, `Y > 0x4E + extra`, `Y - extra > 0x4E`, `!(Y <= lim)`, `!(lim >= Y)`, `(lim < Y) != 0`, `-(lim) > -Y`, `-Y < -(lim)`, `(int)(extra + 0x4EU)`, `(short)` lim, HIWORD(Ypos), `y = Ypos >> 16` first, `continue` on position, nested if",,la
+checkob,,the pucky test as `*pucky <= lim` / `!(lim < *pucky)`,,la
+checkob,,the loop as while / goto loop,,la
+PenaltyManager,,"beyond the mark (2026-10-21). Agent pass (2026-10-21): need merges whose owners are drafts (InProgress, DecayCrowdLevel 70 differing in a module, PickAwardWinners breaks in the 002+003 module)","InProgress, DecayCrowdLevel 70 differing in a module, PickAwardWinners breaks in the 002+003 module",la
+PenaltyManager,,"DrawSprite prototype views (short parameters, K&R) did not move DrawRinkObjects index temp",,la
+puckglue,,"(2026-10-21): `raised = level; raised += 200` (alone and chained), `crowdlevel = raised = ...`, `(crowdlevel = raised) > 1000`, raised / level / r declared in the block",,la
+puckglue,,"a ternary clamp, `crowdlevel += 200` forms, `(level = crowdlevel) <= 1000`, level declared first, `200 + level`, `crowdlevel + 200` in the chain, reading crowdlevel in the test with `raised = crowdlevel + 200` (gives the copy but moves every register from the puckc store on",,la
+puckglue,,321 permute candidates from there stalled at 6),,la
+puckglue,,"for puckc: `regd0.w`, `(signed char)regd0.w`, `*(char *)&regd0`",,la
+puckglue,,a volatile read,,la
+BuildLeagueList,,"(2026-10-21): `(done = ...) == 0` and `(r = GetLeagueId(...)) < 0` inside the tests, done in place of r and r in place of done",,la
+BuildLeagueList,,a new int sz (any declaration position) or i / done / len / cnt / id / r for the sizes,,la
+BuildLeagueList,,a for (;;) loop,,la
+BuildLeagueList,type:done:unsigned,done as unsigned / short / long / ,tried (docs/UNSURE.md),la
+BuildLeagueList,type:done:short,done as unsigned / short / long / ,tried (docs/UNSURE.md),la
+BuildLeagueList,type:r:short,"r as short, `",tried (docs/UNSURE.md),la
+checkplcoll,,"(2026-10-21): d / pl / i as int, y as short",,la
+checkplcoll,,a block short for d,,la
+checkplcoll,,"the locals declared pl, d, i, pl passed inline",,la
+checkplcoll,,"192 permute candidates (paramtype:1:int best, 8)","paramtype:1:int best, 8",la
+checkplcoll,type:d:int,"d / pl / i as int, ",tried (docs/UNSURE.md),la
+checkplcoll,type:pl:int,"d / pl / i as int, ",tried (docs/UNSURE.md),la
+checkplcoll,type:i:int,"d / pl / i as int, ",tried (docs/UNSURE.md),la
+PostGameDesk,,"(2026-10-21): `r = CoachCutScene(); if (!r || ...)`, `if (r) r = WaitClickTimeout(10); if (!r)` (and with `!= 0` / `== 0`)",and with `!= 0` / `== 0`,la
+PostGameDesk,,"a separate k (int, unsigned, char *, declared first or last), unsigned r, short r (gives the copies but 16-bit tests: 2 differing), r passed as the zero third or fourth GameSummaryScreen argument (copies into ebx / ecx), r used after the block (esi), int or short function result",,la
+PostGameDesk,,"permute 3 minutes (best 3, same size with casts on the first GameSummaryScreen line)","best 3, same size with casts on the first GameSummaryScreen line",la
+RunDemoGame,,"(2026-10-21), besides the DRAFT list: the two bytes through a home / vis local (one or two locals), `team = randomd0(0x11) * 2` with the index unscaled",,la
+RunDemoGame,,a pair pointer in vis with `vis + 1`,,la
+RunDemoGame,,"the index in vis / home / one instead of team, `team = 0x11; team = randomd0(team)`, team as the demoteammode copy (three forms, 29 differing: they lose the ebp push)","three forms, 29 differing: they lose the ebp push",la
+PlacePlayersAtStart,,"(2026-10-21): 0 - x, x *= -1",,la
+PlacePlayersAtStart,,"the two table loads swapped, !(...) for the goal test",,la
+PlacePlayersAtStart,,(int) / (short) casts,,la
+PlacePlayersAtStart,,"a short n, n += 16h, 16h + (...)",,la
+PlacePlayersAtStart,,a ternary for the number,,la
+PlacePlayersAtStart,,"the map negate as a separate statement, (short) cast, if / else",,la
+CupSeriesWinner,,"(2026-10-21): games / 2 + 1, (games >> 1) + 1, 1 + games / 2, need += 1, ++need, need = need + 1, need = games",,la
+CupSeriesWinner,,need >>= 1,,la
+CupSeriesWinner,,"need++, games >>= 1",,la
+CupSeriesWinner,,need = games + 1,,la
+CupSeriesWinner,,"an int need, w2 declared first",,la
+CupSeriesWinner,,the zero stores in the for,,la
+CupSeriesWinner,,permute 3 minutes from the 2-differing base,,la
+CupSeriesWinner,,on that base: w2 declared first,,la
+CupSeriesWinner,,the zero stores swapped,,la
+CupSeriesWinner,,the loop test w2 first,,la
+CupSeriesWinner,,"the away arm flipped, both arms flipped, `s[2] != home` with the arms swapped, `s[5] >= s[4]`, int w1 / w2",,la
+CupSeriesWinner,,permute 3 minutes,,la
+OpenSpeechBank,,(2026-10-22): the LA shape as is (33),33,ga
+OpenSpeechBank,,"the pre-permute LA draft decls (int size first, int fh, int type), int fh, int type, int / short / unsigned / unsigned char / unsigned short c, `c = (unsigned char)type`, `(c & 0xFF) == 'G'`, `c = type; ...; c &= 0xFF`",,ga
+OpenSpeechBank,,"the two type statements swapped, `type >>= 8` / `type >> 8` / `(int)type >> 8` / `(unsigned short)type >> 8`",,ga
+OpenSpeechBank,,a named temporary for w1 (`cnt = Swap16(w1)`: fixes the slots but keeps w1 and nsamples in esi,,ga
+OpenSpeechBank,,`w1 = Swap16(w1)`,,ga
+OpenSpeechBank,,"off / pos / i / c reused), `(short)` / `(unsigned short)` casts on the w1 store or the Swap16 argument",,ga
+OpenSpeechBank,,the nsamples store direct or chained,,ga
+OpenSpeechBank,,"a temp for w3 or the ReadBE24 results, OFFD vs SLOTD for the 0x12 / 0x1A stores, cnt as short / unsigned / unsigned short or declared first",,ga
+OpenSpeechBank,,"the 3B6C / 3B74 stores chained, `i < cnt` in the first loop, permute.py 3 runs (~3100 candidates",,ga
+OpenSpeechBank,,"best 8 only with an artificial `_t0 = type & 0xFF; c = _t0;` and unsigned char c, which still leaves the w1 store and the type shift), permute_decls.py (250 random orders: 817 bytes, 30+)","250 random orders: 817 bytes, 30+",ga
+OpenSpeechBank,type:cnt:short,"stores, cnt as short / unsigned / unsigned short or ",tried (docs/UNSURE.md),ga
+OpenSpeechBank,type:cnt:unsigned,"stores, cnt as short / unsigned / unsigned short or ",tried (docs/UNSURE.md),ga
+OpenSpeechBank,type:cnt:unsigned_short,"stores, cnt as short / unsigned / unsigned short or ",tried (docs/UNSURE.md),ga
+PickAwardWinners,,"(2026-10-22): the divisor operands swapped, 100 * b29, (int) casts on either byte or the product",,ga
+PickAwardWinners,,"a block int for the divisor (both operand orders) or for the wins, v / mine / g / pct reused as the divisor (31-59 differing)",31-59 differing,ga
+PickAwardWinners,,an in-place v = b2A,,ga
+PickAwardWinners,,v += b29,,ga
+PickAwardWinners,,the ternary form,,ga
+PickAwardWinners,,"the zero test as == 0, pts as b29 + b29 + b2B or with its operands swapped",,ga
+PickAwardWinners,,"permute.py (two runs, 2,049 candidates each, decl / scope / stmt / commute / swap / zero / chain / temp / lvinline / inplace / tempadd / type / mulshift / ifswap): no single or paired transform changes the divisor",,ga
