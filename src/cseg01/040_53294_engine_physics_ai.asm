@@ -5088,6 +5088,10 @@ dec word [byte eax+0Ah]	; 56F54
 pop edx	; 56F58
 ret	; 56F59
 %endif ; C
+; C: src/c/040_53294_engine_physics_ai/puckglue.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/puckglue.inc"
+%else
 puckglue:
 push dword 14h	; 56F5A
 call __CHK	; 56F5F
@@ -5180,6 +5184,7 @@ pop edx	; 57092
 pop ecx	; 57093
 pop ebx	; 57094
 ret	; 57095
+%endif ; C
 ; C: src/c/040_53294_engine_physics_ai/puckgoalie.c
 %ifdef CBUILD
 %include "c/040_53294_engine_physics_ai/puckgoalie.inc"
