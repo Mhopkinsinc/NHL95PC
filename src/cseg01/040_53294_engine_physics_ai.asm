@@ -3242,6 +3242,10 @@ mov eax, edx	; 557FD
 jmp near checkob_ret5	; 557FF
 ; chk4shot: (computer looks for a shot). regd4 = 20h - spodds; shot lane test; jumps to
 ; chk4lc_shoot (CompShoot) to shoot.
+; C: src/c/040_53294_engine_physics_ai/checkob.c (chk4shot)
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkob.chk4shot.inc"
+%else
 chk4shot:
 push dword 18h	; 55804
 call __CHK	; 55809
@@ -3403,6 +3407,7 @@ jl short chk4shot.14	; 55A25
 test byte [gmode2], 80h	; 55A27
 jne short chk4shot.14	; 55A2E
 jmp near chk4lc_shoot	; 55A30
+%endif ; C
 ; CompShoot: temp2 = swing time (E8h - pucky by pfgoal) 8, max 14h; assreplace ashoot (12h).
 ; C: src/c/040_53294_engine_physics_ai/CompShoot.c
 %ifdef CBUILD
