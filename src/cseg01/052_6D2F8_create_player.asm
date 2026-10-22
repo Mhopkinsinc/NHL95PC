@@ -673,6 +673,10 @@ test eax, eax	; 6DA71
 je near RunEditRosters_ret5	; 6DA73
 mov dword [menu_r1_toroster2], MoveToOtherRoster	; 6DA79
 jmp near RunEditRosters_ret5	; 6DA83
+; C: src/c/052_6D2F8_create_player/CountSelected.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/CountSelected.inc"
+%else
 CountSelected:
 push dword 10h	; 6DA88
 call __CHK	; 6DA8D
@@ -703,6 +707,7 @@ pop edx	; 6DABF
 pop ecx	; 6DAC0
 pop ebx	; 6DAC1
 ret	; 6DAC2
+%endif ; C
 RosterPanelClick:
 push dword 30h	; 6DAC3
 call __CHK	; 6DAC8
@@ -4957,6 +4962,10 @@ pop edi	; 70E89
 pop esi	; 70E8A
 pop ecx	; 70E8B
 ret	; 70E8C
+; C: src/c/052_6D2F8_create_player/MoveToFreeAgents.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/MoveToFreeAgents.inc"
+%else
 MoveToFreeAgents:
 push dword 64h	; 70E8D
 call __CHK	; 70E92
@@ -5081,6 +5090,7 @@ pop edi	; 7103F
 pop esi	; 71040
 pop ecx	; 71041
 ret	; 71042
+%endif ; C
 ; C: src/c/052_6D2F8_create_player/RemovePlayerFromTeam.c
 %ifdef CBUILD
 %include "c/052_6D2F8_create_player/RemovePlayerFromTeam.inc"
