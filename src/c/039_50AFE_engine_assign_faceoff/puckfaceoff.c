@@ -1,6 +1,6 @@
 /* Engine assignment faceoff: the faceoff setup (puckfaceoff) and the drop (puckfaceoff2). */
-/* DRAFT: 1259 vs 1270 bytes, first pass; see docs/UNSURE.md. Its match belongs in TakePlayerFromBox.c, between
-   PenShotStart and asstakeposition, since it ends in TakePlayerFromBox_ret6. */
+/* DRAFT under 10.0 GA: 29 differing instructions. The timer/offset frame and cached side match
+   the EXE's frame; register choices and TakePlayerFromBox_ret6 exit remain. */
 #include "nhl95.h"
 
 /* puckfaceoff (516E1, 93G puckfaceoff; ends in TakePlayerFromBox_ret6): asstab 1Bh, the faceoff setup ("this is
@@ -19,14 +19,13 @@
    and the assignment becomes pfaceoff2 (1Ch) with temp5 1000. p: the object on the assignment. No result. */
 void puckfaceoff(Player *p)
 {
-    short *tp[2];
-    int off;
+    struct { short *tp[2]; int off; } state;
     signed char k;
     Player *o;
     Team *tm;
 
-    tp[0] = &p->temp1;
-    tp[1] = &p->temp2;
+    state.tp[0] = &p->temp1;
+    state.tp[1] = &p->temp2;
     if (p->pflags & 2) {
         if (*puckc != 0x10) {
             if (*puckc >= 0 && penshotstart && SortCords[*puckc].position == 0) {
@@ -67,7 +66,7 @@ void puckfaceoff(Player *p)
             if (c1playernum[0] < 0 && cont1team) {
                 o = cont1team == 1 ? SortCords : SortCords + 6;
                 for (k = 0; k < 6; k++, o++) {
-                    if (o->position >= 0 && o->SCnum != c2playernum[0]) {
+                    if (o->position >= 0 && c2playernum[0] != o->SCnum) {
                         if (o->SCnum != c1playernum[0]) c1playernum[0] = restorepl(o->SCnum, c1playernum[0]);
                         break;
                     }
@@ -76,7 +75,7 @@ void puckfaceoff(Player *p)
             if (c2playernum[0] < 0 && cont2team) {
                 o = cont2team == 1 ? SortCords : SortCords + 6;
                 for (k = 0; k < 6; k++, o++) {
-                    if (o->position >= 0 && o->SCnum != c1playernum[0]) {
+                    if (o->position >= 0 && c1playernum[0] != o->SCnum) {
                         if (o->SCnum != c2playernum[0]) c2playernum[0] = restorepl(o->SCnum, c2playernum[0]);
                         break;
                     }
@@ -111,26 +110,28 @@ void puckfaceoff(Player *p)
 lines:
     k = 0;
     do {
-        if (*tp[k] >= 0) {
-            regd1.w = tp[k][2];
+        int side;
+        side = k;
+        if (*state.tp[side] >= 0) {
+            regd1.w = state.tp[side][2];
             o = &SortCords[regd1.w];
-            off = k << 8;
-            tm = (Team *)((char *)&hmtmstruct + off);
+            state.off = side << 8;
+            tm = (Team *)((char *)&hmtmstruct + state.off);
             if (!(o->pflags2 & 8)) {
-                ((unsigned char *)tp[k])[1] = 0xFF;
-                lcboxon[k] = lcblink[k] = 0;
+                ((unsigned char *)state.tp[side])[1] = 0xFF;
+                lcboxon[side] = lcblink[side] = 0;
             } else {
-                --*tp[k];
-                if (*tp[k] >= 0) goto next;
+                --*state.tp[side];
+                if (*state.tp[side] >= 0) goto next;
                 o = &SortCords[regd1.w];
                 if (!(o->pflags2 & 8)) goto next;
                 regd2.w = 0;
                 lcfound(o);
-                lcboxon[k] = lcblink[k] = 0;
+                lcboxon[side] = lcblink[side] = 0;
             }
             setpersonel(tm);
-            PenShotStart(k);
-            ForceStartLineup(k);
+            PenShotStart(side);
+            ForceStartLineup(side);
         }
 next:
         ;
