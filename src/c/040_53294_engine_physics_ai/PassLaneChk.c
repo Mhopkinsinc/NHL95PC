@@ -186,10 +186,12 @@ int PassLaneChk(Player *p, Player *o)
    he is snapped to the net edge for his facing (offset tables word_CCBEC, word_CCBFC, word_CCBCC, word_CCBDC;
    mirrored by the x-flip attribute bit 3), stopped, and the bump SPA for that side is returned (F0Fh, F55h,
    F9Bh / FE1h). p: the player; dir: his direction. Result: the new SPA, or his SPA when nothing changes.
-   DRAFT (10.0 GA): 50 score differing. The first x-flip comparison is materialized by a doubled comparison,
-   as in the EXE (the C_MATCHING materialized-bool pattern). A separate scaled y numerator improves allocation;
-   dir and the net centre still use different registers and slots. */
-int NetCollide(Player *p, int dir)
+   DRAFT (10.0 GA): 41 score differing. The result is a short (FallDown compares ax), which returns the
+   constants in eax. The first x-flip comparison is materialized by a doubled comparison, as in the EXE (the
+   C_MATCHING materialized-bool pattern). A separate scaled y numerator improves allocation; dir and the net
+   centre still use different registers and slots (dir edi, dx ebp, gy spilled; EXE dir ebp, gy edi, dx
+   spilled). */
+short NetCollide(Player *p, int dir)
 {
     int gx;
     int dy;
