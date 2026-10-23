@@ -1035,9 +1035,9 @@ inc ecx	; 48F08
 jmp short PickThreeStars.19	; 48F09
 ; StartThreeStars: PC end-of-game set-up for the three-stars ceremony (assthreestars, asstab 15h): PickThreeStars,
 ; clears the clock line-change signal state, stops the clock, empties the penalty boxes and places the players.
-; C: src/c/037_4842A_engine_player_logic/PickThreeStars.c (StartThreeStars)
+; C: src/c/036_47C31_engine_init/FadeOutPalCycle.c (StartThreeStars)
 %ifdef CBUILD
-%include "c/037_4842A_engine_player_logic/PickThreeStars.StartThreeStars.inc"
+%include "c/036_47C31_engine_init/FadeOutPalCycle.StartThreeStars.inc"
 %else
 StartThreeStars:
 push dword 24h	; 48F0B
