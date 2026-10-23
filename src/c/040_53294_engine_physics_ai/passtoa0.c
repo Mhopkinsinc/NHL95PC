@@ -1,5 +1,5 @@
 /* Engine physics AI: pass to a player. */
-/* DRAFT (10.0 GA): 86 score differing, 695 vs 708 bytes. A word-frame struct fixes the seven stack
+/* DRAFT (10.0 GA): 82 score differing, 697 vs 708 bytes. A word-frame struct fixes the seven stack
    variable offsets; one extra stack dword, register allocation and velocity sign extensions remain.
    The shared exit belongs to checkob_ret5. */
 #define sub_93470 sub_93470_decl
@@ -28,7 +28,7 @@ void passtoa0(Player *p)
     } s;
     short ax;
     short ay;
-    short sp;
+    int sp;
     short n;
     int r;
 
