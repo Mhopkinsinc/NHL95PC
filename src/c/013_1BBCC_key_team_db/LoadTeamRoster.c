@@ -9,14 +9,15 @@ void LoadTeamRoster(int mode, int f1, int f2, int f3, int f4, int n4, int team)
 {
     unsigned char buf[0xE8];
     int i;
-    int id;
+    int line;
+    int gline;
     int base;
     unsigned char *p;
 
     for (i = 0; i < 25; i++) {
         if (*(int *)((char *)dword_DBC7C + team * 744 + i * 4) >= 0) {
             ReadPlayerRecs(f1, f2, f3, f4, *(int *)((char *)dword_DBC7C + team * 744 + i * 4), buf + 0x38, buf + 0xC4, 0x14,
-                buf + 0x6C, 0x2F, buf + 0xA0, n4);
+                buf + 0x6C, 0x2F, buf + 0x9C, n4);
             hmrosterjersey[team * 1092 + i * 39] = buf[0x39];
             byte_DB3AE[team * 1092 + i * 39] = buf[0x3A];
             p = hmroster + team * 1092 + i * 39;
@@ -32,11 +33,11 @@ void LoadTeamRoster(int mode, int f1, int f2, int f3, int f4, int n4, int team)
                 else
                     hmroster[team * 1092 + i * 39] = 3;
             } else {
-                id = ((short *)((char *)hmtmpdst_m2 + (team << 8)))[i + 1];
-                if (id > 0)
+                line = ((short *)((char *)hmtmpdst_m2 + (team << 8)))[i + 1];
+                if (line > 0)
                     hmroster[team * 1092 + i * 39] = 5;
                 else
-                    hmroster[team * 1092 + i * 39] = byte_C66B4[(-id) * 2];
+                    hmroster[team * 1092 + i * 39] = byte_C66B4[(-line) * 2];
             }
             *(struct { unsigned char b[20]; } *)(unk_DACA0 + team * 500 + i * 20) =
                 *(struct { unsigned char b[20]; } *)(buf + 0xC4);
@@ -76,11 +77,11 @@ void LoadTeamRoster(int mode, int f1, int f2, int f3, int f4, int n4, int team)
                 else
                     hmroster[(i + 25) * 39 + team * 1092] = 3;
             } else {
-                id = ((short *)((char *)dword_DF6C2 + (team << 8)))[i + 1];
-                if (id > 0)
+                gline = ((short *)((char *)dword_DF6C2 + (team << 8)))[i + 1];
+                if (gline > 0)
                     hmroster[team * 1092 + (i + 25) * 39] = 5;
                 else
-                    hmroster[team * 1092 + (i + 25) * 39] = byte_C66B4[(-id) * 2];
+                    hmroster[team * 1092 + (i + 25) * 39] = byte_C66B4[(-gline) * 2];
             }
             *(struct { unsigned char b[16]; } *)(unk_DAC40 + team * 48 + i * 16) =
                 *(struct { unsigned char b[16]; } *)(buf + 0xD8);
