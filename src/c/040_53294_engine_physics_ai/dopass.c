@@ -24,6 +24,8 @@ void passtoa0(Player *to);
 void sfx(int n);
 extern int puckvz;
 
+/* DRAFT (dopass, 10.0 GA): 84 score differing. Fetching the early scatter target into o improves
+   allocation; the candidate distances and unassisted-pass speed still use different registers. */
 /* dopass (54DF4, 93G dopass; ends in checkob_ret5): pass the puck in passdir. Clear the one-timer flag and the
    spin flag, drop the puck (nopuck 10h, lastplayer). A computer player with a pass lane result (passlane) scatters
    the pass to its target. Otherwise the pass speed is A0h + 4 * passacc (8 for a goalie), and the best teammate
@@ -54,7 +56,8 @@ void dopass(Player *p)
     p->nopuck = 0x10;
     lastplayer = p->SCnum;
     if (!(p->pflags & 8) && p->passlane) {
-        ScatterPass(p, &SortCords[((short *)p)[0x24]]);
+        o = &SortCords[((short *)p)[0x24]];
+        ScatterPass(p, o);
         return;
     }
     if (p->position == 0) s.w = 8;
