@@ -43,7 +43,7 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
         sub_91FE0(art, mx - 0x1C, my - 0x20);                                                                     \
     }
 
-/* DRAFT (first pass from Ghidra): same size (3,943 bytes), 197 differing under 10.0 GA, most of them stack slots
+/* DRAFT (first pass from Ghidra): same size (3,943 bytes), 183 differing under 10.0 GA, most of them stack slots
    (the submenu path's position reset as two stores moved most slots into place; the submenu path written with
    depth and `depth++` instead of a k copy, as PlayoffTreeMenu, and the new item drawn as menus[depth][sel[depth]]
    brought the size back). Under GA a struct of the six arrays plus w, h, item, level, my, mx, oldmy, oldmx and flag (i, as the loop
@@ -85,8 +85,8 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
     int my;
     int mx;
     int oldmy;
-    int oldmx;
     int flag;
+    int oldmx;
     int i;
     int ptrart;
     int cursor;
