@@ -24,8 +24,10 @@ void passtoa0(Player *to);
 void sfx(int n);
 extern int puckvz;
 
-/* DRAFT (dopass, 10.0 GA): 23 score differing. Fetch the early scatter target into o, name the candidate
-   distance score, and reuse dy for pass speed. Some sum / speed registers and the shared exit remain. */
+/* DRAFT (dopass, 10.0 GA): 12 score differing. Fetch the early scatter target into o, name the candidate
+   distance score, and reuse dx for the pass speed and dy for each direction product. Left: the distance sum
+   lands in edi (EXE esi, the 10000h term in eax), the passdir index loads into eax (EXE esi), and the shared
+   exit. */
 /* dopass (54DF4, 93G dopass; ends in checkob_ret5): pass the puck in passdir. Clear the one-timer flag and the
    spin flag, drop the puck (nopuck 10h, lastplayer). A computer player with a pass lane result (passlane) scatters
    the pass to its target. Otherwise the pass speed is A0h + 4 * passacc (8 for a goalie), and the best teammate
@@ -90,11 +92,13 @@ void dopass(Player *p)
         }
         passtoa0(target);
     } else {
-        dy = passspeed;
-        s.t = dirtab_y[passdir * 2] * dy << 10;
+        dx = passspeed;
+        dy = dirtab_y[passdir * 2] * dx << 10;
+        s.t = dy;
         s.t = s.t / 0xBB8;
         *puckvy = s.t + p->Yvel;
-        s.t = dirtab[passdir * 2] * dy << 10;
+        dy = dirtab[passdir * 2] * dx << 10;
+        s.t = dy;
         s.t = s.t / 0xBB8;
         *puckvx = s.t + p->Xvel;
         *(short *)puckvz = randomd0(0x1000);
