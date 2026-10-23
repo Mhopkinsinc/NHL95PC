@@ -17,7 +17,7 @@ int __cdecl sub_B340B(int fl);  /* the edge arrow for the side bits */
 #define RSB(r) (*(signed char *)&(r))
 
 /* DRAFT: same size (1,228 bytes); the frame advance and the backward loop take other registers, see
-   docs/UNSURE.md. Owner of the ReplayStep_popx tail
+   docs/UNSURE.md (the short fx gives the EXE's sound loads). Owner of the ReplayStep_popx tail
    (DrawRinkSideObjects). */
 /* ReplayStep (67900, PC only): move the replay n frames (80h bytes each) forward or back, wrapping in the
    9600h-byte buffer when it has wrapped (sflags sfwrap) and stopping at its ends (n becomes -1); going forward
@@ -29,6 +29,7 @@ int __cdecl sub_B340B(int fl);  /* the edge arrow for the side bits */
 short ReplayStep(short n, short sound)
 {
     int keys[0x11];
+    short fx;
     short n0;
     unsigned char *last;
     unsigned char *start;
@@ -54,8 +55,10 @@ short ReplayStep(short n, short sound)
                 break;
             }
             if (sound && last != replayplay) {
-                if (replayplay[0x58] != 0xFF) sfx(replayplay[0x58]);
-                if (replayplay[0x59] != 0xFF) sfx(replayplay[0x59]);
+                fx = replayplay[0x58];
+                if (fx != 0xFF) sfx(fx);
+                fx = replayplay[0x59];
+                if (fx != 0xFF) sfx(fx);
             }
         }
     } else {
