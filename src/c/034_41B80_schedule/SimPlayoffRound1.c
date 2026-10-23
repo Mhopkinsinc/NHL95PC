@@ -473,7 +473,8 @@ int SeedPlayoffFinal(int buf, int games, int fh, int tm, int unused, int *human)
     for (k = 0; k < games; k++) r[0].games[k + 21] = r[1].games[k + 21] = (k + 0x4A6) * 6 + 2;
     if (TEAMS[w[0] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r[0], w[0])) != 0) return err;
     if (TEAMS[w[1] * 30 + 0x17] == 1 && (err = WriteTeamRec(fh, &r[1], w[1])) != 0) return err;
-    st.pts[0] = r[0].pad[0x29] * 2 + r[0].pad[0x2B];
+    err = r[0].pad[0x29] * 2;
+    st.pts[0] = err + r[0].pad[0x2B];
     st.wins[0] = r[0].pad[0x29];
     st.gf[0] = *(unsigned short *)&r[0].pad[0x2C];
     st.ga[0] = *(unsigned short *)&r[0].pad[0x2E];
