@@ -2066,3 +2066,54 @@ doshot,,the y range through t too (69),69,ga
 doshot,,"the doubled x range through the dead e (`e = r + r` or `r << 1`: 55-56) or f (111-138), `e = r; randomd0(e + e) - e` (70-97), t declared first (58-90), `0x1800 < (unsigned short)z` (no change)",no change,ga
 doshot,,"permute.py once (769 candidates, best 45 = the int temporary for r + r plus the snd / dy swap and a compare operand swap)","769 candidates, best 45 = the int temporary for r + r plus the snd / dy swap and a compare operand swap",ga
 doshot,type:r:int,the int temporary for r,tried (docs/UNSURE.md),ga
+LockerRoomLoop,,"(2026-10-23): the OR operands swapped in case 4, 0 / 3, 1 / 5 or 2 (case 4 unchanged",,ga
+LockerRoomLoop,,0 / 3 then also differs),,ga
+LockerRoomLoop,,"a prototype `void DrawLockerJersey(int, int, int, int, int)`",,ga
+LockerRoomLoop,,"the flags through the n local (+5 bytes), `vis += K; vis %= M` for case 4 first steps (much worse), teamdivflags as unsigned / long and dword_D2150 as unsigned (no change)",no change,ga
+LockerRoomLoop,,"an (int) cast on the OR, `vis > 0x19` in cases 4 and 1 / 5 (worse), `switch ((char)hit)`, `!gamemode`, nested `if (a) if (b)` for the second tries in all four cases, `if (hm != vis) ; else`, case 4 jumping into case 1 / 5 call with a goto (worse)",worse,ga
+LockerRoomLoop,,the cases in other source orders (6 / 7 swapped leaves case 4 as is,,ga
+LockerRoomLoop,,"the others reorder the layout), one more permute.py run (no gain over 321 candidates)",no gain over 321 candidates,ga
+assgoalie,,"(2026-10-23): with the block, `regd2.w = dist + 1` (58), `regd2.w = ++dist` (62)",62,ga
+assgoalie,,"the block also around ClampYPosition or the next statement (25), `int dist = vecdist(...)` (25), short / unsigned dist (49 / 26)",49 / 26,ga
+assgoalie,,"q in its block (scope_decls.py, 59), q and k in a block around the loop (43), k alone (62), ay in its own block (43), `(a = p->SCnum < 6) ^ ...` (76)",76,ga
+assgoalie,,"the loop step as `q++, k++` / `++k, ++q` / q++ at the end of the body (44 / 42 / 44), `dist > 0x1D`",,ga
+assgoalie,,one permute.py run on the new version (no gain over 321 candidates),no gain over 321 candidates,ga
+LeagueTeamSelect,,"(2026-10-23): the size in a dead local (i, err, r, k, bits, v, done: 382-391",,ga
+LeagueTeamSelect,,"w or h: 238), no size local (291)",291,ga
+LeagueTeamSelect,,the product factors swapped (101 but +18 bytes),101 but +18 bytes,ga
+LeagueTeamSelect,,"the scalars in a frame struct in the EXE order (h, item, level, w, my, mx, oldmy, oldmx, hit, fh: 559",,ga
+LeagueTeamSelect,,without fh 502,,ga
+LeagueTeamSelect,,without h / w 299,,ga
+LeagueTeamSelect,,"h, item, level, w only 452)",,ga
+LeagueTeamSelect,,"one permute.py run (best 101 at +18 bytes, not kept)","best 101 at +18 bytes, not kept",ga
+PlayoffTreeMenu,,"(2026-10-23): `depth = ++i` (190, +8 bytes), `(menus[depth] + item)` / `(item + menus[depth])` for L204 (no change), `&menus[depth][sel[depth]]` for L204 (162), sel[level] in only the first or only the last copy (156 / 157)",156 / 157,ga
+TradeScreenLoop,,(2026-10-23): `i = depth` as the copy (357),357,ga
+TradeScreenLoop,,"the 24 orders of bg / sel / menus / nitems times the 6 orders of col3 / col2 / col1 on the new code (best 201), `(1 != depth ? y1 : y2)` (no change), one permute.py run (best 178 at +4 bytes: flag / oldmx swap plus a commute",,ga
+TradeScreenLoop,,the swap alone kept),,ga
+CalendarScreen,,(2026-10-23): `&menus[level][sel[level]]` / `&menus[depth][sel[depth]]` for the three select-item Norm calls in all 7 combinations (318-319),318-319,ga
+CalendarScreen,,"the submenu loop's pos reset before FreeMemBlock as `pos[i][1] = pos[i][0] = 0`, `pos[i][0] = pos[i][1] = 0` (323, +22 bytes) or two stores (416, +179), each also with the sel forms (322 / 416)",322 / 416,ga
+CalendarScreen,,"one permute.py run (best 284 at +12 bytes, again through the split of the loop-end `oldmx = mx` into a dead local",,ga
+CalendarScreen,,plus an operand swap and an unsigned char cast,,ga
+CalendarScreen,,not kept),,ga
+checkwindow,,"(2026-10-23): the shift as `regd1.w = regd1.w >> (...)`, `(int)(...)`, `3 + !fast`, `(fast ? 0 : 1) + 3`, `(unsigned)`, `+ 3U`, `(unsigned char)` (91-112 first_pick, no real gain)","91-112 first_pick, no real gain",ga
+checkwindow,,the catch-up as if / else (101) or if / else with the cast (101),101,ga
+checkwindow,,`(p->Yvel >> 8) + HIWORD(p->Ypos)` swapped (89 by the score),89 by the score,ga
+checkwindow,,"one permute.py run (best 26, but through `ym < (int)regd0.w`, which turns L135's `cmp cx, word [regd0]` (already the EXE's) into an int compare and only realigns the diff by 3 bytes",,ga
+checkwindow,,also `(char)xm` and a temporary: not kept),,ga
+checkpuckcoll,,(2026-10-23): `h = v - regd4.w - s` (92) and `h = v - s - regd4.w` (98) instead of `v -= regd4.w; h = v - s`,,ga
+checkpuckcoll,,"the body inits swapped (`v = 0x40; s = 8`), `(short)` on the speed sum, `s = (s << 11) - 0xFA0; s /= v` (107), `(int)` casts on the divide, `s = 0` for the clamp, `register` on s or on v, v declared before p, `p->frame` instead of h for the body box test (99), all 73 or worse",,ga
+checkpuckcoll,,"permute.py once (449 candidates, best 64 only with `unsigned char s`, which changes the `s < 0` clamp: rejected)","449 candidates, best 64 only with `unsigned char s`, which changes the `s < 0` clamp: rejected",ga
+checkpuckcoll,type:s:unsigned_char,`unsigned char s`,tried (docs/UNSURE.md),ga
+InProgress,,"(2026-10-23): the asslist read as `((signed char *)(assnum + (int)puckstruct))[0x1E]`, `*(signed char *)(assnum + (int)puckstruct + 0x1E)`, `((signed char *)((int)puckstruct + assnum))[0x1E]` (all still folded)",,ga
+InProgress,,"the sum through dead tm (95-98) or pl (103), d declared last (98) / first",,ga
+InProgress,,"`word_CBC44 != 0`, `(int)word_CBC44` (98)",98,ga
+InProgress,,"PenBuf as an array of {pen, pl} byte pairs (`PB[i].pl`, same code)","`PB[i].pl`, same code",ga
+InProgress,,"`PenBuf_pl[i + i]` in the test (67 but a separate `lea` and an in-memory test, not the EXE's shape: not kept)","67 but a separate `lea` and an in-memory test, not the EXE's shape: not kept",ga
+InProgress,,`PenBuf_pl[i + i] >= 0` (68),68,ga
+InProgress,,permute.py once (577 candidates: best 64 = `i + i` plus do / while loops that drop the EXE's jumps to the loop tests),577 candidates: best 64 = `i + i` plus do / while loops that drop the EXE's jumps to the loop tests,ga
+setplayer,,"(2026-10-23): `&TMSKRAT(t)[rg.n * 20]`, `(t->tmroster + 5)[rg.n * 0x27]` in both branches (102), `0x27 * rg.n` / `20 * rg.n`, `if (n < 0x19)` with the parameter (97, first diff moves to +14)","97, first diff moves to +14",ga
+setplayer,,the unused `int as` dropped (no change),no change,ga
+setplayer,,"diagnostic deletions (not candidates: the rostnum reads, three goalie rating reads",,ga
+setplayer,,the home bonus,,ga
+setplayer,,the power-play xor,,ga
+setplayer,,"the trailing test) all leave t in esi, so no single one of those temporaries outranks t. Not yet tried: permute.py in this pass",,ga
