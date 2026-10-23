@@ -22,8 +22,11 @@ void sub_6AB7C(int n, int x0, int y0, int x1, int y1);      /* mark a dirty rect
 
 #define ABSW(v) ((v) < 0 ? -(v) : (v))
 
-/* DRAFT: 1950 vs 1942, a first pass kept for its pop / ret tail (checkwindow_popebp / checkwindow_popx, which
-   LoadTeamPPV, UpdateTextOverlay, DrawCallBanner and DrawTextOverlay use); see docs/UNSURE.md. */
+/* DRAFT: same size (1,942 bytes), 93 differing under 10.0 GA; it owns the pop / ret tail (checkwindow_popebp /
+   checkwindow_popx, which LoadTeamPPV, UpdateTextOverlay, DrawCallBanner and DrawTextOverlay use); see
+   docs/UNSURE.md. The chained stores follow the EXE's store order (regd3 / regd2 after xc1 / yc1 in the
+   highlight branch and at the faceoff dot, before them elsewhere), and the slower catch-up subtracts ym as a
+   short. Left: register picks (the highlight branch's constants, the ABS temporaries of the referee steps). */
 /* checkwindow (65D01, 93G checkwindow): move the camera (camx / camy) toward the point it follows (xc1 / yc1,
    kept in regd3 / regd2). In highlight mode (gmode bit 7) that is a fixed point (-100, 15) with a slow pan. While
    the clock runs: during a penalty count-down or a referee step, follow the referee (object 10h) toward its
@@ -48,8 +51,8 @@ void checkwindow(void)
     regd2.w = yc1;
     regd3.w = xc1;
     if (gmode & 0x80) {
-        xc1 = regd3.w = -100;
-        yc1 = regd2.w = 0xF;
+        regd3.w = xc1 = -100;
+        regd2.w = yc1 = 0xF;
         ym = 5;
         regd0.w = 0xF - camy;
         if (regd0.w < -5) regd1.w = 0x14;
@@ -98,9 +101,9 @@ void checkwindow(void)
             dy = HIWORD(p->Ypos) - foy;
             if (p->asslist[p->assnum] == 0x22 || p->asslist[p->assnum] == 0x2C) {
                 if (dx * dx + dy * dy < 0x640) {
-                    yc1 = regd2.w = foy;
-                    xc1 = regd3.w = fox;
-                    ym = xm = 0;
+                    regd2.w = yc1 = foy;
+                    regd3.w = xc1 = fox;
+                    xm = ym = 0;
                 }
             }
         } else if (!(sflags & 0x40)) {
@@ -130,7 +133,7 @@ void checkwindow(void)
         regd1.w = regd2.w + ym;
         if (regd1.w < -0xBC) regd1.w = -0xBC;
     } else if (ym < regd0.w) {
-        regd1.w = fast ? regd2.w : regd2.w - ym;
+        regd1.w = fast ? regd2.w : (short)(regd2.w - ym);
         if (regd1.w > 0xEC) regd1.w = 0xEC;
     }
     if (ABSW(regd0.w) > ym) {
