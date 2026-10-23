@@ -40,7 +40,7 @@ int MenuHitTest(int x, int y, MenuItem **menus, int i, int *counts, int *origin,
 int DbLineEditorLoop(unsigned char *lines, int art, unsigned char team, int zero, MenuItem *buttons, int n,
                      int bank);
 
-/* DRAFT under 10.0 GA: 5,671 vs 5,678 bytes, 118 differing instructions. The explicit menu-item
+/* DRAFT under 10.0 GA: 5,671 vs 5,678 bytes, 92 differing instructions. The explicit menu-item
    offset restores the EXE's frame size and bias; the declaration order (tools/slot_solver.py) puts all but h in
    the EXE's slots. The pointer size product, h and later menu-branch registers still differ. */
 /* DbLineEditorLoop (73A18, PC only): the database line editor (DbLineEditor's loop; GameLineEditorLoop is its
@@ -76,10 +76,10 @@ int DbLineEditorLoop(unsigned char *lines, int art, unsigned char team, int zero
     int i;
     int pick;
     int level;
-    int item;
+    int mx;
     int h;
     int my;
-    int mx;
+    int item;
     int hit;
     int blk;
     unsigned char *pal;
