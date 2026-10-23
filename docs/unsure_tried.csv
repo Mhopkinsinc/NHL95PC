@@ -1996,3 +1996,30 @@ SelectMatchingPlayers,,(2026-10-23): per-module char/signed-char falist pointer,
 SelectMatchingPlayers,,per-module 27-byte FreeAgent record pointer with member/address/cast access and k record pointer,,ga
 SelectMatchingPlayers,,"product as (i*9)*3, ((i<<3)+i)*3, (i*3)*9, i*sizeof(char[27]). The LA record-member idea was retried under GA because only address association now differs",,ga
 SelectMatchingPlayers,,no improvement. No permute run,,ga
+assgoalie,,"(2026-10-23): for the vecdist result `if ((d = vecdist()) >= 0x1E)`, `regd2.w = ++d`, `regd2.w = dist; regd2.w++`, `dist += 1`",,ga
+assgoalie,,the result in a / x / y / ay (worse),worse,ga
+assgoalie,,the declaration in every position,,ga
+assgoalie,,"for the setl `!= 0` on the xor, `!=` instead of `^`, (unsigned char) / (short) casts, swapped operands, `? 1 : 0`",,ga
+assgoalie,,"for the a == 3 / 7 pair `!(... < ...)`, `a == 7 || a == 3`, `a == 5 || a == 1`",,ga
+assgoalie,,"for the table `((short *)t + 1)[i]`, `[1 + i]`, `*(t + i + 1)`",,ga
+assgoalie,,the second move offset with the shift first,,ga
+assgoalie,,d reused as x for the whole function (x then lives across calls),,ga
+assgoalie,,two permute.py runs (best 43: the x reuse),best 43: the x reuse,ga
+LockerRoomLoop,,"(2026-10-23): every single move of every declaration, p in every scope (scope_decls.py), `vis == hm` / `hm == vis` in boxes 4 and 1 / 5, `(hm + K)` for the visitor fallbacks (re-hoists)",,ga
+LockerRoomLoop,,"the two flags in the other order, two permute.py runs (best: p first)",,ga
+TradeScreenLoop,,(2026-10-23): permute_decls.py over all 720 orders of bg / sel / menus / nitems / col2 / col3 and 600 orders of i / ptrart / cursor / col1-3 / ptr (no gain),,ga
+TradeScreenLoop,,"frame structs under GA: arrays + w, h, item ... flag with i plain gives the EXE's slots (235 differing) but 3,983 bytes (stores into the struct's arrays make Watcom reload level / item and w / h, which the EXE caches)",,ga
+TradeScreenLoop,,"with i too 254 (4,024 bytes), arrays only 323, arrays + w, h 287, arrays + item ... flag without w, h 333, arrays + w, h, item, level 283",,ga
+TradeScreenLoop,,"the jersey index as a 2-D TrEntry array, as `((TrEntry *)(traderoster + side * 0x268))[cursor].c[1]` and in either operand order (no gain)",,ga
+TradeScreenLoop,,the other three position resets chained / split / reversed in every combination (no further gain),,ga
+CalendarScreen,,"(2026-10-23): for the clips locals col / row, `col = k % 7; k /= 7`, locals x1, y1, x2, y2 assigned in that order (closest shape but one more spilled slot, 517 differing)","closest shape but one more spilled slot, 517 differing",ga
+CalendarScreen,,permute_decls.py over the 120 orders of the five arrays,,ga
+CalendarScreen,,the five position resets chained / split / reversed in every combination (no gain),,ga
+CalendarScreen,,"one permute.py run (best 290 with a split of the loop-end `oldmx = mx` into a dead local, not kept)","best 290 with a split of the loop-end `oldmx = mx` into a dead local, not kept",ga
+LeagueTeamSelect,,"(2026-10-23): `if (item != sel[level])` with the branches swapped (worse, 554), `picks[cur] = ~0`, `(r = teamselresult) == -1`, `teamselresult < 0` for the stored -1",,ga
+LeagueTeamSelect,,every combination of chained / split / `pos[i][1] = pos[i][0]` / reversed chain for the three resets (the first loop's stays chained),,ga
+LeagueTeamSelect,,two permute.py runs,,ga
+PlayoffTreeMenu,,(2026-10-23): the old struct with ptr through a second local (`s.ptr = hdr = ...`),,ga
+PlayoffTreeMenu,,"the size local alone, struct members moved out in groups (only ptr 288, ptr + depth 306, scalars without item / level 233, all scalars 253), plain arrays with a scalar struct in the EXE order (with or without at: 455 / 430",,ga
+PlayoffTreeMenu,,item..mx only 250,,ga
+PlayoffTreeMenu,,"ptr..oldmy only 280), every combination of chained / split resets in the other two loops, two permute.py runs (best on the plain version: a short n parameter, no gain kept)",,ga
