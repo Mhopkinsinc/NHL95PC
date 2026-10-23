@@ -1,5 +1,5 @@
 /* Import / export: posting a played game to a team's databases. */
-/* DRAFT under 10.0 GA: 2,344 vs 2,342 bytes, 154 differing instructions. The loop index is a plain local, so
+/* DRAFT under 10.0 GA: 2,346 vs 2,342 bytes, 130 differing instructions. The loop index is a plain local, so
    Watcom turns the played-flags loop into a __STOSB fill as in the EXE; rec / res / score slots still differ. */
 #define PostGameToTeamDb PostGameToTeamDb_decl
 #define WriteTeamRec WriteTeamRec_decl
@@ -40,14 +40,14 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
         int fseason;
         int fkey;
         int fteam;
-        unsigned char gk[2];
     } f;
     unsigned short *gs;
     short *ss;
+    int ngames;
     short *st;
     int r;
+    unsigned char gk[2];
     int sideofs;
-    int ngames;
     int i;
     unsigned char *rec;
     int res;
@@ -130,14 +130,14 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
         }
     }
     if (res < 0) {
-        f.gk[0] = ((unsigned char *)hmtmlines[0])[(hmtmgoalie[0] & 1) + 0x24];
-        f.gk[1] = ((unsigned char *)awtmlines)[(awtmgoalie & 1) + 0x24];
+        gk[0] = ((unsigned char *)hmtmlines[0])[(hmtmgoalie[0] & 1) + 0x24];
+        gk[1] = ((unsigned char *)awtmlines)[(awtmgoalie & 1) + 0x24];
     } else {
         if (!r) r = ReadGSummaryRec(f.fgsum, f.gsum, 0);
         if (!r) {
             k = 0;
             j = 0;
-            f.gk[1] = f.gk[0] = 0xFF;
+            gk[1] = gk[0] = 0xFF;
             ngames = *(short *)(f.gsum + 5);
             for (i = 0; i <= ngames && !r; i++) {
                 r = ReadGSummaryRec(f.fgsum, f.gsum, i);
@@ -146,12 +146,12 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
                     else j++;
                     if (res == 0) {
                         if (k == score) {
-                            f.gk[0] = f.gsum[9];
-                            f.gk[1] = f.gsum[10];
+                            gk[0] = f.gsum[9];
+                            gk[1] = f.gsum[10];
                         }
                     } else if (j == score) {
-                        f.gk[0] = f.gsum[10];
-                        f.gk[1] = f.gsum[9];
+                        gk[0] = f.gsum[10];
+                        gk[1] = f.gsum[9];
                     }
                 }
             }
@@ -204,7 +204,7 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
                     gs[6] = gs[6] + *(short *)((char *)unk_DC240 + k) / 0x3C;
                     gs[9] += *(short *)((char *)word_DC242 + k);
                     gs[7] += *(short *)((char *)word_DC244 + k);
-                    if ((signed char)f.gk[side] == (unsigned char)(i + 0x19)) {
+                    if ((signed char)gk[side] == (unsigned char)(i + 0x19)) {
                         if (hmscore[0] > awscore) {
                             if (!side) gs[1]++;
                             else gs[2]++;
