@@ -1,9 +1,9 @@
 /* Engine player logic: the goalie's assignment and the assignments that end in its exit (assnearest,
    assrefsignal, assrefgoalpa). */
-/* DRAFT: assgoalie 3,773 vs 3,774 bytes, 42 differing under 10.0 GA (x and y are reused for the post distance
-   and the far-side y, as in the EXE). Left: the vecdist result (`mov edx, eax` in the EXE), the SortCords loop's
-   puckdist load (di in the EXE), the setl copy of the carrier side test, two ABS register orders and the
-   epilogue (`pop ebp; jmp ass_popx`); see docs/UNSURE.md. assgoalie ends in ass_popx
+/* DRAFT: assgoalie same size, 25 differing under 10.0 GA (x and y are reused for the post distance and the
+   far-side y, as in the EXE; the vecdist result is declared in its own block). Left: the vecdist result
+   (`mov edx, eax` in the EXE), the SortCords loop's puckdist load (di in the EXE), the setl copy of the carrier
+   side test and the epilogue (`pop ebp; jmp ass_popx`); see docs/UNSURE.md. assgoalie ends in ass_popx
    (assrefwhistle.c), so its match belongs in assrefwhistle.c between asspenalty and CountPuckThreat; the draft
    sits in its own file so the matched blocks there stay as they are. */
 #define imul32 imul32_decl
@@ -42,7 +42,6 @@ void assgoalie(Player *p)
     int x;
     int y;
     int ok;
-    int dist;
     int ay;
     int a;
     short k;
@@ -189,20 +188,24 @@ angle:
     regd0.w = *puckx + (imul32(*puckvx, regd0.w) >> 16);
     regd1.w = *pucky + (imul32(*puckvy, regd1.w) >> 16);
     ClampYPosition(p);
-    dist = vecdist(regd0.w, regd1.w);
-    if (dist >= 0x1E) {
-        dist++;
-        regd2.w = dist;
-        if (ABS(*pucky) < 0x74 && ShotLaneOpen()) {
-            regd4.w = 0x14;
-            if (sflags & 8) regd4.w = 0x1C;
-        } else {
-            regd4.w = 0x12;
-            if (sflags & 8) regd4.w = 0x1A;
+    {
+        int dist;
+
+        dist = vecdist(regd0.w, regd1.w);
+        if (dist >= 0x1E) {
+            dist++;
+            regd2.w = dist;
+            if (ABS(*pucky) < 0x74 && ShotLaneOpen()) {
+                regd4.w = 0x14;
+                if (sflags & 8) regd4.w = 0x1C;
+            } else {
+                regd4.w = 0x12;
+                if (sflags & 8) regd4.w = 0x1A;
+            }
+            regd1.w = regd1.w * regd4.w / regd2.w;
+            regd4.w += 8;
+            regd0.w = regd0.w * regd4.w / regd2.w;
         }
-        regd1.w = regd1.w * regd4.w / regd2.w;
-        regd4.w += 8;
-        regd0.w = regd0.w * regd4.w / regd2.w;
     }
     regd2.w = regd1.w += regd3.w;
     y = (*puckvy >> 9) + *pucky;
