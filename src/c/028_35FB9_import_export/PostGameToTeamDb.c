@@ -1,6 +1,6 @@
 /* Import / export: posting a played game to a team's databases. */
-/* DRAFT: 2,421 vs 2,342 bytes, 291 lines (one more spill slot, r in edx where the EXE uses ebx); see
-   docs/UNSURE.md. */
+/* DRAFT under 10.0 GA: 2,341 vs 2,342 bytes, 191 differing instructions. The extra spill
+   slot and the file-result register (edx instead of ebx) still differ. */
 #define PostGameToTeamDb PostGameToTeamDb_decl
 #define WriteTeamRec WriteTeamRec_decl
 #define ReadGSummaryRec ReadGSummaryRec_decl
@@ -55,6 +55,8 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
     short *st;
     int r;
     int k;
+    int goalieslot;
+    int scratchslot;
 
     f.fgsum = f.fseason = f.fkey = f.fteam = -1;
     f.lines[0] = hmlinetab;
@@ -100,14 +102,15 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
             f.rec[3]++;
             f.score = hmscore[0];
         }
+        st = (short *)f.rec;
         f.sideofs = side << 8;
-        *(short *)(f.rec + 4) += *(short *)((char *)hmscore + f.sideofs);
-        *(short *)(f.rec + 6) += *(short *)((char *)hmscore + ((side ^ 1) << 8));
-        *(short *)(f.rec + 0xA) += *(short *)((char *)&hmtmstruct + f.sideofs + 4);
-        *(short *)(f.rec + 8) += *(short *)((char *)&hmtmstruct + f.sideofs + 2);
-        *(short *)(f.rec + 0xE) += *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 4);
-        *(short *)(f.rec + 0xC) += *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 2);
-        *(short *)(f.rec + 0x10) = *(short *)(f.rec + 0x10) + *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 0xC);
+        st[2] += *(short *)((char *)hmscore + f.sideofs);
+        st[3] += *(short *)((char *)hmscore + ((side ^ 1) << 8));
+        st[5] += *(short *)((char *)&hmtmstruct + f.sideofs + 4);
+        st[4] += *(short *)((char *)&hmtmstruct + f.sideofs + 2);
+        st[7] += *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 4);
+        st[6] += *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 2);
+        st[8] = st[8] + *(short *)((char *)&hmtmstruct + ((side ^ 1) << 8) + 0xC);
         for (f.i = 0; f.i < 3 && !r; f.i++) {
             if (startm[f.i * 2] == side) {
                 r = ReadKeyRec(f.fkey, f.key, *(int *)(f.team + 0x4C + starpl[f.i * 2] * 4));
@@ -156,62 +159,68 @@ int PostGameToTeamDb(char *dir, char *ext, int team, int side, int game, char *g
         }
     }
     for (f.i = 0; f.i < 0x19; f.i++) f.played[f.i] = 1;
-    for (f.i = 0; f.i < 8; f.i++) {
-        k = f.lines[side][f.i + 0x28];
-        if (k < 0x19) f.played[k] = 0;
-    }
+    f.i = 0;
+    do {
+        scratchslot = f.lines[side][f.i + 0x28];
+        if (scratchslot < 0x19) f.played[scratchslot] = 0;
+        f.i++;
+    } while (f.i < 8);
     for (f.i = 0; f.i < 0x19 && !r; f.i++) {
         k = *(int *)(f.team + 0x4C + f.i * 4);
         if (k != -1) {
             r = ReadKeyRec(f.fkey, f.key, k);
             if (!r) r = ReadSeasonRec(f.fseason, f.srec, *(int *)(f.key + 0x2C));
             if (!r && f.played[f.i]) {
-                st = (short *)((char *)dword_DB088 + side * 0x190 + f.i * 16);
+                k = (int)((char *)dword_DB088 + side * 0x190 + f.i * 16);
                 ss[0]++;
-                ss[1] += st[0];
-                ss[2] += st[1];
-                ss[3] += st[0];
-                ss[3] += st[1];
-                ss[6] += st[2];
-                ss[8] += st[3];
-                ss[4] += st[4];
-                ss[5] += st[5];
-                ss[7] += st[7];
+                ss[1] += (*(short *)(k + 0));
+                ss[2] += (*(short *)(k + 2));
+                ss[3] += (*(short *)(k + 0));
+                ss[3] += (*(short *)(k + 2));
+                ss[6] += (*(short *)(k + 4));
+                ss[8] += (*(short *)(k + 6));
+                ss[4] += (*(short *)(k + 8));
+                ss[5] += (*(short *)(k + 10));
+                ss[7] += (*(short *)(k + 14));
                 r = WriteSeasonRec(f.fseason, f.srec, *(int *)(f.key + 0x2C));
             }
         }
     }
     for (f.i = 0; f.i < 3; f.i++) f.gplayed[f.i] = 0;
-    for (f.i = 0; f.i < 2; f.i++) {
-        k = f.lines[side][f.i + 0x24];
-        if (k < 0x1C) f.played[k]++;
-    }
+    f.i = 0;
+    do {
+        goalieslot = f.lines[side][f.i + 0x24];
+        if (goalieslot < 0x1C) f.played[goalieslot]++;
+        f.i++;
+    } while (f.i < 2);
     for (f.i = 0; f.i < 3 && !r; f.i++) {
         k = *(int *)(f.team + 0xB0 + f.i * 4);
         if (k != -1) {
             r = ReadKeyRec(f.fkey, f.key, k);
             if (!r) r = ReadGoalieSeasonRec(f.fseason, f.grec, *(int *)(f.key + 0x2C));
             if (!r && f.gplayed[f.i]) {
-                st = (short *)((char *)unk_DC240 + side * 18 + f.i * 6);
-                if (st[0]) {
+                k = (int)((char *)unk_DC240 + side * 18 + f.i * 6);
+                if ((*(short *)(k + 0))) {
                     gs[0]++;
-                    gs[6] = gs[6] + st[0] / 0x3C;
-                    gs[9] += st[1];
-                    gs[7] += st[2];
+                    gs[6] = gs[6] + (*(short *)(k + 0)) / 0x3C;
+                    gs[9] += (*(short *)(k + 2));
+                    gs[7] += (*(short *)(k + 4));
                     if ((signed char)f.gk[side] == (unsigned char)(f.i + 0x19)) {
                         if (hmscore[0] > awscore) {
                             if (!side) gs[1]++;
                             else gs[2]++;
                         } else if (hmscore[0] < awscore) {
-                            if (side) gs[1]++;
-                            else gs[2]++;
+                            if (!(side)) gs[2]++;
+                            else gs[1]++;
                         } else {
                             gs[3]++;
                         }
                         if (awscore == 0 && !side || hmscore[0] == 0 && side == 1) gs[4]++;
                     }
-                    gs[8] = gs[0] ? gs[7] * 100 / gs[0] : gs[0];
-                    gs[10] = gs[9] ? ((gs[9] - gs[7]) * 1000 + gs[9] / 2) / gs[9] : gs[9];
+                    if (gs[0]) gs[8] = gs[7] * 100 / gs[0];
+                    else gs[8] = gs[0];
+                    if (gs[9]) gs[10] = ((gs[9] - gs[7]) * 1000 + gs[9] / 2) / gs[9];
+                    else gs[10] = gs[9];
                     r = WriteGoalieSeasonRec(f.fseason, f.grec, *(int *)(f.key + 0x2C));
                 }
             }
