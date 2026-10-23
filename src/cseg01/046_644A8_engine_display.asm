@@ -187,6 +187,10 @@ pop esi	; 64611
 pop ecx	; 64612
 ret	; 64613
 %endif ; C
+; C: src/c/046_644A8_engine_display/BuildDefaultLines.c
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/BuildDefaultLines.inc"
+%else
 BuildDefaultLines:
 push dword 0F4h	; 64614
 call __CHK	; 64619
@@ -474,6 +478,7 @@ pop edx	; 64A07
 pop ecx	; 64A08
 pop ebx	; 64A09
 ret	; 64A0A
+%endif ; C
 CanFillLineSlot:
 push dword 24h	; 64A0B
 call __CHK	; 64A10

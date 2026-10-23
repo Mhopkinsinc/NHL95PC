@@ -19,7 +19,7 @@ void BuildDefaultLines(void)
 
     for (side = 0; side < 2; side++) {
         for (i = 0; i < 25; i++) {
-            if (hmroster[side * 0x444 + i * 0x27] == 0 || hmroster[side * 0x444 + i * 0x27] == 1) {
+            if (!(hmroster + side * 0x444)[i * 0x27] || (hmroster + side * 0x444)[i * 0x27] == 1) {
                 off[side][i] = def[side][i] = -1;
             } else {
                 r = unk_DACA0 + side * 0x1F4 + i * 0x14;
