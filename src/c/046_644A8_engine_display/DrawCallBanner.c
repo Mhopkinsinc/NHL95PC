@@ -1,6 +1,6 @@
 /* Engine display: the call banner. */
-/* DRAFT: 523 vs 514 bytes, first pass; see docs/UNSURE.md. Its match belongs in checkwindow.c, since it ends in
-   checkwindow_popebp. */
+/* DRAFT under 10.0 GA: 43 differing, two extra bytes; the initial n/x allocation and shared exit
+   still differ. It ends in checkwindow_popebp. */
 #define DrawCallBanner DrawCallBanner_decl
 #define sub_6AB7C sub_6AB7C_decl
 #include "nhl95.h"
@@ -16,9 +16,9 @@ void sub_6AB7C(int n, int x0, int y0, int x1, int y1);
    spritedrawcount). n: the banner. No result. */
 void DrawCallBanner(short n)
 {
+    short x2;
     short y2;
     short y;
-    short x2;
     short d;
     short x;
     short w;
@@ -44,7 +44,7 @@ void DrawCallBanner(short n)
     sub_90D20(x - 4, y2, w, 4, 0);
     sub_8E9C0(0x25, 0xFF);
     y2 = y + 1;
-    sub_91964((char *)bannerstrs[n], x + 2, y2);
+    sub_91964((char *)bannerstrs[n], (short)(x + 2), y2);
     sub_8EA18(scor2font);
     sub_8E9C0(0x27, 0xFF);
     sub_91964((char *)bannerstrs[n], x + 2, y2);
