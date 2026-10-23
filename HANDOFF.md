@@ -15,6 +15,8 @@ SHA-1 `3961e0eba6b0338fad1613bb534efafd9406ed4a`. `.gitignore` keeps `*.lst`, `F
 * NASM 2.15+ (`apt install nasm`; tested with 2.16.03), GNU make, Python 3.
 * Python package `capstone` (`pip install capstone`; tested with 5.0.7): `tools/cdiff.py` and multi-block C files.
 * DOSBox (`apt install dosbox`): the DOS Watcom compiler runs in it headless (`SDL_VIDEODRIVER=dummy`).
+* Optional, for `tools/wccre` (the compiler in a CPU emulator: `regdump.py`, `state_scan.py`; not needed for
+  `make`): Python package `unicorn` (`pip install unicorn`; tested with 2.1.4). See [docs/WCC_INTERNALS.md](docs/WCC_INTERNALS.md).
 
 **Watcom (committed under `tools/watcom/`).** The files needed for C matching are in the repo: 10.0 GA (the
 default, `WATCOM_VER=ga`) and the 10.0 LA fallback (`make WATCOM_VER=la`; BUILD_NOTES.md section 2).
@@ -174,7 +176,9 @@ Next (priority order, 2026-10-21). Every commit: `make fullcheck`, both builds b
 28. Second pass on large drafts, Claude agents P3 / S3 (2026-10-23; the Codex agent T4 could not start: the Codex app server crashed again with 0xC0000409): no match (928), every draft cut: LoadTeamRoster 177 -> 72 (also two wrong first-pass constants: an E8h buffer and a 500-byte skater stride), DbLineEditorLoop 232 -> 92, GameLineEditorLoop 220 -> 110 (both mostly from tools/slot_solver.py), MainDeskLoop 105 -> 72, PostGameToTeamDb 191 -> 130, RunMenu 240 -> 146, avdgoal 189 -> 155, puckfaceoff2 99 -> 92. Three of RunMenu's / avdgoal's kept changes are permute.py finds that do not mirror the EXE's statement order (noted in UNSURE). Next (ready): the Codex brief T4 (EditRosters, LoadGameState, GameSummaryScreen, SimulateGame, SportsDesk; worktree ~/work/np-t4) once Codex starts; RunTeamPickMenu, LeadersScreen, RunPlayerPickMenu; the drafts now at 70-150.
 29. Large drafts, Codex T4 (after a smoke test) and Claude U4 / V4 (2026-10-23): 928 -> 929. checkwindow matched (653 -> 93 -> 0; three changes together). Cuts: RunPlayerPickMenu 649 -> 158 (a ternary in a stack-argument call's arguments gave it a biased ebp frame; see C_MATCHING), LoadGameState 488 -> 126, LeadersScreen 326 -> 123 (uses a `goto done` for the EXE's loop rotation; judge before marking), GameSummaryScreen 571 -> 320, RunTeamPickMenu 300 -> 212 (EXE size), EditRosters 254 -> 175, PickThreeStars 97 -> 32 (first GA pass), assrefgoalpa 98 -> 67; SimulateGame 624 -> 592, SportsDesk 649 -> 632 (check SportsDesk for the same ebp-frame trigger). Agents now reject permute.py finds that go against the EXE's statement order.
 
-Not now: a build that compiles some files in a warmed-up compiler state (not needed for DrawBevelBox: it matches fresh after FitPlayerName in one file).
+30. Compiler internals (2026-10-23; tools and docs only, 929 unchanged): wcc386 10.0 GA runs in a CPU emulator (`tools/wccre`, no DOSBox; the same objects on all 711 files with a cached DOSBox object), and its register allocator and the compiler state were read in the binary against Open Watcom's code generator source ([docs/WCC_INTERNALS.md](docs/WCC_INTERNALS.md)). Registers go to variables in order of savings (uses and definitions weighted by loop depth); declaration order only breaks ties, and the tie order comes from an unstable Shell sort, so it shifts when any temporary is added or removed. `python3 tools/wccre/regdump.py FILE.c` prints, per function, every variable's savings and the register it got: use it on a register-pick draft before trying shapes. The compiler state is one field the code generator never sets (an instruction id that decides whether a long basic block is split); in the warm state no draft matches (FixJerseyConflict 20 -> 16 is the only gain; `tools/wccre/state_scan.py`), so `make`'s fresh compile stays. Next: rerun the register-pick drafts (UNSURE "fourth batch" and later) with regdump, aiming at the savings order the EXE needs.
+
+Not now: a build that compiles some files in a warmed-up compiler state. It is understood (above) and no draft needs it; DrawBevelBox matches fresh after FitPlayerName in one file.
 
 Older Next list:
 
@@ -188,7 +192,7 @@ Full capped-draft notes: [docs/UNSURE.md](docs/UNSURE.md). Older Next narrative:
 
 Full Unsure entries (what was tried): [docs/UNSURE.md](docs/UNSURE.md). Do not retry a listed shape (LA-era entries: see the compiler note there).
 
-**Group 1 — register-choice near misses (park).** C is right but registers differ. Do untouched functions first. Later, one timeboxed pass with a small permuter that tries declaration/statement reorderings automatically. Never retry a listed shape.
+**Group 1 — register-choice near misses (park).** C is right but registers differ. Do untouched functions first. Later, one timeboxed pass with a small permuter that tries declaration/statement reorderings automatically. Never retry a listed shape. Before a new shape, run `python3 tools/wccre/regdump.py FILE.c` and note the savings of the swapped variables: if they differ, no declaration order swaps them (change their uses: fewer or more references, a value reused or recomputed, a temporary added or dropped); if they tie, order can matter, and so can any added or removed temporary (the unstable sort).
 
 Parked: LoadShapeByTag, POPickConfTeams, BlitClipRect, SetCoachMode, FadeOutPalCycle, QueueGoalieNote, ChkDelayedOffside, getlchoice, faceoffinput, SetShotMode, BlitJerseyDigit, LoadCupFinalSeries, ClearPanelPenalties, SetGameSides, CmpShootPct, CmpRosterSkaters, DrawScrollBar, DrawEditCursor, assepen, ChkTwoLinePass, CtlSwapScoreFix, OneTimerChk, SetTeamGoalie, ChkGoalies, periodicevents, CopyFile, MenuHitTest, SimPlayoffFinal, FadePalette, BuildFreeAgentList, assshoot, TradeHitTest, LoadJerseyColours, BuildTeamRosterList, BuildTradeRoster, checkwallcoll, SplitPlayerName, SetRosterTeamMenus, DrawListItem, DrawEnergyBar, CmpTeamPP, CmpTeamPK, CmpTeamPenalties, chk4lc, SelectRosterTeam, QueueSpeechClip, CreatePlayerLoop, SortStandings, DrawEditText, FixJerseyNumber, HilightSaveToDlg, RemoveFromLines, checkgoal, updatereplay, OppInReach, FillDressedSlots, TradeScreen, NetCollide, SeedPlayoffRound2, SeedPlayoffFinal, wallcoll.
 
@@ -296,8 +300,10 @@ Details and examples: [docs/C_MATCHING.md](docs/C_MATCHING.md) "Compiler learnin
   `make WATCOM_VER=la`). 10.0a widens 16-bit compares.
 * Short globals are read as `mov r32,[x-2] / sar r32,10h` and signed bytes as `[x-3] / sar 18h`: declare the
   real type (`short`, `signed char`) in `vars.h` and the compiler emits the same.
-* Register choice follows declaration order, statement order and operand order (`a == b` vs `b == a`); a local
-  copy vs re-reading a field changes the layout (Setplass); early returns fix block order (Acheck).
+* Register choice follows each variable's savings (its uses and definitions, weighted by loop depth): the highest
+  picks first. Declaration, statement and operand order (`a == b` vs `b == a`) matter when they change those
+  uses or break a tie; `tools/wccre/regdump.py` shows the order ([docs/WCC_INTERNALS.md](docs/WCC_INTERNALS.md)).
+  A local copy vs re-reading a field changes the layout (Setplass); early returns fix block order (Acheck).
 * `while (--i != (short)-1)` gives the 16-bit compare `cmp si,-1`; a counter reused across loops keeps its
   register (setpersonel).
 * Counted 68k loops: `do { } while (--n != 0)`; `for` always adds a jump to the test.
