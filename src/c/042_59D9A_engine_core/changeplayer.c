@@ -223,6 +223,9 @@ void setplayer(Player *p, short n)
 #define OOBYTE(i) (*(int *)(OOlist + (i) - 3) >> 24)
 int __cdecl sub_B340B(int fl);
 
+/* DRAFT (10.0 GA, 73 differing, same size): the second penalty box clamp as an if / else gives the EXE's slots
+   (c1 -14h, c2 -10h, k -0Ch, the clip temporary -8) but not its clamp code (the EXE's ternary result in eax);
+   the ternary keeps the clamp and swaps the slots. See docs/UNSURE.md. */
 /* DrawRinkOverlays (5CE12, PC only; ends in changeplayer_ret5): draw the rink layer above the objects for the
    view at vx, vy (viewscrollx / viewscrolly). With the penalty boxes in view, a marker per player in each box
    (up to three a side); then DrawRinkObjects. The markers of the two controlled players and the puck carrier,
@@ -258,7 +261,8 @@ void DrawRinkOverlays(short vx, short vy)
             for (i = 0; i < PBnum[0] && i < 3; i++) DrawFrameSprite(0x17E, 0xB3, (i + 3) * -0xB, 0, 0);
         }
         if (camy > -0x4B && camy < 0xB1) {
-            i = PBnum[1] - 1 < 2 ? PBnum[1] - 1 : 2;
+            if (PBnum[1] - 1 >= 2) i = 2;
+            else i = PBnum[1] - 1;
             for (; i >= 0; i--) DrawFrameSprite(0x17E, 0xB3, (i + 3) * 0xB, 0, 1);
         }
     }
