@@ -24,8 +24,8 @@ int j___close(int fh);  /* CRT close thunk */
 #define W(p, o) (*(unsigned short *)((char *)(p) + (o)))
 #define CMP(i, j) ((int (*)(int *, int *))leadersortfns[cat])(i, j)
 
-/* DRAFT (first pass from Ghidra, tools/ghidra_decomp.py): the column switch (LeadersScreen_coljt) and the
-   insertion are not shaped yet; 3,561 of 3,782 bytes. */
+/* DRAFT under 10.0 GA: 326 differing instructions. The shared category switch and frame now
+   follow the EXE; insertion code and some stack slots/register choices still differ. */
 /* LeadersScreen (25B24, PC only): the league leaders of category cat (0-7 skaters: points, goals, assists, power
    play goals, short-handed goals, penalty minutes, plus / minus, shooting percentage; 8-10 goalies: goals against
    average, wins, save percentage) for the stats screens' league (statsleague; season or league stats,
@@ -46,17 +46,17 @@ int LeadersScreen(int cat)
     GStat gs;
     PRec key;
     SStat ss;
+    int fh;
     char path[0x20];
     int n;
     int kfh;
     int pfh;
-    int fh;
-    int i;
     int j;
     int y;
     int recsz;
     int gp;
     int g;
+    int i;
     int kf;
     int mf;
     unsigned short *sp;
@@ -70,11 +70,13 @@ int LeadersScreen(int cat)
     if (cat == 8 || cat == 10 || cat == 5 || cat == 7) {
         MakePath(path, (char *)&statsleague, (char *)statsteamdbs[statsfromleague], 0);
         fh = open(path, 0x200);
-        recsz = statsfromleague ? 0x2E8 : 0x4C;
+        recsz = !statsfromleague ? 0x4C : 0x2E8;
         for (i = 0; i < 0x1A; i++) {
             lseek(fh, i * recsz, 0);
             read(fh, trec, 0x4C);
-            teamgp[i] = statsplayoffs ? trec[0x3A] : trec[0x28];
+            teamgp[i] = !statsplayoffs ? trec[0x28] : trec[0x3A];
+            /* The retail code repeats this zero store for standalone, regular-season data. */
+            if (!statsfromleague && !statsplayoffs && !teamgp[i]) teamgp[i] = 0;
         }
         j___close(fh);
     }
@@ -116,7 +118,8 @@ int LeadersScreen(int cat)
                 (!teamgp[(unsigned char)key.c[0]] || gp * 100 / teamgp[(unsigned char)key.c[0]] < 0x50)) continue;
             ((SStat *)statsskaterbuf)[n] = ss;
             if (cat == 7) {
-                g = statsplayoffs ? W(&ss, 0x20) : W(&ss, 0xE);
+                if (!statsplayoffs) g = W(&ss, 0xE);
+                else g = W(&ss, 0x20);
                 statssortkeys[n] = g ? ((statsplayoffs ? W(&ss, 0x14) : W(&ss, 2)) * 1000 + g / 2) / g : 0;
             }
             if (n > 0x13 && CMP(&n, &order[n]) >= 0) continue;
@@ -185,7 +188,7 @@ int LeadersScreen(int cat)
             MakePath(path, (char *)&statsleague, (char *)statsteamdbs[0], 0);
             fh = open(path, 0x200);
             lseek(fh, (unsigned char)key.c[0] * 0x4C, 0);
-            read(fh, trec, 0x4C);
+            read(fh, trec, 0x27);
             j___close(fh);
             PrintShadowText(0xFA, y, (char *)trec + 0x1A);
             if (cat < 8) {
@@ -194,37 +197,36 @@ int LeadersScreen(int cat)
                 PrintFmt1(0x19A, y, (char *)str_fmt3d, sp[1]);
                 PrintFmt1(0x1CC, y, (char *)str_fmt3d, sp[2]);
                 PrintFmt1(0x1F4, y, (char *)str_fmt3d, sp[3]);
-                switch (cat) {
-                case 3: PrintFmt1(0x21C, y, (char *)str_fmt2d, sp[4]); break;
-                case 4: PrintFmt1(0x21C, y, (char *)str_fmt3d, sp[5]); break;
-                case 5: PrintFmt1(0x21C, y, (char *)str_fmt4d, sp[8]); break;
-                case 6: PrintFmt1(0x21C, y, (char *)str_fmt3d, sp[6]); break;
-                case 7:
-                    PrintFmt1(0x21C, y, (char *)str_fmt5d, sp[7]);
-                    PrintFmt2(0x24E, y, (char *)str_fmtTenths, statssortkeys[j] / 10, statssortkeys[j] % 10);
-                    break;
-                }
             } else {
                 gsp = (unsigned short *)(statsgoaliebuf + j * 0x36 + (statsplayoffs ? 0x16 : 0));
                 PrintFmt1(0x172, y, (char *)str_fmt2d, gsp[0]);
                 PrintFmt1(0x19A, y, (char *)str_fmt4d, *(unsigned short *)((char *)gsp + 0xC));
-                switch (cat) {
-                case 8:
-                    PrintFmt1(0x1CC, y, (char *)str_fmt3d, gsp[7]);
-                    PrintFmt2(0x1F4, y, (char *)str_fmtMinSec, gsp[8] / 100, gsp[8] % 100);
-                    break;
-                case 9:
-                    PrintFmt1(0x1CC, y, (char *)str_fmt2d, gsp[1]);
-                    PrintFmt1(0x1F4, y, (char *)str_fmt2d, gsp[2]);
-                    if (!statsplayoffs) PrintFmt1(0x21C, y, (char *)str_fmt2d, gsp[3]);
-                    break;
-                case 10:
-                    PrintFmt1(0x1CC, y, (char *)str_fmt3d, gsp[7]);
-                    PrintFmt1(0x1F4, y, (char *)str_fmt4d, gsp[9]);
-                    if (gsp[10] > 999) PrintFmt2(0x21C, y, (char *)str_fmtPct, gsp[10] / 1000, gsp[10] % 1000);
-                    else PrintFmt1(0x21C, y, (char *)str_fmtPct0, gsp[10] % 1000);
-                    break;
-                }
+            }
+            switch (cat) {
+            case 0: case 1: case 2: break;
+            case 3: PrintFmt1(0x21C, y, (char *)str_fmt2d, sp[4]); break;
+            case 4: PrintFmt1(0x21C, y, (char *)str_fmt3d, sp[5]); break;
+            case 5: PrintFmt1(0x21C, y, (char *)str_fmt4d, sp[8]); break;
+            case 6: PrintFmt1(0x21C, y, (char *)str_fmt3d, sp[6]); break;
+            case 7:
+                PrintFmt1(0x21C, y, (char *)str_fmt5d, sp[7]);
+                PrintFmt2(0x24E, y, (char *)str_fmtTenths, statssortkeys[j] / 10, statssortkeys[j] % 10);
+                break;
+            case 8:
+                PrintFmt1(0x1CC, y, (char *)str_fmt3d, gsp[7]);
+                PrintFmt2(0x1F4, y, (char *)str_fmtMinSec, gsp[8] / 100, gsp[8] % 100);
+                break;
+            case 9:
+                PrintFmt1(0x1CC, y, (char *)str_fmt2d, gsp[1]);
+                PrintFmt1(0x1F4, y, (char *)str_fmt2d, gsp[2]);
+                if (!statsplayoffs) PrintFmt1(0x21C, y, (char *)str_fmt2d, gsp[3]);
+                break;
+            case 10:
+                PrintFmt1(0x1CC, y, (char *)str_fmt3d, gsp[7]);
+                PrintFmt1(0x1F4, y, (char *)str_fmt4d, gsp[9]);
+                if (!(gsp[10] > 999)) PrintFmt1(0x21C, y, (char *)str_fmtPct0, gsp[10] % 1000);
+                else PrintFmt2(0x21C, y, (char *)str_fmtPct, gsp[10] / 1000, gsp[10] % 1000);
+                break;
             }
             y += 0xD;
         }
