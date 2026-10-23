@@ -2262,6 +2262,10 @@ pop edi	; 65CFC
 pop esi	; 65CFD
 ret 4	; 65CFE
 %endif ; C
+; C: src/c/046_644A8_engine_display/checkwindow.c
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.inc"
+%else
 checkwindow:
 push dword 20h	; 65D01
 call __CHK	; 65D06
@@ -2790,6 +2794,7 @@ pop edx	; 66493
 pop ecx	; 66494
 pop ebx	; 66495
 ret	; 66496
+%endif ; C
 ; C: src/c/046_644A8_engine_display/checkwindow.c (LoadTeamPPV)
 %ifdef CBUILD
 %include "c/046_644A8_engine_display/checkwindow.LoadTeamPPV.inc"

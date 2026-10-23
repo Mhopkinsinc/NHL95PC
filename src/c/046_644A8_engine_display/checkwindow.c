@@ -22,11 +22,11 @@ void sub_6AB7C(int n, int x0, int y0, int x1, int y1);      /* mark a dirty rect
 
 #define ABSW(v) ((v) < 0 ? -(v) : (v))
 
-/* DRAFT: same size (1,942 bytes), 93 differing under 10.0 GA; it owns the pop / ret tail (checkwindow_popebp /
-   checkwindow_popx, which LoadTeamPPV, UpdateTextOverlay, DrawCallBanner and DrawTextOverlay use); see
-   docs/UNSURE.md. The chained stores follow the EXE's store order (regd3 / regd2 after xc1 / yc1 in the
-   highlight branch and at the faceoff dot, before them elsewhere), and the slower catch-up subtracts ym as a
-   short. Left: register picks (the highlight branch's constants, the ABS temporaries of the referee steps). */
+/* checkwindow owns the pop / ret tail (checkwindow_popebp / checkwindow_popx, which LoadTeamPPV,
+   UpdateTextOverlay, DrawCallBanner and DrawTextOverlay use). The chained stores follow the EXE's store order
+   (regd3 / regd2 after xc1 / yc1 in the highlight branch and at the faceoff dot, before them elsewhere); the
+   catch-up is an if / else of two stores (the EXE then compares regd1 in memory), and the y shift is
+   `fast ? 3 : 4` (an int count). */
 /* checkwindow (65D01, 93G checkwindow): move the camera (camx / camy) toward the point it follows (xc1 / yc1,
    kept in regd3 / regd2). In highlight mode (gmode bit 7) that is a fixed point (-100, 15) with a slow pan. While
    the clock runs: during a penalty count-down or a referee step, follow the referee (object 10h) toward its
@@ -124,7 +124,7 @@ void checkwindow(void)
             } else {
                 p = (Player *)puckstruct;
             }
-            yc1 = regd2.w = (p->Yvel >> 8) + HIWORD(p->Ypos) + yleader;
+            yc1 = regd2.w = HIWORD(p->Ypos) + (p->Yvel >> 8) + yleader;
             xc1 = regd3.w = HIWORD(p->Xpos);
         }
     }
@@ -133,14 +133,15 @@ void checkwindow(void)
         regd1.w = regd2.w + ym;
         if (regd1.w < -0xBC) regd1.w = -0xBC;
     } else if (ym < regd0.w) {
-        regd1.w = fast ? regd2.w : (short)(regd2.w - ym);
+        if (fast) regd1.w = regd2.w;
+        else regd1.w = regd2.w - ym;
         if (regd1.w > 0xEC) regd1.w = 0xEC;
     }
     if (ABSW(regd0.w) > ym) {
         regd1.w -= camy;
         if ((gmode & 1) && ABSW(regd1.w) > 0x20) regd1.w = regd1.w < 0 ? -0x20 : 0x20;
         if (regd1.w) {
-            regd1.w >>= (fast == 0) + 3;
+            regd1.w >>= fast ? 3 : 4;
             if (!regd1.w) regd1.w = 1;
             camy += regd1.w;
         }
