@@ -119,7 +119,7 @@ int EditGoalieRating(int *x, int *y, int *field)
             *(Msg20 *)s.msg = *(Msg20 *)str_EnterANewRating;
             msglines[0] = (int)s.msg;
             maxp = unk_D1000 + i;
-            sprintf(s.range, (char *)str_RatingRange, (*(s.minp = unk_D0FF0 + i) + 5) * 5, off_D09DB[i], (*maxp + 5) * 5);
+            sprintf(s.range, (char *)str_RatingRange, (*(s.minp = unk_D0FF0 + i) + 5) * 5, off_D09DB[i], (short)((*maxp + 5) * 5));
             msglines[1] = (int)s.range;
             p = &byte_D0FE0 + i;
             if (i == 0) {
@@ -132,7 +132,7 @@ int EditGoalieRating(int *x, int *y, int *field)
                     nv = v / 5 - 5;
                     if (v < s.old) {
                         *p = nv;
-                        if (i != 0 && i != 8) *field += s.old - (*p + 5) * 5;
+                        if (i != 0 && i != 8) *field += s.old - (((*p + 5) << 2) + (*p + 5));
                     } else {
                         d = v - s.old;
                         if (i != 0 && i != 8) {
