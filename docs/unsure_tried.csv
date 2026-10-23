@@ -2023,3 +2023,46 @@ PlayoffTreeMenu,,(2026-10-23): the old struct with ptr through a second local (`
 PlayoffTreeMenu,,"the size local alone, struct members moved out in groups (only ptr 288, ptr + depth 306, scalars without item / level 233, all scalars 253), plain arrays with a scalar struct in the EXE order (with or without at: 455 / 430",,ga
 PlayoffTreeMenu,,item..mx only 250,,ga
 PlayoffTreeMenu,,"ptr..oldmy only 280), every combination of chained / split resets in the other two loops, two permute.py runs (best on the plain version: a short n parameter, no gain kept)",,ga
+NetCollide,rettype:int,int result,tried (docs/UNSURE.md),ga
+GameStatsScreen,,"(2026-10-22): the width through x / shape / slot / bank / a new int w, as a statement or inside the assignment",,ga
+GameStatsScreen,,"the plain `(cx = col + 0x49) - (fputchar(name) >> 1)` and `cx = col + 0x49;` first (both: col gets a register, frame 4 smaller), `-(...) + (cx = ...)`, `0x49 + col`, m without the shift",,ga
+GameStatsScreen,,col / cx / y / smp / logos back in the struct in five subsets x three name forms (20-134),20-134,ga
+GameStatsScreen,,13 orders of the five plain scalars (20-45),20-45,ga
+GameStatsScreen,,"the minutes through shape / slot, `(x = TS(8)) / 60`, `TS(8) / 60, TS(8) % 60`",,ga
+GameStatsScreen,,the percentage in x,,ga
+GameStatsScreen,,"`&hmteamrec[...]`, `i * 7 * 65`",,ga
+GameStatsScreen,,"permute.py once (321 candidates, nothing below the base)","321 candidates, nothing below the base",ga
+passtoa0,,"(2026-10-22): j as `(vx * ax + vy * ay) * 2`, `<< 1`",,ga
+passtoa0,,the doubled sum with the products swapped,,ga
+passtoa0,,r with `(ax * ax + ay * ay) * k` and `k * (ax * ax + ay * ay)`,,ga
+passtoa0,,sp short (73-76: frame changes),73-76: frame changes,ga
+passtoa0,,k through r (`r = vx * vx + vy * vy - sp * sp; s.k = r`: 83),`r = vx * vx + vy * vy - sp * sp; s.k = r`: 83,ga
+passtoa0,,`s.k >>= 2` with all those j / r / sp combinations and `randomd0(n / 2) + (n + 1) / 2` (58-63),58-63,ga
+passtoa0,,the n sum swapped alone (48),48,ga
+passtoa0,,"pucknopuck as `((signed char *)p)[0x27] - 6` (48), `(signed char)(p->temp1 >> 8) - 6` (67)",67,ga
+passtoa0,,the temp1 byte store through signed char or `((char *)p)[0x27]` (48),48,ga
+passtoa0,,the puck velocities through r or n (71-105),71-105,ga
+passtoa0,,"permute.py once (961 candidates, best 46 only with char / unsigned short casts, size +10)","961 candidates, best 46 only with char / unsigned short casts, size +10",ga
+NetCollide,,"(2026-10-22, GA): `register` gy / dir / both (no change), dir as short (42), `unsigned short` result (41, same), dx / dy as `HIWORD(...) - g` (44-52)",44-52,ga
+NetCollide,,"the gy ternary inverted (55), `gy + uy - 8`, scaled_y dropped (49) or also for ux (61)",61,ga
+NetCollide,,"the doubled flip comparison as `!(...)` (73), permute_decls 120 orders (all equal), permute.py once on the short base (321 candidates, nothing below 41)","321 candidates, nothing below 41",ga
+NetCollide,rettype:unsigned_short,unsigned short` result,tried (docs/UNSURE.md),ga
+SwapSelectedPlayers,,"(2026-10-22, GA): na as a plain local at nine declaration positions (63, na in a register), unsigned na / counts / both (50-51), `if (...) if (1) {`",,ga
+SwapSelectedPlayers,,"the message chain nested as `if (nb != s.na) { if (ga != gb) ... else ... } else if` (59), `b = 0; a = b;` (50), gb reused as a (`gb = b = 0`, `b = gb = 0`, `gb = 0; b = 0;`: 60-61) and also nb as b (89)",89,ga
+SwapSelectedPlayers,,"the swap in an `else` instead of the return (50), `if (nb == s.na && ga == gb) goto swap;` (59), j or p declared in the swap loop (58), both (50",,ga
+SwapSelectedPlayers,,scope_decls.py found nothing better),,ga
+EditSkaterRating,,"(2026-10-22, GA, on the str_fmtpd sprintf argument",,ga
+EditSkaterRating,,"the GA diff points there): `5 * (r + 5)`, `(5 + r) * 5`, `(r + 5) * 5u`, `((int)r + 5) * 5`, `(unsigned)(r + 5) * 5`, `(long)(r + 5) * 5` (all 57, same code), `r * 5 + 25`, `(r + 5) * 4 + (r + 5)`, `((r + 5) << 2) + (r + 5)` (59), `(r + 5) + (r + 5) * 4` (60), `(unsigned char)(r + 5) * 5` (61), `(short)` / `(unsigned short)` on the product (65-66)",65-66,ga
+EditSkaterRating,,"the rating through the dead v first (`v = *p;` then `(v + 5) * 5`, `((v = *p) + 5) * 5`, `v = *p + 5; v * 5`: 68",,ga
+EditSkaterRating,,the sum then in ebx but in place) or through nv (99),99,ga
+EditSkaterRating,,"in the range sprintf the min pointer as `(s.minp = unk_D0FA8 + i, (*s.minp + 5) * 5)` or `&unk_D0FA8[i]` (57, same) and the max product without the short cast (68)",68,ga
+EditGoalieRating,,separately (2026-10-22): the skater function's product spellings above change no register in either,,ga
+EditGoalieRating,,the twin needs the same fix,,ga
+doshot,,"(2026-10-22, GA): e as if / else (70-88) or `e = r; if (dy < 0) e = r >> 1;` (82-105)",82-105,ga
+doshot,,the else arm's snd store without braces (47),47,ga
+doshot,,the shot-power test nested (47),47,ga
+doshot,,"the two ABS terms swapped (51), `p->Xpos >> 16` in the ABS (72)",72,ga
+doshot,,the y range through t too (69),69,ga
+doshot,,"the doubled x range through the dead e (`e = r + r` or `r << 1`: 55-56) or f (111-138), `e = r; randomd0(e + e) - e` (70-97), t declared first (58-90), `0x1800 < (unsigned short)z` (no change)",no change,ga
+doshot,,"permute.py once (769 candidates, best 45 = the int temporary for r + r plus the snd / dy swap and a compare operand swap)","769 candidates, best 45 = the int temporary for r + r plus the snd / dy swap and a compare operand swap",ga
+doshot,type:r:int,the int temporary for r,tried (docs/UNSURE.md),ga
