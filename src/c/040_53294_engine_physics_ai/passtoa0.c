@@ -1,6 +1,7 @@
 /* Engine physics AI: pass to a player. */
-/* DRAFT: 684 vs 703 bytes before the tail, first pass; see docs/UNSURE.md. Its match belongs in checkob.c,
-   whose checkob_ret5 tail it uses. */
+/* DRAFT (10.0 GA): 86 score differing, 695 vs 708 bytes. A word-frame struct fixes the seven stack
+   variable offsets; one extra stack dword, register allocation and velocity sign extensions remain.
+   The shared exit belongs to checkob_ret5. */
 #define sub_93470 sub_93470_decl
 #include "nhl95.h"
 #undef sub_93470
@@ -16,13 +17,15 @@ int __cdecl sub_93470(int v);  /* sroot: integer square root */
    point, and the puck's velocity (puckvx / puckvy) the distance to it over 120t. p: the receiver. No result. */
 void passtoa0(Player *p)
 {
-    short vx;
-    short t;
-    short j;
-    short vy;
-    short dy;
-    short dx;
-    short k;
+    struct {
+        short vx; short pad_vx;
+        short t; short pad_t;
+        short j; short pad_j;
+        short vy; short pad_vy;
+        short dy; short pad_dy;
+        short dx; short pad_dx;
+        short k; short pad_k;
+    } s;
     short ax;
     short ay;
     short sp;
@@ -33,38 +36,38 @@ void passtoa0(Player *p)
     passplayer = p->SCnum;
     assinsert(p, 0x13);
     GetHot(p);
-    dx = regd0.w + HIWORD(p->Xpos) - *puckx;
-    ax = dx >> 2;
-    dy = regd1.w + HIWORD(p->Ypos) - *pucky;
-    ay = dy >> 2;
-    vx = p->Xvel * 0xF0 >> 16;
-    vy = p->Yvel * 0xF0 >> 16;
-    j = (vx * ax + vy * ay) * 2;
+    s.dx = regd0.w + HIWORD(p->Xpos) - *puckx;
+    ax = s.dx >> 2;
+    s.dy = regd1.w + HIWORD(p->Ypos) - *pucky;
+    ay = s.dy >> 2;
+    s.vx = p->Xvel * 0xF0 >> 16;
+    s.vy = p->Yvel * 0xF0 >> 16;
+    s.j = (s.vx * ax + s.vy * ay) * 2;
     sp = passspeed >> 2;
-    k = vx * vx + vy * vy - sp * sp;
-    r = j * j - (ax * ax + ay * ay) * k * 4;
+    s.k = s.vx * s.vx + s.vy * s.vy - sp * sp;
+    r = s.j * s.j - (ax * ax + ay * ay) * s.k * 4;
     if (r > 0) r = sub_93470(r);
     else r ^= r;
-    k >>= 2;
-    if (!k) k = 1;
+    s.k >>= 2;
+    if (!s.k) s.k = 1;
     for (n = 0; n < 2; n++) {
-        t = r;
+        s.t = r;
         r = -r;
-        t = (t - j) / k;
-        if (t >= 0) break;
+        s.t = (s.t - s.j) / s.k;
+        if (s.t >= 0) break;
     }
-    if (t <= 0) t = 1;
-    if (t > 0x18) t = 0x18;
-    n = (signed char)(t < 0xC ? t : 0xC);
+    if (s.t <= 0) s.t = 1;
+    if (s.t > 0x18) s.t = 0x18;
+    n = (signed char)(s.t < 0xC ? s.t : 0xC);
     if (n > 6) n = (n + 1) / 2 + randomd0(n / 2);
     ((char *)puckvz)[1] = n;
-    ((char *)&p->temp1)[1] = (t << 3) - 0xA;
+    ((char *)&p->temp1)[1] = (s.t << 3) - 0xA;
     pucknopuck = ((signed char *)&p->temp1)[1] - 6;
-    regd0.l = (vx * t >> 1) + dx;
+    regd0.l = (s.vx * s.t >> 1) + s.dx;
     p->temp3 = *puckx + regd0.w;
-    regd1.l = (vy * t >> 1) + dy;
+    regd1.l = (s.vy * s.t >> 1) + s.dy;
     p->temp4 = *pucky + regd1.w;
-    t *= 0x78;
-    *puckvx = ToFixed(regd0.l) / t;
-    *puckvy = ToFixed(regd1.l) / t;
+    s.t *= 0x78;
+    *puckvx = ToFixed(regd0.l) / s.t;
+    *puckvy = ToFixed(regd1.l) / s.t;
 }
