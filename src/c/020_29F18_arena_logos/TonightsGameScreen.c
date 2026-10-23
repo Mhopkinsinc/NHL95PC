@@ -31,8 +31,8 @@ int TonightsGameScreen(int home, int away)
     char state[0x40];
     int gad[13];
     char path[0x10];
-    int logos[2];
     unsigned char *linetab[2];
+    int logos[2];
     int fh;
     int crest;
     int bkbank;
@@ -51,6 +51,7 @@ int TonightsGameScreen(int home, int away)
     int i;
     int y;
     int k;
+    char *q;
 
     fh = -1;
     ClearInputQueue();
@@ -134,9 +135,10 @@ int TonightsGameScreen(int home, int away)
         y = byte_D42C3 + 0xA6;
         for (n = 0; n < 4 && !err; n++) {
             for (i = 0; i < 3 && !err; i++) {
-                p = linetab[side][n * 3 + i];
+                p = (linetab[side] + n * 3)[i];
+                q = gipk + (side * 0x1C + p) * 0x34;
                 if (!err) {
-                    FitPlayerName(name, 0, gipk + (side * 0x1C + p) * 0x34 + 0x13, 0xC8);
+                    FitPlayerName(name, 0, q + 0x13, 0xC8);
                     PrintShadowText(i * 0x96 + 0x91 + (0x96 - fputchar(name)) / 2, y, name);
                 }
             }
@@ -159,9 +161,10 @@ int TonightsGameScreen(int home, int away)
             y = byte_D42C3 + 0xA6;
             for (n = 0; n < 3 && !err; n++) {
                 for (i = 0; i < 2 && !err; i++) {
-                    p = linetab[side][n * 2 + i + 0xC];
+                    p = (linetab[side] + n * 2 + 0xC)[i];
+                    q = gipk + (side * 0x1C + p) * 0x34;
                     if (!err) {
-                        FitPlayerName(name, 0, gipk + (side * 0x1C + p) * 0x34 + 0x13, 0xC8);
+                        FitPlayerName(name, 0, q + 0x13, 0xC8);
                         PrintShadowText(i * 0xF0 + 0x91 + (0xF0 - fputchar(name)) / 2, y, name);
                     }
                 }
@@ -185,8 +188,9 @@ int TonightsGameScreen(int home, int away)
             for (n = 0; n < 8 && !err; n++) {
                 p = linetab[side][n + 0x28];
                 if (p < 0x64) {
+                    q = gipk + (side * 0x1C + p) * 0x34;
                     if (!err) {
-                        FitPlayerName(name, 0, gipk + (side * 0x1C + p) * 0x34 + 0x13, 0xC8);
+                        FitPlayerName(name, 0, q + 0x13, 0xC8);
                         PrintShadowText(0xB4, y, name);
                         if (hmroster[side * 0x444 + p * 0x27] == 1) PrintShadowText(0x226, y, (char *)str_Injured);
                     }
