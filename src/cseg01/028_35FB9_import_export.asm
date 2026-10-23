@@ -29,6 +29,10 @@ extern word_DB090, word_DB092, word_DB096, word_DC242, word_DC244, lggameidx, wo
 extern hmscore, hmtmgoalie, awscore, awtmgoalie, startm
 global CheckLeagueDiskSync, MakeTeamDbFmt, PostGameToTeamDb, PlayLeagueGame, TeamGridHitTest
 global DrawTeamGridName, SaveGridCellBg, RestoreGridCellBg, HighlightGridCell, DrawTeamGrid
+; C: src/c/028_35FB9_import_export/CheckLeagueDiskSync.c
+%ifdef CBUILD
+%include "c/028_35FB9_import_export/CheckLeagueDiskSync.inc"
+%else
 CheckLeagueDiskSync:
 push dword 0D8h	; 35FB9
 call __CHK	; 35FBE
@@ -185,6 +189,7 @@ pop ebp	; 36201
 pop edi	; 36202
 pop esi	; 36203
 ret 4	; 36204
+%endif ; C
 ; C: src/c/028_35FB9_import_export/MakeTeamDbFmt.c
 %ifdef CBUILD
 %include "c/028_35FB9_import_export/MakeTeamDbFmt.inc"
