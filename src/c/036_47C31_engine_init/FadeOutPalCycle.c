@@ -16,6 +16,8 @@
 #define GSTAT(t, g) ((short *)((char *)word_DC242 + (t) * 18 + (g) * 6))
 #define PSTAT(t, j) ((short *)((char *)dword_DB088 + (t) * 0x190 + (j) * 16))
 typedef struct { char c[10]; } StarStr10;
+/* the goalie stats as an indexed array (the base folds into the displacement: [reg+DC242]) */
+#define GS(t, g) (((short (*)[3][3])word_DC242)[t][g])
 int ThreeStarsLoop(void);
 void PickThreeStars(void);
 void StartThreeStars(void);
@@ -281,7 +283,10 @@ int StartPreGame(int skip)
     return ThreeStarsLoop();
 }
 
-/* DRAFT: 1,107 vs 1,091 bytes, 105 lines (the roster index split and the stack slots); see docs/UNSURE.md. */
+/* DRAFT: same size (1,091 bytes), 32 differing under 10.0 GA. The winner side reuses i (EXE: cx), the sorted
+   list's points and the goalie rows are indexed reads (base in the displacement), the shutout test reads the
+   goalie stat first. Left: loop 2 keeps the row product in ebp and spills the 25 (EXE the other way round), and the
+   goalie loop's k / 3 and its 18x product take swapped slots; see docs/UNSURE.md. */
 /* PickThreeStars (48AC8, PC only; ends in PreGameIntro_popebp): pick the three stars. Clear the three star slots
    (startm / starpl) and the game winner (gwgteam / gwgplayer). In overtime (curperiod beyond 3) with a winner whose
    team touched the puck last, the winning team's scorer (tmpsplayer) is the game-winning scorer, and when the goal
@@ -298,18 +303,17 @@ void PickThreeStars(void)
     short stars;
     short i;
     short k;
-    short d;
     short *s;
 
     stars = 0;
     for (i = 0; i < 3; i++) startm[i * 2] = starpl[i * 2] = -1;
     gwgteam = gwgplayer = -1;
-    if (curperiod > 3 && (d = awscore - hmscore[0]) != 0) {
-        d = d > 0;
-        if (d ^ (lasttouch < 6)) {
-            gwgteam = d;
-            gwgplayer = word_DF644[d * 0x80];
-            if (IsCupClinched(hmscore[0], awscore)) stars += AddStar(stars, d, gwgplayer);
+    if (curperiod > 3 && (i = awscore - hmscore[0]) != 0) {
+        i = i > 0;
+        if (i ^ (lasttouch < 6)) {
+            gwgteam = i;
+            gwgplayer = word_DF644[i * 0x80];
+            if (IsCupClinched(hmscore[0], awscore)) stars += AddStar(stars, i, gwgplayer);
         }
     }
     for (i = 0; i < 2; i++) {
@@ -317,7 +321,7 @@ void PickThreeStars(void)
             k = 0;
             if (GSTAT(i, 1)[0] > GSTAT(i, 0)[0]) k = 1;
             if (GSTAT(i, 2)[0] > GSTAT(i, 0)[0] && GSTAT(i, 2)[0] > GSTAT(i, 1)[0]) k = 2;
-            if (byte_CC9E4[gameopts.pertime] < GSTAT(i, k)[0]) stars += AddStar(stars, i, k += 0x19);
+            if (GS(i, k)[0] > byte_CC9E4[gameopts.pertime]) stars += AddStar(stars, i, k += 0x19);
         }
     }
     n = 0;
@@ -331,14 +335,12 @@ void PickThreeStars(void)
     qsort(list, n, 4, StarCompare);
     for (i = 0; i < n; i++) {
         k = list[i];
-        s = PSTAT(k / 25, k % 25);
-        if (s[0] + s[1] > 1) {
+        if (*(short *)((char *)dword_DB088 + (k / 25 * 400 + k % 25 * 16)) + *(short *)((char *)dword_DB088 + (k / 25 * 400 + k % 25 * 16) + 2) > 1) {
             stars += AddStar(stars, k / 25, k % 25);
             if (stars >= 3) return;
         } else {
             for (k = 0; k < 6; k++) {
-                s = GSTAT(k / 3, k % 3);
-                if (byte_CC9E7[gameopts.pertime] <= s[0] && (s[1] * 0x3E8 + s[0] / 2) / s[0] <= 0x4B) {
+                if (byte_CC9E7[gameopts.pertime] <= GS(k / 3, k % 3)[0] && (GS(k / 3, k % 3)[1] * 0x3E8 + GS(k / 3, k % 3)[0] / 2) / GS(k / 3, k % 3)[0] <= 0x4B) {
                     stars += AddStar(stars, k / 3, k % 3 + 0x19);
                     if (stars >= 3) return;
                 }
