@@ -1,5 +1,6 @@
 /* Game frame: a highlight run of the game engine. */
-/* DRAFT: 3,322 vs 3,325 bytes, 145 differing lines of 760, first pass; see docs/UNSURE.md. */
+/* DRAFT under 10.0 GA: 65 differing instructions, 3,312 vs 3,325 bytes. Saved score-pointer
+   allocation is correct; the random-offset slot and player-placement register choices remain. */
 #define StartHL2 StartHL2_decl
 #define SprSortVert SprSortVert_decl
 #define SprSort SprSort_decl
@@ -33,14 +34,14 @@ int StartHL2(int home, int vis, int *hsc, int *asc, int period)
     LineTab awl;
     LineTab hml;
     int opts;
-    short sgameover;
     short sgmode2;
+    short sgameover;
     short r;
     short *p;
     short *q;
     int i;
-    int j;
     int k;
+    int j;
     int t;
     Player *pl;
 
@@ -285,10 +286,14 @@ int StartHL2(int home, int vis, int *hsc, int *asc, int period)
     *asc = awscore;
     hmscore[0] = *p++;
     awscore = *p++;
-    for (i = 0; i < 2; i++) {
-        q = (&hmtmstruct)[i].tmpdst;
-        for (j = 0; j < 0x1C; j++) *q++ = *p++;
-    }
+    i = 0;
+    goto restore_teams_test;
+restore_team:
+    q = (&hmtmstruct)[i].tmpdst;
+    for (j = 0; j < 0x1C; j++) *q++ = *p++;
+    i++;
+restore_teams_test:
+    if (i < 2) goto restore_team;
     *(int *)&gameopts = opts;
     *(LineTab *)hmlinetab = hml;
     *(LineTab *)awlinetab = awl;
