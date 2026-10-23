@@ -216,10 +216,11 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     y += ((c) < 12 ? (c) % 6 : ((c) - 12) % 7) * 13; \
     sub_90F38(x, y, 0x140, 0xD, 0x80)
 
-/* DRAFT under 10.0 GA: same size, 253 differing. The pointer moves are handled in an inner loop that breaks
+/* DRAFT under 10.0 GA: same size, 212 differing. The pointer moves are handled in an inner loop that breaks
    out on a click (Watcom then rotates it as the EXE does: input first, the tree and pointer redraw before it,
-   the click's redraw cross-jumping into the inner loop's). Left: register picks from the size product on
-   (`inc edx` in the EXE, `lea eax, [edx + 1]` here), the HILITE row sums; see docs/UNSURE.md. */
+   the click's redraw cross-jumping into the inner loop's). Left: register picks from the first HILITE on (the
+   EXE indexes statsteambuf as [edx + eax*2 + 0Dh] in its first two highlights and adds the index twice in the
+   later ones, the draft the other way round), the tree-close loop and the HILITE row sums; see docs/UNSURE.md. */
 /* RunTeamPickMenu (1DF03, PC only; ends in RunMenu_ret4): RunMenu with a team picker under it, for the team stats
    screens. The selected team (statsteamsel) is shown by an xor bar on the standings grid (sub_90F38: the left or
    right half by its division, the row by its place) or, for the playoffs (statsplayoffs), by the tree highlight
@@ -243,9 +244,9 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
         int mx;
     } s;
     int oldmx;
-    int h;
     int w;
     int ptr;
+    int h;
     int oldmy;
     int depth;
     short hit;
@@ -399,8 +400,8 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                 depth = i + 1;
                 s.menus[depth] = (MenuItem *)m->on2;
                 s.nitems[depth] = m->pad;
-                s.pos[depth][0] = (depth == 1 ? m->x1 : m->x2) + s.pos[depth - 1][0];
-                s.pos[depth][1] = (depth == 1 ? m->y2 : m->y1) + s.pos[depth - 1][1];
+                s.pos[depth][0] = (depth != 1 ? m->x2 : m->x1) + s.pos[depth - 1][0];
+                s.pos[depth][1] = (depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[depth - 1][1];
                 w = s.menus[depth][s.nitems[depth] - 1].x2 - s.menus[depth][0].x1 + 1;
                 h = s.menus[depth][s.nitems[depth] - 1].y2 - s.menus[depth][0].y1 + 1;
                 s.bg[depth] = sub_8CCA8((char *)str_menubuff, w * h + 0x11, 0x20);
@@ -459,7 +460,8 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                 for (i = 3; i >= 0; i--) {
                     if (s.bg[i]) {
                         sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
-                        s.pos[i][0] = s.pos[i][1] = 0;
+                        s.pos[i][1] = 0;
+                        s.pos[i][0] = 0;
                         FreeMemBlock(s.bg[i]);
                     }
                 }
