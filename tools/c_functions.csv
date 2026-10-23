@@ -204,7 +204,7 @@ LoadPlayoffModeTree,2970A,530,019_2970A_league_schedule,src/c/019_2970A_league_s
 OpenStatsSchedule,29A97,112,019_2970A_league_schedule,src/c/019_2970A_league_schedule/OpenStatsSchedule.c,matched,,
 TreeSeriesWinner,2991C,379,019_2970A_league_schedule,src/c/019_2970A_league_schedule/TreeSeriesWinner.c,nonmatching,"draft: 379 vs 379, instructions match, stack slots do not. Win counters match. The series pointer, same and round are reversed against the original homes, and the return sits at ebp-10h (original ebp-4). Do not retry: reversing local order, or putting every local in one block.",slot 34/34
 PreGameScreen,29F28,3255,020_29F18_arena_logos,src/c/020_29F18_arena_logos/PreGameScreen.c,nonmatching,"draft (own file): 3240 vs 3255, 165 lines (team loop zero extension, slots, input loop registers). See docs/UNSURE.md.",register 101/149
-TonightsGameScreen,2ABDF,3032,020_29F18_arena_logos,src/c/020_29F18_arena_logos/TonightsGameScreen.c,nonmatching,"draft (own file): 3043 vs 3032, 140 lines (spilled scalar slots, second crest size). See docs/UNSURE.md.",slot 63/132
+TonightsGameScreen,2ABDF,3032,020_29F18_arena_logos,src/c/020_29F18_arena_logos/TonightsGameScreen.c,matched,"draft (own file): 3043 vs 3032, 140 lines (spilled scalar slots, second crest size). See docs/UNSURE.md.",
 CmpFileNames,2BEEA,19,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/CmpFileNames.c,matched,,
 FileDlgHitTest,2C3FF,82,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c,matched,,
 LoadFileDlgShapes,2B7C3,385,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
@@ -683,9 +683,9 @@ chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_
 releasepl,6392A,122,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/releasepl.c,matched,,
 updatePPTeamTime,63B57,46,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c,matched,,
 updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,matched,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add,
+BuildDefaultLines,64614,1015,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
 SetupTeamLines,658F3,597,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
 CanRemovePlayer,65B83,293,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
-BuildDefaultLines,64614,1015,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,nonmatching,,register 88/139
 CanFillLineSlot,64A0B,669,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,draft: 688 vs 669. side*444h is computed in eax and added to hmroster; the original keeps that stride in ebx and indexes [ebx+eax+hmroster]. The sign-extended side is not stored at esp+4.,size 23/50
 FillDressedSlots,64CA8,440,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,"draft (CanFillLineSlot.c): 440 vs 440, stack slot order only. See UNSURE.",slot 12/12
 CloseTextOverlay,66DDA,44,046_644A8_engine_display,src/c/046_644A8_engine_display/CloseTextOverlay.c,matched,,
@@ -927,8 +927,8 @@ ClearSpeechSlot,833C5,53,060_8291E_sound_config,src/c/060_8291E_sound_config/Cle
 ResetSpeechQueue,833FA,95,060_8291E_sound_config,src/c/060_8291E_sound_config/ResetSpeechQueue.c,matched,memset(-1) compiles to memset_ with ebx count; asm calls __STOSD (ecx 14h dwords) - need the C form that emits __STOSD,
 SoundCardDlgLoop,8291E,1116,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,matched,,
 SetSoundDevice,82D7A,1346,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,nonmatching,,
-FindFreeSpeechSlot,83E6D,63,061_83459_speech,src/c/061_83459_speech/FindFreeSpeechSlot.c,nonmatching,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",register 4/5
-FindLoadedSpeechSlot,83EAC,63,061_83459_speech,src/c/061_83459_speech/FindLoadedSpeechSlot.c,nonmatching,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",register 4/5
+FindFreeSpeechSlot,83E6D,63,061_83459_speech,src/c/061_83459_speech/FindFreeSpeechSlot.c,matched,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",
+FindLoadedSpeechSlot,83EAC,63,061_83459_speech,src/c/061_83459_speech/FindLoadedSpeechSlot.c,matched,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",
 FindSpeechSlot,83EEB,74,061_83459_speech,src/c/061_83459_speech/FindSpeechSlot.c,matched,,
 FreeUnrequestedSamples,84036,115,061_83459_speech,src/c/061_83459_speech/FreeUnrequestedSamples.c,matched,"draft: asm copies the result to ebx (mov ebx,ecx) before the count update; ours returns ecx",
 InitSpeech,8357A,194,061_83459_speech,src/c/061_83459_speech/InitSpeech.c,matched,,
