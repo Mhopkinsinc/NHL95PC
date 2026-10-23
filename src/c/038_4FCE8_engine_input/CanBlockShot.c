@@ -9,8 +9,13 @@
    (SortCords 12 + side) than the puck is; outside line change mode (pflags bit 3) not straight sideways and
    80h+ deep and within 64h of the middle. Result: 0, or the dive direction + 1 (0Ah straight), the direction
    also in the word at +4Ah (holdplayer passes it to BlockShotDive).
-   DRAFT: the same-team test returns 0 through `xor eax, edx` after comparing two bools, the unsolved pattern
-   in HANDOFF; kept as the owner of the CanBlockShot_ret5 / _ret6 exits. */
+   DRAFT (10.0 GA, 76 -> 60 differing): the same-team test written `(*puckc < 6) == (p->SCnum < 6)` gives the
+   EXE's `cmp eax, edx` / `xor eax, edx` return; the |pucky| range test computed once; the last test inverted
+   so the shared `return 0` sits at the bottom (every early exit jumps there, as in the EXE); `(int)puckcross[]`
+   for the load / sar compare; the goalie index through k (add 0Ch before the shift). Left: s in ax (EXE bx),
+   the pflags byte loaded into bh, side spilled and g in ebp (EXE side in ebp, g at [esp+0Ch]), and the SPA
+   read (`q = &SortCords[k]; spa = q->SPA` gives the EXE's separate add of SortCords, but scores worse).
+   Kept as the owner of the CanBlockShot_ret5 / _ret6 exits. */
 int CanBlockShot(Player *p)
 {
     int dx;
@@ -25,23 +30,27 @@ int CanBlockShot(Player *p)
     int spa;
     Player *g;
     short s;
+    int k;
 
-    if (*puckc >= 0 && (p->SCnum < 6) == (*puckc < 6)) return 0;
+    if (*puckc >= 0 && (*puckc < 6) == (p->SCnum < 6)) return 0;
     s = *pucky;
-    if ((s < 0 ? -s : s) > 0xE8 || (s < 0 ? -s : s) < 0x4E) return 0;
+    d = s < 0 ? -s : s;
+    if (d > 0xE8 || d < 0x4E) return 0;
     if (p->puckdist > 0x50) return 0;
     side = (p->pflags & pfgoal) != 0;
-    g = &SortCords[side + 12];
-    if (puckcross[side ? 3 : 1] < 10) return 0;
-    if (*puckc >= 0) s = *puckc;
+    k = ((p->pflags & pfgoal) != 0) + 12;
+    g = &SortCords[k];
+    if ((int)puckcross[side ? 3 : 1] < 10) return 0;
+    if (*puckc >= 0) k = *puckc;
     else {
         if (side && *puckvy > 0) return 0;
         if (!side && *puckvy < 0) return 0;
-        if (shotplayer < 0) return 0;
-        if (!((p->SCnum < 6) ^ (shotplayer < 6))) return 0;
         s = shotplayer;
+        if (s < 0) return 0;
+        if (!((p->SCnum < 6) ^ (s < 6))) return 0;
+        k = shotplayer;
     }
-    spa = SortCords[s].SPA;
+    spa = SortCords[k].SPA;
     if (spa != 0x3F9 && spa != 0x491 && spa != 0xDD3 && spa != 0xE2B && spa != 0x1265 && spa != 0x12DD
         && spa != 0x1355 && spa != 0x138D) return 0;
     dx = *puckx - HIWORD(g->Xpos);
@@ -71,10 +80,12 @@ int CanBlockShot(Player *p)
     }
     if (d >= dist) return 0;
     d += p->puckdist;
-    if (d >= dist * 2) return 0;
-    if (b == 2 && a == b) return 10;
-    ((short *)p)[0x25] = dir;
-    return a + 1;
+    if (d < dist * 2) {
+        if (b == 2 && a == b) return 10;
+        ((short *)p)[0x25] = dir;
+        return a + 1;
+    }
+    return 0;
 }
 
 /* OppInReach (5033D, PC only; ends in CanBlockShot_ret6): is one of the six opponents within reach of p for a
