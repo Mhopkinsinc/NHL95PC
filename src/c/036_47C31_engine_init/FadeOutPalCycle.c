@@ -459,10 +459,11 @@ void StartThreeStars(void)
     else sub_8F633();
 }
 
-/* DRAFT: same size under 10.0 GA, 56 differing: the EXE builds the roster pointer in eax (lea) and spills
-   roster + 7 to a frame slot (sub esp, 4) for FormatPlayerName; this adds it in ecx and keeps it there. The
-   team abbreviation index goes through w first, so the jersey is recomputed after FormatPlayerName as in the
-   EXE. See docs/UNSURE.md. */
+/* DRAFT: same size under 10.0 GA, 44 differing. The team abbreviation index goes through the int w first, so
+   the jersey is recomputed after FormatPlayerName as in the EXE; the star's side, object slot and position each
+   have their own local. Left, in the first announcement only: the EXE spills roster + 7 to a frame slot
+   (sub esp, 4) for FormatPlayerName where this builds it in ecx (lea), and it sums the jersey index before the
+   load (add eax, ebx / xor ebx, ebx). See docs/UNSURE.md. */
 /* assthreestars (495B8, PC only; ends in PreGameIntro_popebp): asstab 15h, the referee's part in the three stars.
    Wait while the overlay runs its first 10h ticks or its 258h-267h stretch. A new assignment (bit 1): "EA Sports"
    on the third text line, the third star first (temp1 2), a pause of 14h-27h ticks (DCh more with speech and music
@@ -478,7 +479,10 @@ void assthreestars(Player *p)
     Player *q;
     int tm;
     int pl;
-    short w;
+    int w;
+    int side;
+    int slot;
+    int pos;
 
     if (ovltimer != -1 && (ovltimer < 0x10 || ovltimer >= 0x258 && ovltimer < 0x268)) return;
     if (p->pflags & 2) {
@@ -524,15 +528,17 @@ void assthreestars(Player *p)
         return;
     }
     if (p->temp2 < 0) return;
-    p->temp3 = (startm[p->temp1 * 2] != 0) + 5;
+    slot = (startm[p->temp1 * 2] != 0) + 5;
+    p->temp3 = slot;
     q = &SortCords[p->temp3];
-    w = (q->pflags & 0x40) != 0;
-    crowdlevel = w ? 0x2BC : 0x5DC;
+    side = (q->pflags & 0x40) != 0;
+    crowdlevel = side ? 0x2BC : 0x5DC;
     q->pnum = starpl[p->temp1 * 2];
-    q->position = q->pnum < 0x19 ? 4 : 0;
+    pos = q->pnum < 0x19 ? 4 : 0;
+    q->position = pos;
     q->temp1 = 0;
     q->newpos = q->newpnum = -1;
-    hmtmpde[w * 0x80 + q->pnum] = 0x300;
+    hmtmpde[side * 0x80 + q->pnum] = 0x300;
     p->pflags2 &= 0xFB;
     setplayer(q, q->pnum);
     assreplace(q, 0);
