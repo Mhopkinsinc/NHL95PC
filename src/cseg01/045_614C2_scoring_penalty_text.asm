@@ -128,6 +128,10 @@ call SetRinkObject	; 6159B
 pop edx	; 615A0
 ret	; 615A1
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/DecayCrowdLevel.inc"
+%else
 DecayCrowdLevel:
 push dword 1Ch	; 615A2
 call __CHK	; 615A7
@@ -359,6 +363,7 @@ pop edx	; 6185E
 pop ecx	; 6185F
 pop ebx	; 61860
 ret	; 61861
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c (DrawRinkObjects)
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/DecayCrowdLevel.DrawRinkObjects.inc"
