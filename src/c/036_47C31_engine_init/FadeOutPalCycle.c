@@ -55,8 +55,6 @@ void FadeOutPalCycle(void)
     loadscreenon = 0;
 }
 
-/* DRAFT under 10.0 GA: six differences remain in the team-PPV argument and random lane arithmetic.
-   The split ThreeStarsLoop pieces below are matched independently. */
 /* PreGameIntro (47CD6, PC only): set up the pre-game skate: the crowd sample, the home team's power play colours
    (LoadTeamPPV), the text lines, period, seed (mixed with both teams), the 1800-tick sequence timer and no
    controlled players; both teams' energy, lines and players (reenergizeteam, setpersonel, forcepldata); then the
@@ -80,7 +78,7 @@ void PreGameIntro(void)
     PlayCrowdSample(0xA);
     team = byte_CC9B0[HomeTeam];
     y = word_CC9CC[byte_CC9B0[HomeTeam]];
-    LoadTeamPPV((short)((team != 1) + 3));
+    LoadTeamPPV((short)(team != 1 ? 4 : 3));
     textline5 = 0;
     textline4 = 0;
     textline2 = 0;
