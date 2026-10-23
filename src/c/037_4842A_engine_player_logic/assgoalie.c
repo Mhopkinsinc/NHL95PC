@@ -1,7 +1,9 @@
 /* Engine player logic: the goalie's assignment and the assignments that end in its exit (assnearest,
    assrefsignal, assrefgoalpa). */
-/* DRAFT: assgoalie 3,773 vs 3,774 bytes, 138 differing under 10.0 GA (the EXE keeps the vecdist result in
-   edx, `mov edx, eax`, and every register pick around it differs); see docs/UNSURE.md. assgoalie ends in ass_popx
+/* DRAFT: assgoalie 3,773 vs 3,774 bytes, 42 differing under 10.0 GA (x and y are reused for the post distance
+   and the far-side y, as in the EXE). Left: the vecdist result (`mov edx, eax` in the EXE), the SortCords loop's
+   puckdist load (di in the EXE), the setl copy of the carrier side test, two ABS register orders and the
+   epilogue (`pop ebp; jmp ass_popx`); see docs/UNSURE.md. assgoalie ends in ass_popx
    (assrefwhistle.c), so its match belongs in assrefwhistle.c between asspenalty and CountPuckThreat; the draft
    sits in its own file so the matched blocks there stay as they are. */
 #define imul32 imul32_decl
@@ -37,11 +39,11 @@ void assgoalie(Player *p)
 {
     Player *q;
     short *pc;
-    int px;
-    int ay;
+    int x;
+    int y;
     int ok;
-    int d;
-    int y2;
+    int dist;
+    int ay;
     int a;
     short k;
 
@@ -49,11 +51,11 @@ void assgoalie(Player *p)
     if (*(short *)((char *)p + 0x4A) > 0) (*(short *)((char *)p + 0x4A))--;
     if (*puckc != p->SCnum) ((unsigned char *)p)[0x63] = 0;
     ((unsigned char *)p)[0x48] |= 6;
-    px = HIWORD(p->Xpos);
-    ay = HIWORD(p->Ypos);
-    ay = ABS(ay);
-    if (px >= -0x28 && px < 0x29 && ay >= 0xC5 && ay < 0xE4) ((unsigned char *)p)[0x48] &= 0xFB;
-    if (px >= -0x30 && px < 0x31 && ay >= 0xC5) ((unsigned char *)p)[0x48] &= 0xFD;
+    x = HIWORD(p->Xpos);
+    y = HIWORD(p->Ypos);
+    y = ABS(y);
+    if (x >= -0x28 && x < 0x29 && y >= 0xC5 && y < 0xE4) ((unsigned char *)p)[0x48] &= 0xFB;
+    if (x >= -0x30 && x < 0x31 && y >= 0xC5) ((unsigned char *)p)[0x48] &= 0xFD;
     if (check4bench(p)) return;
     if (p->pflags & 2) {
         p->pflags &= 0xFD;
@@ -61,18 +63,18 @@ void assgoalie(Player *p)
         p->temp2 = 8;
         ((unsigned char *)p)[0x2D] = 0xFF;
     }
-    if (ay > 0xE4) {
+    if (y > 0xE4) {
         regd2.w = 0;
-        if (ABS(px) <= 0x30) {
+        if (ABS(x) <= 0x30) {
 post:
             regd0.w = HIWORD(p->Xpos) < 0 ? -0xA0 : 0xA0;
         } else {
-            regd0.w = px;
+            regd0.w = x;
         }
         goto move;
     }
-    if (ABS(px) > 0x34 || ay >= 0xEF || ay < 0xB3) {
-        regd0.w = px >= 0 ? 4 : -4;
+    if (ABS(x) > 0x34 || y >= 0xEF || y < 0xB3) {
+        regd0.w = x >= 0 ? 4 : -4;
         regd1.w = p->pflags & 0x80 ? -0xC4 : 0xC4;
         skateto(p, 0);
         return;
@@ -81,7 +83,7 @@ post:
     if (gmode & 1) return;
     if (p->temp5 >= 0) {
         if (*puckc == p->SCnum) {
-            if (ay < 0x9B) p->temp5 = 0;
+            if (y < 0x9B) p->temp5 = 0;
             if (--p->temp5 < 0) AddPenalty2(p, 4);
         } else {
             p->temp5 = -1;
@@ -175,7 +177,7 @@ angle:
             regd1.w += regd0.w;
             if ((!(p->pflags & 0x80) ? 0x83 : 0x38) & 1 << regd1.w) {
                 regd0.w = -regd0.w;
-                regd1.w += regd0.w + regd0.w;
+                regd1.w += regd0.w * 2;
             }
         }
         regd1.w &= 7;
@@ -187,9 +189,10 @@ angle:
     regd0.w = *puckx + (imul32(*puckvx, regd0.w) >> 16);
     regd1.w = *pucky + (imul32(*puckvy, regd1.w) >> 16);
     ClampYPosition(p);
-    d = vecdist(regd0.w, regd1.w);
-    if (d >= 0x1E) {
-        regd2.w = d + 1;
+    dist = vecdist(regd0.w, regd1.w);
+    if (dist >= 0x1E) {
+        dist++;
+        regd2.w = dist;
         if (ABS(*pucky) < 0x74 && ShotLaneOpen()) {
             regd4.w = 0x14;
             if (sflags & 8) regd4.w = 0x1C;
@@ -202,13 +205,13 @@ angle:
         regd0.w = regd0.w * regd4.w / regd2.w;
     }
     regd2.w = regd1.w += regd3.w;
-    y2 = (*puckvy >> 9) + *pucky;
+    y = (*puckvy >> 9) + *pucky;
     if (*puckc < 0 && ABS(*pucky) < 0xE8 && ABS(HIWORD(p->Ypos)) > 0x74 && p->puckdist < 0x1E
-        && ABS(y2) > ABS(HIWORD(p->Ypos)))
+        && ABS(y) > ABS(HIWORD(p->Ypos)))
         ok = 0;
     if (ok && (unsigned short)pc[1] >= 0x23) goto move;
-    d = pc[0];
-    if (ok && ABS(d) >= 0x19) {
+    x = pc[0];
+    if (ok && ABS(x) >= 0x19) {
         if (*puckc >= 0 || iflags & 4 || ABS(*puckx) < 0x44 || ABS(*puckvy) < 0x3800 || ABS(*pucky) < 0x98
             || (p->pflags & 0x80 ? -*puckvy : *puckvy) < -0x190 || *(int *)((char *)p->tmptr + 0x3E) < 0x132
             || *(int *)((char *)p->optmptr + 0x3E) < 0x132)
@@ -216,17 +219,17 @@ angle:
         assinsert(p, 0xF);
         return;
     }
-    d -= HIWORD(p->Xpos);
-    if (d < 0) d = -d;
-    d -= 8;
-    if (d > 0x10) d = 0x10;
-    if (d < 0) d = 0;
-    d >>= 2;
+    x -= HIWORD(p->Xpos);
+    if (x < 0) x = -x;
+    x -= 8;
+    if (x > 0x10) x = 0x10;
+    if (x < 0) x = 0;
+    x >>= 2;
     ay = ABS(HIWORD(p->Ypos));
-    if (y2 < 0) y2 = -y2;
-    if (y2 > ay) d += 4;
+    if (y < 0) y = -y;
+    if (y > ay) x += 4;
     if (ok && (p->puckdist > 0x19 || ABS(*pucky) > 0xE8)
-        && ((unsigned short)pc[1] >= d + 0xC || ABS(*pucky) > 0xE9)) {
+        && ((unsigned short)pc[1] >= x + 0xC || ABS(*pucky) > 0xE9)) {
         regd0.w = pc[0];
         if (ABS(*pucky) > 0xDC) regd0.w = *puckx > 0 ? 0x18 : -0x18;
         goto move;
