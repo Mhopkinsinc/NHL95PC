@@ -375,7 +375,7 @@ SwapInt,42F19,41,034_41B80_schedule,src/c/034_41B80_schedule/SwapInt.c,matched,,
 UpdatePlayoffSeries,41F64,671,034_41B80_schedule,src/c/034_41B80_schedule/UpdatePlayoffSeries.c,matched,,
 UpdateSeasonSchedule,41CC4,672,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,matched,"draft: 672 vs 672 (best of 5). The frame, opens, database loads, the 0/1 playoff test and both calls match. ext is in ebp and err in esi (original esi and ebp), so careerdb reloads through that freed register instead of edi. Do not retry an int or char* copy of ext (homes swap, ext stays in ebp), making err a pointer (655), or folding play into the if.",
 BuildPlayoffs,428AB,783,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,matched,,
-SortStandings,42DAA,367,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,nonmatching,"draft (UpdateSeasonSchedule.c): 365 vs 367, temp allocation. See UNSURE.",register 29/55
+SortStandings,42DAA,367,034_41B80_schedule,src/c/034_41B80_schedule/UpdateSeasonSchedule.c,matched,"draft (UpdateSeasonSchedule.c): 365 vs 367, temp allocation. See UNSURE.",
 LoadScreenPalTick,47951,152,035_45282_options_settings,src/c/035_45282_options_settings/LoadScreenPalTick.c,matched,,
 RandMod,45282,36,035_45282_options_settings,src/c/035_45282_options_settings/RandMod.c,matched,,
 ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_settings/ShowLoadingScreen.c,nonmatching,,register 27/37
@@ -782,7 +782,7 @@ SetRosterTeamMenus,7183D,292,052_6D2F8_create_player,src/c/052_6D2F8_create_play
 ShellSortBytes,6D7ED,173,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShellSortBytes.c,matched,,
 LoadRosterList LoadBothRosterLists,6DE7E,136,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShellSortBytes.c,matched,,
 ShowDBError,6ED39,86,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ShowDBError.c,matched,,
-SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SplitPlayerName.c,nonmatching,"same 323. stop/first/last match at esp+0/+4/+8 as one struct. Name is in edi (original ecx), so the copy count stays in ebx (original edx). Do not retry an aux that forces ecx.",register 35/35
+SplitPlayerName,6F159,323,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SplitPlayerName.c,matched,"same 323. stop/first/last match at esp+0/+4/+8 as one struct. Name is in edi (original ecx), so the copy count stays in ebx (original edx). Do not retry an aux that forces ecx.",
 SwapSelectedPlayers,71333,861,052_6D2F8_create_player,src/c/052_6D2F8_create_player/SwapSelectedPlayers.c,nonmatching,,register 35/45
 DbDialogHitTest,72A5C,82,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DbDialogHitTest.c,matched,,
 DrawDbDialogButtons,72605,464,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/DrawDbDialogButtons.c,matched,,
