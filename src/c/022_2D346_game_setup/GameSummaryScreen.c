@@ -1,6 +1,6 @@
 /* Game setup: the game summary pages (scoring, penalties, extras, other games). */
-/* DRAFT under Watcom 10.0 GA: 571 differing instructions, exact 8,023-byte size.
-   The frame follows the retail stack slots; early register choices and later branches still differ. */
+/* DRAFT under Watcom 10.0 GA: 320 differing instructions, 7,967 vs 8,023 bytes.
+   Later loop and menu-page register choices remain. */
 #define GameSummaryScreen GameSummaryScreen_decl
 #define ReadGSummaryRec ReadGSummaryRec_decl
 #define sub_913D0 sub_913D0_decl
@@ -67,9 +67,9 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
         unsigned char pad_gsum;
         unsigned char *linetab[2];
         int seasonfh[2];
-        int teamfh;
         int gsumfh;
         int dbfh;
+        int teamfh;
         void *smp;
         int nev;
         int newperiod;
@@ -117,15 +117,23 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
         unsigned char pad_pcount[3];
     } f;
     int homeScore;
-    int k, bank, crest, side, y, j, n, d10, d100;
+    int k;
+    int bank;
+    int crest;
+    int side;
+    int y;
+    int j;
+    int n;
+    int d10;
+    int d100;
     unsigned char *ev;
 
     f.first = first;
     f.last = last;
-    f.dbfh = -1;
-    f.gsumfh = -1;
-    *(struct SummaryHandles *)f.seasonfh = *(struct SummaryHandles *)gsuminitff;
     f.teamfh = -1;
+    f.dbfh = -1;
+    *(struct SummaryHandles *)f.seasonfh = *(struct SummaryHandles *)gsuminitff;
+    f.gsumfh = -1;
     sub_1BAF3(700000);
     if (musicon && songdata) {
         sub_8FCDF(musichandle, 3, 0x4B);
@@ -136,7 +144,7 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
     ClearInputQueue();
     f.i = 0;
     do {
-        for (side = 0; side < 0x19; side++) f.pgoals[f.i][side] = 0;
+        for (side = 0; side < 0x19; side++) ((signed char *)f.pgoals)[f.i + ((f.i << 2) - f.i) * 8 + side] = 0;
         f.i++;
     } while (f.i < 2);
     f.prds = 0;
@@ -150,10 +158,13 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
     f.sayperiod = -1;
     f.period = f.first;
     f.pcount = 0;
-    for (f.i = 0; f.i < 2; f.i++) {
-        f.shots[f.i] = 0;
-        f.score[f.i] = 0;
-    }
+    f.i = 0;
+    do {
+        n = f.i;
+        f.shots[n] = 0;
+        f.score[n] = 0;
+        f.i = n + 1;
+    } while (f.i < 2);
     sub_B4BA8();
     sub_8E9E8(f.state);
     MakePath(f.name, fileoncd[0x21A] == 1 ? (char *)cddriveptr : 0, (char *)str_Indus0302, (char *)str_VFN);
@@ -180,31 +191,31 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
 
     /* The background, its palette and the title art of the mode. */
     MakePath(f.path, fileoncd[0x58] == 1 ? (char *)cddriveptr : 0, (char *)str_Ctbkgd2, 0);
-    f.bkbank = sub_8E83C(f.path, 0);
-    f.bkgd = sub_B30B4(f.bkbank, (char *)str_Bkgd5);
-    f.pal = (unsigned char *)sub_B30B4(f.bkbank, (char *)str_Pal13) + 0x10;
+    f.bkbank = bank = sub_8E83C(f.path, 0);
+    f.bkgd = sub_B30B4(bank, (char *)str_Bkgd5);
+    f.pal = (unsigned char *)sub_B30B4(bank, (char *)str_Pal13) + 0x10;
     if (mode & 3) {
         MakePath(f.path, fileoncd[0x5B] == 1 ? (char *)cddriveptr : 0, (char *)str_Cttitle2, 0);
-        f.titlebank = sub_8E83C(f.path, 0);
-        f.gad[8] = sub_B30B4(f.titlebank, (char *)str_Summ2);
-        f.gad[2] = sub_B30B4(f.titlebank, (char *)str_OtShape);
-        f.gad[4] = sub_B30B4(f.titlebank, (char *)str_Per1);
-        f.gad[5] = sub_B30B4(f.titlebank, (char *)str_Per2);
-        f.gad[6] = sub_B30B4(f.titlebank, (char *)str_Per3);
-        f.gad[10] = sub_B30B4(f.titlebank, (char *)str_Top2);
+        f.titlebank = bank = sub_8E83C(f.path, 0);
+        f.gad[8] = sub_B30B4(bank, (char *)str_Summ2);
+        f.gad[2] = sub_B30B4(bank, (char *)str_OtShape);
+        f.gad[4] = sub_B30B4(bank, (char *)str_Per1);
+        f.gad[5] = sub_B30B4(bank, (char *)str_Per2);
+        f.gad[6] = sub_B30B4(bank, (char *)str_Per3);
+        f.gad[10] = sub_B30B4(bank, (char *)str_Top2);
     } else if (mode & 0x1C) {
         MakePath(f.path, fileoncd[0x5A] == 1 ? (char *)cddriveptr : 0, (char *)str_Cttitle12, 0);
-        f.titlebank = sub_8E83C(f.path, 0);
-        f.gad[0] = sub_B30B4(f.titlebank, (char *)str_Def2);
-        f.gad[1] = sub_B30B4(f.titlebank, (char *)str_Fowa2);
-        f.gad[7] = sub_B30B4(f.titlebank, (char *)str_Scra2);
-        f.gad[9] = sub_B30B4(f.titlebank, (char *)str_Tlu2);
-        f.gad[10] = sub_B30B4(f.titlebank, (char *)str_Top2);
+        f.titlebank = bank = sub_8E83C(f.path, 0);
+        f.gad[0] = sub_B30B4(bank, (char *)str_Def2);
+        f.gad[1] = sub_B30B4(bank, (char *)str_Fowa2);
+        f.gad[7] = sub_B30B4(bank, (char *)str_Scra2);
+        f.gad[9] = sub_B30B4(bank, (char *)str_Tlu2);
+        f.gad[10] = sub_B30B4(bank, (char *)str_Top2);
     } else if (mode & 0x20) {
         MakePath(f.path, fileoncd[0x5C] == 1 ? (char *)cddriveptr : 0, (char *)str_Cttitle3, 0);
-        f.titlebank = sub_8E83C(f.path, 0);
-        f.gad[3] = sub_B30B4(f.titlebank, (char *)str_Ots);
-        f.gad[11] = sub_B30B4(f.titlebank, (char *)str_Colm);
+        f.titlebank = bank = sub_8E83C(f.path, 0);
+        f.gad[3] = sub_B30B4(bank, (char *)str_Ots);
+        f.gad[11] = sub_B30B4(bank, (char *)str_Colm);
     }
     SetTextColors(0x40, 0);
 
@@ -278,7 +289,7 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
             f.period = otherperiod[f.i];
             homeScore = otherscores[f.i * 2];
             f.score[0] = homeScore;
-            f.score[1] = otherscoresb[f.i * 2];
+            f.score[1] = otherscoresb[(f.i + f.i)];
             if (!f.err) {
                 MakePath(f.name, (char *)&curleague, (char *)leaguedbnames[4], (char *)str_extDB);
                 f.err = FileOpenRead(f.name, &f.teamfh);
@@ -337,7 +348,7 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
                     if (!f.err) {
                         FitPlayerName(f.name, 0, f.keyrec + 0x13, 200);
                         PrintShadowText(0xB4, y, f.name);
-                        if (hmroster[side * 0x444 + k * 0x27] == 1) PrintShadowText(0x226, y, (char *)str_Injured2);
+                        if (hmroster[k * 0x27 + side * 0x444] == 1) PrintShadowText(0x226, y, (char *)str_Injured2);
                     }
                     y += byte_D42C3 + 0xE;
                 }
@@ -350,18 +361,19 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
 
     if (f.done != -1) {
         /* Keep the records the mode shows (and every end of f.period), count the periods and the f.goals. */
-        f.evbuf = (unsigned char *)sub_8CCA8((char *)str_EVNT, f.nev * 11 + 1, 0x20);
+        f.evbuf = (unsigned char *)sub_8CCA8((char *)str_EVNT, ((f.nev * 4 - f.nev) * 4 - f.nev) + 1, 0x20);
         f.nshown = 0;
         f.i = 0;
         f.nperiods = 0;
         f.goals[0] = 0;
         f.goals[1] = 0;
         do {
-            f.err = ReadGSummaryRec(f.gsumfh, f.evbuf + f.nshown * 11, f.i);
-            if ((f.evbuf[f.nshown * 11] == 1 && (mode & 1)) || (f.evbuf[f.nshown * 11] == 2 && (mode & 2))
-                || (f.evbuf[f.nshown * 11] == 4 && (mode & 3))) {
-                if (f.evbuf[f.nshown * 11] == 4) f.nperiods++;
-                if (f.evbuf[f.nshown * 11] == 1) f.goals[f.evbuf[f.nshown * 11 + 1]]++;
+            ev = f.evbuf + ((f.nshown * 4 - f.nshown) * 4 - f.nshown);
+            f.err = ReadGSummaryRec(f.gsumfh, ev, f.i);
+            if ((ev[0] == 1 && (mode & 1)) || (f.evbuf[((f.nshown * 4 - f.nshown) * 4 - f.nshown)] == 2 && (mode & 2))
+                || (f.evbuf[((f.nshown * 4 - f.nshown) * 4 - f.nshown)] == 4 && (mode & 3))) {
+                if (f.evbuf[((f.nshown * 4 - f.nshown) * 4 - f.nshown)] == 4) f.nperiods++;
+                if (f.evbuf[((f.nshown * 4 - f.nshown) * 4 - f.nshown)] == 1) f.goals[f.evbuf[((f.nshown * 4 - f.nshown) * 4 - f.nshown) + 1]]++;
                 f.nshown++;
             }
             f.i++;
@@ -373,8 +385,8 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
         f.fadein = 1;
         f.newperiod = 0;
         do {
-            if (f.evbuf[f.i * 11] == 4) {
-                f.prds[j] = f.evbuf + f.i * 11 + 1;
+            if (f.evbuf[((f.i * 4 - f.i) * 4 - f.i)] == 4) {
+                f.prds[j] = f.evbuf + ((f.i * 4 - f.i) * 4 - f.i) + 1;
                 j++;
             }
             f.i++;
@@ -388,12 +400,11 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
                 DrawGadgetByType(mode, f.first, (int)f.pal, f.gad, f.nperiods, (int)f.goals);
             }
         }
-        f.i = 0;
-        f.scored = 0;
+        f.i = f.scored = 0;
         f.penalties = 0;
         while (!f.err && !f.done && f.i < f.nshown && f.key < 2) {
             sub_B4BC4(0, 0x280, 0, 0x1E0);
-            ev = f.evbuf + f.i * 11;
+            ev = f.evbuf + ((f.i * 4 - f.i) * 4 - f.i);
             switch (*ev++) {
             case 1:
                 /* A goal: side, scorer, assists (FFh none), flags (2 SH, 4 PP), f.period, minutes, seconds. */
@@ -522,7 +533,7 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
                         }
                     }
                     f.i = j;
-                    if (f.evbuf[f.i * 11] == 4) {
+                    if (f.evbuf[((f.i * 4 - f.i) * 4 - f.i)] == 4) {
                         f.periodend = -1;
                         f.i++;
                     }
@@ -531,7 +542,7 @@ int GameSummaryScreen(int mode, unsigned char first, unsigned char last, int unu
                     PrintShadowText((500 - fputchar((char *)str_NoScoring)) / 2 + 0x8C, 0x10B, (char *)str_NoScoring);
                 if (!f.penalties && (mode & 2))
                     PrintShadowText((500 - fputchar((char *)str_NoPenalties)) / 2 + 0x8C, 0x10B, (char *)str_NoPenalties);
-                if (f.period == f.last && (f.i == f.nshown || f.evbuf[f.i * 11] == 4)) f.done = -1;
+                if (f.period == f.last && (f.i == f.nshown || f.evbuf[((f.i * 4 - f.i) * 4 - f.i)] == 4)) f.done = -1;
                 if (f.periodend) {
                     if (f.period < 5) f.sayperiod = -1;
                     f.newperiod = 1;
