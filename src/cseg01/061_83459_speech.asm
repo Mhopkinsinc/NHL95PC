@@ -943,6 +943,10 @@ pop edx	; 83EA9
 pop ebx	; 83EAA
 ret	; 83EAB
 %endif ; C
+; C: src/c/061_83459_speech/FindLoadedSpeechSlot.c
+%ifdef CBUILD
+%include "c/061_83459_speech/FindLoadedSpeechSlot.inc"
+%else
 FindLoadedSpeechSlot:
 push dword 0Ch	; 83EAC
 call __CHK	; 83EB1
@@ -972,6 +976,7 @@ mov eax, 0FFFFFFFFh	; 83EE3
 pop edx	; 83EE8
 pop ebx	; 83EE9
 ret	; 83EEA
+%endif ; C
 ; C: src/c/061_83459_speech/FindSpeechSlot.c
 %ifdef CBUILD
 %include "c/061_83459_speech/FindSpeechSlot.inc"
