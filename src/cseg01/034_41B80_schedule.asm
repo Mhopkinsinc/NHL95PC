@@ -2297,6 +2297,10 @@ pop ebp	; 43751
 pop edi	; 43752
 pop esi	; 43753
 ret 4	; 43754
+; C: src/c/034_41B80_schedule/SimPlayoffRound1.c (SeedPlayoffRound2)
+%ifdef CBUILD
+%include "c/034_41B80_schedule/SimPlayoffRound1.SeedPlayoffRound2.inc"
+%else
 SeedPlayoffRound2:
 push dword 618h	; 43757
 call __CHK	; 4375C
@@ -2823,6 +2827,7 @@ xor eax, eax	; 43E33
 .47:
 add esp, 608h	; 43E35
 jmp near SimPlayoffRound1_pop3	; 43E3B
+%endif ; C
 SimPlayoffRound2:
 push dword 94h	; 43E40
 call __CHK	; 43E45

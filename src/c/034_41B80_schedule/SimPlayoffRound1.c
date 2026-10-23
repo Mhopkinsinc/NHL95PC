@@ -183,11 +183,13 @@ int SeedPlayoffRound2(int buf, int games, int fh, int tm, int *human)
     for (i = 0; i < games; i++) {
         NormalizeDate(&month, &day);
         s[(i + 0x46) * 6] = s[(i + 0x4D) * 6] = month;
-        s[(i + 0x46) * 6 + 1] = s[(i + 0x4D) * 6 + 1] = day;
+        s[(i + 0x4D) * 6 + 1] = day;
+        s[(i + 0x46) * 6 + 1] = day;
         day++;
         NormalizeDate(&month, &day);
         s[(i + 0x38) * 6] = s[(i + 0x3F) * 6] = month;
-        s[(i + 0x38) * 6 + 1] = s[(i + 0x3F) * 6 + 1] = day;
+        s[(i + 0x3F) * 6 + 1] = day;
+        s[(i + 0x38) * 6 + 1] = day;
         day++;
     }
     __STOSD(w, -1, 8);
