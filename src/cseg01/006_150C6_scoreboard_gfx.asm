@@ -1178,6 +1178,10 @@ pop ecx	; 15D68
 pop ebx	; 15D69
 ret	; 15D6A
 %endif ; C
+; C: src/c/006_150C6_scoreboard_gfx/RunDemoGame.c
+%ifdef CBUILD
+%include "c/006_150C6_scoreboard_gfx/RunDemoGame.inc"
+%else
 RunDemoGame:
 push dword 94h	; 15D6B
 call __CHK	; 15D70
@@ -1347,6 +1351,7 @@ pop edx	; 16008
 pop ecx	; 16009
 pop ebx	; 1600A
 ret	; 1600B
+%endif ; C
 ; C: src/c/006_150C6_scoreboard_gfx/AnyInputPressed.c
 %ifdef CBUILD
 %include "c/006_150C6_scoreboard_gfx/AnyInputPressed.inc"

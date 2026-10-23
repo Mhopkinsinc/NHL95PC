@@ -131,8 +131,12 @@ int RunDemoGame(void)
         *(int *)(exhstate + 0x55) = 0x1A;
     } else if (demoteammode == 1) {
         team = randomd0(0x11);
-        *(int *)(exhstate + 0x51) = *(int *)((char *)dword_C5861 + team * 2) >> 24;
-        *(int *)(exhstate + 0x55) = *(int *)((char *)dword_C5862 + team * 2) >> 24;
+        one = *(int *)((char *)dword_C5861 + team * 2);
+        one >>= 24;
+        *(int *)(exhstate + 0x51) = one;
+        one = *(int *)((char *)dword_C5862 + team * 2);
+        one >>= 24;
+        *(int *)(exhstate + 0x55) = one;
     } else {
         team = rand() % 0x1A;
         *(int *)(exhstate + 0x51) = team;
