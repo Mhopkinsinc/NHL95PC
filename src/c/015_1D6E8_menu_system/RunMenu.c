@@ -635,7 +635,8 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                         s.sel[i] = 0;
                         if (s.bg[i]) {
                             sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
-                            s.pos[i][0] = s.pos[i][1] = 0;
+                            s.pos[i][1] = 0;
+                            s.pos[i][0] = 0;
                             FreeMemBlock(s.bg[i]);
                             s.bg[i] = 0;
                             s.menus[i] = 0;
