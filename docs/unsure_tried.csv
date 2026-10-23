@@ -1848,3 +1848,70 @@ checkwallcoll,,"an int n (block or top, any position, 45-54) or dist / ry0 for t
 checkwallcoll,,the ternary forms (38-42),38-42,ga
 checkwallcoll,,every neutral (short / int) cast on one line (15),15,ga
 checkwallcoll,,"permute twice (11 and 4 only with value-changing (unsigned char) / char casts, not kept)",,ga
+LoadTeamRoster,,"(2026-10-23): byte-address DB indexing, success arm first, roster offset instead of a persistent pointer, recompute mode-arm offset, corrected record pointers (38h/C4h/6Ch, goalie 38h/D8h/0 and fourth arg 0), lineup high-word offset, EC-byte buffer, stats index /4 removed",,ga
+LoadTeamRoster,,"513 all-family permutations (best 129 rejected: truncates mode and roster offset), reverted unsafe casts and their dependent changes",,ga
+LoadTeamRoster,,"382 permutations excluding cast/paramtype/rettype, kept zero-store chain, dead base reused for goalie index, explicit goalie loop labels and separate goalie-index sum. Full attempts: permlog_h3.csv",,ga
+MainDeskLoop,,(2026-10-23): ascending menu/bg/sel zero chains and pos order (293),293,ga
+MainDeskLoop,,"plain ptr (297), oldmx/oldmy (321), ptr/oldmx/oldmy (297), w/h (325), depth (185), ptr/oldmx/oldmy/depth (134)",134,ga
+MainDeskLoop,,321 safe-family permutations (kept split zero-store chain and depth update before menu pointer,,ga
+MainDeskLoop,,rejected oldmx last-assignment split because its next-loop use still needs the old variable),,ga
+MainDeskLoop,,drop unused at field (105 final),105 final,ga
+MainDeskLoop,,all 24 tail-scalar declaration orders on the split candidate (unchanged). Full attempts: permlog_h3.csv,,ga
+RunMenu,,"(2026-10-23): plain ptr, depth, ptr/depth, ptr/oldmx/oldmy[/depth], h/w with/without unused at (311-378)",311-378,ga
+RunMenu,,allocation size in a local and init-only pointer/position copies (313-707),313-707,ga
+RunMenu,,"plain seven trailing scalars with size local (287, retained), all eleven scalars (731-740, GA retry justified by original pointer/x/y register reuse), reread depth instead of cached i (no change)",no change,ga
+RunMenu,,"129 permutations excluding narrowing casts, return/parameter types and loop-variable splits, kept separate zero stores and dropdown close do/while (hit level is within depth). Full attempts: permlog_h3.csv",,ga
+LoadGameState,,"(2026-10-23): separate stats pointer as struct member (532), volatile (530), ordinary short* (532), char*/int address/byte offset (492 on original base), advance pointer before struct copy via a saved pointer (490), typed Rec16* postincrement and struct member postincrement (525)",525,ga
+LoadGameState,,"corrected __STOSD plus pad1dev[0] (490), added __STOSB with/without explicit modify [eax edx ecx] (488, convention-only pragma retained)","488, convention-only pragma retained",ga
+LoadGameState,,129 safe-family permutations (no improvement). Full attempts: permlog_h3.csv,,ga
+RunTeamPickMenu,,"(2026-10-23): plain ptr (1023-1025), ptr/oldmx/oldmy/depth (785-787), trailing h/w/ptr/oldmx/oldmy/depth/hit with size temp (402), hit left in frame (427), cur/pick also plain (446)",446,ga
+RunTeamPickMenu,,129 safe-family permutations (rejected while->do input loop because e would be uninitialized,,ga
+RunTeamPickMenu,,retained block-scoped bits),,ga
+RunTeamPickMenu,,"module-local statsteambuf pointer declaration (361 valid), inverted highlight ternary (505 on earlier candidate), explicit x=0;if>=2 (304), x=140h;if<2 (300 retained). Full attempts: permlog_h3.csv",,ga
+SimulateGame,,"(2026-10-23): allocation loop increment in body (650/35), separate side local (644/37), bottom-test ++i (644/37), short-cast index (658/58)",658/58,ga
+SimulateGame,,"193 scope/expression permutations gave batched 589 with integer score-pointer temp plus dline declaration move, but fresh compilation was 637/61, rejected as advertised",,ga
+SimulateGame,,"explicit signed/unsigned address casts or pointer temp (637/61), dline move alone (643/42), pointer temp without declaration move (624/61, retained as typed homeScore). Full attempts: permlog_h3.csv",,ga
+RunPlayerPickMenu,,"(2026-10-23): plain ptr (692-694), plain ptr/oldmx/oldmy/cur/depth (1318-1320), trailing scalar sets with/without cur and size temp (656-665, larger size gaps), every scalar plain (656-667)",656-667,ga
+RunPlayerPickMenu,,"k scoped in each search loop (753/406), one record pointer (677/431), inlined k (1338/234), integer address sums (657/397)",657/397,ga
+RunPlayerPickMenu,,"omit each earlier menu / both in scratch module experiments (656-658, same biased frame)","656-658, same biased frame",ga
+RunPlayerPickMenu,,"all fields flat / reverse array declarations (667/395), arrays flat with scalar struct (1282/407)",1282/407,ga
+RunPlayerPickMenu,,"129 scope/expression permutations, retained split dropdown zero chain (649/394). No narrowing, unsafe input-loop transform or asm hack retained. Full attempts: permlog_h3.csv",,ga
+GameSummaryScreen,,"(2026-10-23): team initializer after season array (813/140), per-module implicit PaOpenBank (812/140), both (813/140)",813/140,ga
+GameSummaryScreen,,"slot_solver found 209 mismatches but generated no moves on this declaration layout. Full retail frame with ev member (624/178), frame with ev ordinary local and original word-sized byte slots (607/11, retained), split frame into two aggregates (607/11), into three (669/56)",669/56,ga
+GameSummaryScreen,,initial clear as do/while with j/k/bank/crest/side/y/n/d10/d100 counters,,ga
+GameSummaryScreen,,"with/without named nexti (597-638, gap 1-10), retained side/do (597/5). 129 expression permutations: doubled i index as i+i, home-score byte through an int local (571/0, retained). gsuminitff is declared as data and copied as a struct, following C_MATCHING's data-template pattern",,ga
+GameSummaryScreen,,no asm hack. Full attempts: permlog_h3.csv and h3_summary_loop.results,,ga
+EditTextField,,"(2026-10-23): bottom-poll goto loop, top/bottom while/do polling, explicit synthesized key=0, key/!key handler/blink arm orders, nested idle while (LA retry justified by GA loop/frame diff), int/unsigned-short ins and int/short was combinations, repeated bit-1 filter, call/assignment order (restored original). One bounded permute (513 candidates) over type, swapdecl, movedecl, scope, swapstmt, commute, cmpflip, incdec, zero, chain, ternary, temp, ifswap, forchain, lvinline, inplace, swap, opassign, mulshift, shiftstmt, loop, temps",,ga
+EditTextField,,details in permlog_i3.csv. Both builds MATCH,,ga
+EditTextField,,committed immediately,,ga
+PostGameToTeamDb,,"(2026-10-23): frame fields sideofs/rec/i/res+score/all non-address-taken scalars as plain locals, st scoped per loop, reversed declarations, signed goalie records, cached home score, explicit points sum, inverse-side local, cached team-stat pointer / short-array view, dead k reused for stat addresses and separate stataddr, narrow home-score sum, explicit short adds. Kept cached team stats and dead-local address reuse",,ga
+PostGameToTeamDb,,"one bounded permute (449 candidates) over declaration/scope, commute/comparison, incdec/zero/chain/ternary/temp/ifswap/forchain/inplace/lvinline, expression swap/opassign/mulshift/shiftstmt, loop, temps. Kept split scratch/goalie slots, do loops and explicit goalie-average branches. Per-candidate shapes in permlog_i3.csv. Both builds MATCH",,ga
+PostGameToTeamDb,,committed immediately,,ga
+EditRosters,,(2026-10-23): bits/at/depth individually and in combinations as ordinary locals,,ga
+EditRosters,,plus old coordinates/item/level,,ga
+EditRosters,,"separate button result, named/reused song argument, event in dead bar parameter, scoped menu pointer (compile failure), first button bits cached through k/i/new bits. Kept plain bits/depth/at. One bounded permute (385 candidates), same non-type/non-cast families as avdgoal",,ga
+EditRosters,,"kept bottom-tested cleanup, explicit coordinate clear chain and width shift. REJECTED split:depth:5:last: it incorrectly split a loop-carried reset into a dead new local",,ga
+EditRosters,,"restored shared depth, raising the invalid 230 result to valid 254. Per-candidate shapes in permlog_i3.csv (230 is invalid). Both builds MATCH after restoring depth",,ga
+EditRosters,,committed immediately,,ga
+GameLineEditorLoop,,"(2026-10-23): ordered/reverse array frame, full frame with byte parameter homed explicitly and real item-offset member (all worse)",all worse,ga
+GameLineEditorLoop,,plain-array inferred/reverse/current order with pointer vs byte-offset callback tests,,ga
+GameLineEditorLoop,,"all 240 orders of five equal-sized arrays with both buf/pos orders. Kept byte-offset callback tests and source arrays nums,buf,pos,path,menus,bg,sel,nitems (best 220). A three-round slot_solver search was stopped after about six minutes in its first scoring round without writing a candidate",,ga
+GameLineEditorLoop,,no permute.py runs. Both builds MATCH,,ga
+GameLineEditorLoop,,committed immediately,,ga
+DbLineEditorLoop,,(2026-10-23): inferred/reversed/original arrays with pointer vs byte-offset callback tests and product through r/w/k,,ga
+DbLineEditorLoop,,"then all 144 equal-size array orders (three 32-byte arrays, four 16-byte arrays) using explicit callback offsets and product through r. Kept source arrays nums,path,buf,pos,menus,sel,bg,nitems. Full-frame candidates were prepared from the EXE offsets but not compiled, so no conclusions about those. No permute.py runs. Both builds MATCH",,ga
+DbLineEditorLoop,,committed immediately,,ga
+LeadersScreen,,"(2026-10-23): int/short y, int/unsigned-short gp, shared skater/goalie pointer, signed-short y+gp",,ga
+LeadersScreen,,one category switch after common columns,,ga
+LeadersScreen,,"with/without explicit empty cases 0-2, int/short y. Kept the single switch, int y, explicit 0-2 cases and original displayed-row read length 27h. Inverted recsz/team-GP conditional arms",,ga
+LeadersScreen,,"restored the EXE's actual conditional zero-to-zero teamgp store (literal 0 vs statsfromleague, kept literal). One bounded permute (321 candidates), declaration/scope and non-type/non-cast families excluding temps",,ga
+LeadersScreen,,"kept fh/i declaration moves, explicit playoff g assignment and less-than-1000-first percentage formatting. Per-candidate shapes in permlog_i3.csv. Both builds MATCH",,ga
+LeadersScreen,,committed immediately,,ga
+SportsDesk,,"(2026-10-23): path20/exact frame order/at member, scalar declarations before/after frame, replay ternary vs separate stores, depth / speech+timeout+autoret / all scalar fields as locals, bank/result reuse, direct callback tests, register vs cdecl TicksSinceLastCall (no change), palette memcpy (worse), palette pointer advanced before byte loop, pointer product through ptrsize, action result reusing dead btn, ptr/speech/btn/timeout as locals with/without retained frame copies",,ga
+SportsDesk,,"split on1/on2 branches with/without m refresh (worse). Corrected initial generated plain-speech candidates' accidental gameopts.speech token change before scoring. One bounded permute (385 candidates) over declaration/scope and non-type/non-cast families excluding temps, best 663",,ga
+SportsDesk,,"retained only separate scroll clears from it. Confirmed original 19B0A cmp ebx,TicksSinceLastCall / jbe: tried naked function, void-pointer and unsigned-address comparisons (identical), ordinary call/clamp, top vs bottom timer block with initial jump",,ga
+SportsDesk,,with/without movement cancellation,,ga
+SportsDesk,,"bottom placement worsens current layout. Kept unsigned-address comparison (retail quirk), positive-value else zero, original pointer byte loop, movement cancellation replacing extra sub_B4BA8",,ga
+SportsDesk,,valid combined score 649. Rejected mixed partial do-loop combinations that do not compile,,ga
+SportsDesk,,no such loop retained. Both builds MATCH,,ga
+SportsDesk,,committed immediately,,ga
