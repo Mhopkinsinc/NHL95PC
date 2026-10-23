@@ -1847,6 +1847,10 @@ pop esi	; 658EF
 pop ecx	; 658F0
 pop ebx	; 658F1
 ret	; 658F2
+; C: src/c/046_644A8_engine_display/BuildDefaultLines.c (SetupTeamLines)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/BuildDefaultLines.SetupTeamLines.inc"
+%else
 SetupTeamLines:
 push dword 1Ch	; 658F3
 call __CHK	; 658F8
@@ -2061,6 +2065,7 @@ inc ecx	; 65B3C
 cmp cx, byte 19h	; 65B3D
 jl short SetupTeamLines.23	; 65B41
 jmp near lines_popx	; 65B43
+%endif ; C
 ; C: src/c/046_644A8_engine_display/NormalizeDressFlags.c
 %ifdef CBUILD
 %include "c/046_644A8_engine_display/NormalizeDressFlags.inc"
