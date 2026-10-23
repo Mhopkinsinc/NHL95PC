@@ -7335,6 +7335,10 @@ cmp word [byte ebx+010h], byte 0	; 58B69
 jle near dopass_ret6	; 58B6E
 mov word [byte ebx+010h], 0	; 58B74
 jmp near dopass_ret6	; 58B7A
+; C: src/c/040_53294_engine_physics_ai/wallcollb.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/wallcollb.inc"
+%else
 wallcollb:
 push dword 14h	; 58B7F
 call __CHK	; 58B84
@@ -7447,6 +7451,7 @@ pop edx	; 58CDE
 pop ecx	; 58CDF
 pop ebx	; 58CE0
 ret	; 58CE1
+%endif ; C
 checkplcoll:
 push dword 18h	; 58CE2
 call __CHK	; 58CE7
