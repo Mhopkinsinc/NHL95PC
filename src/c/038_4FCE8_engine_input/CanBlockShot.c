@@ -12,9 +12,10 @@
    DRAFT (10.0 GA, 76 -> 60 differing): the same-team test written `(*puckc < 6) == (p->SCnum < 6)` gives the
    EXE's `cmp eax, edx` / `xor eax, edx` return; the |pucky| range test computed once; the last test inverted
    so the shared `return 0` sits at the bottom (every early exit jumps there, as in the EXE); `(int)puckcross[]`
-   for the load / sar compare; the goalie index through k (add 0Ch before the shift). Left: s in ax (EXE bx),
-   the pflags byte loaded into bh, side spilled and g in ebp (EXE side in ebp, g at [esp+0Ch]), and the SPA
-   read (`q = &SortCords[k]; spa = q->SPA` gives the EXE's separate add of SortCords, but scores worse).
+   for the load / sar compare; the goalie index through k (add 0Ch before the shift); |pucky| in e and the
+   goalie distance in the dead side (side in ebp, g on the stack, as in the EXE; 42 differing). Left: s in ax
+   (EXE bx), the pflags byte loaded into bh, the closing registers (EXE d in ebx, b in ebp), and the SPA read
+   (`q = &SortCords[k]; spa = q->SPA` gives the EXE's separate add of SortCords, but scores worse).
    Kept as the owner of the CanBlockShot_ret5 / _ret6 exits. */
 int CanBlockShot(Player *p)
 {
@@ -23,7 +24,6 @@ int CanBlockShot(Player *p)
     int dir;
     int side;
     int y;
-    int d;
     int a;
     int b;
     int e;
@@ -34,8 +34,8 @@ int CanBlockShot(Player *p)
 
     if (*puckc >= 0 && (*puckc < 6) == (p->SCnum < 6)) return 0;
     s = *pucky;
-    d = s < 0 ? -s : s;
-    if (d > 0xE8 || d < 0x4E) return 0;
+    e = s < 0 ? -s : s;
+    if (e > 0xE8 || e < 0x4E) return 0;
     if (p->puckdist > 0x50) return 0;
     side = (p->pflags & pfgoal) != 0;
     k = ((p->pflags & pfgoal) != 0) + 12;
@@ -63,7 +63,7 @@ int CanBlockShot(Player *p)
     }
     dx = HIWORD(p->Xpos) - HIWORD(g->Xpos);
     y -= HIWORD(g->Ypos);
-    d = vecdist(dx, y);
+    side = vecdist(dx, y);
     a = vtoa((short)dx, (short)y);
     if (!(p->pflags & pfjoy)) {
         if (a == 2 || a == 6) return 0;
@@ -78,9 +78,9 @@ int CanBlockShot(Player *p)
         if (p->pflags & pfjoy) return 0;
         if (b < 1 || a < 1 || b > 3 || a > 3) return 0;
     }
-    if (d >= dist) return 0;
-    d += p->puckdist;
-    if (d < dist * 2) {
+    if (side >= dist) return 0;
+    side += p->puckdist;
+    if (side < dist + dist) {
         if (b == 2 && a == b) return 10;
         ((short *)p)[0x25] = dir;
         return a + 1;
