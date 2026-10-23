@@ -459,7 +459,10 @@ void StartThreeStars(void)
     else sub_8F633();
 }
 
-/* DRAFT: 1,043 vs 1,056 bytes, 145 lines (the team / player reads and the roster offsets); see docs/UNSURE.md. */
+/* DRAFT: same size under 10.0 GA, 56 differing: the EXE builds the roster pointer in eax (lea) and spills
+   roster + 7 to a frame slot (sub esp, 4) for FormatPlayerName; this adds it in ecx and keeps it there. The
+   team abbreviation index goes through w first, so the jersey is recomputed after FormatPlayerName as in the
+   EXE. See docs/UNSURE.md. */
 /* assthreestars (495B8, PC only; ends in PreGameIntro_popebp): asstab 15h, the referee's part in the three stars.
    Wait while the overlay runs its first 10h ticks or its 258h-267h stretch. A new assignment (bit 1): "EA Sports"
    on the third text line, the third star first (temp1 2), a pause of 14h-27h ticks (DCh more with speech and music
@@ -473,9 +476,9 @@ void StartThreeStars(void)
 void assthreestars(Player *p)
 {
     Player *q;
-    short tm;
-    short pl;
-    int w;
+    int tm;
+    int pl;
+    short w;
 
     if (ovltimer != -1 && (ovltimer < 0x10 || ovltimer >= 0x258 && ovltimer < 0x268)) return;
     if (p->pflags & 2) {
@@ -492,7 +495,8 @@ void assthreestars(Player *p)
         FormatPlayerName((char *)&textline2, (char *)hmteamrec + tm * 0x2E8, hmrosterjersey[tm * 0x444 + pl * 39],
             (char *)hmroster + tm * 0x444 + pl * 39 + 7, (char *)hmroster + tm * 0x444 + pl * 39 + 0x17,
             (char *)unk_C1B3E);
-        PaPlayerNumber((char *)teamabbrevs[tm ? VisTeam : HomeTeam], p->temp1 + 1, hmrosterjersey[tm * 0x444 + pl * 39]);
+        w = tm ? VisTeam : HomeTeam;
+        PaPlayerNumber((char *)teamabbrevs[w], p->temp1 + 1, hmrosterjersey[tm * 0x444 + pl * 39]);
     }
     if (--p->temp2 > 0) return;
     if (p->temp1 < 0) {
@@ -515,7 +519,8 @@ void assthreestars(Player *p)
         FormatPlayerName((char *)&textline2, (char *)hmteamrec + tm * 0x2E8, hmrosterjersey[tm * 0x444 + pl * 39],
             (char *)hmroster + tm * 0x444 + pl * 39 + 7, (char *)hmroster + tm * 0x444 + pl * 39 + 0x17,
             (char *)unk_C1B3E);
-        PaPlayerNumber((char *)teamabbrevs[tm ? VisTeam : HomeTeam], p->temp1 + 1, hmrosterjersey[tm * 0x444 + pl * 39]);
+        w = tm ? VisTeam : HomeTeam;
+        PaPlayerNumber((char *)teamabbrevs[w], p->temp1 + 1, hmrosterjersey[tm * 0x444 + pl * 39]);
         return;
     }
     if (p->temp2 < 0) return;
