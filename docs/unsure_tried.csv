@@ -1785,3 +1785,66 @@ checkgoalp,,a Player *q copy,,ga
 checkgoalp,,a short sc local (first: 27,,ga
 checkgoalp,,last: 36),,ga
 checkgoalp,,one permute.py run (321 candidates),321 candidates,ga
+QueueSpeechClip,swapdecl:dst:,"declaration orders of pos, slot, free, loaded, tmp, off, bank, dst and the",tried (docs/UNSURE.md),la
+PassRecOneTimer,,"(2026-10-23, GA): y distance as `(short)(p->Ypos >> 16)` / `(p->Ypos >> 16)` with and without the outer cast, split `c -= *pucky`, Ypos first, `regd1.l`",,ga
+PassRecOneTimer,,a short cast on the sum (40-52),40-52,ga
+PassRecOneTimer,,aim y as `t = t * *puckvy >> 16` then `(short)t + *pucky` either order (40),40,ga
+PassRecOneTimer,,"aim x as `(short)-(...)` (41), int d without the cast (32, size +2)","32, size +2",ga
+PassRecOneTimer,,"a new `short x` for the aim x (57: the 32-bit style moves to the x distance instead, so it is register pressure, not source shape)","57: the 32-bit style moves to the x distance instead, so it is register pressure, not source shape",ga
+PassRecOneTimer,,"permute 5 min on the 34 base (28 only with semantics-changing product casts and a `_t0` temp, not kept)","28 only with semantics-changing product casts and a `_t0` temp, not kept",ga
+RemoveFromLines,,"(2026-10-23, GA), in both counting loops: `if ((r = tbl[...]) < 0) break;`, r declared in the loop body (44), `*(tbl + side * 0x19 + i)`, `hmroster[r * 0x27 + side * 0x444]` (58), `if (r >= 0) { ... } else break;`, `!= 1) continue;`",,ga
+RemoveFromLines,,"a `(short)` cast on the load, `tbl[i + 0x19 * side]` (46): all 40 or worse",,ga
+RemoveFromLines,,"permute 5 min: best 23 (size +5) only by merging r into the slot counter k (alone it moves r into di, k's register, still wrong",,ga
+RemoveFromLines,,the rest of the gain came from unnatural `unsigned short` casts),,ga
+BuildStandingsGrid,,"(2026-10-23, GA): k (dead there) as the team number",,ga
+BuildStandingsGrid,,"with either sum order (66, size +7)","66, size +7",ga
+BuildStandingsGrid,,`unsigned n`,,ga
+BuildStandingsGrid,,n declared in the j loop,,ga
+BuildStandingsGrid,,`s.p = s.w[n] + s.w[n] + s.t[n]` (all 41),all 41,ga
+BuildStandingsGrid,,"`s.p = s.w[n] * 2; s.p += s.t[n];` (45 but size +0: it stores p twice where the EXE stores once, and it fixes the first sort loop's eax / edx while swapping a term of the second, so it is not the original)","45 but size +0: it stores p twice where the EXE stores once, and it fixes the first sort loop's eax / edx while swapping a term of the second, so it is not the original",ga
+BuildStandingsGrid,,the order store moved first (42),42,ga
+BuildStandingsGrid,,permute 5 min (32 only with a nonsense `(short)` pointer cast),,ga
+BuildStandingsGrid,type:n:unsigned,`unsigned n`,tried (docs/UNSURE.md),ga
+SetupStatsSourceMenu,,"(2026-10-23, GA): permute 5 min (best 38 only with size +7 by splitting n, not kept)","best 38 only with size +7 by splitting n, not kept",ga
+SetupStatsSourceMenu,,no new statement-level shape,,ga
+DrawCalendarDay,,"(2026-10-23, GA): the legend through the day pair dx / dy (174), dy / dx (166)",166,ga
+DrawCalendarDay,,"the games pair x / y (114), y / x (71), all with hx / hy dropped (the LA ""one coordinate pair"" idea, retried because GA gives the legend the swapped registers)",,ga
+QueueSpeechClip,,"(2026-10-23, GA) on the 7 base: every pair of store forms (ptr, SPEECHQ->, `((int *)speechq)[pos]`, `(*(int **)&speechq)[pos]`, `*(int *)(speechq + pos * 4)`: 7 or 20), `(&p->clip[0])[pos]`",,ga
+QueueSpeechClip,,"a char sum, `*(q + pos)`, `*(pos + q)` (all 7)",all 7,ga
+QueueSpeechClip,,"the count through the pointer form (7), s at each declaration position (7-23), s in a block (21), `s = &speechbank[free]` (7), slot before free (7)",7,ga
+QueueSpeechClip,,reusing bank instead of s (20),20,ga
+QueueSpeechClip,,the check inline without a pointer (28),28,ga
+QueueSpeechClip,,permute 5 min (no gain),,ga
+DrawTradeScreen,,"(2026-10-23, GA): `k = teams[t]` as the index (52, size +5), `*teams` for teams[0] (46), `*(teams + t)` in c1 (46), side as the jersey-loop t (46, size +4), byte_D12DE passed straight (52), t reused as the team number `t = teams[t]` (41, size +0, but the teams / bank allocation is unchanged: not kept), base dropped and `side * 0x268` written in both places or only the first (44, size +4)","44, size +4",ga
+DrawTradeScreen,,the latter with t reuse (45),45,ga
+SeedPlayoffRound3,,"(2026-10-23): the value through i, c1 / c2, len (dead locals",,ga
+SeedPlayoffRound3,,"68-92), `* 6u`, `(0 * 7 + 0x498 + k)` / `(1 * 7 + 0x498 + k)` as in Round2, `(k += 0x498) * 6 + 2, k -= 0x498` (24), two separate stores of the same expression in both orders (CSE), `+ 2 + 0`, pointer forms `(int)((unsigned char *)(x * 6) + 2)`, `(int)&((unsigned char *)2)[x * 6]`, `(int)&((unsigned char (*)[6])0)[k + 0x498][2]`, `(int)((unsigned char (*)[6])2 + x)` (all 14), `((k + 0x498) * 3 + 1) * 2` (104), `POTeamRec r[2]` for r1 / r0 (17)",17,ga
+SeedPlayoffRound3,,permute 5 min (no gain),,ga
+ReplayControlLoop,,(2026-10-23): `word_CD4FC = dword_ED74C` (29),29,ga
+ReplayControlLoop,,"the pointer copies from dword_ED704 / ED708 (29), chained `gadgetptrx = dword_ED6F0 = dword_ED704` (31), case 40h as two -1 stores (27), one three-way chain with word_CD4FC (27), `d = 0; dword_ED70C = d;`, `= d - 1`, `dword_ED74C = -1; dword_ED6EC = dword_ED74C;` (16), word_CD4FC before the chain (19), d set after the word_ED758 store in cases 2 / 8 (18), `dword_ED6E8 = d = 0; d = 1;` (56)",56,ga
+ReplayControlLoop,,"permute 5 min (15 only with a split d, not kept)","15 only with a split d, not kept",ga
+assbench,,"(2026-10-23): the whole xor cast to unsigned char (49), `(... ^ ...) & 0xFF` (39)",39,ga
+assbench,,the cast on the second flag (38),38,ga
+assbench,,the mask in one of the two tests only (25),25,ga
+assbench,,"a new short / int n for the count, before or after d",,ga
+assbench,,"with `+= 8` or `= n + 8` (24-26), `p->temp1 = d = p->temp1 - 1` (22), `d = p->temp1; p->temp1 = --d` / `d--` (22), `p->temp1 = d + 8` (23), count without d (`p->temp1--`, `--p->temp1 < 0`, `p->temp1 = p->temp1 - 1`: frame changes, 47)","`p->temp1--`, `--p->temp1 < 0`, `p->temp1 = p->temp1 - 1`: frame changes, 47",ga
+assbench,,"`p->pflags &= ~2`, `^= 2`, `(p->pflags & 2) != 0` (22)",22,ga
+assbench,,the door ternary flipped (27),27,ga
+assbench,,permute 5 min with the mask (no gain),,ga
+SimPlayoffRound1,,"(2026-10-23): that prototype with unsigned short rdfh (9, rejected), short rdfh (12, same extension), short rwfh and rdfh (29)",29,ga
+SimPlayoffRound1,,the cast alone (9),9,ga
+SimPlayoffRound1,,`g += 0x2A` at the end of the s body (29),29,ga
+DrawLockerJersey,,"(2026-10-23): `(unsigned)` on divs or on the inner element (29), `divs = dword_D223C[divs]; s = off_D2230[divs]` (34), `(unsigned)dword_D2150[vis]` (29)",29,ga
+DrawLockerJersey,,the vis index through k (30),30,ga
+DrawLockerJersey,,the name through k or s before the call (29-30),29-30,ga
+DrawLockerJersey,,permute 5 min (no gain),,ga
+puckfaceoff,,(2026-10-23): the first-branch zero as two separate stores (72),72,ga
+puckfaceoff,,"the lcfound-branch zero as `= regd2.w` (71), `tm = hmtmstruct + (state.off = side << 8)` (29)",29,ga
+puckfaceoff,,the three calls repeated in the first branch (31: Watcom then keeps both call tails),31: Watcom then keeps both call tails,ga
+ChkScorerMilestone,,"(2026-10-23): permute 5 min (321 candidates, nothing)","321 candidates, nothing",ga
+checkwallcoll,,"(2026-10-23): all 24 declaration orders (15 best, several)","15 best, several",ga
+checkwallcoll,,"the index as `+ 0x0C` first, `SortCords + (...)`, `SortCords + 0x0C + flag` (42), char / int pointer sums with << 7 or * 0x80 (15), `(unsigned char)` index (19)",19,ga
+checkwallcoll,,"an int n (block or top, any position, 45-54) or dist / ry0 for the index (52-79), `&SortCords[n = ...]` (14, not natural)","14, not natural",ga
+checkwallcoll,,the ternary forms (38-42),38-42,ga
+checkwallcoll,,every neutral (short / int) cast on one line (15),15,ga
+checkwallcoll,,"permute twice (11 and 4 only with value-changing (unsigned char) / char casts, not kept)",,ga
