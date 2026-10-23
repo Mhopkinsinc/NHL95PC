@@ -2661,6 +2661,10 @@ pop ecx	; 6F156
 pop ebx	; 6F157
 ret	; 6F158
 %endif ; C
+; C: src/c/052_6D2F8_create_player/SplitPlayerName.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/SplitPlayerName.inc"
+%else
 SplitPlayerName:
 push dword 20h	; 6F159
 call __CHK	; 6F15E
@@ -2790,6 +2794,7 @@ pop edi	; 6F298
 pop esi	; 6F299
 pop ecx	; 6F29A
 ret	; 6F29B
+%endif ; C
 MoveToOtherRoster:
 push dword 4Ch	; 6F29C
 call __CHK	; 6F2A1
