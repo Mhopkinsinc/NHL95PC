@@ -1,7 +1,14 @@
 /* Engine assignment faceoff: the faceoff setup (puckfaceoff) and the drop (puckfaceoff2). */
 /* DRAFT under 10.0 GA: 29 differing instructions. The timer/offset frame and cached side match
    the EXE's frame; register choices and TakePlayerFromBox_ret6 exit remain. */
+#define word_E0392 word_E0392_decl
+#define word_E039A word_E039A_decl
 #include "nhl95.h"
+#undef word_E0392
+#undef word_E039A
+/* the faceoff input words are unsigned here: the drop stores 8000h as mov ecx, 8000h (a short would sign-extend) */
+extern unsigned short word_E0392;
+extern unsigned short word_E039A;
 
 /* puckfaceoff (516E1, 93G puckfaceoff; ends in TakePlayerFromBox_ret6): asstab 1Bh, the faceoff setup ("this is
    where the action starts"). On a new assignment (pflags bit 1): free the puck (a penalty-shot goalie carrying it
@@ -316,15 +323,15 @@ void puckfaceoff2(Player *p)
                 }
                 if (q->position) {
                     if (regd4.w <= 4) {
-                        if ((regd0.w ^ fox) < 0) regd1.w -= foy >> 3;
+                        if ((fox ^ regd0.w) < 0) regd1.w -= foy >> 3;
                         regd0.w -= fox >> 2;
                     }
                     regd0.w += fox;
                     regd1.w += foy;
                 } else if (ABS(foy) > 0x27 && ((q->pflags & 0x80) == 0 ^ foy < 0)) {
-                    d = foy - (!(q->pflags & 0x80) ? 0x27 : -0x27);
-                    d = ABS(d);
-                    regd0.w += (short)(fox * d * 3 / 0x1000);
+                    k = foy - (!(q->pflags & 0x80) ? 0x27 : -0x27);
+                    k = ABS(k);
+                    regd0.w += (short)(fox * k * 3 / 0x1000);
                 }
                 HIWORD(q->Xpos) = regd0.w;
                 HIWORD(q->Ypos) = regd1.w;
@@ -333,7 +340,8 @@ void puckfaceoff2(Player *p)
                 q->facedir = vtoa((short)(*puckx - regd0.w), (short)(*pucky - regd1.w));
                 if (q->position == 0) {
                     d = q->handed ? q->facedir : (8 - q->facedir) & 7;
-                    q->frame = d * 3 + 0x196;
+                    d = d * 3 + 0x196;
+                    q->frame = d;
                     regd1.w = 1;
                     if (q->facedir == 2) q->facedir = q->pflags & 0x80 ? 1 : 3;
                     else if (q->facedir == 6) q->facedir = q->pflags & 0x80 ? 7 : 5;
@@ -342,7 +350,8 @@ void puckfaceoff2(Player *p)
                     regd1.w = 0;
                 } else {
                     d = q->handed ? q->facedir : (8 - q->facedir) & 7;
-                    q->frame = d * 5;
+                    d *= 5;
+                    q->frame = d;
                     regd1.w = 0x289;
                 }
                 q->pflags2 &= 0xFB;
@@ -389,13 +398,11 @@ void puckfaceoff2(Player *p)
         fodir1 = fodir2 = -1;
         return;
     }
-    if ((d = --p->temp1) < 0) {
-        Endfaceoff(p);
-        return;
-    }
-    if (d == 0x11) SetSPA(&SortCords[0x10], 0xC43);
-    if (p->temp1 == 0) return;
-    regd0.w = (p->temp1 + 6) >> 3;
-    if (regd0.w > 2) return;
-    word_E0398 = 0xA - regd0.w;
+    if ((k = --p->temp1) >= 0) {
+        if (k == 0x11) SetSPA(&SortCords[0x10], 0xC43);
+        if (p->temp1 == 0) return;
+        regd0.w = (p->temp1 + 6) >> 3;
+        if (regd0.w > 2) return;
+        word_E0398 = 0xA - regd0.w;
+    } else Endfaceoff(p);
 }
