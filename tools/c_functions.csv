@@ -212,8 +212,8 @@ DrawFileDlgTabs,2BD16,468,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/Lo
 ScanSavedGames,2BEFD,568,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DrawFileDlg,2C18F,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DrawFileDlgList,2C46B,918,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
+RunFileDlg,2C801,1576,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DeleteSavedGame,2CE29,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
-RunFileDlg,2C801,1576,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,nonmatching,,register 17/37
 MenuOpenSaved,2B944,978,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/MenuOpenSaved.c,matched,,
 PrintTextCopy,2C135,63,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/PrintTextCopy.c,matched,,
 ReadGameSettings,2D260,222,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/ReadGameSettings.c,matched,,
@@ -512,7 +512,7 @@ ToFixed,53294,14,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/T
 TryBlockShot,534BB,124,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/TryBlockShot.c,matched,"registers only: original p in ecx, n in ebx, gmode2 temp in edx; this draft p in ebx, n in edx. 10-min cap",
 checkagr,5369F,238,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkagr.c,matched,,
 checkcheck,5382C,1209,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcheck.c,nonmatching,,size 11/20
-checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcoll.c,nonmatching,"draft: 479 vs 468. x is saved in edi and y in esi. The original saves x in esi and y in edi, so the swap needs a third mov. Do not retry: short parameters, or copying x then y into locals (saves ebp, cookie 18h).",size 26/46
+checkcoll,580F5,468,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcoll.c,matched,"draft: 479 vs 468. x is saved in edi and y in esi. The original saves x in esi and y in edi, so the swap needs a third mov. Do not retry: short parameters, or copying x then y into locals (saves ebp, cookie 18h).",
 checkcx,58DC7,1024,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkcx.c,nonmatching,,register 20/24
 checkgoal,584AA,809,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoal.c,nonmatching,"draft: 809 vs 809, 192/203 instructions; bounce temp and zero registers. See UNSURE.",register 9/11
 checkgoalp,53CE5,389,040_53294_engine_physics_ai,src/c/040_53294_engine_physics_ai/checkgoalp.c,nonmatching,C hoists the wcradiusy load above the SCnum 12 test and swaps esi / edi for p / SCnum; rest of the logic matches,register 27/33
@@ -649,8 +649,8 @@ RunDeferredCalls,61A27,99,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring
 ChkScorerMilestone,62807,1072,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/ChkScorerMilestone.c,nonmatching,,size 12/20
 ClearPenaltyBuffer,63D3C,45,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/ClearPenaltyBuffer.c,matched,,
 CountShotOnGoal,64338,96,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/CountShotOnGoal.c,matched,,
+DecayCrowdLevel,615A2,704,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c,matched,"draft: 705 vs 704. Prologue and crowdlevel decay match; the slot index is the word at esp. The slot pointer is esi and each spawned id is movsx into ebx (original pointer in ebx, id copied with mov esi, eax). Do not retry an int copy of crowdlevel, an unsigned slot byte, or dropping the address-of on the index.",
 DrawRinkObjects,61862,358,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c,matched,,
-DecayCrowdLevel,615A2,704,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/DecayCrowdLevel.c,nonmatching,"draft: 705 vs 704. Prologue and crowdlevel decay match; the slot index is the word at esp. The slot pointer is esi and each spawned id is movsx into ebx (original pointer in ebx, id copied with mov esi, eax). Do not retry an int copy of crowdlevel, an unsigned slot byte, or dropping the address-of on the index.",register 54/64
 EndPenaltyShot,64439,111,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/EndPenaltyShot.c,matched,,
 FlushGSumQueue,61B85,58,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/FlushGSumQueue.c,matched,,
 FormatPlayerName,61D48,337,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/FormatPlayerName.c,matched,len declared before room (found by tools/permute.py),
@@ -791,9 +791,9 @@ LoadDbDialogShapes,7230B,385,053_71F0C_database_dialogs,src/c/053_71F0C_database
 ScanDbFiles,7248C,377,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 DrawDbDialog,727EE,622,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,scroll-bar end: EXE adds 12h to rect 8 y1 before adding the quotient,
 DrawDbList,72AC6,801,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
+DbDialogLoop,72DE7,1501,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 DeleteSelectedDb,735C3,320,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
 MenuOpenDatabase,73703,167,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,matched,,
-DbDialogLoop,72DE7,1501,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbDialogShapes.c,nonmatching,,register 65/99
 LoadDbsFromDir,7345B,360,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/LoadDbsFromDir.c,matched,,
 OpenSelectedDb,733C4,151,053_71F0C_database_dialogs,src/c/053_71F0C_database_dialogs/OpenSelectedDb.c,matched,,
 BlitClipRect,7668D,173,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/BlitClipRect.c,matched,x in esi and y in edi (original x in edi and y in esi); in-place add matches. 5 attempts,
@@ -1009,10 +1009,10 @@ POSeedRound2,87863,720,064_86696_season_playoffs,src/c/064_86696_season_playoffs
 POSeedConfFinals,87B33,363,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,in POSeedRound2.c with the other seeding functions: Watcom then puts the shared exit in POSeedRound2_x as in the EXE (found by tools/module_try.py),
 POSeedFinal,87C9E,188,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,after POSeedConfFinals in POSeedRound2.c; it cross-jumps into POSeedConfFinals_pair (found by tools/module_try.py),
 PlayoffModeLoop,89268,2292,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,,
+DrawPlayoffTree,8A652,4617,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,"draft: 4616 vs 4617, only the first seed loop differs (i and the playofftree read in eax / edx, swapped). See docs/UNSURE.md.",
 CreatePlayoffs,86696,2037,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 2037 same size, 34 lines: register picks (the second dword_C65AC test in ecx, EXE ebx; dword_D2884 zeroed from ebx, EXE edx), the second EMBSCUP bank stored after add esp (EXE before), the epilogue (POSeedRound2_x). See docs/UNSURE.md.",size 7/13
 POSeedTeams,86E8B,555,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft (POSeedRound2.c, ends in POSeedConfFinals_x): same size (555); the conference compare loads VisTeam first and the first swap step slots[i] first. See docs/UNSURE.md.",register 12/15
 POAfterGame,8873C,2678,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 2668 vs 2678, 100 lines: needs one variable for the first loop counter and the series winner (p spilled with push eax) and the k -= m clearing loop; left: an extra mov edx, eax after SeriesWinner, the one / two human test registers, controller side register picks. See docs/UNSURE.md.",register 46/65
-DrawPlayoffTree,8A652,4617,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 4616 vs 4617, only the first seed loop differs (i and the playofftree read in eax / edx, swapped). See docs/UNSURE.md.",register 4/5
 POSeriesScore,877E9,122,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeriesScore.c,matched,"registers/layout: asm returns through one exit (result in ecx), keeps *aw+1 in ebp on one arm and inc edi on the other; C merges the two arms",
 POSetSeriesTeams,87520,131,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSetSeriesTeams.c,nonmatching,original keeps s in eax and ORs the flags into ecx; this draft moves s to ecx. 10-min cap,register 35/36
 POSimSeriesTo,88625,279,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSimSeriesTo.c,matched,,
