@@ -5858,6 +5858,10 @@ pop edi	; 7195D
 pop esi	; 7195E
 pop ecx	; 7195F
 ret	; 71960
+; C: src/c/052_6D2F8_create_player/FindPlayer.c
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/FindPlayer.inc"
+%else
 FindPlayer:
 push dword 1E8h	; 71961
 call __CHK	; 71966
@@ -6225,3 +6229,4 @@ pop edi	; 71F08
 pop esi	; 71F09
 pop ecx	; 71F0A
 ret	; 71F0B
+%endif ; C
