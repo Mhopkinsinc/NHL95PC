@@ -33,7 +33,7 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3);
 int TeamFromMouse(int x, int y, int *idx);  /* 26B5A */
 void __cdecl sub_90F38(int x, int y, int w, int h, int col);  /* graphics library: xor a box */
 
-/* DRAFT under 10.0 GA: 2,075 bytes as the EXE, 196 differing instructions. The submenu branch reads the
+/* DRAFT under 10.0 GA: 2,075 bytes as the EXE, 146 differing instructions. The submenu branch reads the
    clicked item in place (the EXE keeps &menus[level][item] for on2, pad and x, and reloads it for y after the
    pos store); the pointer-size product, the first close loop's stores and later registers still differ. */
 /* RunMenu (1D6E8, PC only; owner of RunMenu_ret4): run a menu bar of n items in the colours col1-col3 until an
@@ -100,8 +100,8 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
             sub_903F0(ptr, oldmx, oldmy);
             sub_91400(ptr, s.mx, s.my);
             sub_91370(pointerspr, s.mx, s.my);
-            oldmx = s.mx;
             oldmy = s.my;
+            oldmx = s.mx;
             continue;
         }
         if (MenuHitTest(s.mx, s.my, s.menus, depth, s.nitems, &s.pos[0][0], &s.level, &s.item)) {
@@ -112,8 +112,7 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                     for (i = 3; i >= 0; i--) {
                         if (s.bg[i]) {
                             sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
-                            s.pos[i][0] = 0;
-                            s.pos[i][1] = 0;
+                            s.pos[i][0] = s.pos[i][1] = 0;
                             FreeMemBlock(s.bg[i]);
                         }
                     }
@@ -160,8 +159,8 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                 i = depth;
                 DrawMenuItemSel((struct MenuItem *)&s.menus[i][s.sel[i]], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 s.sel[i] = s.item;
-                DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 depth++;
+                DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 s.menus[depth] = (MenuItem *)s.menus[s.level][s.item].on2;
                 s.nitems[depth] = s.menus[s.level][s.item].pad;
                 s.pos[depth][0] = (depth != 1 ? s.menus[s.level][s.item].x2 : s.menus[s.level][s.item].x1) + s.pos[depth - 1][0];
