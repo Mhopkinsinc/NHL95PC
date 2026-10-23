@@ -532,8 +532,9 @@ void POSeedFinal(unsigned char *p)
     else POSetSeriesTeams(g, day, a);
 }
 
-/* DRAFT: 2,668 vs 2,678 bytes, 100 differing lines (register picks after SeriesWinner and in the controller
-   side code); see docs/UNSURE.md. */
+/* DRAFT: same size (2,678 bytes) under 10.0 GA, 100 differing: the first clearing loop takes ebx for
+   optbits12 / 2 (EXE eax, then lea), ctl2team is kept in a register in the human count (the EXE compares it in
+   memory both times) and the controller side code picks other registers; see docs/UNSURE.md. */
 /* POAfterGame (8873C, PC only; ends in POSeedRound2_x): after a playoff game. Post both teams' game to their team
    databases (game 444h + the game index), store the score in the game record, load the season, career and key
    databases and simulate the other series of the round up to this game (POSimSeriesTo). When the series is decided
@@ -715,7 +716,8 @@ int POAfterGame(unsigned char *p)
     keydb_size = careerdb_size = seasondb_size = (int)(keydb = careerdb = seasondb = 0);
     if (idx < 0xF) {
         if (w >= 0) {
-            if (ctl1side[0] == ctl2side || (ctl2team < 0) ^ (ctl1team[0] < 0)) n = 1;
+            if (ctl1side[0] == ctl2side) n = 1;
+            else if ((ctl2team < 0) ^ (ctl1team[0] < 0)) n = 1;
             else if (ctl1team[0] >= 0 || ctl2team >= 0) n = 2;
             else n = 0;
             if (n == 1) {
