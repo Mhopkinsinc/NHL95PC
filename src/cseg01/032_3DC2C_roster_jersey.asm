@@ -589,6 +589,10 @@ pop edi	; 3E38C
 pop esi	; 3E38D
 pop ecx	; 3E38E
 ret	; 3E38F
+; C: src/c/032_3DC2C_roster_jersey/ExecuteTrade.c
+%ifdef CBUILD
+%include "c/032_3DC2C_roster_jersey/ExecuteTrade.inc"
+%else
 ExecuteTrade:
 push dword 68Ch	; 3E390
 call __CHK	; 3E395
@@ -857,6 +861,7 @@ pop edi	; 3E7AF
 pop esi	; 3E7B0
 pop ecx	; 3E7B1
 ret	; 3E7B2
+%endif ; C
 ; C: src/c/032_3DC2C_roster_jersey/DrawTradeRow.c
 %ifdef CBUILD
 %include "c/032_3DC2C_roster_jersey/DrawTradeRow.inc"
