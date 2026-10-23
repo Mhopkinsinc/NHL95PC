@@ -482,8 +482,10 @@ void assrefsignal(Player *p)
     SkateToSpot(p, 0);
 }
 
-/* DRAFT: same size under 10.0 GA, 98 differing: the EXE saves ebp too (it holds temp3 - puckx in the goal-line
-   crossing) and keeps the goal-call bytes in other registers; see docs/UNSURE.md. */
+/* DRAFT: 2,114 vs 2,115 bytes under 10.0 GA, 67 differing: each branch stores regd1 itself (the EXE's 16-bit
+   y difference, the shared store cross-jumped). The EXE saves ebp too (it holds temp3 - puckx in the goal-line
+   crossings, computed after the constant - pucky factor) and keeps the goal-call bytes in other registers; see
+   docs/UNSURE.md. */
 /* assrefgoalpa (4ED7C; 93G assrefgoalpa, PC version; ends in assgoalie_popebp): the referee after a goal or a
    penalty call goes to the puck. Not while locked (pflags bit 5). While the goal overlay runs (ovlseq neither 0 nor
    2, ovltimer below 100h) hold the signal stance (SPA A5Bh); from ovltimer ECh on, once (byte_E9AD3 1) have the
@@ -507,7 +509,6 @@ void assrefgoalpa(Player *p)
     short a2;
     short n;
     int c;
-    int d;
     int ok;
 
     if (p->pflags & 0x20) return;
@@ -602,7 +603,7 @@ void assrefgoalpa(Player *p)
         p->temp3 = *puckx;
         p->temp4 = *pucky < 0 ? -0xE3 : 0xE3;
         regd0.w = HIWORD(p->Xpos) - p->temp3;
-        d = HIWORD(p->Ypos) - (*pucky < 0 ? -0xEE : 0xEE);
+        regd1.w = HIWORD(p->Ypos) - (*pucky < 0 ? -0xEE : 0xEE);
     } else {
         p->temp3 = *puckx + (*puckvx >> 7);
         p->temp4 = *pucky + (*puckvy >> 7);
@@ -631,9 +632,8 @@ void assrefgoalpa(Player *p)
             }
         }
         regd0.w = HIWORD(p->Xpos) - *puckx;
-        d = HIWORD(p->Ypos) - *pucky;
+        regd1.w = HIWORD(p->Ypos) - *pucky;
     }
-    regd1.w = d;
     if (ABS(regd0.w) <= 0xC && ABS(regd1.w) <= 0xC) {
         ok = ABS(*puckx) != 6 || ABS(*pucky) != 0xF0 || ABS(HIWORD(p->Ypos)) <= 0xE8;
         if (ok) {
