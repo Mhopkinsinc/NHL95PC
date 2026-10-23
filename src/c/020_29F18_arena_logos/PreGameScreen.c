@@ -1,6 +1,7 @@
 /* Arena logos: the pre-game scouting report. */
-/* DRAFT under 10.0 GA: 59 differing instructions, 3,241 vs 3,255 bytes. The I/O frame matches;
-   remaining palette/button slots and the y+9 spill still differ. */
+/* DRAFT under 10.0 GA: 52 differing instructions, same size (3,255 bytes). The I/O frame matches, and the
+   last category's lines step y first (the EXE spills y + 9, the old y - 5); key and apal take the top frame
+   slots where the EXE has them at the bottom, and the pointer buffer size pushes 0x20 first. */
 #define PreGameScreen PreGameScreen_decl
 #define TonightsGameScreen TonightsGameScreen_decl
 #define sub_8F98F sub_8F98F_decl
@@ -115,9 +116,9 @@ int PreGameScreen(unsigned char home, unsigned char away)
         y = (byte_D42C3 + 3) * k + 0xDA;
         if (k == 8) {
             sub_90D20(0x6E, y + 5, 0x1AE, 5, boxfillcolor);
-            sub_B4FAC(0x6E, y + 5, 0x21C, y + 5, boxlitecolor);
-            sub_B4FAC(0x6E, y + 9, 0x21C, y + 9, boxshadecolor);
             y += 0xE;
+            sub_B4FAC(0x6E, y - 9, 0x21C, y - 9, boxlitecolor);
+            sub_B4FAC(0x6E, y - 5, 0x21C, y - 5, boxshadecolor);
         }
         PrintOutlinedText((0x280 - fputchar((char *)scoutcatnames[k])) / 2, y, (char *)scoutcatnames[k]);
     }
