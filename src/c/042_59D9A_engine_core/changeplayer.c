@@ -81,7 +81,6 @@ void setplayer(Player *p, short n)
     unsigned char *q;
     short v;
     int d;
-    short df;
     int as;
 
     rg.n = n;
@@ -90,13 +89,11 @@ void setplayer(Player *p, short n)
     p->pnum = rg.n;
     regd1.w = t->tmpdst[rg.n];
     if (regd1.w >= 0) {
-        as = 0xA;
-        goto enter;
-    }
-    if (regd1.w == -2) {
-        as = 9;
-enter:
-        assinsert(p, as);
+        assinsert(p, 0xA);
+        p->pflags &= 0xDF;
+        p->SPA = 0;
+    } else if (regd1.w == -2) {
+        assinsert(p, 9);
         p->pflags &= 0xDF;
         p->SPA = 0;
     }
@@ -110,12 +107,15 @@ enter:
                 rg.u0.l = (td[0x2DC] > 6 ? 2 : td[0x2DC] >= 4) - 2;
                 rg.pk.b = rg.u0.b;
             } else {
-                rg.u1.l = td[0x2DD] > 6 ? 2 : td[0x2DD] >= 4;
+                if (td[0x2DD] > 6) rg.u1.l = 2;
+                else rg.u1.l = td[0x2DD] >= 4;
                 rg.pp.b = rg.u1.b;
             }
         }
         rg.hm.b = !(p->pflags & 0x40) ? (td[0x2DE] > 6 ? 2 : td[0x2DE] >= 4) : (td[0x2DF] > 6 ? 2 : td[0x2DF] >= 4) - 2;
-        if (gsp > 2 || gsp == 2 && gameclock < PerTimeTotal >> 1) {
+        if (gsp > 2 || gsp == 2 && PerTimeTotal >> 1 > gameclock) {
+            short df;
+
             df = hmscore[0] - awscore;
             if (!df || ((p->pflags & 0x40) == 0) ^ (df > 0)) rg.tp.b = 2;
         }
@@ -178,7 +178,7 @@ enter:
         p->spodds = v;
     } else {
         p->rostnum = t->tmroster[rg.n * 0x27 + 5];
-        r = TMGLRAT(t) + (rg.n << 4) - 0x190;
+        r = &TMGLRAT(t)[(rg.n - 0x19) * 16];
         p->handed = *r;
         p->attribute &= 0xF7;
         r++;
@@ -191,7 +191,8 @@ enter:
         p->legspd = *r++;
         p->legstr = *r++;
         q = &p->legspd;
-        d = p->legspd < 3 ? p->legspd : 3;
+        if (p->legspd < 3) d = p->legspd;
+        else d = 3;
         rg.u0.l = *q;
         rg.u0.l -= d;
         *q = rg.u0.b;
