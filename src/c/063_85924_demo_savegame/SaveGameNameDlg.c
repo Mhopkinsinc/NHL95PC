@@ -5,8 +5,8 @@
 
 typedef struct { char c[17]; } Hdr17;
 
-/* DRAFT: same size in MenuSaveGame.c (own file: the draft there breaks MenuSaveGame's block); the out-of-row
-   click gets its own redraw copy (see docs/UNSURE.md). */
+/* DRAFT under 10.0 GA: the body matches; the standalone exit keeps its pops instead of jumping
+   into MenuSaveGame's SaveGameStub. Seven differing instructions, two extra bytes. */
 /* SaveGameNameDlg (85D6C, PC only; ends in SaveGameStub, MenuSaveGame's exit): ask for the saved game's name.
    Save the screen under the mouse pointer (a POINTER block, the pointer's width + 8 by its height) and draw the
    pointer, load the SAVEGAME bank and show its PRMT box in the middle of the screen (the screen under it kept in a
@@ -104,7 +104,7 @@ int SaveGameNameDlg(char *path)
                         ox = x;
                         oy = y;
                     }
-                } else if (y >= 0x109 || y < 0xF8) {
+                } else if (!(y < 0x109 && y >= 0xF8)) {
                     sub_903F0(bm, ox, oy);
                     sub_91400(bm, x, y);
                     sub_91370(pointerspr, x, y);
@@ -136,7 +136,7 @@ int SaveGameNameDlg(char *path)
                     sub_910E0(dlgbm, tx, ty);
                     FreeMemBlock(dlgbm);
                     cur = spr = sub_B30B4(bank, (char *)str_Prmt);
-                    n = (((short *)spr)[2] + 8) * ((short *)spr)[3] + 0x11;
+                    n = ((short *)spr)[3] * (((short *)spr)[2] + 8) + 0x11;
                     dlgbm = sub_8CCA8((char *)str_Dialog, n, 0x20);
                     *(Hdr17 *)dlgbm = *(Hdr17 *)spr;
                     tx = 0x140 - ((short *)spr)[2] / 2;
