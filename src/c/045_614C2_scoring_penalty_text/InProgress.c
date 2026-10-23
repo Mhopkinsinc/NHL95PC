@@ -282,12 +282,12 @@ void PenGoalStuff(short side)
     Team *ot;
     short n;
     short i;
-    short k;
-    short j;
-    signed char m;
+    int m;
+    int other_side;
 
     st = side > 0 ? &awtmstruct : &hmtmstruct;
-    ot = side == 0 ? &awtmstruct : &hmtmstruct;
+    other_side = side == 0;
+    ot = other_side ? &awtmstruct : &hmtmstruct;
     for (n = 0, i = 0; PenBuf[i * 2]; i++) {
         if (gsp != 3 || hmscore[0] == awscore ? 1 : 0) {
             m = penmintab[PenBuf[i * 2]];
@@ -302,21 +302,21 @@ void PenGoalStuff(short side)
             }
         }
         if (PenBuf_pl[i * 2] >= 0 && PenBuf_pl[i * 2] < 0xC) scpflags2[PenBuf_pl[i * 2] * 0x80] &= 0xEF;
-        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
     }
     if (!PenBuf[0] && bannermsg == 6) bannermsg = -1;
     if (st->tmap <= ot->tmap) return;
     for (i = 0; i < 0x1C; i++) {
-        k = ot->tmpbox[i];
-        if (k < 0) return;
-        if (!(((unsigned char *)&ot->tmpdst[k])[1] & 0x40)) break;
+        n = ot->tmpbox[i];
+        if (n < 0) return;
+        if (!(((unsigned char *)&ot->tmpdst[n])[1] & 0x40)) break;
     }
-    ot->tmpdst[k] = 0;
-    ot->tmroster[k * 0x27] = 7;
-    releasepl(ot, k);
-    PanelRemovePenalty(side == 0, ot->tmroster[k * 0x27 + 5]);
-    for (j = 1;; j++) {
-        if ((((signed char *)ot)[0xB5 + j + i] = ot->tmpbox[j + i]) < 0) break;
+    ot->tmpdst[n] = 0;
+    ot->tmroster[n * 0x27] = 7;
+    releasepl(ot, n);
+    PanelRemovePenalty(side == 0, ot->tmroster[n * 0x27 + 5]);
+    for (n = 1;; n++) {
+        if ((((signed char *)ot)[0xB5 + n + i] = ot->tmpbox[n + i]) < 0) break;
     }
     st->tmppg++;
     hmtmflags[0] |= 1;
