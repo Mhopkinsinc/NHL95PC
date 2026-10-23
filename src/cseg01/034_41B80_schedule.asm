@@ -1493,6 +1493,10 @@ pop esi	; 42DA7
 pop ecx	; 42DA8
 ret	; 42DA9
 %endif ; C
+; C: src/c/034_41B80_schedule/UpdateSeasonSchedule.c (SortStandings)
+%ifdef CBUILD
+%include "c/034_41B80_schedule/UpdateSeasonSchedule.SortStandings.inc"
+%else
 SortStandings:
 push dword 38h	; 42DAA
 call __CHK	; 42DAF
@@ -1630,6 +1634,7 @@ cmp esi, eax	; 42F09
 jl near SortStandings.1	; 42F0B
 add esp, byte 28h	; 42F11
 jmp near UpdateSeasonSchedule_pop3	; 42F14
+%endif ; C
 ; C: src/c/034_41B80_schedule/SwapInt.c
 %ifdef CBUILD
 %include "c/034_41B80_schedule/SwapInt.inc"
