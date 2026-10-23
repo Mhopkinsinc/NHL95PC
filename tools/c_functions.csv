@@ -382,11 +382,11 @@ ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_s
 SimAddPair,452A6,31,035_45282_options_settings,src/c/035_45282_options_settings/SimAddPair.c,matched,original keeps pairs in edx and the count in esi; this draft swaps them (with or without a count local). 10-min cap,
 SimulateGame,452C5,9868,035_45282_options_settings,src/c/035_45282_options_settings/SimulateGame.c,nonmatching,"first pass (Ghidra): 9,902 of 9,868 bytes, 721 differing (scalar slots, register picks)",
 FadeOutPalCycle,47C31,165,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,draft: asm keeps the byte in bl and writes bl-1 from bh; ours decrements bl in place,
+PreGameIntro,47CD6,1014,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
 PreGameIntro_scroll,480CC,386,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
 PreGameIntro_end,4824E,192,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
 ThreeStarsLoop StartPreGame,4830E,284,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
 StartThreeStars,48F0B,853,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
-PreGameIntro,47CD6,1592,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 60/123
 PickThreeStars,48AC8,1091,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,
 assthreestars,495B8,1056,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,
 AddStar,48789,80,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/AddStar.c,matched,,
@@ -657,8 +657,8 @@ FormatPlayerName,61D48,337,045_614C2_scoring_penalty_text,src/c/045_614C2_scorin
 GameTimeStamp,62CD7,34,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/GameTimeStamp.c,matched,,
 ProcessPenaltyList,63A37,288,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,matched,,
 chkprogress PenaltyManager,63BF8,123,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,matched,,
+ShotLaneOpen,64102,381,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,matched,,
 InProgress,62EE9,1420,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,,register 77/132
-ShotLaneOpen,64102,381,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,,size 28/31
 PenGoalStuff,63D69,521,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/InProgress.c,nonmatching,,register 59/77
 PostGoalEvent,62343,374,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostGoalEvent.c,matched,,
 PostInjuryEvent,62764,148,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/PostInjuryEvent.c,matched,,
@@ -683,9 +683,9 @@ chkatop,639A4,85,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_
 releasepl,6392A,122,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/releasepl.c,matched,,
 updatePPTeamTime,63B57,46,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatePPTeamTime.c,matched,,
 updatepentime,63B85,115,045_614C2_scoring_penalty_text,src/c/045_614C2_scoring_penalty_text/updatepentime.c,matched,registers: sflags3 & BFh kept in ah and reused as dh for the |40h; C uses al/dl or memory RMW; Penaltytimer += 24 must stay a memory add,
+SetupTeamLines,658F3,597,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
 CanRemovePlayer,65B83,293,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,matched,,
 BuildDefaultLines,64614,1015,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,nonmatching,,register 88/139
-SetupTeamLines,658F3,597,046_644A8_engine_display,src/c/046_644A8_engine_display/BuildDefaultLines.c,nonmatching,,size 9/15
 CanFillLineSlot,64A0B,669,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,draft: 688 vs 669. side*444h is computed in eax and added to hmroster; the original keeps that stride in ebx and indexes [ebx+eax+hmroster]. The sign-extended side is not stored at esp+4.,size 23/50
 FillDressedSlots,64CA8,440,046_644A8_engine_display,src/c/046_644A8_engine_display/CanFillLineSlot.c,nonmatching,"draft (CanFillLineSlot.c): 440 vs 440, stack slot order only. See UNSURE.",slot 12/12
 CloseTextOverlay,66DDA,44,046_644A8_engine_display,src/c/046_644A8_engine_display/CloseTextOverlay.c,matched,,
@@ -713,7 +713,7 @@ checkwindow,65D01,1942,046_644A8_engine_display,src/c/046_644A8_engine_display/c
 DrawTextOverlay,665AD,2093,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,nonmatching,"same size, 132 differing lines: stack short slots; see docs/UNSURE.md",slot 32/68
 updatereplay,675D6,810,046_644A8_engine_display,src/c/046_644A8_engine_display/updatereplay.c,nonmatching,"draft: 810 vs 812, 198/216 instructions; register choices. See UNSURE.",register 16/25
 DebugMonitor,688A4,1495,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DebugMonitor.c,matched,,
-DumpStatsLog,68E7B,1211,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DumpStatsLog.c,nonmatching,,size 22/26
+DumpStatsLog,68E7B,1211,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DebugMonitor.c,nonmatching,,
 StartHL2,69336,3325,048_69336_game_frame,src/c/048_69336_game_frame/StartHL2.c,nonmatching,"draft (own file): 3322 vs 3325, 145 lines (parameter homing, SortCords loop registers). See docs/UNSURE.md.",register 58/115
 BuildFreeAgentList,6BF4A,249,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,"draft: same 249. The key offset s*34h is in ebp; the original uses edi, so the two falist reloads that also need cl use edi instead of ebp. Declaration order, a pointer cast, and a falist pointer local did not swap them. Do not retry those.",
 WriteLeagueDbsMem,6C96C,291,050_6B093_joystick_calibration,src/c/050_6B093_joystick_calibration/BuildFreeAgentList.c,matched,,
@@ -988,7 +988,7 @@ SayTonightIntro,84B0D,299,062_842BA_announcer,src/c/062_842BA_announcer/SayTonig
 MenuPlayNextGame,86627,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuPlayNextGame.c,matched,,
 MenuReturnToSportsCentral,86637,16,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuReturnToSportsCentral.c,matched,,
 MenuSaveGame,85924,1096,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuSaveGame.c,matched,,
-SaveGameNameDlg,85D6C,2218,063_85924_demo_savegame,src/c/063_85924_demo_savegame/SaveGameNameDlg.c,nonmatching,,size 47/76
+SaveGameNameDlg,85D6C,2218,063_85924_demo_savegame,src/c/063_85924_demo_savegame/MenuSaveGame.c,matched,,
 ViewPlayoffHilights,86647,79,063_85924_demo_savegame,src/c/063_85924_demo_savegame/ViewPlayoffHilights.c,matched,,
 ClearPlayerFromLines,8B96D,322,064_86696_season_playoffs,src/c/064_86696_season_playoffs/ClearPlayerFromLines.c,matched,,
 LoadScheduleDB,891B2,113,064_86696_season_playoffs,src/c/064_86696_season_playoffs/LoadScheduleDB.c,matched,,
