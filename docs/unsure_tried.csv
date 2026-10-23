@@ -2280,3 +2280,59 @@ POAfterGame,,the two n = 1 arms joined with `||` (104),104,ga
 DrawRinkSideObjects,,"(2026-10-23): ARROWFRAME as a row pointer indexed by the direction (`((short *)((char *)word_CC0B0 + 6 + ((j) << 4)))[d]`, `(d)[...]`, `*((d) + (short *)...)`), as `((short (*)[8])((char *)word_CC0B0 + 6))[j][d]`, and the byte offset with the row term before the direction term (`+ 6 + ((j) << 4) + (d) * 2`, `+ ((j) << 4) + (d) * 2 + 6`, `+ (((j) << 4) + 6) + (d) * 2`): all 177 (Watcom then computes i << 4 into esi before the call and the f / x / y slots rotate)",Watcom then computes i << 4 into esi before the call and the f / x / y slots rotate,ga
 DrawRinkSideObjects,,a flat index `[(d) + ((j) << 3)]` (120),120,ga
 DrawRinkSideObjects,,"the direction term first in other spellings (`(d) * 2 + ((j) << 4) + 6`, `(j) * 16`, inner parentheses: 118, no change)",,ga
+DrawListItem,,"(2026-10-23): case 1 as `c = w - fputchar(text); x += c - 4;`, `w -= fputchar(text); c = w - 4; x += c;`, `c = w - fputchar(text) - 4; x += c;`, `c = w - fputchar(text); c -= 4; x += c;` (20-21 differing",,la
+DrawListItem,,"y stays 6, w 7-9)",,la
+LockerRoomLoop,,"(2026-10-23, W4): case-4 dword_D2150[vis] or [hm] through dead n (26/24), hit (29/28), btn (29/28)",29/28,ga
+LockerRoomLoop,,"new block int/unsigned/short team index (26/26/28), all same size. Regdump rechecked named index. No permutation run and no source change",,ga
+TradePlayers,,"(2026-10-23, W4): nm reused for Statistics suffix in first/second/both labels",,ga
+TradePlayers,,"nm reused for Show struct-copy source in first/second/both labels (all 3, size +0). Regdump rechecked suffix pair: constant pointer reuses disappear and do not raise nm savings. Prior GA index-local/prototype/module shapes not repeated. No permutation run, no source change",,ga
+ShowCredits,,"(2026-10-23, W4): one scoped int or unsigned-short spread=8 used as divisor for both draws (both 4, size +0). Prior GA single-dividend/divisor locals and arithmetic remainder expansions not repeated. No permutation run or source change",,ga
+assreffollow,,"(2026-10-23, W4): XOR combined with initial puckc index through dead d (direct/shift7/multiply sizeof(Player): 6 each)",,ga
+assreffollow,,"d savings rises 7 -> 9 and repairs the pointer build, but bool extension becomes xor ecx,ecx/mov cl,al, 4 bytes shorter before next-function spillover. New reason for combined boolean retries: corrected pointer allocation with d index. With d-index, boolean assigned to d on LHS/RHS, d compound XOR in either order, and d assignment-comma-XOR (13/7/13/11/13). Flags or masked flags assigned to existing d then compared/XOR (13 each). No permutation run",,ga
+assreffollow,,baseline retained,,ga
+assshoot,,"(2026-10-23, W4): separate decrement then field test for temp2, +4Ch, or both (all 4)",all 4,ga
+assshoot,,"existing y reused for temp2 decrement/test (22, frame changes). Rechecked y-timer savings: y rises 6 -> 8 but remains EAX",,ga
+assshoot,,"no order-only sweep, no permutation run, no source change",,ga
+RunIntro,,"(2026-10-23, W4): reuse existing c for tests in first fade, second fade, or both (32/25/29)",32/25/29,ga
+RunIntro,,same with byte update through c+1/c-1 (32/25/29). This raises c savings 300 -> 1100 (still AL) and lowers i 4083 -> 3283 (still ESI),,ga
+RunIntro,,changed stays 493 -> EDI. No permutation run,,ga
+RunIntro,,baseline retained,,ga
+FadePalette,,"(2026-10-23, W4): unsigned i (9, size -1",,ga
+FadePalette,,"new GA check because i outranks steps), table-bound values through existing c/i before their loops (33/40, size +23), inner pixel dividend held in block int value then *=c (7, size -3). Regdump rechecked unsigned index and named dividend",,ga
+FadePalette,,"prior GA clamp/volatile/result-narrowing shapes not repeated. No permutation run, baseline retained",,ga
+assrefpenshot,,"(2026-10-23, W4): load stopped puck velocity through existing r/px before chain (17,+9 / 20,+3), new block short/unsigned-short/int stopped (19/19/20,+3). Regdump: stopped 2 -> DX as desired, but its added conflict reshuffles earlier pflags and other temporaries (first diff +13). Prior GA facing-local/pointer declarations not repeated. No permutation run, baseline retained",,ga
+DrawGameLineJerseys,,"(2026-10-23, W4): new int number used for first-loop jersey plus second-loop status/roster-number/jersey-number (33, size +2 / 23,+4 / 22,+4)","33, size +2 / 23,+4 / 22,+4",ga
+DrawGameLineJerseys,,"number also reused for x/y coordinate (16,+4 / 16,+6)","16,+4 / 16,+6",ga
+DrawGameLineJerseys,,"existing col reused for first-loop jersey and second-loop status (44,+4), or first-loop x/y coordinate (15,+1 / 16,+1). Regdump rechecked coordinate probes: number 50 -> EDX (i 112 ESI, col 40 EDI, nums 12 memory unchanged)","i 112 ESI, col 40 EDI, nums 12 memory unchanged",ga
+DrawGameLineJerseys,,"reused col rises 40 -> 90, stays EDI. Neither produces the EXE load sequence. Prior GA one-use number locals, pointer types, callee prototypes and narrowed coordinate casts not repeated. No permutation run, baseline retained",,ga
+checkob,,"(2026-10-23, X4): expand extra by 4Eh within each loop iteration then restore (34)",34,ga
+checkob,,"y reused for limit (13) or unconditionally loaded Y (12), GA tied-temp diagnostic motivated these retries",,ga
+checkob,,switch on far-side boolean (23). Baseline retained,,ga
+ShowLoadingScreen,,"(2026-10-23, X4): three palettes grouped into a 2D array or struct (5), j initialized before addtimer (6), k initialized before addtimer and used for unlock (19), combined 2D palette/j-before-timer (6). Array regdump retains named savings and picks. Baseline retained",,ga
+doplayeracc,,"(2026-10-23, X4): one-field short lead struct (same 5",,ga
+doplayeracc,,"regdump confirms same named picks), t saves lead then vy reused for pucky (30,+14), comma assignment through dy (17,+8), block-local short yv for pucky (11,+2). Baseline retained",,ga
+SelectHilight,,"(2026-10-23, X4): precompute each loop's string address through dead r/size (23,+32) or fresh char *row (26,+27)","26,+27",ga
+SelectHilight,,"reuse size for i*51h (23,+32). The size-address variant lowers strs to 12, tbl stays 14, size becomes 40 and both pointer parameters/reloads change rather than matching. Baseline retained",,ga
+SelectMatchingPlayers,,"(2026-10-23, X4",,ga
+SelectMatchingPlayers,,"savings-guided reuse): k=base then += product (28,+4), side=(i*3)*9 in statements (46), side=product then k=base/k+=side (66,+3), pointer-to-array view of k (30,+3). Baseline retained",,ga
+SkaterStatsCard,,"(2026-10-23, X4): t.attrp aliased through dead pl/rec (47,+84 / 23,+21), one-byte rating struct (7,+3, same savings), separate short/unsigned-short final rating product (19,+1). Baseline retained",,ga
+ListDialog,,"(2026-10-23, X4): fresh-only slot_solver 88 candidates guided by those slots (moves/swaps/scopes/assignment order",,ga
+ListDialog,,best stays 11),,ga
+ListDialog,,"pull only bw, bg, bg2, bg+bg2, or bw+bg+bg2 out of current struct (101/113/52/115/111). One malformed bg-prefix replacement failed compile, corrected before scoring. Baseline retained",,ga
+checkgoal,,"(2026-10-23, X4): reuse z for Y travel, X travel or crossing product (19 each)",19 each,ga
+checkgoal,,both travels (8),8,ga
+checkgoal,,"use z for final flag zero (8) or regd1 zero (8, 807 bytes, z splits into two 2-saving conflicts in EDX/AX and changes zero to EDX rather than ECX). No clear reduction in differing instructions, baseline retained",,ga
+RosterPanelClick,,"(2026-10-23, X4): named unsigned/signed char complement (9",,ga
+RosterPanelClick,,"named selected rises to 4 savings but still AL, fa stays 2 EAX), int complement (12), xor toggle (9), source/destination reread of falistsel (9), reuse rowy/h only for FA absolute index (40/16). Baseline retained",,ga
+DrawListItem,,"(2026-10-23, X4): y increment after rectangle/at print (31/29",,ga
+DrawListItem,,"y becomes 9 but loses tie to w 9), inline all w-4 uses (39",,ga
+DrawListItem,,"w 6 ties y 6 and y gets EDI), inline width with c result (37), top for right-width (23",,ga
+DrawListItem,,"w 7 still exceeds y 6), y as text base with rectangle y-1 (34",,ga
+DrawListItem,,y 7),,ga
+DrawListItem,,combined right-width via c/top/fontheight/idx with y increment at print (24/16/12/13) or after rectangle (27/19/15/16),27/19/15/16,ga
+DrawListItem,,y-increment plus centered delta in fontheight/top/idx (29/31/36),29/31/36,ga
+DrawListItem,,"y-increment plus right c-=4 (6, retained), w delta through c/fontheight/top/idx (11/29/23/34), fontheight-=4 (12)",12,ga
+SetRosterTeamMenus,,"(2026-10-23, X4): reuse dead t/team for item byte offset (27,+4 / 21,+2)","27,+4 / 21,+2",ga
+SetRosterTeamMenus,,final edit-lines selection as switch (11),11,ga
+SetRosterTeamMenus,,reuse dead team/t for EditTeamLines handler constant (11). No gain from changing those uses,,ga
+SetRosterTeamMenus,,baseline retained,,ga
