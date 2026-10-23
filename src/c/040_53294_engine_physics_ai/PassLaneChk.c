@@ -187,8 +187,8 @@ int PassLaneChk(Player *p, Player *o)
    he is snapped to the net edge for his facing (offset tables word_CCBEC, word_CCBFC, word_CCBCC, word_CCBDC;
    mirrored by the x-flip attribute bit 3), stopped, and the bump SPA for that side is returned (F0Fh, F55h,
    F9Bh / FE1h). p: the player; dir: his direction. Result: the new SPA, or his SPA when nothing changes.
-   DRAFT: 714 vs 700 (147 of 200 instructions). The original keeps dir in ebp, the net y in edi and dx / dy / net x
-   on the stack; the first x-flip test materializes a bool (sete). See docs/UNSURE.md. */
+   DRAFT (10.0 GA): 61 score differing. The first x-flip comparison is materialized by a doubled comparison,
+   as in the EXE (the C_MATCHING materialized-bool pattern). Register allocation and coordinate slots remain. */
 int NetCollide(Player *p, int dir)
 {
     int gx;
@@ -212,7 +212,7 @@ int NetCollide(Player *p, int dir)
             dir = dir + 2 & 7;
             if (dir < 5) goto keep;
             HIWORD(p->Xpos) = gx + ux;
-            if (gx < 0 && (p->attribute & 8) == 0) HIWORD(p->Xpos) += 6;
+            if (gx < 0 && ((p->attribute & 8) == 0) != 0) HIWORD(p->Xpos) += 6;
             if (gx > 0 && (p->attribute & 8)) HIWORD(p->Xpos) -= 6;
             HIWORD(p->Ypos) = uy + gy - 8;
             p->Xvel = 0;
