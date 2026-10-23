@@ -10,18 +10,16 @@
    result. */
 void BuildDefaultLines(void)
 {
-    short def[2][25];
     short off[2][25];
+    short def[2][25];
     short side;
     short i;
-    unsigned char st;
     unsigned char *r;
     unsigned char *lt;
 
     for (side = 0; side < 2; side++) {
         for (i = 0; i < 25; i++) {
-            st = hmroster[side * 0x444 + i * 0x27];
-            if (st == 0 || st == 1) {
+            if (hmroster[side * 0x444 + i * 0x27] == 0 || hmroster[side * 0x444 + i * 0x27] == 1) {
                 off[side][i] = def[side][i] = -1;
             } else {
                 r = unk_DACA0 + side * 0x1F4 + i * 0x14;
