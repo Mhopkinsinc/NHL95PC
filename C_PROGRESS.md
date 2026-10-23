@@ -997,7 +997,7 @@ Split functions with the entry in a marked block but another piece still in asm 
 | DrawLockerRoom | 80AA4 | 2684 | matched | [LockerRoomScreen.c](src/c/059_8034B_settings_lockerroom/LockerRoomScreen.c) |  |
 | LockerHitTest | 81520 | 79 | matched | [LockerHitTest.c](src/c/059_8034B_settings_lockerroom/LockerHitTest.c) |  |
 | DrawLockerJersey | 8156F | 1726 | nonmatching | [DrawPanel3D.c](src/c/059_8034B_settings_lockerroom/DrawPanel3D.c) | 15 bytes short (palette loop lea / byte copy); see docs/UNSURE.md |
-| LockerRoomLoop | 81C4E | 2060 | nonmatching | [LockerRoomLoop.c](src/c/059_8034B_settings_lockerroom/LockerRoomLoop.c) |  |
+| LockerRoomLoop | 81C4E | 2060 | nonmatching | [LockerRoomScreen.c](src/c/059_8034B_settings_lockerroom/LockerRoomScreen.c) |  |
 | DrawSelBoxOn | 8245A | 158 | matched | [DrawSelBoxOn.c](src/c/059_8034B_settings_lockerroom/DrawSelBoxOn.c) |  |
 | DrawSelBoxOff | 824F8 | 129 | matched | [DrawSelBoxOn.c](src/c/059_8034B_settings_lockerroom/DrawSelBoxOn.c) |  |
 | MenuSoundSettings | 82579 | 163 | matched | [MenuSoundSettings.c](src/c/059_8034B_settings_lockerroom/MenuSoundSettings.c) | the EXE does not save edx (only ebx/ecx/esi/edi/ebp) though cdecl calls clobber it; C pushes edx too - some callee pragma differs |
