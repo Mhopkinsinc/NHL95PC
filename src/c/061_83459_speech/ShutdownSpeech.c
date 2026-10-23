@@ -153,10 +153,10 @@ void PlaceSpeechSlot(int n)
    (bank +3B6Ch used + its size, up to +3B68h), loaded (kind 'G': LoadSpeechSlot) or placed (PlaceSpeechSlot)
    there and that slot queued. name: the clip name. Result: 1 when queued; 0 (and the queue entry dropped) when
    the clip is unknown, no slot is free or the sample does not fit.
-   DRAFT (GA): 289 bytes, 46 differing. The queue stores read speechq as a pointer (load, then index: the EXE's
-   `mov eax, [speechq]` / `[eax+ecx*4]`), the free search starts at the known 0 (no loaded local) and free, slot,
-   pos are declared in that order (stack slots). Left: slot is in ebp, free in ebx and the swapped slot pointer in
-   edx (original ebx, edx, ebp), and the last store loads pos into eax (original edx). See UNSURE. */
+   DRAFT (GA): 289 bytes, 7 differing. The queue stores read speechq as a pointer, the free search starts at the
+   known 0, free, slot, pos are declared in that order (stack slots) and the swapped slot is checked through its
+   own pointer s (with one dst for both, slot / free / dst rotate to ebp / ebx / edx). Left: both queue stores
+   load speechq into edx and the index into eax (the EXE: speechq in eax, the first store indexing ecx). */
 int QueueSpeechClip(char *name)
 {
     int free;
@@ -166,6 +166,7 @@ int QueueSpeechClip(char *name)
     SpeechSlot *bank;
     int off;
     SpeechSlot *dst;
+    SpeechSlot *s;
 
     pos = SPEECHQ->count++;
     slot = FindSpeechSlot(name);
@@ -186,9 +187,9 @@ fail:
     tmp = *dst;
     *dst = bank[slot];
     speechbank[slot] = tmp;
-    dst = (SpeechSlot *)((char *)speechbank + off);
-    if ((unsigned)(BANKD(0x3B6C) + dst->size) > (unsigned)BANKD(0x3B68)) goto fail;
-    if (dst->kind == 'G') LoadSpeechSlot(free);
+    s = (SpeechSlot *)((char *)speechbank + off);
+    if ((unsigned)(BANKD(0x3B6C) + s->size) > (unsigned)BANKD(0x3B68)) goto fail;
+    if (s->kind == 'G') LoadSpeechSlot(free);
     else PlaceSpeechSlot(free);
     (*(SpeechQ **)&speechq)->clip[pos] = free;
     return 1;
