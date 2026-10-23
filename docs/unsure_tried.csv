@@ -2174,3 +2174,38 @@ DrawGameLineJerseys,,"nums parameter int/unsigned/char pointer/void pointer with
 DrawGameLineJerseys,,permlog_r3.csv),,ga
 DrawGameLineJerseys,,"best 10 (+3) is the already-recorded short cast on lineslotx[i*2], which moves another coordinate rather than fixing the number load",,ga
 DrawGameLineJerseys,,not retained. Original retained,,ga
+puckfaceoff2,,(2026-10-23): probe of all 16 short / unsigned short mixes of the four -1 globals (tools/probe.py: none makes the register copies),,ga
+puckfaceoff2,,"the same test as `(penshotteam ? 1 : 2)` (92), swapped `(penshotteam == 0) + 1 == cont2team` (94), `1 + (...)`, `!penshotteam + 1`, `(0 == penshotteam) + 1`, `(int)` cast (99), `(short)` / `(unsigned char)` casts on the bool (127), `(short)((...) + 1)` (94, size +10), ternaries in both tests (131)",131,ga
+puckfaceoff2,,"`if / else` for the referee frame (97 but size +7), `apl[regd1.w + regd4.w]` (101)",101,ga
+puckfaceoff2,,"the goalie d as if / else (123), `camy = 0; camx = 0;`, `RefStep[0] = (short)-1` (99)",99,ga
+puckfaceoff2,,permute.py once (641 candidates: best 66 only at size +15 with char casts that change the gameclock test),641 candidates: best 66 only at size +15 with char casts that change the gameclock test,ga
+MainDeskLoop,,"(2026-10-23): the first size through i (110), bank / newsong (104), slot (101)",101,ga
+MainDeskLoop,,a new int size at both sites (95),95,ga
+MainDeskLoop,,"the second size through bank (120), newsong (121), slot (99), i (110), depth (113), ptr (158), e (92), m (104), pal (114), s.w / s.h (141), s.item / s.level (163)",163,ga
+MainDeskLoop,,"an `(int)` cast (73, no change)","73, no change",ga
+MainDeskLoop,,the on2 path's redraw through `s.sel[i]` (no change),no change,ga
+MainDeskLoop,,"the frame struct split into an array struct and a scalar struct {w, h, item, level, fh, my, mx} (543 differing lines: the layout breaks)",543 differing lines: the layout breaks,ga
+EditTextField,,"(2026-10-23): the dead parameter x reused as the insert flag instead of `unsigned short ins` (148 differing, frame 0Ch: timeout still takes ebp, x / ins spilled). Not tried: the whole loop as an inner `for (; (key = PollKey()) || !sub_B3D64(); )` with the handlers as its body and gotos for Enter / Esc (the earlier passes' bottom-poll goto / while / do shapes did not give the layout)",,ga
+TeamStatsScreen,,"(2026-10-23): koff removed with the arms as `*(int *)((int)statssortkeys + t * 4)` (177, size +16), `*(int *)(t * 4 + (int)statssortkeys)` (179), `*(int *)((int)statssortkeys + (t << 2))` (177), `statssortkeys[t]` (156): none hoists t * 4 into the dispatch (the temporary lands elsewhere and n moves to 25Ch)",the temporary lands elsewhere and n moves to 25Ch,ga
+ControlsDlgLoop,,(2026-10-23): `if ((btn & 2) || (btn & 4)) { click chain } else { no-button block with draw: }` (185,,ga
+ControlsDlgLoop,,the layout flips),,ga
+LoadTeamRoster,,(2026-10-23): late id load through an int offset local (folds into [r+r*4]),folds into [r+r*4],ga
+LoadTeamRoster,,"a pointer local, (i << 2), 2-D casts, parenthesised offset sums, unsigned offset, p first / after i / char *, strcpy target in place, p as int, byteoff / 2-D / reversed sums / a value local / read-back for the DEB74 block, short line / id, line / id / i declared first or last, base after p",,ga
+LoadTeamRoster,,"permute (all families, 833 candidates: best 59 only with tempadd + unsigned short temp, size off) and natural families only (291, nothing)","291, nothing",ga
+PostGameToTeamDb,,"(2026-10-23): declaration orders of r / k / the plain scalars (rec first / last, reversed), short r, score = hmscore[0]",,ga
+PostGameToTeamDb,,"score++ / 1 + hmscore[0] / res before score, side test flipped, no st local, (side ^ 1) << 8 in k (early / late), in-place stat offsets (also parenthesised / reversed), ss[0]++ before the offset, 2-D casts for the stat tables",,ga
+PostGameToTeamDb,,an ev = gsum + 1 pointer (also as st),,ga
+PostGameToTeamDb,,the line-pointer casts,,ga
+PostGameToTeamDb,,permute swapdecl / movedecl / scope (321 candidates),321 candidates,ga
+PostGameToTeamDb,movedecl:r:,declaration orders of r / k / the,tried (docs/UNSURE.md),ga
+PostGameToTeamDb,swapdecl:r:,declaration orders of r / k / the,tried (docs/UNSURE.md),ga
+PostGameToTeamDb,movedecl:k:,declaration orders of r / k / the,tried (docs/UNSURE.md),ga
+PostGameToTeamDb,swapdecl:k:,declaration orders of r / k / the,tried (docs/UNSURE.md),ga
+GameLineEditorLoop,,"(2026-10-23): pos[i][0] / pos[i][1] reset as two stores (either order: +274 bytes, 420), hit / pick as two stores (no change)",no change,ga
+GameLineEditorLoop,,"the bg / full reset chains as separate stores (worse), itemoffset embedded in the on1 test (no change), no itemoffset / m (382), m = menus[level] first (no change",,ga
+GameLineEditorLoop,,"as the base of the test 456), path / nitems declarations swapped (259)",259,ga
+GameLineEditorLoop,,"permute swapdecl / movedecl / scope / chain / type (385, kept col3 / col1) and all families (231, nothing)","231, nothing",ga
+DbLineEditorLoop,,"(2026-10-23): the slot ternary as if / else (either order: frame changes, 1688)","either order: frame changes, 1688",ga
+DbLineEditorLoop,,"the product factors swapped (234), item / mx / h / level / pick orders (swapim2-6: 119-170)",swapim2-6: 119-170,ga
+RunMenu,,"(2026-10-23): size product inline / += 0x11 / through w, h / size *= forms (217-265), nitems or sel out of the frame struct (276, 280), m kept for on2 / pad / x only (203, 235), separate reversed pos stores in the first loop (204 before the permute), h / w statement order (204), oldmx / oldmy declaration swap (168-173)",168-173,ga
+RunMenu,,"the close loop as for / while (164, 168) and with depth++ / depth = ++i after the Norm call (243-253), slot_solver (1 mismatch, nothing)","1 mismatch, nothing",ga
