@@ -182,6 +182,9 @@ void shotdiradj(Player *p)
 
 int __cdecl imul32(int a, int b);  /* library: 32-bit product */
 
+/* DRAFT (10.0 GA, 67 differing, same size): the scatter divisor and the speed divisor share one int (f, the
+   EXE's ebp, so the 3 of f / 3 spills to [esp]). Left: the sound short sits at [esp+10h] (EXE 0Ch, dy 10h) and
+   register picks in the speed code. */
 /* doshot (57C0B, 93G doshot; ends in dopass_ret6): p shoots. The aim is set (shotdiradj), p becomes the shooter
    (shotplayer, sflags bit 3 off, pflags bit 5). Without the puck, and not in a deflection animation (SPA DD3h /
    E2Bh), it only plays the miss sound 99h. Else (gmode2 bit 4) the shot speed: a slapshot (SPA 491h / E2Bh) loses
@@ -201,7 +204,7 @@ void doshot(Player *p)
     short z;
     short q;
     int e;
-    short w;
+    int f;
     short dx;
     short snd;
     short dy;
@@ -249,23 +252,23 @@ void doshot(Player *p)
         if (sp > 0xE) sp++;
         if (sp > 0xD) sp++;
         if (dist > 0xC8 || randomd0(p->shotacc + 0x10) <= 0xE) {
-            r = (unsigned short)(dist * ((passspeed >> 4) - sp + 0x10)) >> 6;
+            r = (dist * ((passspeed >> 4) - sp + 0x10) & 0xFFFF) >> 6;
             if (dist < 0xFA) r >>= 1;
             if (r > 0xA0) r = 0xA0;
             dx += randomd0(r + r) - r;
             if (r > 0x3C) r = 0x3C;
             e = dy < 0 ? r >> 1 : r;
-            w = e + e;
-            dy += randomd0(w) - e;
-            e = r;
-            q = e >> 1;
-            if (dist < 0xA0) q = e / 3;
+            dy += randomd0(e + e) - e;
+            f = r;
+            q = f >> 1;
+            if (dist < 0xA0) q = f / 3;
             if (dist < 0x50) q = r >> 2;
             z += randomd0(q);
         }
     }
-    *puckvx = dx * (passspeed * 59) / dist;
-    *puckvy = dy * (passspeed * 59) / dist;
+    f = dist;
+    *puckvx = dx * (passspeed * 59) / f;
+    *puckvy = dy * (passspeed * 59) / f;
     if (penshotlive) {
         if ((*puckvx ^ p->Xvel) >= 0 && ABS(*puckvx) < ABS(p->Xvel)) *puckvx = p->Xvel + 0x1F4;
         if ((*puckvy ^ p->Yvel) >= 0 && ABS(*puckvy) < ABS(p->Yvel)) *puckvy = p->Yvel + 0x1F4;
