@@ -706,10 +706,10 @@ SetTeamGoalie,672F9,204,046_644A8_engine_display,src/c/046_644A8_engine_display/
 ShowGoalieBanner,671E8,273,046_644A8_engine_display,src/c/046_644A8_engine_display/ShowGoalieBanner.c,matched,"close: setge result extends with and eax,FFh in asm (xor ah,ah in C) and the per-team pointer tables are indexed with side*12 in ebx; register/temps only",
 SortNonDefPlayers,6455F,181,046_644A8_engine_display,src/c/046_644A8_engine_display/SortNonDefPlayers.c,matched,,
 SortPlayersByPos,644A8,183,046_644A8_engine_display,src/c/046_644A8_engine_display/SortPlayersByPos.c,matched,,
+checkwindow,65D01,1942,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,,
 LoadTeamPPV,66497,278,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,,
 UpdateTextOverlay,66E06,476,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,,
 DrawCallBanner,66FE2,518,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,matched,,
-checkwindow,65D01,1942,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,nonmatching,,register 82/120
 DrawTextOverlay,665AD,2093,046_644A8_engine_display,src/c/046_644A8_engine_display/checkwindow.c,nonmatching,"same size, 132 differing lines: stack short slots; see docs/UNSURE.md",slot 32/68
 updatereplay,675D6,810,046_644A8_engine_display,src/c/046_644A8_engine_display/updatereplay.c,nonmatching,"draft: 810 vs 812, 198/216 instructions; register choices. See UNSURE.",register 16/25
 DebugMonitor,688A4,1495,047_688A4_debug_dump,src/c/047_688A4_debug_dump/DebugMonitor.c,matched,,
