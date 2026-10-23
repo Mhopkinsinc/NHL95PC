@@ -1,6 +1,4 @@
 /* Arena logos: tonight's game, the line-ups before a game. */
-/* DRAFT: same size, 19 differing under 10.0 GA (out as a short takes the top slot, titlebank declared before
-   bkbank and font); the side loop picks its registers one step later in the cycle; see docs/UNSURE.md. */
 #define TonightsGameScreen TonightsGameScreen_decl
 #define sub_8F98F sub_8F98F_decl
 #define sub_8FB8E sub_8FB8E_decl
@@ -106,8 +104,7 @@ int TonightsGameScreen(int home, int away)
     FileClose(&fh);
     linetab[0] = hmlinetab;
     linetab[1] = awlinetab;
-    err = 0;
-    faded = 0;
+    err = faded = 0;
     key = 0;
     if (musicon && !songdata) {
         MakePath(path, fileoncd[0x1DF] == 1 ? (char *)cddriveptr : 0, (char *)str_Tonights, (char *)str_Iff5);
@@ -162,7 +159,7 @@ int TonightsGameScreen(int home, int away)
             y = byte_D42C3 + 0xA6;
             for (n = 0; n < 3 && !err; n++) {
                 for (i = 0; i < 2 && !err; i++) {
-                    p = (linetab[side] + n * 2 + 0xC)[i];
+                    p = (linetab[side] + 0xC + n * 2)[i];
                     q = gipk + (side * 0x1C + p) * 0x34;
                     if (!err) {
                         FitPlayerName(name, 0, q + 0x13, 0xC8);
