@@ -1,5 +1,8 @@
 /* Game setup: the end-of-game team stats screen. */
-/* DRAFT: same size, 523 of 607 instructions; see docs/UNSURE.md. Its match belongs in UpdateOtherScores.c,
+/* DRAFT (10.0 GA, 79 -> 46 differing): one int x for the label x, both m:ss times and the completion
+   percentage (a dead local reused) gives the EXE's minutes-first divides. Left: the multiply temporaries of
+   s.col and the name address (ecx, EXE ebx / edx), and s.cx stored before the name's width call (EXE after
+   it); see docs/UNSURE.md. Its match belongs in UpdateOtherScores.c (with PrintClampedText between them),
    whose UpdateOtherScores_x tail it uses. */
 #define sub_913D0 sub_913D0_decl
 #define sub_8F13B sub_8F13B_decl
@@ -40,10 +43,8 @@ void GameStatsScreen(void)
         int cx;
     } s;
     int i;
-    int bank;
     int t;
-    int v;
-    int pct;
+    int bank;
     char *name;
     int slot;
     int x;
@@ -92,8 +93,8 @@ void GameStatsScreen(void)
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0xE0, s.buf);
         sprintf(s.buf, (char *)str_DD, TS(2), TS(4));
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0xF8, s.buf);
-        v = TS(8);
-        sprintf(s.buf, (char *)str_D02d2, v / 60, v % 60);
+        x = TS(8);
+        sprintf(s.buf, (char *)str_D02d2, x / 60, x % 60);
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0x110, s.buf);
         sprintf(s.buf, (char *)str_D7, TS(6));
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0x128, s.buf);
@@ -105,14 +106,14 @@ void GameStatsScreen(void)
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0x170, s.buf);
         sprintf(s.buf, (char *)str_D7, TS(0x24));
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0x188, s.buf);
-        v = TS(0xE);
-        sprintf(s.buf, (char *)str_D02d2, v / 60, v % 60);
+        x = TS(0xE);
+        sprintf(s.buf, (char *)str_D02d2, x / 60, x % 60);
         PrintClampedText(s.cx - (fputchar(s.buf) >> 1), 0x1A0, s.buf);
-        pct = 0;
+        x = 0;
         s.y = 0x1B8;
-        if (TS(0x26)) pct = TS(0x28) * 100 / TS(0x26);
+        if (TS(0x26)) x = TS(0x28) * 100 / TS(0x26);
         sprintf(s.buf, (char *)str_DDD, *(short *)((char *)&hmtmstruct + (i << 8) + 0x28),
-            *(short *)((char *)&hmtmstruct + (i << 8) + 0x26), pct);
+            *(short *)((char *)&hmtmstruct + (i << 8) + 0x26), x);
         PrintClampedText(i * 455 + 0x49 - (fputchar(s.buf) >> 1), s.y, s.buf);
     }
     if (musicon) {
