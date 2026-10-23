@@ -43,7 +43,7 @@ DrawPanelLine,14AFE,241,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPane
 TickPanelPenalties,15655,178,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,,
 DrawEnergyBar,15707,182,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,"in DrawPanelLine.c (segment 006); declaration order w2, c2, x2, c1 found by tools/permute.py",
 DrawPanelPenalties,15995,481,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelLine.c,matched,,
-DrawPanelScore,14A20,222,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelScore.c,nonmatching,register allocation: asm keeps score in esi / side in ebx and divides with 16-bit idiv cx; C uses ecx/esi/edi,register 21/44
+DrawPanelScore,14A20,222,005_1431E_file_utils,src/c/005_1431E_file_utils/DrawPanelScore.c,matched,register allocation: asm keeps score in esi / side in ebx and divides with 16-bit idiv cx; C uses ecx/esi/edi,
 FileClose,1457C,38,005_1431E_file_utils,src/c/005_1431E_file_utils/FileClose.c,matched,,
 FileCreate,14566,22,005_1431E_file_utils,src/c/005_1431E_file_utils/FileCreate.c,matched,,
 FileOpenRead FileOpenWrite FileOpenRW,14525,65,005_1431E_file_utils,src/c/005_1431E_file_utils/FileOpenRead.c,matched,,
@@ -209,10 +209,10 @@ CmpFileNames,2BEEA,19,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/CmpFil
 FileDlgHitTest,2C3FF,82,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/FileDlgHitTest.c,matched,,
 LoadFileDlgShapes,2B7C3,385,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DrawFileDlgTabs,2BD16,468,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
+ScanSavedGames,2BEFD,568,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DrawFileDlg,2C18F,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DrawFileDlgList,2C46B,918,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
 DeleteSavedGame,2CE29,624,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,matched,,
-ScanSavedGames,2BEFD,568,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,nonmatching,,
 RunFileDlg,2C801,1576,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c,nonmatching,,register 17/37
 MenuOpenSaved,2B944,978,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/MenuOpenSaved.c,matched,,
 PrintTextCopy,2C135,63,021_2B7B7_file_dialogs,src/c/021_2B7B7_file_dialogs/PrintTextCopy.c,matched,,
@@ -282,9 +282,9 @@ CalPrevMonth,346FE,109,027_33FFD_calendar,src/c/027_33FFD_calendar/CalPrevMonth.
 CalReturn,3476B,30,027_33FFD_calendar,src/c/027_33FFD_calendar/CalReturn.c,matched,,
 CalendarScreen,34821,6040,027_33FFD_calendar,src/c/027_33FFD_calendar/CalendarScreen.c,nonmatching,"first pass (Ghidra): 6,036 of 6,040 bytes, 505 differing (parameter homing: the EXE pushes dir, keeps ext in edi)",
 DrawCalendarDay,33FFD,1684,027_33FFD_calendar,src/c/027_33FFD_calendar/DrawCalendarDay.c,nonmatching,"draft: 1675 vs 1684, every statement in place; register picks (Home / Away position, the day divisor, the game day index) and one add order. See docs/UNSURE.md.",register 21/24
-SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,nonmatching,"draft: g*6 shifted in eax (mov eax,ebx) vs edx. Declaration order unchanged. games += g*6 kept the pointer in edx but widened the byte with movzx edi and push edi (103). Do not retry those.",register 12/16
-CheckLeagueDiskSync,35FB9,590,028_35FB9_import_export,src/c/028_35FB9_import_export/CheckLeagueDiskSync.c,nonmatching,"draft: 598 vs 590. team*30 reloads the stack slot. dir is in ebp and the error in edi (original edi and ebp), so the league id is copied to edx and the team byte is read into al. Do not retry declaration order, a separate file pointer, or dropping volatile on the team index.",register 21/31
-DrawTeamGrid,37FBA,303,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGrid.c,nonmatching,,size 35/68
+SetGameSides,347B7,106,027_33FFD_calendar,src/c/027_33FFD_calendar/SetGameSides.c,matched,"draft: g*6 shifted in eax (mov eax,ebx) vs edx. Declaration order unchanged. games += g*6 kept the pointer in edx but widened the byte with movzx edi and push edi (103). Do not retry those.",
+CheckLeagueDiskSync,35FB9,590,028_35FB9_import_export,src/c/028_35FB9_import_export/CheckLeagueDiskSync.c,matched,"draft: 598 vs 590. team*30 reloads the stack slot. dir is in ebp and the error in edi (original edi and ebp), so the league id is copied to edx and the team byte is read into al. Do not retry declaration order, a separate file pointer, or dropping volatile on the team index.",
+DrawTeamGrid,37FBA,303,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGrid.c,matched,,
 DrawTeamGridName,37C53,279,028_35FB9_import_export,src/c/028_35FB9_import_export/DrawTeamGridName.c,matched,register allocation: asm keeps the row in a stack slot and the column in edi (no order of the 5 locals matches),
 HighlightGridCell,37EA6,276,028_35FB9_import_export,src/c/028_35FB9_import_export/HighlightGridCell.c,nonmatching,register / stack slots of the 8 frame corner temporaries differ; logic matches,register 23/33
 MakeTeamDbFmt,36207,102,028_35FB9_import_export,src/c/028_35FB9_import_export/MakeTeamDbFmt.c,matched,,
@@ -325,7 +325,7 @@ MergeLeagueFiles,3B25A,1622,030_3A9AA_database_merge,src/c/030_3A9AA_database_me
 RebuildLeagueDbs,3B9CA,445,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/UpdateTeamDbs.c,matched,,
 WaitLeagueFloppy,3D84F,142,030_3A9AA_database_merge,src/c/030_3A9AA_database_merge/WaitLeagueFloppy.c,matched,"draft: file/name params in edi/esi swapped, local order and MessageBox result kept in eax not edx",
 LoadNhlCfg,3DB41,231,031_3DB41_config_cfg,src/c/031_3DB41_config_cfg/LoadNhlCfg.c,matched,,
-BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/BuildTradeRoster.c,nonmatching,draft: 473 vs 473. The fill loop keeps the index in ebx and stores it through al; the original keeps the index in eax and reloads the byte into dl. Do not retry: a separate unsigned char is the same ebx/al pair. Storing the index directly reloads eax (477 bytes). An aux that reloads dl parks list in edi; passing list in esi pushes the incoming args and shifts the frame.,register 20/21
+BuildTradeRoster,3DC2C,473,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/BuildTradeRoster.c,matched,draft: 473 vs 473. The fill loop keeps the index in ebx and stores it through al; the original keeps the index in eax and reloads the byte into dl. Do not retry: a separate unsigned char is the same ebx/al pair. Storing the index directly reloads eax (477 bytes). An aux that reloads dl parks list in edi; passing list in esi pushes the incoming args and shifts the frame.,
 DrawTradeRow,3E7B3,130,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeRow.c,matched,,
 DrawTradeScreen,3E9CF,735,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/DrawTradeScreen.c,nonmatching,"draft: 736 vs 735 (best of 5). Cookie 0x60, sub esp 38h, ret 0Ch, art in ebp. The al/ah colour move into MakeJerseyShape matches. teams stays on the stack because t takes edi, the cols index is add eax,eax plus the pointer, and the roster base stays in ebp instead of being recomputed in ebx. The bank store is after add esp. Do not retry a named teams pointer or button = art once the roster loop is in the function; both spill art and grow the cookie to 0x64.",register 22/41
 ExecuteTrade,3E390,1059,032_3DC2C_roster_jersey,src/c/032_3DC2C_roster_jersey/ExecuteTrade.c,nonmatching,,size 36/84
@@ -363,9 +363,9 @@ RandomizeSchedule,42295,924,034_41B80_schedule,src/c/034_41B80_schedule/Randomiz
 SeriesLength,42221,116,034_41B80_schedule,src/c/034_41B80_schedule/SeriesLength.c,nonmatching,"116 vs 116. Loop, jump table and case bodies match. The shared mov eax,esi / pop esi / pop edx / pop ecx / ret is after mov esi,5 (ja and the other returns jump forward to +57). The EXE falls out of mov esi,1 into that epilogue at +39 and later cases jump back. Do not retry: Watcom sinks this multi-predecessor return onto the first conditional fall-through (best-of-5); a return glued to case 0 folds to mov eax,1 or jumps to an epilogue at the end.",size 8/10
 SetSeriesTeams,42F42,171,034_41B80_schedule,src/c/034_41B80_schedule/SetSeriesTeams.c,matched,,
 SeedPlayoffRound1,42FED,1623,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,matched,,
+SeedPlayoffRound2,43757,1769,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,matched,"same size, 12 differing lines: month slot, one sum order; see docs/UNSURE.md",
 SimPlayoffFinal,447A6,227,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,matched,"draft: same size; team index is bl (original cl) and i+1 is lea ecx,[eax+1] (original inc eax). A while loop moved the compare above the index load. Do not retry the while.",
 SimPlayoffRound1,43644,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 15/26
-SeedPlayoffRound2,43757,1769,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"same size, 12 differing lines: month slot, one sum order; see docs/UNSURE.md",slot 10/12
 SimPlayoffRound2,43E40,267,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 13/20
 SeedPlayoffRound3,43F4B,1131,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,"same size, first pass: EXE frame one dword larger (spilled buf + 1F8h); see docs/UNSURE.md",size 191/269
 SimPlayoffRound3,443B6,275,034_41B80_schedule,src/c/034_41B80_schedule/SimPlayoffRound1.c,nonmatching,,register 14/23
@@ -382,9 +382,13 @@ ShowLoadingScreen,479E9,584,035_45282_options_settings,src/c/035_45282_options_s
 SimAddPair,452A6,31,035_45282_options_settings,src/c/035_45282_options_settings/SimAddPair.c,matched,original keeps pairs in edx and the count in esi; this draft swaps them (with or without a count local). 10-min cap,
 SimulateGame,452C5,9868,035_45282_options_settings,src/c/035_45282_options_settings/SimulateGame.c,nonmatching,"first pass (Ghidra): 9,902 of 9,868 bytes, 721 differing (scalar slots, register picks)",
 FadeOutPalCycle,47C31,165,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,draft: asm keeps the byte in bl and writes bl-1 from bh; ours decrements bl in place,
+PreGameIntro_scroll,480CC,386,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
+PreGameIntro_end,4824E,192,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
+ThreeStarsLoop StartPreGame,4830E,284,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
+StartThreeStars,48F0B,853,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,matched,,
 PreGameIntro,47CD6,1592,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 60/123
-ThreeStarsLoop,48333,247,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 13/21
-StartPreGame,4830E,284,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,register 13/21
+PickThreeStars,48AC8,1091,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,
+assthreestars,495B8,1056,036_47C31_engine_init,src/c/036_47C31_engine_init/FadeOutPalCycle.c,nonmatching,,
 AddStar,48789,80,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/AddStar.c,matched,,
 AdjustFacingDirection,4B4E9,217,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/AdjustFacingDirection.c,matched,,
 ChkTwoLinePass,4DD51,195,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/ChkTwoLinePass.c,matched,"draft: same size; lasttouch stays in si and the side test is xor edx,ebx. C keeps lasttouch in bx and compares. Writing ^ instead of != dropped the esi save (190 vs 195). Do not retry that.",
@@ -393,9 +397,6 @@ CrowdOnStoppage,4E71A,469,037_4842A_engine_player_logic,src/c/037_4842A_engine_p
 GoalieToPuckVec,4B467,130,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/GoalieToPuckVec.c,matched,,
 MoveInDir,49260,153,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/MoveInDir.c,matched,,
 NextPathPoint,4F99B,84,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/NextPathPoint.c,matched,,
-StartThreeStars,48F0B,853,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/PickThreeStars.c,matched,"draft in PickThreeStars.c: 852 vs 853, only the parking loop differs (a leading jmp to its test). See docs/UNSURE.md.",
-PickThreeStars,48AC8,1091,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/PickThreeStars.c,nonmatching,"draft in PickThreeStars.c (PreGameIntro, its tail owner, is split): 1107 vs 1091, 105 lines. See docs/UNSURE.md.",register 39/92
-assthreestars,495B8,1056,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/PickThreeStars.c,nonmatching,"draft in PickThreeStars.c: 1043 vs 1056, 145 lines (team / player reads, roster offsets). See docs/UNSURE.md.",size 87/133
 SetLCmode,4D9FC,59,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/SetLCmode.c,matched,,
 SkateToSpot,4E292,1160,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/SkateToSpot.c,nonmatching,,register 30/35
 StarCompare,4883B,653,037_4842A_engine_player_logic,src/c/037_4842A_engine_player_logic/StarCompare.c,nonmatching,"draft: 619 vs 653. The *a%25 remainder is stored at esp+4 and the second point total takes ebp (original keeps that index in ebp and the total at esp+8). Frame is 0Ch not 10h. Do not retry register, an inner block, or a one-element array for that total.",register 93/131
@@ -761,13 +762,13 @@ DrawCreatePlayer,7025B,587,052_6D2F8_create_player,src/c/052_6D2F8_create_player
 DrawDBErrorsScreen,6EC95,164,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawDBErrorsScreen.c,matched,,
 DrawShootsField,6FA7D,184,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,matched,,
 DrawGloveField,6FB35,179,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,matched,,
-CreatePlayerLoop,704A6,572,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,nonmatching,"draft (DrawShootsField.c): 590 vs 572, p spilled / event in two registers. See UNSURE.",size 58/116
+CreatePlayerLoop,704A6,572,052_6D2F8_create_player,src/c/052_6D2F8_create_player/DrawShootsField.c,matched,"draft (DrawShootsField.c): 590 vs 572, p spilled / event in two registers. See UNSURE.",
 EditRosters,6E089,2604,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditRosters.c,nonmatching,"draft (own file): 2581 vs 2604, 382 lines (register picks). See docs/UNSURE.md.",register 227/324
 EditRostersReturn,6D5BB,21,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditRostersReturn.c,matched,,
 EditSkaterRating,6FC60,777,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditSkaterRating.c,nonmatching,"draft: same size (777), every statement in place; the (r + 5) * 5 temporaries take other registers. See docs/UNSURE.md.",register 46/71
 EditGoalieRating,6FF69,754,052_6D2F8_create_player,src/c/052_6D2F8_create_player/EditSkaterRating.c,nonmatching,"draft (EditSkaterRating.c, ends in EditSkaterRating_tail): same size (754); the skater twin's register picks. See docs/UNSURE.md.",register 46/67
 ErrorScreenWait,6EAB5,480,052_6D2F8_create_player,src/c/052_6D2F8_create_player/ErrorScreenWait.c,matched,,
-FindPlayer,71961,1451,052_6D2F8_create_player,src/c/052_6D2F8_create_player/FindPlayer.c,nonmatching,,size 20/32
+FindPlayer,71961,1451,052_6D2F8_create_player,src/c/052_6D2F8_create_player/FindPlayer.c,matched,,
 LoadTempDatabases,710D8,388,052_6D2F8_create_player,src/c/052_6D2F8_create_player/LoadTempDatabases.c,matched,,
 MoveToFreeAgents,70E8D,438,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToFreeAgents.c,matched,"Hex-Rays draft (slot order fixed: ntried, moved, nsel, other); left: the asm computes side/other from one cmp in al (setne al; and eax,0FFh; mov esi,eax; sete al), C uses setne dl / movzx and a second cmp, 437 vs 438 bytes; msglines stores are address-immediate only",
 MoveToOtherRoster,6F29C,1041,052_6D2F8_create_player,src/c/052_6D2F8_create_player/MoveToOtherRoster.c,nonmatching,,register 12/16
@@ -810,10 +811,10 @@ GameLineEditorLoop,76AF5,5242,054_737AA_line_editor_rosters,src/c/054_737AA_line
 GameRosterCmp,76A93,98,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/GameRosterCmp.c,matched,,
 LineEdHitTest,77F6F,134,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/LineEdHitTest.c,matched,"registers: asm keeps the slot y in ebp (4 saved regs, 14h frame); C uses eax and saves 3",
 LoadGameRoster,77FF5,847,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/LoadGameRoster.c,nonmatching,,size 7/13
+LineEdDone,75456,280,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,"draft: 280 vs 280 (best of 5). The jersey pointer is lea ebx where the original is lea ecx, the inner counter is ebx and the side stride is ecx, and the scratch status byte is dl where the original is bl. Do not retry a named row (lea ecx,[ebx+eax]) or n++ inside the subscript (copies n to edx before the inc).",
 MenuShowPlayerStats,7556E,514,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,,
 ScratchPlayer,75770,248,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,,
 DressPlayer,75868,201,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,matched,,
-LineEdDone,75456,280,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/MenuShowPlayerStats.c,nonmatching,"draft: 280 vs 280 (best of 5). The jersey pointer is lea ebx where the original is lea ecx, the inner counter is ebx and the side stride is ecx, and the scratch status byte is dl where the original is bl. Do not retry a named row (lea ecx,[ebx+eax]) or n++ inside the subscript (copies n to edx before the inc).",register 15/15
 PrintLineEdStatus,76771,95,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/PrintLineEdStatus.c,matched,,
 RandLfsrByte,7665E,47,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/RandLfsrByte.c,matched,"original does byte ops (dl = bit, dh = *s shr 1, bl = dh ^ B8h, push ebx too); this draft widens to 32 bits. 10-min cap",
 SetPalette768,76614,74,054_737AA_line_editor_rosters,src/c/054_737AA_line_editor_rosters/SetPalette768.c,matched,,
@@ -1004,12 +1005,12 @@ POPreSimConfFinals,8803B,91,064_86696_season_playoffs,src/c/064_86696_season_pla
 POPreSimRound1,87F85,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound1.c,matched,,
 POPreSimRound2,87FE0,91,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POPreSimRound2.c,matched,,
 POReturnZero,89B5C,13,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POReturnZero.c,matched,,
+POSeedRound2,87863,720,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,"draft: 736 vs 720 (best of 5). The frame, the eight-score scan, both date fills and __STOSD match. Each SeriesWinner result is copied mov edx, eax before the home byte, so the byte lands in eax and the compare is swapped (16 bytes). Do not retry named unsigned chars for the scan, one int for both the day remainder and the home byte (spills to sub esp, 34h), or assigning the home byte to k, the filter counter that lives in edx.",
 POSeedConfFinals,87B33,363,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,in POSeedRound2.c with the other seeding functions: Watcom then puts the shared exit in POSeedRound2_x as in the EXE (found by tools/module_try.py),
 POSeedFinal,87C9E,188,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,after POSeedConfFinals in POSeedRound2.c; it cross-jumps into POSeedConfFinals_pair (found by tools/module_try.py),
 PlayoffModeLoop,89268,2292,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,matched,,
 CreatePlayoffs,86696,2037,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 2037 same size, 34 lines: register picks (the second dword_C65AC test in ecx, EXE ebx; dword_D2884 zeroed from ebx, EXE edx), the second EMBSCUP bank stored after add esp (EXE before), the epilogue (POSeedRound2_x). See docs/UNSURE.md.",size 7/13
 POSeedTeams,86E8B,555,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft (POSeedRound2.c, ends in POSeedConfFinals_x): same size (555); the conference compare loads VisTeam first and the first swap step slots[i] first. See docs/UNSURE.md.",register 12/15
-POSeedRound2,87863,720,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 736 vs 720 (best of 5). The frame, the eight-score scan, both date fills and __STOSD match. Each SeriesWinner result is copied mov edx, eax before the home byte, so the byte lands in eax and the compare is swapped (16 bytes). Do not retry named unsigned chars for the scan, one int for both the day remainder and the home byte (spills to sub esp, 34h), or assigning the home byte to k, the filter counter that lives in edx.",register 52/69
 POAfterGame,8873C,2678,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 2668 vs 2678, 100 lines: needs one variable for the first loop counter and the series winner (p spilled with push eax) and the k -= m clearing loop; left: an extra mov edx, eax after SeriesWinner, the one / two human test registers, controller side register picks. See docs/UNSURE.md.",register 46/65
 DrawPlayoffTree,8A652,4617,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeedRound2.c,nonmatching,"draft: 4616 vs 4617, only the first seed loop differs (i and the playofftree read in eax / edx, swapped). See docs/UNSURE.md.",register 4/5
 POSeriesScore,877E9,122,064_86696_season_playoffs,src/c/064_86696_season_playoffs/POSeriesScore.c,matched,"registers/layout: asm returns through one exit (result in ecx), keeps *aw+1 in ebp on one arm and inc edi on the other; C merges the two arms",
