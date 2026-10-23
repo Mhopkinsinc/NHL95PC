@@ -58,27 +58,27 @@ void DrawLockerJersey(int side, int team, int divs, int hm, int vis)
     char path[0x40];
     char name[0x10];
     int bank;
+    int f;
     signed char *src;
-    signed char c;
     int i;
     int k;
     char *s;
 
     sub_B4BA8();
     sprintf(name, side ? (char *)str_JERSV : (char *)str_JERSH, off_D21C0[team]);
-    MakePath(path, fileoncd[(side != 0) + 0xA3 + dword_D20E0[team] * 2] == 1 ? (char *)cddriveptr : 0, name, 0);
+    team = dword_D20E0[team];
+    f = (side != 0) + 0xA3;
+    MakePath(path, fileoncd[team * 2 + f] == 1 ? (char *)cddriveptr : 0, name, 0);
     bank = sub_8E83C(path, 0);
     src = (signed char *)sub_B30B4(bank, (char *)str_P01) + 0x10;
     if (side) {
         for (i = 0; i < 0xC0; i++) {
-            c = (src + i)[0x180];
-            if (c < 0x3B) pal[i] = c + 5;
+            if ((src + i)[0x180] < 0x3B) pal[i] = (src + i)[0x180] + 5;
             else pal[i] = 0x3F;
         }
     } else {
         for (i = 0; i < 0xC0; i++) {
-            c = (src + i)[0x240];
-            if (c < 0x3B) pal[i] = c + 5;
+            if ((src + i)[0x240] < 0x3B) pal[i] = (src + i)[0x240] + 5;
             else pal[i] = 0x3F;
         }
     }
