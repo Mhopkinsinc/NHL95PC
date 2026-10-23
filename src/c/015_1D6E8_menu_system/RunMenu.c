@@ -482,7 +482,8 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
 typedef struct { char c[0x34]; } PlayerRec52;
 
 #define PHILITE(c) \
-    sub_90F38(0, (c) < statsnumskaters ? (c) * 13 + 0x43 : ((c) - statsnumskaters) * 13 + 0x1A8, 0x280, 0xD, 0x80)
+    k = (c) < statsnumskaters ? (c) * 13 + 0x43 : ((c) - statsnumskaters) * 13 + 0x1A8; \
+    sub_90F38(0, k, 0x280, 0xD, 0x80)
 #define PREC(c) \
     ((c) < statsnumskaters ? statsskaterplr[statsskaterorder[c]] : statsgoalieplr[statsgoalieorder[(c) - statsnumskaters]])
 #define PCLOSE() \
@@ -499,7 +500,9 @@ typedef struct { char c[0x34]; } PlayerRec52;
     s.sel[1] = s.sel[2] = s.sel[3] = 0; \
     s.nitems[1] = s.nitems[2] = s.nitems[3] = 0
 
-/* DRAFT: first pass, 2,945 vs 3,345 bytes (C gets a biased ebp frame the EXE does not have); see docs/UNSURE.md. */
+/* DRAFT under 10.0 GA: same size, 266 differing. The highlight row is computed into k before the sub_90F38 call:
+   with the ternary inside the pushed arguments Watcom gave the function a biased ebp frame (and 20 bytes of
+   spills). Left: register picks from the size product on, the StrPrefixDiffers address sums; see docs/UNSURE.md. */
 /* RunPlayerPickMenu (1ED96, PC only; ends in RunMenu_ret4): RunMenu with a player picker under it, for the player
    stats screens. The selected player (statsplayer, found in the shown list by his first and last name with
    StrPrefixDiffers, goalies when the position letter is G) is shown by an xor bar (sub_90F38: skaters from row 43h,
@@ -535,6 +538,7 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     int r;
     unsigned char *e;
     MenuItem *m;
+    int size;
 
     s.depth = s.cur = s.pick = 0;
     s.menus[0] = bar;
@@ -543,8 +547,8 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     s.bg[0] = s.bg[1] = s.bg[2] = s.bg[3] = 0;
     s.sel[0] = s.sel[1] = s.sel[2] = s.sel[3] = 0;
     s.pos[0][0] = s.pos[0][1] = 0;
-    s.ptr = sub_8CCA8((char *)str_PointerMenu, (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11,
-        0x20);
+    size = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    s.ptr = sub_8CCA8((char *)str_PointerMenu, size, 0x20);
     *(MenuHdr17 *)s.ptr = *(MenuHdr17 *)pointerspr;
     ((short *)s.ptr)[2] = ((short *)pointerspr)[2] + 1;
     ((short *)s.ptr)[3] = ((short *)pointerspr)[3] + 1;
@@ -659,12 +663,12 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                 DrawMenuItemSel((struct MenuItem *)&s.menus[i][s.sel[i]], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 s.sel[i] = s.item;
                 DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], col1, col2, col3);
-                m = &s.menus[s.level][s.item];
                 s.depth = i + 1;
-                s.menus[s.depth] = (MenuItem *)m->on2;
+                s.menus[s.depth] = (MenuItem *)s.menus[s.level][s.item].on2;
+                m = &s.menus[s.level][s.item];
                 s.nitems[s.depth] = m->pad;
-                s.pos[s.depth][0] = (s.depth == 1 ? m->x1 : m->x2) + s.pos[s.depth - 1][0];
-                s.pos[s.depth][1] = (s.depth == 1 ? m->y2 : m->y1) + s.pos[s.depth - 1][1];
+                s.pos[s.depth][0] = (s.depth != 1 ? m->x2 : m->x1) + s.pos[s.depth - 1][0];
+                s.pos[s.depth][1] = (s.depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[s.depth - 1][1];
                 s.w = s.menus[s.depth][s.nitems[s.depth] - 1].x2 - s.menus[s.depth][0].x1 + 1;
                 s.h = s.menus[s.depth][s.nitems[s.depth] - 1].y2 - s.menus[s.depth][0].y1 + 1;
                 s.bg[s.depth] = sub_8CCA8((char *)str_menubuff, s.w * s.h + 0x11, 0x20);
