@@ -1,8 +1,12 @@
 /* Season playoffs: the playoff tree screen's menu loop. */
-/* DRAFT: 2,702 vs 2,688 bytes, 165 differing under 10.0 GA; see docs/UNSURE.md. Plain locals instead of the
+/* DRAFT: 2,723 vs 2,688 bytes, 156 differing under 10.0 GA; see docs/UNSURE.md. Plain locals instead of the
    frame struct (a store into one of the struct's arrays made Watcom reload the others and every member after
-   each call; the EXE keeps the pointer block in ebp and &menus[level][item] in eax). Left: the scalar slots
-   (the EXE upward from A0h: level, item, mx, my, ptr, oldmx, depth, h, w, slot2, slot, tree, oldmy). */
+   each call; the EXE keeps the pointer block in ebp and &menus[level][item] in eax). The submenu path uses
+   depth itself and `depth++` (the EXE caches it in esi and increments it in place), and the two select-item
+   paths draw &menus[level][sel[level]] after the store (the EXE reloads sel[level]). Left: the scalar slots
+   (the EXE upward from A0h: level, item, mx, my, ptr, oldmx, depth, h, w, slot2, slot, tree, oldmy), the last
+   select-item copy (the EXE jumps into the first one's call) and the loop end (the EXE jumps into the move
+   path's sub_91400 call). */
 #define PlayoffTreeMenu PlayoffTreeMenu_decl
 #define MenuHitTest MenuHitTest_decl
 #define POHiliteSlot POHiliteSlot_decl
@@ -179,7 +183,7 @@ int PlayoffTreeMenu(MenuItem *bar, int n, int col1, int col2, int col3, int seri
                     DrawMenuItemSel((struct MenuItem *)&menus[level][sel[level]], pos[level][0],
                         pos[level][1], col1, col2, col3);
                     sel[level] = item;
-                    DrawMenuItemNorm((struct MenuItem *)&menus[level][item], pos[level][0],
+                    DrawMenuItemNorm((struct MenuItem *)&menus[level][sel[level]], pos[level][0],
                         pos[level][1], col1, col2, col3);
                 }
             } else if (menus[level][item].on2) {
@@ -198,11 +202,12 @@ int PlayoffTreeMenu(MenuItem *bar, int n, int col1, int col2, int col3, int seri
                     }
                     depth = level;
                 }
-                i = depth;
-                DrawMenuItemSel((struct MenuItem *)&menus[i][sel[i]], pos[i][0], pos[i][1], col1, col2, col3);
-                sel[i] = item;
-                DrawMenuItemNorm((struct MenuItem *)&menus[i][item], pos[i][0], pos[i][1], col1, col2, col3);
-                depth = i + 1;
+                DrawMenuItemSel((struct MenuItem *)&menus[depth][sel[depth]], pos[depth][0], pos[depth][1], col1, col2,
+                    col3);
+                sel[depth] = item;
+                DrawMenuItemNorm((struct MenuItem *)&menus[depth][item], pos[depth][0], pos[depth][1], col1, col2,
+                    col3);
+                depth++;
                 menus[depth] = (MenuItem *)menus[level][item].on2;
                 nitems[depth] = menus[level][item].pad;
                 pos[depth][0] = (depth != 1 ? menus[level][item].x2 : menus[level][item].x1) + pos[depth - 1][0];
@@ -224,7 +229,7 @@ int PlayoffTreeMenu(MenuItem *bar, int n, int col1, int col2, int col3, int seri
                 DrawMenuItemSel((struct MenuItem *)&menus[level][sel[level]], pos[level][0],
                     pos[level][1], col1, col2, col3);
                 sel[level] = item;
-                DrawMenuItemNorm((struct MenuItem *)&menus[level][item], pos[level][0], pos[level][1],
+                DrawMenuItemNorm((struct MenuItem *)&menus[level][sel[level]], pos[level][0], pos[level][1],
                     col1, col2, col3);
             }
         } else {
