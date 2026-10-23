@@ -1,12 +1,8 @@
 /* Engine physics AI: one object's collision pass. */
-/* DRAFT: same size (468 bytes). x is saved in edi and y in esi; the original saves x in esi and y in edi,
- so the loops take other registers for the list index. See docs/UNSURE.md. */
 #define checkcoll checkcoll_decl
 #include "nhl95.h"
 #undef checkcoll
 void checkcoll(Player *p, short x, short y);  /* x and y are compared and stored as words */
-
-#define OOB(i) (*(int *)(OOlist + (i) - 2) >> 24)
 
 /* checkcoll: clear the collision flag. Unless pflags bit 2 is set, test the walls at the player's
  position (and, for a skater with no wall normal, again at the hot-spot step), then the other players.
@@ -47,22 +43,22 @@ void checkcoll(Player *p, short x, short y)
     i = OOlistpos[sc];
     while (i != 16) {
         pl = (signed char)OOlist[i + 1];
-        if (y <= Ylist[OOB(i)]) break;
-        OOlist[i] = pl;
-        OOlist[i + 1] = sc;
+        if (y <= Ylist[(signed char)OOlist[i + 1]]) break;
         OOlistpos[sc]++;
         OOlistpos[pl]--;
+        OOlist[i] = pl;
+        OOlist[i + 1] = sc;
         i++;
     }
     i = OOlistpos[sc];
     if (i) {
         do {
             pl = (signed char)OOlist[i - 1];
-            if (y >= Ylist[*(int *)(OOlist + i - 4) >> 24]) break;
-            OOlist[i] = pl;
-            OOlist[i - 1] = sc;
+            if (y >= Ylist[(signed char)OOlist[i - 1]]) break;
             OOlistpos[sc]--;
             OOlistpos[pl]++;
+            OOlist[i] = pl;
+            OOlist[i - 1] = sc;
         } while (--i);
     }
     Ylist[sc] = y;

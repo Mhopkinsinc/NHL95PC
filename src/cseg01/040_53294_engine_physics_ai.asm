@@ -6575,6 +6575,10 @@ ret	; 580F4
 %endif ; C
 ; checkcoll: eax = object: wall collision (checkwallcoll) at the hot spot and the stick end,
 ; then player collisions (checkplcoll). Called from updateplayers.
+; C: src/c/040_53294_engine_physics_ai/checkcoll.c
+%ifdef CBUILD
+%include "c/040_53294_engine_physics_ai/checkcoll.inc"
+%else
 checkcoll:
 push dword 14h	; 580F5
 call __CHK	; 580FA
@@ -6704,6 +6708,7 @@ pop edi	; 582C5
 pop esi	; 582C6
 pop ecx	; 582C7
 ret	; 582C8
+%endif ; C
 checkwallcoll:
 push dword 24h	; 582C9
 call __CHK	; 582CE
