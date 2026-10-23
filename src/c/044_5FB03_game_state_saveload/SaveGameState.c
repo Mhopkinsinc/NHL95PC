@@ -6,6 +6,11 @@
 #undef SaveGameState
 #undef LoadGameState
 
+extern void __STOSD(void *, int, int);
+#pragma aux __STOSD "__STOSD" parm [eax] [edx] [ecx]
+extern void __STOSB(void *, int, int);
+#pragma aux __STOSB "__STOSB" parm [eax] [edx] [ecx]
+
 typedef struct { int d[4]; } Rec16;
 typedef struct { short w[3]; } Rec6;
 
@@ -455,7 +460,7 @@ int LoadGameState(int fh)
         *(Rec6 *)((char *)unk_DC240 + i / 3 * 9 * 2 + i % 3 * 3 * 2) = *(Rec6 *)p;
         p += 3;
     }
-    if (pad1dev == 1 || pad2dev == 1) MouseSetPos(0xA0, 0x64);
+    if (pad1dev[0] == 1 || pad2dev == 1) MouseSetPos(0xA0, 0x64);
     switch (gamemode) {
     case 0:
         SaveModeState(exhstate);
