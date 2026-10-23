@@ -1,10 +1,18 @@
 /* Scoring / penalty text: calling the penalties at a stoppage. */
+#define word_CBC44 word_CBC44_decl
 #include "nhl95.h"
+#undef word_CBC44
+/* InProgress compares word_CBC44 in memory on every pass of its goto loop; as a plain short Watcom loads it
+   into cx once before the loop. Declared volatile in this module, it is read in place. */
+extern volatile short word_CBC44;
 
 void PostPenaltyEvent(int away, int pl, int type, int tag, int min, int sec, int n);
 
-/* DRAFT: same size under 10.0 GA, 96 differing (register picks, the pen / mins frame slots swapped, word_CBC44
-   hoisted into cx); see docs/UNSURE.md. */
+/* DRAFT: same size under 10.0 GA, 88 differing. Everything up to +102 matches (the mins sign tests nested as
+   `if (mins <= 0) { if (mins < 0) ... else ... }` give the EXE's jg / jge layout; the puck assignment through
+   the int d gives `add eax, puckstruct`). Left: from the PenBuf_pl test on, the register picks (the i * 2
+   index in edx, EXE eax; the PenBuf_pl byte in bl, EXE dh) and pl reloaded from [ebp-14h] for pl->pnum (EXE
+   keeps it in edx); see docs/UNSURE.md. */
 /* InProgress (62EE9, PC only; owner of InProgress_popebp / InProgress_popx): call the next queued penalty when
    play is stopped (RefStep set, no play-by-play talking). With no penalty left (PenBuf empty) and no overlay
    running, update both teams' strength (tmap 6, less one per player in the box down to 4, the box flag bit 13
@@ -25,6 +33,7 @@ void InProgress(void)
     short pnum;
     short i;
     short t;
+    int d;
     short n;
 
     if (!RefStep[0] || PaSpeechBusy()) return;
@@ -42,7 +51,8 @@ again:
             tm->tmap = n;
         }
         gmode &= 0xFB;
-        i = ((Player *)puckstruct)->asslist[((Player *)puckstruct)->assnum];
+        d = (int)puckstruct + ((Player *)puckstruct)->assnum;
+        i = ((signed char *)d)[0x1E];
         if (i == 0x1B || i == 0x1C) return;
         assreplace((Player *)puckstruct, 0x1B);
         return;
@@ -67,24 +77,24 @@ again:
         goto signal;
     }
     mins = penmintab[pen];
-    if (mins < 0) {
-        pl = &SortCords[PenBuf_pl[i * 2]];
-        tm = pl->tmptr;
-        tm->tmroster[pl->pnum * 0x27] = 8;
-        if (tm->tmpdst[pl->pnum] > -3) assreplace(pl, 0x1D);
-        tm->tmpdst[pl->pnum] = -5;
-        t = PerTimeTotal - gameclock;
-        if (gameclock < 0x3C && clockticks[0]) t--;
-        PostPenaltyEvent((pl->pflags & 0x40) != 0, pl->pnum, pen - 9, mins, t / 60, t % 60, i);
-        word_C90D8 = PenBuf_pl[i * 2];
-        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
-        goto signal;
-    }
-    if (mins == 0) {
-        word_C90D8 = PenBuf_pl[i * 2];
-        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
-        if ((sflags & 0x80) || word_CBC44) {
-            if (pen != 7) goto again;
+    if (mins <= 0) {
+        if (mins < 0) {
+            pl = &SortCords[PenBuf_pl[i * 2]];
+            tm = pl->tmptr;
+            tm->tmroster[pl->pnum * 0x27] = 8;
+            if (tm->tmpdst[pl->pnum] > -3) assreplace(pl, 0x1D);
+            tm->tmpdst[pl->pnum] = -5;
+            t = PerTimeTotal - gameclock;
+            if (gameclock < 0x3C && clockticks[0]) t--;
+            PostPenaltyEvent((pl->pflags & 0x40) != 0, pl->pnum, pen - 9, mins, t / 60, t % 60, i);
+            word_C90D8 = PenBuf_pl[i * 2];
+            PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
+        } else {
+            word_C90D8 = PenBuf_pl[i * 2];
+            PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
+            if ((sflags & 0x80) || word_CBC44) {
+                if (pen != 7) goto again;
+            }
         }
         goto signal;
     }
