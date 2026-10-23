@@ -1,5 +1,5 @@
 /* Create player / edit rosters: the roster editing screen's loop. */
-/* DRAFT under 10.0 GA: 2,477 vs 2,604 bytes, 254 differing instructions; menu-branch register picks remain. */
+/* DRAFT under 10.0 GA: 2,537 vs 2,604 bytes, 175 differing instructions; menu-branch register picks remain. */
 #define EditRosters EditRosters_decl
 #define MenuHitTest MenuHitTest_decl
 #define LoadBothRosterLists LoadBothRosterLists_decl
@@ -166,7 +166,8 @@ int EditRosters(MenuItem *bar, int n, int col1, int col2, int col3)
                                 s.sel[i] = 0;
                                 if (s.bg[i]) {
                                     sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
-                                    s.pos[i][1] = s.pos[i][0] = 0;
+                                    s.pos[i][0] = 0;
+                                    s.pos[i][1] = s.pos[i][0];
                                     FreeMemBlock(s.bg[i]);
                                     s.bg[i] = 0;
                                     s.menus[i] = 0;
@@ -204,15 +205,14 @@ int EditRosters(MenuItem *bar, int n, int col1, int col2, int col3)
                     s.sel[i] = s.item;
                     DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], s.col1, s.col2,
                         col3);
-                    m = &s.menus[s.level][s.item];
-                    depth = i + 1;
-                    s.menus[depth] = (MenuItem *)m->on2;
-                    s.nitems[depth] = m->pad;
-                    s.pos[depth][0] = (depth == 1 ? m->x1 : m->x2) + s.pos[depth - 1][0];
-                    s.pos[depth][1] = (depth == 1 ? m->y2 : m->y1) + s.pos[depth - 1][1];
+                    depth++;
+                    s.menus[depth] = (MenuItem *)s.menus[s.level][s.item].on2;
+                    s.nitems[depth] = s.menus[s.level][s.item].pad;
+                    s.pos[depth][0] = (depth != 1 ? s.menus[s.level][s.item].x2 : s.menus[s.level][s.item].x1) + s.pos[depth - 1][0];
+                    s.pos[depth][1] = (depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[depth - 1][1];
                     s.w = s.menus[depth][s.nitems[depth] - 1].x2 - s.menus[depth][0].x1 + 1;
                     s.h = s.menus[depth][s.nitems[depth] - 1].y2 - s.menus[depth][0].y1 + 1;
-                    s.bg[depth] = sub_8CCA8((char *)str_Menubuff, (s.w << 2) * s.h + 0x11, 0);
+                    s.bg[depth] = sub_8CCA8((char *)str_Menubuff, 0x11 + (s.w << 2) * s.h, 0);
                     *(EdHdr17 *)s.bg[depth] = *(EdHdr17 *)pointerspr;
                     ((short *)s.bg[depth])[2] = s.w;
                     ((short *)s.bg[depth])[3] = s.h;
@@ -246,8 +246,7 @@ int EditRosters(MenuItem *bar, int n, int col1, int col2, int col3)
                     s.bg[i] = 0;
                     if (i > 0) {
                         s.menus[i] = 0;
-                        s.sel[i] = 0;
-                        s.nitems[i] = 0;
+                        s.sel[i] = s.nitems[i] = 0;
                     }
                 }
                 RosterPanelClick(s.mx, s.my);
@@ -264,7 +263,7 @@ int EditRosters(MenuItem *bar, int n, int col1, int col2, int col3)
             if (dbdirty) {
                 msglines[0] = (int)str_TheDatabaseHasNot;
                 msglines[1] = (int)str_AreYouSureYou;
-                if (MessageBox(-1, -1, (char *)msglines, 2, (int)btn_LeagueExists, 2, (int)&s.oldmx, (int)&s.oldmy,
+                if (MessageBox(-1, -1, (char *)msglines, 2, (int)btn_LeagueExists, 2, (int)&s.mx, (int)&s.my,
                         -1) <= 0)
                     editrosters_exit = 0;
             }
