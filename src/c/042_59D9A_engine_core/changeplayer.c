@@ -29,26 +29,27 @@ void changeplayer(Player *p, short cont)
     Player *q;
     short n;
     long dx;
-    long dy;
-    short s;
+    unsigned long d;
 
     px = (*puckvx >> 8) + *puckx;
-    py = (*puckvy >> 8) + *pucky;
+    py = *pucky + (*puckvy >> 8);
     best = 0xFFFFFFFF;
     q = ((cont ? cont2team : cont1team) != 1) ? &SortCords[6] : SortCords;
     pick = p->SCnum;
     n = 6;
     do {
         if (q->position > 0 && !(q->pflags2 & 4) && !(q->pflags & pfalock)) {
+            long dy;
+
             dx = px - HIWORD(q->Xpos);
             dy = py - HIWORD(q->Ypos);
-            dx *= dx;
-            dy *= dy;
-            dx += dy;
-            if ((unsigned long)dx <= best) {
+            d = dx * dx + dy * dy;
+            if (d <= best) {
+                short s;
+
                 s = q->SCnum;
                 if (s != (cont ? c1playernum[0] : c2playernum[0])) {
-                    best = dx;
+                    best = d;
                     pick = s;
                 }
             }
