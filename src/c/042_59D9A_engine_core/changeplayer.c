@@ -215,9 +215,10 @@ void setplayer(Player *p, short n)
 }
 
 /* the overlay frames (shorts read the -5r way): one marker per tracked object from CC0B2 (controller 1, 2, the
-   puck carrier) and the edge arrows from CC0B8 (one row of eight per controller, by direction) */
+   puck carrier) and the edge arrows from CC0B8 (one row of eight per controller; d is the direction 1-8, the
+   byte offset summed after the call as in the EXE) */
 #define MARKFRAME(j) (((short *)((char *)word_CC0B0 + 2))[j])
-#define ARROWFRAME(j, d) (((short (*)[8])((char *)word_CC0B0 + 8))[j][d])
+#define ARROWFRAME(j, d) (*(short *)((char *)word_CC0B0 + 6 + (d) * 2 + ((j) << 4)))
 #define OOBYTE(i) (*(int *)(OOlist + (i) - 3) >> 24)
 int __cdecl sub_B340B(int fl);
 
@@ -313,7 +314,7 @@ void DrawRinkOverlays(short vx, short vy)
                 fl = 8;
             }
         }
-        if (fl) DrawFrameSprite(ARROWFRAME(i, sub_B340B(fl) - 1), x, y, fl & 8, 0);
+        if (fl) DrawFrameSprite(ARROWFRAME(i, sub_B340B(fl)), x, y, fl & 8, 0);
         else DrawFrameSprite(MARKFRAME(i), x, y, 0, 0);
     }
     q = (Player *)sortobj15;
@@ -385,7 +386,8 @@ void DrawRinkOverlays(short vx, short vy)
                 fl = 8;
             } else {
                 fl = vtoa((short)(mousex - 0xA0), (short)(0x64 - mousey));
-                x = (short)(mousex - 0xA0) / 4;
+                x = mousex - 0xA0;
+                x /= 4;
                 y = (0x64 - mousey) / 4;
             }
             x += HIWORD(SortCords[i].Xpos);
