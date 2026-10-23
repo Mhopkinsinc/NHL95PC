@@ -1144,6 +1144,10 @@ pop ecx	; 8751D
 pop ebx	; 8751E
 ret	; 8751F
 %endif ; C
+; C: src/c/064_86696_season_playoffs/POSetSeriesTeams.c
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSetSeriesTeams.inc"
+%else
 POSetSeriesTeams:
 push dword 8	; 87520
 call __CHK	; 87525
@@ -1191,6 +1195,7 @@ cmp ebx, byte 7	; 8759C
 jl short POSetSeriesTeams.3	; 8759F
 pop ecx	; 875A1
 ret	; 875A2
+%endif ; C
 POInitSchedule:
 push dword 3Ch	; 875A3
 call __CHK	; 875A8
