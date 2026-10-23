@@ -43,8 +43,8 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
         sub_91FE0(art, mx - 0x1C, my - 0x20);                                                                     \
     }
 
-/* DRAFT (first pass from Ghidra): 3,928 of 3,943 bytes, 317 differing under 10.0 GA, most of them stack slots.
-   Under GA a struct of the six arrays plus w, h, item, level, my, mx, oldmy, oldmx and flag (i, as the loop
+/* DRAFT (first pass from Ghidra): 3,933 of 3,943 bytes, 253 differing under 10.0 GA, most of them stack slots
+   (the submenu path's position reset as two stores moved most slots into place). Under GA a struct of the six arrays plus w, h, item, level, my, mx, oldmy, oldmx and flag (i, as the loop
    counter, plain) gives the EXE's slots (235 differing), but 3,983 bytes: stores into the struct's arrays make
    Watcom reload level and item, and w / h from it; the EXE caches them. The
    EXE's frame (ebp biased by -72h): picked -9Ah, pos -42h, bg -22h, sel -12h, nitems -2, menus +0Eh, then w, h,
@@ -190,7 +190,8 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
                             sel[i] = 0;
                             if (bg[i]) {
                                 sub_903F0(bg[i], pos[i][0], pos[i][1]);
-                                pos[i][0] = pos[i][1] = 0;
+                                pos[i][1] = 0;
+                                pos[i][0] = 0;
                                 FreeMemBlock(bg[i]);
                                 bg[i] = 0;
                                 menus[i] = 0;
