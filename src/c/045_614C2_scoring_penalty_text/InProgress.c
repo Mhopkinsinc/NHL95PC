@@ -218,14 +218,16 @@ void PenaltyManager(void)
    nobody has the puck or he is in his own half. Else his distance to the net he attacks (y E8h, vecdist) must be
    shorter than every opposing skater's (position above 0) who is nearer to that net than he is (4 behind him)
    and not skating away from it, and no such skater may be beyond him. Sets shotontarget. No arguments.
-   Result: 1 when the lane is open, else 0. */
+   Result: 1 when the lane is open, else 0. The EXE keeps a second stack word m that is always 0 and computes
+   `d - m` again on every pass of the opponent loops: m is volatile here (a plain m is folded away). Each
+   opponent's distance goes through ty, dead by then (the dead-local pattern), which keeps `d - m` in the loop. */
 int ShotLaneOpen(void)
 {
     Player *p;
     int y;
     int ty;
     int x;
-    volatile int d;
+    int d;
     volatile int m;
     int i;
 
@@ -247,7 +249,8 @@ int ShotLaneOpen(void)
             px = HIWORD(p->Xpos);
             if (HIWORD(p->Ypos) > y) return 0;
             if (p->Yvel < 0) continue;
-            if (vecdist(HIWORD(p->Ypos) - 0xE8, px) <= d - m) return 0;
+            ty = vecdist(HIWORD(p->Ypos) - 0xE8, px);
+            if (ty <= d - m) return 0;
         }
     } else {
         if (y > 0) return 0;
@@ -260,7 +263,8 @@ int ShotLaneOpen(void)
             px = HIWORD(p->Xpos);
             if (HIWORD(p->Ypos) < y) return 0;
             if (p->Yvel > 0) continue;
-            if (vecdist(HIWORD(p->Ypos) + 0xE8, px) <= d - m) return 0;
+            ty = vecdist(HIWORD(p->Ypos) + 0xE8, px);
+            if (ty <= d - m) return 0;
         }
     }
     shotontarget = 1;

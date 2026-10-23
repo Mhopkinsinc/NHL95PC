@@ -3706,6 +3706,10 @@ pop edx	; 640FF
 pop ebx	; 64100
 ret	; 64101
 %endif ; C
+; C: src/c/045_614C2_scoring_penalty_text/InProgress.c (ShotLaneOpen)
+%ifdef CBUILD
+%include "c/045_614C2_scoring_penalty_text/InProgress.ShotLaneOpen.inc"
+%else
 ShotLaneOpen:
 push dword 2Ch	; 64102
 call __CHK	; 64107
@@ -3844,6 +3848,7 @@ mov eax, esi	; 64275
 .15:
 add esp, byte 8	; 64277
 jmp near InProgress_popebp	; 6427A
+%endif ; C
 ; C: src/c/045_614C2_scoring_penalty_text/QuickShotChk.c
 %ifdef CBUILD
 %include "c/045_614C2_scoring_penalty_text/QuickShotChk.inc"
