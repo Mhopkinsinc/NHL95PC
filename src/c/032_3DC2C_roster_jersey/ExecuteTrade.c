@@ -13,11 +13,11 @@ int FixJerseyConflict(int fh, int k, unsigned char *tr);
 int WriteKeyRec(int fh, void *rec, long pos);
 int WriteTeamRec(int fh, void *rec, int n);
 
-/* The key numbers are read and written with an if / else per skater / goalie slot (both arms address the same
-   word, so Watcom keeps only the dead `cmp`, as the EXE does). The result is an unsigned short: the return
-   conversion is one more temporary, which puts the spilled kb, sel and traded in the EXE's slot order (as an int
-   they sit traded, kb, sel). TradePlayers (another module) reads the full eax, so it called this one through its
-   own int declaration (docs/C_MATCHING.md, per-module prototypes). */
+/* DRAFT (10.0 GA, 81 -> 15 differing, same size): every instruction matches; only the three spilled dwords sit
+   in another order (C: traded +660h, kb +664h, sel's home +668h; EXE: kb, sel, traded). The key numbers are read
+   and written with an if / else per skater / goalie slot (both arms address the same word, so Watcom keeps only
+   the dead `cmp`, as the EXE does) and kb is a plain local; kb as the frame struct's last member gives the EXE's
+   slots but compares the first written slot in memory (7 differing, 5 bytes short). See docs/UNSURE.md. */
 
 /* ExecuteTrade (3E390, PC only): carry out the trade set up on the trade screen. Read both teams' records from
    the league's team database, then for each of the two trade rows with a player chosen on both sides (sel[i] and
@@ -27,7 +27,7 @@ int WriteTeamRec(int fh, void *rec, int n);
    the game databases at the league (leaguedbfmt, S4.DB), load them (LoadGameTeams) and open both teams' line
    editors (GameLineEditor, fading the PAL22 palette back in after each). dir: the league directory; teams: the
    two team numbers; sel: the trade rows' roster slots. Result: 0 or the I/O error. */
-unsigned short ExecuteTrade(char *dir, int *teams, unsigned char *sel)
+int ExecuteTrade(char *dir, int *teams, unsigned char *sel)
 {
     struct {
         unsigned char reca[0x2E8];
