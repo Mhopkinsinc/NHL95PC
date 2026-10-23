@@ -195,17 +195,16 @@ void LoadTeamPPV(short seq)
 void DrawTextOverlay(void)
 {
     short w;
-    short x1s;
-    short x2;
     short y0s;
+    short x2;
+    short x0s;
     short y;
     short y1s;
-    int h;
-    short x0s;
+    short h;
+    short x1s;
     short y2;
     short x;
     short d;
-    int k;
 
     if (ovltimer < 0x10) d = ovltimer - 0x10;
     else if (ovltimer <= 0x100) d = 0;
@@ -213,6 +212,8 @@ void DrawTextOverlay(void)
     bannermsg = -1;
     bannertimer = 0;
     if (d < 0) {
+        int k;
+
         k = d + 0x10;
         w = k * 0x42 / 16;
         h = k * 0x2A / 16;
@@ -224,7 +225,7 @@ void DrawTextOverlay(void)
         if (gsp == 4) x += 0xAC;
         x2 = w + (w + x);
         y = scrolly + 0x32 - h;
-        y2 = h + (y + h);
+        y2 = (y + h) + h;
         x += (short)((short)cliprect_x0 - scrollx);
         x2 += (short)((short)cliprect_x0 - scrollx);
         y += (short)((short)cliprect_y0 - scrolly);
@@ -293,8 +294,8 @@ void DrawTextOverlay(void)
             h = 0x12;
             y += 0xF;
         }
-        sub_8EA18(scor3font);
         x += 0x3E;
+        sub_8EA18(scor3font);
         sub_8E9C0(0x25, 0xFF);
         d = y;
         if (textline3) sub_91964((char *)&textline3, x - fputchar((char *)&textline3) / 2, y);
