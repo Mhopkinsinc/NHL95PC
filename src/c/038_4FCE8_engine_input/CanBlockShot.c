@@ -277,8 +277,8 @@ void PassRecOneTimer(Player *p)
     ((short *)p->tmptr)[0xB]++;
     t = (short)((((signed char *)&p->temp1)[1] + 0xA) << 4);
     d = -(short)((*puckvx * t >> 16) + *puckx);
-    t = (short)(t * *puckvy >> 16) + *pucky;
-    c = ((p->pflags & 0x80) ? 0xE8 : -0xE8) - t;
+    t = (short)(t * *puckvy >> 16);
+    c = ((p->pflags & 0x80) ? 0xE8 : -0xE8) - (t + *pucky);
     if (Findhittype(p, vtoa((short)d, c))) SetSPA(p, 0xE2B);
     else SetSPA(p, 0xDD3);
 }
