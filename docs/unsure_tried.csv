@@ -1915,3 +1915,84 @@ SportsDesk,,"bottom placement worsens current layout. Kept unsigned-address comp
 SportsDesk,,valid combined score 649. Rejected mixed partial do-loop combinations that do not compile,,ga
 SportsDesk,,no such loop retained. Both builds MATCH,,ga
 SportsDesk,,committed immediately,,ga
+ReplayStep,,"(2026-10-23, GA): fx as the first or a later declaration, fx inside the sound block, `i` reused for fx",,ga
+ReplayStep,,"p (`p = replayplay + 0x80` or `p = replayplay; p += 0x80`, `replayplay = p -= 0x80`) declared first, last, at the top or in the loop block (all 56)",all 56,ga
+ReplayStep,,a `start = replaystart` in the forward loop body before or after `n--` (alone 46-57,,ga
+ReplayStep,,with p 54-59: start then edx in both loops but the backward compare caches replayplay in ecx),,ga
+ReplayStep,,"backward `replayplay == start`, `last == replayplay`, `replayplay += 0x9600`, `replayplay = replaystart + 0x9600`, `p = replayplay; if (p == last) ...; replayplay = p - 0x80` (and `p -= 0x80`, `(p = replayplay) == last`",,ga
+ReplayStep,,"52, p then eax in both loops)",,ga
+ReplayStep,,"one permute run on the p version (best 45 only with an unsigned char `sound`, wrong for `test cx, cx`)","best 45 only with an unsigned char `sound`, wrong for `test cx, cx`",ga
+assthreestars,,from the GA list because the bring-out part now has its own locals),,ga
+assthreestars,,"the bring-out part through new int locals `side` (was w), `slot = (startm[..] != 0) + 5; p->temp3 = slot;` and `pos = q->pnum < 0x19 ? 4 : 0; q->position = pos;`",,ga
+assthreestars,,"found by permute, each of the three helps). Left: first_pick +000 the EXE frame slot (`push 2Ch` / `sub esp, 4`), +111 `lea ecx, [eax+7]` vs EXE `add eax, 7` / `mov [esp+8], eax` and the reload into ecx before FormatPlayerName (first announcement only, L498), +177 the first PaPlayerNumber jersey `mov bl, [ebx+eax+j] / and ebx, 0FFh` vs EXE `add eax, ebx / xor ebx, ebx / mov bl, [eax+j]` (the second announcement matches both). Tried (2026-10-23, GA): int w with short w, short w first, int w first, w for the first block and a second w2 (int or short) for the second",,ga
+assthreestars,,"the ternary inline (worse, +50 bytes), `if (tm) w = VisTeam; else w = HomeTeam;`, `tm == 0 ? HomeTeam : VisTeam`, `tm != 0 ?`, `(short)(...)`, `*(teamabbrevs + w)`",,ga
+assthreestars,,"the first jersey as `(hmrosterjersey + tm * 0x444)[pl * 39]`, `hmroster[... + 5]`, `*(hmroster + ... + 5)`, `(hmroster + ...)[5]`, `(unsigned char)`, `(short)`, `(int)` casts, pl * 39 first (all 44 or worse)",all 44 or worse,ga
+assthreestars,,"slot / pos as the reused tm / pl / side (45-62), `q = &SortCords[slot]` (+6 bytes)",+6 bytes,ga
+PreGameScreen,,"(2026-10-23, GA): y + 9 written `y + 5 + 4`, `(y + 5) + 4`, `9 + y`",,ga
+PreGameScreen,,`y += 5` first with y / y + 4 (97),97,ga
+PreGameScreen,,`y += 0xE` before the shade line only (57,,ga
+PreGameScreen,,the add moves but y + 9 is not spilled),,ga
+PreGameScreen,,"`y += 0xE` inside the shade call argument (87, +7 bytes)","87, +7 bytes",ga
+PreGameScreen,,"a named `y2 = y + 9` before the fill or the light line, at the end, after y or at the top of the declarations, or in a block (size right but its own frame slot, 105-149)","size right but its own frame slot, 105-149",ga
+PreGameScreen,,"the pointer size product through a dead local (k, y, r, sel, scr, lc, either factor order: product right but the frame slots move, 102-119) or a new last local n (91: product, +49C and others right, slots wrong)","91: product, +49C and others right, slots wrong",ga
+PreGameScreen,,"key / apal declared last, in the middle, first, reversed, and the whole group reversed (52-68)",52-68,ga
+PreGameScreen,,one permute run on the new shape (best 50 only with a `(short)` cast on one scoutcatidx index,,ga
+PreGameScreen,,not taken),,ga
+CanBlockShot,,"(2026-10-23, GA): the second same-team test as `(s < 6) ^ (p->SCnum < 6)`, `(... ^ ...) == 0` both orders, `(s < 6) == (p->SCnum < 6)` both orders, `shotplayer < 6` (61-83)",61-83,ga
+CanBlockShot,,"|pucky| into dx, dist, dir, side, y",,ga
+CanBlockShot,,"a, b, spa, k (60-87",,ga
+CanBlockShot,,e 57) or written inline twice (81),81,ga
+CanBlockShot,,"g, side or s declared first or last, reversed declarations (57-64)",57-64,ga
+CanBlockShot,,the closing distance in its own d or in k / spa / dir with b in side or its own (52-97),52-97,ga
+CanBlockShot,,`dist * 2` (46),46,ga
+CanBlockShot,,"the SPA read through a new pointer local declared after g or last (56-62), `(&SortCords[k])->SPA` (no change)",no change,ga
+CanBlockShot,,"two permute runs (best 40 only with s as signed char, wrong for the word loads)","best 40 only with s as signed char, wrong for the word loads",ga
+CanBlockShot,type:s:signed_char,"s as signed char, ",tried (docs/UNSURE.md),ga
+GameLoop,,"(2026-10-23, GA): those, `joysampling = d` / `= n` / `= i` with the local (75-84)",75-84,ga
+GameLoop,,"the demo exit as `FadePalette(...); gameresult = 1; sub_1B982(); return;` (62, +3) and the end as `gameresult = 1; sub_1B982(); return; out: sub_1B982();` (61, +7 bytes)","61, +7 bytes",ga
+GameLoop,,"one permute run (321 candidates, nothing better than the base)","321 candidates, nothing better than the base",ga
+StartHL2,,"(2026-10-23, GA): `k = (... + pl->position) * 2` or `<< 1` in one expression (104, +10 bytes), `k += k` (65), `k <<= 1` (same as k *= 2)",same as k *= 2,ga
+StartHL2,,"all six orders of sgmode2 / sgameover / r, short or int r (60-66 short, 130-134 int)","60-66 short, 130-134 int",ga
+StartHL2,,"`pl = SortCords;` before the for (94, +9), `for (i = 0, pl = SortCords; ...)` (56)",56,ga
+StartHL2,,a `pl++` at the loop end (95),95,ga
+StartHL2,,"`!pl->position ? 4 : 0x14` (same), `t ? 4 : 0x14` (93)",93,ga
+StartHL2,,"`CrowdNoiseUpdate((short)j)` alone or with the DrawRinkOverlays casts (100-119, frame changes)","100-119, frame changes",ga
+StartHL2,,"the restore loop as for, do-while (79, frame changes) or while (54)",54,ga
+StartHL2,,"one permute run (513 candidates, best 51 only with `++j` and awl moved)","513 candidates, best 51 only with `++j` and awl moved",ga
+DrawSprite,,"(2026-10-23, GA): 30 of the 120 orders of x1, y1, r, i, p with short x1 / y1 (91-110)",91-110,ga
+DrawSprite,,"the struct split into plain locals (t1 / t2 arrays plus int mode and short sx / flip / sy, three orders, int or short edges: 110-131, +37-46 bytes)","t1 / t2 arrays plus int mode and short sx / flip / sy, three orders, int or short edges: 110-131, +37-46 bytes",ga
+DrawSprite,,"one permute run on the o108 version (best 58 only with unsigned short x1 / y1, wrong for the EXE's cwde / movsx",,ga
+DrawSprite,,plus a junk temporary),,ga
+DrawRinkOverlays,,"(2026-10-23, GA): those, `if (!(PBnum[1] - 1 < 2)) ...` (73)",73,ga
+DrawRinkOverlays,,"the arms swapped `if (PBnum[1] - 1 < 2) i = PBnum[1] - 1; else i = 2;` (74), `i = PBnum[1] - 1; if (i > 2) i = 2;` (105)",105,ga
+DrawRinkOverlays,,"with `0xC > q->SCnum` / `c2 == q->SCnum` flips (72, not taken)","72, not taken",ga
+DrawRinkOverlays,,one permute run,,ga
+checkob,,(2026-10-23): Y rejection before the position test (6),6,ga
+checkob,,"a single-iteration do block for the far-side test (46), found assigned from the condition within the position block (37), explicit reject gotos (2, unchanged). Prior GA limit-hoisting and module shapes were read and not retried",,ga
+TradePlayers,,"(2026-10-23): integer-address lookup with index first or base first, one-element row-pointer view, address-of-table array view (all score 3). Prior GA local/prototype/module shapes were not repeated",,ga
+LoadShapeByTag,,"(2026-10-23): initialize n to 11h then add product or subtract negative product (7 each), assign i inside the n expression (4), product as a byte-pointer offset from 11h (7), typed header with short width/height using i (4) or direct n expression (7). Prior GA product-local and module shapes were not repeated",,ga
+PassLaneChk,,"(2026-10-23): block-local wrap, copy then preincrement wrap (19), negated-less test, true arm returning 1 first (13), byte-pointer spelling of plus 1, unsigned-long wrap (5), short result (4, rejected: caller at 54F58 tests eax). Other shapes score 4",,ga
+PassLaneChk,,prior GA variable-role and ABS sweeps were not repeated,,ga
+PassLaneChk,rettype:short,short result,tried (docs/UNSURE.md),ga
+ShowCredits,,"(2026-10-23): both random dividends in fresh locals (26), both complete coordinate expressions in fresh locals (15), remainder via dividend minus quotient*8 for one/both draws (37/49), unsigned remainder results and short constant divisors (4 each). Prior GA single-dividend locals and module shapes were not repeated",,ga
+BlitTileMap,,"(2026-10-23): fresh mirrored-y sum then subtract shifted/doubled row (26,+14), fresh double-row temp (9,+2), fresh y decrement (23,+21), fresh x/y pair (33,+19)","33,+19",ga
+BlitTileMap,,"height-first/width-first/single-declaration/const initialized bounds, each with original/two doubled-row expressions (5/8, no improvement). Prior GA existing-temp, frame and declaration sweeps were not repeated",,ga
+CreateFreeAgent,,(2026-10-23): database size base-store then += record length independently for season/career/attributes/key,,ga
+CreateFreeAgent,,disk-free return through err/kind/n/i/k,,ga
+CreateFreeAgent,,cluster counts written back into sizes before accumulating,,ga
+CreateFreeAgent,,goalie attribute index through dead n/i/csize/kind,,ga
+CreateFreeAgent,,goalie source byte through c or a block local unsigned char/signed char/short/int. No improvement,,ga
+CreateFreeAgent,,no permute run,,ga
+doplayeracc,,(2026-10-23): accumulate lead into vy then dy=vy-y,,ga
+doplayeracc,,lead copied to t then +=pucky,,ga
+doplayeracc,,reversed lead/pucky loads with dy accumulation,,ga
+doplayeracc,,cast whole short sum with unsigned pucky then subtract,,ga
+doplayeracc,,dy=pucky then vy+=dy,,ga
+doplayeracc,,dy-=y-*pucky,,ga
+doplayeracc,,block-scoped vy,,ga
+doplayeracc,,whole skating module (same body mismatch,,ga
+doplayeracc,,apparent exact size is following function bytes in slice). No retained change or permute run,,ga
+SelectMatchingPlayers,,(2026-10-23): per-module char/signed-char falist pointer,,ga
+SelectMatchingPlayers,,per-module 27-byte FreeAgent record pointer with member/address/cast access and k record pointer,,ga
+SelectMatchingPlayers,,"product as (i*9)*3, ((i<<3)+i)*3, (i*3)*9, i*sizeof(char[27]). The LA record-member idea was retried under GA because only address association now differs",,ga
+SelectMatchingPlayers,,no improvement. No permute run,,ga
