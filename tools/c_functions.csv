@@ -926,7 +926,7 @@ SoundCardHitTest,827B3,82,059_8034B_settings_lockerroom,src/c/059_8034B_settings
 ClearSpeechSlot,833C5,53,060_8291E_sound_config,src/c/060_8291E_sound_config/ClearSpeechSlot.c,matched,,
 ResetSpeechQueue,833FA,95,060_8291E_sound_config,src/c/060_8291E_sound_config/ResetSpeechQueue.c,matched,memset(-1) compiles to memset_ with ebx count; asm calls __STOSD (ecx 14h dwords) - need the C form that emits __STOSD,
 SoundCardDlgLoop,8291E,1116,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,matched,,
-SetSoundDevice,82D7A,1346,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,nonmatching,,
+SetSoundDevice,82D7A,1346,060_8291E_sound_config,src/c/060_8291E_sound_config/SoundCardDlgLoop.c,matched,,
 FindFreeSpeechSlot,83E6D,63,061_83459_speech,src/c/061_83459_speech/FindFreeSpeechSlot.c,matched,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",
 FindLoadedSpeechSlot,83EAC,63,061_83459_speech,src/c/061_83459_speech/FindLoadedSpeechSlot.c,matched,"registers only: speechbank in ebx in the original, ecx here. 10-min cap",
 FindSpeechSlot,83EEB,74,061_83459_speech,src/c/061_83459_speech/FindSpeechSlot.c,matched,,
