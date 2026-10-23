@@ -1,7 +1,7 @@
 /* Engine physics AI: pass to a player. */
-/* DRAFT (10.0 GA): 82 score differing, 697 vs 708 bytes. A word-frame struct fixes the seven stack
-   variable offsets; one extra stack dword, register allocation and velocity sign extensions remain.
-   The shared exit belongs to checkob_ret5. */
+/* DRAFT (10.0 GA): 48 score differing, 692 vs 708 bytes. The explicit word frame, doubled dot
+   product and ternary root calculation give the EXE's frame size and player register.
+   The ay / speed registers, velocity sign extensions and some arithmetic temporaries remain. */
 #define sub_93470 sub_93470_decl
 #include "nhl95.h"
 #undef sub_93470
@@ -42,13 +42,12 @@ void passtoa0(Player *p)
     ay = s.dy >> 2;
     s.vx = p->Xvel * 0xF0 >> 16;
     s.vy = p->Yvel * 0xF0 >> 16;
-    s.j = (s.vx * ax + s.vy * ay) * 2;
+    s.j = ((s.vy * ay + s.vx * ax) + (s.vy * ay + s.vx * ax));
     sp = passspeed >> 2;
     s.k = s.vx * s.vx + s.vy * s.vy - sp * sp;
-    r = s.j * s.j - (ax * ax + ay * ay) * s.k * 4;
-    if (r > 0) r = sub_93470(r);
-    else r ^= r;
-    s.k >>= 2;
+    r = s.j * s.j - (s.k * (ay * ay + ax * ax) << 2);
+    r = r > 0 ? sub_93470(r) : r ^ r;
+    s.k = s.k >> 2;
     if (!s.k) s.k = 1;
     for (n = 0; n < 2; n++) {
         s.t = r;
