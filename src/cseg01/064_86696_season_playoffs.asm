@@ -1476,6 +1476,10 @@ pop edi	; 8785E
 pop esi	; 8785F
 ret 4	; 87860
 %endif ; C
+; C: src/c/064_86696_season_playoffs/POSeedRound2.c
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeedRound2.inc"
+%else
 POSeedRound2:
 push dword 4Ch	; 87863
 call __CHK	; 87868
@@ -1752,6 +1756,7 @@ pop edx	; 87B2F
 pop ecx	; 87B30
 pop ebx	; 87B31
 ret	; 87B32
+%endif ; C
 ; C: src/c/064_86696_season_playoffs/POSeedRound2.c (POSeedConfFinals)
 %ifdef CBUILD
 %include "c/064_86696_season_playoffs/POSeedRound2.POSeedConfFinals.inc"

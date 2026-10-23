@@ -308,13 +308,6 @@ void POSetSeriesTeams(unsigned char *s, int a, int b);
 void __STOSD(void *p, int v, int n);
 #pragma aux __STOSD "__STOSD" parm [eax] [edx] [ecx] modify [eax edx ecx];
 
-/* DRAFT: 736 vs 720 (best of 5). The frame, the eight-score scan, both date fills and
- __STOSD match. Each SeriesWinner result is copied with mov edx, eax before the home byte
- is loaded, so the byte lands in eax and the compare is swapped (16 bytes, eight calls).
- Do not retry: named unsigned chars for the scan (al/ah/dh/dl instead of ah/dl/dh/al),
- one int for both the day remainder and the home byte (spills, sub esp, 34h), or
- assigning the home byte to k, the filter counter that lives in edx.
- */
 /* POSeedRound2: walk back from the last first-round game while all eight series
  still have an empty score, then date the two second-round series (14 games each,
  every other day, rolling the month at 30). The four winners on each side fill
@@ -380,23 +373,19 @@ void POSeedRound2(unsigned char *p)
     __STOSD(s.slot, -1, 8);
     ser = p + 0x1998;
     s.out[0] = SeriesWinner(ser, *(int *)(p + 0x50));
-    k = ser[2];
-    if (s.out[0] == k) s.slot[0] = k;
+    if (s.out[0] == ser[2]) s.slot[0] = ser[2];
     else s.slot[7] = s.out[0];
     ser += 0x2A;
     s.out[1] = SeriesWinner(ser, *(int *)(p + 0x54));
-    k = ser[2];
-    if (s.out[1] == k) s.slot[1] = k;
+    if (s.out[1] == ser[2]) s.slot[1] = ser[2];
     else s.slot[6] = s.out[1];
     ser += 0x2A;
     s.out[2] = SeriesWinner(ser, *(int *)(p + 0x58));
-    k = ser[2];
-    if (s.out[2] == k) s.slot[2] = k;
+    if (s.out[2] == ser[2]) s.slot[2] = ser[2];
     else s.slot[5] = s.out[2];
     ser += 0x2A;
     s.out[3] = SeriesWinner(ser, *(int *)(p + 0x5C));
-    k = ser[2];
-    if (s.out[3] == k) s.slot[3] = k;
+    if (s.out[3] == ser[2]) s.slot[3] = ser[2];
     else s.slot[4] = s.out[3];
     i = 0;
     k = 0;
@@ -410,23 +399,19 @@ void POSeedRound2(unsigned char *p)
     __STOSD(s.slot, -1, 8);
     ser = p + 0x1A40;
     s.out[0] = SeriesWinner(ser, *(int *)(p + 0x60));
-    k = ser[2];
-    if (s.out[0] == k) s.slot[0] = k;
+    if (s.out[0] == ser[2]) s.slot[0] = ser[2];
     else s.slot[7] = s.out[0];
     ser += 0x2A;
     s.out[1] = SeriesWinner(ser, *(int *)(p + 0x64));
-    k = ser[2];
-    if (s.out[1] == k) s.slot[1] = k;
+    if (s.out[1] == ser[2]) s.slot[1] = ser[2];
     else s.slot[6] = s.out[1];
     ser += 0x2A;
     s.out[2] = SeriesWinner(ser, *(int *)(p + 0x68));
-    k = ser[2];
-    if (s.out[2] == k) s.slot[2] = k;
+    if (s.out[2] == ser[2]) s.slot[2] = ser[2];
     else s.slot[5] = s.out[2];
     ser += 0x2A;
     s.out[3] = SeriesWinner(ser, *(int *)(p + 0x6C));
-    k = ser[2];
-    if (s.out[3] == k) s.slot[3] = k;
+    if (s.out[3] == ser[2]) s.slot[3] = ser[2];
     else s.slot[4] = s.out[3];
     i = 0;
     k = 0;
