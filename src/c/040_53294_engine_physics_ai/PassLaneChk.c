@@ -18,9 +18,9 @@ int __cdecl imul32(int a, int b);  /* 933F0: the library multiply, arguments on 
 int LaneOpen(void);
 #pragma aux LaneOpen "ShotLaneOpen" value [eax] modify [eax];
 
-/* DRAFT (checkpuckcoll): same size (1,570 bytes; its exits jump to PassLaneChk_ret5 as in the EXE). Every
-   statement lines up; the EXE keeps the reach / half size / box size in edi and the speed / |dy| / box limit in
-   esi, this draft the other way round. See docs/UNSURE.md. */
+/* DRAFT (checkpuckcoll, 10.0 GA): 73 score differing, same 1,570-byte size. Reusing the dead height
+   local for the body frame fixes the height temporaries. The EXE keeps reach / half size / box size in edi
+   and speed / |dy| / box limit in esi; this draft still reverses those registers. */
 /* checkpuckcoll (5428A, 93G checkpuckcoll .ccx; ends in PassLaneChk_ret5): check the puck pk against sort object
    n (from the OOlist walk). Not the carrier, players 0-0Bh and object 10h only, not with pflags bit 2 (no
    collisions) or nopuck. A goalie's stick (available, position 0): reach s from SkillForAnim (s * 800h - FA0h over
@@ -39,7 +39,6 @@ void checkpuckcoll(Player *pk, short n)
     short s;
     short v;
     short h;
-    short fr;
 
     if (n == *puckc) return;
     if (n > 0xB && n != 0x10) return;
@@ -104,8 +103,8 @@ body:
         puckgoalie(pk, p);
         return;
     }
-    fr = p->frame;
-    if (fr >= 0x431 && fr <= 0x44F && (fr & 1) && *(short *)puckz < 8) {
+    h = p->frame;
+    if (h >= 0x431 && h <= 0x44F && (h & 1) && *(short *)puckz < 8) {
         GetHotStick(p);
         regd0.w >>= 1;
         regd1.w >>= 1;
@@ -121,7 +120,7 @@ body:
     }
     s = 8;
     v = 0x40;
-    if (fr > 0x44F) {
+    if (h > 0x44F) {
         s = 0x10;
         v = 0x100;
     }
