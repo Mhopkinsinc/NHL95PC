@@ -43,8 +43,9 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
         sub_91FE0(art, mx - 0x1C, my - 0x20);                                                                     \
     }
 
-/* DRAFT (first pass from Ghidra): 3,933 of 3,943 bytes, 253 differing under 10.0 GA, most of them stack slots
-   (the submenu path's position reset as two stores moved most slots into place). Under GA a struct of the six arrays plus w, h, item, level, my, mx, oldmy, oldmx and flag (i, as the loop
+/* DRAFT (first pass from Ghidra): 3,942 of 3,943 bytes, 204 differing under 10.0 GA, most of them stack slots
+   (the submenu path's position reset as two stores moved most slots into place; the submenu path written with
+   depth and `depth++` instead of a k copy, as PlayoffTreeMenu, brought the size back). Under GA a struct of the six arrays plus w, h, item, level, my, mx, oldmy, oldmx and flag (i, as the loop
    counter, plain) gives the EXE's slots (235 differing), but 3,983 bytes: stores into the struct's arrays make
    Watcom reload level and item, and w / h from it; the EXE caches them. The
    EXE's frame (ebp biased by -72h): picked -9Ah, pos -42h, bg -22h, sel -12h, nitems -2, menus +0Eh, then w, h,
@@ -200,13 +201,12 @@ int TradeScreenLoop(int art, unsigned char *recs, int *teams, unsigned char *slo
                         }
                         depth = level;
                     }
-                    k = depth;
-                    DrawMenuItemSel((struct MenuItem *)&menus[k][sel[k]], pos[k][0], pos[k][1], col1,
+                    DrawMenuItemSel((struct MenuItem *)&menus[depth][sel[depth]], pos[depth][0], pos[depth][1], col1,
                         col2, col3);
-                    sel[k] = item;
-                    DrawMenuItemNorm((struct MenuItem *)&menus[k][item], pos[k][0], pos[k][1], col1,
+                    sel[depth] = item;
+                    DrawMenuItemNorm((struct MenuItem *)&menus[depth][item], pos[depth][0], pos[depth][1], col1,
                         col2, col3);
-                    depth = k + 1;
+                    depth++;
                     menus[depth] = (MenuItem *)menus[level][item].on2;
                     nitems[depth] = menus[level][item].pad;
                     pos[depth][0] = (depth != 1 ? menus[level][item].x2 : menus[level][item].x1)
