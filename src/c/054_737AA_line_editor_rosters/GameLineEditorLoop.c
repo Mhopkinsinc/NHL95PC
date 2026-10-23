@@ -40,7 +40,7 @@ int MenuHitTest(int x, int y, MenuItem **menus, int i, int *counts, int *origin,
 int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int zero, MenuItem *buttons, int n,
                        int bank);
 
-/* DRAFT under 10.0 GA: 5,242 bytes as the EXE, 164 differing instructions. An explicit menu-item
+/* DRAFT under 10.0 GA: 5,242 bytes as the EXE, 110 differing instructions. An explicit menu-item
    offset gives the EXE's frame size; declaration order improves array placement. Several scalar and nitems
    slots and later register choices still differ. */
 /* GameLineEditorLoop (76AF5, PC only): the in-game line editor (GameLineEditor's loop; DbLineEditorLoop on the
@@ -72,14 +72,14 @@ int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int ze
     int sel[4];
     int nitems[4];
     int hit;
-    int pick;
-    int item;
     int level;
+    int item;
+    int pick;
     int my;
-    int mx;
+    int h;
     int i;
     int blk;
-    int h;
+    int mx;
     int w;
     unsigned char *pal;
     int col3;
