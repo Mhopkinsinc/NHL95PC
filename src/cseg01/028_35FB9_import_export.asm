@@ -2378,6 +2378,10 @@ pop edi	; 37FB6
 pop esi	; 37FB7
 pop ecx	; 37FB8
 ret	; 37FB9
+; C: src/c/028_35FB9_import_export/DrawTeamGrid.c
+%ifdef CBUILD
+%include "c/028_35FB9_import_export/DrawTeamGrid.inc"
+%else
 DrawTeamGrid:
 push dword 0E8h	; 37FBA
 call __CHK	; 37FBF
@@ -2489,3 +2493,4 @@ pop ebp	; 380E5
 pop edi	; 380E6
 pop esi	; 380E7
 ret	; 380E8
+%endif ; C
