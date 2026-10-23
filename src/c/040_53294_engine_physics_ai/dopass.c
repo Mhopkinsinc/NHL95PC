@@ -184,9 +184,10 @@ void shotdiradj(Player *p)
 
 int __cdecl imul32(int a, int b);  /* library: 32-bit product */
 
-/* DRAFT (10.0 GA, 67 differing, same size): the scatter divisor and the speed divisor share one int (f, the
-   EXE's ebp, so the 3 of f / 3 spills to [esp]). Left: the sound short sits at [esp+10h] (EXE 0Ch, dy 10h) and
-   register picks in the speed code. */
+/* DRAFT (10.0 GA, 47 differing, same size): the scatter divisor and the speed divisor share one int (f, the
+   EXE's ebp, so the 3 of f / 3 spills to [esp]); the x scatter range is an int t (r + r) declared last, and dy
+   declared before snd, which puts snd at [esp+0Ch] and dy at [esp+10h] as in the EXE. Left: register picks
+   (the |y| of the shot-power test in edi, EXE ebx; the puck x pointer, the radius sum). */
 /* doshot (57C0B, 93G doshot; ends in dopass_ret6): p shoots. The aim is set (shotdiradj), p becomes the shooter
    (shotplayer, sflags bit 3 off, pflags bit 5). Without the puck, and not in a deflection animation (SPA DD3h /
    E2Bh), it only plays the miss sound 99h. Else (gmode2 bit 4) the shot speed: a slapshot (SPA 491h / E2Bh) loses
@@ -208,9 +209,10 @@ void doshot(Player *p)
     int e;
     int f;
     short dx;
-    short snd;
     short dy;
+    short snd;
     short gy;
+    int t;
 
     shotdiradj(p);
     shotplayer = p->SCnum;
@@ -257,7 +259,8 @@ void doshot(Player *p)
             r = (dist * ((passspeed >> 4) - sp + 0x10) & 0xFFFF) >> 6;
             if (dist < 0xFA) r >>= 1;
             if (r > 0xA0) r = 0xA0;
-            dx += randomd0(r + r) - r;
+            t = r + r;
+            dx += randomd0(t) - r;
             if (r > 0x3C) r = 0x3C;
             e = dy < 0 ? r >> 1 : r;
             dy += randomd0(e + e) - e;
