@@ -33,7 +33,7 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3);
 int TeamFromMouse(int x, int y, int *idx);  /* 26B5A */
 void __cdecl sub_90F38(int x, int y, int w, int h, int col);  /* graphics library: xor a box */
 
-/* DRAFT under 10.0 GA: 2,075 bytes as the EXE, 204 differing instructions. The submenu branch reads the
+/* DRAFT under 10.0 GA: 2,075 bytes as the EXE, 196 differing instructions. The submenu branch reads the
    clicked item in place (the EXE keeps &menus[level][item] for on2, pad and x, and reloads it for y after the
    pos store); the pointer-size product, the first close loop's stores and later registers still differ. */
 /* RunMenu (1D6E8, PC only; owner of RunMenu_ret4): run a menu bar of n items in the colours col1-col3 until an
@@ -56,8 +56,8 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
         int my;
         int mx;
     } s;
-    int h;
     int w;
+    int h;
     int ptr;
     int oldmx;
     int oldmy;
@@ -136,7 +136,7 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                     DrawMenuItemSel((struct MenuItem *)&s.menus[s.level][s.sel[s.level]], s.pos[s.level][0],
                         s.pos[s.level][1], col1, col2, col3);
                     s.sel[s.level] = s.item;
-                    DrawMenuItemNorm((struct MenuItem *)&s.menus[s.level][s.item], s.pos[s.level][0],
+                    DrawMenuItemNorm((struct MenuItem *)&s.menus[s.level][s.sel[s.level]], s.pos[s.level][0],
                         s.pos[s.level][1], col1, col2, col3);
                 }
             } else if (m->on2) {
