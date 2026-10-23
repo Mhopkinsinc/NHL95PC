@@ -3,12 +3,15 @@
 
 void PostPenaltyEvent(int away, int pl, int type, int tag, int min, int sec, int n);
 
+/* DRAFT: same size under 10.0 GA, 96 differing (register picks, the pen / mins frame slots swapped, word_CBC44
+   hoisted into cx); see docs/UNSURE.md. */
 /* InProgress (62EE9, PC only; owner of InProgress_popebp / InProgress_popx): call the next queued penalty when
    play is stopped (RefStep set, no play-by-play talking). With no penalty left (PenBuf empty) and no overlay
    running, update both teams' strength (tmap 6, less one per player in the box down to 4, the box flag bit 13
    cleared) and send the puck to its stoppage assignment (1Bh). Else take the last queued penalty: one already
    called waits for its player to reach the box; a penalty shot (1Ah) starts it; a non-penalty (no minutes)
-   only sets the referee's signal; a minus-minute entry (a coincidental minor) and a real penalty put the player
+   only sets the referee's signal (with sflags bit 7 or word_CBC44 set, one other than 7 goes straight on to the
+   next queued penalty); a minus-minute entry (a coincidental minor) and a real penalty put the player
    in the box (tmpdst minutes * 60, bits 13 / 14), count it in the team and player stats, add it to the panel
    and the play-by-play (PostPenaltyEvent, the time left in the period), and send him off (assignment 0Ch); a
    player already in the box has one of his teammates on the ice serve it ("served by"). Then the referee's
@@ -23,14 +26,12 @@ void InProgress(void)
     short i;
     short t;
     short n;
-    short side;
-    signed char a;
 
     if (!RefStep[0] || PaSpeechBusy()) return;
 again:
     if (!PenBuf[0]) {
         if (ovlseq != 0 && ovlseq != 2 && ovltimer >= 0) return;
-        for (side = 0, tm = &hmtmstruct; side < 2; side++, tm = &awtmstruct) {
+        for (i = 0, tm = &hmtmstruct; i < 2; i++, tm = &awtmstruct) {
             n = 6;
             for (t = 0x1B; t >= 0; t--) {
                 if (tm->tmpdst[t] > 0) {
@@ -41,8 +42,8 @@ again:
             tm->tmap = n;
         }
         gmode &= 0xFB;
-        a = ((Player *)puckstruct)->asslist[((Player *)puckstruct)->assnum];
-        if (a == 0x1B || a == 0x1C) return;
+        i = ((Player *)puckstruct)->asslist[((Player *)puckstruct)->assnum];
+        if (i == 0x1B || i == 0x1C) return;
         assreplace((Player *)puckstruct, 0x1B);
         return;
     }
@@ -51,7 +52,7 @@ again:
     if (!(PenBuf_pl[i * 2] & 0x80)) {
         pl = &SortCords[PenBuf_pl[i * 2]];
         if (pl->position >= 0) return;
-        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
         return;
     }
     PenBuf_pl[i * 2] &= 0x7F;
@@ -61,7 +62,7 @@ again:
         t = PerTimeTotal - gameclock;
         if (gameclock < 0x3C && clockticks[0]) t--;
         pl = &SortCords[PenBuf_pl[i * 2]];
-        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
         PostPenaltyEvent((pl->pflags & 0x40) != 0, pl->pnum, pen - 9, 0, t / 60, t % 60, 0);
         goto signal;
     }
@@ -76,14 +77,14 @@ again:
         if (gameclock < 0x3C && clockticks[0]) t--;
         PostPenaltyEvent((pl->pflags & 0x40) != 0, pl->pnum, pen - 9, mins, t / 60, t % 60, i);
         word_C90D8 = PenBuf_pl[i * 2];
-        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
         goto signal;
     }
     if (mins == 0) {
         word_C90D8 = PenBuf_pl[i * 2];
-        PenBuf_pl[i * 2] = PenBuf[i * 2] = 0;
+        PenBuf[i * 2] = PenBuf_pl[i * 2] = 0;
         if ((sflags & 0x80) || word_CBC44) {
-            if (pen == 7) goto again;
+            if (pen != 7) goto again;
         }
         goto signal;
     }
