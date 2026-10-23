@@ -28,7 +28,7 @@ int MenuHitTest(int x, int y, MenuItem **menus, int i, int *counts, int *origin,
 int sub_8F98F(char *path);  /* music library: load a song */
 void sub_8FB8E(int song, int handle, int chan, int vol);  /* music library: play a song */
 
-/* DRAFT (first pass from Ghidra; the menu loop follows MainDeskLoop's draft): 5,870 of 5,888 bytes, 142
+/* DRAFT (first pass from Ghidra; the menu loop follows MainDeskLoop's draft): 5,872 of 5,888 bytes, 102
    differing under 10.0 GA. Every call is in place and the frame size matches. Found under GA: the dropdown
    close loops' position reset as two stores (`pos[i][0] = 0; pos[i][1] = 0;`; the chained form shifts every
    slot), the arrays declared menus, bg, nitems, the origin ternaries as `depth != 1 ? x2 : x1`. Left: the
@@ -65,6 +65,7 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
     char path[0x20];
     unsigned char grid[4][7];
     int sel[4];
+    int fh;
     int pos[2][2];
     char pw2[12];  /* the password again */
     char pw1[12];  /* the player's name, then the password */
@@ -76,11 +77,10 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
     int level;
     int w;
     int my;
-    int mx;
     int oldmy;
+    int mx;
     int oldmx;
     int hit;
-    int fh;
     int bank;
     int art;
     int done;
@@ -94,13 +94,12 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
     int i;
     int err;
     int bits;
-    int old;
     int r;
     int k;
     int size;
-    int bank2;
-    unsigned char *e;
+    int v;  /* the Pal20 bank, then the old pick */
     unsigned char *pal;
+    unsigned char *e;
     unsigned char *copy;
 
     c40 = 0x40;
@@ -172,9 +171,9 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
             if (songdata && gameopts.music) sub_8FB8E(songdata, musichandle, 3, 0x4C);
         }
         MakePath(path, fileoncd[0x1AD] == 1 ? (char *)cddriveptr : 0, (char *)str_Tspal, 0);
-        bank2 = sub_8E83C(path, 0);
-        FadePalStep(0, (unsigned char *)sub_B30B4(bank2, (char *)str_Pal20) + 0x10, 0x10);
-        FreeMemBlock(bank2);
+        v = sub_8E83C(path, 0);
+        FadePalStep(0, (unsigned char *)sub_B30B4(v, (char *)str_Pal20) + 0x10, 0x10);
+        FreeMemBlock(v);
         sub_B2DCA(&hit, &oldmx, &oldmy);
         mx = oldmx;
         my = oldmy;
@@ -307,12 +306,12 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
                     hit = TeamGridHitTest(mx, my, (unsigned char *)grid);
                     if (mode == 0x10 && cur == 1 && hit == picks[0]) hit = -1;
                     if (hit >= 0) {
-                        old = picks[cur];
+                        v = picks[cur];
                         picks[cur] = hit;
-                        if (old == hit) {
+                        if (v == hit) {
                             if ((mode & 0x18) && copy[picks[cur] * 30 + 0x17] == 1) {
                                 /* pick a human team */
-                                HighlightGridCell(old, (unsigned char *)grid, 0);
+                                HighlightGridCell(v, (unsigned char *)grid, 0);
                                 HighlightGridCell(picks[cur], (unsigned char *)grid, -1);
                                 if (cur == 0 && (mode & 0x10)) {
                                     cur++;
@@ -399,7 +398,7 @@ void LeagueTeamSelect(char *dir, int *humans, char *names, unsigned char *teams,
                             }
                         } else {
                             /* move the pick */
-                            if (old >= 0) HighlightGridCell(old, (unsigned char *)grid, -1);
+                            if (v >= 0) HighlightGridCell(v, (unsigned char *)grid, -1);
                             HighlightGridCell(picks[cur], (unsigned char *)grid, -1);
                         }
                     }
