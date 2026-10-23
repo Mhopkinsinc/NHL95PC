@@ -196,6 +196,10 @@ typedef struct { char c[17]; } Hdr17;
 typedef struct CreditPage { signed char n; int time; char *bank; char *lines[1]; } CreditPage;
 #pragma pack()
 
+/* DRAFT (TitleScreen): 1675 vs 1675, 12 differing under 10.0 GA. The palette brightening reads pal[i] in place
+   (the EXE's 3Fh in dh and the sum in bl; a char copy c adds in place and stores 3Fh as an immediate), which
+   also gives the EXE's frame size. Left: frame and bmp swap slots (+328h / +32Ch), and the EXE copies the chunk
+   into edx right after sub_1B8AC (`mov edx, eax`, as PlayMVI). */
 /* TitleScreen (1609F, PC only; ends in RunDemoGame_x): the title screen. Load EASCRN (from the CD when listed):
    its palette brightened (+5, at most 3Fh), the SCRN2 screen and the MSK1 mask (copied into a MASK block of 200 x
    200). Start the title song (music on and none playing) or load the title sample (MT-32 or AdLib), then play
@@ -215,18 +219,17 @@ int TitleScreen(void)
     unsigned char *mask;
     int first;
     unsigned char *m;
-    int bmp;
-    int delay;
-    signed char c;
-    int i;
-    int bank;
     int frame;
+    int delay;
+    int i;
+    unsigned id;
+    int bmp;
     int ends;
     int dec;
     int stream;
     int t0;
     int n;
-    unsigned id;
+    int bank;
 
     bmp = 0;
     ClearInputQueue();
@@ -236,8 +239,7 @@ int TitleScreen(void)
     bank = sub_8E83C(path, 0);
     memcpy(pal, (char *)sub_B30B4(bank, (char *)str_Pal4) + 0x10, 0x300);
     for (i = 0; i < 0x300; i++) {
-        c = pal[i];
-        if (c < 0x3B) pal[i] = c + 5;
+        if (pal[i] < 0x3B) pal[i] = pal[i] + 5;
         else pal[i] = 0x3F;
     }
     sub_9121C(sub_B30B4(bank, (char *)str_Scrn2));
