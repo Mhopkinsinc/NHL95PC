@@ -4299,6 +4299,10 @@ pop ecx	; 704A3
 pop ebx	; 704A4
 ret	; 704A5
 %endif ; C
+; C: src/c/052_6D2F8_create_player/DrawShootsField.c (CreatePlayerLoop)
+%ifdef CBUILD
+%include "c/052_6D2F8_create_player/DrawShootsField.CreatePlayerLoop.inc"
+%else
 CreatePlayerLoop:
 push dword 44h	; 704A6
 call __CHK	; 704AB
@@ -4491,6 +4495,7 @@ je near CreatePlayerLoop.3	; 706D0
 mov eax, dword [byte esp+010h]	; 706D6
 add esp, byte 1Ch	; 706DA
 jmp near DrawShootsField_pop	; 706DD
+%endif ; C
 CreateFreeAgent:
 push dword 20Ch	; 706E2
 call __CHK	; 706E7
