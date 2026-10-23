@@ -1000,8 +1000,6 @@ int PlayoffModeLoop(int *fh)
 
 #define TX(i) (((int *)treecolx)[i])
 
-/* DRAFT: 4,616 vs 4,617 bytes; only the first seed loop differs (i and the playofftree read swap eax / edx);
-   see docs/UNSURE.md. */
 /* DrawPlayoffTree (8A652, PC only; ends in POSeedRound2_x): draw the playoff tree. The BKGD2 background (rows 13h
    down), the BangPal palette when dword_C6D26 asks for it, the series wins (CountSeriesWins). Before the first
    round is seeded say so ("Playoffs have not been...", Kaufman font, centred). Otherwise the PSTATBAR2 bars, the
@@ -1009,7 +1007,9 @@ int PlayoffModeLoop(int *fh)
    dword_C6DBA) and draw each round from the top: the West first round (8 lines in two columns), the West second
    round, the West final, the cup final, the East final, the East second round (mirrored) and the East first round,
    each team as seed letter, city and wins, its wins lit (44h West, C4h East) when it reached the next round, with
-   the arrows between rounds once every team of the next round is known. No arguments, no result. */
+   the arrows between rounds once every team of the next round is known. No arguments, no result. The seed loop
+   sets the column x as the drawing loop does (stores the optimiser drops, as in PlayoffTreeScreen); they give
+   the EXE's registers for i and the playofftree read. */
 void DrawPlayoffTree(void)
 {
     struct {
@@ -1073,11 +1073,21 @@ void DrawPlayoffTree(void)
     PrintOutlinedText(0x140 - (fputchar(f.buf) >> 1), 0x1A7, f.buf);
     sub_8EA18(mf);
     for (i = 0; i < 8; i++) {
-        if (i < 4) slot = treecolslots[i * 2];
-        else slot = treecolslots[7 - (i * 2 - 8)];
+        if (i < 4) {
+            x = i;
+            slot = treecolslots[i * 2];
+        } else {
+            x = 7 - i;
+            slot = treecolslots[7 - (i * 2 - 8)];
+        }
         dword_C6DBA[playofftree[slot]] = i;
-        if (i < 4) slot = treecol_Er1[i * 2];
-        else slot = treecol_Er1[7 - (i * 2 - 8)];
+        if (i < 4) {
+            x = i;
+            slot = treecol_Er1[i * 2];
+        } else {
+            x = 7 - i;
+            slot = treecol_Er1[7 - (i * 2 - 8)];
+        }
         dword_C6DBA[playofftree[slot]] = i;
     }
     y = 0x48;

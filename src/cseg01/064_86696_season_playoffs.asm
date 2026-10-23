@@ -5210,6 +5210,10 @@ pop ebp	; 8A64C
 pop edi	; 8A64D
 pop esi	; 8A64E
 ret 8	; 8A64F
+; C: src/c/064_86696_season_playoffs/POSeedRound2.c (DrawPlayoffTree)
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POSeedRound2.DrawPlayoffTree.inc"
+%else
 DrawPlayoffTree:
 push dword 120h	; 8A652
 call __CHK	; 8A657
@@ -6395,6 +6399,7 @@ call sub_8EA00	; 8B848
 add esp, byte 4	; 8B84D
 add esp, 0F4h	; 8B850
 jmp near POSeedRound2_x	; 8B856
+%endif ; C
 ; C: src/c/064_86696_season_playoffs/SetSideControls.c
 %ifdef CBUILD
 %include "c/064_86696_season_playoffs/SetSideControls.inc"
