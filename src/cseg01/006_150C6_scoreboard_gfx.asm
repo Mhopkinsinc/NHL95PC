@@ -21,6 +21,10 @@ global RunDemoGame_x
 global DrawHudPanel, TickPanelClock, DrawPanelClockDigits, TickPanelPenalties
 global DrawEnergyBar, DrawLineGroupBars, DrawPanelPenalties, LoadCupFinalSeries, IsCupClinched, CupSeriesWinner, RunDemoGame, AnyInputPressed
 global ReadBE32
+; C: src/c/006_150C6_scoreboard_gfx/DrawHudPanel.c
+%ifdef CBUILD
+%include "c/006_150C6_scoreboard_gfx/DrawHudPanel.inc"
+%else
 DrawHudPanel:
 push dword 34h	; 150C6
 call __CHK	; 150CB
@@ -223,6 +227,7 @@ pop ebp	; 15370
 pop edi	; 15371
 pop esi	; 15372
 ret	; 15373
+%endif ; C
 ; C: src/c/006_150C6_scoreboard_gfx/TickPanelClock.c
 %ifdef CBUILD
 %include "c/006_150C6_scoreboard_gfx/TickPanelClock.inc"
