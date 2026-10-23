@@ -187,17 +187,19 @@ int PassLaneChk(Player *p, Player *o)
    he is snapped to the net edge for his facing (offset tables word_CCBEC, word_CCBFC, word_CCBCC, word_CCBDC;
    mirrored by the x-flip attribute bit 3), stopped, and the bump SPA for that side is returned (F0Fh, F55h,
    F9Bh / FE1h). p: the player; dir: his direction. Result: the new SPA, or his SPA when nothing changes.
-   DRAFT (10.0 GA): 61 score differing. The first x-flip comparison is materialized by a doubled comparison,
-   as in the EXE (the C_MATCHING materialized-bool pattern). Register allocation and coordinate slots remain. */
+   DRAFT (10.0 GA): 50 score differing. The first x-flip comparison is materialized by a doubled comparison,
+   as in the EXE (the C_MATCHING materialized-bool pattern). A separate scaled y numerator improves allocation;
+   dir and the net centre still use different registers and slots. */
 int NetCollide(Player *p, int dir)
 {
     int gx;
-    int dx;
     int dy;
+    int dx;
     int gy;
     int dist;
     int ux;
     int uy;
+    int scaled_y;
 
     gx = HIWORD(p->Xpos) >= 0 ? 0x60 : -0x60;
     dx = (p->Xpos >> 16) - gx;
@@ -206,7 +208,8 @@ int NetCollide(Player *p, int dir)
     dist = vecdist(dx, dy);
     if (dist < 0x18) goto keep;
     ux = (dx << 8) / dist >> 2;
-    uy = (dy << 8) / dist >> 2;
+    scaled_y = dy << 8;
+    uy = scaled_y / dist >> 2;
     if ((uy < 0 ? -uy : uy) >= (ux < 0 ? -ux : ux)) {
         if (gy >= 0) {
             dir = dir + 2 & 7;
