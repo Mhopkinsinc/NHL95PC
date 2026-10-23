@@ -500,9 +500,12 @@ typedef struct { char c[0x34]; } PlayerRec52;
     s.sel[1] = s.sel[2] = s.sel[3] = 0; \
     s.nitems[1] = s.nitems[2] = s.nitems[3] = 0
 
-/* DRAFT under 10.0 GA: same size, 266 differing. The highlight row is computed into k before the sub_90F38 call:
-   with the ternary inside the pushed arguments Watcom gave the function a biased ebp frame (and 20 bytes of
-   spills). Left: register picks from the size product on, the StrPrefixDiffers address sums; see docs/UNSURE.md. */
+/* DRAFT under 10.0 GA: 11 bytes short, 158 differing. The highlight row is computed into k before the sub_90F38
+   call: with the ternary inside the pushed arguments Watcom gave the function a biased ebp frame (and 20 bytes of
+   spills). Only the address-taken scalars stay in the frame struct; the others are plain locals in the order
+   that gives the EXE's slots. Left: register picks from the size product on, the StrPrefixDiffers address sums,
+   the submenu branch (the EXE reads on2 as [menus[level] + item*32 + 18h] and then forms m from the same item
+   offset); see docs/UNSURE.md. */
 /* RunPlayerPickMenu (1ED96, PC only; ends in RunMenu_ret4): RunMenu with a player picker under it, for the player
    stats screens. The selected player (statsplayer, found in the shown list by his first and last name with
    StrPrefixDiffers, goalies when the position letter is G) is shown by an xor bar (sub_90F38: skaters from row 43h,
@@ -523,15 +526,14 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
         int pick;
         int my;
         int mx;
-        int h;
-        int w;
-        int at;
-        int ptr;
-        int oldmx;
-        int oldmy;
-        int cur;
-        int depth;
     } s;
+    int w;
+    int ptr;
+    int oldmx;
+    int oldmy;
+    int cur;
+    int h;
+    int depth;
     int i;
     int k;
     int bits;
@@ -540,7 +542,7 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     MenuItem *m;
     int size;
 
-    s.depth = s.cur = s.pick = 0;
+    depth = cur = s.pick = 0;
     s.menus[0] = bar;
     s.nitems[0] = n;
     s.menus[1] = s.menus[2] = s.menus[3] = 0;
@@ -548,18 +550,18 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     s.sel[0] = s.sel[1] = s.sel[2] = s.sel[3] = 0;
     s.pos[0][0] = s.pos[0][1] = 0;
     size = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
-    s.ptr = sub_8CCA8((char *)str_PointerMenu, size, 0x20);
-    *(MenuHdr17 *)s.ptr = *(MenuHdr17 *)pointerspr;
-    ((short *)s.ptr)[2] = ((short *)pointerspr)[2] + 1;
-    ((short *)s.ptr)[3] = ((short *)pointerspr)[3] + 1;
-    s.mx = s.oldmx = (s.menus[0]->x1 + s.menus[0]->x2) / 2;
-    s.my = s.oldmy = (s.menus[0]->y1 + s.menus[0]->y2) / 2;
+    ptr = sub_8CCA8((char *)str_PointerMenu, size, 0x20);
+    *(MenuHdr17 *)ptr = *(MenuHdr17 *)pointerspr;
+    ((short *)ptr)[2] = ((short *)pointerspr)[2] + 1;
+    ((short *)ptr)[3] = ((short *)pointerspr)[3] + 1;
+    s.mx = oldmx = (s.menus[0]->x1 + s.menus[0]->x2) / 2;
+    s.my = oldmy = (s.menus[0]->y1 + s.menus[0]->y2) / 2;
     if (statsplayer[2] == 'G' || statsplayer[2] == 'g') {
         for (i = 0; i < statsnumgoalies; i++) {
             k = statsgoalieplr[statsgoalieorder[i]] * 0x34;
             if (!StrPrefixDiffers((char *)statsplayer + 3, (char *)statsplayerbuf + k + 3)
                 && !StrPrefixDiffers((char *)statsplayer + 0x13, (char *)statsplayerbuf + k + 0x13)) {
-                s.cur = statsnumskaters + i;
+                cur = statsnumskaters + i;
                 break;
             }
         }
@@ -568,16 +570,16 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
             k = statsskaterplr[statsskaterorder[i]] * 0x34;
             if (!StrPrefixDiffers((char *)statsplayer + 3, (char *)statsplayerbuf + k + 3)
                 && !StrPrefixDiffers((char *)statsplayer + 0x13, (char *)statsplayerbuf + k + 0x13)) {
-                s.cur = i;
+                cur = i;
                 break;
             }
         }
     }
-    PHILITE(s.cur);
-    sub_91400(s.ptr, s.oldmx, s.oldmy);
-    sub_91370(pointerspr, s.oldmx, s.oldmy);
+    PHILITE(cur);
+    sub_91400(ptr, oldmx, oldmy);
+    sub_91370(pointerspr, oldmx, oldmy);
     sub_B2E1B(0, 0, 0x280, 0x1E0);
-    MouseSetPos(s.oldmx, s.oldmy);
+    MouseSetPos(oldmx, oldmy);
     ((void (*)(void))mousepollfn)();
     ClearInputQueue();
     for (;;) {
@@ -587,27 +589,27 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
             if (bits & 2) break;
         }
         if (!(bits & 2)) {
-            if (s.mx == s.oldmx && s.my == s.oldmy) continue;
-            sub_903F0(s.ptr, s.oldmx, s.oldmy);
-            sub_91400(s.ptr, s.mx, s.my);
+            if (s.mx == oldmx && s.my == oldmy) continue;
+            sub_903F0(ptr, oldmx, oldmy);
+            sub_91400(ptr, s.mx, s.my);
             sub_91370(pointerspr, s.mx, s.my);
-            s.oldmx = s.mx;
-            s.oldmy = s.my;
+            oldmx = s.mx;
+            oldmy = s.my;
             continue;
         }
-        if (MenuHitTest(s.mx, s.my, s.menus, s.depth, s.nitems, &s.pos[0][0], &s.level, &s.item)) {
+        if (MenuHitTest(s.mx, s.my, s.menus, depth, s.nitems, &s.pos[0][0], &s.level, &s.item)) {
             m = &s.menus[s.level][s.item];
             if (m->on1) {
                 if (s.item == s.sel[s.level]) {
-                    sub_903F0(s.ptr, s.oldmx, s.oldmy);
+                    sub_903F0(ptr, oldmx, oldmy);
                     PCLOSE();
-                    s.depth = 0;
+                    depth = 0;
                     *(PlayerRec52 *)statsplayer = *(PlayerRec52 *)(statsplayerbuf + PREC(s.pick) * 0x34);
-                    PHILITE(s.cur);
+                    PHILITE(cur);
                     r = ((int (*)(void))s.menus[s.level][s.item].on1)();
                     PZERO();
                     if (r == 1) {
-                        FreeMemBlock(s.ptr);
+                        FreeMemBlock(ptr);
                         return 0;
                     }
                     if (statsplayer[2] == 'G') {
@@ -615,7 +617,7 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                             k = statsgoalieplr[statsgoalieorder[i]] * 0x34;
                             if (!StrPrefixDiffers((char *)statsplayer + 3, (char *)statsplayerbuf + k + 3)
                                 && !StrPrefixDiffers((char *)statsplayer + 0x13, (char *)statsplayerbuf + k + 0x13)) {
-                                s.cur = statsnumskaters + i;
+                                cur = statsnumskaters + i;
                                 break;
                             }
                         }
@@ -624,18 +626,18 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                             k = statsskaterplr[statsskaterorder[i]] * 0x34;
                             if (!StrPrefixDiffers((char *)statsplayer + 3, (char *)statsplayerbuf + k + 3)
                                 && !StrPrefixDiffers((char *)statsplayer + 0x13, (char *)statsplayerbuf + k + 0x13)) {
-                                s.cur = i;
+                                cur = i;
                                 break;
                             }
                         }
                     }
-                    PHILITE(s.cur);
-                    MouseSetPos(s.oldmx, s.oldmy);
-                    s.mx = s.oldmx;
-                    s.my = s.oldmy;
+                    PHILITE(cur);
+                    MouseSetPos(oldmx, oldmy);
+                    s.mx = oldmx;
+                    s.my = oldmy;
                     ClearInputQueue();
                 } else {
-                    sub_903F0(s.ptr, s.oldmx, s.oldmy);
+                    sub_903F0(ptr, oldmx, oldmy);
                     DrawMenuItemSel((struct MenuItem *)&s.menus[s.level][s.sel[s.level]], s.pos[s.level][0],
                         s.pos[s.level][1], col1, col2, col3);
                     s.sel[s.level] = s.item;
@@ -643,9 +645,9 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                         s.pos[s.level][1], col1, col2, col3);
                 }
             } else if (m->on2) {
-                sub_903F0(s.ptr, s.oldmx, s.oldmy);
-                if (s.depth != s.level) {
-                    for (i = s.depth; i > s.level; i--) {
+                sub_903F0(ptr, oldmx, oldmy);
+                if (depth != s.level) {
+                    for (i = depth; i > s.level; i--) {
                         s.sel[i] = 0;
                         if (s.bg[i]) {
                             sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
@@ -657,32 +659,32 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                             s.nitems[i] = 0;
                         }
                     }
-                    s.depth = s.level;
+                    depth = s.level;
                 }
-                i = s.depth;
+                i = depth;
                 DrawMenuItemSel((struct MenuItem *)&s.menus[i][s.sel[i]], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 s.sel[i] = s.item;
                 DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], col1, col2, col3);
-                s.depth = i + 1;
-                s.menus[s.depth] = (MenuItem *)s.menus[s.level][s.item].on2;
+                depth = i + 1;
+                s.menus[depth] = (MenuItem *)s.menus[s.level][s.item].on2;
                 m = &s.menus[s.level][s.item];
-                s.nitems[s.depth] = m->pad;
-                s.pos[s.depth][0] = (s.depth != 1 ? m->x2 : m->x1) + s.pos[s.depth - 1][0];
-                s.pos[s.depth][1] = (s.depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[s.depth - 1][1];
-                s.w = s.menus[s.depth][s.nitems[s.depth] - 1].x2 - s.menus[s.depth][0].x1 + 1;
-                s.h = s.menus[s.depth][s.nitems[s.depth] - 1].y2 - s.menus[s.depth][0].y1 + 1;
-                s.bg[s.depth] = sub_8CCA8((char *)str_menubuff, s.w * s.h + 0x11, 0x20);
-                *(MenuHdr17 *)s.bg[s.depth] = *(MenuHdr17 *)pointerspr;
-                ((short *)s.bg[s.depth])[2] = s.w;
-                ((short *)s.bg[s.depth])[3] = s.h;
-                sub_91400(s.bg[s.depth], s.pos[s.depth][0], s.pos[s.depth][1]);
-                DrawMenuDropdown(s.menus[s.depth], s.nitems[s.depth], s.pos[s.depth][0], s.pos[s.depth][1], col1, col2,
+                s.nitems[depth] = m->pad;
+                s.pos[depth][0] = (depth != 1 ? m->x2 : m->x1) + s.pos[depth - 1][0];
+                s.pos[depth][1] = (depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[depth - 1][1];
+                w = s.menus[depth][s.nitems[depth] - 1].x2 - s.menus[depth][0].x1 + 1;
+                h = s.menus[depth][s.nitems[depth] - 1].y2 - s.menus[depth][0].y1 + 1;
+                s.bg[depth] = sub_8CCA8((char *)str_menubuff, w * h + 0x11, 0x20);
+                *(MenuHdr17 *)s.bg[depth] = *(MenuHdr17 *)pointerspr;
+                ((short *)s.bg[depth])[2] = w;
+                ((short *)s.bg[depth])[3] = h;
+                sub_91400(s.bg[depth], s.pos[depth][0], s.pos[depth][1]);
+                DrawMenuDropdown(s.menus[depth], s.nitems[depth], s.pos[depth][0], s.pos[depth][1], col1, col2,
                     col3);
-                s.sel[s.depth] = 0;
-                DrawMenuItemNorm((struct MenuItem *)s.menus[s.depth], s.pos[s.depth][0], s.pos[s.depth][1], col1, col2,
+                s.sel[depth] = 0;
+                DrawMenuItemNorm((struct MenuItem *)s.menus[depth], s.pos[depth][0], s.pos[depth][1], col1, col2,
                     col3);
             } else {
-                sub_903F0(s.ptr, s.oldmx, s.oldmy);
+                sub_903F0(ptr, oldmx, oldmy);
                 DrawMenuItemSel((struct MenuItem *)&s.menus[s.level][s.sel[s.level]], s.pos[s.level][0],
                     s.pos[s.level][1], col1, col2, col3);
                 s.sel[s.level] = s.item;
@@ -690,14 +692,14 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                     col1, col2, col3);
             }
         } else {
-            sub_903F0(s.ptr, s.oldmx, s.oldmy);
+            sub_903F0(ptr, oldmx, oldmy);
             if (PlayerFromMouseY(s.mx, s.my, &s.pick)) {
                 PCLOSE();
-                s.depth = 0;
+                depth = 0;
                 PZERO();
-                if (s.cur != s.pick) {
-                    PHILITE(s.cur);
-                    s.cur = s.pick;
+                if (cur != s.pick) {
+                    PHILITE(cur);
+                    cur = s.pick;
                     PHILITE(s.pick);
                 } else {
                     PCLOSE();
@@ -705,19 +707,19 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                     statspal = statspalvalid = 0;
                     ShowPlayerStatsItem();
                     PZERO();
-                    FreeMemBlock(s.ptr);
+                    FreeMemBlock(ptr);
                     return 0;
                 }
             } else {
-                sub_903F0(s.ptr, s.oldmx, s.oldmy);
+                sub_903F0(ptr, oldmx, oldmy);
                 PCLOSE();
-                s.depth = 0;
+                depth = 0;
                 PZERO();
             }
         }
-        sub_91400(s.ptr, s.mx, s.my);
+        sub_91400(ptr, s.mx, s.my);
         sub_91370(pointerspr, s.mx, s.my);
-        s.oldmx = s.mx;
-        s.oldmy = s.my;
+        oldmx = s.mx;
+        oldmy = s.my;
     }
 }
