@@ -40,17 +40,15 @@ class Exit(Exception):
 
 
 class WccEmu:
-    def __init__(self, exe, root, args, env=None, cwd=''):
-        self.root = os.path.abspath(root)
-        self.cwd = cwd                      # DOS path below C:\ ('' = root)
-        self.stdout = bytearray()
-        self.files = {}                     # handle -> python file
-        self.next_handle = 5
-        self.heap = HEAP_LO
-        self.exit_code = None
+    def __init__(self, exe, root, args, env=None, cwd='', fill=None, heap_skew=0, heap_align=0x10000):
+        """fill: a byte for memory the program gets without loading it (the allocator's blocks, the stack, the
+        image tail past the file data) instead of zeros, to find reads of memory the compiler never set"""
+        self.fill = fill
+        self.heap_skew = heap_skew          # heap_skew / heap_align move the allocator's blocks (address tests)
+        self.heap_align = heap_align
         self.trace_dos = False
         h, mem, rel = cf_load.load(exe, BASE)
-        self.hdr = h
+        self.hdr, self.image = h, bytes(mem)
         if h['size'] not in STUBS:
             raise SystemExit('wccemu: unknown compiler image (size %#x); add its stub offsets to STUBS' % h['size'])
         self.int21_at, self.exit_at = (BASE + x for x in STUBS[h['size']])
@@ -60,8 +58,30 @@ class WccEmu:
         uc.mem_map(BASE, (len(mem) + 0xFFFF) & ~0xFFFF)
         uc.mem_map(HEAP_LO, HEAP_HI - HEAP_LO)
         uc.mem_write(BASE, bytes(mem))
+        if fill is not None:
+            uc.mem_write(BASE + h['size'], bytes([fill]) * (len(mem) - h['size']))
+            uc.mem_write(STACK_LO, bytes([fill]) * (STACK_HI - STACK_LO))
         uc.mem_write(GDT, b'\0' * 8 + gdt_entry(0, 0xFFFFF, 0x9A, 0xC) + gdt_entry(0, 0xFFFFF, 0x92, 0xC))
         uc.reg_write(X.UC_X86_REG_GDTR, (0, GDT, 3 * 8 - 1, 0))
+        uc.hook_add(U.UC_HOOK_CODE, self._int21, begin=self.int21_at, end=self.int21_at)
+        uc.hook_add(U.UC_HOOK_CODE, self._exit, begin=self.exit_at, end=self.exit_at)
+        uc.hook_add(U.UC_HOOK_MEM_UNMAPPED | U.UC_HOOK_MEM_PROT, self._fault)
+        self.start(root, args, env, cwd)
+
+    def start(self, root, args, env=None, cwd=''):
+        """set up a run of the program. A second start() on the same WccEmu is the next program of one DOSBox
+        session: the image's file data is loaded again (its startup clears BSS), and everything else (the
+        allocator's blocks, the stack, the image tail) keeps what the previous run left there"""
+        uc, h = self.uc, self.hdr
+        self.root = os.path.abspath(root)
+        self.cwd = cwd                      # DOS path below C:\ ('' = root)
+        self.stdout = bytearray()
+        self.files = {}                     # handle -> python file
+        self.next_handle = 5
+        self.heap = HEAP_LO + self.heap_skew
+        self.exit_code = None
+        self.fault = None
+        uc.mem_write(BASE, self.image[:h['size']])
         for r in (X.UC_X86_REG_SS, X.UC_X86_REG_DS, X.UC_X86_REG_ES, X.UC_X86_REG_FS, X.UC_X86_REG_GS):
             uc.reg_write(r, 0x10)
         # start block, as the OS/2 loader builds it
@@ -82,10 +102,7 @@ class WccEmu:
         uc.reg_write(X.UC_X86_REG_EDI, p_start)
         uc.reg_write(X.UC_X86_REG_ESI, BASE + h['entry'])
         uc.reg_write(X.UC_X86_REG_EBP, 0)
-        uc.hook_add(U.UC_HOOK_CODE, self._int21, begin=self.int21_at, end=self.int21_at)
-        uc.hook_add(U.UC_HOOK_CODE, self._exit, begin=self.exit_at, end=self.exit_at)
-        uc.hook_add(U.UC_HOOK_MEM_UNMAPPED | U.UC_HOOK_MEM_PROT, self._fault)
-        self.fault = None
+        uc.reg_write(X.UC_X86_REG_EFLAGS, 0x202)
 
     # ---------------------------------------------------------------- helpers
     def r(self, reg): return self.uc.reg_read(reg)
@@ -234,9 +251,11 @@ class WccEmu:
 
     def dos_48(self, al):       # allocate ebx bytes -> eax (zero-filled, 64K aligned like DosAllocMem)
         n = self.r(X.UC_X86_REG_EBX)
-        at = (self.heap + 0xFFFF) & ~0xFFFF
+        at = (self.heap + self.heap_align - 1) & ~(self.heap_align - 1)
         if at + n > HEAP_HI: return self.err(8)
         self.heap = at + n
+        if self.fill is not None:
+            self.uc.mem_write(at, bytes([self.fill]) * n)
         self.w(X.UC_X86_REG_EAX, at); self.ok()
 
     def _dta(self, dta, path):

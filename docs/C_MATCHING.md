@@ -100,7 +100,15 @@ function of the same file too: after FitPlayerName, the function before it in th
 fresh, and that is how it is built now). `make` compiles each file in its own run, so
 only the fresh result counts. So `compile_many` caches only the first object of each run, and permute.py
 compiles a match again alone before it counts it. A score from a batched run can be off for the few
-state-sensitive drafts (DrawBevelBox, DrawPanel3D): check one with tools/state_probe.py.
+state-sensitive drafts (DrawBevelBox, DrawPanel3D): check one with tools/state_probe.py. The cause is known: one
+instruction field the code generator reads without setting decides whether a long basic block is split
+([WCC_INTERNALS.md](WCC_INTERNALS.md) "The compiler state"); `tools/wccre/state_scan.py` scores drafts in both
+states.
+
+**Inside the compiler.** [WCC_INTERNALS.md](WCC_INTERNALS.md): wcc386 runs in a CPU emulator
+(`tools/wccre/emucc.py`, the same objects as DOSBox), and `tools/wccre/regdump.py FILE.c` prints, per function,
+every variable's register-allocation savings and the register it got. Registers go to variables in order of
+(loop-weighted) savings; declaration order only breaks ties, and an unstable sort reorders those.
 
 ## Multi-block files (shared exits)
 
