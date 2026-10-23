@@ -1,7 +1,7 @@
 /* Engine player logic: intro line skate. */
-/* DRAFT: 683 vs 687. The squared distance goes into the wait loop's i (dead by then), which keeps it
- in eax as in the original. Left: the original copies dx into ecx and dy into eax before the two imuls
- (C squares them in place), and keeps the temp1 step z in edi (C ax). See docs/UNSURE.md. */
+/* DRAFT (10.0 GA): 685 vs 687, 15 score differing. The squared distance uses the wait loop's i;
+   z = --p->temp1 keeps the countdown in edi as in the EXE. Left: copies before the distance squares,
+   a redundant countdown-result copy and later turn temporaries; see the agent notes. */
 #define assintroline assintroline_decl
 #include "nhl95.h"
 #undef assintroline
@@ -78,9 +78,7 @@ void assintroline(Player *p)
             if (v < 0x10) {
                 HIWORD(p->Xpos) = p->temp3;
                 HIWORD(p->Ypos) = p->temp4;
-                z = p->temp1;
-                z--;
-                p->temp1 = z;
+                z = --p->temp1;
                 if (z >= 0) return;
                 p->temp1 = z + 8;
                 SetSPA(p, 0xA5B);
