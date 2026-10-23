@@ -309,7 +309,7 @@ int avdgoal_box(Player *p, int x1, int x2, int y, int *ps, int *pt)
     return 1;
 }
 
-/* DRAFT (avdgoal): first pass; see docs/UNSURE.md. */
+/* DRAFT (avdgoal), 10.0 GA: 189 differing instructions; stack slots and the frame size still differ. */
 /* the goalie's SortCords number in a team block (the word at +FAh) */
 #define TMGOALIE(t) (*(short *)((char *)(t) + 0xFA))
 
@@ -328,13 +328,13 @@ void avdgoal(Player *p)
     int ps;
     int c3;
     int c1;
-    int s1;
     int gl;
+    int s1;
     int py;
     int ty;
     int tight;
     Player *gp;
-    int g;
+    short g;
     int tx;
     int c2;
     int m;
@@ -344,7 +344,7 @@ void avdgoal(Player *p)
 
     tight = p->position == 0 || p->asslist[p->assnum] == 0x27 ? 1 : 0;
     m = tight ? -6 : 0xA;
-    if ((gmode & 1) && p->SCnum == 0x10 && ABS(regd1.w) < 0xE8 && (HIWORD(p->Ypos) ^ regd1.w) >= 0) return;
+    if ((gmode & 1) && p->SCnum == 0x10 && ABS(regd1.w) < 0xE8 && (regd1.w ^ HIWORD(p->Ypos)) >= 0) return;
     px = HIWORD(p->Xpos);
     py = HIWORD(p->Ypos);
     tx = regd0.w;
@@ -400,11 +400,11 @@ void avdgoal(Player *p)
         }
         if (ty < -0xE8) return;
         if (px < -0x2C - m + 1) regd0.w = -0x2C - m;
-        else if (px >= m + 0x2C) regd0.w = m + 0x2C;
+        else if (px >= m + 0x2C) regd0.w = 0x2C + m;
         else {
             regd1.w = yb;
             if (tx >= 0) {
-                if (m + 0x2C > tx) regd0.w = m + 0x2C;
+                if (m + 0x2C > tx) regd0.w = 0x2C + m;
             } else if (-0x2C - m + 1 <= tx) regd0.w = -0x2C - m;
         }
         if (ABS(px) > 0x26) regd1.w = yl;
