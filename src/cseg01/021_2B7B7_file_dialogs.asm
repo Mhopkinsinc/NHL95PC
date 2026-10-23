@@ -589,6 +589,10 @@ mov edx, dword [edx]	; 2BEF4
 mov eax, dword [eax]	; 2BEF6
 jmp near strcmp_	; 2BEF8
 %endif ; C
+; C: src/c/021_2B7B7_file_dialogs/LoadFileDlgShapes.c (ScanSavedGames)
+%ifdef CBUILD
+%include "c/021_2B7B7_file_dialogs/LoadFileDlgShapes.ScanSavedGames.inc"
+%else
 ScanSavedGames:
 push dword 48h	; 2BEFD
 call __CHK	; 2BF02
@@ -771,6 +775,7 @@ mov dword [lgfiles+0Ch], eax	; 2C128
 .21:
 add esp, byte 2Ch	; 2C12D
 jmp near LoadFileDlgShapes_x	; 2C130
+%endif ; C
 ; C: src/c/021_2B7B7_file_dialogs/PrintTextCopy.c
 %ifdef CBUILD
 %include "c/021_2B7B7_file_dialogs/PrintTextCopy.inc"

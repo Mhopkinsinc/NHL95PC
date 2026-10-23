@@ -95,16 +95,12 @@ typedef struct FindT {
  into the three file tables. Each name is copied up to its dot, at most 8 characters, into savefname.
  The tables are sorted, the cursor and top are cleared, and the shown count is count - 1, or 5 when
  there are 6 or more. The league search uses attribute 0. Ends in LoadFileDlgShapes_x (a near jump),
- so it lives in this file.
- DRAFT: 568 vs 568 (10.0 GA). The zero byte stored after each name is ah / dl / dh where the original
- has bl / ch / bl, and the PO loop's character is dl (original bh). */
+ so it lives in this file. */
 void ScanSavedGames(void)
 {
     FindT ft;
     int n;
     int j;
-    unsigned char c;
-    unsigned char b;
 
     n = 0;
     exhfiles[0] = n;
@@ -113,9 +109,8 @@ void ScanSavedGames(void)
             exhfilenames[exhfiles[0]] = (int)(savefname + n);
             j = 0;
             do {
-                c = ft.name[j];
-                if (c == 0 || c == '.') break;
-                savefname[n] = c;
+                if (ft.name[j] == 0 || ft.name[j] == '.') break;
+                savefname[n] = ft.name[j];
                 j++;
                 n++;
             } while (j < 8);
@@ -135,9 +130,8 @@ void ScanSavedGames(void)
             pofilenames[pofiles[0]] = (int)(savefname + n);
             j = 0;
             do {
-                b = ft.name[j];
-                if (b == 0 || b == '.') break;
-                savefname[n] = b;
+                if (ft.name[j] == 0 || ft.name[j] == '.') break;
+                savefname[n] = ft.name[j];
                 j++;
                 n++;
             } while (j < 8);
@@ -157,9 +151,8 @@ void ScanSavedGames(void)
             lgfilenames[lgfiles[0]] = (int)(savefname + n);
             j = 0;
             do {
-                c = ft.name[j];
-                if (c == 0 || c == '.') break;
-                savefname[n] = c;
+                if (ft.name[j] == 0 || ft.name[j] == '.') break;
+                savefname[n] = ft.name[j];
                 j++;
                 n++;
             } while (j < 8);
