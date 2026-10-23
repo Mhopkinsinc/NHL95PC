@@ -1,8 +1,4 @@
 /* Scoreboard: play one demo game and restore the exhibition state. */
-/* DRAFT: 673 vs 673, 8 differing. With demoteammode updated in place (no local copy) the registers and the
- ebp push are the EXE's. Left: the fixed pair index is cwde with eax*2 (original movsx edx, ax and edx*2).
- Do not retry for it: the team local, a short or int pair local declared in the branch, a signed char
- element read, a short pointer step (all 8). */
 #define RunDemoGame RunDemoGame_decl
 #define LoadRockMusic LoadRockMusic_decl
 #define ReloadGameGfx ReloadGameGfx_decl
