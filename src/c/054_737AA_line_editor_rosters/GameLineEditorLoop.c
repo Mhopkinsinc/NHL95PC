@@ -40,7 +40,7 @@ int MenuHitTest(int x, int y, MenuItem **menus, int i, int *counts, int *origin,
 int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int zero, MenuItem *buttons, int n,
                        int bank);
 
-/* DRAFT under 10.0 GA: 5,236 vs 5,242 bytes, 220 differing instructions. An explicit menu-item
+/* DRAFT under 10.0 GA: 5,242 bytes as the EXE, 164 differing instructions. An explicit menu-item
    offset gives the EXE's frame size; declaration order improves array placement. Several scalar and nitems
    slots and later register choices still differ. */
 /* GameLineEditorLoop (76AF5, PC only): the in-game line editor (GameLineEditor's loop; DbLineEditorLoop on the
@@ -82,8 +82,8 @@ int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int ze
     int h;
     int w;
     unsigned char *pal;
-    int col1;
     int col3;
+    int col1;
     int col2;
     int ptr;
     int depth;
@@ -349,7 +349,8 @@ int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int ze
                         if (gmroster[pick * 22] == 'G') {
                             for (k = 0; k < 2; k++)
                                 if (nums.g.gl[k] == gmrosterjersey[pick * 22]) nums.g.gl[k] = 100;
-                            nums.g.gl[hit - 0x24] = gmrosterjersey[pick * 22];
+                            k = hit - 0x24;
+                            nums.g.gl[k] = gmrosterjersey[pick * 22];
                             for (k = 0; k < 2; k++) {
                                 MakeJerseyShape(jerseyremap, nums.g.gl[k], c1, c2);
                                 sub_B4DD4(jerseyremap);
@@ -360,7 +361,8 @@ int GameLineEditorLoop(unsigned char *lines, int art, unsigned char team, int ze
                         if (gmroster[pick * 22] != 'G') {
                             for (k = 0; k < 2; k++)
                                 if (nums.g.ex[k] == gmrosterjersey[pick * 22]) nums.g.ex[k] = 100;
-                            nums.g.ex[hit - 0x26] = gmrosterjersey[pick * 22];
+                            k = hit - 0x26;
+                            nums.g.ex[k] = gmrosterjersey[pick * 22];
                             for (k = 0; k < 2; k++) {
                                 MakeJerseyShape(jerseyremap, nums.g.ex[k], c1, c2);
                                 sub_B4DD4(jerseyremap);
