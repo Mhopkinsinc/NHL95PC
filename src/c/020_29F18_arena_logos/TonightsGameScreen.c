@@ -1,5 +1,6 @@
 /* Arena logos: tonight's game, the line-ups before a game. */
-/* DRAFT: 3043 vs 3032 bytes, 140 differing lines of 780, first pass; see docs/UNSURE.md. */
+/* DRAFT: same size, 19 differing under 10.0 GA (out as a short takes the top slot, titlebank declared before
+   bkbank and font); the side loop picks its registers one step later in the cycle; see docs/UNSURE.md. */
 #define TonightsGameScreen TonightsGameScreen_decl
 #define sub_8F98F sub_8F98F_decl
 #define sub_8FB8E sub_8FB8E_decl
@@ -35,9 +36,9 @@ int TonightsGameScreen(int home, int away)
     int logos[2];
     int fh;
     int crest;
+    int titlebank;
     int bkbank;
     int font;
-    int titlebank;
     int logobank;
     int bkgd;
     int faded;
@@ -114,7 +115,7 @@ int TonightsGameScreen(int home, int away)
         if (songdata && gameopts.music) sub_8FB8E(songdata, musichandle, 3, 0x4C);
     }
     for (side = 0; side < 2 && key < 2 && !err; side++) {
-        int out;
+        short out;
 
         sub_B4BA8();
         if (side) {
