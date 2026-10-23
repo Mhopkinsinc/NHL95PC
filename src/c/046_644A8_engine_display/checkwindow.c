@@ -1,6 +1,7 @@
 /* Engine display: the camera window and the overlay text that ends in its pops. */
 #define LoadTeamPPV LoadTeamPPV_decl
 #define UpdateTextOverlay UpdateTextOverlay_decl
+#define DrawCallBanner DrawCallBanner_decl
 #define sub_90354 sub_90354_decl
 #define sub_90EC0 sub_90EC0_decl
 #define sub_B500C sub_B500C_decl
@@ -8,6 +9,7 @@
 #include "nhl95.h"
 #undef LoadTeamPPV
 #undef UpdateTextOverlay
+#undef DrawCallBanner
 #undef sub_90354
 #undef sub_90EC0
 #undef sub_B500C
@@ -379,4 +381,49 @@ void UpdateTextOverlay(void)
         ovltimer = -1;
         textline3 = textline1 = textline2 = textline4 = textline5 = 0;
     }
+}
+
+/* DrawCallBanner (66FE2, PC only; ends in checkwindow_popebp): draw call banner n (bannerstrs[n], in the SCOR3
+   font) near the bottom left of the view (scrollx + 0Ch, scrolly + 95h, moved into the clip window): a dark box
+   (colour 10h, dithered with 9) as wide as the text plus 4 and 9 high with a black border of 4, the text in
+   colour 25h, then again in the SCOR2 font in colour 27h, and record the box as a drawn sprite (sub_6AB7C,
+   spritedrawcount). n: the banner. No result. */
+void DrawCallBanner(short n)
+{
+    short y2;
+    short x2;
+    short y;
+    short d;
+    short x;
+    short w;
+
+    x = scrollx + 0xC;
+    y = scrolly + 0x95;
+    y2 = scrolly + 0x9E;
+    sub_8EA18(scor3font);
+    w = fputchar((char *)bannerstrs[n]) + 4;
+    x2 = w + x;
+    d = cliprect_x0 - scrollx;
+    x += d;
+    x2 += d;
+    d = cliprect_y0 - scrolly;
+    y += d;
+    y2 += d;
+    w += 8;
+    sub_90D20(x, y, x2 - x, y2 - y, 0x10);
+    DitherRect(x, y, x2 - x, y2 - y, 9);
+    sub_90D20(x - 4, y - 4, w, 4, 0);
+    sub_90D20(x - 4, y, 4, 9, 0);
+    sub_90D20(x2, y, 4, 9, 0);
+    sub_90D20(x - 4, y2, w, 4, 0);
+    sub_8E9C0(0x25, 0xFF);
+    x2 = x + 2;                     /* x2 is free now: the text x of both passes */
+    y2 = y + 1;
+    sub_91964((char *)bannerstrs[n], x2, y2);
+    sub_8EA18(scor2font);
+    sub_8E9C0(0x27, 0xFF);
+    sub_91964((char *)bannerstrs[n], x2, y2);
+    x -= 4;
+    y -= 4;
+    sub_6AB7C(spritedrawcount++, x, y, x + w, y + 0x11);
 }

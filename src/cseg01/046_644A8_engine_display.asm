@@ -3631,6 +3631,10 @@ mov byte [textline1], dl	; 66FD1
 mov byte [textline3], dl	; 66FD7
 jmp near checkwindow_popx	; 66FDD
 %endif ; C
+; C: src/c/046_644A8_engine_display/checkwindow.c (DrawCallBanner)
+%ifdef CBUILD
+%include "c/046_644A8_engine_display/checkwindow.DrawCallBanner.inc"
+%else
 DrawCallBanner:
 push dword 54h	; 66FE2
 call __CHK	; 66FE7
@@ -3789,6 +3793,7 @@ mov dword [spritedrawcount], edi	; 671D5
 call sub_6AB7C	; 671DB
 add esp, byte 24h	; 671E0
 jmp near checkwindow_popebp	; 671E3
+%endif ; C
 ; C: src/c/046_644A8_engine_display/ShowGoalieBanner.c
 %ifdef CBUILD
 %include "c/046_644A8_engine_display/ShowGoalieBanner.inc"
