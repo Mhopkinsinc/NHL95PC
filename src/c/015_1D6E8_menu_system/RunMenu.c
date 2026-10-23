@@ -33,8 +33,9 @@ int RunPlayerPickMenu(MenuItem *bar, int n, int col1, int col2, int col3);
 int TeamFromMouse(int x, int y, int *idx);  /* 26B5A */
 void __cdecl sub_90F38(int x, int y, int w, int h, int col);  /* graphics library: xor a box */
 
-/* DRAFT: 2,024 vs 2,075 bytes, 305 lines (the EXE keeps the pointer block and position in registers early on;
-   see docs/UNSURE.md). */
+/* DRAFT under 10.0 GA: 2,075 bytes as the EXE, 204 differing instructions. The submenu branch reads the
+   clicked item in place (the EXE keeps &menus[level][item] for on2, pad and x, and reloads it for y after the
+   pos store); the pointer-size product, the first close loop's stores and later registers still differ. */
 /* RunMenu (1D6E8, PC only; owner of RunMenu_ret4): run a menu bar of n items in the colours col1-col3 until an
    action returns 1. Save the screen under the pointer (POINTERM block, the pointer bitmap's size plus one) and
    centre the pointer on the bar. Then follow the mouse: a click on an item with an action runs it on the second
@@ -160,12 +161,11 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
                 DrawMenuItemSel((struct MenuItem *)&s.menus[i][s.sel[i]], s.pos[i][0], s.pos[i][1], col1, col2, col3);
                 s.sel[i] = s.item;
                 DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], col1, col2, col3);
-                m = &s.menus[s.level][s.item];
-                depth = i + 1;
-                s.menus[depth] = (MenuItem *)m->on2;
-                s.nitems[depth] = m->pad;
-                s.pos[depth][0] = (depth == 1 ? m->x1 : m->x2) + s.pos[depth - 1][0];
-                s.pos[depth][1] = (depth == 1 ? m->y2 : m->y1) + s.pos[depth - 1][1];
+                depth++;
+                s.menus[depth] = (MenuItem *)s.menus[s.level][s.item].on2;
+                s.nitems[depth] = s.menus[s.level][s.item].pad;
+                s.pos[depth][0] = (depth != 1 ? s.menus[s.level][s.item].x2 : s.menus[s.level][s.item].x1) + s.pos[depth - 1][0];
+                s.pos[depth][1] = (depth != 1 ? s.menus[s.level][s.item].y1 : s.menus[s.level][s.item].y2) + s.pos[depth - 1][1];
                 w = s.menus[depth][s.nitems[depth] - 1].x2 - s.menus[depth][0].x1 + 1;
                 h = s.menus[depth][s.nitems[depth] - 1].y2 - s.menus[depth][0].y1 + 1;
                 s.bg[depth] = sub_8CCA8((char *)str_menubuff, w * h + 0x11, 0x20);
