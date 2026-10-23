@@ -127,9 +127,10 @@ void dopass(Player *p)
     sfx((short)(((signed char *)puckvz)[1] >= 6 ? 0x99 : 0x98));
 }
 
-/* DRAFT (10.0 GA, 27 differing): gy declared before gdy gives the EXE's postx in edx / gy in eax. Left: the
-   EXE stores dist = 1 through eax, loads *puckx into ecx and subtracts it from x0 before the cross product,
-   and ends in a jump to dopass_ret6 (here its own pops); see docs/UNSURE.md. */
+/* DRAFT (10.0 GA, 23 differing): gy declared before gdy gives the EXE's postx in edx / gy in eax; *puckx read
+   once into the dead q before x0 is set gives the EXE's early ecx load. Left: the EXE stores dist = 1 through
+   eax, subtracts *puckx from x0 before the cross product (edx; the cross in ebx), adds the second quotient to a
+   without a movsx and clears passdir through edi; see docs/UNSURE.md. */
 /* shotdiradj (57A98, 93G shotdiradj; ends in dopass_ret6): a human shooter aims at the side of the net the
    goalie leaves open: from the opposing goalie's position plus half its velocity (relative to the puck), the
    offsets of the two posts (x +-12h at the goal line, E8h / -E8h by side) from the puck-to-goalie line, divided
@@ -167,10 +168,11 @@ void shotdiradj(Player *p)
     postx = 0x12;
     gy = 0xE8;
     if (!(p->pflags & 0x80)) gy = -0xE8;
+    q = *puckx;
     s.x0 = postx;
     s.cross = s.gdx * (gy - *pucky);
-    a = (s.cross - (s.x0 - *puckx) * gdy) / s.dist;
-    a += (s.cross - (-s.x0 - *puckx) * gdy) / s.dist;
+    a = (s.cross - (s.x0 - q) * gdy) / s.dist;
+    a += (s.cross - (-s.x0 - q) * gdy) / s.dist;
     if (ABS(a) > 0x2C) {
         passdir = 0;
         return;
