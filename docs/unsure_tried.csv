@@ -2117,3 +2117,60 @@ setplayer,,"diagnostic deletions (not candidates: the rostnum reads, three goali
 setplayer,,the home bonus,,ga
 setplayer,,the power-play xor,,ga
 setplayer,,"the trailing test) all leave t in esi, so no single one of those temporaries outranks t. Not yet tried: permute.py in this pass",,ga
+ShowLoadingScreen,,"(2026-10-23, Q3): initial palcyclelock/palcyclephase/palcycledelay constants through each dead bank/pic/i/j/k (5-70)",5-70,ga
+ShowLoadingScreen,,unlock through bank/pic/i/k (5-19),5-19,ga
+ShowLoadingScreen,,unsigned/long/unsigned-long/short/unsigned-short bank or pic (5-20),5-20,ga
+ShowLoadingScreen,,"separate src assignment and += 0x10 (19), indexed src or integer sum (5)",5,ga
+ShowLoadingScreen,,valid C89 scopes for pic/bank/src (5/5/26),5/5/26,ga
+ShowLoadingScreen,,"void-cast phase assignment, !0 lock constant (5), widened signed element comparisons (29)",29,ga
+ShowLoadingScreen,,"entire options module (5). Initial unbraced scope experiments rejected as invalid C89. No permutation run, no source change",,ga
+HilightSaveToDlg,,"(2026-10-23, Q3): fresh first_pick reconfirmed standalone epilogue only. Prior standalone-tail-owner and full-module attempts are documented under GA",,ga
+HilightSaveToDlg,,"not repeated. A valid shared-exit mark requires migrating the already-marked, unassigned DrawGadgetButton.c/057 owner, outside the brief's allowed functions/files, so no source change or permutation run",,ga
+SelectHilight,,"(2026-10-23, Q3): table pointers in one two-member struct both orders (23), either alone in a one-member struct (7), assignments inside free arguments through n/err/r/size (77/79/7/7)",77/79/7/7,ga
+SelectHilight,,"strs as const char* or unsigned char* (7), void* invalid for arithmetic",,ga
+SelectHilight,,allocation return declared char*/void*/unsigned-char* (7),7,ga
+SelectHilight,,free arguments reloaded through int/unsigned/char*/void*/volatile-int pointer casts (7),7,ga
+SelectHilight,,"strcpy through tbl[i] (86,+20), indexed strs assignment (7)",7,ga
+SelectHilight,,"one permute.py run --jobs 4 --log permlog_q3.csv (321 candidates, best unchanged 7). No source change",,ga
+SeedPlayoffFinal,,"(2026-10-23, Q3): product/ties/wins through i (26/25/31), k (21/28/28), len (42/41/45), err (4/23/18)",4/23/18,ga
+SeedPlayoffFinal,,fresh block-local int/unsigned/short/unsigned-short/unsigned-char product or ties (21-49),21-49,ga
+SeedPlayoffFinal,,"chained points/wins assignment (49), points += ties or ties += wins*2 via st.pts[0] (24/48). Improvement confirmed fresh with NHL95_NOCACHE=1 cdiff and first_pick",,ga
+SeedPlayoffFinal,,make and make CBUILD=0 both MATCH. No permutation run,,ga
+SeriesLength,,"(2026-10-23, Q3): 96 new source block orders separating one from done (one first",,ga
+SeriesLength,,"done not immediately next, unlike the prior grouped sweep",,ga
+SeriesLength,,"best 10, others 12-26)",,ga
+SeriesLength,,"labels/values shared within switch, return inside default after one, all 24 group orders (best 10), same switch bodies with return outside, six orders (best 10)",best 10,ga
+SeriesLength,,"one permute.py run --jobs 4 --log permlog_q3.csv (321 candidates, best unchanged 10). No source change",,ga
+RunIntro,,"(2026-10-23, R3): last-fade store before changed, reversed last-fade comparison, rereading pal for decrement, predecrement c, song4 nested/reversed tests, reversed sweep lower-bound comparison, 3-byte memset for black or white, white copied from first component, reversed earlier fade comparisons, changed++, compound increment, c as int/short/unsigned char/char with signed comparison retained, RGB struct sweep accesses. One permute run (321 candidates, 165 s",,ga
+RunIntro,,"permlog_r3.csv), no gain. Baseline retained",,ga
+RunIntro,type:c:int,"increment, c as int/short/unsigned char/char",tried (docs/UNSURE.md),ga
+RunIntro,type:c:short,"increment, c as int/short/unsigned char/char",tried (docs/UNSURE.md),ga
+RunIntro,type:c:unsigned_char,"increment, c as int/short/unsigned char/char",tried (docs/UNSURE.md),ga
+RunIntro,type:c:char,"increment, c as int/short/unsigned char/char",tried (docs/UNSURE.md),ga
+QueueSpeechClip,,"(2026-10-23, R3): queue pointer held in name/bank/dst/s/new typed queue",,ga
+QueueSpeechClip,,pos unsigned/short/unsigned short,,ga
+QueueSpeechClip,,initialized/uninitialized return local,,ga
+QueueSpeechClip,,separate count load/store,,ga
+QueueSpeechClip,,count via int array,,ga
+QueueSpeechClip,,explicit loaded != 0,,ga
+QueueSpeechClip,,"kind unsigned char/signed char/short/int, inline casts, assignment inside if, explicit int promotion, switch, assignment comma reread and unused kind reread",,ga
+QueueSpeechClip,,"loaded through name, free in its own block, memcpy queue stores. Pointer-typed speechq global probes fail at existing FreeMemBlock call",,ga
+QueueSpeechClip,,"module_try worsens to 13 (+6). One permute run (577 candidates, 252 s)","577 candidates, 252 s",ga
+QueueSpeechClip,,"its 5-score cast narrows BANKD(3B6C) to unsigned short, rejected because it changes the full-width sample-memory calculation. Baseline kind local retained",,ga
+FadePalette,,"(2026-10-23, R3): if-only and combined-condition clamp, c/i reused for clamp (GA register-home hypothesis), unary plus, explicit dereference of &steps, unsigned/floating comparison constant, assignment in clamp test, palfadedin through i, volatile pointer to parameter, signed palette parameter with local declaration hiding, separate count lifetime across clamp. One permute run (449 candidates, 93 s",,ga
+FadePalette,,permlog_r3.csv),,ga
+FadePalette,,best same 7 with short test and +1 size gap,,ga
+FadePalette,,the already-recorded narrowing tradeoff rejected. Original retained,,ga
+RosterPanelClick,,"(2026-10-23, R3): row/rowy/h reused through x or y parameters, byte read cast unsigned/unsigned short/short/signed char/int, pointer-to-one-byte-array fa, local pointer to fa+row, fa assignment followed by commuted row sum, FF-value / -value-1 complement forms, free-agent bound as row < facount-scroll, combined y bounds, selected pointer shared between toggle and CountSelected, selection handling duplicated into FA branch to keep fa live. One permute run (321 candidates, 70 s",,ga
+RosterPanelClick,,"permlog_r3.csv), no improvement. Original retained",,ga
+SetRosterTeamMenus,,"(2026-10-23, R3): handler field void pointer/function pointer/unsigned/long, int-array and pointer-add stores (explicit product first or pointer first), f[5] field store, register i, d<<3 menu index, chained zero stores, two row/item pointer locals, new i initialized before old-team branch, braced search, explicit offset int/unsigned/long (expression or assignment+shift",,ga
+SetRosterTeamMenus,,"declared first/last/block, 12 variants). side-side zero experiment rejected (worse)",worse,ga
+SetRosterTeamMenus,,"malformed index-scope probe did not compile. Full module_try: 12 differing at exact size (worse), single-file module unchanged. One permute run (321 candidates, 61 s",,ga
+SetRosterTeamMenus,,"permlog_r3.csv), no gain. Original retained",,ga
+DrawGameLineJerseys,,"(2026-10-23, R3): number local int/unsigned/unsigned char/signed char/short/unsigned short at top/in loop, col reused for number",,ga
+DrawGameLineJerseys,,"per-module MakeJerseyShape number char/short/unsigned short/int crossed with byte/int colour params, unprototyped declaration",,ga
+DrawGameLineJerseys,,"nums char pointer, copied pointer, 1-byte array/struct/union views, integer sums either order, pointer sums, reversed subscript, unsigned/unsigned-short/int-byte/signed-byte casts, unsigned/short index",,ga
+DrawGameLineJerseys,,"nums parameter int/unsigned/char pointer/void pointer with byte cast, pointer-step loop, c2 or both colours read in place. Full module_try: 15 differing at exact size, worse. One permute run (385 candidates, 72 s",,ga
+DrawGameLineJerseys,,permlog_r3.csv),,ga
+DrawGameLineJerseys,,"best 10 (+3) is the already-recorded short cast on lineslotx[i*2], which moves another coordinate rather than fixing the number load",,ga
+DrawGameLineJerseys,,not retained. Original retained,,ga
