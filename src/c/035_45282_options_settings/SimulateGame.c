@@ -142,6 +142,7 @@ int SimulateGame(char *dir, char *ext, int n, unsigned char *game, int rwfh, int
     int sv;
     int sh;
     int chance;
+    unsigned char *homeScore;
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 5; j++) {
@@ -153,7 +154,8 @@ int SimulateGame(char *dir, char *ext, int n, unsigned char *game, int rwfh, int
     dline = 0;
     f.team[0] = game[2];
     f.team[1] = game[3];
-    f.sc[0] = game + 4;
+    homeScore = game + 4;
+    f.sc[0] = homeScore;
     f.sc[1] = game + 5;
     game[4] = 0;
     game[5] = 0;
