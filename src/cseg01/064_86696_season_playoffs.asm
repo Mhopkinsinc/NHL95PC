@@ -779,6 +779,10 @@ mov edx, ebx	; 870A8
 mov eax, esi	; 870AA
 call POPickConfTeams	; 870AC
 jmp near POSeedConfFinals_x	; 870B1
+; C: src/c/064_86696_season_playoffs/POPickConfTeams.c
+%ifdef CBUILD
+%include "c/064_86696_season_playoffs/POPickConfTeams.inc"
+%else
 POPickConfTeams:
 push dword 38h	; 870B6
 call __CHK	; 870BB
@@ -912,6 +916,7 @@ pop ebp	; 8721B
 pop edi	; 8721C
 pop esi	; 8721D
 ret	; 8721E
+%endif ; C
 ; C: src/c/064_86696_season_playoffs/POCreateSchedule.c
 %ifdef CBUILD
 %include "c/064_86696_season_playoffs/POCreateSchedule.inc"
