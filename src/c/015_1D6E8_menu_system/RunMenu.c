@@ -212,12 +212,14 @@ int RunMenu(MenuItem *bar, int n, int col1, int col2, int col3)
 #define TEAMBYTE(c) (((unsigned char *)statsteambuf)[statsteamorder[c] * 26 + 0xD])
 #define HILITE(c) \
     y = TEAMBYTE(c) % 2 ? 0x14A : 0xA5; \
-    x = 0x140; if (TEAMBYTE(c) < 2) x = 0; \
+    if (TEAMBYTE(c) < 2) x = 0; else x = 0x140; \
     y += ((c) < 12 ? (c) % 6 : ((c) - 12) % 7) * 13; \
     sub_90F38(x, y, 0x140, 0xD, 0x80)
 
-/* DRAFT: first pass, 459 lines (the EXE rotates the loop: input first, the tree and pointer redraw before it);
-   see docs/UNSURE.md. */
+/* DRAFT under 10.0 GA: same size, 253 differing. The pointer moves are handled in an inner loop that breaks
+   out on a click (Watcom then rotates it as the EXE does: input first, the tree and pointer redraw before it,
+   the click's redraw cross-jumping into the inner loop's). Left: register picks from the size product on
+   (`inc edx` in the EXE, `lea eax, [edx + 1]` here), the HILITE row sums; see docs/UNSURE.md. */
 /* RunTeamPickMenu (1DF03, PC only; ends in RunMenu_ret4): RunMenu with a team picker under it, for the team stats
    screens. The selected team (statsteamsel) is shown by an xor bar on the standings grid (sub_90F38: the left or
    right half by its division, the row by its place) or, for the playoffs (statsplayoffs), by the tree highlight
@@ -240,10 +242,10 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
         int my;
         int mx;
     } s;
+    int oldmx;
     int h;
     int w;
     int ptr;
-    int oldmx;
     int oldmy;
     int depth;
     short hit;
@@ -285,21 +287,23 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
     ((void (*)(void))mousepollfn)();
     ClearInputQueue();
     for (;;) {
-        int bits;
+        for (;;) {
+            int bits;
 
-        bits = 0;
-        while ((e = GetInputEvent()) != 0) {
-            bits = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(e, &s.mx, &s.my);
+            bits = 0;
+            while ((e = GetInputEvent()) != 0) {
+                bits = ((int (*)(unsigned char *, int *, int *))ptrupdatefn)(e, &s.mx, &s.my);
+                if (bits & 2) break;
+            }
             if (bits & 2) break;
-        }
-        if (!(bits & 2)) {
             hit = 0;
             if (statsplayoffs == 1 && (hit = PlayoffTreeHitTest(s.mx, (int)&s.cur, ptr, oldmx, oldmy)) != 0) {
                 if (depth) {
                     for (i = depth; i >= 0; i--) {
                         if (s.bg[i]) {
                             sub_903F0(s.bg[i], s.pos[i][0], s.pos[i][1]);
-                            s.pos[i][0] = s.pos[i][1] = 0;
+                            s.pos[i][1] = 0;
+                            s.pos[i][0] = 0;
                             FreeMemBlock(s.bg[i]);
                             s.nitems[i] = (int)(s.menus[i] = (MenuItem *)(s.bg[i] = 0));
                         }
@@ -312,7 +316,12 @@ int RunTeamPickMenu(MenuItem *bar, int n, int col1, int col2, int col3)
             }
             if (s.mx == oldmx && s.my == oldmy && !hit) continue;
             sub_903F0(ptr, oldmx, oldmy);
-        } else if (MenuHitTest(s.mx, s.my, s.menus, depth, s.nitems, &s.pos[0][0], &s.level, &s.item)) {
+            sub_91400(ptr, s.mx, s.my);
+            sub_91370(pointerspr, s.mx, s.my);
+            oldmx = s.mx;
+            oldmy = s.my;
+        }
+        if (MenuHitTest(s.mx, s.my, s.menus, depth, s.nitems, &s.pos[0][0], &s.level, &s.item)) {
             m = &s.menus[s.level][s.item];
             if (m->on1) {
                 if (s.item == s.sel[s.level]) {
