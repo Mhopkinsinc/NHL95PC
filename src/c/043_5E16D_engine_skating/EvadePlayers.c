@@ -309,7 +309,7 @@ int avdgoal_box(Player *p, int x1, int x2, int y, int *ps, int *pt)
     return 1;
 }
 
-/* DRAFT (avdgoal), 10.0 GA: 158 differing; the switch cases use the margin sums inline (Watcom hoists them after
+/* DRAFT (avdgoal), 10.0 GA: 155 differing; the switch cases use the margin sums inline (Watcom hoists them after
    the jump-table range check, as in the EXE); the stack slots still differ (the EXE has g as an int at ebp-0Ch). */
 /* the goalie's SortCords number in a team block (the word at +FAh) */
 #define TMGOALIE(t) (*(short *)((char *)(t) + 0xFA))
@@ -328,10 +328,10 @@ void avdgoal(Player *p)
     int ps;
     int pt;
     int gl;
-    int py;
     int tight;
     Player *gp;
     short g;
+    int py;
     int tx;
     int m;
     int ty;
