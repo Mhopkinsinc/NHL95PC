@@ -2209,3 +2209,74 @@ DbLineEditorLoop,,"(2026-10-23): the slot ternary as if / else (either order: fr
 DbLineEditorLoop,,"the product factors swapped (234), item / mx / h / level / pick orders (swapim2-6: 119-170)",swapim2-6: 119-170,ga
 RunMenu,,"(2026-10-23): size product inline / += 0x11 / through w, h / size *= forms (217-265), nitems or sel out of the frame struct (276, 280), m kept for on2 / pad / x only (203, 235), separate reversed pos stores in the first loop (204 before the permute), h / w statement order (204), oldmx / oldmy declaration swap (168-173)",168-173,ga
 RunMenu,,"the close loop as for / while (164, 168) and with depth++ / depth = ++i after the Norm call (243-253), slot_solver (1 mismatch, nothing)","1 mismatch, nothing",ga
+EditRosters,,"(2026-10-23): direct dropdown fields after initial hit lookup / throughout, inverted dropdown ternaries with original and corrected coordinate zero orders, actual current-coordinate dialog arguments, for vs do cleanup, callback via saved m (worse), depth++ instead of i+1 (kept), i reloaded from level (worse), next-menu assignment before depth update (worse). One 321-candidate safe-family permute (no casts/types, return/parameter changes, loop transforms or local splits)",,ga
+EditRosters,,"kept submenu count reset chain, allocation operand swap and coordinate reset split. Exact shapes in t4_edit_variants.json, t4_edit_second.json and permlog_t4.csv. Both builds MATCH",,ga
+LoadGameState,,"(2026-10-23): valid split/scoped pointers per packed block, all seven combinations",,ga
+LoadGameState,,"a distinct pointer shared by the skater and goalie stats loops (174, kept), scoped or top-level",,ga
+LoadGameState,,"goalie loop transferred back to p (worse), pointer as member/char/Rec16 with postincrement (GA retry justified by the newly distinct stats-pointer lifetime and retail advance-before-copy)",,ga
+LoadGameState,,"source advancement inside expression, saved p or fresh r, integer destination sum, for loop and explicit do increment",,ga
+LoadGameState,,memcpy with ordinary/in-source/before-copy pointer advance and shared/split goalie pointer (worse). One 321-candidate safe-family permute retained separate o->id store then local id load (126). File-handle local copied at entry/before penalties/before stats (worse). Exact attempts in t4_load_*.json and permlog_t4.csv. Both builds MATCH,,ga
+LoadGameState,,SaveGameState remains matched,,ga
+LoadGameState,,committed immediately,,ga
+GameSummaryScreen,,(2026-10-23): initial 25-byte row index as linear/int pointer/explicit shift-sub steps/times24/commuted/index-swapped plus named row temps and for loop (kept explicit steps),,ga
+GameSummaryScreen,,"shots/score clear as do/for, both chain orders, cached side/j and index through side/j/k/n (kept n do loop)",,ga
+GameSummaryScreen,,bank handles cached in existing bank for background/title branches (kept both) vs individual plain bkbank/titlebank/bkgd/err/font/nev/i (worse),worse,ga
+GameSummaryScreen,,"11-byte record products spelled in steps, first read/test address via ev (kept), PRDS shift spelling (neutral). Fixed gsum/db/team file-handle slots and initialization order. Whole-function or extras-only k as a frame member/plain extra local, index sums back to *2 and dropped redundant error guard (worse). Two 257-candidate safe-family permutes",,ga
+GameSummaryScreen,,"retained scored/i zero chain, second other-score doubled index and swapped roster offset sum. No types/casts, return/parameter changes, loop transforms or local splits. Exact shapes in t4_summary_*.json and permlog_t4.csv. Both builds MATCH",,ga
+GameSummaryScreen,,committed immediately,,ga
+SimulateGame,,"(2026-10-23): allocation side reused through k/r/sv, assignment in index / after call / after store and loop update through saved side (kept sv after first store)",,ga
+SimulateGame,,"all allocation lvalues as integer/byte addresses, dereferenced pointer sums, unsigned i, four-add index and prefix increment. slot_solver two rounds (183+182 candidates, advertised 595 failed fresh validation",,ga
+SimulateGame,,not retained). All 120 orders of five byte arrays on the sv candidate,,ga
+SimulateGame,,twelve best plus baseline/manual/slot best recompiled isolated: only array-order 618 was valid,,ga
+SimulateGame,,"batched 593-600 results reverted to 624. One 193-candidate safe-family permute with NHL95_CC_BATCH=1 retained game-score clear chain, k declaration move and penv/shotv swap, finishing 592 with the ot slot fixed and size excess down from 61 to 4. No casts/types, return/parameter changes, loop transforms or local splits. Exact attempts in t4_sim_*.json, t4_sim_slots.log and permlog_t4.csv. Both builds MATCH",,ga
+SimulateGame,,committed immediately,,ga
+SportsDesk,,"(2026-10-23): split top three buffers into a separate aggregate, independent arrays, pal alone, pal+text group, text+path group",,ga
+SportsDesk,,"flat buffers/menu arrays with scalar-only frame (638, kept)","638, kept",ga
+SportsDesk,,"all with/without bank copied to r for its final free (copy worse). Selected-menu pointer fields read directly, callback indexes read directly without at, both and inverted dropdown ternaries, on original and flat-array bases (worse). Correctly split independent highlight/dropdown/palette indexes into separate locals, all seven combinations on both bases (worse",,ga
+SportsDesk,,"no loop-carried split). Did not repeat the documented failed on1/on2 branch-split or timer shapes. One 257-candidate safe-family permute with NHL95_CC_BATCH=1 retained ptrsize/i declaration moves and dropdown x store before nitems store (632). No casts/types, return/parameter changes, loop transforms or automated local splits. Exact attempts in t4_sports_*.json and permlog_t4.csv. Both builds MATCH",,ga
+SportsDesk,,committed immediately after required progress reporting,,ga
+RunTeamPickMenu,,"(2026-10-23): ternary `x = TEAMBYTE < 2 ? 0 : 0x140` (337), `if (>= 2) x = 0x140; else x = 0` (305)",305,ga
+RunTeamPickMenu,,"11 size-product spellings (swapped factors, 1 + x, 0x11 first, *=, w/h locals, short casts: none better)","swapped factors, 1 + x, 0x11 first, *=, w/h locals, short casts: none better",ga
+RunTeamPickMenu,,"submenu fully in place (458), `s.menus[++depth]` / `s.menus[depth = i + 1]` with in-place on2 (491), m after an in-place on2 (368)",368,ga
+RunTeamPickMenu,,last close loop as do/while (lower score but no jmp-to-test,,ga
+RunTeamPickMenu,,the EXE has the jmp: kept for),,ga
+RunTeamPickMenu,,"FreeMemBlock(ptr) before the nitems reset (lower score, EXE order kept). Two permute runs (permlog_u4.csv): char / short casts rejected (change semantics)",,ga
+LeadersScreen,,(2026-10-23): explicit `case 0: case 1: case 2: break;` first / after 7 / last / with default (table from 0 but the i slot moves: 178-181),table from 0 but the i slot moves: 178-181,ga
+LeadersScreen,,cases 8-10 first (282),282,ga
+LeadersScreen,,kfh / pfh declaration moves (146-147),146-147,ga
+LeadersScreen,,teamgp through fh / recsz / a new local tg (164-201: value in a register but the index as `xor / mov cl / [esp+ecx*4+4]`),164-201: value in a register but the index as `xor / mov cl / [esp+ecx*4+4]`,ga
+LeadersScreen,,one permute run (no gain),,ga
+RunPlayerPickMenu,,(2026-10-23): 11 size-product spellings (none better),none better,ga
+RunPlayerPickMenu,,"`s.menus[++depth]` / `s.menus[depth = i + 1]` / on2 through m / k / a pre-read (151-163, size gap larger)","151-163, size gap larger",ga
+RunPlayerPickMenu,,"the submenu fully in place (185, same size)","185, same size",ga
+RunPlayerPickMenu,,plain ptr alone / ptr + oldmx + oldmy / + cur + depth / h + w only / oldmx + oldmy only (280-502),280-502,ga
+RunPlayerPickMenu,,one permute run (best 137 only through split variables that change semantics and an if / do-while close loop without the EXE's jmp-to-test: rejected),best 137 only through split variables that change semantics and an if / do-while close loop without the EXE's jmp-to-test: rejected,ga
+StarCompare,,"(2026-10-23): `^` alone (172), `^` + eb (187, +10 bytes), eb as function-scope ds reused for the hmscore difference (154)",154,ga
+StarCompare,,"the hmscore difference in sa (165), ea + eb (153), ea + eb + `sb = rb[0] + rb[1]` (144, +5)","144, +5",ga
+StarCompare,,"with eb: declaration orders tb/pa/ta, pb before pa, pa first, eb first, rb before ra, sb before sa, tb before ta (145-187), `sa = ra[0] + ra[1]` (181-186), `sa = ra[1]; sa += ra[0];` (109), `return sb ? 1 : -1` (166-254), rb as `pb * 16 + (base + tb * 400)` / ub as `pb * 20 + ub` (81, no change), const int * parameters, gwg compares with the global first, `ra[0] != rb[0]` (182). permute_decls (400 orders on the eb shape: none better). permute.py once on the `^` + eb shape (1153 candidates, best 53 at +2 bytes, but only by computing pb before pa and rb after the sa sum, against the EXE order",,ga
+StarCompare,,plus operand-order noise in the byte sums,,ga
+StarCompare,,not kept),,ga
+StarCompare,movedecl:tb:,declaration orders tb,tried (docs/UNSURE.md),ga
+StarCompare,swapdecl:tb:,declaration orders tb,tried (docs/UNSURE.md),ga
+PickThreeStars,,"(2026-10-23): loop 2 as a pointer s (the old draft), as `PS(t, j)` 2-D array reads ([0] + [1] or [1] + [0], 51)","[0] + [1] or [1] + [0], 51",ga
+PickThreeStars,,a flat `dword_DB088[k / 25 * 200 + k % 25 * 8]` (44),44,ga
+PickThreeStars,,"the offset unparenthesized or base last (32-36), in an int local o (34, still folded)","34, still folded",ga
+PickThreeStars,,"with (unsigned) / (short) casts (32 / 54), j term first (50), `>= 2` (38), t / j as short or int locals (67 / 54), k as int (130)",130,ga
+PickThreeStars,,"goalie loop: flat `word_DC242[k / 3 * 9 + k % 3 * 3]` (29 by the score but (9t + 3g) * 2, not the EXE), byte offsets `(k / 3 * 18 + k % 3 * 6)` (40), compare / product / sum operand swaps, split if, `< 0x4C`, `0x19 + k % 3`, `++k` (32-46)",32-46,ga
+PickThreeStars,,"d as k (45). permute.py once (321 candidates, nothing below 32)","321 candidates, nothing below 32",ga
+PickThreeStars,type:k:int,k as int,tried (docs/UNSURE.md),ga
+assrefgoalpa,,(2026-10-23): the first crossing multiply as `(0xE8 - *pucky) * (p->temp3 - *puckx)` (100,,ga
+assrefgoalpa,,"with nod 70: same evaluation order), both crossings swapped (102), `c = 0xE8 - *pucky; c *= p->temp3 - *puckx;` (first crossing alone 213 on the old base",,ga
+assrefgoalpa,,on the nod base 99 / both crossings 105,,ga
+assrefgoalpa,,"with sc / team swapped 105: the EXE operand order and imul shape, but still no ebp, a2 then spilled and the first branch store no longer cross-jumped), `c = p->temp3 - *puckx; c *= 0xE8 - *pucky;` (150), only the second crossing split (114). permute.py once on the nod base (449 candidates, best 61 at +11 bytes: `!` spelling",,ga
+assrefgoalpa,,a statement swap and `int team`,,ga
+assrefgoalpa,,not kept),,ga
+assrefgoalpa,type:team:int,`int team`,tried (docs/UNSURE.md),ga
+POAfterGame,,"(2026-10-23): ctl2team as ctl1team[1] in the xor test or in the `>= 0` test only (95 each: ctl2team then compared in memory as in the EXE, but the setl results swap registers",,ga
+POAfterGame,,"not kept, mixing the two names is not natural), both (95)",95,ga
+POAfterGame,,"with the xor operands swapped (95-96), `*(volatile int *)&ctl2team` (100)",100,ga
+POAfterGame,,"the chain as `else { n = (ctl2team < 0) ^ (ctl1team[0] < 0); if (!n && (...)) n = 2; }` (83) or `else if ((n = (...) ^ (...)) == 0) { if (...) n = 2; }` (83: EXE layout, but ctl2team still cached and the second clearing loop then also takes the `inc ebx` form)","83: EXE layout, but ctl2team still cached and the second clearing loop then also takes the `inc ebx` form",ga
+POAfterGame,,the two n = 1 arms joined with `||` (104),104,ga
+DrawRinkSideObjects,,"(2026-10-23): ARROWFRAME as a row pointer indexed by the direction (`((short *)((char *)word_CC0B0 + 6 + ((j) << 4)))[d]`, `(d)[...]`, `*((d) + (short *)...)`), as `((short (*)[8])((char *)word_CC0B0 + 6))[j][d]`, and the byte offset with the row term before the direction term (`+ 6 + ((j) << 4) + (d) * 2`, `+ ((j) << 4) + (d) * 2 + 6`, `+ (((j) << 4) + 6) + (d) * 2`): all 177 (Watcom then computes i << 4 into esi before the call and the f / x / y slots rotate)",Watcom then computes i << 4 into esi before the call and the f / x / y slots rotate,ga
+DrawRinkSideObjects,,a flat index `[(d) + ((j) << 3)]` (120),120,ga
+DrawRinkSideObjects,,"the direction term first in other spellings (`(d) * 2 + ((j) << 4) + 6`, `(j) * 16`, inner parentheses: 118, no change)",,ga
