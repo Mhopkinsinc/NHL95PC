@@ -23,8 +23,8 @@ int sub_8F98F(char *path);  /* music library: load a song (register arguments) *
 void sub_8FB8E(int song, int handle, int chan, int vol);  /* music library: play a song (register arguments) */
 int __cdecl TicksSinceLastCall(void);  /* timer library: ticks since the last call */
 
-/* DRAFT (first pass from Ghidra, tools/ghidra_decomp.py; the menu loop follows MainDeskLoop's draft): 3,461 of
-   4,567 bytes (3,422 now), so code is still missing. */
+/* DRAFT under 10.0 GA: 649 differing instructions. The frame-pointer choice, stack accesses
+   and shared menu-branch layout still differ. The retail speech timer compares the routine address. */
 /* SportsDesk (1935D, PC only): the sports desk of a game (mode 0: paused in the game, 1: intermission, 2: after
    the game): the menu labels and title of the mode, the replay item only when a replay is recorded; fade in the
    EADESK<mode> art and palette, the pause music (when music is on and none plays), and the desk menu bar (six
@@ -41,7 +41,7 @@ void SportsDesk(int mode)
     struct {
         unsigned char pal[0x300];
         unsigned char txt[0x40];
-        char path[0x18];
+        char path[0x20];
         int pos[4][2];
         int bg[4];
         int sel[4];
@@ -61,10 +61,12 @@ void SportsDesk(int mode)
         int timeout;
         int autoret;
         int ptr;
+        int at;
         int oldmx;
         int depth;
     } s;
     int i;
+    int ptrsize;
     int r;
     int bank;
     unsigned char *src;
@@ -90,8 +92,8 @@ void SportsDesk(int mode)
     MakePath(s.path, fileoncd[0x64 + mode] == 1 ? (char *)cddriveptr : 0, (char *)unk_DC890, 0);
     bank = sub_8E83C(s.path, 0);
     sub_9061C(sub_B30B4(bank, (char *)str_Desk));
-    src = (unsigned char *)sub_B30B4(bank, (char *)str_Pal5);
-    for (i = 0; i < 0x300; i++) s.pal[i] = src[0x10 + i];
+    src = (unsigned char *)sub_B30B4(bank, (char *)str_Pal5) + 0x10;
+    for (i = 0; i < 0x300; i++) s.pal[i] = src[i];
     FreeMemBlock(bank);
     sub_8E9E8(s.txt);
     sub_8EA18(s1font);
@@ -107,7 +109,8 @@ void SportsDesk(int mode)
     s.bg[3] = s.bg[2] = s.bg[1] = s.bg[0] = 0;
     s.sel[3] = s.sel[2] = s.sel[1] = s.sel[0] = 0;
     s.pos[0][1] = s.pos[0][0] = 0;
-    s.ptr = sub_8CCA8((char *)str_Pointer2, (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11, 0x20);
+    ptrsize = (((short *)pointerspr)[2] + 1) * (((short *)pointerspr)[3] + 1) + 0x11;
+    s.ptr = sub_8CCA8((char *)str_Pointer2, ptrsize, 0x20);
     *(Hdr17 *)s.ptr = *(Hdr17 *)pointerspr;
     ((short *)s.ptr)[2] = ((short *)pointerspr)[2] + 1;
     ((short *)s.ptr)[3] = ((short *)pointerspr)[3] + 1;
@@ -138,10 +141,9 @@ void SportsDesk(int mode)
     s.speech = 0xB4;
     for (;;) {
         if (musicon) {
-            if (s.speech > 0) {
-                s.speech -= TicksSinceLastCall();
-                if (s.speech < 0) s.speech = 0;
-            }
+            /* Retail 19B0A compares the timer with the routine address. */
+            if ((unsigned)s.speech > (unsigned)TicksSinceLastCall) s.speech -= TicksSinceLastCall();
+            else if (s.speech > 0) s.speech = 0;
             if (s.speech == 0 && mode == 0 && !gameresult && gameopts.speech) {
                 s.speech = -1;
                 MusicChanReset();
@@ -159,7 +161,8 @@ void SportsDesk(int mode)
                 sub_8EA00(s.txt);
                 sub_B2E1B(0, 0, 0x280, 0x1E0);
                 deferpending = 0;
-                scrolly = scrollx = 0;
+                scrolly = 0;
+                scrollx = 0;
                 MouseSetPos(s.savex, s.savey);
                 sub_8FFB0(0, 0x100, s.pal);
                 FadePalStep(1, s.pal, 0x10);
@@ -185,7 +188,7 @@ void SportsDesk(int mode)
         }
         if (!(s.btn & 2)) {
             if (s.mx == s.oldmx && s.my == s.oldmy) continue;
-            sub_B4BA8();
+            s.autoret = 0;
             sub_903F0(s.ptr, s.oldmx, s.oldmy);
             sub_91400(s.ptr, s.mx, s.my);
             sub_91370(pointerspr, s.mx, s.my);
@@ -210,8 +213,9 @@ void SportsDesk(int mode)
             s.sel[3] = s.sel[2] = s.sel[1] = 0;
             s.nitems[3] = s.nitems[2] = s.nitems[1] = 0;
         } else {
-            m = &s.menus[s.level][s.item];
-            if (m->on1 && s.item == s.sel[s.level]) {
+            s.at = s.item * sizeof(MenuItem);
+            m = (MenuItem *)((char *)s.menus[s.level] + s.at);
+            if ((*(int *)((char *)s.menus[s.level] + s.at + 0x14)) && s.item == s.sel[s.level]) {
                 sub_903F0(s.ptr, s.oldmx, s.oldmy);
                 for (i = s.depth; i > 0; i--) {
                     s.sel[i] = 0;
@@ -224,7 +228,7 @@ void SportsDesk(int mode)
                 s.depth = 0;
                 dword_DC88C = s.mx;
                 dword_DC888 = s.my;
-                r = ((int (*)(void))m->on1)();
+                r = ((int (*)(void))(*(int *)((char *)s.menus[s.level] + s.at + 0x14)))();
                 s.mx = dword_DC88C;
                 s.my = dword_DC888;
                 s.menus[3] = s.menus[2] = s.menus[1] = 0;
@@ -267,15 +271,15 @@ void SportsDesk(int mode)
                     MakePath(s.path, fileoncd[0x64 + mode] == 1 ? (char *)cddriveptr : 0, (char *)unk_DC890, 0);
                     bank = sub_8E83C(s.path, 0);
                     sub_9061C(sub_B30B4(bank, (char *)str_Desk));
-                    src = (unsigned char *)sub_B30B4(bank, (char *)str_Pal5);
-                    for (i = 0; i < 0x300; i++) s.pal[i] = src[0x10 + i];
+                    src = (unsigned char *)sub_B30B4(bank, (char *)str_Pal5) + 0x10;
+                    for (i = 0; i < 0x300; i++) s.pal[i] = src[i];
                     FreeMemBlock(bank);
                     DrawMenuBar(s.menus[0], s.nitems[0], 0xFA, 0xF9, 0xF8);
                     FadePalStep(0, s.pal, 0x10);
                 }
                 MouseSetPos(s.oldmx, s.oldmy);
                 ClearInputQueue();
-            } else if (m->on1 || m->on2) {
+            } else if ((*(int *)((char *)s.menus[s.level] + s.at + 0x14)) || (*(int *)((char *)s.menus[s.level] + s.at + 0x18))) {
                 sub_903F0(s.ptr, s.oldmx, s.oldmy);
                 if (s.depth != s.level) {
                     for (i = s.depth; i > s.level; i--) {
@@ -295,9 +299,9 @@ void SportsDesk(int mode)
                 DrawMenuItemSel((struct MenuItem *)&s.menus[i][s.sel[i]], s.pos[i][0], s.pos[i][1], 0xFA, 0xF9, 0xF8);
                 s.sel[i] = s.item;
                 DrawMenuItemNorm((struct MenuItem *)&s.menus[i][s.item], s.pos[i][0], s.pos[i][1], 0xFA, 0xF9, 0xF8);
-                if (!m->on1) {
+                if (!(*(int *)((char *)s.menus[s.level] + s.at + 0x14))) {
                     s.depth = i + 1;
-                    s.menus[s.depth] = (MenuItem *)m->on2;
+                    s.menus[s.depth] = (MenuItem *)(*(int *)((char *)s.menus[s.level] + s.at + 0x18));
                     s.nitems[s.depth] = m->pad;
                     s.pos[s.depth][0] = (s.depth == 1 ? m->x1 : m->x2) + s.pos[s.depth - 1][0];
                     s.pos[s.depth][1] = (s.depth == 1 ? m->y2 : m->y1) + s.pos[s.depth - 1][1];
