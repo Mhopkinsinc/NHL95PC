@@ -1,6 +1,7 @@
 /* Engine player logic: the goalie's assignment and the assignments that end in its exit (assnearest,
    assrefsignal, assrefgoalpa). */
-/* DRAFT: 3,718 vs 3,774 bytes, 230 differing lines; see docs/UNSURE.md. assgoalie ends in ass_popx
+/* DRAFT: assgoalie 3,773 vs 3,774 bytes, 138 differing under 10.0 GA (the EXE keeps the vecdist result in
+   edx, `mov edx, eax`, and every register pick around it differs); see docs/UNSURE.md. assgoalie ends in ass_popx
    (assrefwhistle.c), so its match belongs in assrefwhistle.c between asspenalty and CountPuckThreat; the draft
    sits in its own file so the matched blocks there stay as they are. */
 #define imul32 imul32_decl
@@ -157,7 +158,7 @@ angle:
         pc += 2;
     }
     if (ABS(HIWORD(p->Ypos)) > 0xE4) {
-        regd2.w = regd0.w = 0;
+        regd0.w = regd2.w = 0;
         if (ABS(HIWORD(p->Xpos)) > 0x30) goto move;
         goto post;
     }
@@ -168,14 +169,14 @@ angle:
     regd1.w = p->facedir;
     if ((regd0.w -= regd1.w) != 0) {
         regd0.w = ((-regd0.w & 4) >> 1) - 1;
-        if (1 << regd1.w & 0x42) {
+        if (!(1 << regd1.w & 0x42)) {
             regd1.w += regd0.w;
-            if (1 << regd1.w & (p->pflags & 0x80 ? 0x38 : 0x83)) {
+        } else {
+            regd1.w += regd0.w;
+            if ((!(p->pflags & 0x80) ? 0x83 : 0x38) & 1 << regd1.w) {
                 regd0.w = -regd0.w;
                 regd1.w += regd0.w + regd0.w;
             }
-        } else {
-            regd1.w += regd0.w;
         }
         regd1.w &= 7;
         p->facedir = regd1.w;
@@ -227,8 +228,8 @@ angle:
     if (ok && (p->puckdist > 0x19 || ABS(*pucky) > 0xE8)
         && ((unsigned short)pc[1] >= d + 0xC || ABS(*pucky) > 0xE9)) {
         regd0.w = pc[0];
-        if (ABS(*pucky) <= 0xDC) goto move;
-        goto side;
+        if (ABS(*pucky) > 0xDC) regd0.w = *puckx > 0 ? 0x18 : -0x18;
+        goto move;
     }
     if (*puckc == p->SCnum || ABS(*puckx) >= 0x64 || *(short *)puckz >= 0x14) goto move;
     p->Xvel >>= 1;
@@ -247,10 +248,10 @@ angle:
     } else {
         if (regd3.w == 0 || regd3.w == 4) {
             a = p->facedir;
-            if (a == 0) regd3.w = regd0.w < 0 ? 7 : 1;
-            else if (a == 4) regd3.w = regd0.w < 0 ? 1 : 7;
-            else if (a == 1 || a == 5) regd3.w = ABS(regd0.w) < ABS(regd1.w) ? 7 : 1;
-            else if (a == 3 || a == 7) regd3.w = ABS(regd0.w) < ABS(regd1.w) ? 1 : 7;
+            if (a == 0) regd3.w = regd0.w >= 0 ? 1 : 7;
+            else if (a == 4) regd3.w = regd0.w >= 0 ? 7 : 1;
+            else if (a == 1 || a == 5) regd3.w = ABS(regd0.w) >= ABS(regd1.w) ? 1 : 7;
+            else if (a == 3 || a == 7) regd3.w = ABS(regd0.w) >= ABS(regd1.w) ? 7 : 1;
             else regd3.w = randomd0(2);
         }
         regd0.w = dword_E03AE >> 0x12;
@@ -268,15 +269,15 @@ angle:
     SetSPA(p, ((short *)dword_CCA5A)[regd0.w + 1]);
     CROWDUP();
     regd0.w = pc[0];
-    if (ABS(*pucky) <= 0xDC) goto move;
-side:
-    regd0.w = *puckx > 0 ? 0x18 : -0x18;
+    if (ABS(*pucky) > 0xDC) regd0.w = *puckx > 0 ? 0x18 : -0x18;
 move:
     regd1.w = regd2.w;
-    regd0.w -= HIWORD(p->Xpos) + ((signed char *)p)[0x0D];
-    regd1.w -= HIWORD(p->Ypos) + ((signed char *)p)[0x0F];
-    k = 5;
-    if (ok && ABS(regd0.w) < k && ABS(regd1.w) < k) regd0.w = regd1.w = 0;
+    regd0.w -= ((signed char *)p)[0x0D] + (p->Xpos >> 16);
+    regd1.w -= ((signed char *)p)[0x0F] + (p->Ypos >> 16);
+    if (ok) {
+        k = 5;
+        if (ABS(regd0.w) < k && ABS(regd1.w) < k) regd0.w = regd1.w = 0;
+    }
     regd2.w = ((signed char *)p)[0x28] = vtoa(regd0.w, regd1.w);
     if (regd2.w > 7) goto stop;
 skate:
