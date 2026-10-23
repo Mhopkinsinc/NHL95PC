@@ -24,8 +24,8 @@ void passtoa0(Player *to);
 void sfx(int n);
 extern int puckvz;
 
-/* DRAFT (dopass, 10.0 GA): 84 score differing. Fetching the early scatter target into o improves
-   allocation; the candidate distances and unassisted-pass speed still use different registers. */
+/* DRAFT (dopass, 10.0 GA): 23 score differing. Fetch the early scatter target into o, name the candidate
+   distance score, and reuse dy for pass speed. Some sum / speed registers and the shared exit remain. */
 /* dopass (54DF4, 93G dopass; ends in checkob_ret5): pass the puck in passdir. Clear the one-timer flag and the
    spin flag, drop the puck (nopuck 10h, lastplayer). A computer player with a pass lane result (passlane) scatters
    the pass to its target. Otherwise the pass speed is A0h + 4 * passacc (8 for a goalie), and the best teammate
@@ -48,7 +48,7 @@ void dopass(Player *p)
     int dx;
     int dy;
     short d;
-    int sp;
+    int distance_score;
 
     onetimerflag = 0;
     sflags &= 0xFB;
@@ -73,7 +73,8 @@ void dopass(Player *p)
             dy = (short)(HIWORD(o->Ypos) - *pucky);
             d = (vtoa(dx, dy) - passdir) & 7;
             if (d <= 1 || d == 7) {
-                s.t = dx * dx + dy * dy + (!d ? 0 : 0x10000);
+                distance_score = dx * dx + dy * dy + (!d ? 0 : 0x10000);
+                s.t = distance_score;
                 if (s.t <= s.best) {
                     s.best = s.t;
                     target = o;
@@ -89,11 +90,11 @@ void dopass(Player *p)
         }
         passtoa0(target);
     } else {
-        sp = passspeed;
-        s.t = dirtab_y[passdir * 2] * sp << 10;
+        dy = passspeed;
+        s.t = dirtab_y[passdir * 2] * dy << 10;
         s.t = s.t / 0xBB8;
         *puckvy = s.t + p->Yvel;
-        s.t = dirtab[passdir * 2] * sp << 10;
+        s.t = dirtab[passdir * 2] * dy << 10;
         s.t = s.t / 0xBB8;
         *puckvx = s.t + p->Xvel;
         *(short *)puckvz = randomd0(0x1000);
