@@ -1,6 +1,9 @@
 /* Engine assignment faceoff: the faceoff setup (puckfaceoff) and the drop (puckfaceoff2). */
 /* DRAFT under 10.0 GA: 29 differing instructions. The timer/offset frame and cached side match
-   the EXE's frame; register choices and TakePlayerFromBox_ret6 exit remain. */
+   the EXE's frame; register choices and TakePlayerFromBox_ret6 exit remain.
+   DRAFT (puckfaceoff2, 10.0 GA): 92 differing, 2,831 of 2,834 bytes. The second controller test as a ternary
+   keeps the bool in eax (`sete al / and eax, 0FFh`), but its `inc eax` comes before the cont2team load
+   (EXE after it); the -1 chain copies and the zero registers still differ (docs/UNSURE.md). */
 #define word_E0392 word_E0392_decl
 #define word_E039A word_E039A_decl
 #include "nhl95.h"
@@ -269,7 +272,7 @@ void puckfaceoff2(Player *p)
             q->pflags &= 0xFB;
             if (cont1team == (penshotteam == 0) + 1) {
                 if (c1playernum[0] != -1) c1playernum[0] = restorepl(-1, c1playernum[0]);
-            } else if (cont2team == (penshotteam == 0) + 1) {
+            } else if (cont2team == (penshotteam == 0 ? 2 : 1)) {
                 if (c2playernum[0] != -1) c2playernum[0] = restorepl(-1, c2playernum[0]);
             }
             CenterMouse();
